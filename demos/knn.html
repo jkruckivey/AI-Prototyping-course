@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>K-Nearest Neighbors Interactive Demo</title>
+  <link rel="stylesheet" href="shared-demo.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <a href="../index.html" class="back-link">← Back to Course Hub</a>
+      <h1 class="site-title">K-Nearest Neighbors: Classification & Regression</h1>
+      <p class="site-subtitle">Learn how KNN makes predictions using the closest neighbors in your data</p>
+    </header>
+
+    <main class="main-content">
+      <!-- Featured Example -->
+      <section class="example-spotlight">
+        <div class="spotlight-header">
+          <h2>👥 Real-World Example: Gender Classification by Height</h2>
+          <p>Discover how KNN classifies new data points by finding the most similar examples in your training data.</p>
+        </div>
+        
+        <div class="spotlight-content">
+          <div class="example-story">
+            <div class="story-step active" id="step1">
+              <div class="step-number">1</div>
+              <div class="step-content">
+                <h3>The Non-Parametric Approach</h3>
+                <p>Unlike linear or logistic regression, <strong>KNN doesn't learn parameters</strong> during training. Instead, it stores all the training data and makes predictions by finding similar examples.</p>
+                <div class="data-preview">
+                  <div class="knn-explanation">
+                    <div class="knn-point">
+                      <strong>🏃‍♂️ No Training Phase:</strong> Just store the data
+                    </div>
+                    <div class="knn-point">
+                      <strong>🎯 Prediction Time:</strong> Find K closest neighbors
+                    </div>
+                    <div class="knn-point">
+                      <strong>🗳️ Vote:</strong> Use majority class (classification) or average (regression)
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="story-step" id="step2">
+              <div class="step-number">2</div>
+              <div class="step-content">
+                <h3>The Classification Problem</h3>
+                <p>A fitness center wants to classify new members as <strong>male</strong> or <strong>female</strong> based on their height. We have historical data from existing members.</p>
+                <div class="class-examples">
+                  <div class="class-example male">
+                    <strong>🚹 Males:</strong> Generally taller heights (170-190cm)
+                  </div>
+                  <div class="class-example female">
+                    <strong>🚺 Females:</strong> Generally shorter heights (150-175cm)
+                  </div>
+                </div>
+                <div class="data-preview">
+                  <span class="data-point">Male: 185cm</span>
+                  <span class="data-point">Female: 162cm</span>
+                  <span class="data-point">Male: 178cm</span>
+                  <span class="data-point">Female: 168cm</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="story-step" id="step3">
+              <div class="step-number">3</div>
+              <div class="step-content">
+                <h3>Finding the K Closest Neighbors</h3>
+                <p>For a new person with height <strong>179cm</strong>, we find the K=5 closest heights in our training data:</p>
+                <div class="neighbor-examples">
+                  <div class="neighbor-example">
+                    <strong>1st:</strong> 179.0cm (Male) - Distance: 0.0cm
+                  </div>
+                  <div class="neighbor-example">
+                    <strong>2nd:</strong> 178.5cm (Male) - Distance: 0.5cm
+                  </div>
+                  <div class="neighbor-example">
+                    <strong>3rd:</strong> 180.5cm (Female) - Distance: 1.5cm
+                  </div>
+                  <div class="neighbor-example">
+                    <strong>4th:</strong> 177.8cm (Male) - Distance: 1.2cm
+                  </div>
+                  <div class="neighbor-example">
+                    <strong>5th:</strong> 181.0cm (Male) - Distance: 2.0cm
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="story-step" id="step4">
+              <div class="step-number">4</div>
+              <div class="step-content">
+                <h3>Making the Prediction</h3>
+                <p>Count the votes from our K=5 neighbors and predict the majority class:</p>
+                <div class="prediction-examples">
+                  <div class="vote-count">
+                    <div class="vote-item male">
+                      <strong>🚹 Male votes:</strong> <span class="vote-number">4</span>
+                    </div>
+                    <div class="vote-item female">
+                      <strong>🚺 Female votes:</strong> <span class="vote-number">1</span>
+                    </div>
+                  </div>
+                  <div class="final-prediction">
+                    <strong>Prediction for 179cm person:</strong> <span class="prediction-value male">🚹 Male</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="story-controls">
+            <button class="btn btn-outline story-btn" data-step="1">Non-Parametric</button>
+            <button class="btn btn-outline story-btn" data-step="2">Problem</button>
+            <button class="btn btn-outline story-btn" data-step="3">Find Neighbors</button>
+            <button class="btn btn-outline story-btn" data-step="4">Predict</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Interactive Visualization -->
+      <section class="viz-section">
+        <div class="viz-controls">
+          <h2>🎯 Interactive KNN Classification</h2>
+          <p>Adjust K and test different heights to see how KNN classifies new data points:</p>
+          
+          <div class="connection-note">
+            💡 <strong>Watch how changing K affects predictions!</strong> Small K = more sensitive, Large K = smoother boundaries
+          </div>
+          
+          <div class="control-group">
+            <label for="kValue">Number of Neighbors (K): <span id="kValueDisplay">5</span></label>
+            <input type="range" id="kValue" min="1" max="15" step="1" value="5">
+            <small>K=1 uses only closest neighbor, K=15 uses many neighbors</small>
+          </div>
+          
+          <div class="control-group">
+            <label for="newHeight">Test Height (cm): <span id="newHeightDisplay">179</span></label>
+            <input type="range" id="newHeight" min="150" max="200" step="0.5" value="179">
+            <small>Drag to see real-time classification</small>
+          </div>
+          
+          <div class="metrics">
+            <div class="metric">
+              <span class="metric-label">Predicted Gender:</span>
+              <span id="predictedGender" class="metric-value">Male</span>
+            </div>
+            <div class="metric">
+              <span class="metric-label">Confidence:</span>
+              <span id="confidence" class="metric-value">80%</span>
+            </div>
+            <div class="metric">
+              <span class="metric-label">Closest Distance:</span>
+              <span id="closestDistance" class="metric-value">0.5cm</span>
+            </div>
+            <button id="addDataPoint" class="btn btn-primary">Add This Point to Dataset</button>
+          </div>
+        </div>
+
+        <div class="plot-container">
+          <div id="knnPlot"></div>
+        </div>
+      </section>
+
+      <!-- KNN for Regression Example -->
+      <section class="regression-section">
+        <h2>📊 KNN for Regression: Predicting Chest Circumference</h2>
+        
+        <div class="regression-content">
+          <div class="regression-explanation">
+            <h3>🔧 How KNN Regression Works</h3>
+            <p>Instead of voting on classes, KNN regression <strong>averages the values</strong> of the K nearest neighbors.</p>
+            
+            <div class="regression-example">
+              <div class="regression-step">
+                <strong>Example:</strong> Predict chest circumference for someone who is 180cm tall
+              </div>
+              <div class="regression-neighbors">
+                <div class="neighbor-data">
+                  <span class="neighbor-height">179cm</span> → <span class="neighbor-chest">52cm chest</span>
+                </div>
+                <div class="neighbor-data">
+                  <span class="neighbor-height">181cm</span> → <span class="neighbor-chest">55cm chest</span>
+                </div>
+                <div class="neighbor-data">
+                  <span class="neighbor-height">178cm</span> → <span class="neighbor-chest">51cm chest</span>
+                </div>
+              </div>
+              <div class="regression-calculation">
+                <strong>Average:</strong> (52 + 55 + 51) ÷ 3 = <span class="result-value">52.7cm</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="regression-interactive">
+            <h3>🎯 Try KNN Regression</h3>
+            <div class="regression-controls">
+              <div class="control-group">
+                <label for="regressionHeight">Height for Prediction: <span id="regressionHeightDisplay">180</span>cm</label>
+                <input type="range" id="regressionHeight" min="150" max="200" step="1" value="180">
+              </div>
+              
+              <div class="control-group">
+                <label for="regressionK">K for Regression: <span id="regressionKDisplay">3</span></label>
+                <input type="range" id="regressionK" min="1" max="10" step="1" value="3">
+              </div>
+              
+              <div class="regression-result">
+                <strong>Predicted Chest Circumference: <span id="predictedChest">52.7</span>cm</strong>
+                <div class="regression-neighbors-display" id="regressionNeighbors"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Concepts Explanation -->
+      <section class="concepts-section">
+        <h2>📚 Key KNN Concepts</h2>
+        
+        <div class="concept-grid">
+          <div class="concept-card">
+            <h3>Non-Parametric</h3>
+            <p><strong>No training phase!</strong> KNN stores all training data and makes predictions by finding similar examples. No model parameters to learn like in linear/logistic regression.</p>
+          </div>
+
+          <div class="concept-card">
+            <h3>Distance Metrics</h3>
+            <p>KNN uses <strong>distance</strong> to find neighbors. Common metrics: Euclidean distance for continuous data, Hamming distance for categorical data.</p>
+          </div>
+
+          <div class="concept-card">
+            <h3>Choosing K</h3>
+            <p><strong>Small K:</strong> More sensitive to noise<br><strong>Large K:</strong> Smoother but may miss patterns<br>Often use <strong>odd numbers</strong> to avoid ties in classification.</p>
+          </div>
+
+          <div class="concept-card">
+            <h3>Lazy Learning</h3>
+            <p>KNN is <strong>"lazy"</strong> - it doesn't build a model during training. All computation happens at prediction time, making it slow for large datasets.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Comparison with Other Algorithms -->
+      <section class="comparison-section">
+        <h2>⚖️ KNN vs Other Algorithms</h2>
+        
+        <div class="comparison-grid">
+          <div class="comparison-card knn">
+            <h3>🎯 K-Nearest Neighbors</h3>
+            <div class="comparison-content">
+              <div class="feature-list">
+                <div class="feature">✓ No training phase required</div>
+                <div class="feature">✓ Works for classification & regression</div>
+                <div class="feature">✓ Simple to understand and implement</div>
+                <div class="feature">✓ Adapts to local patterns in data</div>
+                <div class="feature">✗ Slow predictions on large datasets</div>
+              </div>
+              <div class="use-case">
+                <strong>Best for:</strong> Small datasets, recommendation systems, pattern recognition
+              </div>
+            </div>
+          </div>
+
+          <div class="comparison-card parametric">
+            <h3>📈 Parametric Methods</h3>
+            <div class="comparison-content">
+              <div class="feature-list">
+                <div class="feature">✓ Fast predictions after training</div>
+                <div class="feature">✓ Learn global patterns</div>
+                <div class="feature">✓ Require less memory</div>
+                <div class="feature">✓ Good for large datasets</div>
+                <div class="feature">✗ May miss local patterns</div>
+              </div>
+              <div class="use-case">
+                <strong>Examples:</strong> Linear regression, logistic regression, neural networks
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Interactive Testing Tool -->
+      <section class="predictor-section">
+        <h2>🔬 Test Your Understanding</h2>
+        <div class="predictor-content">
+          <div class="predictor-form">
+            <h3>🧪 Custom KNN Prediction</h3>
+            
+            <div class="test-scenario">
+              <h4>Scenario: Height-Based Classification</h4>
+              <p>You have a dataset with people's heights and genders. Use KNN to classify a new person!</p>
+            </div>
+            
+            <div class="input-group">
+              <label>New Person's Height (cm):</label>
+              <input type="number" id="testHeight" value="175" min="150" max="200" step="0.5">
+              <small>Enter height between 150-200cm</small>
+            </div>
+            
+            <div class="input-group">
+              <label>Number of Neighbors (K):</label>
+              <input type="number" id="testK" value="5" min="1" max="15" step="1">
+              <small>How many neighbors should we consider?</small>
+            </div>
+            
+            <button id="runPrediction" class="btn btn-secondary">Run KNN Prediction</button>
+            
+            <div class="prediction-result">
+              <div class="result-display">
+                <div class="neighbors-list" id="neighborsList">
+                  <h4>Nearest Neighbors:</h4>
+                  <div id="neighborsDisplay"></div>
+                </div>
+                <div class="classification-result" id="testResult">
+                  <strong>Prediction: <span id="testPrediction">🤔 Run prediction to see result</span></strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="knn.js"></script>
+</body>
+</html>

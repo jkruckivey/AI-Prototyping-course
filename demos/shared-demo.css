@@ -14,6 +14,8 @@
   --ivey-gray-10:#63666A;
   --apple-red:#dc2626;
   --orange-color:#f97316;
+  --male-blue:#3b82f6;
+  --female-pink:#ec4899;
   --brand-surface:#ffffff;
   --brand-border:#e7eaee;
   --shadow-lg:0 8px 30px rgba(3,70,56,.12);
@@ -973,5 +975,355 @@ body{
   
   .class-examples {
     grid-template-columns: 1fr;
+  }
+}
+
+/* KNN-Specific Styles */
+.knn-explanation {
+  display: grid;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.knn-point {
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.class-example.male {
+  background: rgba(59, 130, 246, 0.2);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  color: var(--male-blue);
+}
+
+.class-example.female {
+  background: rgba(236, 72, 153, 0.2);
+  border: 1px solid rgba(236, 72, 153, 0.3);
+  color: var(--female-pink);
+}
+
+.neighbor-examples {
+  display: grid;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.neighbor-example {
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-family: 'Courier New', monospace;
+}
+
+.vote-count {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.vote-item {
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.vote-item.male {
+  background: rgba(59, 130, 246, 0.2);
+  border: 2px solid var(--male-blue);
+  color: var(--male-blue);
+}
+
+.vote-item.female {
+  background: rgba(236, 72, 153, 0.2);
+  border: 2px solid var(--female-pink);
+  color: var(--female-pink);
+}
+
+.vote-number {
+  font-size: 2rem;
+  font-weight: 800;
+  display: block;
+  margin-top: 0.5rem;
+}
+
+.final-prediction {
+  text-align: center;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  margin-top: 1rem;
+}
+
+.prediction-value.male {
+  color: var(--male-blue);
+  font-size: 1.5rem;
+}
+
+.prediction-value.female {
+  color: var(--female-pink);
+  font-size: 1.5rem;
+}
+
+.metric-value.male {
+  color: var(--male-blue);
+}
+
+.metric-value.female {
+  color: var(--female-pink);
+}
+
+/* Regression Section */
+.regression-section {
+  background: var(--brand-surface);
+  padding: 3rem 2rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+}
+
+.regression-section h2 {
+  text-align: center;
+  color: var(--ivey-green);
+  font-weight: 800;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+.regression-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.regression-explanation h3 {
+  color: var(--ivey-green);
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
+
+.regression-example {
+  background: linear-gradient(135deg, #f0fdfa, #ecfdf5);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid #a7f3d0;
+  margin-top: 1rem;
+}
+
+.regression-step {
+  font-weight: 600;
+  color: var(--ivey-green);
+  margin-bottom: 1rem;
+}
+
+.regression-neighbors {
+  display: grid;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.neighbor-data {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 6px;
+}
+
+.neighbor-height {
+  font-weight: 600;
+  color: var(--ivey-purple);
+}
+
+.neighbor-chest {
+  font-weight: 600;
+  color: var(--ivey-green);
+}
+
+.neighbor-distance {
+  font-size: 0.85rem;
+  color: var(--ivey-gray-10);
+}
+
+.regression-calculation {
+  text-align: center;
+  padding: 1rem;
+  background: rgba(3, 70, 56, 0.1);
+  border-radius: 8px;
+  margin-top: 1rem;
+  font-weight: 600;
+  color: var(--ivey-green);
+}
+
+.result-value {
+  color: var(--ivey-purple);
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.regression-interactive {
+  background: #f9fafb;
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid var(--brand-border);
+}
+
+.regression-interactive h3 {
+  color: var(--ivey-green);
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.regression-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.regression-result {
+  text-align: center;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 12px;
+  border: 2px solid var(--brand-border);
+  font-size: 1.2rem;
+}
+
+.regression-neighbors-display {
+  margin-top: 1rem;
+  text-align: left;
+}
+
+.regression-neighbors-display h4 {
+  color: var(--ivey-green);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+/* Comparison Card Extensions */
+.comparison-card.knn {
+  background: linear-gradient(135deg, #ddd6fe 0%, #c4b5fd 100%);
+  border-color: var(--ivey-purple);
+}
+
+.comparison-card.parametric {
+  background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%);
+  border-color: var(--female-pink);
+}
+
+.comparison-card.knn h3 {
+  color: var(--ivey-purple);
+}
+
+.comparison-card.parametric h3 {
+  color: var(--female-pink);
+}
+
+.comparison-card.knn .feature {
+  color: var(--ivey-purple);
+}
+
+.comparison-card.parametric .feature {
+  color: var(--female-pink);
+}
+
+/* Test Tool Styles */
+.test-scenario {
+  background: linear-gradient(135deg, #f0fdfa, #ecfdf5);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid #a7f3d0;
+  margin-bottom: 1.5rem;
+}
+
+.test-scenario h4 {
+  color: var(--ivey-green);
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+.neighbors-list {
+  background: #f9fafb;
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid var(--brand-border);
+  margin-bottom: 1rem;
+}
+
+.neighbors-list h4 {
+  color: var(--ivey-green);
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.neighbor-item {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.75rem;
+  background: white;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  border: 1px solid var(--brand-border);
+}
+
+.neighbor-item .rank {
+  font-weight: 700;
+  color: var(--ivey-purple);
+}
+
+.neighbor-item .height {
+  font-weight: 600;
+  font-family: 'Courier New', monospace;
+}
+
+.neighbor-item .gender.male {
+  color: var(--male-blue);
+  font-weight: 700;
+}
+
+.neighbor-item .gender.female {
+  color: var(--female-pink);
+  font-weight: 700;
+}
+
+.neighbor-item .distance {
+  font-size: 0.85rem;
+  color: var(--ivey-gray-10);
+  font-family: 'Courier New', monospace;
+}
+
+.test-prediction.male {
+  color: var(--male-blue);
+  font-size: 1.3rem;
+}
+
+.test-prediction.female {
+  color: var(--female-pink);
+  font-size: 1.3rem;
+}
+
+/* Responsive adjustments for KNN */
+@media (max-width: 768px) {
+  .regression-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .vote-count {
+    grid-template-columns: 1fr;
+  }
+  
+  .neighbor-item {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 0.5rem;
   }
 }
