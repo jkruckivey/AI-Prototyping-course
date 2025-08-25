@@ -5,13 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Linear Regression Interactive Demo</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
   <div class="container">
     <header class="header">
-      <h1>Linear Regression: Interactive Learning</h1>
-      <p>Understand how linear regression finds the best-fitting line through data</p>
+      <h1 class="site-title">Linear Regression: Interactive Learning</h1>
+      <p class="site-subtitle">Understand how linear regression finds the best-fitting line through data</p>
     </header>
 
     <main class="main-content">
@@ -36,7 +39,7 @@
               <span class="metric-label">Mean Squared Error:</span>
               <span id="mse" class="metric-value">0</span>
             </div>
-            <button id="findBestFit" class="btn-primary">Find Best Fit Automatically</button>
+            <button id="findBestFit" class="btn btn-primary">Find Best Fit Automatically</button>
           </div>
         </div>
 
@@ -110,7 +113,7 @@
               <label>Location Score (1-10):</label>
               <input type="number" id="location" value="7" min="1" max="10">
             </div>
-            <button id="predictSalary" class="btn-secondary">Predict Salary</button>
+            <button id="predictSalary" class="btn btn-secondary">Predict Salary</button>
             <div class="prediction-result">
               <strong>Predicted Salary: $<span id="salaryPrediction">0</span></strong>
             </div>
