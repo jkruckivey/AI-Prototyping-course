@@ -31,19 +31,21 @@
             <div class="story-step active" id="step1">
               <div class="step-number">1</div>
               <div class="step-content">
-                <h3>The Classification Problem</h3>
-                <p>A grocery store wants to automatically classify fruits as <strong>apples</strong> or <strong>oranges</strong> using two features:</p>
-                <ul>
-                  <li><strong>Color Score:</strong> 0 (green) to 10 (red)</li>
-                  <li><strong>Weight:</strong> In grams</li>
-                </ul>
+                <h3>The Yes/No Decision Problem</h3>
+                <p><strong>Real-world scenario:</strong> You're building a smart grocery scanner. When someone scans a fruit, you need to answer: "Is this an apple or an orange?"</p>
+                <p>This is different from predicting a number (like salary). Here we need to <strong>classify</strong> - put things into categories.</p>
                 <div class="data-preview">
-                  <div class="class-examples">
-                    <div class="class-example apple">
-                      <strong>🍎 Apples:</strong> Higher color scores (red), varying weights
+                  <div class="classification-intro">
+                    <div class="decision-example">
+                      <strong>🤔 The Question:</strong> Looking at color and weight, which fruit is this?
                     </div>
-                    <div class="class-example orange">
-                      <strong>🍊 Oranges:</strong> Lower color scores (orange), typically heavier
+                    <div class="class-examples">
+                      <div class="class-example apple">
+                        <strong>🍎 Apples:</strong> Typically redder (color score 6-9), various weights
+                      </div>
+                      <div class="class-example orange">
+                        <strong>🍊 Oranges:</strong> More orange/yellow (color score 3-6), often heavier
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -53,32 +55,48 @@
             <div class="story-step" id="step2">
               <div class="step-number">2</div>
               <div class="step-content">
-                <h3>Why Not Linear Regression?</h3>
-                <p>Linear regression predicts <strong>continuous values</strong>, but we need <strong>discrete classes</strong> (Apple or Orange).</p>
+                <h3>Why Not Just Use a Straight Line?</h3>
+                <p><strong>The problem with linear regression for classification:</strong> A straight line can go to infinity in both directions, but probabilities must stay between 0% and 100%!</p>
                 <div class="comparison-visual">
-                  <div class="comparison-item">
-                    <strong>Linear:</strong> Could predict "1.5 apples" or "-0.3 oranges" ❌
-                  </div>
-                  <div class="comparison-item correct">
-                    <strong>Logistic:</strong> Predicts probabilities between 0 and 1 ✅
+                  <div class="line-problem">
+                    <div class="problem-example">
+                      <strong>📏 Straight Line Problem:</strong>
+                      <br>Could predict "150% chance it's an apple" or "-30% chance" 
+                      <br><em>That makes no sense! 🤯</em>
+                    </div>
+                    <div class="solution-example">
+                      <strong>🎯 What We Need:</strong>
+                      <br>Always stay between 0% and 100%
+                      <br><em>Like: "75% confident this is an apple"</em>
+                    </div>
                   </div>
                 </div>
-                <p>We need probabilities: <em>"80% chance this is an apple"</em></p>
+                <p><strong>Solution:</strong> We need a curve that "squishes" all predictions into the 0-100% range!</p>
               </div>
             </div>
             
             <div class="story-step" id="step3">
               <div class="step-number">3</div>
               <div class="step-content">
-                <h3>The Sigmoid Function</h3>
-                <p>Instead of a straight line, logistic regression uses an <strong>S-shaped sigmoid curve</strong>:</p>
+                <h3>The Magic S-Curve (Sigmoid)</h3>
+                <p><strong>Meet the Sigmoid:</strong> It's like a smart curve that takes ANY number and "squishes" it into a probability between 0% and 100%!</p>
                 <div class="sigmoid-explanation">
-                  <div class="sigmoid-properties">
-                    <div class="property">📈 <strong>S-shaped curve</strong> - smooth transition between classes</div>
-                    <div class="property">📊 <strong>Bounded 0-1</strong> - outputs valid probabilities</div>
-                    <div class="property">🎯 <strong>Threshold at 0.5</strong> - decision boundary</div>
+                  <div class="sigmoid-analogy">
+                    <div class="analogy-part">
+                      <strong>🎢 Think of it like a slide:</strong>
+                      <br>• Start high on the left (near 100%)
+                      <br>• Smoothly slide down in the middle (50% area)
+                      <br>• End low on the right (near 0%)
+                    </div>
+                    <div class="sigmoid-benefits">
+                      <strong>✨ Why it's perfect:</strong>
+                      <br>• Never goes below 0% or above 100%
+                      <br>• Smooth curve = no sudden jumps
+                      <br>• Clear "decision point" in the middle (50%)
+                    </div>
                   </div>
                 </div>
+                <p><strong>Real example:</strong> Color score 7 → Sigmoid → "85% chance it's an apple"</p>
               </div>
             </div>
             

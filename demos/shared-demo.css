@@ -353,6 +353,111 @@ body{
   font-weight: 600;
 }
 
+/* Enhanced Linear Regression Styles */
+.line-explanation {
+  display: grid;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.line-param {
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.archery-analogy {
+  display: grid;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.shot-example {
+  padding: 1rem;
+  background: rgba(34, 197, 94, 0.2);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-radius: 8px;
+  color: #22c55e;
+  font-weight: 600;
+}
+
+.shot-example.bad {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #ef4444;
+}
+
+/* Enhanced Logistic Regression Styles */
+.classification-intro {
+  display: grid;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.decision-example {
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  text-align: center;
+  font-weight: 600;
+}
+
+.line-problem {
+  display: grid;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.problem-example {
+  padding: 1rem;
+  background: rgba(239, 68, 68, 0.2);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 8px;
+  color: #ef4444;
+  font-weight: 600;
+}
+
+.solution-example {
+  padding: 1rem;
+  background: rgba(34, 197, 94, 0.2);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-radius: 8px;
+  color: #22c55e;
+  font-weight: 600;
+}
+
+.sigmoid-analogy {
+  display: grid;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.analogy-part, .sigmoid-benefits {
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Enhanced KNN Styles */
+.neighbor-analogy {
+  display: grid;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.analogy-step {
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 /* Story Controls */
 .story-controls {
   display: flex;

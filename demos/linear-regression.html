@@ -31,40 +31,58 @@
             <div class="story-step active" id="step1">
               <div class="step-number">1</div>
               <div class="step-content">
-                <h3>The Problem</h3>
-                <p>An MBA program wants to help students understand expected starting salaries. They collected data from 15 recent graduates showing <strong>years of experience</strong> vs <strong>salary offers</strong>.</p>
+                <h3>The Everyday Problem</h3>
+                <p><strong>Think of it like this:</strong> You're looking at job postings and wondering "How much should I expect to earn based on my experience?" This is exactly what linear regression helps us figure out!</p>
+                <p>An MBA program collected real data from 15 graduates. Notice the <strong>pattern</strong> - more experience generally means higher salary:</p>
                 <div class="data-preview">
-                  <span class="data-point">2 years → $42k</span>
-                  <span class="data-point">5 years → $58k</span>
-                  <span class="data-point">8 years → $75k</span>
-                  <span class="data-point">12 years → $105k</span>
+                  <span class="data-point">👶 2 years → $42k</span>
+                  <span class="data-point">🚀 5 years → $58k</span>
+                  <span class="data-point">💪 8 years → $75k</span>
+                  <span class="data-point">🏆 12 years → $105k</span>
                 </div>
+                <p><em>But how do we predict salaries for 6 years, 10 years, or any experience level?</em></p>
               </div>
             </div>
             
             <div class="story-step" id="step2">
               <div class="step-number">2</div>
               <div class="step-content">
-                <h3>The Approach</h3>
-                <p>We use <strong>linear regression</strong> to find the best line through this data. The line has two parameters:</p>
-                <ul>
-                  <li><strong>Slope (β):</strong> How much salary increases per year of experience</li>
-                  <li><strong>Intercept (ε):</strong> Starting salary for someone with 0 years experience</li>
-                </ul>
+                <h3>Drawing a Line Through the Dots</h3>
+                <p><strong>Imagine this:</strong> You have dots scattered on a graph and you want to draw the "best" straight line through them. That line becomes your salary predictor!</p>
+                <p>Every straight line needs just <strong>2 numbers</strong> to describe it completely:</p>
+                <div class="line-explanation">
+                  <div class="line-param">
+                    <strong>📈 Slope:</strong> How steep is the line? 
+                    <br><em>Example: "$5,500 more salary per year of experience"</em>
+                  </div>
+                  <div class="line-param">
+                    <strong>📍 Y-intercept:</strong> Where does the line cross the Y-axis?
+                    <br><em>Example: "$28,000 starting salary with 0 years experience"</em>
+                  </div>
+                </div>
+                <p><strong>The magic:</strong> Once we find these 2 numbers, we can predict ANY salary!</p>
               </div>
             </div>
             
             <div class="story-step" id="step3">
               <div class="step-number">3</div>
               <div class="step-content">
-                <h3>Finding the Best Fit</h3>
-                <p>The algorithm tries different lines and measures <strong>Mean Squared Error (MSE)</strong> - how far off the predictions are from actual salaries. Lower MSE = better fit!</p>
+                <h3>Finding the Perfect Line</h3>
+                <p><strong>Here's the challenge:</strong> There are infinite ways to draw a line through dots. How do we find the "best" one?</p>
+                <p><strong>Think of it like archery:</strong> We measure how far each prediction "misses" the actual salary. The line with the smallest total "miss" wins!</p>
                 <div class="mse-visual">
-                  <div class="error-explanation">
-                    <span class="good-fit">Good Fit: MSE = 23.5</span>
-                    <span class="bad-fit">Poor Fit: MSE = 156.8</span>
+                  <div class="archery-analogy">
+                    <div class="shot-example">
+                      <strong>🎯 Good Line:</strong> Predictions close to actual salaries
+                      <br><em>Average miss: Only $150 off per person</em>
+                    </div>
+                    <div class="shot-example bad">
+                      <strong>❌ Bad Line:</strong> Predictions far from actual salaries
+                      <br><em>Average miss: $1,200 off per person</em>
+                    </div>
                   </div>
                 </div>
+                <p><strong>MSE (Mean Squared Error)</strong> is our "accuracy score" - lower is better!</p>
               </div>
             </div>
             

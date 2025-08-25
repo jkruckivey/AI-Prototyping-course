@@ -31,21 +31,25 @@
             <div class="story-step active" id="step1">
               <div class="step-number">1</div>
               <div class="step-content">
-                <h3>The Non-Parametric Approach</h3>
-                <p>Unlike linear or logistic regression, <strong>KNN doesn't learn parameters</strong> during training. Instead, it stores all the training data and makes predictions by finding similar examples.</p>
+                <h3>The "Ask Your Neighbors" Approach</h3>
+                <p><strong>Imagine this:</strong> You're moving to a new city and wondering how to dress for the weather. What do you do? You look at what people around you are wearing!</p>
+                <p>KNN works the same way - it <strong>doesn't learn rules</strong> like other algorithms. Instead, it simply remembers all the examples and when making predictions, finds the most similar cases.</p>
                 <div class="data-preview">
                   <div class="knn-explanation">
-                    <div class="knn-point">
-                      <strong>🏃‍♂️ No Training Phase:</strong> Just store the data
-                    </div>
-                    <div class="knn-point">
-                      <strong>🎯 Prediction Time:</strong> Find K closest neighbors
-                    </div>
-                    <div class="knn-point">
-                      <strong>🗳️ Vote:</strong> Use majority class (classification) or average (regression)
+                    <div class="neighbor-analogy">
+                      <div class="analogy-step">
+                        <strong>🏠 Like asking neighbors:</strong> "What should I wear today?"
+                      </div>
+                      <div class="analogy-step">
+                        <strong>👀 Look around:</strong> Check what the 5 closest neighbors wear
+                      </div>
+                      <div class="analogy-step">
+                        <strong>🗳️ Follow the majority:</strong> If 4 wear jackets, you wear a jacket!
+                      </div>
                     </div>
                   </div>
                 </div>
+                <p><strong>The beauty:</strong> No complex math - just "find similar examples and copy them!"</p>
               </div>
             </div>
             
