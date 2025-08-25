@@ -77,12 +77,196 @@ body{
 }
 
 /* Section Cards */
-.viz-section, .concepts-section, .multi-dim-section {
+.viz-section, .concepts-section, .multi-dim-section, .example-spotlight {
   background: var(--brand-surface);
   border: 1px solid var(--brand-border);
   border-radius: var(--radius);
   box-shadow: var(--shadow-md);
   overflow: hidden;
+}
+
+/* Example Spotlight */
+.example-spotlight {
+  background: linear-gradient(135deg, var(--ivey-green) 0%, var(--ivey-green-600) 100%);
+  color: white;
+  border: none;
+  margin-bottom: 2rem;
+}
+
+.spotlight-header {
+  padding: 2rem 2rem 1rem 2rem;
+  text-align: center;
+}
+
+.spotlight-header h2 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.spotlight-header p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.spotlight-content {
+  padding: 1rem 2rem 2rem 2rem;
+}
+
+.example-story {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+  min-height: 280px;
+  position: relative;
+}
+
+.story-step {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.story-step.active {
+  display: flex;
+  opacity: 1;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.step-number {
+  background: white;
+  color: var(--ivey-green);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-md);
+}
+
+.step-content h3 {
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.step-content p {
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.step-content ul {
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.step-content li {
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+.data-preview {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.data-point {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.mse-visual {
+  margin-top: 1rem;
+}
+
+.error-explanation {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.good-fit {
+  background: rgba(16, 185, 129, 0.3);
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 1px solid rgba(16, 185, 129, 0.5);
+  font-weight: 600;
+}
+
+.bad-fit {
+  background: rgba(239, 68, 68, 0.3);
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 1px solid rgba(239, 68, 68, 0.5);
+  font-weight: 600;
+}
+
+.prediction-examples {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.prediction-example {
+  background: rgba(255, 255, 255, 0.15);
+  padding: 1rem;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.prediction-value {
+  background: var(--ivey-purple);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.story-controls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.story-btn {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: white !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+  min-width: 100px;
+}
+
+.story-btn.active {
+  background: white !important;
+  color: var(--ivey-green) !important;
+  border-color: white !important;
+}
+
+.story-btn:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
 }
 
 /* Visualization Section */
@@ -106,6 +290,17 @@ body{
   align-items: center;
   gap: 0.5rem;
   font-size: 1.3rem;
+}
+
+.connection-note {
+  background: rgba(3, 70, 56, 0.1);
+  border: 1px solid rgba(3, 70, 56, 0.2);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  color: var(--ivey-green);
+  font-size: 0.9rem;
+  border-left: 4px solid var(--ivey-green);
 }
 
 .control-group {

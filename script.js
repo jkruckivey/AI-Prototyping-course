@@ -10,6 +10,9 @@ class LinearRegressionDemo {
     this.slope = 1.0;
     this.intercept = 20;
     
+    // Story state
+    this.currentStep = 1;
+    
     // Multi-dimensional model parameters (for salary prediction)
     this.multiDimModel = {
       experienceCoeff: 5.5,   // $5.5k per year of experience
@@ -19,6 +22,7 @@ class LinearRegressionDemo {
     };
     
     this.initializeControls();
+    this.initializeStoryNavigation();
     this.updateVisualization();
   }
 
@@ -50,6 +54,47 @@ class LinearRegressionDemo {
     document.getElementById('predictSalary').addEventListener('click', () => {
       this.predictMultiDimensional();
     });
+  }
+
+  initializeStoryNavigation() {
+    const storyButtons = document.querySelectorAll('.story-btn');
+    storyButtons.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const step = parseInt(e.target.dataset.step);
+        this.showStoryStep(step);
+      });
+    });
+
+    // Auto-advance story every 4 seconds
+    this.startAutoAdvance();
+  }
+
+  showStoryStep(step) {
+    // Hide all steps
+    document.querySelectorAll('.story-step').forEach(stepEl => {
+      stepEl.classList.remove('active');
+    });
+
+    // Show selected step
+    document.getElementById(`step${step}`).classList.add('active');
+
+    // Update button states
+    document.querySelectorAll('.story-btn').forEach(btn => {
+      btn.classList.remove('active');
+      if (parseInt(btn.dataset.step) === step) {
+        btn.classList.add('active');
+      }
+    });
+
+    this.currentStep = step;
+  }
+
+  startAutoAdvance() {
+    // Auto-advance through story steps
+    setInterval(() => {
+      this.currentStep = (this.currentStep % 4) + 1;
+      this.showStoryStep(this.currentStep);
+    }, 6000); // Change every 6 seconds
   }
 
   calculatePredictions() {

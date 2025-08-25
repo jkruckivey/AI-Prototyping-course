@@ -18,11 +18,90 @@
     </header>
 
     <main class="main-content">
+      <!-- Featured Example -->
+      <section class="example-spotlight">
+        <div class="spotlight-header">
+          <h2>📊 Real-World Example: Predicting MBA Salaries</h2>
+          <p>Let's see how linear regression helps predict starting salaries for MBA graduates based on their years of work experience.</p>
+        </div>
+        
+        <div class="spotlight-content">
+          <div class="example-story">
+            <div class="story-step active" id="step1">
+              <div class="step-number">1</div>
+              <div class="step-content">
+                <h3>The Problem</h3>
+                <p>An MBA program wants to help students understand expected starting salaries. They collected data from 15 recent graduates showing <strong>years of experience</strong> vs <strong>salary offers</strong>.</p>
+                <div class="data-preview">
+                  <span class="data-point">2 years → $42k</span>
+                  <span class="data-point">5 years → $58k</span>
+                  <span class="data-point">8 years → $75k</span>
+                  <span class="data-point">12 years → $105k</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="story-step" id="step2">
+              <div class="step-number">2</div>
+              <div class="step-content">
+                <h3>The Approach</h3>
+                <p>We use <strong>linear regression</strong> to find the best line through this data. The line has two parameters:</p>
+                <ul>
+                  <li><strong>Slope (β):</strong> How much salary increases per year of experience</li>
+                  <li><strong>Intercept (ε):</strong> Starting salary for someone with 0 years experience</li>
+                </ul>
+              </div>
+            </div>
+            
+            <div class="story-step" id="step3">
+              <div class="step-number">3</div>
+              <div class="step-content">
+                <h3>Finding the Best Fit</h3>
+                <p>The algorithm tries different lines and measures <strong>Mean Squared Error (MSE)</strong> - how far off the predictions are from actual salaries. Lower MSE = better fit!</p>
+                <div class="mse-visual">
+                  <div class="error-explanation">
+                    <span class="good-fit">Good Fit: MSE = 23.5</span>
+                    <span class="bad-fit">Poor Fit: MSE = 156.8</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="story-step" id="step4">
+              <div class="step-number">4</div>
+              <div class="step-content">
+                <h3>Making Predictions</h3>
+                <p>Once trained, we can predict salaries for new students:</p>
+                <div class="prediction-examples">
+                  <div class="prediction-example">
+                    <strong>6 years experience →</strong> <span class="prediction-value">$65,000</span>
+                  </div>
+                  <div class="prediction-example">
+                    <strong>10 years experience →</strong> <span class="prediction-value">$87,000</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="story-controls">
+            <button class="btn btn-outline story-btn" data-step="1">Problem</button>
+            <button class="btn btn-outline story-btn" data-step="2">Approach</button>
+            <button class="btn btn-outline story-btn" data-step="3">Training</button>
+            <button class="btn btn-outline story-btn" data-step="4">Prediction</button>
+          </div>
+        </div>
+      </section>
+
       <!-- Interactive Visualization -->
       <section class="viz-section">
         <div class="viz-controls">
-          <h2>🎯 Find the Best Line</h2>
-          <p>Adjust the slope (β) and intercept (ε) to minimize errors:</p>
+          <h2>🎯 Try It Yourself</h2>
+          <p>Using the MBA salary data above, adjust the parameters to find the best-fitting line:</p>
+          
+          <div class="connection-note">
+            💡 <strong>This is the same data from our example!</strong> Can you beat the algorithm?
+          </div>
           
           <div class="control-group">
             <label for="slope">Slope (β): <span id="slopeValue">1.0</span></label>
