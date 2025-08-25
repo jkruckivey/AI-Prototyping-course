@@ -157,7 +157,7 @@ body{
 /* Story System */
 .example-story {
   position: relative;
-  min-height: 300px;
+  min-height: 600px; /* Significantly increased for KNN content */
 }
 
 .story-step {
@@ -359,7 +359,8 @@ body{
   flex-wrap: wrap;
   gap: 1rem;
   justify-content: center;
-  margin-top: 2rem;
+  margin-top: 3rem; /* Increased margin to prevent overlap */
+  padding-top: 1rem; /* Additional padding for safety */
 }
 
 .story-btn {
@@ -940,6 +941,10 @@ body{
     font-size: 2rem;
   }
   
+  .example-story {
+    min-height: 700px; /* Even more height needed on mobile */
+  }
+  
   .story-step {
     flex-direction: column;
     text-align: center;
@@ -951,6 +956,7 @@ body{
   
   .story-controls {
     flex-direction: column;
+    margin-top: 4rem; /* Extra margin on mobile */
   }
   
   .viz-section {
