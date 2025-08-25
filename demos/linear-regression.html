@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Linear Regression Interactive Demo</title>
+  <link rel="stylesheet" href="linear-regression.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1 class="site-title">Linear Regression: Interactive Learning</h1>
+      <p class="site-subtitle">Understand how linear regression finds the best-fitting line through data</p>
+    </header>
+
+    <main class="main-content">
+      <!-- Featured Example -->
+      <section class="example-spotlight">
+        <div class="spotlight-header">
+          <h2>📊 Real-World Example: Predicting MBA Salaries</h2>
+          <p>Let's see how linear regression helps predict starting salaries for MBA graduates based on their years of work experience.</p>
+        </div>
+        
+        <div class="spotlight-content">
+          <div class="example-story">
+            <div class="story-step active" id="step1">
+              <div class="step-number">1</div>
+              <div class="step-content">
+                <h3>The Problem</h3>
+                <p>An MBA program wants to help students understand expected starting salaries. They collected data from 15 recent graduates showing <strong>years of experience</strong> vs <strong>salary offers</strong>.</p>
+                <div class="data-preview">
+                  <span class="data-point">2 years → $42k</span>
+                  <span class="data-point">5 years → $58k</span>
+                  <span class="data-point">8 years → $75k</span>
+                  <span class="data-point">12 years → $105k</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="story-step" id="step2">
+              <div class="step-number">2</div>
+              <div class="step-content">
+                <h3>The Approach</h3>
+                <p>We use <strong>linear regression</strong> to find the best line through this data. The line has two parameters:</p>
+                <ul>
+                  <li><strong>Slope (β):</strong> How much salary increases per year of experience</li>
+                  <li><strong>Intercept (ε):</strong> Starting salary for someone with 0 years experience</li>
+                </ul>
+              </div>
+            </div>
+            
+            <div class="story-step" id="step3">
+              <div class="step-number">3</div>
+              <div class="step-content">
+                <h3>Finding the Best Fit</h3>
+                <p>The algorithm tries different lines and measures <strong>Mean Squared Error (MSE)</strong> - how far off the predictions are from actual salaries. Lower MSE = better fit!</p>
+                <div class="mse-visual">
+                  <div class="error-explanation">
+                    <span class="good-fit">Good Fit: MSE = 23.5</span>
+                    <span class="bad-fit">Poor Fit: MSE = 156.8</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="story-step" id="step4">
+              <div class="step-number">4</div>
+              <div class="step-content">
+                <h3>Making Predictions</h3>
+                <p>Once trained, we can predict salaries for new students:</p>
+                <div class="prediction-examples">
+                  <div class="prediction-example">
+                    <strong>6 years experience →</strong> <span class="prediction-value">$65,000</span>
+                  </div>
+                  <div class="prediction-example">
+                    <strong>10 years experience →</strong> <span class="prediction-value">$87,000</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="story-controls">
+            <button class="btn btn-outline story-btn" data-step="1">Problem</button>
+            <button class="btn btn-outline story-btn" data-step="2">Approach</button>
+            <button class="btn btn-outline story-btn" data-step="3">Training</button>
+            <button class="btn btn-outline story-btn" data-step="4">Prediction</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Interactive Visualization -->
+      <section class="viz-section">
+        <div class="viz-controls">
+          <h2>🎯 Try It Yourself</h2>
+          <p>Using the MBA salary data above, adjust the parameters to find the best-fitting line:</p>
+          
+          <div class="connection-note">
+            💡 <strong>This is the same data from our example!</strong> Can you beat the algorithm?
+          </div>
+          
+          <div class="control-group">
+            <label for="slope">Slope (β): <span id="slopeValue">1.0</span></label>
+            <input type="range" id="slope" min="0.5" max="3.0" step="0.1" value="1.0">
+          </div>
+          
+          <div class="control-group">
+            <label for="intercept">Intercept (ε): <span id="interceptValue">20</span></label>
+            <input type="range" id="intercept" min="10" max="50" step="1" value="20">
+          </div>
+          
+          <div class="metrics">
+            <div class="metric">
+              <span class="metric-label">Mean Squared Error:</span>
+              <span id="mse" class="metric-value">0</span>
+            </div>
+            <button id="findBestFit" class="btn btn-primary">Find Best Fit Automatically</button>
+          </div>
+        </div>
+
+        <div class="plot-container">
+          <div id="scatterPlot"></div>
+        </div>
+      </section>
+
+      <!-- Concepts Explanation -->
+      <section class="concepts-section">
+        <h2>📚 Key Concepts</h2>
+        
+        <div class="concept-grid">
+          <div class="concept-card">
+            <h3>Parameters</h3>
+            <p><strong>β (slope)</strong> and <strong>ε (intercept)</strong> are learned by the model during training. The algorithm adjusts these values to minimize prediction errors.</p>
+          </div>
+
+          <div class="concept-card">
+            <h3>Loss Function (MSE)</h3>
+            <p><strong>Mean Squared Error</strong> measures how far predictions are from actual values. We square errors so positive and negative errors don't cancel out.</p>
+          </div>
+
+          <div class="concept-card">
+            <h3>Optimization</h3>
+            <p>The training process iteratively adjusts parameters to <strong>minimize the loss function</strong>, finding the best-fitting line through the data.</p>
+          </div>
+
+          <div class="concept-card">
+            <h3>Dimensionality</h3>
+            <p><strong>1D:</strong> One feature (line)<br><strong>2D:</strong> Two features (plane)<br><strong>N-D:</strong> Multiple features (hyperplane)</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Multi-Dimensional Demo -->
+      <section class="multi-dim-section">
+        <h2>🌐 Multi-Dimensional Regression</h2>
+        <div class="dimension-examples">
+          <div class="dimension-example">
+            <h3>1-Dimensional</h3>
+            <p><strong>Example:</strong> Salary = β₁ × Experience + ε</p>
+            <p>Uses one feature to predict outcome</p>
+          </div>
+
+          <div class="dimension-example">
+            <h3>3-Dimensional</h3>
+            <p><strong>Example:</strong> Height = β₁ × Arm Length + β₂ × Sex + β₃ × Athletic + ε</p>
+            <p>Uses three features, fits a plane through 3D space</p>
+          </div>
+
+          <div class="dimension-example">
+            <h3>N-Dimensional</h3>
+            <p><strong>Example:</strong> House Price = β₁ × Size + β₂ × Location + ... + βₙ × Age + ε</p>
+            <p>Uses many features, fits a hyperplane through high-dimensional space</p>
+          </div>
+        </div>
+
+        <div class="multi-dim-controls">
+          <h3>🔧 Try Multi-Dimensional Prediction</h3>
+          <div class="prediction-form">
+            <div class="input-group">
+              <label>Experience (years):</label>
+              <input type="number" id="experience" value="5" min="0" max="20">
+            </div>
+            <div class="input-group">
+              <label>Education Level (1-5):</label>
+              <input type="number" id="education" value="3" min="1" max="5">
+            </div>
+            <div class="input-group">
+              <label>Location Score (1-10):</label>
+              <input type="number" id="location" value="7" min="1" max="10">
+            </div>
+            <button id="predictSalary" class="btn btn-secondary">Predict Salary</button>
+            <div class="prediction-result">
+              <strong>Predicted Salary: $<span id="salaryPrediction">0</span></strong>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="linear-regression.js"></script>
+</body>
+</html>

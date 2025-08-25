@@ -1,35 +1,39 @@
-# Linear Regression Interactive Demo
+# AI Prototyping Course - Interactive Learning Hub
 
-An interactive web application for teaching linear regression concepts, designed to complement AI/ML coursework.
+A comprehensive collection of interactive demonstrations for teaching AI and machine learning concepts, designed for educational use with professional Ivey branding.
 
-## 🎯 Learning Objectives
+## 🎯 Course Overview
 
-Students will understand:
-- How linear regression finds the best-fitting line through data
-- The role of parameters (slope β, intercept ε) in the model
-- Mean Squared Error (MSE) as a loss function
-- The optimization process that minimizes prediction errors
-- Multi-dimensional regression and hyperplanes
+This interactive learning hub provides hands-on demonstrations of key AI/ML concepts:
 
-## ✨ Features
+### Available Demos
+- **Linear Regression** (Featured) - Complete interactive demonstration with MBA salary prediction
+- **Neural Networks** (Coming Soon) - Interactive neural network visualization
+- **Decision Trees** (Coming Soon) - Tree-building and decision boundary exploration  
+- **Classification** (Coming Soon) - Classification algorithms and boundary visualization
+- **Clustering** (Coming Soon) - Unsupervised learning demonstrations
+- **Optimization** (Coming Soon) - Gradient descent and optimization visualizations
 
-### Interactive Visualization
-- **Real-time parameter adjustment**: Drag sliders to change slope and intercept
-- **Live MSE calculation**: See how errors change as you adjust the line
-- **Error visualization**: Dotted lines show prediction errors for each data point
-- **Auto-fit functionality**: Find the mathematically optimal line with one click
+### Learning Objectives
+- Understand core machine learning algorithms through interaction
+- Develop intuition for AI concepts with real-time visualization
+- Bridge theory and practice with hands-on experience
+- Build foundation for advanced AI topics
 
-### Educational Components
-- **Concept cards**: Click to highlight related interface elements
-- **Multi-dimensional examples**: Compare 1D, 3D, and N-dimensional regression
-- **Salary prediction tool**: Try multi-dimensional regression with real parameters
+## ✨ Featured Demo: Linear Regression
 
-### Course Integration
-Based on the linear regression module covering:
-- Parameters vs hyperparameters
-- Loss functions and optimization
-- Dimensionality and hyperplanes
-- Training process visualization
+### Interactive Learning Experience
+- **MBA Salary Prediction Story**: 4-step narrative showing the complete ML process
+- **Real-time Parameter Adjustment**: Drag sliders to change slope and intercept
+- **Live MSE Calculation**: See how errors change as you adjust the line
+- **Auto-fit Functionality**: Find the mathematically optimal line with animation
+- **Multi-dimensional Examples**: Compare 1D, 3D, and N-dimensional regression
+
+### Educational Features
+- **Step-by-step Story**: Problem → Approach → Training → Prediction
+- **Visual Error Display**: Dotted lines show prediction errors for each data point
+- **Concept Cards**: Click to highlight related interface elements
+- **Interactive Predictions**: Try multi-dimensional regression with real parameters
 
 ## 🚀 Getting Started
 
