@@ -1,16 +1,15 @@
-// Logistic Regression Interactive Demo
-class LogisticRegressionDemo {
+// Enhanced Logistic Regression Step-by-Step Demo
+class LogisticRegressionStepDemo {
   constructor() {
+    this.currentStep = 1;
     this.initializeData();
-    this.initializeUI();
-    this.initializePlot();
-    this.bindEvents();
-    this.updateVisualization();
-    this.startStoryNavigation();
+    this.initializeNavigation();
+    this.initializeInteractives();
+    this.showStep(1);
   }
 
   initializeData() {
-    // Generate realistic fruit classification dataset (metric units)
+    // Realistic fruit classification dataset
     this.data = {
       apples: [
         { color: 7.2, weight: 0.145, label: 1, fruit: 'Apple' },
@@ -40,357 +39,142 @@ class LogisticRegressionDemo {
 
     this.allData = [...this.data.apples, ...this.data.oranges];
     
-    // Initialize parameters
-    this.slope = 1.0;
-    this.shift = 5.0;
+    // Model parameters
+    this.weight = 1.0;
+    this.bias = 0.0;
     this.threshold = 0.5;
   }
 
-  initializeUI() {
-    // Get control elements
-    this.slopeSlider = document.getElementById('slope');
-    this.shiftSlider = document.getElementById('shift');
-    this.thresholdSlider = document.getElementById('threshold');
-    
-    this.slopeValue = document.getElementById('slopeValue');
-    this.shiftValue = document.getElementById('shiftValue');
-    this.thresholdValue = document.getElementById('thresholdValue');
-    
-    this.accuracyDisplay = document.getElementById('accuracy');
-    this.applesCountDisplay = document.getElementById('applesCount');
-    this.orangesCountDisplay = document.getElementById('orangesCount');
-    
-    this.findBestFitBtn = document.getElementById('findBestFit');
-    this.predictBtn = document.getElementById('predictFruit');
-    
-    // Prediction inputs
-    this.colorInput = document.getElementById('colorInput');
-    this.weightInput = document.getElementById('weightInput');
-    
-    // Prediction display elements
-    this.probabilityFill = document.getElementById('probabilityFill');
-    this.probabilityText = document.getElementById('probabilityText');
-    this.predictedClass = document.getElementById('predictedClass');
-  }
-
-  initializePlot() {
-    this.plotDiv = document.getElementById('classificationPlot');
-  }
-
-  bindEvents() {
-    // Parameter controls
-    this.slopeSlider.addEventListener('input', () => {
-      this.slope = parseFloat(this.slopeSlider.value);
-      this.slopeValue.textContent = this.slope.toFixed(1);
-      this.updateVisualization();
-    });
-
-    this.shiftSlider.addEventListener('input', () => {
-      this.shift = parseFloat(this.shiftSlider.value);
-      this.shiftValue.textContent = this.shift.toFixed(1);
-      this.updateVisualization();
-    });
-
-    this.thresholdSlider.addEventListener('input', () => {
-      this.threshold = parseFloat(this.thresholdSlider.value);
-      this.thresholdValue.textContent = this.threshold.toFixed(2);
-      this.updateVisualization();
-    });
-
-    // Best fit button
-    this.findBestFitBtn.addEventListener('click', () => {
-      this.findOptimalParameters();
-    });
-
-    // Prediction functionality
-    this.predictBtn.addEventListener('click', () => {
-      this.makePrediction();
-    });
-
-    // Real-time prediction updates
-    this.colorInput.addEventListener('input', () => {
-      this.makePrediction();
-    });
-
-    this.weightInput.addEventListener('input', () => {
-      this.makePrediction();
-    });
-
-    // Story navigation
-    document.querySelectorAll('.story-btn').forEach(btn => {
+  initializeNavigation() {
+    // Step navigation buttons
+    document.querySelectorAll('.nav-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const step = parseInt(e.target.dataset.step);
         this.showStep(step);
       });
     });
-  }
 
-  sigmoid(x) {
-    return 1 / (1 + Math.exp(-x));
-  }
-
-  predictProbability(colorScore) {
-    const z = this.slope * (colorScore - this.shift);
-    return this.sigmoid(z);
-  }
-
-  updateVisualization() {
-    // Generate sigmoid curve
-    const colorRange = [];
-    const probabilities = [];
-    
-    for (let color = 0; color <= 10; color += 0.1) {
-      colorRange.push(color);
-      probabilities.push(this.predictProbability(color));
-    }
-
-    // Create scatter plot data
-    const appleTrace = {
-      x: this.data.apples.map(d => d.color),
-      y: this.data.apples.map(d => 1.02), // Slightly above 1 for visibility
-      mode: 'markers',
-      type: 'scatter',
-      name: '🍎 Apples',
-      marker: {
-        color: '#dc2626',
-        size: 12,
-        symbol: 'circle'
-      },
-      hovertemplate: 'Color: %{x}<br>Fruit: Apple<extra></extra>'
-    };
-
-    const orangeTrace = {
-      x: this.data.oranges.map(d => d.color),
-      y: this.data.oranges.map(d => -0.02), // Slightly below 0 for visibility
-      mode: 'markers',
-      type: 'scatter',
-      name: '🍊 Oranges',
-      marker: {
-        color: '#f97316',
-        size: 12,
-        symbol: 'circle'
-      },
-      hovertemplate: 'Color: %{x}<br>Fruit: Orange<extra></extra>'
-    };
-
-    // Sigmoid curve
-    const sigmoidTrace = {
-      x: colorRange,
-      y: probabilities,
-      mode: 'lines',
-      type: 'scatter',
-      name: 'Sigmoid Curve',
-      line: {
-        color: '#034638',
-        width: 4,
-        shape: 'spline'
-      },
-      hovertemplate: 'Color: %{x:.1f}<br>P(Apple): %{y:.3f}<extra></extra>'
-    };
-
-    // Decision threshold line
-    const thresholdTrace = {
-      x: [0, 10],
-      y: [this.threshold, this.threshold],
-      mode: 'lines',
-      type: 'scatter',
-      name: `Decision Threshold (${this.threshold})`,
-      line: {
-        color: '#582C83',
-        width: 2,
-        dash: 'dash'
-      },
-      hovertemplate: 'Threshold: %{y:.2f}<extra></extra>'
-    };
-
-    const layout = {
-      title: {
-        text: 'Logistic Regression: Apple vs Orange Classification',
-        font: { size: 18, family: 'Figtree', color: '#034638' }
-      },
-      xaxis: {
-        title: 'Color Score (0=Green, 10=Red)',
-        range: [0, 10],
-        gridcolor: '#e5e7eb',
-        showgrid: true
-      },
-      yaxis: {
-        title: 'Probability of Apple',
-        range: [-0.1, 1.1],
-        gridcolor: '#e5e7eb',
-        showgrid: true,
-        tickformat: '.2f'
-      },
-      plot_bgcolor: '#ffffff',
-      paper_bgcolor: '#ffffff',
-      font: { family: 'Figtree' },
-      showlegend: true,
-      legend: {
-        x: 1,
-        y: 1,
-        xanchor: 'right',
-        yanchor: 'top',
-        bgcolor: 'rgba(255,255,255,0.8)',
-        bordercolor: '#e5e7eb',
-        borderwidth: 1
-      },
-      margin: { t: 60, r: 20, b: 60, l: 60 },
-      hovermode: 'x unified'
-    };
-
-    const config = {
-      responsive: true,
-      displayModeBar: false
-    };
-
-    Plotly.newPlot(this.plotDiv, [sigmoidTrace, thresholdTrace, appleTrace, orangeTrace], layout, config);
-    
-    // Update metrics
-    this.updateMetrics();
-  }
-
-  updateMetrics() {
-    let correctPredictions = 0;
-    let applesClassified = 0;
-    let orangesClassified = 0;
-
-    this.allData.forEach(item => {
-      const probability = this.predictProbability(item.color);
-      const prediction = probability >= this.threshold ? 1 : 0;
-      
-      if (prediction === item.label) {
-        correctPredictions++;
-      }
-      
-      if (prediction === 1) {
-        applesClassified++;
-      } else {
-        orangesClassified++;
-      }
+    // Previous/Next buttons
+    document.querySelectorAll('.next-step').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const next = parseInt(e.target.dataset.next);
+        this.showStep(next);
+      });
     });
 
-    const accuracy = (correctPredictions / this.allData.length * 100).toFixed(1);
-    
-    this.accuracyDisplay.textContent = `${accuracy}%`;
-    this.applesCountDisplay.textContent = applesClassified;
-    this.orangesCountDisplay.textContent = orangesClassified;
+    document.querySelectorAll('.prev-step').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const prev = parseInt(e.target.dataset.prev);
+        this.showStep(prev);
+      });
+    });
   }
 
-  findOptimalParameters() {
-    this.findBestFitBtn.disabled = true;
-    this.findBestFitBtn.textContent = 'Finding Optimal...';
+  initializeInteractives() {
+    // Step 3: Parameter controls
+    this.initializeStep3Controls();
+    
+    // Step 4: Classification controls
+    this.initializeStep4Controls();
+    
+    // Step 5: Practice controls
+    this.initializeStep5Controls();
+  }
 
-    // Simple optimization to maximize accuracy
-    let bestAccuracy = 0;
-    let bestSlope = this.slope;
-    let bestShift = this.shift;
+  initializeStep3Controls() {
+    const weightSlider = document.getElementById('weight');
+    const biasSlider = document.getElementById('bias');
+    const weightValue = document.getElementById('weightValue');
+    const biasValue = document.getElementById('biasValue');
 
-    for (let slope = 0.5; slope <= 3.0; slope += 0.1) {
-      for (let shift = 2.0; shift <= 8.0; shift += 0.2) {
-        let correct = 0;
-        
-        this.allData.forEach(item => {
-          const z = slope * (item.color - shift);
-          const probability = this.sigmoid(z);
-          const prediction = probability >= this.threshold ? 1 : 0;
-          
-          if (prediction === item.label) {
-            correct++;
-          }
-        });
-
-        const accuracy = correct / this.allData.length;
-        if (accuracy > bestAccuracy) {
-          bestAccuracy = accuracy;
-          bestSlope = slope;
-          bestShift = shift;
-        }
-      }
+    if (weightSlider) {
+      weightSlider.addEventListener('input', () => {
+        this.weight = parseFloat(weightSlider.value);
+        weightValue.textContent = this.weight.toFixed(1);
+        this.updateStep3Predictions();
+        this.updateSigmoidPlot();
+      });
     }
 
-    // Animate to optimal parameters
-    this.animateToParameters(bestSlope, bestShift);
-  }
-
-  animateToParameters(targetSlope, targetShift) {
-    const startSlope = this.slope;
-    const startShift = this.shift;
-    const duration = 2000;
-    const startTime = Date.now();
-
-    const animate = () => {
-      const elapsed = Date.now() - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      
-      // Smooth easing function
-      const easeProgress = 1 - Math.pow(1 - progress, 3);
-      
-      this.slope = startSlope + (targetSlope - startSlope) * easeProgress;
-      this.shift = startShift + (targetShift - startShift) * easeProgress;
-      
-      // Update UI
-      this.slopeSlider.value = this.slope;
-      this.shiftSlider.value = this.shift;
-      this.slopeValue.textContent = this.slope.toFixed(1);
-      this.shiftValue.textContent = this.shift.toFixed(1);
-      
-      this.updateVisualization();
-      
-      if (progress < 1) {
-        requestAnimationFrame(animate);
-      } else {
-        this.findBestFitBtn.disabled = false;
-        this.findBestFitBtn.textContent = 'Find Optimal Parameters';
-      }
-    };
-
-    requestAnimationFrame(animate);
-  }
-
-  makePrediction() {
-    const colorScore = parseFloat(this.colorInput.value);
-    const weight = parseFloat(this.weightInput.value);
-    
-    const probability = this.predictProbability(colorScore);
-    const percentProb = (probability * 100).toFixed(1);
-    
-    // Update probability bar
-    this.probabilityFill.style.width = `${probability * 100}%`;
-    this.probabilityText.textContent = `${percentProb}%`;
-    
-    // Determine classification
-    const isApple = probability >= this.threshold;
-    const confidence = isApple ? probability : (1 - probability);
-    
-    if (isApple) {
-      this.predictedClass.innerHTML = '🍎 Apple';
-      this.predictedClass.style.color = '#dc2626';
-      this.probabilityFill.style.backgroundColor = '#dc2626';
-    } else {
-      this.predictedClass.innerHTML = '🍊 Orange';
-      this.predictedClass.style.color = '#f97316';
-      this.probabilityFill.style.backgroundColor = '#f97316';
+    if (biasSlider) {
+      biasSlider.addEventListener('input', () => {
+        this.bias = parseFloat(biasSlider.value);
+        biasValue.textContent = this.bias.toFixed(1);
+        this.updateStep3Predictions();
+        this.updateSigmoidPlot();
+      });
     }
+
+    // Initialize predictions
+    setTimeout(() => this.updateStep3Predictions(), 100);
   }
 
-  // Story navigation system
-  startStoryNavigation() {
-    this.currentStep = 1;
-    this.showStep(1);
+  initializeStep4Controls() {
+    const thresholdSlider = document.getElementById('threshold');
+    const thresholdValue = document.getElementById('thresholdValue');
+    const optimizeBtn = document.getElementById('optimizeParams');
+
+    if (thresholdSlider) {
+      thresholdSlider.addEventListener('input', () => {
+        this.threshold = parseFloat(thresholdSlider.value);
+        thresholdValue.textContent = this.threshold.toFixed(2);
+        this.updateStep4Examples();
+        this.updateClassificationPlot();
+      });
+    }
+
+    if (optimizeBtn) {
+      optimizeBtn.addEventListener('click', () => {
+        this.findOptimalParameters();
+      });
+    }
+
+    // Initialize examples and plot
+    setTimeout(() => {
+      this.updateStep4Examples();
+      this.updateClassificationPlot();
+    }, 100);
+  }
+
+  initializeStep5Controls() {
+    const classifyBtn = document.getElementById('classifyFruit');
+    const colorInput = document.getElementById('practiceColor');
+    const weightInput = document.getElementById('practiceWeight');
+
+    if (classifyBtn) {
+      classifyBtn.addEventListener('click', () => {
+        this.classifyPracticeFruit();
+      });
+    }
+
+    if (colorInput) {
+      colorInput.addEventListener('input', () => {
+        this.classifyPracticeFruit();
+      });
+    }
+
+    if (weightInput) {
+      weightInput.addEventListener('input', () => {
+        this.classifyPracticeFruit();
+      });
+    }
+
+    // Initialize quiz
+    this.initializeQuiz();
   }
 
   showStep(stepNumber) {
     // Hide all steps
-    document.querySelectorAll('.story-step').forEach(step => {
+    document.querySelectorAll('.demo-step').forEach(step => {
       step.classList.remove('active');
     });
     
-    // Remove active class from all buttons
-    document.querySelectorAll('.story-btn').forEach(btn => {
+    // Remove active class from nav buttons
+    document.querySelectorAll('.nav-btn').forEach(btn => {
       btn.classList.remove('active');
     });
     
-    // Show selected step
+    // Show target step
     const targetStep = document.getElementById(`step${stepNumber}`);
     const targetBtn = document.querySelector(`[data-step="${stepNumber}"]`);
     
@@ -403,60 +187,425 @@ class LogisticRegressionDemo {
     }
     
     this.currentStep = stepNumber;
-  }
-}
 
-// Concept highlighter for educational interaction
-class ConceptHighlighter {
-  constructor() {
-    this.bindConceptCards();
+    // Initialize step-specific functionality
+    if (stepNumber === 3) {
+      setTimeout(() => this.updateSigmoidPlot(), 100);
+    } else if (stepNumber === 4) {
+      setTimeout(() => {
+        this.updateStep4Examples();
+        this.updateClassificationPlot();
+      }, 100);
+    } else if (stepNumber === 5) {
+      setTimeout(() => this.classifyPracticeFruit(), 100);
+    }
   }
 
-  bindConceptCards() {
-    document.querySelectorAll('.concept-card').forEach(card => {
-      card.addEventListener('click', () => {
-        this.highlightConcept(card);
-      });
+  sigmoid(x) {
+    return 1 / (1 + Math.exp(-x));
+  }
+
+  predictProbability(colorScore) {
+    const z = this.weight * colorScore + this.bias;
+    return this.sigmoid(z);
+  }
+
+  updateStep3Predictions() {
+    // Update test case predictions
+    const testInputs = [3, 5, 7];
+    testInputs.forEach(input => {
+      const prob = this.predictProbability(input);
+      const percent = (prob * 100).toFixed(0);
+      const predElement = document.getElementById(`pred${input}`);
+      if (predElement) {
+        predElement.textContent = `${percent}%`;
+        predElement.style.color = prob >= 0.5 ? '#dc2626' : '#f97316'; // Apple vs Orange color
+      }
     });
   }
 
-  highlightConcept(card) {
-    const title = card.querySelector('h3').textContent.toLowerCase();
+  updateSigmoidPlot() {
+    const plotDiv = document.getElementById('sigmoidPlot');
+    if (!plotDiv) return;
+
+    // Generate sigmoid curve data
+    const x = [];
+    const y = [];
     
-    // Remove existing highlights
-    document.querySelectorAll('.concept-highlight').forEach(el => {
-      el.classList.remove('concept-highlight');
+    for (let color = 0; color <= 10; color += 0.1) {
+      x.push(color);
+      y.push(this.predictProbability(color));
+    }
+
+    const sigmoidTrace = {
+      x: x,
+      y: y,
+      type: 'scatter',
+      mode: 'lines',
+      name: 'Sigmoid Curve',
+      line: {
+        color: '#034638',
+        width: 4
+      },
+      hovertemplate: 'Color: %{x:.1f}<br>P(Apple): %{y:.3f}<extra></extra>'
+    };
+
+    // Add test points
+    const testTrace = {
+      x: [3, 5, 7],
+      y: [3, 5, 7].map(x => this.predictProbability(x)),
+      type: 'scatter',
+      mode: 'markers',
+      name: 'Test Points',
+      marker: {
+        color: '#582C83',
+        size: 12,
+        line: { color: 'white', width: 2 }
+      },
+      hovertemplate: 'Color: %{x}<br>Probability: %{y:.3f}<extra></extra>'
+    };
+
+    const layout = {
+      title: 'Sigmoid Function Shape',
+      xaxis: {
+        title: 'Color Score',
+        range: [0, 10]
+      },
+      yaxis: {
+        title: 'P(Apple)',
+        range: [0, 1]
+      },
+      plot_bgcolor: '#ffffff',
+      paper_bgcolor: '#ffffff',
+      font: { family: 'Figtree' },
+      margin: { t: 50, r: 20, b: 50, l: 50 },
+      showlegend: false,
+      height: 300
+    };
+
+    const config = {
+      responsive: true,
+      displayModeBar: false
+    };
+
+    Plotly.newPlot(plotDiv, [sigmoidTrace, testTrace], layout, config);
+  }
+
+  updateStep4Examples() {
+    // Update example walkthroughs
+    this.updateExampleWalkthrough(1, 8.5, 'prob1', 'thresh1', 'result1');
+    this.updateExampleWalkthrough(2, 5.2, 'prob2', 'thresh2', 'result2');
+  }
+
+  updateExampleWalkthrough(exampleNum, colorInput, probId, threshId, resultId) {
+    const prob = this.predictProbability(colorInput);
+    const probElement = document.getElementById(probId);
+    const threshElement = document.getElementById(threshId);
+    const resultElement = document.getElementById(resultId);
+
+    if (probElement) probElement.textContent = prob.toFixed(2);
+    if (threshElement) threshElement.textContent = this.threshold.toFixed(1);
+    
+    if (resultElement) {
+      const isApple = prob >= this.threshold;
+      resultElement.innerHTML = isApple ? '🍎 Apple' : '🍊 Orange';
+      resultElement.className = `classification ${isApple ? 'apple' : 'orange'}`;
+    }
+  }
+
+  updateClassificationPlot() {
+    const plotDiv = document.getElementById('classificationPlot');
+    if (!plotDiv) return;
+
+    // Generate sigmoid curve
+    const colorRange = [];
+    const probabilities = [];
+    
+    for (let color = 0; color <= 10; color += 0.1) {
+      colorRange.push(color);
+      probabilities.push(this.predictProbability(color));
+    }
+
+    // Create data traces
+    const sigmoidTrace = {
+      x: colorRange,
+      y: probabilities,
+      type: 'scatter',
+      mode: 'lines',
+      name: 'Sigmoid Curve',
+      line: { color: '#034638', width: 4 },
+      hovertemplate: 'Color: %{x:.1f}<br>P(Apple): %{y:.3f}<extra></extra>'
+    };
+
+    // Threshold line
+    const thresholdTrace = {
+      x: [0, 10],
+      y: [this.threshold, this.threshold],
+      type: 'scatter',
+      mode: 'lines',
+      name: `Threshold (${this.threshold})`,
+      line: { color: '#582C83', width: 2, dash: 'dash' }
+    };
+
+    // Data points - classified
+    const appleTrace = {
+      x: this.data.apples.map(d => d.color),
+      y: this.data.apples.map(d => 1.05),
+      type: 'scatter',
+      mode: 'markers',
+      name: '🍎 Apples',
+      marker: { color: '#dc2626', size: 10 },
+      hovertemplate: 'Color: %{x}<br>True: Apple<extra></extra>'
+    };
+
+    const orangeTrace = {
+      x: this.data.oranges.map(d => d.color),
+      y: this.data.oranges.map(d => -0.05),
+      type: 'scatter',
+      mode: 'markers',
+      name: '🍊 Oranges',
+      marker: { color: '#f97316', size: 10 },
+      hovertemplate: 'Color: %{x}<br>True: Orange<extra></extra>'
+    };
+
+    const layout = {
+      title: 'Live Classification Results',
+      xaxis: {
+        title: 'Color Score (0=Green, 10=Red)',
+        range: [0, 10]
+      },
+      yaxis: {
+        title: 'Probability of Apple',
+        range: [-0.1, 1.15]
+      },
+      plot_bgcolor: '#ffffff',
+      paper_bgcolor: '#ffffff',
+      font: { family: 'Figtree' },
+      showlegend: true,
+      legend: { x: 1, y: 1, xanchor: 'right' },
+      margin: { t: 60, r: 20, b: 60, l: 60 },
+      height: 400
+    };
+
+    const config = {
+      responsive: true,
+      displayModeBar: false
+    };
+
+    Plotly.newPlot(plotDiv, [sigmoidTrace, thresholdTrace, appleTrace, orangeTrace], layout, config);
+    
+    // Update metrics
+    this.updateClassificationMetrics();
+  }
+
+  updateClassificationMetrics() {
+    let correct = 0;
+    let applesCorrect = 0;
+    let orangesCorrect = 0;
+    let totalApples = this.data.apples.length;
+    let totalOranges = this.data.oranges.length;
+
+    this.allData.forEach(item => {
+      const prob = this.predictProbability(item.color);
+      const prediction = prob >= this.threshold ? 1 : 0;
+      
+      if (prediction === item.label) {
+        correct++;
+        if (item.label === 1) applesCorrect++;
+        else orangesCorrect++;
+      }
     });
+
+    const accuracy = (correct / this.allData.length * 100).toFixed(0);
     
-    // Add temporary highlight class
-    card.classList.add('concept-highlight');
+    const accuracyEl = document.getElementById('accuracy');
+    const applesEl = document.getElementById('applesCorrect');
+    const orangesEl = document.getElementById('orangesCorrect');
     
-    // Highlight related elements based on concept
-    if (title.includes('sigmoid')) {
-      document.querySelectorAll('[id*="slope"], [id*="shift"]').forEach(el => {
-        el.classList.add('concept-highlight');
-      });
-    } else if (title.includes('decision')) {
-      document.querySelectorAll('[id*="threshold"]').forEach(el => {
-        el.classList.add('concept-highlight');
-      });
-    } else if (title.includes('classification')) {
-      document.querySelectorAll('.prediction-examples, .metric').forEach(el => {
-        el.classList.add('concept-highlight');
-      });
+    if (accuracyEl) accuracyEl.textContent = `${accuracy}%`;
+    if (applesEl) applesEl.textContent = `${applesCorrect}/${totalApples}`;
+    if (orangesEl) orangesEl.textContent = `${orangesCorrect}/${totalOranges}`;
+  }
+
+  findOptimalParameters() {
+    const btn = document.getElementById('optimizeParams');
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = 'Optimizing...';
+    }
+
+    // Simple grid search
+    let bestAccuracy = 0;
+    let bestWeight = this.weight;
+    let bestBias = this.bias;
+
+    for (let w = 0.5; w <= 3.0; w += 0.2) {
+      for (let b = -3.0; b <= 3.0; b += 0.3) {
+        let correct = 0;
+        
+        this.allData.forEach(item => {
+          const z = w * item.color + b;
+          const prob = this.sigmoid(z);
+          const prediction = prob >= this.threshold ? 1 : 0;
+          if (prediction === item.label) correct++;
+        });
+
+        const accuracy = correct / this.allData.length;
+        if (accuracy > bestAccuracy) {
+          bestAccuracy = accuracy;
+          bestWeight = w;
+          bestBias = b;
+        }
+      }
+    }
+
+    // Animate to optimal parameters
+    this.animateToParameters(bestWeight, bestBias, () => {
+      if (btn) {
+        btn.disabled = false;
+        btn.textContent = 'Find Best Parameters';
+      }
+    });
+  }
+
+  animateToParameters(targetWeight, targetBias, callback) {
+    const startWeight = this.weight;
+    const startBias = this.bias;
+    const duration = 1500;
+    const startTime = Date.now();
+
+    const animate = () => {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const easeProgress = 1 - Math.pow(1 - progress, 3);
+      
+      this.weight = startWeight + (targetWeight - startWeight) * easeProgress;
+      this.bias = startBias + (targetBias - startBias) * easeProgress;
+      
+      // Update UI
+      const weightSlider = document.getElementById('weight');
+      const biasSlider = document.getElementById('bias');
+      const weightValue = document.getElementById('weightValue');
+      const biasValue = document.getElementById('biasValue');
+      
+      if (weightSlider) weightSlider.value = this.weight;
+      if (biasSlider) biasSlider.value = this.bias;
+      if (weightValue) weightValue.textContent = this.weight.toFixed(1);
+      if (biasValue) biasValue.textContent = this.bias.toFixed(1);
+      
+      this.updateStep4Examples();
+      this.updateClassificationPlot();
+      
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        callback();
+      }
+    };
+
+    requestAnimationFrame(animate);
+  }
+
+  classifyPracticeFruit() {
+    const colorInput = document.getElementById('practiceColor');
+    const weightInput = document.getElementById('practiceWeight');
+    
+    if (!colorInput || !weightInput) return;
+    
+    const color = parseFloat(colorInput.value);
+    const weight = parseFloat(weightInput.value);
+    const prob = this.predictProbability(color);
+    const percent = Math.round(prob * 100);
+    
+    // Update display elements
+    this.updatePredictionDisplay(color, prob, percent);
+  }
+
+  updatePredictionDisplay(input, prob, percent) {
+    const elements = {
+      inputDisplay: document.getElementById('inputDisplay'),
+      probabilityDisplay: document.getElementById('probabilityDisplay'),
+      percentDisplay: document.getElementById('percentDisplay'),
+      probCompare: document.getElementById('probCompare'),
+      comparisonSymbol: document.getElementById('comparisonSymbol'),
+      thresholdCompare: document.getElementById('thresholdCompare'),
+      comparisonResult: document.getElementById('comparisonResult'),
+      finalClassification: document.getElementById('finalClassification'),
+      confidenceFill: document.getElementById('confidenceFill'),
+      confidenceText: document.getElementById('confidenceText')
+    };
+
+    // Update values
+    if (elements.inputDisplay) elements.inputDisplay.textContent = input.toFixed(1);
+    if (elements.probabilityDisplay) elements.probabilityDisplay.textContent = prob.toFixed(3);
+    if (elements.percentDisplay) elements.percentDisplay.textContent = percent + '%';
+    if (elements.probCompare) elements.probCompare.textContent = prob.toFixed(3);
+    if (elements.thresholdCompare) elements.thresholdCompare.textContent = this.threshold.toFixed(1);
+    
+    const isApple = prob >= this.threshold;
+    
+    if (elements.comparisonSymbol) {
+      elements.comparisonSymbol.textContent = isApple ? '≥' : '<';
     }
     
-    // Remove highlights after 3 seconds
-    setTimeout(() => {
-      document.querySelectorAll('.concept-highlight').forEach(el => {
-        el.classList.remove('concept-highlight');
+    if (elements.comparisonResult) {
+      elements.comparisonResult.textContent = isApple ? '✅' : '❌';
+    }
+    
+    if (elements.finalClassification) {
+      elements.finalClassification.innerHTML = isApple ? '🍎 Apple' : '🍊 Orange';
+      elements.finalClassification.className = `fruit-result ${isApple ? 'apple' : 'orange'}`;
+    }
+    
+    if (elements.confidenceFill) {
+      elements.confidenceFill.style.width = percent + '%';
+      elements.confidenceFill.style.backgroundColor = isApple ? '#dc2626' : '#f97316';
+    }
+    
+    if (elements.confidenceText) {
+      const confidence = Math.abs(prob - 0.5) * 2; // Scale to 0-1
+      let confidenceLevel;
+      if (confidence > 0.7) confidenceLevel = 'High Confidence';
+      else if (confidence > 0.3) confidenceLevel = 'Medium Confidence';
+      else confidenceLevel = 'Low Confidence';
+      
+      elements.confidenceText.textContent = confidenceLevel;
+    }
+  }
+
+  initializeQuiz() {
+    document.querySelectorAll('.quiz-option').forEach(option => {
+      option.addEventListener('click', (e) => {
+        const question = e.target.closest('.quiz-question');
+        const isCorrect = e.target.dataset.correct === 'true';
+        const explanation = question.querySelector('.quiz-explanation');
+        
+        // Remove existing styles
+        question.querySelectorAll('.quiz-option').forEach(opt => {
+          opt.classList.remove('correct', 'incorrect');
+        });
+        
+        // Style the clicked option
+        e.target.classList.add(isCorrect ? 'correct' : 'incorrect');
+        
+        // Show correct answer if wrong was clicked
+        if (!isCorrect) {
+          const correctOption = question.querySelector('[data-correct="true"]');
+          if (correctOption) {
+            correctOption.classList.add('correct');
+          }
+        }
+        
+        // Show explanation
+        if (explanation) {
+          explanation.classList.remove('hidden');
+        }
       });
-    }, 3000);
+    });
   }
 }
 
-// Initialize when DOM is loaded
+// Initialize when DOM loads
 document.addEventListener('DOMContentLoaded', () => {
-  new LogisticRegressionDemo();
-  new ConceptHighlighter();
+  new LogisticRegressionStepDemo();
 });
