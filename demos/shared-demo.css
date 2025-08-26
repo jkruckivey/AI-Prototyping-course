@@ -1173,6 +1173,11 @@ body{
   margin-bottom: 2rem;
 }
 
+.scenario-box h3 {
+  color: var(--ivey-green);
+  font-weight: 700;
+}
+
 .key-insight {
   background: var(--ivey-green);
   color: white;
@@ -1193,6 +1198,16 @@ body{
   background: #f9fafb;
   border-radius: 8px;
   border: 1px solid var(--brand-border);
+}
+
+.feature-explanation strong {
+  color: var(--ivey-green);
+}
+
+.data-explanation h3,
+.classification-examples h3 {
+  color: var(--ivey-green);
+  font-weight: 700;
 }
 
 .color-scale {
@@ -1268,6 +1283,15 @@ body{
 }
 
 /* Step 2: Linear Problem Styles */
+.linear-problem h3,
+.sigmoid-introduction h3,
+.linear-problem h4,
+.sigmoid-introduction h4 {
+  color: var(--ivey-green);
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
 .problem-illustration {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1352,6 +1376,14 @@ body{
   border: 1px solid var(--brand-border);
 }
 
+.weight-details h3,
+.weight-details h4,
+.bias-details h3,
+.bias-details h4 {
+  color: var(--ivey-green);
+  font-weight: 700;
+}
+
 .weight-examples, .bias-examples {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1397,6 +1429,12 @@ body{
   border: 1px solid var(--brand-border);
 }
 
+.param-controls h3,
+.param-controls h4 {
+  color: var(--ivey-green);
+  font-weight: 700;
+}
+
 .control-explanation {
   display: flex;
   justify-content: space-between;
@@ -1410,6 +1448,11 @@ body{
   padding: 1.5rem;
   background: #f9fafb;
   border-radius: 8px;
+}
+
+.test-predictions h4 {
+  color: var(--ivey-green);
+  font-weight: 700;
 }
 
 .test-cases {
@@ -1447,6 +1490,11 @@ body{
   padding: 2rem;
   border-radius: 12px;
   margin-top: 1rem;
+}
+
+.threshold-demo h4 {
+  color: var(--ivey-green);
+  font-weight: 700;
 }
 
 .rule-box {
@@ -1587,6 +1635,11 @@ body{
   background: #f9fafb;
   padding: 2rem;
   border-radius: 12px;
+}
+
+.input-section h4 {
+  color: var(--ivey-green);
+  font-weight: 700;
 }
 
 .input-row {
