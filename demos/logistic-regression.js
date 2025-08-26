@@ -10,31 +10,31 @@ class LogisticRegressionDemo {
   }
 
   initializeData() {
-    // Generate realistic fruit classification dataset
+    // Generate realistic fruit classification dataset (metric units)
     this.data = {
       apples: [
-        { color: 7.2, weight: 145, label: 1, fruit: 'Apple' },
-        { color: 8.1, weight: 152, label: 1, fruit: 'Apple' },
-        { color: 6.8, weight: 138, label: 1, fruit: 'Apple' },
-        { color: 7.9, weight: 160, label: 1, fruit: 'Apple' },
-        { color: 8.5, weight: 142, label: 1, fruit: 'Apple' },
-        { color: 7.4, weight: 155, label: 1, fruit: 'Apple' },
-        { color: 8.8, weight: 148, label: 1, fruit: 'Apple' },
-        { color: 7.1, weight: 163, label: 1, fruit: 'Apple' },
-        { color: 8.3, weight: 150, label: 1, fruit: 'Apple' },
-        { color: 7.6, weight: 144, label: 1, fruit: 'Apple' }
+        { color: 7.2, weight: 0.145, label: 1, fruit: 'Apple' },
+        { color: 8.1, weight: 0.152, label: 1, fruit: 'Apple' },
+        { color: 6.8, weight: 0.138, label: 1, fruit: 'Apple' },
+        { color: 7.9, weight: 0.160, label: 1, fruit: 'Apple' },
+        { color: 8.5, weight: 0.142, label: 1, fruit: 'Apple' },
+        { color: 7.4, weight: 0.155, label: 1, fruit: 'Apple' },
+        { color: 8.8, weight: 0.148, label: 1, fruit: 'Apple' },
+        { color: 7.1, weight: 0.163, label: 1, fruit: 'Apple' },
+        { color: 8.3, weight: 0.150, label: 1, fruit: 'Apple' },
+        { color: 7.6, weight: 0.144, label: 1, fruit: 'Apple' }
       ],
       oranges: [
-        { color: 4.2, weight: 180, label: 0, fruit: 'Orange' },
-        { color: 3.8, weight: 195, label: 0, fruit: 'Orange' },
-        { color: 4.9, weight: 172, label: 0, fruit: 'Orange' },
-        { color: 3.5, weight: 188, label: 0, fruit: 'Orange' },
-        { color: 4.6, weight: 175, label: 0, fruit: 'Orange' },
-        { color: 3.2, weight: 192, label: 0, fruit: 'Orange' },
-        { color: 4.1, weight: 168, label: 0, fruit: 'Orange' },
-        { color: 3.9, weight: 185, label: 0, fruit: 'Orange' },
-        { color: 4.4, weight: 177, label: 0, fruit: 'Orange' },
-        { color: 3.7, weight: 190, label: 0, fruit: 'Orange' }
+        { color: 4.2, weight: 0.180, label: 0, fruit: 'Orange' },
+        { color: 3.8, weight: 0.195, label: 0, fruit: 'Orange' },
+        { color: 4.9, weight: 0.172, label: 0, fruit: 'Orange' },
+        { color: 3.5, weight: 0.188, label: 0, fruit: 'Orange' },
+        { color: 4.6, weight: 0.175, label: 0, fruit: 'Orange' },
+        { color: 3.2, weight: 0.192, label: 0, fruit: 'Orange' },
+        { color: 4.1, weight: 0.168, label: 0, fruit: 'Orange' },
+        { color: 3.9, weight: 0.185, label: 0, fruit: 'Orange' },
+        { color: 4.4, weight: 0.177, label: 0, fruit: 'Orange' },
+        { color: 3.7, weight: 0.190, label: 0, fruit: 'Orange' }
       ]
     };
 

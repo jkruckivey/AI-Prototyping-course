@@ -13,12 +13,12 @@ class LinearRegressionDemo {
     // Story state
     this.currentStep = 1;
     
-    // Multi-dimensional model parameters (for salary prediction)
+    // Multi-dimensional model parameters (for Canadian salary prediction)
     this.multiDimModel = {
-      experienceCoeff: 5.5,   // $5.5k per year of experience
-      educationCoeff: 8.2,    // $8.2k per education level
-      locationCoeff: 3.1,     // $3.1k per location score point
-      baseIntercept: 28       // Base salary of $28k
+      experienceCoeff: 7.3,   // $7.3k CAD per year of experience
+      educationCoeff: 10.9,   // $10.9k CAD per education level
+      locationCoeff: 4.1,     // $4.1k CAD per location score point
+      baseIntercept: 37       // Base salary of $37k CAD
     };
     
     this.initializeControls();
