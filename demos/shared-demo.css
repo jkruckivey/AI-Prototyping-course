@@ -23,6 +23,17 @@
   --shadow-sm:0 2px 8px rgba(0,0,0,.06);
   --radius:16px;
   --card-transition-duration:.6s;
+
+  /* Accessibility additions */
+  --ivey-purple-text: #49246a; /* Darker purple for text on light backgrounds */
+  --ivey-gray-text: #505356;   /* Darker gray for subtitles and labels */
+  --apple-red-text: #b91c1c;   /* Darker red for text on light backgrounds */
+  --orange-text: #c2410c;    /* Darker orange for text on light backgrounds */
+  --male-blue-text: #2563eb;  /* Darker blue for text on light backgrounds */
+  --female-pink-text: #db2777; /* Darker pink for text on light backgrounds */
+  --good-fit-text: #166534; /* Darker green for text on light backgrounds */
+  --bad-fit-text: #991b1b; /* Darker red for text on light backgrounds */
+  --good-green-text: #166534; /* Darker green for text on light backgrounds */
 }
 
 /* Reset & base */
@@ -72,7 +83,7 @@ body{
   font-size:clamp(2rem, 4vw, 3rem);
 }
 .site-subtitle{ 
-  color:var(--ivey-gray-10); 
+  color:var(--ivey-gray-text); 
   margin:.5rem 0 0 0;
   font-size:1.2rem;
 }
@@ -296,17 +307,17 @@ body{
 }
 
 .prediction-value.apple {
-  color: var(--apple-red);
+  color: var(--apple-red-text);
   font-weight: 700;
 }
 
 .prediction-value.orange {
-  color: var(--orange-color);
+  color: var(--orange-text);
   font-weight: 700;
 }
 
 .prediction-value.boundary {
-  color: var(--ivey-purple);
+  color: var(--ivey-purple-text);
   font-weight: 700;
 }
 
@@ -322,7 +333,7 @@ body{
 
 .good-fit {
   background: rgba(34, 197, 94, 0.2);
-  color: #22c55e;
+  color: var(--good-fit-text);
   padding: 0.5rem 1rem;
   border-radius: 8px;
   font-weight: 600;
@@ -330,7 +341,7 @@ body{
 
 .bad-fit {
   background: rgba(239, 68, 68, 0.2);
-  color: #ef4444;
+  color: var(--bad-fit-text);
   padding: 0.5rem 1rem;
   border-radius: 8px;
   font-weight: 600;
@@ -491,7 +502,7 @@ body{
 }
 
 .viz-controls p {
-  color: var(--ivey-gray-10);
+  color: var(--ivey-gray-text);
   margin-bottom: 1.5rem;
   line-height: 1.6;
 }
@@ -550,7 +561,7 @@ body{
 
 .control-group small {
   display: block;
-  color: var(--ivey-gray-10);
+  color: var(--ivey-gray-text);
   font-size: 0.85rem;
   margin-top: 0.25rem;
 }
@@ -575,12 +586,12 @@ body{
 
 .metric-label {
   font-weight: 600;
-  color: var(--ivey-gray-10);
+  color: var(--ivey-gray-text);
 }
 
 .metric-value {
   font-weight: 800;
-  color: var(--ivey-purple);
+  color: var(--ivey-purple-text);
   font-size: 1.2rem;
 }
 
@@ -690,7 +701,7 @@ body{
 }
 
 .concept-card p {
-  color: var(--ivey-gray-10);
+  color: var(--ivey-gray-text);
   line-height: 1.6;
   margin: 0;
 }
@@ -1512,20 +1523,20 @@ body{
 .rule-case.high {
   background: rgba(220, 38, 38, 0.1);
   border: 1px solid rgba(220, 38, 38, 0.2);
-  color: #dc2626;
+  color: var(--apple-red-text);
 }
 
 .rule-case.low {
   background: rgba(249, 115, 22, 0.1);
   border: 1px solid rgba(249, 115, 22, 0.2);
-  color: #f97316;
+  color: var(--orange-text);
 }
 
 .threshold-effects {
   display: flex;
   justify-content: space-between;
   font-size: 0.85rem;
-  color: var(--ivey-gray-10);
+  color: var(--ivey-gray-text);
   margin-top: 0.5rem;
 }
 
@@ -1569,12 +1580,12 @@ body{
 
 .confidence {
   font-size: 0.85rem;
-  color: var(--ivey-gray-10);
+  color: var(--ivey-gray-text);
   margin-top: 0.25rem;
 }
 
-.classification.apple { color: #dc2626; }
-.classification.orange { color: #f97316; }
+.classification.apple { color: var(--apple-red-text); }
+.classification.orange { color: var(--orange-text); }
 
 .plot-legend {
   display: flex;
@@ -1717,8 +1728,8 @@ body{
   margin-bottom: 1rem;
 }
 
-.fruit-result.apple { color: #dc2626; }
-.fruit-result.orange { color: #f97316; }
+.fruit-result.apple { color: var(--apple-red-text); }
+.fruit-result.orange { color: var(--orange-text); }
 
 .confidence-display {
   display: grid;
@@ -1775,13 +1786,13 @@ body{
 .quiz-option.correct {
   background: rgba(16, 185, 129, 0.1);
   border-color: #10b981;
-  color: #059669;
+  color: var(--good-green-text);
 }
 
 .quiz-option.incorrect {
   background: rgba(239, 68, 68, 0.1);
   border-color: #ef4444;
-  color: #dc2626;
+  color: var(--apple-red-text);
 }
 
 .quiz-explanation {
@@ -1866,13 +1877,13 @@ body{
 .class-example.male {
   background: rgba(59, 130, 246, 0.2);
   border: 1px solid rgba(59, 130, 246, 0.3);
-  color: var(--male-blue);
+  color: var(--male-blue-text);
 }
 
 .class-example.female {
   background: rgba(236, 72, 153, 0.2);
   border: 1px solid rgba(236, 72, 153, 0.3);
-  color: var(--female-pink);
+  color: var(--female-pink-text);
 }
 
 .neighbor-examples {
@@ -1906,13 +1917,13 @@ body{
 .vote-item.male {
   background: rgba(59, 130, 246, 0.2);
   border: 2px solid var(--male-blue);
-  color: var(--male-blue);
+  color: var(--male-blue-text);
 }
 
 .vote-item.female {
   background: rgba(236, 72, 153, 0.2);
   border: 2px solid var(--female-pink);
-  color: var(--female-pink);
+  color: var(--female-pink-text);
 }
 
 .vote-number {
@@ -1932,21 +1943,21 @@ body{
 }
 
 .prediction-value.male {
-  color: var(--male-blue);
+  color: var(--male-blue-text);
   font-size: 1.5rem;
 }
 
 .prediction-value.female {
-  color: var(--female-pink);
+  color: var(--female-pink-text);
   font-size: 1.5rem;
 }
 
 .metric-value.male {
-  color: var(--male-blue);
+  color: var(--male-blue-text);
 }
 
 .metric-value.female {
-  color: var(--female-pink);
+  color: var(--female-pink-text);
 }
 
 /* Regression Section */

@@ -18,6 +18,10 @@
   --shadow-sm:0 2px 8px rgba(0,0,0,.06);
   --radius:16px;
   --card-transition-duration:.6s;
+
+  /* Accessibility additions */
+  --ivey-purple-text: #49246a; /* Darker purple for text on light backgrounds */
+  --ivey-gray-text: #505356;   /* Darker gray for subtitles and labels */
 }
 
 /* Reset & base */
@@ -65,7 +69,7 @@ body{
   font-size:3rem;
 }
 .site-subtitle{ 
-  color:var(--ivey-gray-10); 
+  color:var(--ivey-gray-text); 
   margin:.5rem 0 0 0;
   font-size:1.2rem;
 }
@@ -250,7 +254,7 @@ body{
 .demo-description {
   font-size: 1rem;
   line-height: 1.6;
-  color: var(--ivey-gray-10);
+  color: var(--ivey-gray-text);
   margin-bottom: 1.5rem;
 }
 
@@ -289,13 +293,13 @@ body{
   display: block;
   font-size: 1.5rem;
   font-weight: 800;
-  color: var(--ivey-purple);
+  color: var(--ivey-purple-text);
   line-height: 1;
 }
 
 .stat-label {
   font-size: 0.75rem;
-  color: var(--ivey-gray-10);
+  color: var(--ivey-gray-text);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-top: 0.25rem;
@@ -315,12 +319,12 @@ body{
 }
 
 .demo-card.coming-soon .demo-header h3 {
-  color: var(--ivey-gray-10);
+  color: var(--ivey-gray-text);
 }
 
 .coming-soon-label {
   display: inline-block;
-  background: var(--ivey-gray-10);
+  background: var(--ivey-gray-text);
   color: white;
   padding: 0.5rem 1rem;
   border-radius: 20px;
@@ -422,7 +426,7 @@ body{
 .info-card li {
   padding: 0.5rem 0;
   border-bottom: 1px solid var(--brand-border);
-  color: var(--ivey-gray-10);
+  color: var(--ivey-gray-text);
   position: relative;
   padding-left: 1.5rem;
 }
@@ -450,7 +454,7 @@ body{
 }
 
 .footer-content {
-  color: var(--ivey-gray-10);
+  color: var(--ivey-gray-text);
 }
 
 .footer-links {

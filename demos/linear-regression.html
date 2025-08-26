@@ -13,208 +13,542 @@
 <body>
   <div class="container">
     <header class="header">
-      <h1 class="site-title">Linear Regression: Interactive Learning</h1>
-      <p class="site-subtitle">Understand how linear regression finds the best-fitting line through data</p>
+      <h1 class="site-title">Linear Regression: Step-by-Step</h1>
+      <p class="site-subtitle">Master prediction through interactive line-fitting</p>
     </header>
 
     <main class="main-content">
-      <!-- Featured Example -->
-      <section class="example-spotlight">
-        <div class="spotlight-header">
-          <h2>📊 Real-World Example: Predicting MBA Salaries</h2>
-          <p>Let's see how linear regression helps predict starting salaries for MBA graduates based on their years of work experience.</p>
+      <!-- Step Navigation -->
+      <section class="step-navigation">
+        <div class="nav-container">
+          <button class="nav-btn active" data-step="1">1. The Problem</button>
+          <button class="nav-btn" data-step="2">2. The Line</button>
+          <button class="nav-btn" data-step="3">3. Finding Best Fit</button>
+          <button class="nav-btn" data-step="4">4. Interactive Model</button>
+          <button class="nav-btn" data-step="5">5. Practice</button>
+        </div>
+      </section>
+
+      <!-- Step 1: The Prediction Problem -->
+      <section class="demo-step active" id="step1">
+        <div class="step-header">
+          <h2>📊 The Prediction Problem</h2>
+          <p class="step-intro">Let's start with a real scenario: predicting MBA salaries based on work experience.</p>
         </div>
         
-        <div class="spotlight-content">
-          <div class="example-story">
-            <div class="story-step active" id="step1">
-              <div class="step-number">1</div>
-              <div class="step-content">
-                <h3>The Everyday Problem</h3>
-                <p><strong>Think of it like this:</strong> You're looking at job postings and wondering "How much should I expect to earn based on my experience?" This is exactly what linear regression helps us figure out!</p>
-                <p>A Canadian MBA program collected real data from 15 graduates. Notice the <strong>pattern</strong> - more experience generally means higher salary:</p>
-                <div class="data-preview">
-                  <span class="data-point">👶 2 years → $56k CAD</span>
-                  <span class="data-point">🚀 5 years → $77k CAD</span>
-                  <span class="data-point">💪 8 years → $100k CAD</span>
-                  <span class="data-point">🏆 12 years → $140k CAD</span>
-                </div>
-                <p><em>But how do we predict salaries for 6 years, 10 years, or any experience level?</em></p>
+        <div class="step-content">
+          <div class="problem-explanation">
+            <div class="scenario-box">
+              <h3>💼 Real-World Scenario</h3>
+              <p>You're a Canadian MBA student wondering: <strong>"How much should I expect to earn based on my work experience?"</strong></p>
+              
+              <div class="key-insight">
+                <strong>🔍 Key Insight:</strong> Unlike classification (apple vs orange), here we want to predict a <em>continuous number</em> - the salary amount.
               </div>
             </div>
-            
-            <div class="story-step" id="step2">
-              <div class="step-number">2</div>
-              <div class="step-content">
-                <h3>Drawing a Line Through the Dots</h3>
-                <p><strong>Imagine this:</strong> You have dots scattered on a graph and you want to draw the "best" straight line through them. That line becomes your salary predictor!</p>
-                <p>Every straight line needs just <strong>2 numbers</strong> to describe it completely:</p>
-                <div class="line-explanation">
-                  <div class="line-param">
-                    <strong>📈 Slope:</strong> How steep is the line? 
-                    <br><em>Example: "$7,300 CAD more salary per year of experience"</em>
-                  </div>
-                  <div class="line-param">
-                    <strong>📍 Y-intercept:</strong> Where does the line cross the Y-axis?
-                    <br><em>Example: "$37,000 CAD starting salary with 0 years experience"</em>
-                  </div>
-                </div>
-                <p><strong>The magic:</strong> Once we find these 2 numbers, we can predict ANY salary!</p>
-              </div>
-            </div>
-            
-            <div class="story-step" id="step3">
-              <div class="step-number">3</div>
-              <div class="step-content">
-                <h3>Finding the Perfect Line</h3>
-                <p><strong>Here's the challenge:</strong> There are infinite ways to draw a line through dots. How do we find the "best" one?</p>
-                <p><strong>Think of it like archery:</strong> We measure how far each prediction "misses" the actual salary. The line with the smallest total "miss" wins!</p>
-                <div class="mse-visual">
-                  <div class="archery-analogy">
-                    <div class="shot-example">
-                      <strong>🎯 Good Line:</strong> Predictions close to actual salaries
-                      <br><em>Average miss: Only $200 CAD off per person</em>
+
+            <div class="data-explanation">
+              <h3>📈 Our Dataset</h3>
+              <div class="feature-explanations">
+                <div class="feature-explanation">
+                  <strong>📊 The Pattern:</strong>
+                  <p>A Canadian MBA program collected data from 15 recent graduates:</p>
+                  <div class="data-preview">
+                    <div class="data-point-example">
+                      <span class="experience">👶 1 year:</span> <span class="salary">$35k CAD</span>
                     </div>
-                    <div class="shot-example bad">
-                      <strong>❌ Bad Line:</strong> Predictions far from actual salaries
-                      <br><em>Average miss: $1,600 CAD off per person</em>
+                    <div class="data-point-example">
+                      <span class="experience">🚀 5 years:</span> <span class="salary">$58k CAD</span>
+                    </div>
+                    <div class="data-point-example">
+                      <span class="experience">💪 10 years:</span> <span class="salary">$90k CAD</span>
+                    </div>
+                    <div class="data-point-example">
+                      <span class="experience">🏆 15 years:</span> <span class="salary">$120k CAD</span>
                     </div>
                   </div>
                 </div>
-                <p><strong>MSE (Mean Squared Error)</strong> is our "accuracy score" - lower is better!</p>
+                
+                <div class="feature-explanation">
+                  <strong>🤔 The Challenge:</strong>
+                  <p>How do we predict salaries for any experience level?</p>
+                  <div class="challenge-examples">
+                    <div class="challenge-item">6 years experience → <strong>? CAD</strong></div>
+                    <div class="challenge-item">8.5 years experience → <strong>? CAD</strong></div>
+                    <div class="challenge-item">12 years experience → <strong>? CAD</strong></div>
+                  </div>
+                </div>
               </div>
             </div>
-            
-            <div class="story-step" id="step4">
-              <div class="step-number">4</div>
-              <div class="step-content">
-                <h3>Making Predictions</h3>
-                <p>Once trained, we can predict salaries for new students:</p>
+
+            <div class="solution-preview">
+              <h3>💡 The Linear Regression Solution</h3>
+              <div class="solution-explanation">
+                <p><strong>The Big Idea:</strong> Find the straight line that best fits through all our data points. This line becomes our salary predictor!</p>
+                
+                <div class="line-benefits">
+                  <div class="benefit">
+                    <strong>✅ Simple:</strong> Just a straight line equation
+                  </div>
+                  <div class="benefit">
+                    <strong>✅ Interpretable:</strong> We can explain what it means
+                  </div>
+                  <div class="benefit">
+                    <strong>✅ Predictive:</strong> Works for any experience level
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-actions">
+          <button class="btn btn-primary next-step" data-next="2">Next: Understanding the Line →</button>
+        </div>
+      </section>
+
+      <!-- Step 2: Understanding the Line -->
+      <section class="demo-step" id="step2">
+        <div class="step-header">
+          <h2>📏 Understanding the Line</h2>
+          <p class="step-intro">Every straight line has just two parameters that control everything about it</p>
+        </div>
+        
+        <div class="step-content">
+          <div class="line-explanation">
+            <div class="line-formula">
+              <h3>📐 The Line Equation</h3>
+              <div class="formula-box">
+                <div class="formula">Salary = Slope × Experience + Intercept</div>
+                <div class="formula-explanation">
+                  This simple equation can predict any salary!
+                </div>
+              </div>
+            </div>
+
+            <div class="parameter-explanation">
+              <div class="param-details">
+                <div class="param-section">
+                  <h4>📈 Slope: How much salary increases per year</h4>
+                  <div class="param-concept">
+                    <p><strong>What it means:</strong> For every additional year of experience, how much does salary go up?</p>
+                    
+                    <div class="slope-examples">
+                      <div class="slope-example">
+                        <strong>Steep Slope (7.3):</strong>
+                        <div class="example-calc">Each year of experience = +$7,300 CAD</div>
+                        <div class="interpretation">🚀 Experience really pays off!</div>
+                      </div>
+                      
+                      <div class="slope-example">
+                        <strong>Gentle Slope (2.1):</strong>
+                        <div class="example-calc">Each year of experience = +$2,100 CAD</div>
+                        <div class="interpretation">😐 Experience helps, but not dramatically</div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="slope-analogy">
+                    <h5>🏔️ Mountain Analogy:</h5>
+                    <div class="analogy-explanation">
+                      <div class="steep-mountain">
+                        <strong>Steep mountain (high slope):</strong> Salary climbs quickly with experience
+                      </div>
+                      <div class="gentle-hill">
+                        <strong>Gentle hill (low slope):</strong> Salary increases slowly with experience
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="param-section">
+                  <h4>📍 Intercept: Starting salary with zero experience</h4>
+                  <div class="param-concept">
+                    <p><strong>What it means:</strong> If someone had 0 years of experience, what would their salary be?</p>
+                    
+                    <div class="intercept-examples">
+                      <div class="intercept-example">
+                        <strong>High Intercept ($45k):</strong>
+                        <div class="example-calc">Even with 0 experience = $45,000 CAD</div>
+                        <div class="interpretation">💼 Strong base salary</div>
+                      </div>
+                      
+                      <div class="intercept-example">
+                        <strong>Low Intercept ($25k):</strong>
+                        <div class="example-calc">With 0 experience = $25,000 CAD</div>
+                        <div class="interpretation">📚 Need experience to earn well</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="interactive-demo">
+              <h3>🎮 Try Different Lines</h3>
+              <div class="line-controls">
+                <div class="control-group">
+                  <label for="demo-slope">Slope ($/year): <span id="demoSlopeValue">5.0</span></label>
+                  <input type="range" id="demo-slope" min="1" max="10" step="0.5" value="5.0">
+                  <div class="control-explanation">
+                    <span class="low-slope">Gentle ←</span>
+                    <span class="high-slope">→ Steep</span>
+                  </div>
+                </div>
+                
+                <div class="control-group">
+                  <label for="demo-intercept">Intercept ($k): <span id="demoInterceptValue">35</span></label>
+                  <input type="range" id="demo-intercept" min="20" max="50" step="2" value="35">
+                  <div class="control-explanation">
+                    <span class="low-intercept">Low starting salary ←</span>
+                    <span class="high-intercept">→ High starting salary</span>
+                  </div>
+                </div>
+                
                 <div class="prediction-examples">
-                  <div class="prediction-example">
-                    <strong>6 years experience →</strong> <span class="prediction-value">$65,000</span>
-                  </div>
-                  <div class="prediction-example">
-                    <strong>10 years experience →</strong> <span class="prediction-value">$87,000</span>
+                  <h4>🔮 Sample Predictions:</h4>
+                  <div class="sample-predictions">
+                    <div class="sample-prediction">5 years: <span id="pred5years">$60k</span></div>
+                    <div class="sample-prediction">10 years: <span id="pred10years">$85k</span></div>
+                    <div class="sample-prediction">15 years: <span id="pred15years">$110k</span></div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          
-          <div class="story-controls">
-            <button class="btn btn-outline story-btn" data-step="1">Problem</button>
-            <button class="btn btn-outline story-btn" data-step="2">Approach</button>
-            <button class="btn btn-outline story-btn" data-step="3">Training</button>
-            <button class="btn btn-outline story-btn" data-step="4">Prediction</button>
-          </div>
+        </div>
+
+        <div class="step-actions">
+          <button class="btn btn-outline prev-step" data-prev="1">← Back</button>
+          <button class="btn btn-primary next-step" data-next="3">Next: Finding the Best Fit →</button>
         </div>
       </section>
 
-      <!-- Interactive Visualization -->
-      <section class="viz-section">
-        <div class="viz-controls">
-          <h2>🎯 Try It Yourself</h2>
-          <p>Using the MBA salary data above, adjust the parameters to find the best-fitting line:</p>
-          
-          <div class="connection-note">
-            💡 <strong>This is the same data from our example!</strong> Can you beat the algorithm?
-          </div>
-          
-          <div class="control-group">
-            <label for="slope">Slope (β): <span id="slopeValue">1.0</span></label>
-            <input type="range" id="slope" min="0.5" max="3.0" step="0.1" value="1.0">
-          </div>
-          
-          <div class="control-group">
-            <label for="intercept">Intercept (ε): <span id="interceptValue">20</span></label>
-            <input type="range" id="intercept" min="10" max="50" step="1" value="20">
-          </div>
-          
-          <div class="metrics">
-            <div class="metric">
-              <span class="metric-label">Mean Squared Error:</span>
-              <span id="mse" class="metric-value">0</span>
-            </div>
-            <button id="findBestFit" class="btn btn-primary">Find Best Fit Automatically</button>
-          </div>
+      <!-- Step 3: Finding Best Fit -->
+      <section class="demo-step" id="step3">
+        <div class="step-header">
+          <h2>🎯 Finding the Best Fit</h2>
+          <p class="step-intro">Learn how we determine the optimal slope and intercept</p>
         </div>
-
-        <div class="plot-container">
-          <div id="scatterPlot"></div>
-        </div>
-      </section>
-
-      <!-- Concepts Explanation -->
-      <section class="concepts-section">
-        <h2>📚 Key Concepts</h2>
         
-        <div class="concept-grid">
-          <div class="concept-card">
-            <h3>Parameters</h3>
-            <p><strong>β (slope)</strong> and <strong>ε (intercept)</strong> are learned by the model during training. The algorithm adjusts these values to minimize prediction errors.</p>
-          </div>
+        <div class="step-content">
+          <div class="best-fit-explanation">
+            <div class="problem-setup">
+              <h3>🤔 The Challenge</h3>
+              <div class="challenge-visual">
+                <p><strong>Infinite possibilities:</strong> We could draw countless different lines through our data points. But which one is "best"?</p>
+                
+                <div class="line-comparison">
+                  <div class="line-option good">
+                    <strong>✅ Good Line:</strong>
+                    <div class="line-description">Close to most data points</div>
+                    <div class="line-accuracy">Average error: $1,200 CAD</div>
+                  </div>
+                  
+                  <div class="line-option bad">
+                    <strong>❌ Bad Line:</strong>
+                    <div class="line-description">Far from many data points</div>
+                    <div class="line-accuracy">Average error: $8,500 CAD</div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-          <div class="concept-card">
-            <h3>Loss Function (MSE)</h3>
-            <p><strong>Mean Squared Error</strong> measures how far predictions are from actual values. We square errors so positive and negative errors don't cancel out.</p>
-          </div>
+            <div class="mse-explanation">
+              <h3>📊 Meet MSE: Mean Squared Error</h3>
+              <div class="mse-concept">
+                <p><strong>The idea:</strong> Measure how far our predictions are from the actual salaries, then find the line that minimizes this error.</p>
+                
+                <div class="mse-process">
+                  <div class="mse-step">
+                    <strong>Step 1:</strong> For each person, calculate error
+                    <div class="error-example">Predicted $65k, Actual $62k → Error = $3k</div>
+                  </div>
+                  
+                  <div class="mse-step">
+                    <strong>Step 2:</strong> Square all errors (to avoid negatives)
+                    <div class="error-example">($3k)² = $9k²</div>
+                  </div>
+                  
+                  <div class="mse-step">
+                    <strong>Step 3:</strong> Take the average
+                    <div class="error-example">MSE = Average of all squared errors</div>
+                  </div>
+                </div>
+                
+                <div class="mse-insight">
+                  <strong>💡 The Magic:</strong> The line with the lowest MSE is mathematically the "best" line!
+                </div>
+              </div>
+            </div>
 
-          <div class="concept-card">
-            <h3>Optimization</h3>
-            <p>The training process iteratively adjusts parameters to <strong>minimize the loss function</strong>, finding the best-fitting line through the data.</p>
-          </div>
+            <div class="optimization-explanation">
+              <h3>🔬 The Mathematical Solution</h3>
+              <div class="math-approach">
+                <p>Fortunately, mathematicians figured out the exact formulas to find the best slope and intercept automatically!</p>
+                
+                <div class="formula-benefits">
+                  <div class="benefit">
+                    <strong>🚀 Fast:</strong> Calculates instantly, no guessing
+                  </div>
+                  <div class="benefit">
+                    <strong>🎯 Optimal:</strong> Guaranteed to find the absolute best line
+                  </div>
+                  <div class="benefit">
+                    <strong>📐 Exact:</strong> No approximation needed
+                  </div>
+                </div>
+                
+                <div class="auto-fit-demo">
+                  <h4>🤖 Try Auto-Fit</h4>
+                  <p>Watch the algorithm find the perfect line for our MBA salary data:</p>
+                  <button id="demoAutoFit" class="btn btn-secondary">Find Optimal Line</button>
+                  <div class="auto-fit-results">
+                    <div class="result-display">
+                      <div class="optimal-params">
+                        <div class="param-result">Optimal Slope: <span id="optimalSlope">--</span></div>
+                        <div class="param-result">Optimal Intercept: <span id="optimalIntercept">--</span></div>
+                        <div class="param-result">Best MSE: <span id="optimalMSE">--</span></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-          <div class="concept-card">
-            <h3>Dimensionality</h3>
-            <p><strong>1D:</strong> One feature (line)<br><strong>2D:</strong> Two features (plane)<br><strong>N-D:</strong> Multiple features (hyperplane)</p>
+            <div class="real-world-note">
+              <h3>🌎 Real-World Applications</h3>
+              <div class="applications-grid">
+                <div class="application">
+                  <strong>🏠 Real Estate:</strong> Predict house prices from size
+                </div>
+                <div class="application">
+                  <strong>📈 Finance:</strong> Model stock returns vs market performance
+                </div>
+                <div class="application">
+                  <strong>🏥 Healthcare:</strong> Predict treatment costs from patient factors
+                </div>
+                <div class="application">
+                  <strong>🚗 Marketing:</strong> Forecast sales from advertising spend
+                </div>
+              </div>
+            </div>
           </div>
+        </div>
+
+        <div class="step-actions">
+          <button class="btn btn-outline prev-step" data-prev="2">← Back</button>
+          <button class="btn btn-primary next-step" data-next="4">Next: Interactive Model →</button>
         </div>
       </section>
 
-      <!-- Multi-Dimensional Demo -->
-      <section class="multi-dim-section">
-        <h2>🌐 Multi-Dimensional Regression</h2>
-        <div class="dimension-examples">
-          <div class="dimension-example">
-            <h3>1-Dimensional</h3>
-            <p><strong>Example:</strong> Salary = β₁ × Experience + ε</p>
-            <p>Uses one feature to predict outcome</p>
-          </div>
+      <!-- Step 4: Interactive Model -->
+      <section class="demo-step" id="step4">
+        <div class="step-header">
+          <h2>🎮 Interactive Model</h2>
+          <p class="step-intro">Explore the full linear regression model with real data</p>
+        </div>
+        
+        <div class="step-content">
+          <div class="interactive-model">
+            <div class="model-controls">
+              <h3>🎛️ Adjust the Line Parameters</h3>
+              <p>Try different slopes and intercepts to see how they affect the model's accuracy:</p>
+              
+              <div class="control-section">
+                <div class="control-group">
+                  <label for="slope">Slope ($ per year): <span id="slopeValue">7.3</span></label>
+                  <input type="range" id="slope" min="1.0" max="15.0" step="0.1" value="7.3">
+                  <div class="control-hint">How much salary increases per year of experience</div>
+                </div>
+                
+                <div class="control-group">
+                  <label for="intercept">Intercept ($k CAD): <span id="interceptValue">37</span></label>
+                  <input type="range" id="intercept" min="20" max="60" step="1" value="37">
+                  <div class="control-hint">Starting salary with 0 years experience</div>
+                </div>
+                
+                <div class="metrics-display">
+                  <div class="metric">
+                    <span class="metric-label">Current MSE:</span>
+                    <span class="metric-value" id="currentMSE">245.2</span>
+                  </div>
+                  <div class="metric">
+                    <span class="metric-label">Model Equation:</span>
+                    <span class="equation-display" id="currentEquation">Salary = 7.3 × Experience + 37</span>
+                  </div>
+                </div>
+                
+                <button id="findBestFit" class="btn btn-primary">🎯 Find Optimal Parameters</button>
+              </div>
+            </div>
 
-          <div class="dimension-example">
-            <h3>3-Dimensional</h3>
-            <p><strong>Example:</strong> Height = β₁ × Arm Length + β₂ × Sex + β₃ × Athletic + ε</p>
-            <p>Uses three features, fits a plane through 3D space</p>
-          </div>
+            <div class="visualization-area">
+              <div class="plot-container">
+                <div id="regressionPlot"></div>
+              </div>
+              
+              <div class="plot-legend">
+                <div class="legend-explanation">
+                  <div class="legend-item">
+                    <span class="data-point">🔴 Red dots:</span> Actual MBA graduate salaries
+                  </div>
+                  <div class="legend-item">
+                    <span class="line-item">📈 Blue line:</span> Your prediction line
+                  </div>
+                  <div class="legend-item">
+                    <span class="error-item">⚫ Gray lines:</span> Prediction errors
+                  </div>
+                </div>
+              </div>
+            </div>
 
-          <div class="dimension-example">
-            <h3>N-Dimensional</h3>
-            <p><strong>Example:</strong> House Price = β₁ × Size + β₂ × Location + ... + βₙ × Age + ε</p>
-            <p>Uses many features, fits a hyperplane through high-dimensional space</p>
+            <div class="model-insights">
+              <h3>🔍 Model Insights</h3>
+              <div class="insights-grid">
+                <div class="insight-card">
+                  <h4>📊 Current Performance</h4>
+                  <div class="performance-details">
+                    <div class="perf-item">MSE: <span id="perfMSE">245.2</span></div>
+                    <div class="perf-item">Avg Error: <span id="perfAvgError">$15.7k</span></div>
+                    <div class="perf-interpretation" id="perfInterpretation">Pretty good fit!</div>
+                  </div>
+                </div>
+                
+                <div class="insight-card">
+                  <h4>💡 What This Means</h4>
+                  <div class="interpretation-text" id="modelInterpretation">
+                    With current parameters, each year of experience adds $7,300 to salary, starting from a base of $37,000.
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div class="multi-dim-controls">
-          <h3>🔧 Try Multi-Dimensional Prediction</h3>
-          <div class="prediction-form">
-            <div class="input-group">
-              <label>Experience (years):</label>
-              <input type="number" id="experience" value="5" min="0" max="20">
+        <div class="step-actions">
+          <button class="btn btn-outline prev-step" data-prev="3">← Back</button>
+          <button class="btn btn-primary next-step" data-next="5">Next: Practice Time →</button>
+        </div>
+      </section>
+
+      <!-- Step 5: Practice -->
+      <section class="demo-step" id="step5">
+        <div class="step-header">
+          <h2>🚀 Practice Your Skills</h2>
+          <p class="step-intro">Test your understanding with prediction challenges</p>
+        </div>
+        
+        <div class="step-content">
+          <div class="practice-section">
+            <div class="salary-predictor">
+              <h3>💰 MBA Salary Predictor</h3>
+              <div class="predictor-interface">
+                <div class="input-section">
+                  <h4>Enter work experience:</h4>
+                  <div class="input-group">
+                    <label for="experienceInput">Years of Experience:</label>
+                    <input type="number" id="experienceInput" value="6" min="0" max="25" step="0.5">
+                    <div class="input-hint">Range: 0-25 years</div>
+                  </div>
+                  
+                  <button id="makePrediction" class="btn btn-primary">Predict Salary 🔮</button>
+                </div>
+
+                <div class="prediction-display">
+                  <div class="prediction-result">
+                    <div class="prediction-header">
+                      <h4>Salary Prediction</h4>
+                    </div>
+                    
+                    <div class="calculation-steps">
+                      <div class="calc-step">
+                        <strong>1. Apply the formula:</strong>
+                        <div class="formula-application">
+                          Salary = <span id="currentSlopeDisplay">7.3</span> × <span id="inputExperience">6</span> + <span id="currentInterceptDisplay">37</span>
+                        </div>
+                      </div>
+                      
+                      <div class="calc-step">
+                        <strong>2. Calculate:</strong>
+                        <div class="calculation-work">
+                          = <span id="slopeProduct">43.8</span> + <span id="interceptAmount">37</span>
+                        </div>
+                      </div>
+                      
+                      <div class="calc-step final">
+                        <strong>3. Final Prediction:</strong>
+                        <div class="final-prediction">
+                          <span id="finalSalaryPrediction">$80,800</span> CAD
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="confidence-info">
+                      <div class="confidence-note">
+                        <strong>📊 Model Accuracy:</strong> Based on our current MSE of <span id="practiceCurrentMSE">245.2</span>, predictions are typically within ±<span id="typicalError">$15.7k</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="input-group">
-              <label>Education Level (1-5):</label>
-              <input type="number" id="education" value="3" min="1" max="5">
+
+            <div class="understanding-quiz">
+              <h3>🧠 Understanding Check</h3>
+              <div class="quiz-questions">
+                <div class="quiz-question">
+                  <h4>Question: If the slope increases from 7.3 to 10.0, what happens?</h4>
+                  <div class="quiz-options">
+                    <button class="quiz-option" data-correct="false">All salaries decrease</button>
+                    <button class="quiz-option" data-correct="true">Experience becomes more valuable</button>
+                    <button class="quiz-option" data-correct="false">The line becomes less accurate</button>
+                  </div>
+                  <div class="quiz-explanation hidden">
+                    <strong>Correct!</strong> A higher slope means each year of experience adds more to the salary. The relationship between experience and pay becomes stronger.
+                  </div>
+                </div>
+
+                <div class="quiz-question">
+                  <h4>Question: What does a high intercept (like $50k) indicate?</h4>
+                  <div class="quiz-options">
+                    <button class="quiz-option" data-correct="false">Experience doesn't matter</button>
+                    <button class="quiz-option" data-correct="true">Strong base salary even with no experience</button>
+                    <button class="quiz-option" data-correct="false">The model is inaccurate</button>
+                  </div>
+                  <div class="quiz-explanation hidden">
+                    <strong>Exactly!</strong> A high intercept means even someone with 0 years of experience would earn a substantial salary. This could indicate strong market demand or high starting wages in the field.
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="input-group">
-              <label>Location Score (1-10):</label>
-              <input type="number" id="location" value="7" min="1" max="10">
-            </div>
-            <button id="predictSalary" class="btn btn-secondary">Predict Salary</button>
-            <div class="prediction-result">
-              <strong>Predicted Salary: $<span id="salaryPrediction">0</span></strong>
+
+            <div class="key-takeaways">
+              <h3>🎓 Key Takeaways</h3>
+              <div class="takeaway-list">
+                <div class="takeaway">
+                  <strong>📈 Linear Relationship:</strong> Assumes a straight-line relationship between input and output
+                </div>
+                <div class="takeaway">
+                  <strong>📏 Two Parameters:</strong> Slope controls steepness, intercept controls starting point
+                </div>
+                <div class="takeaway">
+                  <strong>🎯 MSE Optimization:</strong> Finds the line that minimizes prediction errors
+                </div>
+                <div class="takeaway">
+                  <strong>🔮 Simple Predictions:</strong> Just plug values into: y = slope × x + intercept
+                </div>
+                <div class="takeaway">
+                  <strong>🌍 Widely Applicable:</strong> Works for many real-world prediction problems
+                </div>
+              </div>
             </div>
           </div>
+        </div>
+
+        <div class="step-actions">
+          <button class="btn btn-outline prev-step" data-prev="4">← Back</button>
+          <button class="btn btn-secondary" onclick="location.reload()">🔄 Start Over</button>
         </div>
       </section>
     </main>
