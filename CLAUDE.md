@@ -113,3 +113,13 @@ git push
 - Follow existing naming conventions and file structure
 - Update this CLAUDE.md file when making significant changes
 - Shared CSS approach means style changes affect all demos
+
+## Changelog
+
+### 2025-08-26: Accessibility Update - Color Contrast
+- **Objective**: Improve readability and accessibility by fixing color contrast issues across the application.
+- **Changes**:
+  - Introduced new, higher-contrast color variables in `styles.css` and `demos/shared-demo.css` for text and UI elements.
+  - Updated CSS rules to use the new color variables, ensuring compliance with WCAG AA standards.
+  - Affected elements include subtitles, labels, metric values, and various colored text elements within the interactive demos.
+  - The new colors are darker shades of the original brand palette to maintain the visual identity while improving readability.

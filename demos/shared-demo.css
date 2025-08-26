@@ -199,6 +199,10 @@ body{
   font-size: 1.5rem;
   font-weight: 800;
   margin-bottom: 1rem;
+  color: var(--ivey-green);
+}
+
+.example-spotlight .step-content h3 {
   color: white;
 }
 
