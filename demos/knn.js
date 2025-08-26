@@ -408,17 +408,6 @@ class KNNDemo {
   startStoryNavigation() {
     this.currentStep = 1;
     this.showStep(1);
-    
-    // Auto-advance through steps every 10 seconds
-    setInterval(() => {
-      if (this.currentStep < 4) {
-        this.currentStep++;
-        this.showStep(this.currentStep);
-      } else {
-        this.currentStep = 1;
-        this.showStep(1);
-      }
-    }, 10000);
   }
 
   showStep(stepNumber) {

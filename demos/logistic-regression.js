@@ -377,17 +377,6 @@ class LogisticRegressionDemo {
   startStoryNavigation() {
     this.currentStep = 1;
     this.showStep(1);
-    
-    // Auto-advance through steps every 8 seconds
-    setInterval(() => {
-      if (this.currentStep < 4) {
-        this.currentStep++;
-        this.showStep(this.currentStep);
-      } else {
-        this.currentStep = 1;
-        this.showStep(1);
-      }
-    }, 8000);
   }
 
   showStep(stepNumber) {

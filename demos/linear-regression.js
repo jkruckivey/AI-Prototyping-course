@@ -65,8 +65,8 @@ class LinearRegressionDemo {
       });
     });
 
-    // Auto-advance story every 4 seconds
-    this.startAutoAdvance();
+    // Show first step by default
+    this.showStoryStep(1);
   }
 
   showStoryStep(step) {
@@ -89,13 +89,6 @@ class LinearRegressionDemo {
     this.currentStep = step;
   }
 
-  startAutoAdvance() {
-    // Auto-advance through story steps
-    setInterval(() => {
-      this.currentStep = (this.currentStep % 4) + 1;
-      this.showStoryStep(this.currentStep);
-    }, 6000); // Change every 6 seconds
-  }
 
   calculatePredictions() {
     return this.data.x.map(x => this.slope * x + this.intercept);
