@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>K-Nearest Neighbors Interactive Simulation</title>
+  <link rel="stylesheet" href="shared-demo.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1 class="site-title">K-Nearest Neighbors: Interactive Simulation</h1>
+      <p class="site-subtitle">An interactive simulation of the K-Nearest Neighbors algorithm.</p>
+    </header>
+
+    <main class="main-content">
+      <!-- Interactive Visualization -->
+      <section class="viz-section">
+        <div class="viz-controls">
+          <h2>🎯 Interactive KNN Classification</h2>
+          <p>Adjust K and test different heights to see how KNN classifies new data points:</p>
+          
+          <div class="connection-note">
+            💡 <strong>Watch how changing K affects predictions!</strong> Small K = more sensitive, Large K = smoother boundaries
+          </div>
+          
+          <div class="control-group">
+            <label for="kValue">Number of Neighbors (K): <span id="kValueDisplay">5</span></label>
+            <input type="range" id="kValue" min="1" max="15" step="1" value="5">
+            <small>K=1 uses only closest neighbor, K=15 uses many neighbors</small>
+          </div>
+          
+          <div class="control-group">
+            <label for="newHeight">Test Height (cm): <span id="newHeightDisplay">179</span></label>
+            <input type="range" id="newHeight" min="150" max="200" step="0.5" value="179">
+            <small>Drag to see real-time classification</small>
+          </div>
+          
+          <div class="metrics">
+            <div class="metric">
+              <span class="metric-label">Predicted Gender:</span>
+              <span id="predictedGender" class="metric-value">Male</span>
+            </div>
+            <div class="metric">
+              <span class="metric-label">Confidence:</span>
+              <span id="confidence" class="metric-value">80%</span>
+            </div>
+            <div class="metric">
+              <span class="metric-label">Closest Distance:</span>
+              <span id="closestDistance" class="metric-value">0.5cm</span>
+            </div>
+            <button id="addDataPoint" class="btn btn-primary">Add This Point to Dataset</button>
+          </div>
+        </div>
+
+        <div class="plot-container">
+          <div id="knnPlot"></div>
+        </div>
+      </section>
+
+      <!-- KNN for Regression Example -->
+      <section class="regression-section">
+        <h2>📊 KNN for Regression: Predicting Chest Circumference</h2>
+        
+        <div class="regression-content">
+          <div class="regression-explanation">
+            <h3>🔧 How KNN Regression Works</h3>
+            <p>Instead of voting on classes, KNN regression <strong>averages the values</strong> of the K nearest neighbors.</p>
+            
+            <div class="regression-example">
+              <div class="regression-step">
+                <strong>Example:</strong> Predict chest circumference for someone who is 180cm tall
+              </div>
+              <div class="regression-neighbors">
+                <div class="neighbor-data">
+                  <span class="neighbor-height">179cm</span> → <span class="neighbor-chest">52cm chest</span>
+                </div>
+                <div class="neighbor-data">
+                  <span class="neighbor-height">181cm</span> → <span class="neighbor-chest">55cm chest</span>
+                </div>
+                <div class="neighbor-data">
+                  <span class="neighbor-height">178cm</span> → <span class="neighbor-chest">51cm chest</span>
+                </div>
+              </div>
+              <div class="regression-calculation">
+                <strong>Average:</strong> (52 + 55 + 51) ÷ 3 = <span class="result-value">52.7cm</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="regression-interactive">
+            <h3>🎯 Try KNN Regression</h3>
+            <div class="regression-controls">
+              <div class="control-group">
+                <label for="regressionHeight">Height for Prediction: <span id="regressionHeightDisplay">180</span>cm</label>
+                <input type="range" id="regressionHeight" min="150" max="200" step="1" value="180">
+              </div>
+              
+              <div class="control-group">
+                <label for="regressionK">K for Regression: <span id="regressionKDisplay">3</span></label>
+                <input type="range" id="regressionK" min="1" max="10" step="1" value="3">
+              </div>
+              
+              <div class="regression-result">
+                <strong>Predicted Chest Circumference: <span id="predictedChest">52.7</span>cm</strong>
+                <div class="regression-neighbors-display" id="regressionNeighbors"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="knn-simple.js"></script>
+</body>
+</html>

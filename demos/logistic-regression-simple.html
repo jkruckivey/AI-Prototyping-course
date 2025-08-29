@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logistic Regression Interactive Simulation</title>
+  <link rel="stylesheet" href="shared-demo.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1 class="site-title">Logistic Regression: Interactive Simulation</h1>
+      <p class="site-subtitle">An interactive simulation of a logistic regression model.</p>
+    </header>
+
+    <main class="main-content">
+        <section class="demo-step active" id="step4">
+            <div class="step-header">
+              <h2>🎯 From Probabilities to Classifications</h2>
+              <p class="step-intro">Learn how we convert sigmoid outputs into final decisions</p>
+            </div>
+            
+            <div class="step-content">
+              <div class="classification-process">
+                <div class="threshold-explanation">
+                  <h3>🎚️ The Decision Threshold</h3>
+                  <div class="threshold-concept">
+                    <p>The sigmoid gives us probabilities, but we need clear yes/no decisions. Enter the <strong>threshold</strong>!</p>
+                    
+                    <div class="threshold-demo">
+                      <div class="threshold-rule">
+                        <h4>📏 The Rule:</h4>
+                        <div class="rule-box">
+                          <div class="rule-case high">
+                            <strong>If probability ≥ threshold:</strong> Classify as Apple 🍎
+                          </div>
+                          <div class="rule-case low">
+                            <strong>If probability < threshold:</strong> Classify as Orange 🍊
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div class="threshold-adjuster">
+                        <label for="threshold">Decision Threshold: <span id="thresholdValue">0.5</span></label>
+                        <input type="range" id="threshold" min="0.1" max="0.9" step="0.05" value="0.5">
+                        <div class="threshold-effects">
+                          <div class="effect low-thresh">Lower → More apples classified</div>
+                          <div class="effect high-thresh">Higher → More oranges classified</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+    
+                <div class="visualization-section">
+                  <h3>📊 Live Classification Plot</h3>
+                  <div class="plot-explanation">
+                    <p>Watch how changing parameters affects the classification of our fruit dataset:</p>
+                    <div class="plot-legend">
+                      <span class="legend-item apple">🍎 Classified as Apple</span>
+                      <span class="legend-item orange">🍊 Classified as Orange</span>
+                      <span class="legend-item boundary">🎯 Decision Boundary</span>
+                    </div>
+                  </div>
+                  <div class="classification-plot">
+                    <div id="classificationPlot"></div>
+                  </div>
+                  
+                  <div class="plot-metrics">
+                    <div class="metric-box">
+                      <div class="metric">
+                        <span class="metric-label">Total Accuracy:</span>
+                        <span class="metric-value" id="accuracy">85%</span>
+                      </div>
+                      <div class="metric">
+                        <span class="metric-label">Apples Correct:</span>
+                        <span class="metric-value apple" id="applesCorrect">12/15</span>
+                      </div>
+                      <div class="metric">
+                        <span class="metric-label">Oranges Correct:</span>
+                        <span class="metric-value orange" id="orangesCorrect">10/12</span>
+                      </div>
+                    </div>
+                    <button id="optimizeParams" class="btn btn-secondary">Find Best Parameters</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </section>
+    </main>
+  </div>
+
+  <script src="logistic-regression-simple.js"></script>
+</body>
+</html>

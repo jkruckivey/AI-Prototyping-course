@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Linear Regression Interactive Simulation</title>
+  <link rel="stylesheet" href="shared-demo.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1 class="site-title">Linear Regression: Interactive Simulation</h1>
+      <p class="site-subtitle">An interactive simulation of a linear regression model.</p>
+    </header>
+
+    <main class="main-content">
+      <section class="demo-step active" id="step4">
+        <div class="step-header">
+          <h2>🎮 Interactive Model</h2>
+          <p class="step-intro">Explore the full linear regression model with real data</p>
+        </div>
+        
+        <div class="step-content">
+          <div class="interactive-model">
+            <div class="model-controls">
+              <h3>🎛️ Adjust the Line Parameters</h3>
+              <p>Try different slopes and intercepts to see how they affect the model's accuracy:</p>
+              
+              <div class="control-section">
+                <div class="control-group">
+                  <label for="slope">Slope ($ per year): <span id="slopeValue">7.3</span></label>
+                  <input type="range" id="slope" min="1.0" max="15.0" step="0.1" value="7.3">
+                  <div class="control-hint">How much salary increases per year of experience</div>
+                </div>
+                
+                <div class="control-group">
+                  <label for="intercept">Intercept ($k CAD): <span id="interceptValue">37</span></label>
+                  <input type="range" id="intercept" min="20" max="60" step="1" value="37">
+                  <div class="control-hint">Starting salary with 0 years experience</div>
+                </div>
+                
+                <div class="metrics-display">
+                  <div class="metric">
+                    <span class="metric-label">Current MSE:</span>
+                    <span class="metric-value" id="currentMSE">245.2</span>
+                  </div>
+                  <div class="metric">
+                    <span class="metric-label">Model Equation:</span>
+                    <span class="equation-display" id="currentEquation">Salary = 7.3 × Experience + 37</span>
+                  </div>
+                </div>
+                
+                <button id="findBestFit" class="btn btn-primary">🎯 Find Optimal Parameters</button>
+              </div>
+            </div>
+
+            <div class="visualization-area">
+              <div class="plot-container">
+                <div id="regressionPlot"></div>
+              </div>
+              
+              <div class="plot-legend">
+                <div class="legend-explanation">
+                  <div class="legend-item">
+                    <span class="data-point">🔴 Red dots:</span> Actual MBA graduate salaries
+                  </div>
+                  <div class="legend-item">
+                    <span class="line-item">📈 Blue line:</span> Your prediction line
+                  </div>
+                  <div class="legend-item">
+                    <span class="error-item">⚫ Gray lines:</span> Prediction errors
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="model-insights">
+              <h3>🔍 Model Insights</h3>
+              <div class="insights-grid">
+                <div class="insight-card">
+                  <h4>📊 Current Performance</h4>
+                  <div class="performance-details">
+                    <div class="perf-item">MSE: <span id="perfMSE">245.2</span></div>
+                    <div class="perf-item">Avg Error: <span id="perfAvgError">$15.7k</span></div>
+                    <div class="perf-interpretation" id="perfInterpretation">Pretty good fit!</div>
+                  </div>
+                </div>
+                
+                <div class="insight-card">
+                  <h4>💡 What This Means</h4>
+                  <div class="interpretation-text" id="modelInterpretation">
+                    With current parameters, each year of experience adds $7,300 to salary, starting from a base of $37,000.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="linear-regression-simple.js"></script>
+</body>
+</html>
