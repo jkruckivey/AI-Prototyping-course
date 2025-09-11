@@ -51,7 +51,7 @@
 <!-- Widget iframe embed -->
 <iframe 
   src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/canvas-ai-evolution.html" 
-  width="470" height="450" frameborder="0"
+  width="670" height="450" frameborder="0"
   style="border: none; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);"
   title="AI Evolution Timeline">
 </iframe>
