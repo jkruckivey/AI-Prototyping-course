@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Fundamentals Interactive Demo</title>
+  <link rel="stylesheet" href="shared-demo.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1 class="site-title">What is AI? Interactive Foundations</h1>
+      <p class="site-subtitle">Master AI fundamentals through hands-on exploration</p>
+    </header>
+
+    <main class="main-content">
+      <!-- Step Navigation -->
+      <section class="step-navigation">
+        <div class="nav-container">
+          <button class="nav-btn active" data-step="1">1. AI Evolution</button>
+          <button class="nav-btn" data-step="2">2. AI Hierarchy</button>
+          <button class="nav-btn" data-step="3">3. Business Value</button>
+          <button class="nav-btn" data-step="4">4. Industry Explorer</button>
+          <button class="nav-btn" data-step="5">5. Choose Your Path</button>
+        </div>
+      </section>
+
+      <!-- Step 1: AI Evolution Timeline -->
+      <section class="demo-step active" id="step1">
+        <div class="step-header">
+          <h2>🚀 The Evolution of AI</h2>
+          <p class="step-intro">Explore how AI has transformed from simple rules to intelligent systems</p>
+        </div>
+        
+        <div class="step-content">
+          <div class="evolution-timeline">
+            <div class="timeline-controls">
+              <h3>📅 Interactive Timeline</h3>
+              <p>Click on each era to explore AI's evolution:</p>
+              <div class="timeline-buttons">
+                <button class="timeline-btn active" data-era="1950s">1950s-60s</button>
+                <button class="timeline-btn" data-era="1980s">1980s</button>
+                <button class="timeline-btn" data-era="2000s">2000s</button>
+                <button class="timeline-btn" data-era="2020s">2020s</button>
+              </div>
+            </div>
+
+            <div class="era-details">
+              <div class="era-content active" id="era-1950s">
+                <div class="era-header">
+                  <h3>🤖 Rule-Based Systems (1950s-60s)</h3>
+                  <div class="era-tagline">Following Explicit Instructions</div>
+                </div>
+                
+                <div class="era-explanation">
+                  <div class="approach-description">
+                    <h4>How it worked:</h4>
+                    <p>Programmers wrote explicit rules for every scenario</p>
+                    <div class="rule-examples">
+                      <div class="rule-example">
+                        <strong>Rule:</strong> IF temperature > 30°C THEN turn_on_AC
+                      </div>
+                      <div class="rule-example">
+                        <strong>Rule:</strong> IF piece = "knight" AND move = "L-shape" THEN valid_move
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="capabilities">
+                    <h4>What it could do:</h4>
+                    <div class="capability-list">
+                      <div class="capability">✅ Play simple games (checkers, tic-tac-toe)</div>
+                      <div class="capability">✅ Solve mathematical problems</div>
+                      <div class="capability">❌ Adapt to new situations</div>
+                      <div class="capability">❌ Learn from experience</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="era-content" id="era-1980s">
+                <div class="era-header">
+                  <h3>🧠 Expert Systems (1980s)</h3>
+                  <div class="era-tagline">Capturing Human Expertise</div>
+                </div>
+                
+                <div class="era-explanation">
+                  <div class="approach-description">
+                    <h4>How it worked:</h4>
+                    <p>Captured human expert knowledge in specific domains</p>
+                    <div class="expert-examples">
+                      <div class="expert-example">
+                        <strong>Medical Diagnosis:</strong> IF symptoms = "fever + cough + chest_pain" THEN likely_pneumonia
+                      </div>
+                      <div class="expert-example">
+                        <strong>Financial Planning:</strong> IF age < 30 AND risk_tolerance = "high" THEN recommend_stocks
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="capabilities">
+                    <h4>What it could do:</h4>
+                    <div class="capability-list">
+                      <div class="capability">✅ Medical diagnosis assistance</div>
+                      <div class="capability">✅ Financial recommendations</div>
+                      <div class="capability">✅ Explain reasoning</div>
+                      <div class="capability">❌ Handle completely new scenarios</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="era-content" id="era-2000s">
+                <div class="era-header">
+                  <h3>📊 Machine Learning (2000s)</h3>
+                  <div class="era-tagline">Learning from Data</div>
+                </div>
+                
+                <div class="era-explanation">
+                  <div class="approach-description">
+                    <h4>How it works:</h4>
+                    <p>Systems learn patterns from data instead of following pre-programmed rules</p>
+                    <div class="ml-examples">
+                      <div class="ml-example">
+                        <strong>Email Spam:</strong> Analyzes thousands of emails to learn spam patterns
+                      </div>
+                      <div class="ml-example">
+                        <strong>Product Recommendations:</strong> Studies purchase history to suggest items
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="capabilities">
+                    <h4>What it can do:</h4>
+                    <div class="capability-list">
+                      <div class="capability">✅ Pattern recognition</div>
+                      <div class="capability">✅ Adapt to new data</div>
+                      <div class="capability">✅ Handle complex scenarios</div>
+                      <div class="capability">❌ Explain every decision</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="era-content" id="era-2020s">
+                <div class="era-header">
+                  <h3>🧬 Deep Learning (2020s)</h3>
+                  <div class="era-tagline">Neural Networks at Scale</div>
+                </div>
+                
+                <div class="era-explanation">
+                  <div class="approach-description">
+                    <h4>How it works:</h4>
+                    <p>Artificial neural networks with multiple layers process vast amounts of unstructured data</p>
+                    <div class="dl-examples">
+                      <div class="dl-example">
+                        <strong>Image Recognition:</strong> Identifies objects in photos like humans do
+                      </div>
+                      <div class="dl-example">
+                        <strong>Natural Language:</strong> Understands and generates human-like text
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="capabilities">
+                    <h4>What it can do:</h4>
+                    <div class="capability-list">
+                      <div class="capability">✅ Process images, speech, text</div>
+                      <div class="capability">✅ Generate new content</div>
+                      <div class="capability">✅ Understand context</div>
+                      <div class="capability">❌ Always explainable</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="evolution-insight">
+              <h3>💡 Key Insight</h3>
+              <div class="insight-text">
+                Each era didn't replace the previous one - they <strong>complement each other</strong>. Modern AI systems often combine rule-based logic, expert knowledge, machine learning, and deep learning depending on the problem.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-actions">
+          <button class="btn btn-primary next-step" data-next="2">Next: AI Hierarchy →</button>
+        </div>
+      </section>
+
+      <!-- Step 2: AI Hierarchy -->
+      <section class="demo-step" id="step2">
+        <div class="step-header">
+          <h2>🎯 Understanding the AI Hierarchy</h2>
+          <p class="step-intro">Explore the relationship between AI, Machine Learning, and Deep Learning</p>
+        </div>
+        
+        <div class="step-content">
+          <div class="hierarchy-visualization">
+            <div class="hierarchy-container">
+              <div class="hierarchy-diagram">
+                <div class="ai-circle" data-level="ai">
+                  <div class="circle-label">Artificial Intelligence</div>
+                  <div class="circle-subtitle">Any system exhibiting intelligent behavior</div>
+                  
+                  <div class="ml-circle" data-level="ml">
+                    <div class="circle-label">Machine Learning</div>
+                    <div class="circle-subtitle">Systems that learn from data</div>
+                    
+                    <div class="dl-circle" data-level="dl">
+                      <div class="circle-label">Deep Learning</div>
+                      <div class="circle-subtitle">Neural networks with multiple layers</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="hierarchy-controls">
+                <h3>🔍 Explore Each Level</h3>
+                <div class="level-buttons">
+                  <button class="level-btn active" data-level="ai">Artificial Intelligence</button>
+                  <button class="level-btn" data-level="ml">Machine Learning</button>
+                  <button class="level-btn" data-level="dl">Deep Learning</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="level-details">
+              <div class="level-content active" id="level-ai">
+                <h3>🤖 Artificial Intelligence - The Big Picture</h3>
+                <div class="level-explanation">
+                  <p><strong>Definition:</strong> Any system that can perform tasks requiring human-like intelligence</p>
+                  
+                  <div class="examples-grid">
+                    <div class="example-category">
+                      <h4>🎮 Game Playing</h4>
+                      <div class="example-items">
+                        <div class="example-item">Chess computers</div>
+                        <div class="example-item">Go AI (AlphaGo)</div>
+                        <div class="example-item">Video game NPCs</div>
+                      </div>
+                    </div>
+                    
+                    <div class="example-category">
+                      <h4>🏠 Smart Home</h4>
+                      <div class="example-items">
+                        <div class="example-item">Voice assistants (Siri, Alexa)</div>
+                        <div class="example-item">Smart thermostats</div>
+                        <div class="example-item">Automated lighting</div>
+                      </div>
+                    </div>
+                    
+                    <div class="example-category">
+                      <h4>🚗 Transportation</h4>
+                      <div class="example-items">
+                        <div class="example-item">Self-driving cars</div>
+                        <div class="example-item">GPS navigation</div>
+                        <div class="example-item">Traffic optimization</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="level-content" id="level-ml">
+                <h3>📊 Machine Learning - Learning from Data</h3>
+                <div class="level-explanation">
+                  <p><strong>Definition:</strong> AI systems that improve their performance by learning from examples</p>
+                  
+                  <div class="ml-approach-demo">
+                    <h4>🔬 How Machine Learning Works:</h4>
+                    <div class="approach-steps">
+                      <div class="approach-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                          <strong>Collect Data:</strong> Gather examples (emails, images, purchases)
+                        </div>
+                      </div>
+                      <div class="approach-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                          <strong>Find Patterns:</strong> Algorithm discovers relationships
+                        </div>
+                      </div>
+                      <div class="approach-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                          <strong>Make Predictions:</strong> Apply patterns to new situations
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="examples-grid">
+                    <div class="example-category">
+                      <h4>📧 Classification</h4>
+                      <div class="example-items">
+                        <div class="example-item">Spam email detection</div>
+                        <div class="example-item">Fraud detection</div>
+                        <div class="example-item">Medical diagnosis</div>
+                      </div>
+                    </div>
+                    
+                    <div class="example-category">
+                      <h4>📈 Prediction</h4>
+                      <div class="example-items">
+                        <div class="example-item">Stock price forecasting</div>
+                        <div class="example-item">Weather prediction</div>
+                        <div class="example-item">Sales forecasting</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="level-content" id="level-dl">
+                <h3>🧬 Deep Learning - Neural Networks</h3>
+                <div class="level-explanation">
+                  <p><strong>Definition:</strong> Machine learning using artificial neural networks with multiple layers</p>
+                  
+                  <div class="neural-network-demo">
+                    <h4>🧠 Neural Network Visualization:</h4>
+                    <div class="network-diagram">
+                      <div class="network-layer">
+                        <div class="layer-label">Input Layer</div>
+                        <div class="neurons">
+                          <div class="neuron"></div>
+                          <div class="neuron"></div>
+                          <div class="neuron"></div>
+                        </div>
+                      </div>
+                      <div class="network-layer">
+                        <div class="layer-label">Hidden Layers</div>
+                        <div class="neurons">
+                          <div class="neuron"></div>
+                          <div class="neuron"></div>
+                          <div class="neuron"></div>
+                          <div class="neuron"></div>
+                        </div>
+                      </div>
+                      <div class="network-layer">
+                        <div class="layer-label">Output Layer</div>
+                        <div class="neurons">
+                          <div class="neuron"></div>
+                          <div class="neuron"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="examples-grid">
+                    <div class="example-category">
+                      <h4>👁️ Computer Vision</h4>
+                      <div class="example-items">
+                        <div class="example-item">Photo recognition</div>
+                        <div class="example-item">Medical imaging</div>
+                        <div class="example-item">Autonomous vehicles</div>
+                      </div>
+                    </div>
+                    
+                    <div class="example-category">
+                      <h4>💬 Natural Language</h4>
+                      <div class="example-items">
+                        <div class="example-item">ChatGPT-style systems</div>
+                        <div class="example-item">Language translation</div>
+                        <div class="example-item">Voice recognition</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="hierarchy-insight">
+              <h3>🎯 Strategic Insight for Leaders</h3>
+              <div class="insight-boxes">
+                <div class="insight-box">
+                  <strong>Simple Problems → Basic AI:</strong> Automation, rule-based systems
+                </div>
+                <div class="insight-box">
+                  <strong>Pattern Problems → Machine Learning:</strong> Predictions, classifications
+                </div>
+                <div class="insight-box">
+                  <strong>Complex Data → Deep Learning:</strong> Images, speech, text
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-actions">
+          <button class="btn btn-outline prev-step" data-prev="1">← Back</button>
+          <button class="btn btn-primary next-step" data-next="3">Next: Business Value →</button>
+        </div>
+      </section>
+
+      <!-- Step 3: Four Pillars of AI Business Value -->
+      <section class="demo-step" id="step3">
+        <div class="step-header">
+          <h2>💼 The Four Pillars of AI Business Value</h2>
+          <p class="step-intro">Discover how AI creates measurable business impact</p>
+        </div>
+        
+        <div class="step-content">
+          <div class="pillars-framework">
+            <div class="pillars-intro">
+              <p>AI creates business value through four primary mechanisms. Click each pillar to explore:</p>
+            </div>
+
+            <div class="pillars-grid">
+              <div class="pillar-card active" data-pillar="automation">
+                <div class="pillar-icon">🔧</div>
+                <h3>Automation</h3>
+                <div class="pillar-subtitle">Efficiency Focus</div>
+                <div class="pillar-metric">67% of routine inquiries automated</div>
+              </div>
+              
+              <div class="pillar-card" data-pillar="personalization">
+                <div class="pillar-icon">🎯</div>
+                <h3>Personalization</h3>
+                <div class="pillar-subtitle">Customer Focus</div>
+                <div class="pillar-metric">80% increase in engagement</div>
+              </div>
+              
+              <div class="pillar-card" data-pillar="prediction">
+                <div class="pillar-icon">🔮</div>
+                <h3>Prediction</h3>
+                <div class="pillar-subtitle">Risk Focus</div>
+                <div class="pillar-metric">30-50% reduction in downtime</div>
+              </div>
+              
+              <div class="pillar-card" data-pillar="optimization">
+                <div class="pillar-icon">📊</div>
+                <h3>Optimization</h3>
+                <div class="pillar-subtitle">Decision Focus</div>
+                <div class="pillar-metric">10-15% cost reduction</div>
+              </div>
+            </div>
+
+            <div class="pillar-details">
+              <div class="pillar-content active" id="pillar-automation">
+                <h3>🔧 Automation: Doing Things Faster and Better</h3>
+                <div class="pillar-explanation">
+                  <p><strong>The Value:</strong> AI handles routine tasks faster and more accurately than humans, reducing costs and eliminating errors.</p>
+                  
+                  <div class="value-examples">
+                    <div class="value-example">
+                      <div class="example-header">
+                        <h4>💬 Customer Service Chatbots</h4>
+                        <div class="example-impact">Impact: 67% of routine inquiries handled automatically</div>
+                      </div>
+                      <div class="example-details">
+                        <div class="before-after">
+                          <div class="before">
+                            <strong>Before:</strong> Human agents handle all customer questions
+                            <div class="metrics">• Average response: 5 minutes • Cost per inquiry: $15</div>
+                          </div>
+                          <div class="after">
+                            <strong>After:</strong> AI handles common questions instantly
+                            <div class="metrics">• Average response: 10 seconds • Cost per inquiry: $0.50</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="value-example">
+                      <div class="example-header">
+                        <h4>📄 Invoice Processing</h4>
+                        <div class="example-impact">Impact: 85% faster processing, 90% fewer errors</div>
+                      </div>
+                      <div class="example-details">
+                        <div class="before-after">
+                          <div class="before">
+                            <strong>Before:</strong> Manual data entry from paper invoices
+                            <div class="metrics">• Time per invoice: 15 minutes • Error rate: 8%</div>
+                          </div>
+                          <div class="after">
+                            <strong>After:</strong> AI extracts and processes data automatically
+                            <div class="metrics">• Time per invoice: 2 minutes • Error rate: 0.8%</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="roi-calculator">
+                    <h4>💰 Calculate Your Automation ROI</h4>
+                    <div class="calculator-inputs">
+                      <div class="input-group">
+                        <label>Tasks per day:</label>
+                        <input type="number" id="tasksPerDay" value="100" min="1">
+                      </div>
+                      <div class="input-group">
+                        <label>Minutes per task:</label>
+                        <input type="number" id="minutesPerTask" value="10" min="1">
+                      </div>
+                      <div class="input-group">
+                        <label>Hourly wage ($):</label>
+                        <input type="number" id="hourlyWage" value="25" min="1">
+                      </div>
+                      <button id="calculateROI" class="btn btn-secondary">Calculate Savings</button>
+                    </div>
+                    <div class="roi-results">
+                      <div class="roi-metric">Annual Labor Cost: <span id="annualCost">$108,333</span></div>
+                      <div class="roi-metric">Potential 70% Automation: <span id="automationSavings">$75,833/year</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="pillar-content" id="pillar-personalization">
+                <h3>🎯 Personalization: Tailoring Experiences at Scale</h3>
+                <div class="pillar-explanation">
+                  <p><strong>The Value:</strong> AI analyzes individual preferences to deliver personalized experiences for millions of customers simultaneously.</p>
+                  
+                  <div class="personalization-demo">
+                    <h4>🛒 E-commerce Recommendation Engine</h4>
+                    <div class="demo-interface">
+                      <div class="customer-profile">
+                        <h5>Customer Profile:</h5>
+                        <div class="profile-selector">
+                          <button class="profile-btn active" data-profile="tech">Tech Enthusiast</button>
+                          <button class="profile-btn" data-profile="fashion">Fashion Lover</button>
+                          <button class="profile-btn" data-profile="fitness">Fitness Focused</button>
+                        </div>
+                      </div>
+                      
+                      <div class="recommendations-display">
+                        <div class="recommendations active" id="recommendations-tech">
+                          <h5>Recommended for You:</h5>
+                          <div class="product-recommendations">
+                            <div class="product-item">📱 Latest Smartphone - 87% match</div>
+                            <div class="product-item">💻 Gaming Laptop - 92% match</div>
+                            <div class="product-item">🎧 Wireless Earbuds - 78% match</div>
+                          </div>
+                          <div class="conversion-impact">Expected conversion rate: +45%</div>
+                        </div>
+                        
+                        <div class="recommendations" id="recommendations-fashion">
+                          <h5>Recommended for You:</h5>
+                          <div class="product-recommendations">
+                            <div class="product-item">👗 Summer Dress - 94% match</div>
+                            <div class="product-item">👠 Designer Heels - 81% match</div>
+                            <div class="product-item">👜 Leather Handbag - 88% match</div>
+                          </div>
+                          <div class="conversion-impact">Expected conversion rate: +52%</div>
+                        </div>
+                        
+                        <div class="recommendations" id="recommendations-fitness">
+                          <h5>Recommended for You:</h5>
+                          <div class="product-recommendations">
+                            <div class="product-item">🏃 Running Shoes - 96% match</div>
+                            <div class="product-item">💪 Protein Powder - 73% match</div>
+                            <div class="product-item">⌚ Fitness Tracker - 89% match</div>
+                          </div>
+                          <div class="conversion-impact">Expected conversion rate: +38%</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="personalization-impact">
+                    <h4>📈 Real-World Impact</h4>
+                    <div class="impact-stats">
+                      <div class="impact-stat">
+                        <strong>Netflix:</strong> 80% of content watched comes from AI recommendations
+                      </div>
+                      <div class="impact-stat">
+                        <strong>Amazon:</strong> 20% of total revenue attributed to recommendation engine
+                      </div>
+                      <div class="impact-stat">
+                        <strong>Spotify:</strong> 31% of music discovery happens through AI playlists
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="pillar-content" id="pillar-prediction">
+                <h3>🔮 Prediction: Anticipating the Future</h3>
+                <div class="pillar-explanation">
+                  <p><strong>The Value:</strong> AI analyzes patterns to predict future events, enabling proactive decision-making.</p>
+                  
+                  <div class="prediction-showcase">
+                    <div class="prediction-example">
+                      <h4>🏭 Predictive Maintenance</h4>
+                      <div class="prediction-interface">
+                        <div class="machine-status">
+                          <div class="machine-display">
+                            <div class="machine-icon">⚙️</div>
+                            <div class="machine-info">
+                              <div class="machine-name">Production Line A</div>
+                              <div class="machine-metrics">
+                                <div class="metric">Temperature: <span class="temp-value">78°C</span></div>
+                                <div class="metric">Vibration: <span class="vibration-value">4.2 Hz</span></div>
+                                <div class="metric">Runtime: <span class="runtime-value">2,847 hours</span></div>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <div class="prediction-alert">
+                            <div class="alert-icon">⚠️</div>
+                            <div class="alert-content">
+                              <strong>Maintenance Predicted</strong>
+                              <div class="alert-details">Bearing failure likely in 7 days</div>
+                              <div class="alert-confidence">Confidence: 89%</div>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div class="prediction-value">
+                          <h5>Business Impact:</h5>
+                          <div class="impact-comparison">
+                            <div class="reactive-cost">
+                              <strong>Reactive Repair:</strong> $45,000 + 3 days downtime
+                            </div>
+                            <div class="proactive-cost">
+                              <strong>Predictive Maintenance:</strong> $3,000 + 4 hours downtime
+                            </div>
+                            <div class="savings">
+                              <strong>Savings:</strong> $42,000 + 68 hours production time
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="prediction-example">
+                      <h4>🛒 Demand Forecasting</h4>
+                      <div class="forecast-visualization">
+                        <div class="forecast-chart-placeholder">
+                          <div id="demandForecastChart"></div>
+                        </div>
+                        <div class="forecast-insights">
+                          <h5>AI Insights:</h5>
+                          <div class="insight-list">
+                            <div class="insight-item">📈 25% increase expected next month</div>
+                            <div class="insight-item">🎃 Halloween boost: Oct 15-31</div>
+                            <div class="insight-item">❄️ Winter decline starts Dec 1</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="pillar-content" id="pillar-optimization">
+                <h3>📊 Optimization: Making Better Decisions</h3>
+                <div class="pillar-explanation">
+                  <p><strong>The Value:</strong> AI analyzes complex scenarios with multiple variables to find optimal solutions.</p>
+                  
+                  <div class="optimization-demo">
+                    <h4>✈️ Dynamic Pricing Optimizer</h4>
+                    <div class="pricing-interface">
+                      <div class="pricing-inputs">
+                        <h5>Market Conditions:</h5>
+                        <div class="condition-controls">
+                          <div class="condition-control">
+                            <label>Demand Level:</label>
+                            <input type="range" id="demandLevel" min="1" max="10" value="6">
+                            <span id="demandValue">High</span>
+                          </div>
+                          <div class="condition-control">
+                            <label>Competition:</label>
+                            <input type="range" id="competitionLevel" min="1" max="10" value="4">
+                            <span id="competitionValue">Medium</span>
+                          </div>
+                          <div class="condition-control">
+                            <label>Seasonality:</label>
+                            <input type="range" id="seasonalityLevel" min="1" max="10" value="7">
+                            <span id="seasonalityValue">Peak Season</span>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div class="pricing-output">
+                        <div class="optimal-price">
+                          <h5>AI-Optimized Price:</h5>
+                          <div class="price-display">$<span id="optimizedPrice">847</span></div>
+                          <div class="price-reasoning">
+                            <div class="reasoning-item">High demand → +15%</div>
+                            <div class="reasoning-item">Medium competition → baseline</div>
+                            <div class="reasoning-item">Peak season → +12%</div>
+                          </div>
+                        </div>
+                        
+                        <div class="revenue-projection">
+                          <h5>Expected Outcomes:</h5>
+                          <div class="outcome-metrics">
+                            <div class="outcome-metric">Revenue: +23%</div>
+                            <div class="outcome-metric">Occupancy: 89%</div>
+                            <div class="outcome-metric">Competitor advantage: $127</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="optimization-impact">
+                    <h4>🎯 Real-World Results</h4>
+                    <div class="results-grid">
+                      <div class="result-item">
+                        <strong>Airlines:</strong> 5-8% revenue increase through dynamic pricing
+                      </div>
+                      <div class="result-item">
+                        <strong>Supply Chain:</strong> 10-15% cost reduction via route optimization
+                      </div>
+                      <div class="result-item">
+                        <strong>Energy:</strong> 20% efficiency improvement in grid management
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-actions">
+          <button class="btn btn-outline prev-step" data-prev="2">← Back</button>
+          <button class="btn btn-primary next-step" data-next="4">Next: Industry Explorer →</button>
+        </div>
+      </section>
+
+      <!-- Step 4: Industry Applications Explorer -->
+      <section class="demo-step" id="step4">
+        <div class="step-header">
+          <h2>🏭 AI Industry Applications</h2>
+          <p class="step-intro">Explore how AI transforms different industries</p>
+        </div>
+        
+        <div class="step-content">
+          <div class="industry-explorer">
+            <div class="industry-selector">
+              <h3>🎯 Select an Industry</h3>
+              <div class="industry-buttons">
+                <button class="industry-btn active" data-industry="healthcare">🏥 Healthcare</button>
+                <button class="industry-btn" data-industry="finance">💰 Finance</button>
+                <button class="industry-btn" data-industry="retail">🛒 Retail</button>
+                <button class="industry-btn" data-industry="manufacturing">🏭 Manufacturing</button>
+              </div>
+            </div>
+
+            <div class="industry-content">
+              <div class="industry-details active" id="industry-healthcare">
+                <div class="industry-header">
+                  <h3>🏥 Healthcare: Saving Lives with AI</h3>
+                  <div class="adoption-rate">AI Adoption: 65% of healthcare organizations</div>
+                </div>
+                
+                <div class="applications-showcase">
+                  <div class="application-category">
+                    <h4>🔬 Medical Imaging</h4>
+                    <div class="application-details">
+                      <div class="application-description">
+                        AI can detect certain cancers more accurately than human radiologists while reducing diagnosis time from days to minutes.
+                      </div>
+                      <div class="application-impact">
+                        <div class="impact-metric">50% reduction in diagnostic errors</div>
+                        <div class="impact-metric">Minutes vs days for results</div>
+                      </div>
+                      <div class="application-examples">
+                        <div class="example">Skin cancer detection from photos</div>
+                        <div class="example">X-ray pneumonia diagnosis</div>
+                        <div class="example">MRI tumor identification</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="application-category">
+                    <h4>💊 Drug Discovery</h4>
+                    <div class="application-details">
+                      <div class="application-description">
+                        AI platforms reduce the time to identify promising compounds from years to months, accelerating treatment development.
+                      </div>
+                      <div class="application-impact">
+                        <div class="impact-metric">Years → Months for compound discovery</div>
+                        <div class="impact-metric">90% reduction in early-stage failures</div>
+                      </div>
+                      <div class="application-examples">
+                        <div class="example">COVID-19 vaccine development</div>
+                        <div class="example">Cancer treatment compounds</div>
+                        <div class="example">Rare disease therapeutics</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="application-category">
+                    <h4>🏥 Hospital Operations</h4>
+                    <div class="application-details">
+                      <div class="application-description">
+                        Predictive analytics help hospitals optimize staffing and resource allocation, reducing costs while improving patient outcomes.
+                      </div>
+                      <div class="application-impact">
+                        <div class="impact-metric">15% reduction in operational costs</div>
+                        <div class="impact-metric">20% improvement in patient satisfaction</div>
+                      </div>
+                      <div class="application-examples">
+                        <div class="example">ICU bed allocation</div>
+                        <div class="example">Surgical scheduling optimization</div>
+                        <div class="example">Emergency room flow management</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="industry-details" id="industry-finance">
+                <div class="industry-header">
+                  <h3>💰 Financial Services: Protecting and Optimizing</h3>
+                  <div class="adoption-rate">AI Adoption: 85% of financial companies</div>
+                </div>
+                
+                <div class="applications-showcase">
+                  <div class="application-category">
+                    <h4>🛡️ Fraud Detection</h4>
+                    <div class="application-details">
+                      <div class="application-description">
+                        AI systems identify suspicious transactions in milliseconds, protecting both financial institutions and customers from fraud.
+                      </div>
+                      <div class="application-impact">
+                        <div class="impact-metric">60-80% reduction in fraud losses</div>
+                        <div class="impact-metric">Millisecond transaction analysis</div>
+                      </div>
+                      <div class="application-examples">
+                        <div class="example">Credit card transaction monitoring</div>
+                        <div class="example">Identity verification</div>
+                        <div class="example">Money laundering detection</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="application-category">
+                    <h4>📊 Credit Scoring</h4>
+                    <div class="application-details">
+                      <div class="application-description">
+                        AI algorithms process alternative data sources to enable loans for previously underserved populations while maintaining risk standards.
+                      </div>
+                      <div class="application-impact">
+                        <div class="impact-metric">30% increase in approved loans</div>
+                        <div class="impact-metric">Same default rates maintained</div>
+                      </div>
+                      <div class="application-examples">
+                        <div class="example">Social media behavior analysis</div>
+                        <div class="example">Utility payment history</div>
+                        <div class="example">Mobile phone usage patterns</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="application-category">
+                    <h4>📈 Algorithmic Trading</h4>
+                    <div class="application-details">
+                      <div class="application-description">
+                        AI executes complex trading strategies faster and more consistently than human traders, capitalizing on market opportunities.
+                      </div>
+                      <div class="application-impact">
+                        <div class="impact-metric">Microsecond execution speed</div>
+                        <div class="impact-metric">24/7 market monitoring</div>
+                      </div>
+                      <div class="application-examples">
+                        <div class="example">High-frequency trading</div>
+                        <div class="example">Portfolio rebalancing</div>
+                        <div class="example">Risk management automation</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="industry-details" id="industry-retail">
+                <div class="industry-header">
+                  <h3>🛒 Retail & E-commerce: Personalizing Shopping</h3>
+                  <div class="adoption-rate">AI Adoption: 52% of retail companies</div>
+                </div>
+                
+                <div class="applications-showcase">
+                  <div class="application-category">
+                    <h4>🎯 Recommendation Engines</h4>
+                    <div class="application-details">
+                      <div class="application-description">
+                        AI analyzes purchase history and browsing behavior to suggest products, increasing average order value and customer satisfaction.
+                      </div>
+                      <div class="application-impact">
+                        <div class="impact-metric">15-25% increase in average order value</div>
+                        <div class="impact-metric">80% of Netflix content watched</div>
+                      </div>
+                      <div class="application-examples">
+                        <div class="example">Amazon "Frequently bought together"</div>
+                        <div class="example">Netflix movie suggestions</div>
+                        <div class="example">Spotify playlist creation</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="application-category">
+                    <h4>📱 Visual Search</h4>
+                    <div class="application-details">
+                      <div class="application-description">
+                        Customers can find products by uploading photos, making shopping more intuitive and increasing conversion rates.
+                      </div>
+                      <div class="application-impact">
+                        <div class="impact-metric">30% higher conversion rates</div>
+                        <div class="impact-metric">Instant product identification</div>
+                      </div>
+                      <div class="application-examples">
+                        <div class="example">Pinterest Lens product discovery</div>
+                        <div class="example">Google Shopping photo search</div>
+                        <div class="example">Fashion item matching</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="application-category">
+                    <h4>📦 Inventory Optimization</h4>
+                    <div class="application-details">
+                      <div class="application-description">
+                        AI predicts demand patterns to optimize inventory levels, reducing stockouts while minimizing excess inventory costs.
+                      </div>
+                      <div class="application-impact">
+                        <div class="impact-metric">40% reduction in stockouts</div>
+                        <div class="impact-metric">15% decrease in inventory costs</div>
+                      </div>
+                      <div class="application-examples">
+                        <div class="example">Seasonal demand forecasting</div>
+                        <div class="example">Regional preference analysis</div>
+                        <div class="example">Supply chain optimization</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="industry-details" id="industry-manufacturing">
+                <div class="industry-header">
+                  <h3>🏭 Manufacturing: Optimizing Production</h3>
+                  <div class="adoption-rate">AI Adoption: 45% of manufacturers</div>
+                </div>
+                
+                <div class="applications-showcase">
+                  <div class="application-category">
+                    <h4>🔧 Predictive Maintenance</h4>
+                    <div class="application-details">
+                      <div class="application-description">
+                        AI monitors equipment health to predict failures before they occur, preventing costly downtime and extending equipment life.
+                      </div>
+                      <div class="application-impact">
+                        <div class="impact-metric">30-50% reduction in unplanned downtime</div>
+                        <div class="impact-metric">25% increase in equipment lifespan</div>
+                      </div>
+                      <div class="application-examples">
+                        <div class="example">Vibration pattern analysis</div>
+                        <div class="example">Temperature monitoring</div>
+                        <div class="example">Oil analysis predictions</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="application-category">
+                    <h4>🔍 Quality Control</h4>
+                    <div class="application-details">
+                      <div class="application-description">
+                        Computer vision systems detect defects faster and more consistently than human inspection, improving product quality.
+                      </div>
+                      <div class="application-impact">
+                        <div class="impact-metric">95% accuracy in defect detection</div>
+                        <div class="impact-metric">10x faster than human inspection</div>
+                      </div>
+                      <div class="application-examples">
+                        <div class="example">Surface defect detection</div>
+                        <div class="example">Dimensional accuracy checking</div>
+                        <div class="example">Color variation analysis</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="application-category">
+                    <h4>⚡ Production Optimization</h4>
+                    <div class="application-details">
+                      <div class="application-description">
+                        AI optimizes production schedules, resource allocation, and workflow to maximize efficiency and minimize waste.
+                      </div>
+                      <div class="application-impact">
+                        <div class="impact-metric">20% improvement in production efficiency</div>
+                        <div class="impact-metric">15% reduction in material waste</div>
+                      </div>
+                      <div class="application-examples">
+                        <div class="example">Production line scheduling</div>
+                        <div class="example">Resource allocation optimization</div>
+                        <div class="example">Energy consumption management</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="industry-insights">
+              <h3>📊 Cross-Industry Trends</h3>
+              <div class="trends-grid">
+                <div class="trend-item">
+                  <strong>Early Adopters Lead:</strong> Companies using AI extensively grow 50% faster than limited adopters
+                </div>
+                <div class="trend-item">
+                  <strong>ROI Timeline:</strong> Most companies see positive returns within 18-24 months
+                </div>
+                <div class="trend-item">
+                  <strong>Data Quality Critical:</strong> Success depends more on data quality than algorithm sophistication
+                </div>
+                <div class="trend-item">
+                  <strong>Human-AI Collaboration:</strong> Best results come from augmenting, not replacing, human expertise
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-actions">
+          <button class="btn btn-outline prev-step" data-prev="3">← Back</button>
+          <button class="btn btn-primary next-step" data-next="5">Next: Choose Your Path →</button>
+        </div>
+      </section>
+
+      <!-- Step 5: AI Approach Decision Tool -->
+      <section class="demo-step" id="step5">
+        <div class="step-header">
+          <h2>🎯 Choose Your AI Approach</h2>
+          <p class="step-intro">Interactive tool to help you select the right AI strategy for your business</p>
+        </div>
+        
+        <div class="step-content">
+          <div class="decision-tool">
+            <div class="tool-intro">
+              <p>Answer these strategic questions to discover which AI approach best fits your business needs:</p>
+            </div>
+
+            <div class="decision-questions">
+              <div class="question-card active" data-question="1">
+                <h3>❓ Question 1: Problem Type</h3>
+                <p>What type of business challenge are you trying to solve?</p>
+                <div class="question-options">
+                  <button class="option-btn" data-value="rules">
+                    <strong>Rule-based decisions</strong>
+                    <div class="option-desc">Clear business rules exist, need consistent application</div>
+                  </button>
+                  <button class="option-btn" data-value="patterns">
+                    <strong>Pattern recognition</strong>
+                    <div class="option-desc">Hidden patterns in data, need to make predictions</div>
+                  </button>
+                  <button class="option-btn" data-value="complex">
+                    <strong>Complex optimization</strong>
+                    <div class="option-desc">Multiple variables, need ongoing optimization</div>
+                  </button>
+                </div>
+              </div>
+
+              <div class="question-card" data-question="2">
+                <h3>📊 Question 2: Data Situation</h3>
+                <p>What's your current data landscape?</p>
+                <div class="question-options">
+                  <button class="option-btn" data-value="limited">
+                    <strong>Limited data</strong>
+                    <div class="option-desc">Mostly rules and logic, minimal historical data</div>
+                  </button>
+                  <button class="option-btn" data-value="structured">
+                    <strong>Structured historical data</strong>
+                    <div class="option-desc">Clear examples with known outcomes</div>
+                  </button>
+                  <button class="option-btn" data-value="unstructured">
+                    <strong>Large unstructured datasets</strong>
+                    <div class="option-desc">Images, text, speech, complex patterns</div>
+                  </button>
+                </div>
+              </div>
+
+              <div class="question-card" data-question="3">
+                <h3>🎯 Question 3: Transparency Needs</h3>
+                <p>How important is it to explain every decision?</p>
+                <div class="question-options">
+                  <button class="option-btn" data-value="critical">
+                    <strong>Critical</strong>
+                    <div class="option-desc">Regulatory compliance, audit requirements</div>
+                  </button>
+                  <button class="option-btn" data-value="important">
+                    <strong>Important</strong>
+                    <div class="option-desc">Stakeholders want to understand logic</div>
+                  </button>
+                  <button class="option-btn" data-value="flexible">
+                    <strong>Flexible</strong>
+                    <div class="option-desc">Results matter more than explainability</div>
+                  </button>
+                </div>
+              </div>
+
+              <div class="question-card" data-question="4">
+                <h3>⚡ Question 4: Implementation Timeline</h3>
+                <p>What's your preferred implementation timeline?</p>
+                <div class="question-options">
+                  <button class="option-btn" data-value="fast">
+                    <strong>Fast (3-6 months)</strong>
+                    <div class="option-desc">Need quick wins, proven approaches</div>
+                  </button>
+                  <button class="option-btn" data-value="medium">
+                    <strong>Medium (6-12 months)</strong>
+                    <div class="option-desc">Balanced approach, moderate complexity</div>
+                  </button>
+                  <button class="option-btn" data-value="patient">
+                    <strong>Patient (12+ months)</strong>
+                    <div class="option-desc">Willing to invest in sophisticated solutions</div>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="recommendation-section">
+              <div class="recommendation-display">
+                <h3>🎯 Your Recommended AI Approach</h3>
+                <div class="recommendation-content">
+                  <div class="approach-recommendation">
+                    <div class="approach-icon">🤖</div>
+                    <div class="approach-details">
+                      <h4 id="recommendedApproach">Complete the assessment above</h4>
+                      <div id="recommendationReasoning">Answer all questions to get your personalized recommendation</div>
+                    </div>
+                  </div>
+                  
+                  <div class="implementation-guide" id="implementationGuide">
+                    <!-- Implementation details will be populated based on answers -->
+                  </div>
+                </div>
+              </div>
+
+              <div class="next-steps">
+                <h3>🚀 Next Steps</h3>
+                <div class="steps-list" id="nextStepsList">
+                  <div class="step-item">Complete all assessment questions above</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="approach-comparison">
+              <h3>📋 Quick Reference: AI Approaches</h3>
+              <div class="comparison-table">
+                <div class="approach-column">
+                  <h4>🔧 Expert Systems</h4>
+                  <div class="approach-features">
+                    <div class="feature">✅ Fully explainable</div>
+                    <div class="feature">✅ Fast implementation</div>
+                    <div class="feature">✅ Low data requirements</div>
+                    <div class="feature">❌ Limited adaptability</div>
+                  </div>
+                  <div class="best-for">
+                    <strong>Best for:</strong> Compliance, audit trails, known business rules
+                  </div>
+                </div>
+
+                <div class="approach-column">
+                  <h4>📊 Machine Learning</h4>
+                  <div class="approach-features">
+                    <div class="feature">✅ Pattern discovery</div>
+                    <div class="feature">✅ Adapts to new data</div>
+                    <div class="feature">✅ Good performance</div>
+                    <div class="feature">❌ "Black box" decisions</div>
+                  </div>
+                  <div class="best-for">
+                    <strong>Best for:</strong> Predictions, classifications, recommendations
+                  </div>
+                </div>
+
+                <div class="approach-column">
+                  <h4>🧬 Deep Learning</h4>
+                  <div class="approach-features">
+                    <div class="feature">✅ Handles complex data</div>
+                    <div class="feature">✅ State-of-the-art results</div>
+                    <div class="feature">✅ Unstructured data</div>
+                    <div class="feature">❌ High complexity</div>
+                  </div>
+                  <div class="best-for">
+                    <strong>Best for:</strong> Images, text, speech, complex patterns
+                  </div>
+                </div>
+
+                <div class="approach-column">
+                  <h4>🎮 Reinforcement Learning</h4>
+                  <div class="approach-features">
+                    <div class="feature">✅ Continuous optimization</div>
+                    <div class="feature">✅ Self-improving</div>
+                    <div class="feature">✅ Complex decisions</div>
+                    <div class="feature">❌ Long learning period</div>
+                  </div>
+                  <div class="best-for">
+                    <strong>Best for:</strong> Dynamic pricing, trading, resource allocation
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-actions">
+          <button class="btn btn-outline prev-step" data-prev="4">← Back</button>
+          <button class="btn btn-secondary" onclick="location.reload()">🔄 Start Over</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="ai-fundamentals.js"></script>
+</body>
+</html>

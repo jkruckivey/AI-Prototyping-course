@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Automation ROI Calculator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      background: white;
+      font-family: 'Figtree', sans-serif;
+    }
+    
+    .widget-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 24px;
+      border: 1px solid #e2e8f0;
+    }
+    
+    .calculator-inputs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+    
+    @media (max-width: 600px) {
+      .calculator-inputs {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .input-group label {
+      font-weight: 600;
+      color: #1e293b;
+      font-size: 0.9em;
+    }
+    
+    .input-group input {
+      padding: 12px;
+      border: 2px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 1em;
+      font-family: 'Figtree', sans-serif;
+      font-weight: 600;
+      color: #1e293b;
+      transition: border-color 0.2s ease;
+    }
+    
+    .input-group input:focus {
+      outline: none;
+      border-color: #034638;
+      box-shadow: 0 0 0 3px rgba(3, 70, 56, 0.1);
+    }
+    
+    .roi-results {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      border: 2px solid #034638;
+    }
+    
+    .roi-results h3 {
+      margin: 0 0 16px 0;
+      color: #034638;
+      font-size: 1.3em;
+      text-align: center;
+    }
+    
+    .results-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    
+    @media (max-width: 500px) {
+      .results-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .roi-metric {
+      text-align: center;
+      padding: 16px;
+      background: #f0f9f6;
+      border-radius: 8px;
+      border: 1px solid #d1fae5;
+    }
+    
+    .metric-label {
+      display: block;
+      font-size: 0.9em;
+      color: #64748b;
+      margin-bottom: 4px;
+    }
+    
+    .metric-value {
+      display: block;
+      font-size: 1.5em;
+      font-weight: 700;
+      color: #034638;
+    }
+    
+    .savings-highlight {
+      grid-column: 1 / -1;
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: white;
+      font-size: 1.1em;
+    }
+    
+    .savings-highlight .metric-value {
+      color: white;
+      font-size: 2em;
+    }
+    
+    .automation-assumptions {
+      margin-top: 16px;
+      padding: 16px;
+      background: #fef3c7;
+      border-radius: 8px;
+      border: 1px solid #fbbf24;
+    }
+    
+    .assumptions-title {
+      font-weight: 600;
+      color: #92400e;
+      margin-bottom: 8px;
+    }
+    
+    .assumptions-list {
+      font-size: 0.9em;
+      color: #92400e;
+      line-height: 1.4;
+    }
+    
+    .real-time-indicator {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: #10b981;
+      color: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.8em;
+      font-weight: 600;
+    }
+    
+    .widget-container {
+      position: relative;
+    }
+  </style>
+</head>
+<body>
+  <div class="widget-container">
+    <div class="real-time-indicator">Live Calculator</div>
+    
+    <div class="calculator-inputs">
+      <div class="input-group">
+        <label for="tasksPerDay">Tasks per day:</label>
+        <input type="number" id="tasksPerDay" value="100" min="1" max="10000">
+      </div>
+      
+      <div class="input-group">
+        <label for="minutesPerTask">Minutes per task:</label>
+        <input type="number" id="minutesPerTask" value="10" min="1" max="480">
+      </div>
+      
+      <div class="input-group">
+        <label for="hourlyWage">Hourly wage ($):</label>
+        <input type="number" id="hourlyWage" value="25" min="1" max="200">
+      </div>
+      
+      <div class="input-group">
+        <label for="automationRate">Automation rate (%):</label>
+        <input type="number" id="automationRate" value="70" min="10" max="95">
+      </div>
+    </div>
+    
+    <div class="roi-results">
+      <h3>💰 Annual Savings Potential</h3>
+      
+      <div class="results-grid">
+        <div class="roi-metric">
+          <span class="metric-label">Current Annual Cost</span>
+          <span class="metric-value" id="annualCost">$108,333</span>
+        </div>
+        
+        <div class="roi-metric">
+          <span class="metric-label">Hours Saved/Year</span>
+          <span class="metric-value" id="hoursSaved">2,917</span>
+        </div>
+        
+        <div class="roi-metric savings-highlight">
+          <span class="metric-label">🚀 Total Annual Savings</span>
+          <span class="metric-value" id="automationSavings">$75,833</span>
+        </div>
+      </div>
+      
+      <div class="automation-assumptions">
+        <div class="assumptions-title">📋 Calculation Assumptions:</div>
+        <div class="assumptions-list">
+          • Based on 250 working days per year<br>
+          • Includes benefits/overhead (1.4x wage multiplier)<br>
+          • Automation rate represents tasks that can be fully automated<br>
+          • Does not include automation implementation costs
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    class AutomationROICalculator {
+      constructor() {
+        this.initializeControls();
+        this.calculateROI(); // Initial calculation
+      }
+
+      initializeControls() {
+        // Add real-time calculation to all inputs
+        ['tasksPerDay', 'minutesPerTask', 'hourlyWage', 'automationRate'].forEach(id => {
+          const input = document.getElementById(id);
+          if (input) {
+            input.addEventListener('input', () => {
+              this.calculateROI();
+            });
+            
+            // Add visual feedback on input
+            input.addEventListener('focus', (e) => {
+              e.target.style.transform = 'scale(1.02)';
+            });
+            
+            input.addEventListener('blur', (e) => {
+              e.target.style.transform = 'scale(1)';
+            });
+          }
+        });
+      }
+
+      calculateROI() {
+        const tasksPerDay = parseInt(document.getElementById('tasksPerDay')?.value || 100);
+        const minutesPerTask = parseInt(document.getElementById('minutesPerTask')?.value || 10);
+        const hourlyWage = parseInt(document.getElementById('hourlyWage')?.value || 25);
+        const automationRate = parseInt(document.getElementById('automationRate')?.value || 70) / 100;
+
+        // Calculate current costs
+        const dailyMinutes = tasksPerDay * minutesPerTask;
+        const dailyHours = dailyMinutes / 60;
+        const dailyCost = dailyHours * hourlyWage * 1.4; // Include benefits/overhead
+        const annualCost = dailyCost * 250; // 250 working days
+        
+        // Calculate savings
+        const hoursSavedPerDay = dailyHours * automationRate;
+        const hoursSavedPerYear = hoursSavedPerDay * 250;
+        const automationSavings = annualCost * automationRate;
+
+        // Update display with smooth animations
+        this.animateValue('annualCost', annualCost, '$', 0);
+        this.animateValue('hoursSaved', hoursSavedPerYear, '', 0);
+        this.animateValue('automationSavings', automationSavings, '$', 0);
+      }
+
+      animateValue(elementId, targetValue, prefix = '', decimals = 0) {
+        const element = document.getElementById(elementId);
+        if (!element) return;
+
+        const currentValue = parseFloat(element.textContent.replace(/[$,]/g, '')) || 0;
+        const difference = targetValue - currentValue;
+        const duration = 300; // ms
+        const steps = 20;
+        const increment = difference / steps;
+        const stepDuration = duration / steps;
+
+        let currentStep = 0;
+        const timer = setInterval(() => {
+          currentStep++;
+          const newValue = currentValue + (increment * currentStep);
+          
+          if (currentStep >= steps) {
+            element.textContent = prefix + Math.round(targetValue).toLocaleString();
+            clearInterval(timer);
+          } else {
+            element.textContent = prefix + Math.round(newValue).toLocaleString();
+          }
+        }, stepDuration);
+      }
+    }
+
+    // Initialize when DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+      new AutomationROICalculator();
+    });
+  </script>
+</body>
+</html>

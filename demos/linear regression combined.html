@@ -1,0 +1,2521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Linear Regression Interactive Simulation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <style>
+    /* =====================================================
+       AI PROTOTYPING COURSE - SHARED DEMO STYLES
+       - Primary: Ivey Green #034638
+       - Accent:  Ivey Purple #582C83
+       - Classification: Orange #f97316, Apple Red #dc2626
+       - Neutral: Cool Gray 10 #63666A
+       Font: Figtree (loaded in HTML files)
+       ===================================================== */
+
+    :root{
+      --ivey-green:#034638;
+      --ivey-green-600:#0a5c49;
+      --ivey-purple:#582C83;
+      --ivey-gray-10:#63666A;
+      --apple-red:#dc2626;
+      --orange-color:#f97316;
+      --male-blue:#3b82f6;
+      --female-pink:#ec4899;
+      --brand-surface:#ffffff;
+      --brand-border:#e7eaee;
+      --shadow-lg:0 8px 30px rgba(3,70,56,.12);
+      --shadow-md:0 6px 20px rgba(0,0,0,.08);
+      --shadow-sm:0 2px 8px rgba(0,0,0,.06);
+      --radius:16px;
+      --card-transition-duration:.6s;
+
+      /* Accessibility additions */
+      --ivey-purple-text: #49246a; /* Darker purple for text on light backgrounds */
+      --ivey-gray-text: #505356;   /* Darker gray for subtitles and labels */
+      --apple-red-text: #b91c1c;   /* Darker red for text on light backgrounds */
+      --orange-text: #c2410c;    /* Darker orange for text on light backgrounds */
+      --male-blue-text: #2563eb;  /* Darker blue for text on light backgrounds */
+      --female-pink-text: #db2777; /* Darker pink for text on light backgrounds */
+      --good-fit-text: #166534; /* Darker green for text on light backgrounds */
+      --bad-fit-text: #991b1b; /* Darker red for text on light backgrounds */
+      --good-green-text: #166534; /* Darker green for text on light backgrounds */
+    }
+
+    /* Reset & base */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:"Figtree",system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
+      line-height:1.5;
+      color:#1f2937;
+      background:#f7faf9;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    .container{
+      max-width:1200px;
+      margin:0 auto;
+      padding:1.25rem;
+    }
+
+    /* Header */
+    .header{
+      background:#fff;
+      border-top:6px solid var(--ivey-green);
+      border-bottom:1px solid var(--brand-border);
+      position:sticky;
+      top:0;
+      z-index:10;
+      padding:2rem 0;
+      margin-bottom:3rem;
+      text-align:center;
+      border-radius:0 0 var(--radius) var(--radius);
+    }
+    .header::after{
+      content:"";
+      position:absolute; left:0; right:0; bottom:-1px;
+      height:3px; background:var(--ivey-purple);
+    }
+
+
+    .site-title{ 
+      font-weight:900; 
+      letter-spacing:.01em; 
+      color:var(--ivey-green); 
+      margin:.5rem 0 0 0;
+      font-size:clamp(2rem, 4vw, 3rem);
+    }
+    .site-subtitle{ 
+      color:var(--ivey-gray-text); 
+      margin:.5rem 0 0 0;
+      font-size:1.2rem;
+    }
+
+    /* Main Content Layout */
+    .main-content {
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+    }
+
+    /* Example Spotlight Section */
+    .example-spotlight {
+      background: linear-gradient(135deg, var(--ivey-green) 0%, var(--ivey-green-600) 100%);
+      color: white;
+      padding: 3rem 2rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .example-spotlight::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+      opacity: 0.1;
+      pointer-events: none;
+    }
+
+    .spotlight-header {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .spotlight-header h2 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    .spotlight-header p {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    .spotlight-content {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    /* Story System */
+    .example-story {
+      position: relative;
+      min-height: 600px; /* Significantly increased for KNN content */
+    }
+
+    .story-step {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.6s ease;
+      pointer-events: none;
+    }
+
+    .story-step.active {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: all;
+    }
+
+    .story-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 2rem;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 2rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .step-number {
+      background: white;
+      color: var(--ivey-green);
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .step-content h3 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      color: var(--ivey-green);
+    }
+
+    .example-spotlight .step-content h3 {
+      color: white;
+    }
+
+    .step-content p, .step-content ul {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      opacity: 0.9;
+    }
+
+    .step-content ul {
+      padding-left: 1.5rem;
+    }
+
+    .step-content li {
+      margin-bottom: 0.5rem;
+    }
+
+    /* Data Preview and Examples */
+    .data-preview {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .data-point {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-family: 'Courier New', monospace;
+      font-weight: 600;
+    }
+
+    .class-examples {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .class-example {
+      padding: 1rem;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+
+    .class-example.apple {
+      background: rgba(220, 38, 38, 0.2);
+      border: 1px solid rgba(220, 38, 38, 0.3);
+    }
+
+    .class-example.orange {
+      background: rgba(249, 115, 22, 0.2);
+      border: 1px solid rgba(249, 115, 22, 0.3);
+    }
+
+    .comparison-visual {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .comparison-item {
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .comparison-item.correct {
+      background: rgba(34, 197, 94, 0.2);
+      border-color: rgba(34, 197, 94, 0.3);
+    }
+
+    .sigmoid-explanation {
+      margin: 1rem 0;
+    }
+
+    .sigmoid-properties {
+      display: grid;
+      gap: 0.5rem;
+    }
+
+    .property {
+      padding: 0.75rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .prediction-examples {
+      display: grid;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .prediction-example {
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .prediction-value.apple {
+      color: var(--apple-red-text);
+      font-weight: 700;
+    }
+
+    .prediction-value.orange {
+      color: var(--orange-text);
+      font-weight: 700;
+    }
+
+    .prediction-value.boundary {
+      color: var(--ivey-purple-text);
+      font-weight: 700;
+    }
+
+    .mse-visual {
+      margin: 1rem 0;
+    }
+
+    .error-explanation {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .good-fit {
+      background: rgba(34, 197, 94, 0.2);
+      color: var(--good-fit-text);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+
+    .bad-fit {
+      background: rgba(239, 68, 68, 0.2);
+      color: var(--bad-fit-text);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+
+    /* Enhanced Linear Regression Styles */
+    .line-explanation {
+      display: grid;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .line-param {
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .archery-analogy {
+      display: grid;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .shot-example {
+      padding: 1rem;
+      background: rgba(34, 197, 94, 0.2);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      border-radius: 8px;
+      color: #22c55e;
+      font-weight: 600;
+    }
+
+    .shot-example.bad {
+      background: rgba(239, 68, 68, 0.2);
+      border-color: rgba(239, 68, 68, 0.3);
+      color: #ef4444;
+    }
+
+    /* Enhanced Logistic Regression Styles */
+    .classification-intro {
+      display: grid;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .decision-example {
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .line-problem {
+      display: grid;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .problem-example {
+      padding: 1rem;
+      background: rgba(239, 68, 68, 0.2);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      border-radius: 8px;
+      color: #ef4444;
+      font-weight: 600;
+    }
+
+    .solution-example {
+      padding: 1rem;
+      background: rgba(34, 197, 94, 0.2);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      border-radius: 8px;
+      color: #22c55e;
+      font-weight: 600;
+    }
+
+    .sigmoid-analogy {
+      display: grid;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .analogy-part, .sigmoid-benefits {
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    /* Enhanced KNN Styles */
+    .neighbor-analogy {
+      display: grid;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .analogy-step {
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Story Controls */
+    .story-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 3rem; /* Increased margin to prevent overlap */
+      padding-top: 1rem; /* Additional padding for safety */
+    }
+
+    .story-btn {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+    }
+
+    .story-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .story-btn.active {
+      background: white;
+      color: var(--ivey-green);
+      border-color: white;
+    }
+
+    /* Visualization Section */
+    .viz-section {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 2rem;
+      background: var(--brand-surface);
+      padding: 2rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-md);
+    }
+
+    .viz-controls h2 {
+      color: var(--ivey-green);
+      font-weight: 800;
+      margin-bottom: 1rem;
+    }
+
+    .viz-controls p {
+      color: var(--ivey-gray-text);
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    .connection-note {
+      background: linear-gradient(135deg, #f0fdfa, #ecfdf5);
+      border: 1px solid #a7f3d0;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      color: var(--ivey-green);
+      font-weight: 600;
+    }
+
+    .control-group {
+      margin-bottom: 2rem;
+    }
+
+    .control-group label {
+      display: block;
+      font-weight: 700;
+      color: var(--ivey-green);
+      margin-bottom: 0.5rem;
+    }
+
+    .control-group input[type="range"] {
+      width: 100%;
+      height: 8px;
+      border-radius: 4px;
+      background: #e5e7eb;
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .control-group input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--ivey-green);
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(3,70,56,0.3);
+    }
+
+    .control-group input[type="range"]::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--ivey-green);
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 2px 8px rgba(3,70,56,0.3);
+    }
+
+    .control-group small {
+      display: block;
+      color: var(--ivey-gray-text);
+      font-size: 0.85rem;
+      margin-top: 0.25rem;
+    }
+
+    .metrics {
+      background: #f9fafb;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-top: 1rem;
+    }
+
+    .metric {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .metric:last-child {
+      margin-bottom: 0;
+    }
+
+    .metric-label {
+      font-weight: 600;
+      color: var(--ivey-gray-text);
+    }
+
+    .metric-value {
+      font-weight: 800;
+      color: var(--ivey-purple-text);
+      font-size: 1.2rem;
+    }
+
+    .plot-container {
+      background: white;
+      border-radius: 8px;
+      padding: 1rem;
+      box-shadow: var(--shadow-sm);
+      min-height: 400px;
+    }
+
+    /* Buttons */
+    .btn, .btn-primary, .btn-secondary, .btn-outline, .btn-ghost{
+      display:inline-flex; align-items:center; gap:.5rem;
+      padding:.875rem 1.75rem; border-radius:8px; border:1px solid transparent;
+      font-weight:700; text-decoration:none; cursor:pointer;
+      transition:all .15s ease; position:relative; overflow:hidden;
+      font-family:inherit; font-size:.95rem; line-height:1;
+      text-align:center; white-space:nowrap;
+      background:none; justify-content: center;
+    }
+    .btn::after, .btn-primary::after, .btn-secondary::after, .btn-outline::after, .btn-ghost::after{
+      content:""; position:absolute; top:0; left:-100%; width:100%; height:100%;
+      background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);
+      transition:left .6s ease;
+    }
+    .btn:hover::after, .btn-primary:hover::after, .btn-secondary:hover::after, .btn-outline:hover::after, .btn-ghost:hover::after{
+      left:100%;
+    }
+    .btn:focus-visible, .btn-primary:focus-visible, .btn-secondary:focus-visible,
+    .btn-outline:focus-visible, .btn-ghost:focus-visible{
+      outline:none; box-shadow:0 0 0 4px rgba(3,70,56,.2);
+    }
+    .btn:active, .btn-primary:active, .btn-secondary:active, .btn-outline:active, .btn-ghost:active{
+      transform:translateY(1px);
+    }
+    .btn-primary{ background:var(--ivey-green); color:#fff; box-shadow:0 4px 14px rgba(3,70,56,.25) }
+    .btn-primary:hover{ background:var(--ivey-green-600) }
+
+    .btn-secondary{ background:var(--ivey-purple); color:#fff; box-shadow:0 4px 14px rgba(88,44,131,.22) }
+    .btn-secondary:hover{ filter:brightness(1.06) }
+
+    .btn-outline{ background:#fff; color:var(--ivey-green); border-color:var(--ivey-green) }
+    .btn-outline:hover{ background:#f8fafa; border-color:var(--ivey-green-600); color:var(--ivey-green-600) }
+    .btn-outline:disabled{ 
+      background:#f9fafb; 
+      color:var(--ivey-gray-10); 
+      border-color:var(--brand-border);
+      cursor:not-allowed;
+      opacity:0.6;
+    }
+    .btn-outline:disabled:hover{ 
+      background:#f9fafb; 
+      color:var(--ivey-gray-10);
+      transform:none;
+    }
+
+    /* Concepts Section */
+    .concepts-section {
+      background: var(--brand-surface);
+      padding: 3rem 2rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-md);
+    }
+
+    .concepts-section h2 {
+      text-align: center;
+      color: var(--ivey-green);
+      font-weight: 800;
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .concept-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .concept-card {
+      background: linear-gradient(135deg, #f8fffe 0%, #f0fdfa 100%);
+      border: 1px solid var(--brand-border);
+      border-radius: 12px;
+      padding: 2rem;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .concept-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--ivey-green);
+    }
+
+    .concept-card.concept-highlight {
+      border-color: var(--ivey-purple);
+      box-shadow: 0 0 0 4px rgba(88, 44, 131, 0.1);
+      transform: translateY(-4px);
+    }
+
+    .concept-card h3 {
+      color: var(--ivey-green);
+      font-weight: 800;
+      margin-bottom: 1rem;
+      font-size: 1.3rem;
+    }
+
+    .concept-card p {
+      color: var(--ivey-gray-text);
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .concept-card code {
+      background: rgba(3, 70, 56, 0.1);
+      color: var(--ivey-green);
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+    }
+
+    /* Comparison Section */
+    .comparison-section {
+      background: var(--brand-surface);
+      padding: 3rem 2rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-md);
+    }
+
+    .comparison-section h2 {
+      text-align: center;
+      color: var(--ivey-green);
+      font-weight: 800;
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+    }
+
+    .comparison-card {
+      border-radius: 12px;
+      padding: 2rem;
+      border: 2px solid transparent;
+      transition: all 0.3s ease;
+    }
+
+    .comparison-card.linear {
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      border-color: #f59e0b;
+    }
+
+    .comparison-card.logistic {
+      background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+      border-color: #3b82f6;
+    }
+
+    .comparison-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .comparison-card h3 {
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+      font-size: 1.4rem;
+    }
+
+    .comparison-card.linear h3 {
+      color: #92400e;
+    }
+
+    .comparison-card.logistic h3 {
+      color: #1e40af;
+    }
+
+    .comparison-content {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .feature-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .feature {
+      padding: 0.5rem;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 6px;
+      font-weight: 600;
+    }
+
+    .comparison-card.linear .feature {
+      color: #92400e;
+    }
+
+    .comparison-card.logistic .feature {
+      color: #1e40af;
+    }
+
+    .use-case {
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+    }
+
+    .use-case strong {
+      color: var(--ivey-green);
+    }
+
+    /* Multi-Dimensional Section */
+    .multi-dim-section {
+      background: var(--brand-surface);
+      padding: 3rem 2rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-md);
+    }
+
+    .multi-dim-section h2 {
+      text-align: center;
+      color: var(--ivey-green);
+      font-weight: 800;
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .dimension-examples {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .dimension-example {
+      background: linear-gradient(135deg, #f8fffe 0%, #f0fdfa 100%);
+      border: 1px solid var(--brand-border);
+      border-radius: 12px;
+      padding: 2rem;
+      transition: all 0.3s ease;
+    }
+
+    .dimension-example:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .dimension-example h3 {
+      color: var(--ivey-green);
+      font-weight: 800;
+      margin-bottom: 1rem;
+    }
+
+    .dimension-example p {
+      color: var(--ivey-gray-10);
+      line-height: 1.6;
+      margin-bottom: 0.5rem;
+    }
+
+    .dimension-example p:last-child {
+      margin-bottom: 0;
+    }
+
+    .multi-dim-controls {
+      background: #f9fafb;
+      padding: 2rem;
+      border-radius: 12px;
+      border: 1px solid var(--brand-border);
+    }
+
+    .multi-dim-controls h3 {
+      color: var(--ivey-green);
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    /* Predictor Section */
+    .predictor-section {
+      background: var(--brand-surface);
+      padding: 3rem 2rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-md);
+    }
+
+    .predictor-section h2 {
+      text-align: center;
+      color: var(--ivey-green);
+      font-weight: 800;
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .predictor-content {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .predictor-form {
+      background: #f9fafb;
+      padding: 2rem;
+      border-radius: 12px;
+      border: 1px solid var(--brand-border);
+    }
+
+    .predictor-form h3 {
+      color: var(--ivey-green);
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .prediction-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .input-group label {
+      font-weight: 700;
+      color: var(--ivey-green);
+    }
+
+    .input-group input {
+      padding: 0.75rem;
+      border: 2px solid var(--brand-border);
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+    }
+
+    .input-group input:focus {
+      outline: none;
+      border-color: var(--ivey-green);
+      box-shadow: 0 0 0 3px rgba(3, 70, 56, 0.1);
+    }
+
+    .input-group small {
+      color: var(--ivey-gray-10);
+      font-size: 0.85rem;
+    }
+
+    .prediction-result {
+      margin-top: 1.5rem;
+      text-align: center;
+    }
+
+    .result-display {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      border: 2px solid var(--brand-border);
+    }
+
+    .probability-bar {
+      position: relative;
+      height: 40px;
+      background: #e5e7eb;
+      border-radius: 20px;
+      overflow: hidden;
+      margin-bottom: 1rem;
+    }
+
+    .probability-fill {
+      height: 100%;
+      background: var(--ivey-green);
+      border-radius: 20px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .probability-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-weight: 700;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    }
+
+    .classification-result {
+      font-size: 1.2rem;
+    }
+
+    .classification-result strong {
+      color: var(--ivey-green);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      .viz-section {
+        grid-template-columns: 1fr;
+      }
+      
+      .plot-container {
+        min-height: 300px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 1rem;
+      }
+      
+      .header {
+        padding: 1.5rem 0;
+        margin-bottom: 2rem;
+      }
+      
+      
+      .site-title {
+        font-size: 2rem;
+      }
+      
+      .site-subtitle {
+        font-size: 1rem;
+      }
+      
+      .example-spotlight {
+        padding: 2rem 1rem;
+      }
+      
+      .spotlight-header h2 {
+        font-size: 2rem;
+      }
+      
+      .example-story {
+        min-height: 700px; /* Even more height needed on mobile */
+      }
+      
+      .story-step {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .step-number {
+        align-self: center;
+      }
+      
+      .story-controls {
+        flex-direction: column;
+        margin-top: 4rem; /* Extra margin on mobile */
+      }
+      
+      .viz-section {
+        padding: 1.5rem;
+      }
+      
+      .concept-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .comparison-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .dimension-examples {
+        grid-template-columns: 1fr;
+      }
+      
+      .data-preview {
+        flex-direction: column;
+      }
+      
+      .class-examples {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Step-by-Step Navigation Styles */
+    .step-navigation {
+      background: var(--brand-surface);
+      padding: 1.5rem 2rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-md);
+      margin-bottom: 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-btn {
+      padding: 0.75rem 1.25rem;
+      border: 2px solid var(--brand-border);
+      background: white;
+      color: var(--ivey-gray-10);
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .nav-btn:hover {
+      border-color: var(--ivey-green);
+      color: var(--ivey-green);
+      background: rgba(3, 70, 56, 0.05);
+    }
+
+    .nav-btn.active {
+      background: var(--ivey-green);
+      color: white;
+      border-color: var(--ivey-green);
+      box-shadow: 0 4px 12px rgba(3, 70, 56, 0.3);
+    }
+
+    /* Demo Steps */
+    .demo-step {
+      display: none;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .demo-step.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .step-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .step-header h2 {
+      color: var(--ivey-green);
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+    }
+
+    .step-intro {
+      font-size: 1.2rem;
+      color: var(--ivey-gray-10);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .step-content {
+      background: var(--brand-surface);
+      padding: 3rem 2rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-md);
+      margin-bottom: 2rem;
+    }
+
+    .step-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2rem;
+      background: var(--brand-surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Step 1: Problem Explanation Styles */
+    .scenario-box {
+      background: linear-gradient(135deg, #f0fdfa 0%, #ecfdf5 100%);
+      padding: 2rem;
+      border-radius: 12px;
+      border: 1px solid rgba(3, 70, 56, 0.1);
+      margin-bottom: 2rem;
+    }
+
+    .scenario-box h3 {
+      color: var(--ivey-green);
+      font-weight: 700;
+    }
+
+    .key-insight {
+      background: var(--ivey-green);
+      color: white;
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      margin-top: 1rem;
+      font-weight: 600;
+    }
+
+    .feature-explanations {
+      display: grid;
+      gap: 2rem;
+      margin-top: 1.5rem;
+    }
+
+    .feature-explanation {
+      padding: 1.5rem;
+      background: #f9fafb;
+      border-radius: 8px;
+      border: 1px solid var(--brand-border);
+    }
+
+    .feature-explanation strong {
+      color: var(--ivey-green);
+    }
+
+    .data-explanation h3,
+    .classification-examples h3 {
+      color: var(--ivey-green);
+      font-weight: 700;
+    }
+
+    .color-scale {
+      display: flex;
+      justify-content: space-between;
+      margin: 1rem 0;
+      padding: 1rem;
+      background: white;
+      border-radius: 6px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .scale-point {
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+
+    .scale-point.green { background: #10b981; color: white; }
+    .scale-point.yellow { background: #f59e0b; color: white; }
+    .scale-point.red { background: #ef4444; color: white; }
+
+    .example-fruits {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .fruit-example {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.5rem;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+    }
+
+    .fruit-example.apple {
+      background: rgba(220, 38, 38, 0.1);
+      border: 2px solid rgba(220, 38, 38, 0.2);
+    }
+
+    .fruit-example.orange {
+      background: rgba(249, 115, 22, 0.1);
+      border: 2px solid rgba(249, 115, 22, 0.2);
+    }
+
+    .fruit-example.boundary {
+      background: rgba(99, 102, 106, 0.1);
+      border: 2px solid rgba(99, 102, 106, 0.2);
+    }
+
+    .fruit-icon {
+      font-size: 3rem;
+      line-height: 1;
+    }
+
+    .fruit-features {
+      margin-top: 0.5rem;
+    }
+
+    .fruit-features div {
+      margin: 0.25rem 0;
+      font-size: 0.9rem;
+      color: var(--ivey-gray-10);
+    }
+
+    .probability {
+      font-weight: 700;
+      color: var(--ivey-green);
+    }
+
+    /* Step 2: Linear Problem Styles */
+    .linear-problem h3,
+    .sigmoid-introduction h3,
+    .linear-problem h4,
+    .sigmoid-introduction h4 {
+      color: var(--ivey-green);
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+    }
+
+    .problem-illustration {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+
+    .problem-box, .solution-box {
+      padding: 2rem;
+      border-radius: 12px;
+      border: 2px solid;
+    }
+
+    .linear-issue {
+      background: rgba(239, 68, 68, 0.05);
+      border-color: rgba(239, 68, 68, 0.2);
+    }
+
+    .sigmoid-solution {
+      background: rgba(16, 185, 129, 0.05);
+      border-color: rgba(16, 185, 129, 0.2);
+    }
+
+    .issue, .solution {
+      margin: 1rem 0;
+      padding: 1rem;
+      background: white;
+      border-radius: 8px;
+      border-left: 4px solid;
+    }
+
+    .issue {
+      border-left-color: #ef4444;
+    }
+
+    .solution {
+      border-left-color: #10b981;
+    }
+
+    .slide-metaphor {
+      display: grid;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+
+    .slide-part {
+      padding: 1rem;
+      border-radius: 8px;
+      border: 1px solid var(--brand-border);
+    }
+
+    .slide-part.high { background: rgba(220, 38, 38, 0.1); }
+    .slide-part.middle { background: rgba(99, 102, 106, 0.1); }
+    .slide-part.low { background: rgba(249, 115, 22, 0.1); }
+
+    .formula-box {
+      background: var(--ivey-green);
+      color: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    .formula {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      font-family: 'Courier New', monospace;
+    }
+
+    /* Step 3: Parameter Controls Styles */
+    .parameter-explanation {
+      display: grid;
+      gap: 3rem;
+    }
+
+    .weight-details, .bias-details {
+      background: #f9fafb;
+      padding: 2rem;
+      border-radius: 12px;
+      border: 1px solid var(--brand-border);
+    }
+
+    .weight-details h3,
+    .weight-details h4,
+    .bias-details h3,
+    .bias-details h4 {
+      color: var(--ivey-green);
+      font-weight: 700;
+    }
+
+    .weight-examples, .bias-examples {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .weight-example, .bias-example {
+      padding: 1rem;
+      background: white;
+      border-radius: 8px;
+      border: 1px solid var(--brand-border);
+    }
+
+    .example-case {
+      font-weight: 600;
+      color: var(--ivey-green);
+      margin: 0.5rem 0;
+    }
+
+    .interpretation {
+      font-size: 0.85rem;
+      color: var(--ivey-gray-10);
+    }
+
+    .slide-comparison {
+      display: grid;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .gentle-slide, .steep-slide {
+      padding: 1rem;
+      background: white;
+      border-radius: 8px;
+      border-left: 4px solid var(--ivey-purple);
+    }
+
+    .param-controls {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      border: 1px solid var(--brand-border);
+    }
+
+    .param-controls h3,
+    .param-controls h4 {
+      color: var(--ivey-green);
+      font-weight: 700;
+    }
+
+    .control-explanation {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      color: var(--ivey-gray-10);
+      margin-top: 0.5rem;
+    }
+
+    .test-predictions {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      background: #f9fafb;
+      border-radius: 8px;
+    }
+
+    .test-predictions h4 {
+      color: var(--ivey-green);
+      font-weight: 700;
+    }
+
+    .test-cases {
+      display: grid;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .test-case {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem;
+      background: white;
+      border-radius: 6px;
+      border: 1px solid var(--brand-border);
+    }
+
+    .prediction {
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .curve-visualization {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      background: white;
+      border-radius: 12px;
+      border: 1px solid var(--brand-border);
+    }
+
+    /* Step 4: Classification Process Styles */
+    .threshold-demo {
+      background: #f9fafb;
+      padding: 2rem;
+      border-radius: 12px;
+      margin-top: 1rem;
+    }
+
+    .threshold-demo h4 {
+      color: var(--ivey-green);
+      font-weight: 700;
+    }
+
+    .rule-box {
+      display: grid;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .rule-case {
+      padding: 1rem;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+
+    .rule-case.high {
+      background: rgba(220, 38, 38, 0.1);
+      border: 1px solid rgba(220, 38, 38, 0.2);
+      color: var(--apple-red-text);
+    }
+
+    .rule-case.low {
+      background: rgba(249, 115, 22, 0.1);
+      border: 1px solid rgba(249, 115, 22, 0.2);
+      color: var(--orange-text);
+    }
+
+    .threshold-effects {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      color: var(--ivey-gray-text);
+      margin-top: 0.5rem;
+    }
+
+    .examples-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .example-walkthrough {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      border: 1px solid var(--brand-border);
+    }
+
+    .walkthrough-steps {
+      display: grid;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .walkthrough-step {
+      padding: 1rem;
+      background: #f9fafb;
+      border-radius: 8px;
+      border-left: 4px solid var(--ivey-purple);
+    }
+
+    .walkthrough-step.final {
+      border-left-color: var(--ivey-green);
+      background: rgba(3, 70, 56, 0.05);
+    }
+
+    .step-data {
+      font-weight: 600;
+      color: var(--ivey-green);
+      margin-top: 0.5rem;
+    }
+
+    .confidence {
+      font-size: 0.85rem;
+      color: var(--ivey-gray-text);
+      margin-top: 0.25rem;
+    }
+
+    .classification.apple { color: var(--apple-red-text); }
+    .classification.orange { color: var(--orange-text); }
+
+    .plot-legend {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      margin: 1rem 0;
+      font-size: 0.9rem;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .legend-item.apple::before { content: "克"; }
+    .legend-item.orange::before { content: "濠"; }
+    .legend-item.boundary::before { content: "識"; }
+
+    .plot-metrics {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 2rem;
+      padding: 1.5rem;
+      background: #f9fafb;
+      border-radius: 8px;
+    }
+
+    .metric-box {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .metric {
+      text-align: center;
+    }
+
+    .metric-value {
+      display: block;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-top: 0.25rem;
+    }
+
+    .metric-value.apple { color: #dc2626; }
+    .metric-value.orange { color: #f97316; }
+
+    /* Step 5: Practice Styles */
+    .classifier-interface {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      margin-top: 2rem;
+    }
+
+    .input-section {
+      background: #f9fafb;
+      padding: 2rem;
+      border-radius: 12px;
+    }
+
+    .input-section h4 {
+      color: var(--ivey-green);
+      font-weight: 700;
+    }
+
+    .input-row {
+      display: grid;
+      gap: 1.5rem;
+      margin: 1.5rem 0;
+    }
+
+    .input-group {
+      display: grid;
+      gap: 0.5rem;
+    }
+
+    .input-group label {
+      font-weight: 600;
+      color: var(--ivey-green);
+    }
+
+    .input-group input[type="number"] {
+      padding: 0.75rem;
+      border: 2px solid var(--brand-border);
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    .input-group input[type="number"]:focus {
+      outline: none;
+      border-color: var(--ivey-green);
+      box-shadow: 0 0 0 3px rgba(3, 70, 56, 0.1);
+    }
+
+    .input-hint {
+      font-size: 0.8rem;
+      color: var(--ivey-gray-10);
+    }
+
+    .prediction-display {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      border: 1px solid var(--brand-border);
+    }
+
+    .prediction-steps {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    .prediction-step {
+      padding: 1rem;
+      background: #f9fafb;
+      border-radius: 8px;
+    }
+
+    .prediction-step.final-result {
+      background: rgba(3, 70, 56, 0.05);
+      border: 1px solid rgba(3, 70, 56, 0.2);
+    }
+
+    .calc-display, .threshold-comparison {
+      font-family: 'Courier New', monospace;
+      font-weight: 600;
+      color: var(--ivey-green);
+      margin-top: 0.5rem;
+    }
+
+    .classification-display {
+      text-align: center;
+    }
+
+    .fruit-result {
+      font-size: 1.5rem;
+      font-weight: 700;
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    .fruit-result.apple { color: var(--apple-red-text); }
+    .fruit-result.orange { color: var(--orange-text); }
+
+    .confidence-display {
+      display: grid;
+      gap: 0.5rem;
+    }
+
+    .confidence-bar {
+      height: 8px;
+      background: #e5e7eb;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .confidence-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+    }
+
+    .quiz-questions {
+      display: grid;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .quiz-question {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      border: 1px solid var(--brand-border);
+    }
+
+    .quiz-options {
+      display: grid;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+
+    .quiz-option {
+      padding: 1rem;
+      background: #f9fafb;
+      border: 2px solid var(--brand-border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: left;
+    }
+
+    .quiz-option:hover {
+      border-color: var(--ivey-green);
+      background: rgba(3, 70, 56, 0.05);
+    }
+
+    .quiz-option.correct {
+      background: rgba(16, 185, 129, 0.1);
+      border-color: #10b981;
+      color: var(--good-green-text);
+    }
+
+    .quiz-option.incorrect {
+      background: rgba(239, 68, 68, 0.1);
+      border-color: #ef4444;
+      color: var(--apple-red-text);
+    }
+
+    .quiz-explanation {
+      background: var(--ivey-green);
+      color: white;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-top: 1rem;
+    }
+
+    .quiz-explanation.hidden {
+      display: none;
+    }
+
+    .takeaway-list {
+      display: grid;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .takeaway {
+      padding: 1rem;
+      background: rgba(3, 70, 56, 0.05);
+      border-radius: 8px;
+      border-left: 4px solid var(--ivey-green);
+    }
+
+    /* Responsive Design for Steps */
+    @media (max-width: 768px) {
+      .nav-container {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .nav-btn {
+        width: 100%;
+        max-width: 300px;
+      }
+      
+      .problem-illustration,
+      .weight-examples,
+      .bias-examples,
+      .examples-container,
+      .classifier-interface {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      
+      .example-fruits {
+        grid-template-columns: 1fr;
+      }
+      
+      .step-actions {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .step-actions .btn {
+        width: 100%;
+      }
+      
+      .metric-box {
+        flex-direction: column;
+        gap: 1rem;
+      }
+    }
+
+    /* KNN-Specific Styles */
+    .knn-explanation {
+      display: grid;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .knn-point {
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .class-example.male {
+      background: rgba(59, 130, 246, 0.2);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      color: var(--male-blue-text);
+    }
+
+    .class-example.female {
+      background: rgba(236, 72, 153, 0.2);
+      border: 1px solid rgba(236, 72, 153, 0.3);
+      color: var(--female-pink-text);
+    }
+
+    .neighbor-examples {
+      display: grid;
+      gap: 0.5rem;
+      margin: 1rem 0;
+    }
+
+    .neighbor-example {
+      padding: 0.75rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      font-family: 'Courier New', monospace;
+    }
+
+    .vote-count {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .vote-item {
+      padding: 1rem;
+      border-radius: 8px;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .vote-item.male {
+      background: rgba(59, 130, 246, 0.2);
+      border: 2px solid var(--male-blue);
+      color: var(--male-blue-text);
+    }
+
+    .vote-item.female {
+      background: rgba(236, 72, 153, 0.2);
+      border: 2px solid var(--female-pink);
+      color: var(--female-pink-text);
+    }
+
+    .vote-number {
+      font-size: 2rem;
+      font-weight: 800;
+      display: block;
+      margin-top: 0.5rem;
+    }
+
+    .final-prediction {
+      text-align: center;
+      padding: 1.5rem;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      margin-top: 1rem;
+    }
+
+    .prediction-value.male {
+      color: var(--male-blue-text);
+      font-size: 1.5rem;
+    }
+
+    .prediction-value.female {
+      color: var(--female-pink-text);
+      font-size: 1.5rem;
+    }
+
+    .metric-value.male {
+      color: var(--male-blue-text);
+    }
+
+    .metric-value.female {
+      color: var(--female-pink-text);
+    }
+
+    /* Regression Section */
+    .regression-section {
+      background: var(--brand-surface);
+      padding: 3rem 2rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-md);
+    }
+
+    .regression-section h2 {
+      text-align: center;
+      color: var(--ivey-green);
+      font-weight: 800;
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .regression-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    .regression-explanation h3 {
+      color: var(--ivey-green);
+      font-weight: 800;
+      margin-bottom: 1rem;
+    }
+
+    .regression-example {
+      background: linear-gradient(135deg, #f0fdfa, #ecfdf5);
+      padding: 1.5rem;
+      border-radius: 12px;
+      border: 1px solid #a7f3d0;
+      margin-top: 1rem;
+    }
+
+    .regression-step {
+      font-weight: 600;
+      color: var(--ivey-green);
+      margin-bottom: 1rem;
+    }
+
+    .regression-neighbors {
+      display: grid;
+      gap: 0.5rem;
+      margin: 1rem 0;
+    }
+
+    .neighbor-data {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 6px;
+    }
+
+    .neighbor-height {
+      font-weight: 600;
+      color: var(--ivey-purple);
+    }
+
+    .neighbor-chest {
+      font-weight: 600;
+      color: var(--ivey-green);
+    }
+
+    .neighbor-distance {
+      font-size: 0.85rem;
+      color: var(--ivey-gray-10);
+    }
+
+    .regression-calculation {
+      text-align: center;
+      padding: 1rem;
+      background: rgba(3, 70, 56, 0.1);
+      border-radius: 8px;
+      margin-top: 1rem;
+      font-weight: 600;
+      color: var(--ivey-green);
+    }
+
+    .result-value {
+      color: var(--ivey-purple);
+      font-size: 1.2rem;
+      font-weight: 800;
+    }
+
+    .regression-interactive {
+      background: #f9fafb;
+      padding: 2rem;
+      border-radius: 12px;
+      border: 1px solid var(--brand-border);
+    }
+
+    .regression-interactive h3 {
+      color: var(--ivey-green);
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .regression-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .regression-result {
+      text-align: center;
+      padding: 1.5rem;
+      background: white;
+      border-radius: 12px;
+      border: 2px solid var(--brand-border);
+      font-size: 1.2rem;
+    }
+
+    .regression-neighbors-display {
+      margin-top: 1rem;
+      text-align: left;
+    }
+
+    .regression-neighbors-display h4 {
+      color: var(--ivey-green);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Comparison Card Extensions */
+    .comparison-card.knn {
+      background: linear-gradient(135deg, #ddd6fe 0%, #c4b5fd 100%);
+      border-color: var(--ivey-purple);
+    }
+
+    .comparison-card.parametric {
+      background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%);
+      border-color: var(--female-pink);
+    }
+
+    .comparison-card.knn h3 {
+      color: var(--ivey-purple);
+    }
+
+    .comparison-card.parametric h3 {
+      color: var(--female-pink);
+    }
+
+    .comparison-card.knn .feature {
+      color: var(--ivey-purple);
+    }
+
+    .comparison-card.parametric .feature {
+      color: var(--female-pink);
+    }
+
+    /* Test Tool Styles */
+    .test-scenario {
+      background: linear-gradient(135deg, #f0fdfa, #ecfdf5);
+      padding: 1.5rem;
+      border-radius: 12px;
+      border: 1px solid #a7f3d0;
+      margin-bottom: 1.5rem;
+    }
+
+    .test-scenario h4 {
+      color: var(--ivey-green);
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+    }
+
+    .neighbors-list {
+      background: #f9fafb;
+      padding: 1.5rem;
+      border-radius: 12px;
+      border: 1px solid var(--brand-border);
+      margin-bottom: 1rem;
+    }
+
+    .neighbors-list h4 {
+      color: var(--ivey-green);
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .neighbor-item {
+      display: grid;
+      grid-template-columns: auto 1fr auto auto;
+      gap: 1rem;
+      align-items: center;
+      padding: 0.75rem;
+      background: white;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+      border: 1px solid var(--brand-border);
+    }
+
+    .neighbor-item .rank {
+      font-weight: 700;
+      color: var(--ivey-purple);
+    }
+
+    .neighbor-item .height {
+      font-weight: 600;
+      font-family: 'Courier New', monospace;
+    }
+
+    .neighbor-item .gender.male {
+      color: var(--male-blue);
+      font-weight: 700;
+    }
+
+    .neighbor-item .gender.female {
+      color: var(--female-pink);
+      font-weight: 700;
+    }
+
+    .neighbor-item .distance {
+      font-size: 0.85rem;
+      color: var(--ivey-gray-10);
+      font-family: 'Courier New', monospace;
+    }
+
+    .test-prediction.male {
+      color: var(--male-blue);
+      font-size: 1.3rem;
+    }
+
+    .test-prediction.female {
+      color: var(--female-pink);
+      font-size: 1.3rem;
+    }
+
+    /* Responsive adjustments for KNN */
+    @media (max-width: 768px) {
+      .regression-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      
+      .vote-count {
+        grid-template-columns: 1fr;
+      }
+      
+      .neighbor-item {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1 class="site-title">Linear Regression: Interactive Simulation</h1>
+      <p class="site-subtitle">An interactive simulation of a linear regression model.</p>
+    </header>
+
+    <main class="main-content">
+      <section class="demo-step active" id="step4">
+        <div class="step-header">
+          <h2>🎮 Interactive Model</h2>
+          <p class="step-intro">Explore the full linear regression model with real data</p>
+        </div>
+        
+        <div class="step-content">
+          <div class="interactive-model">
+            <div class="model-controls">
+              <h3>🎛️ Adjust the Line Parameters</h3>
+              <p>Try different slopes and intercepts to see how they affect the model's accuracy:</p>
+              
+              <div class="control-section">
+                <div class="control-group">
+                  <label for="slope">Slope ($ per year): <span id="slopeValue">7.3</span></label>
+                  <input type="range" id="slope" min="1.0" max="15.0" step="0.1" value="7.3">
+                  <div class="control-hint">How much salary increases per year of experience</div>
+                </div>
+                
+                <div class="control-group">
+                  <label for="intercept">Intercept ($k CAD): <span id="interceptValue">37</span></label>
+                  <input type="range" id="intercept" min="20" max="60" step="1" value="37">
+                  <div class="control-hint">Starting salary with 0 years experience</div>
+                </div>
+                
+                <div class="metrics-display">
+                  <div class="metric">
+                    <span class="metric-label">Current MSE:</span>
+                    <span class="metric-value" id="currentMSE">245.2</span>
+                  </div>
+                  <div class="metric">
+                    <span class="metric-label">Model Equation:</span>
+                    <span class="equation-display" id="currentEquation">Salary = 7.3 × Experience + 37</span>
+                  </div>
+                </div>
+                
+                <button id="findBestFit" class="btn btn-primary">🎯 Find Optimal Parameters</button>
+              </div>
+            </div>
+
+            <div class="visualization-area">
+              <div class="plot-container">
+                <div id="regressionPlot"></div>
+              </div>
+              
+              <div class="plot-legend">
+                <div class="legend-explanation">
+                  <div class="legend-item">
+                    <span class="data-point">🔴 Red dots:</span> Actual MBA graduate salaries
+                  </div>
+                  <div class="legend-item">
+                    <span class="line-item">📈 Blue line:</span> Your prediction line
+                  </div>
+                  <div class="legend-item">
+                    <span class="error-item">⚫ Gray lines:</span> Prediction errors
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="model-insights">
+              <h3>🔍 Model Insights</h3>
+              <div class="insights-grid">
+                <div class="insight-card">
+                  <h4>📊 Current Performance</h4>
+                  <div class="performance-details">
+                    <div class="perf-item">MSE: <span id="perfMSE">245.2</span></div>
+                    <div class="perf-item">Avg Error: <span id="perfAvgError">$15.7k</span></div>
+                    <div class="perf-interpretation" id="perfInterpretation">Pretty good fit!</div>
+                  </div>
+                </div>
+                
+                <div class="insight-card">
+                  <h4>💡 What This Means</h4>
+                  <div class="interpretation-text" id="modelInterpretation">
+                    With current parameters, each year of experience adds $7,300 to salary, starting from a base of $37,000.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    class LinearRegressionSimpleDemo {
+      constructor() {
+        // Sample data: Years of experience vs Salary (in thousands)
+        this.data = {
+          x: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 15, 18, 20],
+          y: [35, 42, 48, 55, 58, 65, 70, 75, 82, 90, 95, 105, 120, 135, 150]
+        };
+        
+        // Initial parameters
+        this.slope = 7.3;
+        this.intercept = 37;
+        
+        this.initializeControls();
+        this.updateVisualization();
+      }
+
+      initializeControls() {
+        // Slope control
+        const slopeSlider = document.getElementById('slope');
+        const slopeValue = document.getElementById('slopeValue');
+        slopeSlider.addEventListener('input', (e) => {
+          this.slope = parseFloat(e.target.value);
+          slopeValue.textContent = this.slope.toFixed(1);
+          this.updateVisualization();
+        });
+
+        // Intercept control
+        const interceptSlider = document.getElementById('intercept');
+        const interceptValue = document.getElementById('interceptValue');
+        interceptSlider.addEventListener('input', (e) => {
+          this.intercept = parseFloat(e.target.value);
+          interceptValue.textContent = this.intercept;
+          this.updateVisualization();
+        });
+
+        // Auto-fit button
+        document.getElementById('findBestFit').addEventListener('click', () => {
+          this.findBestFit();
+        });
+      }
+
+      calculatePredictions() {
+        return this.data.x.map(x => this.slope * x + this.intercept);
+      }
+
+      calculateMSE() {
+        const predictions = this.calculatePredictions();
+        const errors = this.data.y.map((actual, i) => Math.pow(actual - predictions[i], 2));
+        return errors.reduce((sum, error) => sum + error, 0) / errors.length;
+      }
+
+      findBestFit() {
+        // Simple linear regression: calculate optimal slope and intercept
+        const n = this.data.x.length;
+        const sumX = this.data.x.reduce((sum, x) => sum + x, 0);
+        const sumY = this.data.y.reduce((sum, y) => sum + y, 0);
+        const sumXY = this.data.x.reduce((sum, x, i) => sum + x * this.data.y[i], 0);
+        const sumX2 = this.data.x.reduce((sum, x) => sum + x * x, 0);
+
+        // Calculate optimal parameters
+        const optimalSlope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+        const optimalIntercept = (sumY - optimalSlope * sumX) / n;
+
+        // Animate to optimal values
+        this.animateToValues(optimalSlope, optimalIntercept);
+      }
+
+      animateToValues(targetSlope, targetIntercept) {
+        const startSlope = this.slope;
+        const startIntercept = this.intercept;
+        const duration = 1500; // 1.5 seconds
+        const startTime = Date.now();
+
+        const animate = () => {
+          const elapsed = Date.now() - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          
+          // Easing function (ease-out)
+          const easeProgress = 1 - Math.pow(1 - progress, 3);
+
+          this.slope = startSlope + (targetSlope - startSlope) * easeProgress;
+          this.intercept = startIntercept + (targetIntercept - startIntercept) * easeProgress;
+
+          // Update UI
+          document.getElementById('slope').value = this.slope;
+          document.getElementById('intercept').value = this.intercept;
+          document.getElementById('slopeValue').textContent = this.slope.toFixed(1);
+          document.getElementById('interceptValue').textContent = Math.round(this.intercept);
+
+          this.updateVisualization();
+
+          if (progress < 1) {
+            requestAnimationFrame(animate);
+          }
+        };
+
+        animate();
+      }
+
+      updateVisualization() {
+        const predictions = this.calculatePredictions();
+        const mse = this.calculateMSE();
+
+        // Update MSE display
+        document.getElementById('currentMSE').textContent = mse.toFixed(2);
+        document.getElementById('currentEquation').textContent = `Salary = ${this.slope.toFixed(1)} × Experience + ${this.intercept.toFixed(0)}`;
+
+        // Update performance insights
+        const avgError = Math.sqrt(mse);
+        document.getElementById('perfMSE').textContent = mse.toFixed(2);
+        document.getElementById('perfAvgError').textContent = `$${avgError.toFixed(1)}k`;
+        document.getElementById('perfInterpretation').textContent = this.getInterpretation(mse);
+        document.getElementById('modelInterpretation').textContent = `With current parameters, each year of experience adds $${(this.slope * 1000).toLocaleString()} to salary, starting from a base of $${(this.intercept * 1000).toLocaleString()}.`;
+
+
+        // Create plotly traces
+        const traces = [
+          {
+            x: this.data.x,
+            y: this.data.y,
+            mode: 'markers',
+            type: 'scatter',
+            name: 'Actual Data',
+            marker: {
+              color: '#ef4444',
+              size: 10,
+              line: { color: 'white', width: 2 }
+            }
+          },
+          {
+            x: this.data.x,
+            y: predictions,
+            mode: 'lines',
+            type: 'scatter',
+            name: `Line: y = ${this.slope.toFixed(1)}x + ${this.intercept.toFixed(0)}`,
+            line: { color: '#2563eb', width: 3 }
+          }
+        ];
+
+        // Add error lines
+        const errorLines = [];
+        this.data.x.forEach((x, i) => {
+          errorLines.push({
+            x: [x, x],
+            y: [this.data.y[i], predictions[i]],
+            mode: 'lines',
+            type: 'scatter',
+            showlegend: false,
+            line: { color: '#6b7280', width: 1, dash: 'dot' },
+            hoverinfo: 'skip'
+          });
+        });
+
+        const layout = {
+          title: {
+            text: 'Years of Experience vs Salary',
+            font: { size: 16, color: '#1f2937' }
+          },
+          xaxis: {
+            title: 'Years of Experience',
+            showgrid: true,
+            gridcolor: '#e5e7eb'
+          },
+          yaxis: {
+            title: 'Salary ($k)',
+            showgrid: true,
+            gridcolor: '#e5e7eb'
+          },
+          plot_bgcolor: '#f9fafb',
+          paper_bgcolor: 'white',
+          font: { family: 'Inter, sans-serif' },
+          margin: { t: 60, r: 20, b: 60, l: 60 },
+          showlegend: true,
+          legend: { x: 0, y: 1 }
+        };
+
+        Plotly.newPlot('regressionPlot', [...traces, ...errorLines], layout, {
+          displayModeBar: false,
+          responsive: true
+        });
+      }
+
+      getInterpretation(mse) {
+        if (mse < 50) return 'Excellent fit!';
+        if (mse < 100) return 'Great fit!';
+        if (mse < 250) return 'Good fit.';
+        if (mse < 500) return 'Decent fit.';
+        return 'Poor fit.';
+      }
+    }
+
+    // Initialize the demo when the DOM is ready
+    document.addEventListener('DOMContentLoaded', () => {
+      new LinearRegressionSimpleDemo();
+    });
+  </script>
+</body>
+</html>

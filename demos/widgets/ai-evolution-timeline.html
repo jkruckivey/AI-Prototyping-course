@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Evolution Timeline</title>
+  <link rel="stylesheet" href="../shared-demo.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      background: white;
+      font-family: 'Figtree', sans-serif;
+    }
+    
+    .widget-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .timeline-controls {
+      margin-bottom: 24px;
+    }
+    
+    .timeline-buttons {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .timeline-btn {
+      padding: 12px 24px;
+      border: 2px solid #034638;
+      background: white;
+      color: #034638;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .timeline-btn:hover {
+      background: #f0f9f6;
+      transform: translateY(-1px);
+    }
+    
+    .timeline-btn.active {
+      background: #034638;
+      color: white;
+      box-shadow: 0 4px 12px rgba(3, 70, 56, 0.3);
+    }
+    
+    .era-content {
+      display: none;
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 24px;
+      border: 1px solid #e2e8f0;
+    }
+    
+    .era-content.active {
+      display: block;
+      animation: fadeIn 0.3s ease-in;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .era-header {
+      margin-bottom: 16px;
+    }
+    
+    .era-header h3 {
+      margin: 0 0 8px 0;
+      color: #1e293b;
+      font-size: 1.5em;
+    }
+    
+    .era-tagline {
+      color: #64748b;
+      font-style: italic;
+      font-size: 1.1em;
+    }
+    
+    .era-explanation {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    
+    @media (max-width: 768px) {
+      .era-explanation {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .approach-description h4,
+    .capabilities h4 {
+      margin: 0 0 12px 0;
+      color: #1e293b;
+      font-size: 1.1em;
+    }
+    
+    .rule-examples,
+    .expert-examples,
+    .ml-examples,
+    .dl-examples {
+      margin-top: 12px;
+    }
+    
+    .rule-example,
+    .expert-example,
+    .ml-example,
+    .dl-example {
+      background: white;
+      padding: 12px;
+      border-radius: 8px;
+      margin: 8px 0;
+      border-left: 4px solid #582C83;
+    }
+    
+    .rule-example strong,
+    .expert-example strong,
+    .ml-example strong,
+    .dl-example strong {
+      color: #582C83;
+    }
+    
+    .capability-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .capability {
+      padding: 8px 12px;
+      background: white;
+      border-radius: 6px;
+      font-size: 0.9em;
+    }
+    
+    .capability:contains("✅") {
+      border-left: 4px solid #10b981;
+    }
+    
+    .capability:contains("❌") {
+      border-left: 4px solid #ef4444;
+    }
+  </style>
+</head>
+<body>
+  <div class="widget-container">
+    <div class="timeline-controls">
+      <div class="timeline-buttons">
+        <button class="timeline-btn active" data-era="1950s">1950s-60s</button>
+        <button class="timeline-btn" data-era="1980s">1980s</button>
+        <button class="timeline-btn" data-era="2000s">2000s</button>
+        <button class="timeline-btn" data-era="2020s">2020s</button>
+      </div>
+    </div>
+
+    <div class="era-details">
+      <div class="era-content active" id="era-1950s">
+        <div class="era-header">
+          <h3>🤖 Rule-Based Systems</h3>
+          <div class="era-tagline">Following Explicit Instructions</div>
+        </div>
+        
+        <div class="era-explanation">
+          <div class="approach-description">
+            <h4>How it worked:</h4>
+            <p>Programmers wrote explicit rules for every scenario</p>
+            <div class="rule-examples">
+              <div class="rule-example">
+                <strong>Rule:</strong> IF temperature > 30°C THEN turn_on_AC
+              </div>
+              <div class="rule-example">
+                <strong>Rule:</strong> IF piece = "knight" AND move = "L-shape" THEN valid_move
+              </div>
+            </div>
+          </div>
+          
+          <div class="capabilities">
+            <h4>What it could do:</h4>
+            <div class="capability-list">
+              <div class="capability">✅ Play simple games (checkers, tic-tac-toe)</div>
+              <div class="capability">✅ Solve mathematical problems</div>
+              <div class="capability">❌ Adapt to new situations</div>
+              <div class="capability">❌ Learn from experience</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="era-content" id="era-1980s">
+        <div class="era-header">
+          <h3>🧠 Expert Systems</h3>
+          <div class="era-tagline">Capturing Human Expertise</div>
+        </div>
+        
+        <div class="era-explanation">
+          <div class="approach-description">
+            <h4>How it worked:</h4>
+            <p>Captured human expert knowledge in specific domains</p>
+            <div class="expert-examples">
+              <div class="expert-example">
+                <strong>Medical:</strong> IF symptoms = "fever + cough + chest_pain" THEN likely_pneumonia
+              </div>
+              <div class="expert-example">
+                <strong>Financial:</strong> IF age < 30 AND risk_tolerance = "high" THEN recommend_stocks
+              </div>
+            </div>
+          </div>
+          
+          <div class="capabilities">
+            <h4>What it could do:</h4>
+            <div class="capability-list">
+              <div class="capability">✅ Medical diagnosis assistance</div>
+              <div class="capability">✅ Financial recommendations</div>
+              <div class="capability">✅ Explain reasoning</div>
+              <div class="capability">❌ Handle completely new scenarios</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="era-content" id="era-2000s">
+        <div class="era-header">
+          <h3>📊 Machine Learning</h3>
+          <div class="era-tagline">Learning from Data</div>
+        </div>
+        
+        <div class="era-explanation">
+          <div class="approach-description">
+            <h4>How it works:</h4>
+            <p>Systems learn patterns from data instead of following pre-programmed rules</p>
+            <div class="ml-examples">
+              <div class="ml-example">
+                <strong>Email Spam:</strong> Analyzes thousands of emails to learn spam patterns
+              </div>
+              <div class="ml-example">
+                <strong>Recommendations:</strong> Studies purchase history to suggest items
+              </div>
+            </div>
+          </div>
+          
+          <div class="capabilities">
+            <h4>What it can do:</h4>
+            <div class="capability-list">
+              <div class="capability">✅ Pattern recognition</div>
+              <div class="capability">✅ Adapt to new data</div>
+              <div class="capability">✅ Handle complex scenarios</div>
+              <div class="capability">❌ Explain every decision</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="era-content" id="era-2020s">
+        <div class="era-header">
+          <h3>🧬 Deep Learning</h3>
+          <div class="era-tagline">Neural Networks at Scale</div>
+        </div>
+        
+        <div class="era-explanation">
+          <div class="approach-description">
+            <h4>How it works:</h4>
+            <p>Artificial neural networks with multiple layers process vast amounts of unstructured data</p>
+            <div class="dl-examples">
+              <div class="dl-example">
+                <strong>Image Recognition:</strong> Identifies objects in photos like humans do
+              </div>
+              <div class="dl-example">
+                <strong>Natural Language:</strong> Understands and generates human-like text
+              </div>
+            </div>
+          </div>
+          
+          <div class="capabilities">
+            <h4>What it can do:</h4>
+            <div class="capability-list">
+              <div class="capability">✅ Process images, speech, text</div>
+              <div class="capability">✅ Generate new content</div>
+              <div class="capability">✅ Understand context</div>
+              <div class="capability">❌ Always explainable</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    class AIEvolutionTimeline {
+      constructor() {
+        this.currentEra = '1950s';
+        this.initializeControls();
+      }
+
+      initializeControls() {
+        const timelineButtons = document.querySelectorAll('.timeline-btn');
+        
+        timelineButtons.forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            const era = e.target.dataset.era;
+            this.showEra(era);
+          });
+        });
+      }
+
+      showEra(era) {
+        // Update timeline buttons
+        document.querySelectorAll('.timeline-btn').forEach(btn => {
+          btn.classList.remove('active');
+          if (btn.dataset.era === era) {
+            btn.classList.add('active');
+          }
+        });
+
+        // Update era content
+        document.querySelectorAll('.era-content').forEach(content => {
+          content.classList.remove('active');
+        });
+        document.getElementById(`era-${era}`).classList.add('active');
+
+        this.currentEra = era;
+      }
+    }
+
+    // Initialize when DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+      new AIEvolutionTimeline();
+    });
+  </script>
+</body>
+</html>

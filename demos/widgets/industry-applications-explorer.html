@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Industry Applications Explorer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      background: white;
+      font-family: 'Figtree', sans-serif;
+    }
+    
+    .widget-container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    
+    .industry-selector {
+      margin-bottom: 20px;
+    }
+    
+    .industry-buttons {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+    }
+    
+    .industry-btn {
+      padding: 16px 20px;
+      border: 2px solid #d1d5db;
+      background: white;
+      color: #374151;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+      font-size: 1.1em;
+    }
+    
+    .industry-btn:hover {
+      border-color: #034638;
+      background: #f0f9f6;
+      transform: translateY(-2px);
+    }
+    
+    .industry-btn.active {
+      border-color: #034638;
+      background: #034638;
+      color: white;
+      box-shadow: 0 4px 12px rgba(3, 70, 56, 0.3);
+    }
+    
+    .industry-content {
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 24px;
+      border: 1px solid #e2e8f0;
+    }
+    
+    .industry-details {
+      display: none;
+    }
+    
+    .industry-details.active {
+      display: block;
+      animation: fadeIn 0.3s ease-in;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .industry-header {
+      margin-bottom: 24px;
+      text-align: center;
+    }
+    
+    .industry-header h3 {
+      margin: 0 0 8px 0;
+      color: #1e293b;
+      font-size: 2em;
+    }
+    
+    .adoption-rate {
+      background: #10b981;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: 600;
+      display: inline-block;
+    }
+    
+    .applications-showcase {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    
+    .application-category {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid #d1d5db;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: transform 0.2s ease;
+    }
+    
+    .application-category:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    }
+    
+    .application-category h4 {
+      margin: 0 0 12px 0;
+      color: #1e293b;
+      font-size: 1.3em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .application-description {
+      color: #475569;
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+    
+    .application-impact {
+      margin-bottom: 16px;
+    }
+    
+    .impact-metric {
+      background: #fef3c7;
+      color: #92400e;
+      padding: 8px 12px;
+      border-radius: 6px;
+      margin: 4px 0;
+      font-weight: 600;
+      font-size: 0.9em;
+      border-left: 4px solid #f59e0b;
+    }
+    
+    .application-examples {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    
+    .example {
+      background: #f1f5f9;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 0.9em;
+      color: #475569;
+      border-left: 3px solid #582C83;
+    }
+    
+    .stats-bar {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 24px;
+      padding: 20px;
+      background: white;
+      border-radius: 12px;
+      border: 1px solid #d1d5db;
+    }
+    
+    .stat-item {
+      text-align: center;
+    }
+    
+    .stat-value {
+      font-size: 1.8em;
+      font-weight: 700;
+      color: #034638;
+      display: block;
+    }
+    
+    .stat-label {
+      font-size: 0.9em;
+      color: #64748b;
+      margin-top: 4px;
+    }
+    
+    .interactive-indicator {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: #3b82f6;
+      color: white;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 0.8em;
+      font-weight: 600;
+    }
+    
+    .widget-container {
+      position: relative;
+    }
+    
+    @media (max-width: 768px) {
+      .applications-showcase {
+        grid-template-columns: 1fr;
+      }
+      
+      .stats-bar {
+        flex-direction: column;
+        gap: 16px;
+      }
+      
+      .industry-buttons {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="widget-container">
+    <div class="interactive-indicator">Interactive Explorer</div>
+    
+    <div class="industry-selector">
+      <div class="industry-buttons">
+        <button class="industry-btn active" data-industry="healthcare">🏥 Healthcare</button>
+        <button class="industry-btn" data-industry="finance">💰 Finance</button>
+        <button class="industry-btn" data-industry="retail">🛒 Retail</button>
+        <button class="industry-btn" data-industry="manufacturing">🏭 Manufacturing</button>
+      </div>
+    </div>
+
+    <div class="industry-content">
+      <div class="industry-details active" id="industry-healthcare">
+        <div class="industry-header">
+          <h3>🏥 Healthcare AI</h3>
+          <div class="adoption-rate">65% AI Adoption</div>
+        </div>
+        
+        <div class="applications-showcase">
+          <div class="application-category">
+            <h4>🔬 Medical Imaging</h4>
+            <div class="application-description">
+              AI detects diseases in medical scans more accurately than human radiologists, reducing diagnosis time from days to minutes.
+            </div>
+            <div class="application-impact">
+              <div class="impact-metric">50% reduction in diagnostic errors</div>
+              <div class="impact-metric">Minutes vs days for results</div>
+            </div>
+            <div class="application-examples">
+              <div class="example">Skin cancer detection from photos</div>
+              <div class="example">X-ray pneumonia diagnosis</div>
+              <div class="example">MRI tumor identification</div>
+            </div>
+          </div>
+
+          <div class="application-category">
+            <h4>💊 Drug Discovery</h4>
+            <div class="application-description">
+              AI platforms reduce compound identification time from years to months, accelerating treatment development.
+            </div>
+            <div class="application-impact">
+              <div class="impact-metric">Years → Months for discovery</div>
+              <div class="impact-metric">90% reduction in early failures</div>
+            </div>
+            <div class="application-examples">
+              <div class="example">COVID-19 vaccine development</div>
+              <div class="example">Cancer treatment compounds</div>
+              <div class="example">Rare disease therapeutics</div>
+            </div>
+          </div>
+
+          <div class="application-category">
+            <h4>🏥 Hospital Operations</h4>
+            <div class="application-description">
+              Predictive analytics optimize staffing and resource allocation, reducing costs while improving patient outcomes.
+            </div>
+            <div class="application-impact">
+              <div class="impact-metric">15% reduction in costs</div>
+              <div class="impact-metric">20% better patient satisfaction</div>
+            </div>
+            <div class="application-examples">
+              <div class="example">ICU bed allocation</div>
+              <div class="example">Surgical scheduling</div>
+              <div class="example">Emergency room flow</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="stats-bar">
+          <div class="stat-item">
+            <span class="stat-value">$150B</span>
+            <div class="stat-label">Annual healthcare AI market</div>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">86%</span>
+            <div class="stat-label">Accuracy in cancer detection</div>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">3.5x</span>
+            <div class="stat-label">Faster drug discovery</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="industry-details" id="industry-finance">
+        <div class="industry-header">
+          <h3>💰 Financial Services</h3>
+          <div class="adoption-rate">85% AI Adoption</div>
+        </div>
+        
+        <div class="applications-showcase">
+          <div class="application-category">
+            <h4>🛡️ Fraud Detection</h4>
+            <div class="application-description">
+              AI systems analyze transactions in milliseconds, identifying suspicious patterns to protect institutions and customers.
+            </div>
+            <div class="application-impact">
+              <div class="impact-metric">60-80% reduction in fraud losses</div>
+              <div class="impact-metric">Millisecond transaction analysis</div>
+            </div>
+            <div class="application-examples">
+              <div class="example">Credit card monitoring</div>
+              <div class="example">Identity verification</div>
+              <div class="example">Money laundering detection</div>
+            </div>
+          </div>
+
+          <div class="application-category">
+            <h4>📊 Credit Scoring</h4>
+            <div class="application-description">
+              AI processes alternative data sources to enable loans for underserved populations while maintaining risk standards.
+            </div>
+            <div class="application-impact">
+              <div class="impact-metric">30% increase in approved loans</div>
+              <div class="impact-metric">Same default rates maintained</div>
+            </div>
+            <div class="application-examples">
+              <div class="example">Social media behavior analysis</div>
+              <div class="example">Utility payment history</div>
+              <div class="example">Mobile usage patterns</div>
+            </div>
+          </div>
+
+          <div class="application-category">
+            <h4>📈 Algorithmic Trading</h4>
+            <div class="application-description">
+              AI executes complex trading strategies faster than humans, capitalizing on market opportunities 24/7.
+            </div>
+            <div class="application-impact">
+              <div class="impact-metric">Microsecond execution speed</div>
+              <div class="impact-metric">24/7 market monitoring</div>
+            </div>
+            <div class="application-examples">
+              <div class="example">High-frequency trading</div>
+              <div class="example">Portfolio rebalancing</div>
+              <div class="example">Risk management automation</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="stats-bar">
+          <div class="stat-item">
+            <span class="stat-value">$44B</span>
+            <div class="stat-label">Annual fintech AI market</div>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">95%</span>
+            <div class="stat-label">Fraud detection accuracy</div>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">70%</span>
+            <div class="stat-label">Of trading is algorithmic</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="industry-details" id="industry-retail">
+        <div class="industry-header">
+          <h3>🛒 Retail & E-commerce</h3>
+          <div class="adoption-rate">52% AI Adoption</div>
+        </div>
+        
+        <div class="applications-showcase">
+          <div class="application-category">
+            <h4>🎯 Recommendation Engines</h4>
+            <div class="application-description">
+              AI analyzes purchase history and browsing behavior to suggest products, increasing sales and customer satisfaction.
+            </div>
+            <div class="application-impact">
+              <div class="impact-metric">15-25% increase in order value</div>
+              <div class="impact-metric">80% of Netflix content watched</div>
+            </div>
+            <div class="application-examples">
+              <div class="example">Amazon "Frequently bought together"</div>
+              <div class="example">Netflix movie suggestions</div>
+              <div class="example">Spotify playlist creation</div>
+            </div>
+          </div>
+
+          <div class="application-category">
+            <h4>📱 Visual Search</h4>
+            <div class="application-description">
+              Customers find products by uploading photos, making shopping more intuitive and increasing conversion rates.
+            </div>
+            <div class="application-impact">
+              <div class="impact-metric">30% higher conversion rates</div>
+              <div class="impact-metric">Instant product identification</div>
+            </div>
+            <div class="application-examples">
+              <div class="example">Pinterest Lens discovery</div>
+              <div class="example">Google Shopping photo search</div>
+              <div class="example">Fashion item matching</div>
+            </div>
+          </div>
+
+          <div class="application-category">
+            <h4>📦 Inventory Optimization</h4>
+            <div class="application-description">
+              AI predicts demand patterns to optimize inventory levels, reducing stockouts while minimizing excess costs.
+            </div>
+            <div class="application-impact">
+              <div class="impact-metric">40% reduction in stockouts</div>
+              <div class="impact-metric">15% decrease in inventory costs</div>
+            </div>
+            <div class="application-examples">
+              <div class="example">Seasonal demand forecasting</div>
+              <div class="example">Regional preference analysis</div>
+              <div class="example">Supply chain optimization</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="stats-bar">
+          <div class="stat-item">
+            <span class="stat-value">$19B</span>
+            <div class="stat-label">Retail AI market size</div>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">35%</span>
+            <div class="stat-label">Of Amazon sales from AI</div>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">2.9x</span>
+            <div class="stat-label">ROI from personalization</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="industry-details" id="industry-manufacturing">
+        <div class="industry-header">
+          <h3>🏭 Manufacturing</h3>
+          <div class="adoption-rate">45% AI Adoption</div>
+        </div>
+        
+        <div class="applications-showcase">
+          <div class="application-category">
+            <h4>🔧 Predictive Maintenance</h4>
+            <div class="application-description">
+              AI monitors equipment health to predict failures before they occur, preventing costly downtime.
+            </div>
+            <div class="application-impact">
+              <div class="impact-metric">30-50% reduction in downtime</div>
+              <div class="impact-metric">25% increase in equipment life</div>
+            </div>
+            <div class="application-examples">
+              <div class="example">Vibration pattern analysis</div>
+              <div class="example">Temperature monitoring</div>
+              <div class="example">Oil analysis predictions</div>
+            </div>
+          </div>
+
+          <div class="application-category">
+            <h4>🔍 Quality Control</h4>
+            <div class="application-description">
+              Computer vision detects defects faster and more consistently than human inspection, improving quality.
+            </div>
+            <div class="application-impact">
+              <div class="impact-metric">95% defect detection accuracy</div>
+              <div class="impact-metric">10x faster than humans</div>
+            </div>
+            <div class="application-examples">
+              <div class="example">Surface defect detection</div>
+              <div class="example">Dimensional accuracy checking</div>
+              <div class="example">Color variation analysis</div>
+            </div>
+          </div>
+
+          <div class="application-category">
+            <h4>⚡ Production Optimization</h4>
+            <div class="application-description">
+              AI optimizes production schedules and resource allocation to maximize efficiency and minimize waste.
+            </div>
+            <div class="application-impact">
+              <div class="impact-metric">20% efficiency improvement</div>
+              <div class="impact-metric">15% reduction in waste</div>
+            </div>
+            <div class="application-examples">
+              <div class="example">Production line scheduling</div>
+              <div class="example">Resource allocation</div>
+              <div class="example">Energy management</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="stats-bar">
+          <div class="stat-item">
+            <span class="stat-value">$16B</span>
+            <div class="stat-label">Manufacturing AI market</div>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">12%</span>
+            <div class="stat-label">Average cost reduction</div>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">85%</span>
+            <div class="stat-label">Quality improvement rate</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    class IndustryApplicationsExplorer {
+      constructor() {
+        this.currentIndustry = 'healthcare';
+        this.initializeControls();
+      }
+
+      initializeControls() {
+        const industryButtons = document.querySelectorAll('.industry-btn');
+        
+        industryButtons.forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            const industry = e.target.dataset.industry;
+            this.showIndustry(industry);
+          });
+        });
+
+        // Add hover effects for application categories
+        const appCategories = document.querySelectorAll('.application-category');
+        appCategories.forEach(category => {
+          category.addEventListener('mouseenter', () => {
+            category.style.transform = 'translateY(-4px) scale(1.02)';
+          });
+          
+          category.addEventListener('mouseleave', () => {
+            category.style.transform = 'translateY(0) scale(1)';
+          });
+        });
+      }
+
+      showIndustry(industry) {
+        // Update industry buttons
+        document.querySelectorAll('.industry-btn').forEach(btn => {
+          btn.classList.remove('active');
+          if (btn.dataset.industry === industry) {
+            btn.classList.add('active');
+          }
+        });
+
+        // Update industry content
+        document.querySelectorAll('.industry-details').forEach(details => {
+          details.classList.remove('active');
+        });
+        document.getElementById(`industry-${industry}`).classList.add('active');
+
+        this.currentIndustry = industry;
+
+        // Add a subtle animation to the stats bar
+        const statsBar = document.querySelector('.industry-details.active .stats-bar');
+        if (statsBar) {
+          statsBar.style.transform = 'scale(0.95)';
+          setTimeout(() => {
+            statsBar.style.transform = 'scale(1)';
+          }, 150);
+        }
+      }
+    }
+
+    // Initialize when DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+      new IndustryApplicationsExplorer();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>K-Nearest Neighbors Interactive</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      background: white;
+      font-family: 'Figtree', sans-serif;
+    }
+    
+    .widget-container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    
+    .controls-section {
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      border: 1px solid #e2e8f0;
+    }
+    
+    .controls-header {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .mode-btn {
+      padding: 12px 24px;
+      border: 2px solid #d1d5db;
+      background: white;
+      color: #374151;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .mode-btn:hover {
+      border-color: #3b82f6;
+      background: #eff6ff;
+    }
+    
+    .mode-btn.active {
+      border-color: #3b82f6;
+      background: #3b82f6;
+      color: white;
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+    
+    .controls-grid {
+      display: grid;
+      grid-template-columns: 1fr 2fr 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+    
+    @media (max-width: 768px) {
+      .controls-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+    }
+    
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: center;
+    }
+    
+    .control-group label {
+      font-weight: 600;
+      color: #1e293b;
+      font-size: 1em;
+      text-align: center;
+    }
+    
+    .k-selector {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .k-btn {
+      width: 40px;
+      height: 40px;
+      border: 2px solid #d1d5db;
+      background: white;
+      color: #374151;
+      border-radius: 50%;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .k-btn:hover {
+      border-color: #3b82f6;
+      background: #eff6ff;
+    }
+    
+    .k-btn.active {
+      border-color: #3b82f6;
+      background: #3b82f6;
+      color: white;
+      transform: scale(1.1);
+    }
+    
+    .prediction-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .prediction-inputs {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .prediction-input {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      align-items: center;
+    }
+    
+    .prediction-input label {
+      font-size: 0.9em;
+      font-weight: 600;
+      color: #64748b;
+    }
+    
+    .prediction-input input {
+      padding: 8px 12px;
+      border: 2px solid #d1d5db;
+      border-radius: 6px;
+      width: 80px;
+      text-align: center;
+      font-weight: 600;
+    }
+    
+    .prediction-input input:focus {
+      outline: none;
+      border-color: #3b82f6;
+    }
+    
+    .prediction-result {
+      text-align: center;
+      padding: 16px 24px;
+      background: white;
+      border-radius: 12px;
+      border: 2px solid #3b82f6;
+      min-width: 150px;
+    }
+    
+    .prediction-value {
+      font-size: 1.8em;
+      font-weight: 700;
+      color: #3b82f6;
+    }
+    
+    .prediction-label {
+      font-size: 0.9em;
+      color: #64748b;
+      margin-top: 4px;
+    }
+    
+    .plot-container {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .metrics-display {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+    
+    .metric {
+      text-align: center;
+      padding: 12px 16px;
+      background: #eff6ff;
+      border-radius: 8px;
+      border: 1px solid #bfdbfe;
+    }
+    
+    .metric-label {
+      display: block;
+      font-size: 0.8em;
+      color: #64748b;
+      margin-bottom: 4px;
+    }
+    
+    .metric-value {
+      display: block;
+      font-size: 1.1em;
+      font-weight: 700;
+      color: #3b82f6;
+    }
+    
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Figtree', sans-serif;
+      transition: all 0.2s ease;
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      color: white;
+    }
+    
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+    
+    .nearest-neighbors-info {
+      background: #f0f9ff;
+      border: 2px solid #0ea5e9;
+      border-radius: 8px;
+      padding: 12px;
+      margin-top: 12px;
+      text-align: center;
+    }
+    
+    .neighbors-list {
+      font-size: 0.9em;
+      color: #0369a1;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="widget-container">
+    <div class="controls-section">
+      <div class="controls-header">
+        <button class="mode-btn active" data-mode="classification">👥 Classification</button>
+        <button class="mode-btn" data-mode="regression">📏 Regression</button>
+      </div>
+      
+      <div class="controls-grid">
+        <div class="control-group">
+          <label>Choose K Value:</label>
+          <div class="k-selector">
+            <button class="k-btn" data-k="1">1</button>
+            <button class="k-btn active" data-k="3">3</button>
+            <button class="k-btn" data-k="5">5</button>
+            <button class="k-btn" data-k="7">7</button>
+            <button class="k-btn" data-k="9">9</button>
+          </div>
+        </div>
+        
+        <div class="prediction-section">
+          <div class="prediction-inputs">
+            <div class="prediction-input">
+              <label id="inputLabel1">Height (cm):</label>
+              <input type="number" id="input1" value="170" min="140" max="200" step="1">
+            </div>
+            <div class="prediction-input">
+              <label id="inputLabel2">Weight (kg):</label>
+              <input type="number" id="input2" value="65" min="40" max="120" step="1">
+            </div>
+          </div>
+          
+          <div class="prediction-result">
+            <div class="prediction-value" id="predictionValue">👤 Male</div>
+            <div class="prediction-label" id="predictionLabel">Classification</div>
+          </div>
+          
+          <div class="nearest-neighbors-info">
+            <div class="neighbors-list" id="nearestNeighbors">Nearest neighbors: 👤👤👩</div>
+          </div>
+          
+          <button id="addPoint" class="btn">📍 Add Point to Dataset</button>
+        </div>
+        
+        <div class="control-group">
+          <label>Algorithm:</label>
+          <div style="text-align: center; color: #64748b; font-size: 0.9em; line-height: 1.4;">
+            <strong>K-Nearest Neighbors</strong><br>
+            "Lazy Learning"<br>
+            No training required!
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="plot-container">
+      <div id="knnPlot"></div>
+      
+      <div class="metrics-display">
+        <div class="metric">
+          <span class="metric-label">Current K Value</span>
+          <span class="metric-value" id="currentK">3</span>
+        </div>
+        <div class="metric">
+          <span class="metric-label">Data Points</span>
+          <span class="metric-value" id="dataPoints">30</span>
+        </div>
+        <div class="metric">
+          <span class="metric-label">Male Points</span>
+          <span class="metric-value" id="maleCount">15</span>
+        </div>
+        <div class="metric">
+          <span class="metric-label">Female Points</span>
+          <span class="metric-value" id="femaleCount">15</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    class KNNWidget {
+      constructor() {
+        this.currentMode = 'classification';
+        this.currentK = 3;
+        
+        // Classification data: Height, Weight, Gender (1=Male, 0=Female)
+        this.classificationData = {
+          x: [175, 168, 182, 160, 155, 178, 165, 190, 158, 172, 180, 162, 188, 156, 174, 
+              167, 185, 161, 170, 177, 159, 183, 164, 192, 157, 171, 179, 163, 186, 166],
+          y: [70, 58, 85, 52, 48, 80, 60, 95, 50, 68, 82, 55, 90, 47, 72, 
+              62, 87, 53, 65, 78, 51, 84, 59, 98, 49, 67, 81, 57, 89, 61],
+          labels: [1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 
+                  0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0], // 1=Male, 0=Female
+          colors: []
+        };
+        
+        // Regression data: Height vs Chest Circumference
+        this.regressionData = {
+          x: [160, 165, 170, 175, 180, 185, 190, 155, 162, 168, 172, 178, 183, 188, 158,
+              164, 169, 174, 179, 184, 189, 157, 163, 167, 171, 176, 181, 186, 159, 173],
+          y: [85, 88, 92, 96, 100, 104, 108, 82, 86, 90, 94, 98, 102, 106, 84,
+              87, 91, 95, 99, 103, 107, 83, 85, 89, 93, 97, 101, 105, 84, 95],
+          colors: []
+        };
+        
+        this.updateDataColors();
+        this.initializeControls();
+        this.updateVisualization();
+      }
+
+      updateDataColors() {
+        this.classificationData.colors = this.classificationData.labels.map(label => 
+          label === 1 ? '#3b82f6' : '#ec4899' // Blue for male, pink for female
+        );
+        
+        // Regression uses a single color
+        this.regressionData.colors = new Array(this.regressionData.x.length).fill('#10b981');
+      }
+
+      initializeControls() {
+        // Mode buttons
+        document.querySelectorAll('.mode-btn').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            const mode = e.target.dataset.mode;
+            this.switchMode(mode);
+          });
+        });
+
+        // K value buttons
+        document.querySelectorAll('.k-btn').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            const k = parseInt(e.target.dataset.k);
+            this.setK(k);
+          });
+        });
+
+        // Input fields
+        document.getElementById('input1').addEventListener('input', () => this.updatePrediction());
+        document.getElementById('input2').addEventListener('input', () => this.updatePrediction());
+
+        // Add point button
+        document.getElementById('addPoint').addEventListener('click', () => this.addDataPoint());
+
+        // Initial prediction
+        this.updatePrediction();
+      }
+
+      switchMode(mode) {
+        // Update buttons
+        document.querySelectorAll('.mode-btn').forEach(btn => {
+          btn.classList.remove('active');
+          if (btn.dataset.mode === mode) {
+            btn.classList.add('active');
+          }
+        });
+
+        this.currentMode = mode;
+
+        // Update labels and inputs
+        if (mode === 'classification') {
+          document.getElementById('inputLabel1').textContent = 'Height (cm):';
+          document.getElementById('inputLabel2').textContent = 'Weight (kg):';
+          document.getElementById('input1').value = 170;
+          document.getElementById('input2').value = 65;
+          document.getElementById('predictionLabel').textContent = 'Classification';
+        } else {
+          document.getElementById('inputLabel1').textContent = 'Height (cm):';
+          document.getElementById('inputLabel2').textContent = 'Age (years):';
+          document.getElementById('input1').value = 175;
+          document.getElementById('input2').value = 25;
+          document.getElementById('predictionLabel').textContent = 'Regression';
+        }
+
+        this.updateVisualization();
+        this.updatePrediction();
+      }
+
+      setK(k) {
+        // Update K buttons
+        document.querySelectorAll('.k-btn').forEach(btn => {
+          btn.classList.remove('active');
+          if (parseInt(btn.dataset.k) === k) {
+            btn.classList.add('active');
+          }
+        });
+
+        this.currentK = k;
+        document.getElementById('currentK').textContent = k;
+        this.updatePrediction();
+        this.updateVisualization();
+      }
+
+      calculateDistance(x1, y1, x2, y2) {
+        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+      }
+
+      findNearestNeighbors(inputX, inputY) {
+        const data = this.currentMode === 'classification' ? this.classificationData : this.regressionData;
+        
+        const distances = data.x.map((x, i) => ({
+          distance: this.calculateDistance(inputX, inputY, x, data.y[i]),
+          index: i,
+          x: x,
+          y: data.y[i],
+          label: this.currentMode === 'classification' ? data.labels[i] : data.y[i]
+        }));
+
+        distances.sort((a, b) => a.distance - b.distance);
+        return distances.slice(0, this.currentK);
+      }
+
+      updatePrediction() {
+        const input1 = parseFloat(document.getElementById('input1').value);
+        const input2 = parseFloat(document.getElementById('input2').value);
+        
+        if (isNaN(input1) || isNaN(input2)) return;
+
+        const neighbors = this.findNearestNeighbors(input1, input2);
+        
+        if (this.currentMode === 'classification') {
+          // Classification: majority vote
+          const maleCount = neighbors.filter(n => n.label === 1).length;
+          const femaleCount = neighbors.filter(n => n.label === 0).length;
+          
+          const prediction = maleCount > femaleCount ? '👤 Male' : '👩 Female';
+          const confidence = Math.max(maleCount, femaleCount) / this.currentK;
+          
+          document.getElementById('predictionValue').textContent = prediction;
+          document.getElementById('predictionValue').style.color = maleCount > femaleCount ? '#3b82f6' : '#ec4899';
+          
+          // Show nearest neighbors
+          const neighborsText = neighbors.map(n => n.label === 1 ? '👤' : '👩').join('');
+          document.getElementById('nearestNeighbors').textContent = `Nearest ${this.currentK}: ${neighborsText}`;
+        } else {
+          // Regression: average of neighbors
+          const average = neighbors.reduce((sum, n) => sum + n.label, 0) / neighbors.length;
+          document.getElementById('predictionValue').textContent = `${average.toFixed(1)} cm`;
+          document.getElementById('predictionValue').style.color = '#10b981';
+          
+          // Show neighbor values
+          const values = neighbors.map(n => n.label.toFixed(0)).join(', ');
+          document.getElementById('nearestNeighbors').textContent = `Values: ${values} → Avg: ${average.toFixed(1)}`;
+        }
+
+        this.updateVisualization();
+      }
+
+      addDataPoint() {
+        const input1 = parseFloat(document.getElementById('input1').value);
+        const input2 = parseFloat(document.getElementById('input2').value);
+        
+        if (isNaN(input1) || isNaN(input2)) return;
+
+        if (this.currentMode === 'classification') {
+          // Add to classification data
+          const neighbors = this.findNearestNeighbors(input1, input2);
+          const maleCount = neighbors.filter(n => n.label === 1).length;
+          const prediction = maleCount > neighbors.filter(n => n.label === 0).length ? 1 : 0;
+          
+          this.classificationData.x.push(input1);
+          this.classificationData.y.push(input2);
+          this.classificationData.labels.push(prediction);
+          this.classificationData.colors.push(prediction === 1 ? '#3b82f6' : '#ec4899');
+        } else {
+          // Add to regression data
+          const neighbors = this.findNearestNeighbors(input1, input2);
+          const avgValue = neighbors.reduce((sum, n) => sum + n.label, 0) / neighbors.length;
+          
+          this.regressionData.x.push(input1);
+          this.regressionData.y.push(input2);
+          this.regressionData.colors.push('#10b981');
+        }
+
+        // Update counts
+        if (this.currentMode === 'classification') {
+          const maleCount = this.classificationData.labels.filter(l => l === 1).length;
+          const femaleCount = this.classificationData.labels.filter(l => l === 0).length;
+          document.getElementById('maleCount').textContent = maleCount;
+          document.getElementById('femaleCount').textContent = femaleCount;
+          document.getElementById('dataPoints').textContent = this.classificationData.x.length;
+        } else {
+          document.getElementById('dataPoints').textContent = this.regressionData.x.length;
+        }
+
+        this.updateVisualization();
+
+        // Animate button
+        const btn = document.getElementById('addPoint');
+        btn.style.transform = 'scale(1.1)';
+        btn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+        setTimeout(() => {
+          btn.style.transform = 'scale(1)';
+          btn.style.background = 'linear-gradient(135deg, #3b82f6, #1d4ed8)';
+        }, 200);
+      }
+
+      updateVisualization() {
+        const data = this.currentMode === 'classification' ? this.classificationData : this.regressionData;
+        const input1 = parseFloat(document.getElementById('input1').value) || 170;
+        const input2 = parseFloat(document.getElementById('input2').value) || 65;
+        
+        const traces = [
+          // Data points
+          {
+            x: data.x,
+            y: data.y,
+            mode: 'markers',
+            type: 'scatter',
+            name: this.currentMode === 'classification' ? 'People' : 'Measurements',
+            marker: {
+              color: data.colors,
+              size: 10,
+              line: { color: 'white', width: 2 }
+            },
+            text: this.currentMode === 'classification' 
+              ? data.labels.map(l => l === 1 ? '👤 Male' : '👩 Female')
+              : data.y.map(y => `${y.toFixed(1)} cm chest`),
+            textposition: 'top center'
+          }
+        ];
+
+        // Add current input point
+        if (!isNaN(input1) && !isNaN(input2)) {
+          traces.push({
+            x: [input1],
+            y: [input2],
+            mode: 'markers',
+            type: 'scatter',
+            name: 'Your Input',
+            marker: {
+              color: '#8b5cf6',
+              size: 16,
+              line: { color: 'white', width: 3 },
+              symbol: 'star'
+            }
+          });
+
+          // Add lines to nearest neighbors
+          const neighbors = this.findNearestNeighbors(input1, input2);
+          neighbors.forEach((neighbor, i) => {
+            traces.push({
+              x: [input1, neighbor.x],
+              y: [input2, neighbor.y],
+              mode: 'lines',
+              type: 'scatter',
+              showlegend: false,
+              line: { 
+                color: '#8b5cf6', 
+                width: 3 - i * 0.3, 
+                dash: i === 0 ? 'solid' : 'dash' 
+              },
+              hoverinfo: 'skip'
+            });
+          });
+        }
+
+        const layout = {
+          title: {
+            text: this.currentMode === 'classification' ? 'Gender Classification by Height & Weight' : 'Chest Size Prediction by Height',
+            font: { size: 16, color: '#1f2937' }
+          },
+          xaxis: {
+            title: this.currentMode === 'classification' ? 'Height (cm)' : 'Height (cm)',
+            showgrid: true,
+            gridcolor: '#e5e7eb'
+          },
+          yaxis: {
+            title: this.currentMode === 'classification' ? 'Weight (kg)' : 'Age (years)',
+            showgrid: true,
+            gridcolor: '#e5e7eb'
+          },
+          plot_bgcolor: '#f9fafb',
+          paper_bgcolor: 'white',
+          font: { family: 'Figtree, sans-serif' },
+          margin: { t: 60, r: 20, b: 60, l: 60 },
+          showlegend: true,
+          legend: { x: 0, y: 1 }
+        };
+
+        Plotly.newPlot('knnPlot', traces, layout, {
+          displayModeBar: false,
+          responsive: true
+        });
+      }
+    }
+
+    // Initialize when DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+      new KNNWidget();
+    });
+  </script>
+</body>
+</html>

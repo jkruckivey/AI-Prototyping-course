@@ -1,0 +1,14 @@
+MINI CASE 2: "How Much Is This House Worth? Building an AI-Powered Pricing Tool"
+Scenario
+You’ve joined the Market Intelligence Unit at PropTrend Advisors, a real estate consulting firm that helps developers and realtors make smarter pricing decisions. With markets fluctuating, clients want tools that can predict home prices based on features like size, neighborhood, and condition, and explain why some homes are priced higher than others.
+Your team is piloting AI-driven prototypes to show clients what's possible, and you’ve been asked to build a first version using no-code/low-code AI tools like WEKA or KNIME. The idea is to demonstrate how machine learning can power smarter pricing and decision support in real estate.
+________________________________________
+Your Role
+You’re acting as both a business analyst and AI solution builder. Your task:
+•	Analyze the Ames Housing dataset
+•	Build a regression model to predict home sale prices
+•	Wrap your model into a prototype AI tool that could assist pricing teams in real estate
+________________________________________
+Business Objective
+Create an AI-powered pricing prototype that predicts housing prices and identifies key price drivers, enabling smarter pricing strategies, fairer valuations, and better client recommendations.
+

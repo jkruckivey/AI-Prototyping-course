@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logistic Regression Interactive</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      background: white;
+      font-family: 'Figtree', sans-serif;
+    }
+    
+    .widget-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    
+    .controls-section {
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      border: 1px solid #e2e8f0;
+    }
+    
+    .controls-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 16px;
+    }
+    
+    @media (max-width: 768px) {
+      .controls-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .control-group label {
+      font-weight: 600;
+      color: #1e293b;
+      font-size: 0.9em;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .control-group input[type="range"] {
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: #d1d5db;
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    
+    .control-group input[type="range"]::-webkit-slider-thumb {
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #dc2626;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    
+    .control-group input[type="range"]::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #dc2626;
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    
+    .value-display {
+      background: white;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-weight: 700;
+      color: #dc2626;
+      border: 2px solid #dc2626;
+      min-width: 60px;
+      text-align: center;
+    }
+    
+    .prediction-section {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      padding-top: 16px;
+      border-top: 1px solid #d1d5db;
+      flex-wrap: wrap;
+    }
+    
+    .prediction-input {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: center;
+    }
+    
+    .prediction-input label {
+      font-weight: 600;
+      color: #1e293b;
+      font-size: 0.9em;
+    }
+    
+    .prediction-input input {
+      padding: 8px 12px;
+      border: 2px solid #d1d5db;
+      border-radius: 6px;
+      width: 80px;
+      text-align: center;
+      font-weight: 600;
+    }
+    
+    .prediction-input input:focus {
+      outline: none;
+      border-color: #dc2626;
+    }
+    
+    .prediction-result {
+      text-align: center;
+      padding: 12px 20px;
+      background: white;
+      border-radius: 8px;
+      border: 2px solid #dc2626;
+      min-width: 120px;
+    }
+    
+    .prediction-probability {
+      font-size: 1.5em;
+      font-weight: 700;
+      color: #dc2626;
+    }
+    
+    .prediction-classification {
+      font-size: 0.9em;
+      color: #64748b;
+      margin-top: 4px;
+    }
+    
+    .plot-container {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .metrics-display {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+    
+    .metric {
+      text-align: center;
+      padding: 12px 16px;
+      background: #fef2f2;
+      border-radius: 8px;
+      border: 1px solid #fecaca;
+    }
+    
+    .metric-label {
+      display: block;
+      font-size: 0.8em;
+      color: #64748b;
+      margin-bottom: 4px;
+    }
+    
+    .metric-value {
+      display: block;
+      font-size: 1.1em;
+      font-weight: 700;
+      color: #dc2626;
+    }
+    
+    .equation-display {
+      background: #f97316;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 1em;
+      margin-bottom: 16px;
+    }
+    
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Figtree', sans-serif;
+      transition: all 0.2s ease;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #dc2626, #f97316);
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+    }
+  </style>
+</head>
+<body>
+  <div class="widget-container">
+    <div class="controls-section">
+      <div class="equation-display" id="currentEquation">P(Apple) = 1 / (1 + e^-(2.0x - 1.0))</div>
+      
+      <div class="controls-grid">
+        <div class="control-group">
+          <label for="slope">
+            Slope (steepness):
+            <span class="value-display" id="slopeValue">2.0</span>
+          </label>
+          <input type="range" id="slope" min="0.1" max="5.0" step="0.1" value="2.0">
+        </div>
+        
+        <div class="control-group">
+          <label for="intercept">
+            Intercept (shift):
+            <span class="value-display" id="interceptValue">-1.0</span>
+          </label>
+          <input type="range" id="intercept" min="-5.0" max="5.0" step="0.1" value="-1.0">
+        </div>
+      </div>
+      
+      <div class="prediction-section">
+        <div class="prediction-input">
+          <label>Diameter (cm):</label>
+          <input type="number" id="diameterInput" value="6.5" min="3" max="12" step="0.1">
+        </div>
+        
+        <div class="prediction-result">
+          <div class="prediction-probability" id="probabilityResult">73.1%</div>
+          <div class="prediction-classification" id="classificationResult">🍎 Apple</div>
+        </div>
+        
+        <button id="addDataPoint" class="btn btn-primary">📍 Add Point</button>
+      </div>
+    </div>
+
+    <div class="plot-container">
+      <div id="logisticPlot"></div>
+      
+      <div class="metrics-display">
+        <div class="metric">
+          <span class="metric-label">Decision Boundary</span>
+          <span class="metric-value" id="decisionBoundary">5.0 cm</span>
+        </div>
+        <div class="metric">
+          <span class="metric-label">Apple Data Points</span>
+          <span class="metric-value" id="appleCount">12</span>
+        </div>
+        <div class="metric">
+          <span class="metric-label">Orange Data Points</span>
+          <span class="metric-value" id="orangeCount">8</span>
+        </div>
+        <div class="metric">
+          <span class="metric-label">Classification Accuracy</span>
+          <span class="metric-value" id="accuracy">85.0%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    class LogisticRegressionWidget {
+      constructor() {
+        // Sample data: Fruit diameter (cm) vs Apple (1) or Orange (0)
+        this.data = {
+          x: [3.2, 3.8, 4.1, 4.5, 4.8, 5.2, 5.5, 5.8, 6.2, 6.5, 6.8, 7.1, 7.5, 7.8, 8.2, 8.5, 8.9, 9.2, 9.6, 10.1],
+          y: [0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], // 0 = Orange, 1 = Apple
+          colors: []
+        };
+        
+        // Initial parameters
+        this.slope = 2.0;
+        this.intercept = -1.0;
+        
+        this.updateDataColors();
+        this.initializeControls();
+        this.updateVisualization();
+      }
+
+      updateDataColors() {
+        this.data.colors = this.data.y.map(y => y === 1 ? '#dc2626' : '#f97316'); // Red for apple, orange for orange
+      }
+
+      initializeControls() {
+        // Slope control
+        const slopeSlider = document.getElementById('slope');
+        const slopeValue = document.getElementById('slopeValue');
+        slopeSlider.addEventListener('input', (e) => {
+          this.slope = parseFloat(e.target.value);
+          slopeValue.textContent = this.slope.toFixed(1);
+          this.updateVisualization();
+          this.updatePrediction();
+        });
+
+        // Intercept control
+        const interceptSlider = document.getElementById('intercept');
+        const interceptValue = document.getElementById('interceptValue');
+        interceptSlider.addEventListener('input', (e) => {
+          this.intercept = parseFloat(e.target.value);
+          interceptValue.textContent = this.intercept.toFixed(1);
+          this.updateVisualization();
+          this.updatePrediction();
+        });
+
+        // Diameter input
+        const diameterInput = document.getElementById('diameterInput');
+        diameterInput.addEventListener('input', () => {
+          this.updatePrediction();
+        });
+
+        // Add data point button
+        document.getElementById('addDataPoint').addEventListener('click', () => {
+          this.addDataPoint();
+        });
+
+        // Initial prediction
+        this.updatePrediction();
+      }
+
+      sigmoidFunction(x) {
+        return 1 / (1 + Math.exp(-(this.slope * x + this.intercept)));
+      }
+
+      updatePrediction() {
+        const diameter = parseFloat(document.getElementById('diameterInput').value);
+        const probability = this.sigmoidFunction(diameter);
+        const classification = probability > 0.5 ? '🍎 Apple' : '🍊 Orange';
+        
+        document.getElementById('probabilityResult').textContent = `${(probability * 100).toFixed(1)}%`;
+        document.getElementById('classificationResult').textContent = classification;
+        
+        // Update probability result color
+        const probElement = document.getElementById('probabilityResult');
+        probElement.style.color = probability > 0.5 ? '#dc2626' : '#f97316';
+      }
+
+      addDataPoint() {
+        const diameter = parseFloat(document.getElementById('diameterInput').value);
+        const probability = this.sigmoidFunction(diameter);
+        const classification = probability > 0.5 ? 1 : 0;
+        
+        // Add to data
+        this.data.x.push(diameter);
+        this.data.y.push(classification);
+        this.data.colors.push(classification === 1 ? '#dc2626' : '#f97316');
+        
+        // Update visualization
+        this.updateVisualization();
+        
+        // Animate the button
+        const btn = document.getElementById('addDataPoint');
+        btn.style.transform = 'scale(1.1)';
+        btn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+        setTimeout(() => {
+          btn.style.transform = 'scale(1)';
+          btn.style.background = 'linear-gradient(135deg, #dc2626, #f97316)';
+        }, 200);
+      }
+
+      calculateAccuracy() {
+        let correct = 0;
+        this.data.x.forEach((x, i) => {
+          const predicted = this.sigmoidFunction(x) > 0.5 ? 1 : 0;
+          if (predicted === this.data.y[i]) correct++;
+        });
+        return (correct / this.data.x.length) * 100;
+      }
+
+      updateVisualization() {
+        // Update equation display
+        const sign = this.intercept >= 0 ? '+' : '';
+        document.getElementById('currentEquation').textContent = 
+          `P(Apple) = 1 / (1 + e^-(${this.slope.toFixed(1)}x ${sign}${this.intercept.toFixed(1)}))`;
+
+        // Calculate decision boundary (where probability = 0.5)
+        const decisionBoundary = -this.intercept / this.slope;
+        document.getElementById('decisionBoundary').textContent = `${decisionBoundary.toFixed(1)} cm`;
+
+        // Update counts
+        const appleCount = this.data.y.filter(y => y === 1).length;
+        const orangeCount = this.data.y.filter(y => y === 0).length;
+        document.getElementById('appleCount').textContent = appleCount;
+        document.getElementById('orangeCount').textContent = orangeCount;
+
+        // Update accuracy
+        const accuracy = this.calculateAccuracy();
+        document.getElementById('accuracy').textContent = `${accuracy.toFixed(1)}%`;
+
+        // Generate smooth curve for sigmoid function
+        const curveX = [];
+        const curveY = [];
+        for (let x = 3; x <= 10.5; x += 0.1) {
+          curveX.push(x);
+          curveY.push(this.sigmoidFunction(x));
+        }
+
+        // Create plotly traces
+        const traces = [
+          // Data points
+          {
+            x: this.data.x,
+            y: this.data.y,
+            mode: 'markers',
+            type: 'scatter',
+            name: 'Fruit Data',
+            marker: {
+              color: this.data.colors,
+              size: 12,
+              line: { color: 'white', width: 2 }
+            },
+            text: this.data.y.map(y => y === 1 ? '🍎 Apple' : '🍊 Orange'),
+            textposition: 'top center'
+          },
+          // Sigmoid curve
+          {
+            x: curveX,
+            y: curveY,
+            mode: 'lines',
+            type: 'scatter',
+            name: 'Sigmoid Curve',
+            line: { color: '#3b82f6', width: 4 }
+          },
+          // Decision boundary line
+          {
+            x: [decisionBoundary, decisionBoundary],
+            y: [0, 1],
+            mode: 'lines',
+            type: 'scatter',
+            name: 'Decision Boundary (50%)',
+            line: { color: '#6b7280', width: 3, dash: 'dash' }
+          }
+        ];
+
+        // Add current prediction point if valid
+        const currentDiameter = parseFloat(document.getElementById('diameterInput').value);
+        if (!isNaN(currentDiameter) && currentDiameter >= 3 && currentDiameter <= 10.5) {
+          const currentProb = this.sigmoidFunction(currentDiameter);
+          traces.push({
+            x: [currentDiameter],
+            y: [currentProb],
+            mode: 'markers',
+            type: 'scatter',
+            name: 'Your Prediction',
+            marker: {
+              color: '#8b5cf6',
+              size: 16,
+              line: { color: 'white', width: 3 },
+              symbol: 'star'
+            }
+          });
+        }
+
+        const layout = {
+          title: {
+            text: 'Fruit Classification: Apple vs Orange',
+            font: { size: 16, color: '#1f2937' }
+          },
+          xaxis: {
+            title: 'Diameter (cm)',
+            showgrid: true,
+            gridcolor: '#e5e7eb',
+            range: [3, 10.5]
+          },
+          yaxis: {
+            title: 'Probability of Apple',
+            showgrid: true,
+            gridcolor: '#e5e7eb',
+            range: [-0.05, 1.05],
+            tickformat: '.0%'
+          },
+          plot_bgcolor: '#f9fafb',
+          paper_bgcolor: 'white',
+          font: { family: 'Figtree, sans-serif' },
+          margin: { t: 60, r: 20, b: 60, l: 60 },
+          showlegend: true,
+          legend: { x: 0, y: 1 }
+        };
+
+        Plotly.newPlot('logisticPlot', traces, layout, {
+          displayModeBar: false,
+          responsive: true
+        });
+      }
+    }
+
+    // Initialize when DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+      new LogisticRegressionWidget();
+    });
+  </script>
+</body>
+</html>
