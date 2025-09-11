@@ -8,7 +8,10 @@
       "Read(//c/Users/jkruck/Ivey Business School/EdTech Lab - Documents/Ivey Online/Courses for Ivey Online/Courses Accepted for Development/Fundamentals of AI for Business/**)",
       "Bash(start index.html)",
       "Bash(start canvas-embedding-demo.html)",
-      "WebFetch(domain:jkruckivey.github.io)"
+      "WebFetch(domain:jkruckivey.github.io)",
+      "Read(//c/Users/jkruck/Ivey Business School/EdTech Lab - Documents/Ivey Online/**)",
+      "Bash(dir \"C:\\Users\\jkruck\\Ivey Business School\\EdTech Lab - Documents\\Ivey Online\" /s /b)",
+      "Bash(findstr:*)"
     ],
     "deny": [],
     "ask": []

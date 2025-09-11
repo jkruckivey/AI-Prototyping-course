@@ -1,140 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>AI Automation ROI Calculator</title>
+
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Georgia:wght@400;700&display=swap');
-    
-    /* Canvas-Optimized ROI Calculator - Ivey Style */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    /* ---------- Root knobs (can be overridden by URL params) ---------- */
+    :root{
+      --widget-maxw: 450px; /* override with ?maxWidth=760 */
     }
-    
+
+    /* ---------- Base reset ---------- */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
     body {
       font-family: Arial, sans-serif;
-      background: white;
-      color: #000000;
-      line-height: 1.4;
-      padding: 0;
-      margin: 0;
+      background: #ffffff;
+      color: #000;
+      line-height: 1.45;
       overflow-x: hidden;
     }
-    
-    .canvas-widget {
-      max-width: 450px;
+
+    /* ---------- Wrapper so we can easily control width ---------- */
+    #widget-root {
+      max-width: var(--widget-maxw);
       width: 100%;
+      margin: 0 auto;
+    }
+
+    /* ---------- Card ---------- */
+    .canvas-widget {
       background: #ffffff;
       border: 2px solid #034638;
       border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(3, 70, 56, 0.15);
+      box-shadow: 0 4px 12px rgba(3,70,56,.15);
       overflow: hidden;
-      margin: 0 auto;
     }
-    
+
     .widget-header {
       background: linear-gradient(135deg, #034638 0%, #045a49 100%);
-      color: white;
+      color: #fff;
       padding: 16px;
       text-align: center;
       border-bottom: 3px solid #582C83;
     }
-    
     .widget-title {
       font-family: Georgia, serif;
       font-size: 1.2em;
       font-weight: 400;
       margin: 0 0 4px 0;
     }
-    
-    .widget-subtitle {
-      font-size: 0.9em;
-      opacity: 0.95;
-      margin: 0;
-    }
-    
-    .widget-content {
-      padding: 16px;
-      background: #f8f9fa;
-    }
-    
+    .widget-subtitle { font-size: .9em; opacity: .95; margin: 0; }
+
+    .widget-content { padding: 16px; background: #f8f9fa; }
+
     .input-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
       margin-bottom: 16px;
     }
-    
     @media (max-width: 400px) {
-      .input-grid {
-        grid-template-columns: 1fr;
-        gap: 10px;
-      }
+      .input-grid { grid-template-columns: 1fr; gap: 10px; }
     }
-    
+
     .input-group {
-      background: white;
+      background: #fff;
       border-radius: 6px;
       padding: 12px;
       border: 1px solid #e2e8f0;
     }
-    
     .input-label {
       display: block;
       font-weight: 600;
       color: #034638;
-      font-size: 0.85em;
+      font-size: .85em;
       margin-bottom: 6px;
       line-height: 1.2;
     }
-    
     .input-field {
       width: 100%;
       padding: 8px 10px;
       border: 2px solid #d1d5db;
       border-radius: 4px;
-      font-size: 0.9em;
+      font-size: .9em;
       font-weight: 600;
       color: #1e293b;
-      transition: border-color 0.2s ease;
+      transition: border-color .2s ease;
     }
-    
     .input-field:focus {
       outline: none;
       border-color: #034638;
-      box-shadow: 0 0 0 2px rgba(3, 70, 56, 0.1);
+      box-shadow: 0 0 0 2px rgba(3,70,56,.1);
     }
-    
+
     .calculate-btn {
       background: #582C83;
-      color: white;
+      color: #fff;
       border: none;
       padding: 12px;
       border-radius: 6px;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all .2s ease;
       font-size: 1em;
       width: 100%;
       margin-bottom: 16px;
     }
-    
     .calculate-btn:hover {
       background: #6b3494;
       transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(88, 44, 131, 0.3);
+      box-shadow: 0 4px 12px rgba(88,44,131,.3);
     }
-    
+
     .results-container {
-      background: white;
+      background: #fff;
       border-radius: 8px;
       padding: 16px;
       border: 2px solid #034638;
     }
-    
     .results-title {
       font-family: Georgia, serif;
       color: #034638;
@@ -142,20 +127,14 @@
       text-align: center;
       margin: 0 0 12px 0;
     }
-    
     .results-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
     }
-    
     @media (max-width: 400px) {
-      .results-grid {
-        grid-template-columns: 1fr;
-        gap: 8px;
-      }
+      .results-grid { grid-template-columns: 1fr; gap: 8px; }
     }
-    
     .roi-metric {
       text-align: center;
       padding: 12px;
@@ -163,218 +142,225 @@
       border-radius: 6px;
       border: 1px solid #d1fae5;
     }
-    
     .metric-value {
       font-family: Georgia, serif;
       font-size: 1.4em;
-      font-weight: bold;
+      font-weight: 700;
       color: #034638;
       margin: 4px 0;
     }
-    
     .metric-label {
-      font-size: 0.8em;
+      font-size: .8em;
       color: #6b7280;
       font-weight: 600;
       line-height: 1.2;
     }
-    
-    .payback-period {
-      background: #f3f0ff;
-      border-color: #d1c4e9;
-    }
-    
-    .payback-period .metric-value {
-      color: #582C83;
-    }
-    
+    .payback-period { background: #f3f0ff; border-color: #d1c4e9; }
+    .payback-period .metric-value { color: #582C83; }
+
     .insight {
       margin-top: 12px;
       padding: 10px;
       background: #fef3c7;
       border-left: 3px solid #f59e0b;
       border-radius: 4px;
-      font-size: 0.85em;
+      font-size: .85em;
       color: #92400e;
     }
-    
-    .fade-in {
-      animation: fadeIn 0.4s ease-in;
-    }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+
+    .fade-in { animation: fadeIn .4s ease-in; }
+    @keyframes fadeIn { from{opacity:0; transform: translateY(10px);} to{opacity:1; transform:none;} }
+
+    /* ---------- Compact mode (enable with ?compact=1) ---------- */
+    .compact .widget-header { padding: 12px; }
+    .compact .widget-title { font-size: 1.05em; margin-bottom: 2px; }
+    .compact .widget-subtitle { font-size: .85em; }
+    .compact .widget-content { padding: 12px; }
+    .compact .input-group { padding: 10px; }
+    .compact .input-field { padding: 7px 9px; font-size: .88em; }
+    .compact .calculate-btn { padding: 10px; margin-bottom: 12px; }
+    .compact .results-container { padding: 12px; }
+    .compact .metric-value { font-size: 1.25em; }
+    .compact .insight { font-size: .82em; padding: 8px; }
   </style>
 </head>
 <body>
-  <div class="canvas-widget">
-    <div class="widget-header">
-      <h3 class="widget-title">AI Automation ROI Calculator</h3>
-      <p class="widget-subtitle">Calculate business value from AI implementation</p>
-    </div>
-    
-    <div class="widget-content">
-      <div class="input-grid">
-        <div class="input-group">
-          <label class="input-label" for="current-cost">Current Annual Cost ($)</label>
-          <input type="number" id="current-cost" class="input-field" value="100000" min="0" step="1000">
-        </div>
-        
-        <div class="input-group">
-          <label class="input-label" for="ai-cost">AI Implementation Cost ($)</label>
-          <input type="number" id="ai-cost" class="input-field" value="50000" min="0" step="1000">
-        </div>
-        
-        <div class="input-group">
-          <label class="input-label" for="efficiency-gain">Efficiency Gain (%)</label>
-          <input type="number" id="efficiency-gain" class="input-field" value="30" min="0" max="100" step="5">
-        </div>
-        
-        <div class="input-group">
-          <label class="input-label" for="annual-maintenance">Annual Maintenance ($)</label>
-          <input type="number" id="annual-maintenance" class="input-field" value="10000" min="0" step="1000">
-        </div>
+  <div id="widget-root">
+    <div class="canvas-widget" role="region" aria-label="AI Automation ROI Calculator">
+      <div class="widget-header">
+        <h3 class="widget-title">AI Automation ROI Calculator</h3>
+        <p class="widget-subtitle">Calculate business value from AI implementation</p>
       </div>
-      
-      <button class="calculate-btn" onclick="calculateROI()">Calculate ROI</button>
-      
-      <div class="results-container fade-in" id="results">
-        <h4 class="results-title">ROI Analysis</h4>
-        <div class="results-grid">
-          <div class="roi-metric">
-            <div class="metric-value" id="annual-savings">$30,000</div>
-            <div class="metric-label">Annual Savings</div>
+
+      <div class="widget-content">
+        <div class="input-grid">
+          <div class="input-group">
+            <label class="input-label" for="current-cost">Current Annual Cost ($)</label>
+            <input type="number" id="current-cost" class="input-field" value="100000" min="0" step="1000" />
           </div>
-          
-          <div class="roi-metric">
-            <div class="metric-value" id="roi-percentage">60%</div>
-            <div class="metric-label">3-Year ROI</div>
+
+          <div class="input-group">
+            <label class="input-label" for="ai-cost">AI Implementation Cost ($)</label>
+            <input type="number" id="ai-cost" class="input-field" value="50000" min="0" step="1000" />
           </div>
-          
-          <div class="roi-metric payback-period">
-            <div class="metric-value" id="payback-months">20</div>
-            <div class="metric-label">Payback Period (Months)</div>
+
+          <div class="input-group">
+            <label class="input-label" for="efficiency-gain">Efficiency Gain (%)</label>
+            <input type="number" id="efficiency-gain" class="input-field" value="30" min="0" max="100" step="5" />
           </div>
-          
-          <div class="roi-metric">
-            <div class="metric-value" id="net-value">$40,000</div>
-            <div class="metric-label">3-Year Net Value</div>
+
+          <div class="input-group">
+            <label class="input-label" for="annual-maintenance">Annual Maintenance ($)</label>
+            <input type="number" id="annual-maintenance" class="input-field" value="10000" min="0" step="1000" />
           </div>
         </div>
-        
-        <div class="insight" id="roi-insight">
-          This AI implementation shows strong ROI potential with payback in under 2 years.
+
+        <button class="calculate-btn" id="calc-btn">Calculate ROI</button>
+
+        <div class="results-container fade-in" id="results" aria-live="polite">
+          <h4 class="results-title">ROI Analysis</h4>
+
+          <div class="results-grid">
+            <div class="roi-metric">
+              <div class="metric-value" id="annual-savings">$30,000</div>
+              <div class="metric-label">Annual Savings</div>
+            </div>
+
+            <div class="roi-metric">
+              <div class="metric-value" id="roi-percentage">60%</div>
+              <div class="metric-label">3-Year ROI</div>
+            </div>
+
+            <div class="roi-metric payback-period">
+              <div class="metric-value" id="payback-months">20</div>
+              <div class="metric-label">Payback Period (Months)</div>
+            </div>
+
+            <div class="roi-metric">
+              <div class="metric-value" id="net-value">$40,000</div>
+              <div class="metric-label">3-Year Net Value</div>
+            </div>
+          </div>
+
+          <div class="insight" id="roi-insight">
+            This AI implementation shows strong ROI potential with payback in under 2 years.
+          </div>
         </div>
       </div>
     </div>
   </div>
 
   <script>
+    // ---------- Helpers ----------
+    function q(id){ return document.getElementById(id); }
+
     function calculateROI() {
-      // Get input values
-      const currentCost = parseFloat(document.getElementById('current-cost').value) || 0;
-      const aiCost = parseFloat(document.getElementById('ai-cost').value) || 0;
-      const efficiencyGain = parseFloat(document.getElementById('efficiency-gain').value) || 0;
-      const annualMaintenance = parseFloat(document.getElementById('annual-maintenance').value) || 0;
-      
-      // Calculate metrics
-      const annualSavings = (currentCost * (efficiencyGain / 100)) - annualMaintenance;
-      const paybackMonths = annualSavings > 0 ? Math.ceil((aiCost / annualSavings) * 12) : 999;
-      const threeYearSavings = annualSavings * 3;
+      const currentCost       = parseFloat(q('current-cost').value) || 0;
+      const aiCost            = parseFloat(q('ai-cost').value) || 0;
+      const efficiencyGain    = parseFloat(q('efficiency-gain').value) || 0;
+      const annualMaintenance = parseFloat(q('annual-maintenance').value) || 0;
+
+      const annualSavings     = (currentCost * (efficiencyGain / 100)) - annualMaintenance;
+      const paybackMonths     = annualSavings > 0 ? Math.ceil((aiCost / annualSavings) * 12) : 999;
+      const threeYearSavings  = annualSavings * 3;
       const netThreeYearValue = threeYearSavings - aiCost;
-      const threeYearROI = aiCost > 0 ? ((netThreeYearValue / aiCost) * 100) : 0;
-      
-      // Update display
-      document.getElementById('annual-savings').textContent = formatCurrency(annualSavings);
-      document.getElementById('roi-percentage').textContent = Math.round(threeYearROI) + '%';
-      document.getElementById('payback-months').textContent = paybackMonths > 120 ? '120+' : paybackMonths;
-      document.getElementById('net-value').textContent = formatCurrency(netThreeYearValue);
-      
-      // Update insight
+      const threeYearROI      = aiCost > 0 ? ((netThreeYearValue / aiCost) * 100) : 0;
+
+      q('annual-savings').textContent = formatCurrency(annualSavings);
+      q('roi-percentage').textContent = Math.round(threeYearROI) + '%';
+      q('payback-months').textContent = paybackMonths > 120 ? '120+' : paybackMonths;
+      q('net-value').textContent      = formatCurrency(netThreeYearValue);
+
       updateInsight(threeYearROI, paybackMonths, annualSavings);
-      
-      // Add animation
-      const results = document.getElementById('results');
-      results.classList.remove('fade-in');
-      setTimeout(() => results.classList.add('fade-in'), 10);
-      
-      // Notify Canvas LMS
+
+      const results = q('results');
+      results.classList.remove('fade-in'); // retrigger animation
+      setTimeout(()=>results.classList.add('fade-in'), 10);
+
       notifyCanvas({
         action: 'roi-calculated',
         values: {
-          annualSavings: annualSavings,
-          roi: threeYearROI,
-          payback: paybackMonths,
-          netValue: netThreeYearValue
+          annualSavings, roi: threeYearROI, payback: paybackMonths, netValue: netThreeYearValue
         }
       });
+
+      pingHeight(); // update parent with new height (for non-Canvas hosts)
     }
-    
+
     function formatCurrency(value) {
-      const absValue = Math.abs(value);
-      if (absValue >= 1000000) {
-        return (value >= 0 ? '$' : '-$') + (absValue / 1000000).toFixed(1) + 'M';
-      } else if (absValue >= 1000) {
-        return (value >= 0 ? '$' : '-$') + (absValue / 1000).toFixed(0) + 'K';
-      } else {
-        return (value >= 0 ? '$' : '-$') + absValue.toFixed(0);
-      }
+      const abs = Math.abs(value);
+      if (abs >= 1_000_000) return (value < 0 ? '-$' : '$') + (abs/1_000_000).toFixed(1) + 'M';
+      if (abs >= 1_000)     return (value < 0 ? '-$' : '$') + (abs/1_000).toFixed(0) + 'K';
+      return (value < 0 ? '-$' : '$') + abs.toFixed(0);
     }
-    
+
     function updateInsight(roi, payback, savings) {
-      const insight = document.getElementById('roi-insight');
-      
+      const el = q('roi-insight');
       if (savings <= 0) {
-        insight.textContent = "Current parameters show negative savings. Consider adjusting efficiency gains or reducing maintenance costs.";
-        insight.style.background = '#fee2e2';
-        insight.style.borderColor = '#ef4444';
-        insight.style.color = '#991b1b';
+        el.textContent = "Current parameters show negative savings. Consider adjusting efficiency gains or reducing maintenance costs.";
+        el.style.background = '#fee2e2'; el.style.borderColor = '#ef4444'; el.style.color = '#991b1b';
       } else if (roi >= 100 && payback <= 18) {
-        insight.textContent = "Excellent ROI! This AI implementation shows very strong business value with rapid payback.";
-        insight.style.background = '#dcfce7';
-        insight.style.borderColor = '#22c55e';
-        insight.style.color = '#166534';
+        el.textContent = "Excellent ROI! This AI implementation shows very strong business value with rapid payback.";
+        el.style.background = '#dcfce7'; el.style.borderColor = '#22c55e'; el.style.color = '#166534';
       } else if (roi >= 50 && payback <= 36) {
-        insight.textContent = "Good ROI potential. This AI implementation shows solid business value.";
-        insight.style.background = '#fef3c7';
-        insight.style.borderColor = '#f59e0b';
-        insight.style.color = '#92400e';
+        el.textContent = "Good ROI potential. This AI implementation shows solid business value.";
+        el.style.background = '#fef3c7'; el.style.borderColor = '#f59e0b'; el.style.color = '#92400e';
       } else {
-        insight.textContent = "Consider optimizing parameters. Look for higher efficiency gains or lower implementation costs.";
-        insight.style.background = '#fee2e2';
-        insight.style.borderColor = '#ef4444';
-        insight.style.color = '#991b1b';
+        el.textContent = "Consider optimizing parameters. Look for higher efficiency gains or lower implementation costs.";
+        el.style.background = '#fee2e2'; el.style.borderColor = '#ef4444'; el.style.color = '#991b1b';
       }
     }
-    
-    // Canvas LMS integration
+
     function notifyCanvas(data) {
       if (window.parent && window.parent.postMessage) {
-        window.parent.postMessage({
-          type: 'widget-interaction',
-          widget: 'roi-calculator',
-          data: data
-        }, '*');
+        window.parent.postMessage({ type: 'widget-interaction', widget: 'roi-calculator', data }, '*');
       }
     }
-    
-    // Initialize
-    document.addEventListener('DOMContentLoaded', function() {
-      // Add real-time calculation on input change
-      const inputs = document.querySelectorAll('.input-field');
-      inputs.forEach(input => {
-        input.addEventListener('input', function() {
-          // Delay calculation slightly for better UX
-          clearTimeout(window.calcTimeout);
-          window.calcTimeout = setTimeout(calculateROI, 300);
+
+    // ---------- Auto-height postMessage (for hosts that support a parent listener) ----------
+    function pingHeight(){
+      try {
+        const h = Math.ceil(document.documentElement.scrollHeight);
+        window.parent.postMessage({ type: 'WIDGET_HEIGHT', height: h, src: location.pathname }, '*');
+      } catch(e){}
+    }
+
+    // ---------- URL parameter controls (compact mode, maxWidth) ----------
+    (function init(){
+      const qs = new URLSearchParams(location.search);
+
+      // Compact mode
+      if (qs.get('compact') === '1') {
+        document.documentElement.classList.add('compact');
+      }
+
+      // Width control
+      const mw = qs.get('maxWidth');
+      if (mw) {
+        const cleaned = String(mw).replace(/[^0-9.]/g,'');
+        document.documentElement.style.setProperty('--widget-maxw', cleaned + 'px');
+      }
+
+      // Events
+      document.addEventListener('DOMContentLoaded', () => {
+        // Hook up inputs for live calc
+        document.querySelectorAll('.input-field').forEach(inp => {
+          inp.addEventListener('input', () => {
+            clearTimeout(window.calcTimeout);
+            window.calcTimeout = setTimeout(calculateROI, 200);
+          });
         });
+        q('calc-btn').addEventListener('click', calculateROI);
+
+        // Initial paint
+        calculateROI();
+        // Observe size changes to keep parent height in sync (portable)
+        if (window.ResizeObserver) {
+          const ro = new ResizeObserver(pingHeight);
+          ro.observe(document.documentElement);
+        }
       });
-      
-      // Initial calculation
-      calculateROI();
-    });
+    })();
   </script>
 </body>
 </html>
