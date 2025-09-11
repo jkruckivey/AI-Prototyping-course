@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Approach Matcher</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Georgia:wght@400;700&display=swap');
+    
+    /* Canvas-Optimized AI Approach Matcher - Ivey Style */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: Arial, sans-serif;
+      background: white;
+      color: #000000;
+      line-height: 1.4;
+      padding: 0;
+      margin: 0;
+      overflow-x: hidden;
+    }
+    
+    .canvas-widget {
+      max-width: 450px;
+      width: 100%;
+      background: #ffffff;
+      border: 2px solid #034638;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(3, 70, 56, 0.15);
+      overflow: hidden;
+      margin: 0 auto;
+    }
+    
+    .widget-header {
+      background: linear-gradient(135deg, #034638 0%, #045a49 100%);
+      color: white;
+      padding: 16px;
+      text-align: center;
+      border-bottom: 3px solid #582C83;
+    }
+    
+    .widget-title {
+      font-family: Georgia, serif;
+      font-size: 1.2em;
+      font-weight: 400;
+      margin: 0 0 4px 0;
+    }
+    
+    .widget-subtitle {
+      font-size: 0.9em;
+      opacity: 0.95;
+      margin: 0;
+    }
+    
+    .widget-content {
+      padding: 16px;
+      background: #f8f9fa;
+    }
+    
+    .scenario-selector {
+      background: white;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+      border: 1px solid #e2e8f0;
+    }
+    
+    .scenario-title {
+      font-family: Georgia, serif;
+      color: #034638;
+      font-size: 1em;
+      margin: 0 0 12px 0;
+      text-align: center;
+    }
+    
+    .scenario-buttons {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+    
+    .scenario-btn {
+      padding: 12px 16px;
+      border: 2px solid #d1d5db;
+      background: white;
+      color: #374151;
+      border-radius: 8px;
+      font-size: 0.9em;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: left;
+      line-height: 1.3;
+    }
+    
+    .scenario-btn:hover {
+      border-color: #034638;
+      background: #f0f9f6;
+      transform: translateY(-1px);
+    }
+    
+    .scenario-btn.selected {
+      border-color: #034638;
+      background: #034638;
+      color: white;
+      box-shadow: 0 2px 8px rgba(3, 70, 56, 0.3);
+    }
+    
+    .approach-matcher {
+      background: white;
+      border-radius: 8px;
+      padding: 16px;
+      border: 1px solid #e2e8f0;
+      margin-bottom: 16px;
+    }
+    
+    .approach-title {
+      font-family: Georgia, serif;
+      color: #034638;
+      font-size: 1em;
+      margin: 0 0 12px 0;
+      text-align: center;
+    }
+    
+    .approach-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    
+    @media (max-width: 400px) {
+      .approach-options {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .approach-btn {
+      padding: 12px 14px;
+      border: 2px solid #582C83;
+      background: white;
+      color: #582C83;
+      border-radius: 6px;
+      font-size: 0.85em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+    
+    .approach-btn:hover {
+      background: #f3f0ff;
+      transform: translateY(-1px);
+    }
+    
+    .approach-btn.selected {
+      background: #582C83;
+      color: white;
+      box-shadow: 0 2px 8px rgba(88, 44, 131, 0.3);
+    }
+    
+    .submit-btn {
+      background: #034638;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 1em;
+      width: 100%;
+      margin-bottom: 16px;
+    }
+    
+    .submit-btn:hover {
+      background: #0a5c49;
+      transform: translateY(-1px);
+    }
+    
+    .submit-btn:disabled {
+      background: #9ca3af;
+      cursor: not-allowed;
+      transform: none;
+    }
+    
+    .results-panel {
+      background: white;
+      border-radius: 8px;
+      padding: 16px;
+      border: 2px solid #e5e7eb;
+      display: none;
+    }
+    
+    .results-panel.show {
+      display: block;
+      animation: fadeIn 0.3s ease-in;
+    }
+    
+    .result-correct {
+      border-color: #10b981;
+      background: #f0fdf4;
+    }
+    
+    .result-incorrect {
+      border-color: #ef4444;
+      background: #fef2f2;
+    }
+    
+    .result-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    
+    .result-icon {
+      font-size: 1.5em;
+    }
+    
+    .result-title {
+      font-family: Georgia, serif;
+      font-size: 1.1em;
+      margin: 0;
+    }
+    
+    .result-correct .result-title {
+      color: #059669;
+    }
+    
+    .result-incorrect .result-title {
+      color: #dc2626;
+    }
+    
+    .result-explanation {
+      font-size: 0.9em;
+      line-height: 1.4;
+      margin-bottom: 12px;
+    }
+    
+    .result-correct .result-explanation {
+      color: #047857;
+    }
+    
+    .result-incorrect .result-explanation {
+      color: #991b1b;
+    }
+    
+    .correct-answer {
+      background: #dcfce7;
+      border: 1px solid #bbf7d0;
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-size: 0.85em;
+      margin-top: 8px;
+    }
+    
+    .score-display {
+      text-align: center;
+      margin-top: 12px;
+      font-weight: 600;
+      color: #034638;
+    }
+    
+    .next-btn {
+      background: #582C83;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 0.9em;
+      width: 100%;
+      margin-top: 12px;
+    }
+    
+    .next-btn:hover {
+      background: #6b3494;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="canvas-widget">
+    <div class="widget-header">
+      <h3 class="widget-title">AI Approach Matcher</h3>
+      <p class="widget-subtitle">Match business scenarios to optimal AI approaches</p>
+    </div>
+    
+    <div class="widget-content">
+      <div class="scenario-selector">
+        <h4 class="scenario-title">Business Scenario</h4>
+        <div class="scenario-buttons" id="scenario-container">
+          <!-- Scenarios populated by JavaScript -->
+        </div>
+      </div>
+      
+      <div class="approach-matcher">
+        <h4 class="approach-title">Which AI Approach is Best?</h4>
+        <div class="approach-options">
+          <button class="approach-btn" data-approach="expert">Expert System</button>
+          <button class="approach-btn" data-approach="supervised">Supervised ML</button>
+          <button class="approach-btn" data-approach="unsupervised">Unsupervised ML</button>
+          <button class="approach-btn" data-approach="reinforcement">Reinforcement ML</button>
+        </div>
+        
+        <button class="submit-btn" id="submit-btn" disabled>Check My Answer</button>
+      </div>
+      
+      <div class="results-panel" id="results-panel">
+        <div class="result-header">
+          <span class="result-icon" id="result-icon"></span>
+          <h4 class="result-title" id="result-title"></h4>
+        </div>
+        <div class="result-explanation" id="result-explanation"></div>
+        <div class="correct-answer" id="correct-answer" style="display: none;"></div>
+        <button class="next-btn" id="next-btn">Try Another Scenario</button>
+      </div>
+      
+      <div class="score-display" id="score-display" style="display: none;">
+        Score: <span id="score">0</span>/<span id="total">0</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Business scenarios with correct answers and explanations
+    const scenarios = [
+      {
+        id: 1,
+        text: "A bank needs to automatically approve or reject loan applications based on established credit criteria (income, debt ratio, payment history).",
+        correct: "expert",
+        explanation: "This requires transparent, rule-based decisions following established financial criteria. Expert systems excel when you need explainable decisions for regulatory compliance.",
+        wrongExplanation: "While ML could work, financial institutions need transparent, auditable decisions that follow established business rules - perfect for expert systems."
+      },
+      {
+        id: 2,
+        text: "An e-commerce company wants to predict which customers are likely to make a purchase in the next 30 days based on browsing behavior.",
+        correct: "supervised",
+        explanation: "This is a classic prediction problem with historical examples (past customers who did/didn't purchase). Supervised learning excels at learning from labeled historical data.",
+        wrongExplanation: "This requires learning from historical purchase patterns to predict future behavior - a perfect supervised learning application with clear outcome labels."
+      },
+      {
+        id: 3,
+        text: "A retailer wants to discover hidden customer segments in their data to create targeted marketing campaigns, without knowing what segments exist.",
+        correct: "unsupervised",
+        explanation: "Finding unknown patterns in data without predetermined categories is exactly what unsupervised learning does. It reveals hidden customer segments you didn't know existed.",
+        wrongExplanation: "Since you don't know what customer segments exist, you need unsupervised learning to discover hidden patterns and groupings in your data."
+      },
+      {
+        id: 4,
+        text: "A trading firm wants an AI system that learns to optimize investment strategies by experimenting with different trades and learning from outcomes.",
+        correct: "reinforcement",
+        explanation: "Learning through trial and error to optimize complex decisions over time is reinforcement learning's specialty. It continuously improves strategy based on market feedback.",
+        wrongExplanation: "This requires learning through trial and error to optimize complex sequential decisions - exactly what reinforcement learning is designed for."
+      },
+      {
+        id: 5,
+        text: "A manufacturing company needs to automatically classify product defects into known categories (scratch, dent, discoloration) based on camera images.",
+        correct: "supervised",
+        explanation: "With known defect categories and historical images, this is supervised learning. The system learns from labeled examples to classify new images into existing categories.",
+        wrongExplanation: "Since you have known defect categories and historical examples, supervised learning can learn to classify new defects into these established categories."
+      },
+      {
+        id: 6,
+        text: "A healthcare system wants to identify unusual patterns in patient data that might indicate new types of medical conditions or treatment opportunities.",
+        correct: "unsupervised",
+        explanation: "Discovering unknown patterns that might reveal new medical insights requires unsupervised learning. It can find anomalies and relationships humans haven't identified.",
+        wrongExplanation: "Finding unknown patterns and anomalies that might indicate new medical conditions requires unsupervised learning to discover what humans haven't yet identified."
+      }
+    ];
+    
+    let currentScenario = 0;
+    let score = 0;
+    let totalAttempts = 0;
+    let selectedScenario = null;
+    let selectedApproach = null;
+    
+    function initializeWidget() {
+      loadScenario();
+      setupEventListeners();
+    }
+    
+    function loadScenario() {
+      const container = document.getElementById('scenario-container');
+      
+      // Create scenario button
+      const scenario = scenarios[currentScenario];
+      container.innerHTML = `
+        <button class="scenario-btn selected" data-scenario="${scenario.id}">
+          ${scenario.text}
+        </button>
+      `;
+      
+      selectedScenario = scenario.id;
+      resetSelection();
+    }
+    
+    function setupEventListeners() {
+      // Approach selection
+      document.querySelectorAll('.approach-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          document.querySelectorAll('.approach-btn').forEach(b => b.classList.remove('selected'));
+          this.classList.add('selected');
+          selectedApproach = this.dataset.approach;
+          document.getElementById('submit-btn').disabled = false;
+        });
+      });
+      
+      // Submit answer
+      document.getElementById('submit-btn').addEventListener('click', checkAnswer);
+      
+      // Next scenario
+      document.getElementById('next-btn').addEventListener('click', nextScenario);
+    }
+    
+    function resetSelection() {
+      document.querySelectorAll('.approach-btn').forEach(btn => {
+        btn.classList.remove('selected');
+      });
+      selectedApproach = null;
+      document.getElementById('submit-btn').disabled = true;
+      document.getElementById('results-panel').classList.remove('show');
+    }
+    
+    function checkAnswer() {
+      const scenario = scenarios[currentScenario];
+      const isCorrect = selectedApproach === scenario.correct;
+      
+      totalAttempts++;
+      if (isCorrect) score++;
+      
+      showResults(isCorrect, scenario);
+      updateScore();
+      
+      // Notify Canvas LMS
+      notifyCanvas({
+        action: 'scenario-attempted',
+        scenarioId: scenario.id,
+        selectedApproach: selectedApproach,
+        correctApproach: scenario.correct,
+        isCorrect: isCorrect,
+        score: score,
+        totalAttempts: totalAttempts
+      });
+    }
+    
+    function showResults(isCorrect, scenario) {
+      const resultsPanel = document.getElementById('results-panel');
+      const resultIcon = document.getElementById('result-icon');
+      const resultTitle = document.getElementById('result-title');
+      const resultExplanation = document.getElementById('result-explanation');
+      const correctAnswer = document.getElementById('correct-answer');
+      
+      resultsPanel.className = 'results-panel show ' + (isCorrect ? 'result-correct' : 'result-incorrect');
+      
+      if (isCorrect) {
+        resultIcon.textContent = '✅';
+        resultTitle.textContent = 'Correct!';
+        resultExplanation.textContent = scenario.explanation;
+        correctAnswer.style.display = 'none';
+      } else {
+        resultIcon.textContent = '❌';
+        resultTitle.textContent = 'Not quite right';
+        resultExplanation.textContent = scenario.wrongExplanation;
+        correctAnswer.style.display = 'block';
+        correctAnswer.innerHTML = `<strong>Correct Answer:</strong> ${getApproachName(scenario.correct)}<br><small>${scenario.explanation}</small>`;
+      }
+    }
+    
+    function getApproachName(approach) {
+      const names = {
+        'expert': 'Expert System',
+        'supervised': 'Supervised Machine Learning',
+        'unsupervised': 'Unsupervised Machine Learning',
+        'reinforcement': 'Reinforcement Learning'
+      };
+      return names[approach];
+    }
+    
+    function updateScore() {
+      const scoreDisplay = document.getElementById('score-display');
+      document.getElementById('score').textContent = score;
+      document.getElementById('total').textContent = totalAttempts;
+      scoreDisplay.style.display = 'block';
+    }
+    
+    function nextScenario() {
+      currentScenario = (currentScenario + 1) % scenarios.length;
+      loadScenario();
+    }
+    
+    // Canvas LMS integration
+    function notifyCanvas(data) {
+      if (window.parent && window.parent.postMessage) {
+        window.parent.postMessage({
+          type: 'widget-interaction',
+          widget: 'ai-approach-matcher',
+          data: data
+        }, '*');
+      }
+    }
+    
+    // Initialize when page loads
+    document.addEventListener('DOMContentLoaded', initializeWidget);
+  </script>
+</body>
+</html>
