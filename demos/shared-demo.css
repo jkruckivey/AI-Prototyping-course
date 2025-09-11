@@ -1,11 +1,13 @@
 /* =====================================================
-   AI PROTOTYPING COURSE - SHARED DEMO STYLES
+   AI PROTOTYPING COURSE - SHARED DEMO STYLES (IVEY SIMULATOR STYLE)
    - Primary: Ivey Green #034638
    - Accent:  Ivey Purple #582C83
    - Classification: Orange #f97316, Apple Red #dc2626
    - Neutral: Cool Gray 10 #63666A
-   Font: Figtree (loaded in HTML files)
+   Font: Georgia serif for headings, Arial for body
    ===================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Georgia:wght@400;700&display=swap');
 
 :root{
   --ivey-green:#034638;
@@ -41,51 +43,64 @@
 html,body{height:100%}
 body{
   margin:0;
-  font-family:"Figtree",system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
+  font-family:Arial,sans-serif;
   line-height:1.5;
-  color:#1f2937;
-  background:#f7faf9;
+  color:#000000;
+  background:#034638;
+  min-height:100vh;
   -webkit-font-smoothing:antialiased;
   -moz-osx-font-smoothing:grayscale;
 }
 
+/* Typography - Ivey Simulator Style */
+h1, h2, h3, h4, h5, h6 {
+  font-family: Georgia, serif;
+  font-weight: 400;
+}
+
+h2 {
+  color: var(--ivey-green);
+  border-left: 4px solid var(--ivey-purple);
+  padding-left: 15px;
+  margin-top: 30px;
+}
+
+h3 {
+  color: var(--ivey-purple);
+  font-family: Georgia, serif;
+}
+
 .container{
   max-width:1200px;
-  margin:0 auto;
-  padding:1.25rem;
+  margin:20px auto;
+  padding:30px;
+  background:#ffffff;
+  border-radius:12px;
+  box-shadow:0 20px 40px rgba(3,70,56,0.2);
+  color:#000000;
 }
 
 /* Header */
 .header{
-  background:#fff;
-  border-top:6px solid var(--ivey-green);
-  border-bottom:1px solid var(--brand-border);
-  position:sticky;
-  top:0;
-  z-index:10;
-  padding:2rem 0;
-  margin-bottom:3rem;
   text-align:center;
-  border-radius:0 0 var(--radius) var(--radius);
-}
-.header::after{
-  content:"";
-  position:absolute; left:0; right:0; bottom:-1px;
-  height:3px; background:var(--ivey-purple);
+  margin-bottom:30px;
+  padding-bottom:20px;
+  border-bottom:3px solid var(--ivey-green);
 }
 
 
 .site-title{ 
-  font-weight:900; 
-  letter-spacing:.01em; 
+  font-family:Georgia,serif;
+  font-weight:400;
   color:var(--ivey-green); 
-  margin:.5rem 0 0 0;
-  font-size:clamp(2rem, 4vw, 3rem);
+  margin-bottom:10px;
+  font-size:2.2em;
 }
 .site-subtitle{ 
-  color:var(--ivey-gray-text); 
-  margin:.5rem 0 0 0;
-  font-size:1.2rem;
+  color:var(--ivey-purple); 
+  margin-bottom:10px;
+  font-size:1.2em;
+  font-weight:600;
 }
 
 /* Main Content Layout */

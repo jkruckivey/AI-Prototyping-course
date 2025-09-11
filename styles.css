@@ -1,10 +1,12 @@
 /* =====================================================
-   AI PROTOTYPING COURSE - MAIN LANDING PAGE
+   AI PROTOTYPING COURSE - IVEY SIMULATOR STYLE
    - Primary: Ivey Green #034638
    - Accent:  Ivey Purple #582C83
    - Neutral: Cool Gray 10 #63666A
-   Font: Figtree (loaded in index.html)
+   Font: Georgia serif for headings, Arial for body
    ===================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Georgia:wght@400;700&display=swap');
 
 :root{
   --ivey-green:#034638;
@@ -13,15 +15,15 @@
   --ivey-gray-10:#63666A;
   --brand-surface:#ffffff;
   --brand-border:#e7eaee;
-  --shadow-lg:0 8px 30px rgba(3,70,56,.12);
+  --shadow-lg:0 20px 40px rgba(3,70,56,.2);
   --shadow-md:0 6px 20px rgba(0,0,0,.08);
   --shadow-sm:0 2px 8px rgba(0,0,0,.06);
-  --radius:16px;
-  --card-transition-duration:.6s;
+  --radius:12px;
+  --card-transition-duration:.3s;
 
   /* Accessibility additions */
-  --ivey-purple-text: #49246a; /* Darker purple for text on light backgrounds */
-  --ivey-gray-text: #505356;   /* Darker gray for subtitles and labels */
+  --ivey-purple-text: #49246a;
+  --ivey-gray-text: #505356;
 }
 
 /* Reset & base */
@@ -29,49 +31,52 @@
 html,body{height:100%}
 body{
   margin:0;
-  font-family:"Figtree",system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
+  font-family:Arial,sans-serif;
   line-height:1.5;
-  color:#1f2937;
-  background:#f7faf9;
+  color:#000000;
+  background:#034638;
+  min-height:100vh;
   -webkit-font-smoothing:antialiased;
   -moz-osx-font-smoothing:grayscale;
+}
+
+/* Typography - Ivey Simulator Style */
+h1, h2, h3, h4, h5, h6 {
+  font-family: Georgia, serif;
+  font-weight: 400;
 }
 
 .container{
   max-width:1200px;
   margin:0 auto;
-  padding:1.25rem;
+  padding:40px;
+  background:rgba(255,255,255,0.95);
+  border-radius:15px;
+  box-shadow:0 20px 40px rgba(0,0,0,0.2);
+  color:#000000;
 }
 
 /* Header */
 .header{
-  background:#fff;
-  border-top:6px solid var(--ivey-green);
-  border-bottom:1px solid var(--brand-border);
-  position:sticky;
-  top:0;
-  z-index:10;
-  padding:2rem 0;
-  margin-bottom:3rem;
   text-align:center;
-  border-radius:0 0 var(--radius) var(--radius);
+  margin-bottom:40px;
+  padding-bottom:30px;
+  border-bottom:3px solid var(--ivey-green);
 }
-.header::after{
-  content:"";
-  position:absolute; left:0; right:0; bottom:-1px;
-  height:3px; background:var(--ivey-purple);
-}
+
 .site-title{ 
-  font-weight:900; 
-  letter-spacing:.01em; 
+  font-family:Georgia,serif;
+  font-weight:400;
   color:var(--ivey-green); 
-  margin:.5rem 0 0 0;
-  font-size:3rem;
+  margin-bottom:15px;
+  font-size:2.5em;
 }
+
 .site-subtitle{ 
-  color:var(--ivey-gray-text); 
-  margin:.5rem 0 0 0;
-  font-size:1.2rem;
+  color:var(--ivey-purple); 
+  margin-bottom:15px;
+  font-size:1.3em;
+  font-weight:600;
 }
 
 /* Main Content Layout */
@@ -171,7 +176,8 @@ body{
 }
 
 .section-title {
-  font-weight: 800;
+  font-family: Georgia, serif;
+  font-weight: 400;
   font-size: 2rem;
   color: var(--ivey-green);
   margin-bottom: 2rem;
@@ -180,26 +186,25 @@ body{
 
 .demos-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 2rem;
-  align-items: start;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin: 40px 0;
 }
 
 .demo-card {
-  background: var(--brand-surface);
-  border: 1px solid var(--brand-border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-md);
-  overflow: hidden;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 25px;
+  border: 3px solid #e5e7eb;
   transition: all 0.3s ease;
-  position: relative;
-  display: flex;
-  flex-direction: column;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .demo-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
+  transform: translateY(-5px);
+  border-color: var(--ivey-green);
+  box-shadow: 0 8px 16px rgba(3, 70, 56, 0.2);
 }
 
 .demo-card.featured {
@@ -240,10 +245,11 @@ body{
 }
 
 .demo-header h3 {
-  font-size: 1.5rem;
-  font-weight: 800;
+  font-family: Georgia, serif;
+  font-size: 1.4em;
+  font-weight: bold;
   color: var(--ivey-green);
-  margin: 0;
+  margin: 0 0 15px 0;
 }
 
 .demo-content {

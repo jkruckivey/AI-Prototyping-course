@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Evolution Timeline</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Georgia:wght@400;700&display=swap');
+    
+    /* Canvas-Optimized AI Evolution Timeline - Ivey Style */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: Arial, sans-serif;
+      background: white;
+      color: #000000;
+      line-height: 1.4;
+      padding: 0;
+      margin: 0;
+      overflow-x: hidden;
+    }
+    
+    .canvas-widget {
+      max-width: 450px;
+      width: 100%;
+      background: #ffffff;
+      border: 2px solid #034638;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(3, 70, 56, 0.15);
+      overflow: hidden;
+      margin: 0 auto;
+    }
+    
+    .widget-header {
+      background: linear-gradient(135deg, #034638 0%, #045a49 100%);
+      color: white;
+      padding: 16px;
+      text-align: center;
+      border-bottom: 3px solid #582C83;
+    }
+    
+    .widget-title {
+      font-family: Georgia, serif;
+      font-size: 1.2em;
+      font-weight: 400;
+      margin: 0 0 4px 0;
+    }
+    
+    .widget-subtitle {
+      font-size: 0.9em;
+      opacity: 0.95;
+      margin: 0;
+    }
+    
+    .widget-content {
+      padding: 16px;
+      background: #f8f9fa;
+    }
+    
+    .timeline-controls {
+      background: white;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 16px;
+      border: 1px solid #e2e8f0;
+    }
+    
+    .controls-title {
+      font-family: Georgia, serif;
+      color: #034638;
+      font-size: 0.95em;
+      margin: 0 0 8px 0;
+      text-align: center;
+    }
+    
+    .timeline-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    
+    @media (max-width: 400px) {
+      .timeline-buttons {
+        grid-template-columns: 1fr;
+        gap: 6px;
+      }
+    }
+    
+    .timeline-btn {
+      padding: 10px 12px;
+      border: 2px solid #034638;
+      background: white;
+      color: #034638;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.85em;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+    
+    .timeline-btn:hover {
+      background: #f0f9f6;
+      transform: translateY(-1px);
+    }
+    
+    .timeline-btn.active {
+      background: #034638;
+      color: white;
+      box-shadow: 0 2px 8px rgba(3, 70, 56, 0.3);
+    }
+    
+    .era-content {
+      display: none;
+      background: white;
+      border-radius: 8px;
+      padding: 16px;
+      border: 1px solid #e2e8f0;
+    }
+    
+    .era-content.active {
+      display: block;
+      animation: fadeIn 0.3s ease-in;
+    }
+    
+    .era-header {
+      margin-bottom: 12px;
+      text-align: center;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #f3f4f6;
+    }
+    
+    .era-title {
+      font-family: Georgia, serif;
+      color: #1e293b;
+      font-size: 1.1em;
+      margin: 0 0 4px 0;
+    }
+    
+    .era-tagline {
+      color: #64748b;
+      font-style: italic;
+      font-size: 0.9em;
+    }
+    
+    .era-description {
+      margin-bottom: 12px;
+    }
+    
+    .approach-section {
+      margin-bottom: 12px;
+    }
+    
+    .section-title {
+      font-weight: 600;
+      color: #374151;
+      font-size: 0.9em;
+      margin: 0 0 6px 0;
+    }
+    
+    .section-text {
+      font-size: 0.85em;
+      color: #6b7280;
+      line-height: 1.3;
+      margin-bottom: 8px;
+    }
+    
+    .example-box {
+      background: #f8fafc;
+      border-left: 3px solid #034638;
+      padding: 8px 10px;
+      margin: 6px 0;
+      border-radius: 0 4px 4px 0;
+    }
+    
+    .example-box strong {
+      color: #1e293b;
+      font-size: 0.8em;
+    }
+    
+    .example-text {
+      font-size: 0.8em;
+      color: #64748b;
+      margin-top: 2px;
+    }
+    
+    .capabilities-list {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 4px;
+      margin-top: 6px;
+    }
+    
+    .capability {
+      font-size: 0.8em;
+      padding: 4px 6px;
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .capability.positive {
+      background: #dcfce7;
+      color: #166534;
+    }
+    
+    .capability.negative {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="canvas-widget">
+    <div class="widget-header">
+      <h3 class="widget-title">AI Evolution Timeline</h3>
+      <p class="widget-subtitle">Explore how AI has transformed over decades</p>
+    </div>
+    
+    <div class="widget-content">
+      <div class="timeline-controls">
+        <h4 class="controls-title">Select Era to Explore</h4>
+        <div class="timeline-buttons">
+          <button class="timeline-btn active" onclick="showEra('1950s')">1950s-60s</button>
+          <button class="timeline-btn" onclick="showEra('1980s')">1980s</button>
+          <button class="timeline-btn" onclick="showEra('2000s')">2000s</button>
+          <button class="timeline-btn" onclick="showEra('2020s')">2020s</button>
+        </div>
+      </div>
+
+      <div class="era-content active" id="era-1950s">
+        <div class="era-header">
+          <h4 class="era-title">🤖 Rule-Based Systems (1950s-60s)</h4>
+          <p class="era-tagline">Following Explicit Instructions</p>
+        </div>
+        
+        <div class="era-description">
+          <div class="approach-section">
+            <h5 class="section-title">How it worked:</h5>
+            <p class="section-text">Programmers wrote explicit rules for every scenario</p>
+            
+            <div class="example-box">
+              <strong>Rule:</strong>
+              <div class="example-text">IF temperature > 30°C THEN turn_on_AC</div>
+            </div>
+            
+            <div class="example-box">
+              <strong>Rule:</strong>
+              <div class="example-text">IF piece = "knight" THEN move = "L-shape"</div>
+            </div>
+          </div>
+          
+          <div class="approach-section">
+            <h5 class="section-title">What it could do:</h5>
+            <div class="capabilities-list">
+              <div class="capability positive">✅ Play simple games</div>
+              <div class="capability positive">✅ Solve math problems</div>
+              <div class="capability negative">❌ Adapt to new situations</div>
+              <div class="capability negative">❌ Learn from experience</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="era-content" id="era-1980s">
+        <div class="era-header">
+          <h4 class="era-title">🧠 Expert Systems (1980s)</h4>
+          <p class="era-tagline">Capturing Human Expertise</p>
+        </div>
+        
+        <div class="era-description">
+          <div class="approach-section">
+            <h5 class="section-title">How it worked:</h5>
+            <p class="section-text">Captured human expert knowledge in specific domains</p>
+            
+            <div class="example-box">
+              <strong>Medical Diagnosis:</strong>
+              <div class="example-text">IF fever + cough + chest_pain THEN likely_pneumonia</div>
+            </div>
+            
+            <div class="example-box">
+              <strong>Financial Planning:</strong>
+              <div class="example-text">IF age < 30 AND risk = "high" THEN recommend_stocks</div>
+            </div>
+          </div>
+          
+          <div class="approach-section">
+            <h5 class="section-title">What it could do:</h5>
+            <div class="capabilities-list">
+              <div class="capability positive">✅ Domain expertise</div>
+              <div class="capability positive">✅ Explain reasoning</div>
+              <div class="capability negative">❌ Learn new patterns</div>
+              <div class="capability negative">❌ Handle uncertainty</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="era-content" id="era-2000s">
+        <div class="era-header">
+          <h4 class="era-title">📊 Machine Learning (2000s)</h4>
+          <p class="era-tagline">Learning from Data</p>
+        </div>
+        
+        <div class="era-description">
+          <div class="approach-section">
+            <h5 class="section-title">How it worked:</h5>
+            <p class="section-text">Algorithms learn patterns from large datasets</p>
+            
+            <div class="example-box">
+              <strong>Email Filtering:</strong>
+              <div class="example-text">Learn spam patterns from millions of emails</div>
+            </div>
+            
+            <div class="example-box">
+              <strong>Recommendations:</strong>
+              <div class="example-text">Predict preferences from user behavior data</div>
+            </div>
+          </div>
+          
+          <div class="approach-section">
+            <h5 class="section-title">What it could do:</h5>
+            <div class="capabilities-list">
+              <div class="capability positive">✅ Learn from experience</div>
+              <div class="capability positive">✅ Handle large datasets</div>
+              <div class="capability positive">✅ Find hidden patterns</div>
+              <div class="capability negative">❌ Understand context deeply</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="era-content" id="era-2020s">
+        <div class="era-header">
+          <h4 class="era-title">🚀 Deep Learning (2020s)</h4>
+          <p class="era-tagline">Neural Networks & AI Revolution</p>
+        </div>
+        
+        <div class="era-description">
+          <div class="approach-section">
+            <h5 class="section-title">How it works:</h5>
+            <p class="section-text">Multi-layered neural networks process complex data</p>
+            
+            <div class="example-box">
+              <strong>Language Models:</strong>
+              <div class="example-text">ChatGPT, Claude - understand and generate text</div>
+            </div>
+            
+            <div class="example-box">
+              <strong>Computer Vision:</strong>
+              <div class="example-text">Recognize objects, faces, medical conditions</div>
+            </div>
+          </div>
+          
+          <div class="approach-section">
+            <h5 class="section-title">What it can do:</h5>
+            <div class="capabilities-list">
+              <div class="capability positive">✅ Understand context</div>
+              <div class="capability positive">✅ Generate creative content</div>
+              <div class="capability positive">✅ Multimodal processing</div>
+              <div class="capability positive">✅ Human-like reasoning</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showEra(era) {
+      // Hide all era content
+      document.querySelectorAll('.era-content').forEach(content => {
+        content.classList.remove('active');
+      });
+      
+      // Remove active class from all buttons
+      document.querySelectorAll('.timeline-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      
+      // Show selected era content
+      document.getElementById('era-' + era).classList.add('active');
+      
+      // Highlight active button
+      event.target.classList.add('active');
+      
+      // Notify Canvas LMS
+      notifyCanvas({
+        action: 'era-explored',
+        era: era,
+        timestamp: Date.now()
+      });
+    }
+    
+    // Canvas LMS integration
+    function notifyCanvas(data) {
+      if (window.parent && window.parent.postMessage) {
+        window.parent.postMessage({
+          type: 'widget-interaction',
+          widget: 'ai-evolution',
+          data: data
+        }, '*');
+      }
+    }
+    
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+      // Auto-play through eras for demonstration (optional)
+      let autoPlay = false;
+      let autoInterval;
+      
+      function startAutoPlay() {
+        if (autoPlay) return;
+        
+        autoPlay = true;
+        const eras = ['1950s', '1980s', '2000s', '2020s'];
+        let currentIndex = 0;
+        
+        autoInterval = setInterval(() => {
+          // Find and click the next era button
+          const buttons = document.querySelectorAll('.timeline-btn');
+          buttons[currentIndex].click();
+          currentIndex = (currentIndex + 1) % eras.length;
+        }, 4000);
+      }
+      
+      function stopAutoPlay() {
+        autoPlay = false;
+        if (autoInterval) {
+          clearInterval(autoInterval);
+        }
+      }
+      
+      // Stop auto-play on user interaction
+      document.querySelectorAll('.timeline-btn').forEach(btn => {
+        btn.addEventListener('click', stopAutoPlay);
+      });
+      
+      // Optional: Start auto-play after a delay
+      // setTimeout(startAutoPlay, 2000);
+    });
+  </script>
+</body>
+</html>
