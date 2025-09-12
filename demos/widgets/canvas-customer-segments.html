@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Segmentation Explorer</title>
+    <style>
+        body {
+            font-family: Georgia, serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f0f9f6 0%, #e8f4f8 100%);
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+        
+        .segmentation-container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(3, 70, 56, 0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #034638 0%, #0a6b4a 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .header h2 {
+            margin: 0;
+            font-size: 1.5em;
+        }
+        
+        .data-sources {
+            padding: 20px;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        
+        .data-source {
+            display: inline-block;
+            background: #034638;
+            color: white;
+            padding: 8px 16px;
+            margin: 5px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .data-source:hover {
+            background: #0a6b4a;
+            transform: translateY(-2px);
+        }
+        
+        .segments-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 0;
+        }
+        
+        .segment-card {
+            padding: 25px;
+            border-right: 1px solid #e5e7eb;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            background: white;
+            min-height: 200px;
+            border: none;
+            text-align: left;
+            font-family: inherit;
+            width: 100%;
+        }
+        
+        .segment-card:focus {
+            outline: 2px solid #034638;
+            outline-offset: 2px;
+        }
+        
+        .segment-card:hover {
+            background: #f0f9f6;
+            transform: translateY(-2px);
+        }
+        
+        .segment-card.active {
+            background: #034638;
+            color: white;
+        }
+        
+        .segment-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .segment-title {
+            font-weight: bold;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+        
+        .segment-description {
+            font-size: 0.95em;
+            opacity: 0.8;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+        
+        .segment-result {
+            background: #10b981;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.9em;
+            font-weight: bold;
+            display: inline-block;
+        }
+        
+        .segment-card.active .segment-result {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .detail-panel {
+            padding: 30px;
+            background: #f8f9fa;
+            border-top: 3px solid #034638;
+            min-height: 250px;
+        }
+        
+        .detail-content {
+            display: none;
+        }
+        
+        .detail-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .detail-title {
+            color: #034638;
+            font-size: 1.4em;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #034638;
+            padding-bottom: 8px;
+        }
+        
+        .strategy-box {
+            background: #e8f4f8;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #034638;
+        }
+        
+        .behavior-patterns {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .impact-metric {
+            background: #10b981;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 15px 0;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+        
+        .key-learning {
+            background: #fef7cd;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 2px solid #eab308;
+        }
+        
+        .insights-revealed {
+            background: #e0f2fe;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #0284c7;
+        }
+        
+        @media (max-width: 768px) {
+            .segments-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .segment-card {
+                border-right: none;
+                border-bottom: 1px solid #e5e7eb;
+            }
+            
+            body {
+                padding: 10px;
+            }
+        }
+        
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="segmentation-container">
+        <div class="header">
+            <h2>🔍 Customer Segmentation Discovery</h2>
+            <p>How data analysis revealed hidden customer patterns</p>
+        </div>
+        
+        <div class="data-sources">
+            <h3 style="margin-top: 0; color: #034638;">Data Sources Analyzed:</h3>
+            <div class="data-source">Purchase History</div>
+            <div class="data-source">Demographics</div>
+            <div class="data-source">Seasonal Patterns</div>
+            <div class="data-source">Time-of-Day Data</div>
+        </div>
+        
+        <div class="insights-revealed">
+            <strong>Key Discovery:</strong> Traditional demographic analysis missed three distinct behavioral segments that required completely different strategies for maximum business impact.
+        </div>
+        
+        <div class="segments-grid" role="tablist" aria-label="Customer segments from data analysis">
+            <button class="segment-card active" data-segment="professionals" role="tab" aria-selected="true" aria-controls="professionals-content" id="professionals-tab" tabindex="0">
+                <div class="segment-icon" aria-hidden="true">💼</div>
+                <div class="segment-title">Professionals</div>
+                <div class="segment-description">Time-constrained, higher-income customers who value convenience and efficiency above all else.</div>
+                <div class="segment-result">+35% basket size</div>
+            </button>
+            
+            <button class="segment-card" data-segment="families" role="tab" aria-selected="false" aria-controls="families-content" id="families-tab" tabindex="-1">
+                <div class="segment-icon" aria-hidden="true">👨‍👩‍👧‍👦</div>
+                <div class="segment-title">Families</div>
+                <div class="segment-description">Budget-conscious bulk buyers focused on value, planning, and household efficiency.</div>
+                <div class="segment-result">+28% visit frequency</div>
+            </button>
+            
+            <button class="segment-card" data-segment="seniors" role="tab" aria-selected="false" aria-controls="seniors-content" id="seniors-tab" tabindex="-1">
+                <div class="segment-icon" aria-hidden="true">👴</div>
+                <div class="segment-title">Seniors</div>
+                <div class="segment-description">Service-focused, brand-loyal customers who value personal attention and familiar products.</div>
+                <div class="segment-result">+42% satisfaction</div>
+            </button>
+        </div>
+        
+        <div class="detail-panel">
+            <div class="detail-content active" data-segment="professionals" role="tabpanel" id="professionals-content" aria-labelledby="professionals-tab">
+                <div class="detail-title">Professionals Segment: Time-Saving Solutions</div>
+                
+                <div class="behavior-patterns">
+                    <strong>Behavioral Patterns Discovered:</strong>
+                    <ul>
+                        <li>Shop during lunch breaks or after work (peak times: 12-1pm, 6-7pm)</li>
+                        <li>Prefer grab-and-go options and pre-packaged meals</li>
+                        <li>Willing to pay premium for convenience and time savings</li>
+                        <li>Use mobile apps and self-checkout to minimize wait times</li>
+                        <li>Purchase higher-value items but less frequently</li>
+                    </ul>
+                </div>
+                
+                <div class="strategy-box">
+                    <strong>Personalized Strategy Implemented:</strong>
+                    <ul>
+                        <li>Time-saving product bundles (meal kits, coffee + pastry combos)</li>
+                        <li>Express checkout lanes during peak professional hours</li>
+                        <li>Mobile ordering with curbside pickup</li>
+                        <li>Premium ready-to-eat meal selection</li>
+                        <li>Loyalty rewards focused on time savings, not discounts</li>
+                    </ul>
+                </div>
+                
+                <div class="impact-metric">
+                    Result: 35% increase in average basket size
+                </div>
+                
+                <p><strong>Why It Worked:</strong> By focusing on time savings rather than price savings, the strategy aligned perfectly with professionals' primary value driver—convenience over cost.</p>
+            </div>
+            
+            <div class="detail-content" data-segment="families" role="tabpanel" id="families-content" aria-labelledby="families-tab">
+                <div class="detail-title">Families Segment: Value & Planning Focus</div>
+                
+                <div class="behavior-patterns">
+                    <strong>Behavioral Patterns Discovered:</strong>
+                    <ul>
+                        <li>Shop weekly on weekends with detailed shopping lists</li>
+                        <li>Buy in bulk to minimize cost per unit</li>
+                        <li>Compare prices carefully and use coupons/promotions</li>
+                        <li>Plan meals in advance and prefer versatile ingredients</li>
+                        <li>Bring children and need family-friendly shopping experience</li>
+                    </ul>
+                </div>
+                
+                <div class="strategy-box">
+                    <strong>Personalized Strategy Implemented:</strong>
+                    <ul>
+                        <li>Weekly bulk discount offers on family staples</li>
+                        <li>Meal planning tools and recipe suggestions</li>
+                        <li>Family-size packaging with better unit pricing</li>
+                        <li>Kids' activities and family-friendly store layout</li>
+                        <li>Seasonal promotions aligned with school calendars</li>
+                    </ul>
+                </div>
+                
+                <div class="impact-metric">
+                    Result: 28% increase in visit frequency
+                </div>
+                
+                <p><strong>Why It Worked:</strong> The strategy supported families' natural planning behavior while delivering the value they needed, making the store their preferred weekly destination.</p>
+            </div>
+            
+            <div class="detail-content" data-segment="seniors" role="tabpanel" id="seniors-content" aria-labelledby="seniors-tab">
+                <div class="detail-title">Seniors Segment: Service & Familiarity</div>
+                
+                <div class="behavior-patterns">
+                    <strong>Behavioral Patterns Discovered:</strong>
+                    <ul>
+                        <li>Shop during off-peak hours (mid-morning weekdays)</li>
+                        <li>Prefer personal service and assistance when needed</li>
+                        <li>Loyal to familiar brands and established routines</li>
+                        <li>Value quality and freshness over lowest prices</li>
+                        <li>Appreciate clear signage and well-organized store layout</li>
+                    </ul>
+                </div>
+                
+                <div class="strategy-box">
+                    <strong>Personalized Strategy Implemented:</strong>
+                    <ul>
+                        <li>Enhanced customer service during senior shopping hours</li>
+                        <li>Promotions on trusted, familiar brand products</li>
+                        <li>Clear, easy-to-read signage and product organization</li>
+                        <li>Fresh produce emphasis with quality guarantees</li>
+                        <li>Senior discount days with special service attention</li>
+                    </ul>
+                </div>
+                
+                <div class="impact-metric">
+                    Result: 42% improvement in customer satisfaction
+                </div>
+                
+                <p><strong>Why It Worked:</strong> By focusing on service quality and familiarity rather than trying to change shopping habits, the strategy built on seniors' existing preferences and loyalty.</p>
+            </div>
+        </div>
+        
+        <div class="key-learning">
+            <strong>Strategic Learning:</strong> Data science creates value for both customers (who receive more relevant experiences) and the business (which achieves increased profitability). This dual value creation builds long-term customer loyalty rather than just short-term transaction increases.
+            
+            <br><br><strong>Overall Impact:</strong> Combined approach delivered a <em>23% overall sales increase</em> while improving satisfaction across all segments.
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const segmentCards = document.querySelectorAll('.segment-card');
+            const detailContents = document.querySelectorAll('.detail-content');
+            
+            function activateSegment(segmentType) {
+                // Remove active class from all cards and contents
+                segmentCards.forEach(card => {
+                    card.classList.remove('active');
+                    card.setAttribute('aria-selected', 'false');
+                    card.setAttribute('tabindex', '-1');
+                });
+                detailContents.forEach(content => content.classList.remove('active'));
+                
+                // Add active class to selected card and corresponding content
+                const activeCard = document.querySelector(`.segment-card[data-segment="${segmentType}"]`);
+                const targetContent = document.querySelector(`.detail-content[data-segment="${segmentType}"]`);
+                
+                if (activeCard && targetContent) {
+                    activeCard.classList.add('active');
+                    activeCard.setAttribute('aria-selected', 'true');
+                    activeCard.setAttribute('tabindex', '0');
+                    targetContent.classList.add('active');
+                    
+                    // Announce change to screen readers
+                    const announcement = document.createElement('div');
+                    announcement.setAttribute('aria-live', 'polite');
+                    announcement.setAttribute('aria-atomic', 'true');
+                    announcement.className = 'sr-only';
+                    announcement.textContent = `Viewing ${activeCard.querySelector('.segment-title').textContent} segment details`;
+                    document.body.appendChild(announcement);
+                    setTimeout(() => document.body.removeChild(announcement), 1000);
+                }
+            }
+            
+            segmentCards.forEach(card => {
+                // Click handler
+                card.addEventListener('click', function() {
+                    const segmentType = this.getAttribute('data-segment');
+                    activateSegment(segmentType);
+                });
+                
+                // Keyboard navigation
+                card.addEventListener('keydown', function(e) {
+                    const currentIndex = Array.from(segmentCards).indexOf(this);
+                    let newIndex;
+                    
+                    switch(e.key) {
+                        case 'ArrowRight':
+                        case 'ArrowDown':
+                            e.preventDefault();
+                            newIndex = (currentIndex + 1) % segmentCards.length;
+                            segmentCards[newIndex].focus();
+                            activateSegment(segmentCards[newIndex].getAttribute('data-segment'));
+                            break;
+                        case 'ArrowLeft':
+                        case 'ArrowUp':
+                            e.preventDefault();
+                            newIndex = currentIndex === 0 ? segmentCards.length - 1 : currentIndex - 1;
+                            segmentCards[newIndex].focus();
+                            activateSegment(segmentCards[newIndex].getAttribute('data-segment'));
+                            break;
+                        case 'Home':
+                            e.preventDefault();
+                            segmentCards[0].focus();
+                            activateSegment(segmentCards[0].getAttribute('data-segment'));
+                            break;
+                        case 'End':
+                            e.preventDefault();
+                            segmentCards[segmentCards.length - 1].focus();
+                            activateSegment(segmentCards[segmentCards.length - 1].getAttribute('data-segment'));
+                            break;
+                        case 'Enter':
+                        case ' ':
+                            e.preventDefault();
+                            this.click();
+                            break;
+                    }
+                });
+            });
+            
+            // Handle URL parameters for Canvas integration
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('compact') === '1') {
+                document.body.style.padding = '10px';
+            }
+        });
+    </script>
+</body>
+</html>

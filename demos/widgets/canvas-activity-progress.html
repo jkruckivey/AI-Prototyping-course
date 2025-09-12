@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity Progress Tracker</title>
+    <style>
+        body {
+            font-family: Georgia, serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f0f9f6 0%, #e8f4f8 100%);
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+        
+        .tracker-container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(3, 70, 56, 0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #034638 0%, #0a6b4a 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .header h2 {
+            margin: 0;
+            font-size: 1.5em;
+        }
+        
+        .activities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 0;
+        }
+        
+        .activity-card {
+            padding: 20px;
+            border-right: 1px solid #e5e7eb;
+            border-bottom: 1px solid #e5e7eb;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            background: white;
+            border: none;
+            text-align: left;
+            font-family: inherit;
+            width: 100%;
+        }
+        
+        .activity-card:focus {
+            outline: 2px solid #034638;
+            outline-offset: 2px;
+        }
+        
+        .activity-card:hover {
+            background: #f0f9f6;
+            transform: translateY(-2px);
+        }
+        
+        .activity-card.active {
+            background: #034638;
+            color: white;
+        }
+        
+        .activity-card.completed {
+            background: #0a6b4a;
+            color: white;
+        }
+        
+        .activity-status {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        
+        .activity-number {
+            background: #034638;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        .activity-card.active .activity-number,
+        .activity-card.completed .activity-number {
+            background: white;
+            color: #034638;
+        }
+        
+        .progress-indicator {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        
+        .activity-card.completed .progress-indicator {
+            color: #4ade80;
+        }
+        
+        .activity-title {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+        }
+        
+        .activity-focus {
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin-bottom: 10px;
+        }
+        
+        .activity-time {
+            font-size: 0.8em;
+            background: #f3f4f6;
+            padding: 4px 8px;
+            border-radius: 12px;
+            display: inline-block;
+        }
+        
+        .activity-card.active .activity-time,
+        .activity-card.completed .activity-time {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .detail-panel {
+            padding: 30px;
+            background: #f8f9fa;
+            border-top: 3px solid #034638;
+            min-height: 300px;
+        }
+        
+        .detail-content {
+            display: none;
+        }
+        
+        .detail-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .detail-title {
+            color: #034638;
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #034638;
+            padding-bottom: 8px;
+        }
+        
+        .objective-box {
+            background: #e8f4f8;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #034638;
+        }
+        
+        .deliverable-box {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .evaluation-box {
+            background: #fef7cd;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border: 1px solid #eab308;
+        }
+        
+        .action-buttons {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.9em;
+            transition: all 0.2s ease;
+        }
+        
+        .btn:focus {
+            outline: 2px solid #034638;
+            outline-offset: 2px;
+        }
+        
+        .btn-complete {
+            background: #0a6b4a;
+            color: white;
+        }
+        
+        .btn-complete:hover {
+            background: #034638;
+        }
+        
+        .btn-reset {
+            background: #6b7280;
+            color: white;
+        }
+        
+        .btn-reset:hover {
+            background: #4b5563;
+        }
+        
+        .completion-summary {
+            background: #f0f9f6;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 1px solid #0a6b4a;
+            text-align: center;
+        }
+        
+        .completion-summary.hidden {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .activities-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .activity-card {
+                border-right: none;
+            }
+            
+            body {
+                padding: 10px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+        
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="tracker-container">
+        <div class="header">
+            <h2>🎯 Activity Progress Tracker</h2>
+            <p>Track your progress through the executive AI learning activities</p>
+        </div>
+        
+        <div class="activities-grid" role="tablist" aria-label="Learning activities progress tracker">
+            <button class="activity-card active" data-activity="business-case" role="tab" aria-selected="true" aria-controls="business-case-content" id="business-case-tab" tabindex="0">
+                <div class="activity-status">
+                    <div class="activity-number" aria-hidden="true">1</div>
+                    <div class="progress-indicator" aria-label="Not started">○</div>
+                </div>
+                <div class="activity-title">AI Business Case Builder</div>
+                <div class="activity-focus">Strategic value identification</div>
+                <div class="activity-time">20-30 minutes</div>
+            </button>
+            
+            <button class="activity-card" data-activity="data-strategy" role="tab" aria-selected="false" aria-controls="data-strategy-content" id="data-strategy-tab" tabindex="-1">
+                <div class="activity-status">
+                    <div class="activity-number" aria-hidden="true">2</div>
+                    <div class="progress-indicator" aria-label="Not started">○</div>
+                </div>
+                <div class="activity-title">Data Strategy Workshop</div>
+                <div class="activity-focus">Implementation planning</div>
+                <div class="activity-time">15-20 minutes</div>
+            </button>
+            
+            <button class="activity-card" data-activity="ethics-assessment" role="tab" aria-selected="false" aria-controls="ethics-assessment-content" id="ethics-assessment-tab" tabindex="-1">
+                <div class="activity-status">
+                    <div class="activity-number" aria-hidden="true">3</div>
+                    <div class="progress-indicator" aria-label="Not started">○</div>
+                </div>
+                <div class="activity-title">AI Ethics Assessment</div>
+                <div class="activity-focus">Risk management framework</div>
+                <div class="activity-time">15-20 minutes</div>
+            </button>
+        </div>
+        
+        <div class="detail-panel">
+            <div class="detail-content active" data-activity="business-case" role="tabpanel" id="business-case-content" aria-labelledby="business-case-tab">
+                <div class="detail-title">Activity 1: AI Business Case Builder</div>
+                
+                <div class="objective-box">
+                    <strong>Learning Objective:</strong> Develop a compelling business case for AI implementation that demonstrates clear ROI and strategic value to stakeholders.
+                </div>
+                
+                <div class="deliverable-box">
+                    <strong>Key Deliverables:</strong>
+                    <ul>
+                        <li>Problem statement clearly linked to business outcomes</li>
+                        <li>AI solution approach with specific technology recommendations</li>
+                        <li>ROI calculation with projected costs and benefits</li>
+                        <li>Implementation timeline with key milestones</li>
+                        <li>Risk assessment and mitigation strategies</li>
+                    </ul>
+                </div>
+                
+                <div class="evaluation-box">
+                    <strong>Success Criteria:</strong> Your business case should convince a CFO to approve funding by demonstrating measurable financial impact, realistic implementation approach, and comprehensive risk management.
+                </div>
+                
+                <p><strong>Activity Process:</strong> Choose a real business challenge from your organization or a case study scenario. Apply the 6-step data science framework to structure your approach, focusing on how AI creates competitive advantage and delivers measurable business value.</p>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-complete" onclick="markComplete('business-case')">Mark Complete</button>
+                    <button class="btn btn-reset" onclick="resetProgress('business-case')">Reset Progress</button>
+                </div>
+            </div>
+            
+            <div class="detail-content" data-activity="data-strategy" role="tabpanel" id="data-strategy-content" aria-labelledby="data-strategy-tab">
+                <div class="detail-title">Activity 2: Data Strategy Workshop</div>
+                
+                <div class="objective-box">
+                    <strong>Learning Objective:</strong> Create a comprehensive data strategy that aligns with business objectives and enables successful AI implementation across your organization.
+                </div>
+                
+                <div class="deliverable-box">
+                    <strong>Key Deliverables:</strong>
+                    <ul>
+                        <li>Data audit assessing current capabilities and gaps</li>
+                        <li>Infrastructure strategy balancing operational and analytical needs</li>
+                        <li>Data quality framework with governance policies</li>
+                        <li>Resource allocation plan for people and technology</li>
+                        <li>Change management approach for organizational adoption</li>
+                    </ul>
+                </div>
+                
+                <div class="evaluation-box">
+                    <strong>Success Criteria:</strong> Your data strategy should provide a practical roadmap that transforms your organization's data capabilities while managing costs and ensuring sustainable long-term value.
+                </div>
+                
+                <p><strong>Activity Process:</strong> Assess your current data landscape using the two-system approach (operational vs. analytical). Identify specific improvements needed for AI readiness and create a prioritized implementation plan with clear timelines and success metrics.</p>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-complete" onclick="markComplete('data-strategy')">Mark Complete</button>
+                    <button class="btn btn-reset" onclick="resetProgress('data-strategy')">Reset Progress</button>
+                </div>
+            </div>
+            
+            <div class="detail-content" data-activity="ethics-assessment" role="tabpanel" id="ethics-assessment-content" aria-labelledby="ethics-assessment-tab">
+                <div class="detail-title">Activity 3: AI Ethics Assessment</div>
+                
+                <div class="objective-box">
+                    <strong>Learning Objective:</strong> Develop a comprehensive ethics framework that ensures responsible AI implementation while maintaining business competitiveness and stakeholder trust.
+                </div>
+                
+                <div class="deliverable-box">
+                    <strong>Key Deliverables:</strong>
+                    <ul>
+                        <li>Bias detection and mitigation strategies for your use case</li>
+                        <li>Privacy protection framework addressing regulatory requirements</li>
+                        <li>Transparency standards for AI decision-making processes</li>
+                        <li>Stakeholder impact assessment and communication plan</li>
+                        <li>Ongoing monitoring system for ethical compliance</li>
+                    </ul>
+                </div>
+                
+                <div class="evaluation-box">
+                    <strong>Success Criteria:</strong> Your ethics framework should protect all stakeholders while enabling innovation, demonstrating that responsible AI practices strengthen rather than constrain business outcomes.
+                </div>
+                
+                <p><strong>Activity Process:</strong> Examine your AI business case through an ethics lens, identifying potential risks and developing proactive solutions. Focus on creating policies that build stakeholder trust and ensure long-term sustainability of your AI initiatives.</p>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-complete" onclick="markComplete('ethics-assessment')">Mark Complete</button>
+                    <button class="btn btn-reset" onclick="resetProgress('ethics-assessment')">Reset Progress</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="completion-summary hidden" id="completion-summary">
+            <h3>🎉 Congratulations!</h3>
+            <p>You have completed all three executive AI learning activities. You now have:</p>
+            <ul style="text-align: left; display: inline-block;">
+                <li>A compelling business case for AI implementation</li>
+                <li>A comprehensive data strategy roadmap</li>
+                <li>An ethics framework for responsible AI development</li>
+            </ul>
+            <p><strong>Next Steps:</strong> Use these deliverables to champion AI adoption in your organization and guide strategic decision-making for competitive advantage.</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const activityCards = document.querySelectorAll('.activity-card');
+            const detailContents = document.querySelectorAll('.detail-content');
+            
+            // Load progress from localStorage
+            loadProgress();
+            
+            function activateActivity(activityType) {
+                // Remove active class from all cards and contents
+                activityCards.forEach(card => {
+                    card.classList.remove('active');
+                    card.setAttribute('aria-selected', 'false');
+                    card.setAttribute('tabindex', '-1');
+                });
+                detailContents.forEach(content => content.classList.remove('active'));
+                
+                // Add active class to selected card and corresponding content
+                const activeCard = document.querySelector(`.activity-card[data-activity="${activityType}"]`);
+                const targetContent = document.querySelector(`.detail-content[data-activity="${activityType}"]`);
+                
+                if (activeCard && targetContent) {
+                    activeCard.classList.add('active');
+                    activeCard.setAttribute('aria-selected', 'true');
+                    activeCard.setAttribute('tabindex', '0');
+                    targetContent.classList.add('active');
+                    
+                    // Announce change to screen readers
+                    const announcement = document.createElement('div');
+                    announcement.setAttribute('aria-live', 'polite');
+                    announcement.setAttribute('aria-atomic', 'true');
+                    announcement.className = 'sr-only';
+                    announcement.textContent = `Viewing ${activeCard.querySelector('.activity-title').textContent} activity details`;
+                    document.body.appendChild(announcement);
+                    setTimeout(() => document.body.removeChild(announcement), 1000);
+                }
+            }
+            
+            activityCards.forEach(card => {
+                // Click handler
+                card.addEventListener('click', function() {
+                    const activityType = this.getAttribute('data-activity');
+                    activateActivity(activityType);
+                });
+                
+                // Keyboard navigation
+                card.addEventListener('keydown', function(e) {
+                    const currentIndex = Array.from(activityCards).indexOf(this);
+                    let newIndex;
+                    
+                    switch(e.key) {
+                        case 'ArrowRight':
+                        case 'ArrowDown':
+                            e.preventDefault();
+                            newIndex = (currentIndex + 1) % activityCards.length;
+                            activityCards[newIndex].focus();
+                            activateActivity(activityCards[newIndex].getAttribute('data-activity'));
+                            break;
+                        case 'ArrowLeft':
+                        case 'ArrowUp':
+                            e.preventDefault();
+                            newIndex = currentIndex === 0 ? activityCards.length - 1 : currentIndex - 1;
+                            activityCards[newIndex].focus();
+                            activateActivity(activityCards[newIndex].getAttribute('data-activity'));
+                            break;
+                        case 'Home':
+                            e.preventDefault();
+                            activityCards[0].focus();
+                            activateActivity(activityCards[0].getAttribute('data-activity'));
+                            break;
+                        case 'End':
+                            e.preventDefault();
+                            activityCards[activityCards.length - 1].focus();
+                            activateActivity(activityCards[activityCards.length - 1].getAttribute('data-activity'));
+                            break;
+                        case 'Enter':
+                        case ' ':
+                            e.preventDefault();
+                            this.click();
+                            break;
+                    }
+                });
+            });
+            
+            // Handle URL parameters for Canvas integration
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('compact') === '1') {
+                document.body.style.padding = '10px';
+            }
+        });
+        
+        // Progress tracking functions
+        function markComplete(activityType) {
+            const card = document.querySelector(`.activity-card[data-activity="${activityType}"]`);
+            const indicator = card.querySelector('.progress-indicator');
+            
+            card.classList.add('completed');
+            indicator.textContent = '✓';
+            indicator.setAttribute('aria-label', 'Completed');
+            
+            saveProgress(activityType, true);
+            checkAllComplete();
+            
+            // Announce completion
+            const announcement = document.createElement('div');
+            announcement.setAttribute('aria-live', 'assertive');
+            announcement.setAttribute('aria-atomic', 'true');
+            announcement.className = 'sr-only';
+            announcement.textContent = `${card.querySelector('.activity-title').textContent} marked as complete`;
+            document.body.appendChild(announcement);
+            setTimeout(() => document.body.removeChild(announcement), 2000);
+        }
+        
+        function resetProgress(activityType) {
+            const card = document.querySelector(`.activity-card[data-activity="${activityType}"]`);
+            const indicator = card.querySelector('.progress-indicator');
+            
+            card.classList.remove('completed');
+            indicator.textContent = '○';
+            indicator.setAttribute('aria-label', 'Not started');
+            
+            saveProgress(activityType, false);
+            document.getElementById('completion-summary').classList.add('hidden');
+            
+            // Announce reset
+            const announcement = document.createElement('div');
+            announcement.setAttribute('aria-live', 'polite');
+            announcement.setAttribute('aria-atomic', 'true');
+            announcement.className = 'sr-only';
+            announcement.textContent = `${card.querySelector('.activity-title').textContent} progress reset`;
+            document.body.appendChild(announcement);
+            setTimeout(() => document.body.removeChild(announcement), 2000);
+        }
+        
+        function saveProgress(activityType, completed) {
+            const progress = JSON.parse(localStorage.getItem('aiActivityProgress') || '{}');
+            progress[activityType] = completed;
+            localStorage.setItem('aiActivityProgress', JSON.stringify(progress));
+        }
+        
+        function loadProgress() {
+            const progress = JSON.parse(localStorage.getItem('aiActivityProgress') || '{}');
+            
+            Object.keys(progress).forEach(activityType => {
+                if (progress[activityType]) {
+                    const card = document.querySelector(`.activity-card[data-activity="${activityType}"]`);
+                    const indicator = card.querySelector('.progress-indicator');
+                    
+                    card.classList.add('completed');
+                    indicator.textContent = '✓';
+                    indicator.setAttribute('aria-label', 'Completed');
+                }
+            });
+            
+            checkAllComplete();
+        }
+        
+        function checkAllComplete() {
+            const activities = ['business-case', 'data-strategy', 'ethics-assessment'];
+            const progress = JSON.parse(localStorage.getItem('aiActivityProgress') || '{}');
+            
+            const allComplete = activities.every(activity => progress[activity]);
+            
+            if (allComplete) {
+                document.getElementById('completion-summary').classList.remove('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
