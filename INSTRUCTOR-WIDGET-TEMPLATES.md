@@ -1,8 +1,8 @@
 # Canvas Widget Integration Templates for Instructors
 
-## 🎯 Copy-Paste Ready Text for Each Widget Placement
+## 🎯 Copy-Paste Ready Ivey Canvas Framework Code
 
-These templates provide pedagogically-sound introductory text to place **above each widget** in Canvas. Each template connects the interactive element to surrounding course content and sets clear learning expectations.
+These templates provide pedagogically-sound **Ivey Canvas dp- framework** code to place widgets in Canvas. Each template uses proper `dp-content-block`, `dp-card`, and `dp-embed-wrapper` structures that work seamlessly with Ivey's Canvas environment.
 
 ---
 
@@ -10,20 +10,36 @@ These templates provide pedagogically-sound introductory text to place **above e
 
 ### **Canvas Placement:** After introducing AI evolution concept (Page 1-2)
 
-### **Instructional Text Template:**
-```
-🚀 **Interactive AI Evolution Explorer**
+### **Ivey Canvas Framework Code:**
+```html
+<div class="dp-content-block content-block" data-category="" data-title="AI Evolution Timeline">
+    <h3 class="dp-has-icon"><i class="dp-icon fas fa-clock" aria-hidden="true"></i>&nbsp;Interactive AI Evolution Explorer</h3>
+    <p>The reading above introduced how AI has evolved through distinct phases over the past 70 years. The timeline below lets you explore each era of AI development in detail.</p>
+    
+    <div class="dp-card card h-100 w-100">
+        <h5 class="card-header dp-ignore-theme">Your Task</h5>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Click through each time period (1950s-60s, 1980s, 2000s, 2020s)</li>
+            <li class="list-group-item">Specific examples of AI capabilities in that era</li>
+            <li class="list-group-item">Real-world applications and limitations</li>
+            <li class="list-group-item">How each phase built upon the previous one</li>
+        </ul>
+    </div>
+    
+    <blockquote>
+        <p><strong>Key Question:</strong> <em>How did the shift from rule-based systems to machine learning fundamentally change what AI could accomplish?</em></p>
+        <p><strong>Time Estimate:</strong> 3-5 minutes of exploration</p>
+    </blockquote>
 
-The reading above introduced how AI has evolved through distinct phases over the past 70 years. The timeline below lets you explore each era of AI development in detail. 
-
-**Your Task:** Click through each time period (1950s-60s, 1980s, 2000s, 2020s) to see:
-• Specific examples of AI capabilities in that era
-• Real-world applications and limitations  
-• How each phase built upon the previous one
-
-**Key Question:** As you explore, consider: *How did the shift from rule-based systems to machine learning fundamentally change what AI could accomplish?*
-
-**Time Estimate:** 3-5 minutes of exploration
+    <div class="dp-embed-wrapper">
+        <iframe 
+            src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/canvas-ai-evolution.html" 
+            width="100%" height="450" frameborder="0"
+            style="border: 1px solid #ddd; border-radius: 4px;"
+            title="AI Evolution Timeline">
+        </iframe>
+    </div>
+</div>
 ```
 
 ### **Learning Objectives Alignment:**
@@ -37,22 +53,39 @@ The reading above introduced how AI has evolved through distinct phases over the
 
 ### **Canvas Placement:** Replacing static diagram placeholder (Page 2)
 
-### **Instructional Text Template:**
-```
-🤖 **Interactive AI Hierarchy Visualization**
+### **Ivey Canvas Framework Code:**
+```html
+<div class="dp-content-block content-block" data-category="" data-title="AI Hierarchy Explorer">
+    <h3 class="dp-has-icon"><i class="dp-icon fas fa-sitemap" aria-hidden="true"></i>&nbsp;Interactive AI Hierarchy Visualization</h3>
+    <p>Rather than a static diagram, explore the relationship between Artificial Intelligence, Machine Learning, and Deep Learning through this interactive visualization.</p>
+    
+    <div class="dp-card card h-100 w-100">
+        <h5 class="card-header dp-ignore-theme">Your Task</h5>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Click on each nested circle to discover precise definitions</li>
+            <li class="list-group-item">Real business examples for each level (AI, ML, Deep Learning)</li>
+            <li class="list-group-item">How the concepts build upon each other</li>
+        </ul>
+    </div>
+    
+    <div class="dp-card card" style="border-left: 4px solid #17a2b8;">
+        <div class="card-body">
+            <h5 class="card-title dp-ignore-theme">Strategic Insight</h5>
+            <p>Pay attention to how different business problems require different levels of AI sophistication. A simple automation task might need only basic AI, while complex pattern recognition requires deep learning.</p>
+            <p><strong>Reflection Question:</strong> <em>Which level of AI would be most appropriate for a current challenge in your organization?</em></p>
+            <p><strong>Time Estimate:</strong> 3-4 minutes of exploration</p>
+        </div>
+    </div>
 
-Rather than a static diagram, explore the relationship between Artificial Intelligence, Machine Learning, and Deep Learning through this interactive visualization.
-
-**Your Task:** Click on each nested circle to discover:
-• Precise definitions of AI, ML, and Deep Learning
-• Real business examples for each level
-• How the concepts build upon each other
-
-**Strategic Insight:** Pay attention to how different business problems require different levels of AI sophistication. A simple automation task might need only basic AI, while complex pattern recognition requires deep learning.
-
-**Reflection Question:** *Which level of AI would be most appropriate for a current challenge in your organization?*
-
-**Time Estimate:** 3-4 minutes of exploration
+    <div class="dp-embed-wrapper">
+        <iframe 
+            src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/canvas-ai-hierarchy.html" 
+            width="100%" height="520" frameborder="0"
+            style="border: 1px solid #ddd; border-radius: 4px;"
+            title="AI Hierarchy Explorer">
+        </iframe>
+    </div>
+</div>
 ```
 
 ### **Learning Objectives Alignment:**

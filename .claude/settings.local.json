@@ -11,7 +11,8 @@
       "WebFetch(domain:jkruckivey.github.io)",
       "Read(//c/Users/jkruck/Ivey Business School/EdTech Lab - Documents/Ivey Online/**)",
       "Bash(dir \"C:\\Users\\jkruck\\Ivey Business School\\EdTech Lab - Documents\\Ivey Online\" /s /b)",
-      "Bash(findstr:*)"
+      "Bash(findstr:*)",
+      "Bash(move:*)"
     ],
     "deny": [],
     "ask": []

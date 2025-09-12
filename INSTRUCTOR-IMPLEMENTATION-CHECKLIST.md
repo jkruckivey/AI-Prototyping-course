@@ -36,25 +36,36 @@
 
 #### **Implementation Code:**
 ```html
-<!-- Copy this instructional text into Canvas HTML editor -->
-<p><strong>🚀 Interactive AI Evolution Explorer</strong></p>
-<p>The reading above introduced how AI has evolved through distinct phases over the past 70 years. The timeline below lets you explore each era of AI development in detail.</p>
-<p><strong>Your Task:</strong> Click through each time period (1950s-60s, 1980s, 2000s, 2020s) to see:</p>
-<ul>
-<li>Specific examples of AI capabilities in that era</li>
-<li>Real-world applications and limitations</li>
-<li>How each phase built upon the previous one</li>
-</ul>
-<p><strong>Key Question:</strong> <em>How did the shift from rule-based systems to machine learning fundamentally change what AI could accomplish?</em></p>
-<p><strong>Time Estimate:</strong> 3-5 minutes of exploration</p>
+<!-- Copy this into Canvas HTML editor using Ivey dp- framework -->
+<div class="dp-content-block content-block" data-category="" data-title="AI Evolution Timeline">
+    <h3 class="dp-has-icon"><i class="dp-icon fas fa-clock" aria-hidden="true"></i>&nbsp;Interactive AI Evolution Explorer</h3>
+    <p>The reading above introduced how AI has evolved through distinct phases over the past 70 years. The timeline below lets you explore each era of AI development in detail.</p>
+    
+    <div class="dp-card card h-100 w-100">
+        <h5 class="card-header dp-ignore-theme">Your Task</h5>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Click through each time period (1950s-60s, 1980s, 2000s, 2020s)</li>
+            <li class="list-group-item">Specific examples of AI capabilities in that era</li>
+            <li class="list-group-item">Real-world applications and limitations</li>
+            <li class="list-group-item">How each phase built upon the previous one</li>
+        </ul>
+    </div>
+    
+    <blockquote>
+        <p><strong>Key Question:</strong> <em>How did the shift from rule-based systems to machine learning fundamentally change what AI could accomplish?</em></p>
+        <p><strong>Time Estimate:</strong> 3-5 minutes of exploration</p>
+    </blockquote>
 
-<!-- Widget iframe embed -->
-<iframe 
-  src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/canvas-ai-evolution.html" 
-  width="670" height="450" frameborder="0"
-  style="border: none; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);"
-  title="AI Evolution Timeline">
-</iframe>
+    <!-- Widget iframe embed -->
+    <div class="dp-embed-wrapper">
+        <iframe 
+            src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/canvas-ai-evolution.html" 
+            width="100%" height="450" frameborder="0"
+            style="border: 1px solid #ddd; border-radius: 4px;"
+            title="AI Evolution Timeline">
+        </iframe>
+    </div>
+</div>
 ```
 
 - [ ] **Test Student View**: Preview from student perspective
@@ -68,25 +79,38 @@
 
 #### **Implementation Code:**
 ```html
-<!-- Instructional text for Canvas -->
-<p><strong>🤖 Interactive AI Hierarchy Visualization</strong></p>
-<p>Rather than a static diagram, explore the relationship between Artificial Intelligence, Machine Learning, and Deep Learning through this interactive visualization.</p>
-<p><strong>Your Task:</strong> Click on each nested circle to discover:</p>
-<ul>
-<li>Precise definitions of AI, ML, and Deep Learning</li>
-<li>Real business examples for each level</li>
-<li>How the concepts build upon each other</li>
-</ul>
-<p><strong>Strategic Insight:</strong> Pay attention to how different business problems require different levels of AI sophistication.</p>
-<p><strong>Reflection Question:</strong> <em>Which level of AI would be most appropriate for a current challenge in your organization?</em></p>
+<!-- Copy this into Canvas HTML editor using Ivey dp- framework -->
+<div class="dp-content-block content-block" data-category="" data-title="AI Hierarchy Explorer">
+    <h3 class="dp-has-icon"><i class="dp-icon fas fa-sitemap" aria-hidden="true"></i>&nbsp;Interactive AI Hierarchy Visualization</h3>
+    <p>Rather than a static diagram, explore the relationship between Artificial Intelligence, Machine Learning, and Deep Learning through this interactive visualization.</p>
+    
+    <div class="dp-card card h-100 w-100">
+        <h5 class="card-header dp-ignore-theme">Your Task</h5>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Click on each nested circle to discover precise definitions</li>
+            <li class="list-group-item">Real business examples for each level (AI, ML, Deep Learning)</li>
+            <li class="list-group-item">How the concepts build upon each other</li>
+        </ul>
+    </div>
+    
+    <div class="dp-card card" style="border-left: 4px solid #17a2b8;">
+        <div class="card-body">
+            <h5 class="card-title dp-ignore-theme">Strategic Insight</h5>
+            <p>Pay attention to how different business problems require different levels of AI sophistication.</p>
+            <p><strong>Reflection Question:</strong> <em>Which level of AI would be most appropriate for a current challenge in your organization?</em></p>
+        </div>
+    </div>
 
-<!-- Widget iframe embed -->
-<iframe 
-  src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/canvas-ai-hierarchy.html" 
-  width="470" height="520" frameborder="0"
-  style="border: none; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);"
-  title="AI Hierarchy Explorer">
-</iframe>
+    <!-- Widget iframe embed -->
+    <div class="dp-embed-wrapper">
+        <iframe 
+            src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/canvas-ai-hierarchy.html" 
+            width="100%" height="520" frameborder="0"
+            style="border: 1px solid #ddd; border-radius: 4px;"
+            title="AI Hierarchy Explorer">
+        </iframe>
+    </div>
+</div>
 ```
 
 - [ ] **Verify Integration**: Ensure widget flows naturally with surrounding text
@@ -100,26 +124,39 @@
 
 #### **Implementation Code:**
 ```html
-<!-- Instructional text for Canvas -->
-<p><strong>📊 AI Business Case Calculator</strong></p>
-<p>You've learned that AI delivers value through Automation, Personalization, Prediction, and Optimization. Now quantify that value using real business scenarios.</p>
-<p><strong>Your Task:</strong> Use the calculator below to explore AI's financial impact:</p>
-<ol>
-<li><strong>Start with realistic numbers</strong> from your industry or organization</li>
-<li><strong>Experiment with different efficiency gains</strong> (10%, 30%, 50%)</li>
-<li><strong>Note how implementation costs affect payback periods</strong></li>
-<li><strong>Observe the insights provided</strong> for different ROI scenarios</li>
-</ol>
-<p><strong>Business Context:</strong> The calculator uses the same ROI methodology that consulting firms use for actual AI implementation proposals.</p>
-<p><strong>Discussion Point:</strong> <em>What efficiency gain percentage would you need to justify AI investment in your context?</em></p>
+<!-- Copy this into Canvas HTML editor using Ivey dp- framework -->
+<div class="dp-content-block content-block" data-category="" data-title="AI ROI Calculator">
+    <h3 class="dp-has-icon"><i class="dp-icon fas fa-calculator" aria-hidden="true"></i>&nbsp;AI Business Case Calculator</h3>
+    <p>You've learned that AI delivers value through Automation, Personalization, Prediction, and Optimization. Now quantify that value using real business scenarios.</p>
+    
+    <div class="dp-card card h-100 w-100">
+        <h5 class="card-header dp-ignore-theme">Your Task</h5>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Start with realistic numbers</strong> from your industry or organization</li>
+            <li class="list-group-item"><strong>Experiment with different efficiency gains</strong> (10%, 30%, 50%)</li>
+            <li class="list-group-item"><strong>Note how implementation costs affect payback periods</strong></li>
+            <li class="list-group-item"><strong>Observe the insights provided</strong> for different ROI scenarios</li>
+        </ul>
+    </div>
+    
+    <div class="dp-card card" style="border-left: 4px solid #28a745;">
+        <div class="card-body">
+            <h5 class="card-title dp-ignore-theme">Business Context</h5>
+            <p>The calculator uses the same ROI methodology that consulting firms use for actual AI implementation proposals.</p>
+            <p><strong>Discussion Point:</strong> <em>What efficiency gain percentage would you need to justify AI investment in your context?</em></p>
+        </div>
+    </div>
 
-<!-- Widget iframe embed -->
-<iframe 
-  src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/canvas-roi-calculator.html" 
-  width="470" height="480" frameborder="0"
-  style="border: none; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);"
-  title="AI ROI Calculator">
-</iframe>
+    <!-- Widget iframe embed -->
+    <div class="dp-embed-wrapper">
+        <iframe 
+            src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/canvas-roi-calculator.html" 
+            width="100%" height="480" frameborder="0"
+            style="border: 1px solid #ddd; border-radius: 4px;"
+            title="AI ROI Calculator">
+        </iframe>
+    </div>
+</div>
 ```
 
 - [ ] **Business Context Check**: Ensure calculator aligns with course business focus

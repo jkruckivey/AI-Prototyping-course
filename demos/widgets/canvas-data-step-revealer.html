@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>6-Step Data Framework - Simple Step Revealer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Georgia:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Georgia, serif;
+            background: #f8f9fa;
+            padding: 20px;
+            line-height: 1.6;
+            color: #2c3e50;
+        }
+        
+        .widget-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: #034638;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .header h2 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 0.95em;
+        }
+        
+        .steps-container {
+            padding: 20px;
+        }
+        
+        .step {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .step.revealed {
+            border-color: #034638;
+            box-shadow: 0 2px 8px rgba(3, 70, 56, 0.1);
+        }
+        
+        .step-header {
+            padding: 15px 20px;
+            background: white;
+            border-bottom: 1px solid #e9ecef;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s ease;
+        }
+        
+        .step.revealed .step-header {
+            background: #034638;
+            color: white;
+        }
+        
+        .step-number {
+            font-weight: bold;
+            color: #034638;
+            font-size: 1.1em;
+        }
+        
+        .step.revealed .step-number {
+            color: white;
+        }
+        
+        .step-title {
+            flex-grow: 1;
+            margin-left: 15px;
+            font-weight: bold;
+        }
+        
+        .step-arrow {
+            transition: transform 0.3s ease;
+            color: #034638;
+        }
+        
+        .step.revealed .step-arrow {
+            transform: rotate(90deg);
+            color: white;
+        }
+        
+        .step-content {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        .step.revealed .step-content {
+            max-height: 200px;
+            padding: 20px;
+        }
+        
+        .executive-role {
+            color: #034638;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .timeline {
+            color: #666;
+            font-style: italic;
+            margin-top: 8px;
+        }
+        
+        .controls {
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #e9ecef;
+            background: #f8f9fa;
+        }
+        
+        .btn {
+            background: #034638;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: Georgia, serif;
+            font-size: 1em;
+            transition: background 0.3s ease;
+            margin: 0 5px;
+        }
+        
+        .btn:hover {
+            background: #025a44;
+        }
+        
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .progress-indicator {
+            margin-top: 15px;
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            .header {
+                padding: 15px;
+            }
+            
+            .steps-container {
+                padding: 15px;
+            }
+            
+            .step-content {
+                padding: 0 15px;
+            }
+            
+            .step.revealed .step-content {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="widget-container">
+        <div class="header">
+            <h2>Executive's 6-Step Data Framework</h2>
+            <p>Click "Next Step" to reveal each phase and the executive's key role</p>
+        </div>
+        
+        <div class="steps-container">
+            <div class="step" data-step="0">
+                <div class="step-header">
+                    <span class="step-number">Step 1</span>
+                    <span class="step-title">Collect</span>
+                    <span class="step-arrow">▶</span>
+                </div>
+                <div class="step-content">
+                    <div class="executive-role">Executive Role: Define what matters</div>
+                    <p>Focus on business-critical data sources that directly impact strategic decisions. Quality over quantity.</p>
+                    <div class="timeline">Timeline: 2-3 weeks</div>
+                </div>
+            </div>
+            
+            <div class="step" data-step="1">
+                <div class="step-header">
+                    <span class="step-number">Step 2</span>
+                    <span class="step-title">Clean & Organize</span>
+                    <span class="step-arrow">▶</span>
+                </div>
+                <div class="step-content">
+                    <div class="executive-role">Executive Role: Set standards</div>
+                    <p>Establish data quality standards that enable reliable AI insights and business decisions.</p>
+                    <div class="timeline">Timeline: 4-6 weeks</div>
+                </div>
+            </div>
+            
+            <div class="step" data-step="2">
+                <div class="step-header">
+                    <span class="step-number">Step 3</span>
+                    <span class="step-title">Analyze</span>
+                    <span class="step-arrow">▶</span>
+                </div>
+                <div class="step-content">
+                    <div class="executive-role">Executive Role: Ask the right questions</div>
+                    <p>Guide analysis toward business outcomes that create competitive advantage and measurable value.</p>
+                    <div class="timeline">Timeline: 2-4 weeks</div>
+                </div>
+            </div>
+            
+            <div class="step" data-step="3">
+                <div class="step-header">
+                    <span class="step-number">Step 4</span>
+                    <span class="step-title">Model</span>
+                    <span class="step-arrow">▶</span>
+                </div>
+                <div class="step-content">
+                    <div class="executive-role">Executive Role: Approve priorities</div>
+                    <p>Balance innovation with risk, ensuring AI models serve strategic business objectives.</p>
+                    <div class="timeline">Timeline: 6-8 weeks</div>
+                </div>
+            </div>
+            
+            <div class="step" data-step="4">
+                <div class="step-header">
+                    <span class="step-number">Step 5</span>
+                    <span class="step-title">Act</span>
+                    <span class="step-arrow">▶</span>
+                </div>
+                <div class="step-content">
+                    <div class="executive-role">Executive Role: Champion adoption</div>
+                    <p>Drive organizational change and ensure AI insights translate into improved business processes.</p>
+                    <div class="timeline">Timeline: 4-6 weeks</div>
+                </div>
+            </div>
+            
+            <div class="step" data-step="5">
+                <div class="step-header">
+                    <span class="step-number">Step 6</span>
+                    <span class="step-title">Monitor</span>
+                    <span class="step-arrow">▶</span>
+                </div>
+                <div class="step-content">
+                    <div class="executive-role">Executive Role: Review performance</div>
+                    <p>Continuously evaluate business impact and adjust strategy to maximize competitive advantage.</p>
+                    <div class="timeline">Timeline: Ongoing</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="btn" id="nextBtn">Next Step</button>
+            <button class="btn" id="resetBtn" disabled>Start Over</button>
+            <div class="progress-indicator" id="progress">Step 0 of 6</div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = -1;
+        const totalSteps = 6;
+        const steps = document.querySelectorAll('.step');
+        const nextBtn = document.getElementById('nextBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const progress = document.getElementById('progress');
+        
+        function updateProgress() {
+            const completed = currentStep + 1;
+            progress.textContent = `Step ${completed} of ${totalSteps}`;
+            
+            if (completed === totalSteps) {
+                nextBtn.textContent = 'Complete!';
+                nextBtn.disabled = true;
+                resetBtn.disabled = false;
+                progress.textContent = 'Framework Complete!';
+            }
+        }
+        
+        function revealNextStep() {
+            if (currentStep < totalSteps - 1) {
+                currentStep++;
+                const step = steps[currentStep];
+                step.classList.add('revealed');
+                updateProgress();
+                
+                // Scroll step into view
+                step.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center' 
+                });
+            }
+        }
+        
+        function resetWidget() {
+            currentStep = -1;
+            steps.forEach(step => step.classList.remove('revealed'));
+            nextBtn.textContent = 'Next Step';
+            nextBtn.disabled = false;
+            resetBtn.disabled = true;
+            progress.textContent = 'Step 0 of 6';
+        }
+        
+        // Event listeners
+        nextBtn.addEventListener('click', revealNextStep);
+        resetBtn.addEventListener('click', resetWidget);
+        
+        // Allow clicking on step headers to reveal (for accessibility)
+        steps.forEach((step, index) => {
+            step.querySelector('.step-header').addEventListener('click', () => {
+                if (index <= currentStep + 1) {
+                    while (currentStep < index) {
+                        revealNextStep();
+                    }
+                }
+            });
+        });
+        
+        // Initialize
+        updateProgress();
+    </script>
+</body>
+</html>

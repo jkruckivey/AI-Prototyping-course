@@ -5,40 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Activity Progress Tracker</title>
     <style>
-        body {
-            font-family: Georgia, serif;
-            margin: 0;
-            padding: 20px;
-            background: linear-gradient(135deg, #f0f9f6 0%, #e8f4f8 100%);
-            min-height: 100vh;
-            box-sizing: border-box;
+        /* ---------- Root knobs (can be overridden by URL params) ---------- */
+        :root {
+            --widget-maxw: 450px; /* override with ?maxWidth=760 */
         }
-        
-        .tracker-container {
-            max-width: 100%;
+
+        /* ---------- Base reset ---------- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { height: 100%; }
+        body {
+            font-family: Arial, sans-serif;
+            background: #ffffff;
+            color: #000;
+            line-height: 1.45;
+            overflow-x: hidden;
+        }
+
+        /* ---------- Wrapper so we can easily control width ---------- */
+        #widget-root {
+            max-width: var(--widget-maxw);
+            width: 100%;
             margin: 0 auto;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(3, 70, 56, 0.1);
+        }
+
+        /* ---------- Card ---------- */
+        .canvas-widget {
+            background: #ffffff;
+            border: 2px solid #034638;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(3,70,56,.15);
             overflow: hidden;
         }
-        
-        .header {
-            background: linear-gradient(135deg, #034638 0%, #0a6b4a 100%);
-            color: white;
-            padding: 20px;
+
+        .widget-header {
+            background: linear-gradient(135deg, #034638 0%, #045a49 100%);
+            color: #fff;
+            padding: 16px;
             text-align: center;
+            border-bottom: 3px solid #582C83;
         }
-        
-        .header h2 {
-            margin: 0;
-            font-size: 1.5em;
+        .widget-title {
+            font-family: Georgia, serif;
+            font-size: 1.2em;
+            font-weight: 400;
+            margin: 0 0 4px 0;
         }
-        
+        .widget-subtitle { font-size: .9em; opacity: .95; margin: 0; }
+
+        .widget-content { padding: 16px; background: #f8f9fa; }
+
         .activities-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 0;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+            margin-bottom: 16px;
         }
         
         .activity-card {
@@ -136,9 +160,10 @@
         }
         
         .detail-panel {
-            padding: 30px;
-            background: #f8f9fa;
-            border-top: 3px solid #034638;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
             min-height: 300px;
         }
         
@@ -211,12 +236,14 @@
         }
         
         .btn-complete {
-            background: #0a6b4a;
+            background: #582C83;
             color: white;
         }
         
         .btn-complete:hover {
-            background: #034638;
+            background: #6b3494;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(88,44,131,.3);
         }
         
         .btn-reset {
@@ -274,14 +301,30 @@
             white-space: nowrap;
             border: 0;
         }
+
+        /* ---------- Compact mode (enable with ?compact=1) ---------- */
+        .compact .widget-header { padding: 12px; }
+        .compact .widget-title { font-size: 1.05em; margin-bottom: 2px; }
+        .compact .widget-subtitle { font-size: .85em; }
+        .compact .widget-content { padding: 12px; }
+        .compact .activity-card { padding: 16px; }
+        .compact .detail-panel { padding: 16px; min-height: 250px; }
+        .compact .btn { padding: 8px 12px; font-size: .85em; }
+        .compact .activity-number { width: 30px; height: 30px; font-size: 1em; }
+        .compact .activity-title { font-size: 1em; }
+        .compact .activity-focus { font-size: .85em; }
+        .compact .activity-time { font-size: .75em; padding: 3px 6px; }
     </style>
 </head>
 <body>
-    <div class="tracker-container">
-        <div class="header">
-            <h2>🎯 Activity Progress Tracker</h2>
-            <p>Track your progress through the executive AI learning activities</p>
-        </div>
+    <div id="widget-root">
+        <div class="canvas-widget" role="region" aria-label="Activity Progress Tracker">
+            <div class="widget-header">
+                <h3 class="widget-title">🎯 Activity Progress Tracker</h3>
+                <p class="widget-subtitle">Track your progress through the executive AI learning activities</p>
+            </div>
+            
+            <div class="widget-content">
         
         <div class="activities-grid" role="tablist" aria-label="Learning activities progress tracker">
             <button class="activity-card active" data-activity="business-case" role="tab" aria-selected="true" aria-controls="business-case-content" id="business-case-tab" tabindex="0">
@@ -417,6 +460,8 @@
             </ul>
             <p><strong>Next Steps:</strong> Use these deliverables to champion AI adoption in your organization and guide strategic decision-making for competitive advantage.</p>
         </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -503,12 +548,35 @@
                 });
             });
             
-            // Handle URL parameters for Canvas integration
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('compact') === '1') {
-                document.body.style.padding = '10px';
-            }
+            // URL parameter support and initial setup
+            initializeWidget();
         });
+
+        // ---------- URL parameter controls (compact mode, maxWidth) and Canvas integration ----------
+        function initializeWidget() {
+            const qs = new URLSearchParams(location.search);
+
+            // Compact mode
+            if (qs.get('compact') === '1') {
+                document.documentElement.classList.add('compact');
+            }
+
+            // Width control
+            const mw = qs.get('maxWidth');
+            if (mw) {
+                const cleaned = String(mw).replace(/[^0-9.]/g,'');
+                document.documentElement.style.setProperty('--widget-maxw', cleaned + 'px');
+            }
+
+            // Auto-height support for iframe embedding
+            if (window.ResizeObserver) {
+                const ro = new ResizeObserver(pingHeight);
+                ro.observe(document.documentElement);
+            }
+
+            // Initial height ping
+            pingHeight();
+        }
         
         // Progress tracking functions
         function markComplete(activityType) {
@@ -521,6 +589,13 @@
             
             saveProgress(activityType, true);
             checkAllComplete();
+            
+            // Notify Canvas LMS
+            notifyCanvas({
+                action: 'activity-completed',
+                activity: activityType,
+                timestamp: Date.now()
+            });
             
             // Announce completion
             const announcement = document.createElement('div');
@@ -584,7 +659,32 @@
             
             if (allComplete) {
                 document.getElementById('completion-summary').classList.remove('hidden');
+                
+                // Notify Canvas of full completion
+                notifyCanvas({
+                    action: 'all-activities-completed',
+                    timestamp: Date.now()
+                });
             }
+        }
+
+        // ---------- Canvas LMS integration ----------
+        function notifyCanvas(data) {
+            if (window.parent && window.parent.postMessage) {
+                window.parent.postMessage({
+                    type: 'widget-interaction',
+                    widget: 'activity-progress',
+                    data: data
+                }, '*');
+            }
+        }
+
+        // ---------- Auto-height postMessage (for hosts that support a parent listener) ----------
+        function pingHeight(){
+            try {
+                const h = Math.ceil(document.documentElement.scrollHeight);
+                window.parent.postMessage({ type: 'WIDGET_HEIGHT', height: h, src: location.pathname }, '*');
+            } catch(e){}
         }
     </script>
 </body>

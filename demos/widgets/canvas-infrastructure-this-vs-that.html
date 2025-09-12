@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infrastructure Strategy - This vs That</title>
+    <link href="https://fonts.googleapis.com/css2?family=Georgia:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Georgia, serif;
+            background: #f8f9fa;
+            padding: 20px;
+            line-height: 1.6;
+            color: #2c3e50;
+        }
+        
+        .widget-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: #034638;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .header h2 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 0.95em;
+        }
+        
+        .comparison-container {
+            display: flex;
+            min-height: 500px;
+        }
+        
+        .system-side {
+            flex: 1;
+            padding: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+        }
+        
+        .operational-side {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border-right: 2px solid #e0e0e0;
+        }
+        
+        .warehouse-side {
+            background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c8 100%);
+        }
+        
+        .system-side:hover {
+            transform: scale(1.02);
+            box-shadow: inset 0 0 20px rgba(3, 70, 56, 0.1);
+        }
+        
+        .system-side.active {
+            background: #034638;
+            color: white;
+            transform: scale(1.05);
+            z-index: 10;
+            box-shadow: 0 4px 20px rgba(3, 70, 56, 0.3);
+        }
+        
+        .system-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+        
+        .system-side.active .system-icon {
+            transform: scale(1.2);
+        }
+        
+        .system-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #034638;
+        }
+        
+        .system-side.active .system-title {
+            color: white;
+        }
+        
+        .system-purpose {
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+        
+        .system-details {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s ease;
+            margin-top: 20px;
+        }
+        
+        .system-side.active .system-details {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .detail-item {
+            background: rgba(255,255,255,0.1);
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            border-left: 4px solid #ffd700;
+        }
+        
+        .detail-label {
+            font-weight: bold;
+            color: #ffd700;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+        }
+        
+        .detail-text {
+            font-size: 0.9em;
+        }
+        
+        .click-hint {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8em;
+            opacity: 0.6;
+            font-style: italic;
+        }
+        
+        .system-side.active .click-hint {
+            opacity: 0;
+        }
+        
+        .vs-divider {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #034638;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+            z-index: 20;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .strategic-insight {
+            padding: 25px;
+            background: #e8f5e8;
+            border-left: 4px solid #034638;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+        
+        .strategic-insight.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .strategic-insight h4 {
+            color: #034638;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+        
+        .strategic-insight p {
+            margin-bottom: 10px;
+        }
+        
+        .controls {
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #e9ecef;
+            background: #f8f9fa;
+        }
+        
+        .btn {
+            background: #034638;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: Georgia, serif;
+            font-size: 1em;
+            transition: background 0.3s ease;
+            margin: 0 5px;
+        }
+        
+        .btn:hover {
+            background: #025a44;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .comparison-container {
+                flex-direction: column;
+            }
+            
+            .operational-side {
+                border-right: none;
+                border-bottom: 2px solid #e0e0e0;
+            }
+            
+            .system-side {
+                padding: 25px 20px;
+            }
+            
+            .vs-divider {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="widget-container">
+        <div class="header">
+            <h2>Two-System Infrastructure Approach</h2>
+            <p>Click each system to see how operational databases and data warehouses serve different strategic purposes</p>
+        </div>
+        
+        <div class="comparison-container">
+            <div class="system-side operational-side" data-system="operational">
+                <div class="system-icon">⚙️</div>
+                <div class="system-title">Operational Databases</div>
+                <div class="system-purpose">Handle daily business operations efficiently</div>
+                <div class="system-details">
+                    <div class="detail-item">
+                        <div class="detail-label">Example Use:</div>
+                        <div class="detail-text">Processing customer orders in real-time, managing inventory levels, handling payment transactions</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Business Value:</div>
+                        <div class="detail-text">Operational efficiency - keeps business running smoothly day-to-day</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Investment ROI:</div>
+                        <div class="detail-text">Cost savings through improved efficiency and reduced manual processes</div>
+                    </div>
+                </div>
+                <div class="click-hint">Click to explore</div>
+            </div>
+            
+            <div class="vs-divider">VS</div>
+            
+            <div class="system-side warehouse-side" data-system="warehouse">
+                <div class="system-icon">🏛️</div>
+                <div class="system-title">Data Warehouses</div>
+                <div class="system-purpose">Enable strategic analysis and AI training</div>
+                <div class="system-details">
+                    <div class="detail-item">
+                        <div class="detail-label">Example Use:</div>
+                        <div class="detail-text">Analyzing customer behavior patterns, predicting market trends, training AI models</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Business Value:</div>
+                        <div class="detail-text">Competitive intelligence - drives strategic advantage and innovation</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Investment ROI:</div>
+                        <div class="detail-text">Revenue growth through insights, better decision-making, and market opportunities</div>
+                    </div>
+                </div>
+                <div class="click-hint">Click to explore</div>
+            </div>
+        </div>
+        
+        <div class="strategic-insight" id="insight">
+            <h4>Strategic Insight: Complementary Systems</h4>
+            <p>These systems serve complementary purposes rather than competing alternatives. Organizations that excel at AI implementation maintain both systems effectively:</p>
+            <p><strong>Operational databases</strong> ensure daily excellence while <strong>data warehouses</strong> enable long-term competitive advantage. The investment in both systems pays dividends because operational efficiency provides the foundation for strategic innovation, while strategic insights guide operational improvements.</p>
+        </div>
+        
+        <div class="controls">
+            <button class="btn" id="showBothBtn">Show Both Systems</button>
+            <button class="btn" id="resetBtn">Reset View</button>
+        </div>
+    </div>
+
+    <script>
+        const operationalSide = document.querySelector('[data-system="operational"]');
+        const warehouseSide = document.querySelector('[data-system="warehouse"]');
+        const showBothBtn = document.getElementById('showBothBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const insight = document.getElementById('insight');
+        
+        let activeCount = 0;
+        
+        function activateSystem(side) {
+            if (!side.classList.contains('active')) {
+                side.classList.add('active');
+                activeCount++;
+                
+                if (activeCount === 2) {
+                    setTimeout(() => {
+                        insight.classList.add('show');
+                        insight.scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'center' 
+                        });
+                    }, 600);
+                }
+            } else {
+                side.classList.remove('active');
+                if (activeCount > 0) activeCount--;
+                
+                if (activeCount < 2) {
+                    insight.classList.remove('show');
+                }
+            }
+        }
+        
+        function showBothSystems() {
+            if (!operationalSide.classList.contains('active')) {
+                activateSystem(operationalSide);
+            }
+            setTimeout(() => {
+                if (!warehouseSide.classList.contains('active')) {
+                    activateSystem(warehouseSide);
+                }
+            }, 300);
+        }
+        
+        function resetView() {
+            operationalSide.classList.remove('active');
+            warehouseSide.classList.remove('active');
+            activeCount = 0;
+            insight.classList.remove('show');
+        }
+        
+        // Event listeners
+        operationalSide.addEventListener('click', () => activateSystem(operationalSide));
+        warehouseSide.addEventListener('click', () => activateSystem(warehouseSide));
+        
+        showBothBtn.addEventListener('click', showBothSystems);
+        resetBtn.addEventListener('click', resetView);
+    </script>
+</body>
+</html>

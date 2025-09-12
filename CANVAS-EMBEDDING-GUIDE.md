@@ -1,8 +1,8 @@
-# Canvas Embedding Guide for AI Learning Widgets
+# Ivey Canvas Embedding Guide for AI Learning Widgets
 
-## 🎯 Ready-to-Embed Widgets
+## 🎯 Ready-to-Embed Widgets for Ivey Canvas Framework
 
-Your AI learning widgets are live and ready for Canvas embedding at:
+Your AI learning widgets are optimized for Ivey's Canvas dp- framework at:
 **https://jkruckivey.github.io/AI-Prototyping-course/**
 
 ## 📊 Available Widgets
@@ -25,53 +25,91 @@ Your AI learning widgets are live and ready for Canvas embedding at:
 **Size:** 450×430px  
 **Features:** Era exploration, historical context, capability comparisons  
 
-## 🚀 Canvas Embedding Code
+## 🚀 Ivey Canvas dp- Framework Embedding Code
 
-### Copy & Paste Ready - iframe Embedding
+### Copy & Paste Ready - Ivey Canvas Integration
 
 #### ROI Calculator Widget
 ```html
-<iframe 
-  src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/canvas-roi-calculator.html" 
-  width="470" 
-  height="480"
-  frameborder="0"
-  style="border: none; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);"
-  title="AI Automation ROI Calculator">
-</iframe>
+<div class="dp-content-block content-block" data-category="" data-title="AI ROI Calculator">
+    <h3 class="dp-has-icon"><i class="dp-icon fas fa-calculator" aria-hidden="true"></i>&nbsp;AI Business Case Calculator</h3>
+    <p>Calculate business value from AI automation projects using realistic scenarios.</p>
+    
+    <div class="dp-card card h-100 w-100">
+        <h5 class="card-header dp-ignore-theme">Interactive Features</h5>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Real-time ROI calculations</li>
+            <li class="list-group-item">Business insights and recommendations</li>
+            <li class="list-group-item">Responsive design for all devices</li>
+        </ul>
+    </div>
+
+    <div class="dp-embed-wrapper">
+        <iframe 
+            src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/canvas-roi-calculator.html" 
+            width="100%" height="480" frameborder="0"
+            style="border: 1px solid #ddd; border-radius: 4px;"
+            title="AI Automation ROI Calculator">
+        </iframe>
+    </div>
+</div>
 ```
 
 #### AI Hierarchy Explorer Widget
 ```html
-<iframe 
-  src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/canvas-ai-hierarchy.html" 
-  width="470" 
-  height="520"
-  frameborder="0"
-  style="border: none; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);"
-  title="AI Hierarchy Explorer">
-</iframe>
+<div class="dp-content-block content-block" data-category="" data-title="AI Hierarchy Explorer">
+    <h3 class="dp-has-icon"><i class="dp-icon fas fa-sitemap" aria-hidden="true"></i>&nbsp;Interactive AI Hierarchy</h3>
+    <p>Explore the relationship between AI, Machine Learning, and Deep Learning through interactive visualization.</p>
+    
+    <div class="dp-card card" style="border-left: 4px solid #17a2b8;">
+        <div class="card-body">
+            <h5 class="card-title dp-ignore-theme">Learning Focus</h5>
+            <p>Click-to-explore nested concepts with business examples and strategic applications.</p>
+        </div>
+    </div>
+
+    <div class="dp-embed-wrapper">
+        <iframe 
+            src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/canvas-ai-hierarchy.html" 
+            width="100%" height="520" frameborder="0"
+            style="border: 1px solid #ddd; border-radius: 4px;"
+            title="AI Hierarchy Explorer">
+        </iframe>
+    </div>
+</div>
 ```
 
 #### AI Evolution Timeline Widget
 ```html
-<iframe 
-  src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/canvas-ai-evolution.html" 
-  width="470" 
-  height="450"
-  frameborder="0"
-  style="border: none; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);"
-  title="AI Evolution Timeline">
-</iframe>
+<div class="dp-content-block content-block" data-category="" data-title="AI Evolution Timeline">
+    <h3 class="dp-has-icon"><i class="dp-icon fas fa-clock" aria-hidden="true"></i>&nbsp;AI Evolution Timeline</h3>
+    <p>Journey through AI development from the 1950s to present day, exploring capabilities and limitations of each era.</p>
+    
+    <div class="dp-card card" style="border-left: 4px solid #28a745;">
+        <div class="card-body">
+            <h5 class="card-title dp-ignore-theme">Historical Context</h5>
+            <p>Interactive exploration of technological evolution and business capability development over 70+ years.</p>
+        </div>
+    </div>
+
+    <div class="dp-embed-wrapper">
+        <iframe 
+            src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/canvas-ai-evolution.html" 
+            width="100%" height="450" frameborder="0"
+            style="border: 1px solid #ddd; border-radius: 4px;"
+            title="AI Evolution Timeline">
+        </iframe>
+    </div>
+</div>
 ```
 
-## 📚 Canvas Implementation Steps
+## 📚 Ivey Canvas Implementation Steps
 
-### Method 1: Canvas Page Embedding (Recommended)
+### Method 1: Ivey Canvas Page Embedding (Recommended)
 1. **Navigate:** Canvas course → Pages → Create new page
 2. **Switch to HTML Editor:** Click `<>` icon in rich text editor
-3. **Paste iframe code:** Copy one of the iframe codes above
-4. **Save & Publish:** Widget appears immediately in your course
+3. **Paste dp- framework code:** Copy the complete `dp-content-block` structure above
+4. **Save & Publish:** Widget appears with proper Ivey styling and navigation
 
 ### Method 2: Canvas Assignment Embedding
 1. **Navigate:** Canvas course → Assignments → Create assignment  
