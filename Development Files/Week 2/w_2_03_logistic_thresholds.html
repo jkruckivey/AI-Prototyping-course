@@ -1,0 +1,145 @@
+<div id="dp-wrapper" class="dp-wrapper">
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+
+  <div class="dp-content-block content-block" data-title="Logistic Regression & Decision Thresholds">
+    <h1 class="dp-has-icon"><i class="dp-icon fas fa-adjust" aria-hidden="true"></i>&nbsp;Logistic Regression &amp; Decision Thresholds</h1>
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+      <div class="card-body">
+        <h5 class="card-title dp-ignore-theme">What this page covers</h5>
+        <p>How logistic regression turns features into <strong>probabilities</strong>, why the <strong>decision threshold</strong> matters, and how to tune it to business costs under <strong>class imbalance</strong>.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="Learning Outcomes (This Page)" data-category="Learning Outcomes">
+    <h3 class="dp-has-icon"><i class="dp-icon fas fa-bullseye" aria-hidden="true"></i> Learning Outcomes</h3>
+    <ol>
+      <li>Explain the role of the <strong>sigmoid</strong> curve in mapping scores to 0–1 probabilities.</li>
+      <li>Choose and adjust a <strong>decision threshold</strong> based on precision/recall trade‑offs and business cost.</li>
+      <li>Recognize <strong>class imbalance</strong> effects and use appropriate evaluation (confusion matrix, PR curves).</li>
+    </ol>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="From Linear Score to Probability">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-signal" aria-hidden="true"></i>&nbsp;From Linear Score to Probability</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="lg-sigmoid">Sigmoid intuition</h3>
+        <div id="lg-sigmoid" class="dp-panel-content" hidden>
+          <p>Logistic regression fits an <em>S‑shaped</em> curve that maps input combinations to a value between <strong>0 and 1</strong>. Interpret this as the model’s estimated probability of the positive class.</p>
+          <p class="mb-0">A final class label requires a <em>threshold</em> (e.g., 0.5 by default).</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="lg-loss">Training signal (loss)</h3>
+        <div id="lg-loss" class="dp-panel-content" hidden>
+          <p>During training the model adjusts parameters to reduce classification error according to a chosen <em>loss function</em> (e.g., squared error in our recap). The key output for practice is the calibrated probability and the ability to set a threshold.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="Thresholds & Business Trade‑offs">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-sliders-h" aria-hidden="true"></i>&nbsp;Thresholds &amp; Business Trade‑offs</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="thresh-why">Why thresholds matter</h3>
+        <div id="thresh-why" class="dp-panel-content" hidden>
+          <p>Moving the threshold changes how many positives you predict. Lowering it usually <strong>catches more positives</strong> (higher recall) but increases false alarms (lower precision). Raising it does the opposite.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="thresh-cost">Tie to business cost</h3>
+        <div id="thresh-cost" class="dp-panel-content" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>False Positive cost</strong> (e.g., contacting a non‑churner): staff time, customer annoyance.</li>
+            <li class="list-group-item"><strong>False Negative cost</strong> (missed churner): lost revenue, retention spend later.</li>
+            <li class="list-group-item">Pick the threshold that minimizes <em>expected cost</em> for your context.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="thresh-imbalance">Class imbalance</h3>
+        <div id="thresh-imbalance" class="dp-panel-content" hidden>
+          <p>When the positive class is rare, accuracy can be misleading. Focus on <strong>precision/recall</strong> (and PR curves) and consider resampling or class‑weighted training.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="Interactive: Threshold Tuner">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive: Threshold Tuner</h2>
+    <p class="mt-2"><em>Try it:</em> Slide the threshold to see how precision, recall, and total cost change under different class balances.</p>
+    <div class="dp-embed-wrapper">
+      <iframe title="Logistic Threshold Tuner" role="application" src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/w2-logistic-thresholds.html" width="100%" height="560" loading="lazy" allowfullscreen aria-label="Interactive demo to adjust decision threshold and observe precision, recall, and cost"></iframe>
+    </div>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="Evaluate Decisions (Confusion Matrix)">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-th-large" aria-hidden="true"></i>&nbsp;Evaluate Decisions (Confusion Matrix)</h2>
+    <div class="table-responsive">
+      <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Confusion matrix and definitions">
+        <caption>Binary classification outcomes at a chosen threshold</caption>
+        <thead>
+          <tr>
+            <th></th>
+            <th>Actual Positive</th>
+            <th>Actual Negative</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Predicted Positive</th>
+            <td>True Positive (TP)</td>
+            <td>False Positive (FP)</td>
+          </tr>
+          <tr>
+            <th scope="row">Predicted Negative</th>
+            <td>False Negative (FN)</td>
+            <td>True Negative (TN)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <ul class="mt-2">
+      <li><strong>Precision</strong> = TP / (TP + FP) — When we say “yes”, how often are we right?</li>
+      <li><strong>Recall</strong> = TP / (TP + FN) — Of all the real positives, how many did we catch?</li>
+    </ul>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="Calibration (Optional)">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-thermometer-half" aria-hidden="true"></i>&nbsp;Probability Calibration (Optional)</h2>
+    <p>Well‑calibrated models have probabilities that match observed rates (e.g., predictions around 0.7 occur ~70% of the time). When probabilities are miscalibrated, threshold choices become unreliable—recalibrate or re‑train.</p>
+  </div>
+
+  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
+    <div class="card-body">
+      <h3 class="card-title">Helpful Tip</h3>
+      <p class="card-text">Set different thresholds for different segments if their costs differ (e.g., high‑value accounts vs. everyone else).</p>
+    </div>
+  </div>
+
+  <hr />
+  <p>Select <strong>Next▸</strong> to continue.</p>
+</div>
+
+<!-- Canvas‑safe toggling -->
+<script>
+(function () {
+  function toggleHead(h){
+    const content = document.getElementById(h.getAttribute('aria-controls'));
+    const expanded = h.getAttribute('aria-expanded') === 'true';
+    h.setAttribute('aria-expanded', String(!expanded));
+    if (content) content.hidden = expanded;
+  }
+  document.addEventListener('click', function (e) {
+    const h = e.target.closest('.dp-panel-heading[role=\"button\"]');
+    if (h) toggleHead(h);
+  });
+  document.addEventListener('keydown', function (e) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role=\"button\"]')) {
+      e.preventDefault(); toggleHead(e.target);
+    }
+  });
+})();
+</script>

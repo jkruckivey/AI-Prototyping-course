@@ -1,0 +1,102 @@
+<div id="dp-wrapper" class="dp-wrapper">
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+
+  <!-- Week 2 Intro / Orientation -->
+  <div class="dp-content-block content-block" data-title="Week 2 — Orientation">
+    <h1 class="dp-has-icon"><i class="dp-icon fas fa-compass" aria-hidden="true"></i>&nbsp;Week 2 — Orientation</h1>
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+      <div class="card-body">
+        <h5 class="card-title dp-ignore-theme">What this week is about</h5>
+        <p>We dive deep into <strong>supervised learning</strong>: linear & logistic regression, <strong>KNN</strong>, <strong>SVM</strong>, <strong>Naive Bayes</strong>, <strong>Decision Trees & Random Forests</strong>, and a first look at <strong>Neural Networks</strong>. You’ll focus on <em>when</em> to use each, how to evaluate them, and the business trade‑offs behind thresholds and hyperparameters.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick readiness checklist with optional links back to Week 1 -->
+  <div class="dp-content-block content-block" data-title="Before you start (readiness)">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-check-circle" aria-hidden="true"></i>&nbsp;Before you start</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w2-ready">Readiness checklist</h3>
+        <div id="w2-ready" class="dp-panel-content" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">You can tell <strong>classification</strong> (categorical target) from <strong>regression</strong> (numeric target).</li>
+            <li class="list-group-item">You know what <strong>parameters</strong> (learned) and <strong>hyperparameters</strong> (set before training) are.</li>
+            <li class="list-group-item">You understand why <strong>train/validation</strong> splits (often time‑aware) matter.</li>
+          </ul>
+          <p class="mt-2 mb-0"><em>Need a refresher?</em> Jump back to Week 1: 
+            <a href="../canvas-03-machine-learning-models.html">Model families</a> · 
+            <a href="../canvas-02a-data-science-framework.html">Workflow</a> · 
+            <a href="../canvas-05-evaluation-training.html">Evaluation basics</a>
+          </p>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w2-what">What you’ll do this week</h3>
+        <div id="w2-what" class="dp-panel-content" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Explore the <strong>intuition</strong> behind each algorithm.</li>
+            <li class="list-group-item">Use <strong>interactive widgets</strong> to see how metrics and boundaries change.</li>
+            <li class="list-group-item">Make <strong>business‑aligned choices</strong> (e.g., thresholds tied to cost, feature scaling for KNN/SVM).</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Warm-up activity -->
+  <div class="dp-content-block content-block" data-title="Warm‑up: Task → Model Type">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Warm‑up: Task → Model Type</h2>
+    <p class="mt-2">Kick off with a quick matching activity to activate prior knowledge.</p>
+    <div class="dp-embed-wrapper">
+      <iframe title="Task to Model Type Matcher" role="application" src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/w2-task-model-matcher.html" width="100%" height="520" loading="lazy" allowfullscreen aria-label="Interactive activity to match business tasks to model type and baselines"></iframe>
+    </div>
+  </div>
+
+  <!-- Tips & expectations -->
+  <div class="dp-content-block content-block" data-title="How to get the most out of Week 2">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-lightbulb" aria-hidden="true"></i>&nbsp;How to get the most out of Week 2</h2>
+    <div class="dp-card card" style="border-left: 4px solid #f97316; padding-left: 15px;">
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><strong>Benchmark first:</strong> compare new models to simple baselines (mean predictor, logistic regression, shallow tree).</li>
+          <li class="list-group-item"><strong>Mind the splits:</strong> for temporal data, use time‑aware validation to avoid leakage.</li>
+          <li class="list-group-item"><strong>Pick metrics that match the decision:</strong> precision/recall for rare events; MAE/RMSE for numeric targets; align thresholds with cost.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Optional callout (admin/housekeeping) -->
+  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
+    <div class="card-body">
+      <h3 class="card-title">Heads up</h3>
+      <p class="card-text">This week includes several interactive widgets. If one doesn’t load immediately, refresh the page or try a different browser tab.</p>
+    </div>
+  </div>
+
+  <hr />
+  <p>Select <strong>Next▸</strong> to begin with <strong>Linear Regression</strong>.</p>
+</div>
+
+<!-- Canvas‑safe toggling -->
+<script>
+(function () {
+  function toggleHead(h){
+    const content = document.getElementById(h.getAttribute('aria-controls'));
+    const expanded = h.getAttribute('aria-expanded') === 'true';
+    h.setAttribute('aria-expanded', String(!expanded));
+    if (content) content.hidden = expanded;
+  }
+  document.addEventListener('click', function (e) {
+    const h = e.target.closest('.dp-panel-heading[role=\"button\"]');
+    if (h) toggleHead(h);
+  });
+  document.addEventListener('keydown', function (e) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role=\"button\"]')) {
+      e.preventDefault(); toggleHead(e.target);
+    }
+  });
+})();
+</script>

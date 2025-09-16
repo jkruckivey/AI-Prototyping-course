@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unsupervised Learning Concepts</title>
+    <link rel="stylesheet" href="../shared-demo.css">
+    <style>
+        .concept-matcher {
+            display: flex;
+            gap: 2rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .concepts-column, .examples-column {
+            flex: 1;
+            min-width: 280px;
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .concept-card, .example-card {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .concept-card:hover, .example-card:hover {
+            border-color: #034638;
+            background: #f0f9f4;
+        }
+
+        .concept-card.selected {
+            background: #034638;
+            color: white;
+            border-color: #034638;
+        }
+
+        .example-card.matched {
+            background: #10b981;
+            color: white;
+            border-color: #10b981;
+        }
+
+        .example-card.incorrect {
+            background: #ef4444;
+            color: white;
+            border-color: #ef4444;
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .score-display {
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: #e7f3ff;
+            border-radius: 6px;
+        }
+
+        .reset-btn {
+            background: #582C83;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s ease;
+        }
+
+        .reset-btn:hover {
+            background: #4c1d75;
+        }
+
+        .instructions {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 6px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .feedback {
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+            display: none;
+        }
+
+        .feedback.success {
+            background: #d1fae5;
+            border: 1px solid #10b981;
+            color: #047857;
+        }
+
+        .feedback.complete {
+            background: #ddd6fe;
+            border: 1px solid #8b5cf6;
+            color: #5b21b6;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <div class="demo-header">
+            <h1>Match Unsupervised Learning Concepts</h1>
+            <p>Click a concept on the left, then click the matching business example on the right</p>
+        </div>
+
+        <div class="instructions">
+            <strong>Instructions:</strong> Select an unsupervised learning approach, then find its best business application. Get all 5 correct to complete the activity!
+        </div>
+
+        <div class="score-display">
+            <span id="score">Score: 0/5</span>
+            <button class="reset-btn" onclick="resetGame()" style="margin-left: 1rem;">Reset</button>
+        </div>
+
+        <div class="concept-matcher">
+            <div class="concepts-column">
+                <h3>🎯 Unsupervised Learning Approaches</h3>
+                <div class="concept-card" data-concept="clustering" onclick="selectConcept(this)">
+                    <strong>Clustering</strong>
+                    <p>Group similar data points together without knowing groups in advance</p>
+                </div>
+                <div class="concept-card" data-concept="dimensionality" onclick="selectConcept(this)">
+                    <strong>Dimensionality Reduction</strong>
+                    <p>Reduce features while preserving important information</p>
+                </div>
+                <div class="concept-card" data-concept="association" onclick="selectConcept(this)">
+                    <strong>Association Rules</strong>
+                    <p>Find relationships and patterns between items or events</p>
+                </div>
+                <div class="concept-card" data-concept="anomaly" onclick="selectConcept(this)">
+                    <strong>Anomaly Detection</strong>
+                    <p>Identify unusual patterns that don't fit normal behavior</p>
+                </div>
+                <div class="concept-card" data-concept="recommendation" onclick="selectConcept(this)">
+                    <strong>Collaborative Filtering</strong>
+                    <p>Recommend based on behavior patterns of similar users</p>
+                </div>
+            </div>
+
+            <div class="examples-column">
+                <h3>💼 Business Applications</h3>
+                <div class="example-card" data-match="clustering" onclick="selectExample(this)">
+                    <strong>Customer Segmentation</strong>
+                    <p>Divide customers into distinct groups based on purchasing behavior for targeted marketing</p>
+                </div>
+                <div class="example-card" data-match="dimensionality" onclick="selectExample(this)">
+                    <strong>Data Visualization</strong>
+                    <p>Create 2D plots of high-dimensional customer data to identify patterns and outliers</p>
+                </div>
+                <div class="example-card" data-match="association" onclick="selectExample(this)">
+                    <strong>Market Basket Analysis</strong>
+                    <p>"Customers who buy X also buy Y" - optimize product placement and cross-selling</p>
+                </div>
+                <div class="example-card" data-match="anomaly" onclick="selectExample(this)">
+                    <strong>Fraud Detection</strong>
+                    <p>Identify unusual transaction patterns that may indicate fraudulent activity</p>
+                </div>
+                <div class="example-card" data-match="recommendation" onclick="selectExample(this)">
+                    <strong>Netflix Suggestions</strong>
+                    <p>"Users like you also enjoyed..." - recommend content based on similar viewing patterns</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="feedback success" id="success-feedback">
+            <strong>✅ Correct!</strong> <span id="success-text"></span>
+        </div>
+
+        <div class="feedback complete" id="complete-feedback">
+            <strong>🎉 Excellent work!</strong> You've mastered the key unsupervised learning concepts and their business applications. These pattern discovery techniques are essential for understanding data structure before building predictive models.
+        </div>
+    </div>
+
+    <script>
+        let selectedConcept = null;
+        let score = 0;
+        let matchedPairs = new Set();
+
+        const explanations = {
+            clustering: "Clustering groups similar customers together, revealing natural market segments for targeted strategies.",
+            dimensionality: "PCA and other techniques compress high-dimensional data into visualizable 2D/3D plots while preserving key patterns.",
+            association: "Association rules find 'if A then B' patterns in transaction data, driving product recommendations and store layout.",
+            anomaly: "Anomaly detection identifies outliers in normal patterns, crucial for fraud detection and quality control.",
+            recommendation: "Collaborative filtering finds users with similar preferences to suggest relevant content or products."
+        };
+
+        function selectConcept(element) {
+            // Clear previous selections
+            document.querySelectorAll('.concept-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+
+            // Select new concept
+            element.classList.add('selected');
+            selectedConcept = element.getAttribute('data-concept');
+        }
+
+        function selectExample(element) {
+            if (!selectedConcept) {
+                // Flash all concepts to indicate selection needed
+                document.querySelectorAll('.concept-card').forEach(card => {
+                    card.style.animation = 'pulse 0.5s ease-in-out';
+                    setTimeout(() => card.style.animation = '', 500);
+                });
+                return;
+            }
+
+            const matchValue = element.getAttribute('data-match');
+            const pairKey = selectedConcept + '-' + matchValue;
+
+            // Check if already matched
+            if (matchedPairs.has(pairKey)) {
+                return;
+            }
+
+            if (selectedConcept === matchValue) {
+                // Correct match
+                element.classList.add('matched');
+                document.querySelector(`[data-concept="${selectedConcept}"]`).style.opacity = '0.6';
+                matchedPairs.add(pairKey);
+                score++;
+                updateScore();
+                showSuccess(selectedConcept);
+
+                // Clear selection
+                document.querySelectorAll('.concept-card').forEach(card => {
+                    card.classList.remove('selected');
+                });
+                selectedConcept = null;
+
+                // Check completion
+                if (score === 5) {
+                    setTimeout(showCompletion, 1000);
+                }
+            } else {
+                // Incorrect match
+                element.classList.add('incorrect');
+                setTimeout(() => {
+                    element.classList.remove('incorrect');
+                }, 500);
+            }
+        }
+
+        function updateScore() {
+            document.getElementById('score').textContent = `Score: ${score}/5`;
+        }
+
+        function showSuccess(concept) {
+            const feedback = document.getElementById('success-feedback');
+            const text = document.getElementById('success-text');
+            text.textContent = explanations[concept];
+            feedback.style.display = 'block';
+
+            setTimeout(() => {
+                feedback.style.display = 'none';
+            }, 3000);
+        }
+
+        function showCompletion() {
+            document.getElementById('complete-feedback').style.display = 'block';
+        }
+
+        function resetGame() {
+            score = 0;
+            selectedConcept = null;
+            matchedPairs.clear();
+            updateScore();
+
+            // Reset all cards
+            document.querySelectorAll('.concept-card').forEach(card => {
+                card.classList.remove('selected');
+                card.style.opacity = '1';
+            });
+
+            document.querySelectorAll('.example-card').forEach(card => {
+                card.classList.remove('matched', 'incorrect');
+            });
+
+            // Hide feedback
+            document.querySelectorAll('.feedback').forEach(feedback => {
+                feedback.style.display = 'none';
+            });
+        }
+
+        // Add pulse animation for visual feedback
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes pulse {
+                0% { transform: scale(1); }
+                50% { transform: scale(1.05); }
+                100% { transform: scale(1); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

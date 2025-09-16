@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K-means Clustering Visualization</title>
+    <link rel="stylesheet" href="../shared-demo.css">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        .controls-section {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 0.5rem 0;
+            flex-wrap: wrap;
+        }
+
+        .control-group label {
+            font-weight: 600;
+            min-width: 100px;
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex: 1;
+        }
+
+        .slider-container input[type="range"] {
+            flex: 1;
+            max-width: 200px;
+        }
+
+        .value-display {
+            background: #e7f3ff;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: bold;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .run-button {
+            background: #034638;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        .run-button:hover {
+            background: #022c24;
+        }
+
+        .run-button:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        .metrics-display {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .metric-card {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #034638;
+        }
+
+        .metric-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.25rem;
+        }
+
+        .iteration-counter {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 0.75rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .plot-container {
+            height: 400px;
+            margin: 1rem 0;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            background: white;
+        }
+
+        .dataset-selector {
+            display: flex;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .dataset-btn {
+            background: #f3f4f6;
+            border: 2px solid #e5e7eb;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dataset-btn.active {
+            background: #034638;
+            color: white;
+            border-color: #034638;
+        }
+
+        .loading-indicator {
+            display: none;
+            text-align: center;
+            padding: 1rem;
+            font-style: italic;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <div class="demo-header">
+            <h1>K-means Clustering Algorithm</h1>
+            <p>Watch K-means find customer segments step by step. Adjust K and see how clusters change.</p>
+        </div>
+
+        <div class="controls-section">
+            <div class="control-group">
+                <label>Dataset:</label>
+                <div class="dataset-selector">
+                    <button class="dataset-btn active" onclick="selectDataset('customers')">Customer Segments</button>
+                    <button class="dataset-btn" onclick="selectDataset('blobs')">Simple Clusters</button>
+                    <button class="dataset-btn" onclick="selectDataset('circles')">Challenging Shapes</button>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label>Number of Clusters (K):</label>
+                <div class="slider-container">
+                    <input type="range" id="k-slider" min="2" max="8" value="3" onchange="updateK(this.value)">
+                    <div class="value-display" id="k-value">3</div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label>Max Iterations:</label>
+                <div class="slider-container">
+                    <input type="range" id="iter-slider" min="5" max="50" value="20" onchange="updateMaxIter(this.value)">
+                    <div class="value-display" id="iter-value">20</div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <button class="run-button" onclick="runKMeans()" id="run-btn">Run K-means</button>
+                <button class="run-button" onclick="resetClustering()" style="background: #582C83;">Reset</button>
+            </div>
+        </div>
+
+        <div class="iteration-counter" id="iteration-display">
+            Ready to run K-means clustering
+        </div>
+
+        <div class="loading-indicator" id="loading">
+            Running K-means algorithm...
+        </div>
+
+        <div class="plot-container" id="plot"></div>
+
+        <div class="metrics-display">
+            <div class="metric-card">
+                <div class="metric-value" id="wcss-value">-</div>
+                <div class="metric-label">Within-Cluster<br>Sum of Squares</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value" id="silhouette-value">-</div>
+                <div class="metric-label">Silhouette<br>Score</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value" id="iterations-value">-</div>
+                <div class="metric-label">Iterations<br>to Converge</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentDataset = 'customers';
+        let currentK = 3;
+        let maxIterations = 20;
+        let data = [];
+        let centroids = [];
+        let clusters = [];
+        let isRunning = false;
+
+        const datasets = {
+            customers: {
+                name: 'Customer Segments',
+                data: generateCustomerData(),
+                description: 'Age vs Annual Income ($k)'
+            },
+            blobs: {
+                name: 'Simple Clusters',
+                data: generateBlobData(),
+                description: 'Feature X vs Feature Y'
+            },
+            circles: {
+                name: 'Challenging Shapes',
+                data: generateCircleData(),
+                description: 'Feature A vs Feature B'
+            }
+        };
+
+        function generateCustomerData() {
+            const data = [];
+            // High income, middle age
+            for(let i = 0; i < 30; i++) {
+                data.push([
+                    25 + Math.random() * 15, // age 25-40
+                    70 + Math.random() * 40   // income 70-110k
+                ]);
+            }
+            // Low income, young
+            for(let i = 0; i < 25; i++) {
+                data.push([
+                    20 + Math.random() * 10, // age 20-30
+                    20 + Math.random() * 25   // income 20-45k
+                ]);
+            }
+            // Medium income, older
+            for(let i = 0; i < 35; i++) {
+                data.push([
+                    35 + Math.random() * 20, // age 35-55
+                    45 + Math.random() * 30   // income 45-75k
+                ]);
+            }
+            return data;
+        }
+
+        function generateBlobData() {
+            const data = [];
+            const centers = [[2, 2], [8, 8], [2, 8], [8, 2]];
+            centers.forEach(center => {
+                for(let i = 0; i < 20; i++) {
+                    data.push([
+                        center[0] + (Math.random() - 0.5) * 2,
+                        center[1] + (Math.random() - 0.5) * 2
+                    ]);
+                }
+            });
+            return data;
+        }
+
+        function generateCircleData() {
+            const data = [];
+            // Inner circle
+            for(let i = 0; i < 30; i++) {
+                const angle = Math.random() * 2 * Math.PI;
+                const radius = 2 + Math.random() * 1;
+                data.push([
+                    5 + radius * Math.cos(angle),
+                    5 + radius * Math.sin(angle)
+                ]);
+            }
+            // Outer circle
+            for(let i = 0; i < 50; i++) {
+                const angle = Math.random() * 2 * Math.PI;
+                const radius = 5 + Math.random() * 1;
+                data.push([
+                    5 + radius * Math.cos(angle),
+                    5 + radius * Math.sin(angle)
+                ]);
+            }
+            return data;
+        }
+
+        function selectDataset(datasetName) {
+            currentDataset = datasetName;
+            data = datasets[datasetName].data;
+
+            // Update button states
+            document.querySelectorAll('.dataset-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            resetClustering();
+            plotInitialData();
+        }
+
+        function updateK(value) {
+            currentK = parseInt(value);
+            document.getElementById('k-value').textContent = value;
+            resetClustering();
+        }
+
+        function updateMaxIter(value) {
+            maxIterations = parseInt(value);
+            document.getElementById('iter-value').textContent = value;
+        }
+
+        function plotInitialData() {
+            const trace = {
+                x: data.map(d => d[0]),
+                y: data.map(d => d[1]),
+                mode: 'markers',
+                type: 'scatter',
+                marker: {
+                    color: '#034638',
+                    size: 8,
+                    opacity: 0.7
+                },
+                name: 'Data Points'
+            };
+
+            const layout = {
+                title: `${datasets[currentDataset].name} - ${datasets[currentDataset].description}`,
+                xaxis: { title: currentDataset === 'customers' ? 'Age' : 'Feature X' },
+                yaxis: { title: currentDataset === 'customers' ? 'Annual Income ($k)' : 'Feature Y' },
+                showlegend: false,
+                margin: { t: 50, r: 50, b: 50, l: 50 }
+            };
+
+            Plotly.newPlot('plot', [trace], layout, {responsive: true});
+        }
+
+        function distance(point1, point2) {
+            return Math.sqrt(Math.pow(point1[0] - point2[0], 2) + Math.pow(point1[1] - point2[1], 2));
+        }
+
+        function initializeCentroids(k) {
+            centroids = [];
+            for(let i = 0; i < k; i++) {
+                const randomPoint = data[Math.floor(Math.random() * data.length)];
+                centroids.push([
+                    randomPoint[0] + (Math.random() - 0.5) * 2,
+                    randomPoint[1] + (Math.random() - 0.5) * 2
+                ]);
+            }
+        }
+
+        function assignClusters() {
+            clusters = data.map(point => {
+                let minDistance = Infinity;
+                let assignedCluster = 0;
+
+                centroids.forEach((centroid, index) => {
+                    const dist = distance(point, centroid);
+                    if(dist < minDistance) {
+                        minDistance = dist;
+                        assignedCluster = index;
+                    }
+                });
+
+                return assignedCluster;
+            });
+        }
+
+        function updateCentroids() {
+            const newCentroids = [];
+
+            for(let k = 0; k < currentK; k++) {
+                const clusterPoints = data.filter((point, index) => clusters[index] === k);
+
+                if(clusterPoints.length > 0) {
+                    const avgX = clusterPoints.reduce((sum, point) => sum + point[0], 0) / clusterPoints.length;
+                    const avgY = clusterPoints.reduce((sum, point) => sum + point[1], 0) / clusterPoints.length;
+                    newCentroids.push([avgX, avgY]);
+                } else {
+                    newCentroids.push(centroids[k]); // Keep old centroid if no points assigned
+                }
+            }
+
+            const converged = centroids.every((centroid, index) =>
+                distance(centroid, newCentroids[index]) < 0.01
+            );
+
+            centroids = newCentroids;
+            return converged;
+        }
+
+        function calculateWCSS() {
+            let wcss = 0;
+            data.forEach((point, index) => {
+                const clusterIndex = clusters[index];
+                wcss += Math.pow(distance(point, centroids[clusterIndex]), 2);
+            });
+            return wcss.toFixed(2);
+        }
+
+        function calculateSilhouette() {
+            // Simplified silhouette calculation
+            let totalSilhouette = 0;
+
+            data.forEach((point, index) => {
+                const clusterIndex = clusters[index];
+
+                // Average distance within cluster
+                const sameClusterPoints = data.filter((p, i) => clusters[i] === clusterIndex && i !== index);
+                const avgWithinDistance = sameClusterPoints.length > 0
+                    ? sameClusterPoints.reduce((sum, p) => sum + distance(point, p), 0) / sameClusterPoints.length
+                    : 0;
+
+                // Average distance to nearest cluster
+                let minAvgBetweenDistance = Infinity;
+                for(let k = 0; k < currentK; k++) {
+                    if(k !== clusterIndex) {
+                        const otherClusterPoints = data.filter((p, i) => clusters[i] === k);
+                        if(otherClusterPoints.length > 0) {
+                            const avgBetweenDistance = otherClusterPoints.reduce((sum, p) => sum + distance(point, p), 0) / otherClusterPoints.length;
+                            minAvgBetweenDistance = Math.min(minAvgBetweenDistance, avgBetweenDistance);
+                        }
+                    }
+                }
+
+                const silhouette = minAvgBetweenDistance !== Infinity
+                    ? (minAvgBetweenDistance - avgWithinDistance) / Math.max(avgWithinDistance, minAvgBetweenDistance)
+                    : 0;
+
+                totalSilhouette += silhouette;
+            });
+
+            return (totalSilhouette / data.length).toFixed(3);
+        }
+
+        function plotClusters(iteration) {
+            const colors = ['#e74c3c', '#3498db', '#2ecc71', '#f39c12', '#9b59b6', '#1abc9c', '#e67e22', '#34495e'];
+            const traces = [];
+
+            // Plot data points by cluster
+            for(let k = 0; k < currentK; k++) {
+                const clusterPoints = data.filter((point, index) => clusters[index] === k);
+                if(clusterPoints.length > 0) {
+                    traces.push({
+                        x: clusterPoints.map(p => p[0]),
+                        y: clusterPoints.map(p => p[1]),
+                        mode: 'markers',
+                        type: 'scatter',
+                        marker: {
+                            color: colors[k % colors.length],
+                            size: 8,
+                            opacity: 0.7
+                        },
+                        name: `Cluster ${k + 1}`
+                    });
+                }
+            }
+
+            // Plot centroids
+            traces.push({
+                x: centroids.map(c => c[0]),
+                y: centroids.map(c => c[1]),
+                mode: 'markers',
+                type: 'scatter',
+                marker: {
+                    color: 'black',
+                    size: 15,
+                    symbol: 'x',
+                    line: { width: 3 }
+                },
+                name: 'Centroids'
+            });
+
+            const layout = {
+                title: `${datasets[currentDataset].name} - Iteration ${iteration}`,
+                xaxis: { title: currentDataset === 'customers' ? 'Age' : 'Feature X' },
+                yaxis: { title: currentDataset === 'customers' ? 'Annual Income ($k)' : 'Feature Y' },
+                showlegend: true,
+                margin: { t: 50, r: 50, b: 50, l: 50 }
+            };
+
+            Plotly.newPlot('plot', traces, layout, {responsive: true});
+        }
+
+        async function runKMeans() {
+            if(isRunning) return;
+
+            isRunning = true;
+            document.getElementById('run-btn').disabled = true;
+            document.getElementById('loading').style.display = 'block';
+
+            initializeCentroids(currentK);
+            let iteration = 0;
+            let converged = false;
+
+            while(!converged && iteration < maxIterations) {
+                iteration++;
+                assignClusters();
+                converged = updateCentroids();
+
+                // Update display
+                document.getElementById('iteration-display').textContent =
+                    `Iteration ${iteration}${converged ? ' - Converged!' : ''}`;
+
+                plotClusters(iteration);
+
+                // Update metrics
+                document.getElementById('wcss-value').textContent = calculateWCSS();
+                document.getElementById('silhouette-value').textContent = calculateSilhouette();
+                document.getElementById('iterations-value').textContent = iteration;
+
+                // Small delay for visualization
+                if(!converged) {
+                    await new Promise(resolve => setTimeout(resolve, 800));
+                }
+            }
+
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('run-btn').disabled = false;
+            isRunning = false;
+        }
+
+        function resetClustering() {
+            centroids = [];
+            clusters = [];
+            document.getElementById('iteration-display').textContent = 'Ready to run K-means clustering';
+            document.getElementById('wcss-value').textContent = '-';
+            document.getElementById('silhouette-value').textContent = '-';
+            document.getElementById('iterations-value').textContent = '-';
+            plotInitialData();
+        }
+
+        // Initialize
+        data = datasets[currentDataset].data;
+        plotInitialData();
+    </script>
+</body>
+</html>

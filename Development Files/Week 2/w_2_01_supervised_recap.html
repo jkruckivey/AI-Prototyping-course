@@ -1,0 +1,111 @@
+<div id="dp-wrapper" class="dp-wrapper">
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+
+  <div class="dp-content-block content-block" data-title="Supervised Learning Recap: Classification vs Regression">
+    <h1 class="dp-has-icon"><i class="dp-icon fas fa-graduation-cap" aria-hidden="true"></i>&nbsp;Supervised Learning Recap: Classification vs Regression</h1>
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+      <div class="card-body">
+        <h5 class="card-title dp-ignore-theme">What this page covers</h5>
+        <p>Foundations you’ll use all week: features &rarr; target mapping, difference between <strong>classification</strong> and <strong>regression</strong>, and key terms like <em>parameters</em>, <em>hyperparameters</em>, and <em>dimensionality</em>.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="Learning Outcomes (This Page)" data-category="Learning Outcomes">
+    <h3 class="dp-has-icon"><i class="dp-icon fas fa-bullseye" aria-hidden="true"></i> Learning Outcomes</h3>
+    <ol>
+      <li>Differentiate classification (categorical target) from regression (numeric target).</li>
+      <li>Explain the role of <strong>parameters</strong> learned during training vs <strong>hyperparameters</strong> set before training.</li>
+      <li>Define <strong>dimensionality</strong> and why train/validation splits matter for generalization.</li>
+    </ol>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="What is Supervised Learning?">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-route" aria-hidden="true"></i>&nbsp;What is Supervised Learning?</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="sl-mapping">Features → Target mapping</h3>
+        <div id="sl-mapping" class="dp-panel-content" hidden>
+          <p>We learn a function that maps input <strong>features</strong> (columns) to a <strong>target</strong> (output). Training adjusts model parameters to minimize a chosen <em>loss</em>, aiming to <em>generalize</em> to unseen data.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="sl-class">Classification</h3>
+        <div id="sl-class" class="dp-panel-content" hidden>
+          <p>Predicts a <strong>category</strong> (e.g., approve/deny, churn/no-churn, dog/cat). Outputs are discrete labels or probabilities, with a decision threshold applied for the final class.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="sl-regr">Regression</h3>
+        <div id="sl-regr" class="dp-panel-content" hidden>
+          <p>Predicts a <strong>number</strong> (e.g., price, demand, time-to-complete). We evaluate with numeric error metrics and often visualize residuals to sanity-check fit.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="Key Terms You’ll See All Week">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-tags" aria-hidden="true"></i>&nbsp;Key Terms You’ll See All Week</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="terms-params">Parameters vs Hyperparameters</h3>
+        <div id="terms-params" class="dp-panel-content" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Parameters</strong>: learned values inside the model (e.g., coefficients, weights, intercepts).</li>
+            <li class="list-group-item"><strong>Hyperparameters</strong>: configuration chosen <em>before</em> training that controls learning (e.g., learning rate, regularization strength, K in KNN).</li>
+          </ul>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="terms-dim">Dimensionality</h3>
+        <div id="terms-dim" class="dp-panel-content" hidden>
+          <p>The number of input features. More dimensions can improve accuracy <em>or</em> introduce noise/leakage—use validation to confirm real gains.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="terms-splits">Train/Validation Splits</h3>
+        <div id="terms-splits" class="dp-panel-content" hidden>
+          <p>Always separate development and evaluation. For time‑series or sequential data, use <strong>time‑aware</strong> splits to avoid peeking into the future.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="Interactive: Task → Model Type">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive: Task → Model Type</h2>
+    <p class="mt-2"><em>Try it:</em> For each mini‑scenario, pick classification or regression, and a sensible baseline.</p>
+    <div class="dp-embed-wrapper">
+      <iframe title="Task to Model Type Matcher" role="application" src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/w2-task-model-matcher.html" width="100%" height="520" loading="lazy" allowfullscreen aria-label="Interactive activity to match business tasks to model type and baselines"></iframe>
+    </div>
+  </div>
+
+  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
+    <div class="card-body">
+      <h3 class="card-title">Helpful Tip</h3>
+      <p class="card-text">Pick metrics that fit the target type: classification ⇒ precision/recall/ROC; regression ⇒ MAE/MSE/RMSE. Tie choices to business cost.</p>
+    </div>
+  </div>
+
+  <hr />
+  <p>Select <strong>Next▸</strong> to continue.</p>
+</div>
+
+<script>
+(function () {
+  function toggleHead(h){
+    const content = document.getElementById(h.getAttribute('aria-controls'));
+    const expanded = h.getAttribute('aria-expanded') === 'true';
+    h.setAttribute('aria-expanded', String(!expanded));
+    if (content) content.hidden = expanded;
+  }
+  document.addEventListener('click', function (e) {
+    const h = e.target.closest('.dp-panel-heading[role="button"]');
+    if (h) toggleHead(h);
+  });
+  document.addEventListener('keydown', function (e) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role="button"]')) {
+      e.preventDefault(); toggleHead(e.target);
+    }
+  });
+})();
+</script>

@@ -1,0 +1,309 @@
+<div id="dp-wrapper" class="dp-wrapper">
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+
+  <div class="dp-content-block content-block" data-title="K-means Clustering Algorithm">
+    <h1 class="dp-has-icon"><i class="dp-icon fas fa-layer-group" aria-hidden="true"></i>&nbsp;K-means Clustering</h1>
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+      <div class="card-body">
+        <h5 class="card-title dp-ignore-theme">What this page covers</h5>
+        <p>Master the most popular clustering algorithm: how K-means works, when to use it, choosing the right K, and understanding its strengths and limitations for business applications.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="Learning Outcomes (This Page)" data-category="Learning Outcomes">
+    <h3 class="dp-has-icon"><i class="dp-icon fas fa-bullseye" aria-hidden="true"></i> Learning Outcomes</h3>
+    <ol>
+      <li>Explain the K-means algorithm step-by-step process and convergence criteria.</li>
+      <li>Apply methods for choosing the optimal number of clusters (K).</li>
+      <li>Identify when K-means is appropriate and when to consider alternatives.</li>
+    </ol>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="How K-means Works">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-cogs" aria-hidden="true"></i>&nbsp;The K-means Algorithm</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="algorithm-steps">Step-by-Step Process</h3>
+        <div id="algorithm-steps" class="dp-panel-content" hidden>
+          <p>K-means is an iterative algorithm that partitions data into K clusters by minimizing within-cluster sum of squares.</p>
+          <div class="table-responsive">
+            <table class="ic-Table ic-Table--hover-row" role="table" aria-label="K-means algorithm steps">
+              <thead>
+                <tr>
+                  <th>Step</th>
+                  <th>Action</th>
+                  <th>Purpose</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">1. Initialize</th>
+                  <td>Randomly place K centroids</td>
+                  <td>Starting positions for cluster centers</td>
+                </tr>
+                <tr>
+                  <th scope="row">2. Assign</th>
+                  <td>Assign each point to nearest centroid</td>
+                  <td>Form clusters based on distance</td>
+                </tr>
+                <tr>
+                  <th scope="row">3. Update</th>
+                  <td>Move centroids to cluster means</td>
+                  <td>Optimize cluster center positions</td>
+                </tr>
+                <tr>
+                  <th scope="row">4. Repeat</th>
+                  <td>Repeat steps 2-3 until convergence</td>
+                  <td>Minimize within-cluster variance</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="convergence">Convergence and Stopping Criteria</h3>
+        <div id="convergence" class="dp-panel-content" hidden>
+          <p>K-means stops when clusters stabilize. Multiple stopping criteria ensure practical convergence:</p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>No reassignments</strong>: Points stay in same clusters between iterations</li>
+            <li class="list-group-item"><strong>Centroid stability</strong>: Centroids move less than threshold distance</li>
+            <li class="list-group-item"><strong>Maximum iterations</strong>: Prevent infinite loops (typically 100-300)</li>
+            <li class="list-group-item"><strong>Objective function</strong>: Within-cluster sum of squares stops decreasing</li>
+          </ul>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="distance-measures">Distance Measures and Scaling</h3>
+        <div id="distance-measures" class="dp-panel-content" hidden>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="dp-card card" style="background-color:#f8f9fa; border:1px solid #dee2e6;">
+                <div class="card-body">
+                  <h6 class="card-title">Standard Distance: Euclidean</h6>
+                  <p>Most common: straight-line distance in feature space</p>
+                  <p class="mb-0"><code>√[(x₁-x₂)² + (y₁-y₂)²]</code></p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="dp-card card" style="background-color:#fff3cd; border:1px solid #ffeaa7;">
+                <div class="card-body">
+                  <h6 class="card-title">Critical: Feature Scaling</h6>
+                  <p>Always normalize features to same scale</p>
+                  <p class="mb-0">Otherwise: large-scale features dominate</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="Choosing the Number of Clusters (K)">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-chart-line" aria-hidden="true"></i>&nbsp;Selecting Optimal K</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="elbow-method">The Elbow Method</h3>
+        <div id="elbow-method" class="dp-panel-content" hidden>
+          <div class="row">
+            <div class="col-md-8">
+              <p>Plot within-cluster sum of squares (WCSS) vs number of clusters. Look for the "elbow" - the point where adding clusters provides diminishing returns.</p>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>Sharp elbow</strong>: Clear optimal K</li>
+                <li class="list-group-item"><strong>Gradual curve</strong>: Consider business context</li>
+                <li class="list-group-item"><strong>No clear elbow</strong>: Try other methods</li>
+              </ul>
+            </div>
+            <div class="col-md-4">
+              <div class="dp-card card" style="background-color:#e7f3ff; border:1px solid #b3d9ff;">
+                <div class="card-body">
+                  <h6 class="card-title">Formula</h6>
+                  <p>WCSS = Σ(distance from point to centroid)²</p>
+                  <p class="mb-0">Lower WCSS = tighter clusters</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="silhouette">Silhouette Analysis</h3>
+        <div id="silhouette" class="dp-panel-content" hidden>
+          <p>Measures how well each point fits its assigned cluster compared to other clusters. Ranges from -1 to +1.</p>
+          <div class="table-responsive">
+            <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Silhouette score interpretation">
+              <thead>
+                <tr>
+                  <th>Silhouette Score</th>
+                  <th>Interpretation</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">0.7 - 1.0</th>
+                  <td>Excellent cluster separation</td>
+                  <td>Strong clustering solution</td>
+                </tr>
+                <tr>
+                  <th scope="row">0.5 - 0.7</th>
+                  <td>Reasonable clustering</td>
+                  <td>Acceptable for most uses</td>
+                </tr>
+                <tr>
+                  <th scope="row">0.25 - 0.5</th>
+                  <td>Weak clustering structure</td>
+                  <td>Consider different K or method</td>
+                </tr>
+                <tr>
+                  <th scope="row">&lt; 0.25</th>
+                  <td>No meaningful clusters</td>
+                  <td>Clustering may not be appropriate</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="business-context">Business Context and Domain Knowledge</h3>
+        <div id="business-context" class="dp-panel-content" hidden>
+          <p>Mathematical metrics are valuable, but business context should guide final decisions.</p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Customer segments</strong>: Consider marketing team's capacity</li>
+            <li class="list-group-item"><strong>Product categories</strong>: Align with existing taxonomy</li>
+            <li class="list-group-item"><strong>Resource constraints</strong>: More clusters = more complexity</li>
+            <li class="list-group-item"><strong>Interpretability</strong>: Ensure clusters have business meaning</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="K-means Strengths and Limitations">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-balance-scale" aria-hidden="true"></i>&nbsp;When to Use K-means</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="strengths">K-means Strengths</h3>
+        <div id="strengths" class="dp-panel-content" hidden>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="dp-card card h-100" style="border-left: 4px solid #34d399; padding-left: 12px;">
+                <div class="card-body">
+                  <h6 class="card-title">Computational Advantages</h6>
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Fast and scalable</li>
+                    <li class="list-group-item">Simple to implement</li>
+                    <li class="list-group-item">Memory efficient</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="dp-card card h-100" style="border-left: 4px solid #3b82f6; padding-left: 12px;">
+                <div class="card-body">
+                  <h6 class="card-title">Practical Benefits</h6>
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Well-understood algorithm</li>
+                    <li class="list-group-item">Deterministic results</li>
+                    <li class="list-group-item">Works with any distance metric</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="limitations">Important Limitations</h3>
+        <div id="limitations" class="dp-panel-content" hidden>
+          <div class="dp-card card" style="border-left: 4px solid #dc2626; padding-left: 12px;">
+            <div class="card-body">
+              <h6 class="card-title">When K-means Struggles</h6>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>Non-spherical clusters</strong>: Assumes circular/spherical cluster shapes</li>
+                <li class="list-group-item"><strong>Different cluster sizes</strong>: Prefers evenly-sized clusters</li>
+                <li class="list-group-item"><strong>Different densities</strong>: Can't handle varying cluster densities</li>
+                <li class="list-group-item"><strong>Outliers</strong>: Sensitive to extreme values</li>
+                <li class="list-group-item"><strong>Initialization</strong>: Different starting points can yield different results</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="alternatives">Alternative Clustering Methods</h3>
+        <div id="alternatives" class="dp-panel-content" hidden>
+          <p>When K-means isn't suitable, consider these alternatives:</p>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="dp-card card h-100">
+                <div class="card-body">
+                  <h6 class="card-title">Hierarchical Clustering</h6>
+                  <p>Creates tree of clusters. No need to specify K in advance. Good for exploring data structure.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="dp-card card h-100">
+                <div class="card-body">
+                  <h6 class="card-title">DBSCAN</h6>
+                  <p>Finds clusters of any shape. Handles outliers well. Density-based approach.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="Interactive: K-means Clustering">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive: K-means Clustering</h2>
+    <p class="mt-2"><em>Explore:</em> Watch K-means find customer segments in action. Adjust K and see how clustering changes.</p>
+    <div class="dp-embed-wrapper">
+      <iframe title="K-means Clustering Demonstration" role="application" src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/w3-kmeans-clustering.html" width="100%" height="580" loading="lazy" allowfullscreen aria-label="Interactive K-means clustering with customer segmentation data"></iframe>
+    </div>
+  </div>
+
+  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
+    <div class="card-body">
+      <h3 class="card-title">Pro Tip</h3>
+      <p class="card-text">Run K-means multiple times with different initializations and choose the result with lowest within-cluster sum of squares for more stable results.</p>
+    </div>
+  </div>
+
+  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-color-dp-primary dp-callout-type-warning">
+    <div class="dp-callout-side-emphasis"><i class="dp-icon fas fa-exclamation-triangle dp-default-icon" aria-hidden="true"></i></div>
+    <div class="card-body">
+      <h4 class="card-title">Remember</h4>
+      <p class="card-text">Always scale your features before applying K-means. Age (20-80) and income ($20K-$200K) need normalization to prevent income from dominating the clustering.</p>
+    </div>
+  </div>
+
+  <hr />
+  <p>Select <strong>Next▸</strong> to continue.</p>
+</div>
+
+<script>
+(function () {
+  function toggleHead(h){
+    const content = document.getElementById(h.getAttribute('aria-controls'));
+    const expanded = h.getAttribute('aria-expanded') === 'true';
+    h.setAttribute('aria-expanded', String(!expanded));
+    if (content) content.hidden = expanded;
+  }
+  document.addEventListener('click', function (e) {
+    const h = e.target.closest('.dp-panel-heading[role="button"]');
+    if (h) toggleHead(h);
+  });
+  document.addEventListener('keydown', function (e) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role="button"]')) {
+      e.preventDefault(); toggleHead(e.target);
+    }
+  });
+})();
+</script>

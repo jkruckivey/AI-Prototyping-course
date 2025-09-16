@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preprocessing Pipeline Effects</title>
+    <link rel="stylesheet" href="../shared-demo.css">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        .pipeline-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .pipeline-step {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-left: 4px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+
+        .pipeline-step.active {
+            border-left-color: #034638;
+            background: #f0f9f4;
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .step-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+        }
+
+        .step-number {
+            background: #034638;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .step-toggle {
+            background: none;
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .step-toggle.enabled {
+            background: #034638;
+            color: white;
+            border-color: #034638;
+        }
+
+        .step-controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .control-group label {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .control-input {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .control-input input[type="range"] {
+            flex: 1;
+        }
+
+        .control-input select {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+        }
+
+        .value-display {
+            background: #e7f3ff;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-weight: bold;
+            min-width: 50px;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+
+        .results-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .results-section {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .plot-container {
+            height: 300px;
+            margin: 0.5rem 0;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .metric-card {
+            background: #f8f9fa;
+            padding: 0.75rem;
+            border-radius: 6px;
+            text-align: center;
+            border: 1px solid #e5e7eb;
+        }
+
+        .metric-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #034638;
+        }
+
+        .metric-label {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 0.25rem;
+        }
+
+        .run-pipeline-btn {
+            background: #034638;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            width: 100%;
+            margin: 1rem 0;
+            transition: background 0.3s ease;
+        }
+
+        .run-pipeline-btn:hover {
+            background: #022c24;
+        }
+
+        .data-preview {
+            background: #f8f9fa;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: monospace;
+            font-size: 0.8rem;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .comparison-highlight {
+            background: #ddd6fe;
+            border: 2px solid #8b5cf6;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .comparison-highlight h4 {
+            color: #5b21b6;
+            margin: 0 0 0.5rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .results-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <div class="demo-header">
+            <h1>Preprocessing Pipeline Effects</h1>
+            <p>See how different preprocessing choices affect model performance in real-time</p>
+        </div>
+
+        <div class="comparison-highlight">
+            <h4>🎯 Experiment Goal</h4>
+            <p>Toggle different preprocessing steps on/off and see their impact on a customer churn prediction model. Watch how data quality changes affect accuracy!</p>
+        </div>
+
+        <div class="pipeline-container">
+            <!-- Step 1: Missing Data Handling -->
+            <div class="pipeline-step active" id="step-missing">
+                <div class="step-header">
+                    <div class="step-title">
+                        <div class="step-number">1</div>
+                        <h3>Missing Data Handling</h3>
+                    </div>
+                    <button class="step-toggle enabled" onclick="toggleStep('missing')" id="toggle-missing">Enabled</button>
+                </div>
+                <div class="step-controls">
+                    <div class="control-group">
+                        <label>Missing Data Strategy</label>
+                        <div class="control-input">
+                            <select id="missing-strategy" onchange="updatePipeline()">
+                                <option value="mean">Fill with Mean</option>
+                                <option value="median">Fill with Median</option>
+                                <option value="mode">Fill with Mode</option>
+                                <option value="drop">Drop Missing Rows</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label>Missing Data Amount (%)</label>
+                        <div class="control-input">
+                            <input type="range" id="missing-amount" min="0" max="30" value="15" onchange="updateMissingAmount(this.value)">
+                            <div class="value-display" id="missing-value">15%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Outlier Detection -->
+            <div class="pipeline-step active" id="step-outliers">
+                <div class="step-header">
+                    <div class="step-title">
+                        <div class="step-number">2</div>
+                        <h3>Outlier Detection & Treatment</h3>
+                    </div>
+                    <button class="step-toggle enabled" onclick="toggleStep('outliers')" id="toggle-outliers">Enabled</button>
+                </div>
+                <div class="step-controls">
+                    <div class="control-group">
+                        <label>Detection Method</label>
+                        <div class="control-input">
+                            <select id="outlier-method" onchange="updatePipeline()">
+                                <option value="iqr">IQR Method</option>
+                                <option value="zscore">Z-Score (±3σ)</option>
+                                <option value="isolation">Isolation Forest</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label>Treatment Strategy</label>
+                        <div class="control-input">
+                            <select id="outlier-treatment" onchange="updatePipeline()">
+                                <option value="remove">Remove Outliers</option>
+                                <option value="cap">Cap at Percentiles</option>
+                                <option value="transform">Log Transform</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: Feature Scaling -->
+            <div class="pipeline-step active" id="step-scaling">
+                <div class="step-header">
+                    <div class="step-title">
+                        <div class="step-number">3</div>
+                        <h3>Feature Scaling</h3>
+                    </div>
+                    <button class="step-toggle enabled" onclick="toggleStep('scaling')" id="toggle-scaling">Enabled</button>
+                </div>
+                <div class="step-controls">
+                    <div class="control-group">
+                        <label>Scaling Method</label>
+                        <div class="control-input">
+                            <select id="scaling-method" onchange="updatePipeline()">
+                                <option value="standard">StandardScaler (Z-score)</option>
+                                <option value="minmax">MinMaxScaler (0-1)</option>
+                                <option value="robust">RobustScaler (Median)</option>
+                                <option value="none">No Scaling</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4: Feature Selection -->
+            <div class="pipeline-step active" id="step-features">
+                <div class="step-header">
+                    <div class="step-title">
+                        <div class="step-number">4</div>
+                        <h3>Feature Selection</h3>
+                    </div>
+                    <button class="step-toggle enabled" onclick="toggleStep('features')" id="toggle-features">Enabled</button>
+                </div>
+                <div class="step-controls">
+                    <div class="control-group">
+                        <label>Selection Method</label>
+                        <div class="control-input">
+                            <select id="feature-method" onchange="updatePipeline()">
+                                <option value="correlation">Remove High Correlation</option>
+                                <option value="variance">Remove Low Variance</option>
+                                <option value="importance">Keep Top K Important</option>
+                                <option value="all">Keep All Features</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label>Features to Keep</label>
+                        <div class="control-input">
+                            <input type="range" id="features-count" min="3" max="10" value="7" onchange="updateFeatureCount(this.value)">
+                            <div class="value-display" id="features-value">7</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="run-pipeline-btn" onclick="runPipeline()">🔄 Run Preprocessing Pipeline</button>
+
+        <div class="results-container">
+            <div class="results-section">
+                <h3>Data Quality Metrics</h3>
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-value" id="rows-remaining">-</div>
+                        <div class="metric-label">Rows<br>Remaining</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="features-remaining">-</div>
+                        <div class="metric-label">Features<br>Remaining</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="missing-remaining">-</div>
+                        <div class="metric-label">Missing<br>Values</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="outliers-removed">-</div>
+                        <div class="metric-label">Outliers<br>Handled</div>
+                    </div>
+                </div>
+                <div class="plot-container" id="quality-plot"></div>
+            </div>
+
+            <div class="results-section">
+                <h3>Model Performance Impact</h3>
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-value" id="accuracy-score">-</div>
+                        <div class="metric-label">Accuracy<br>Score</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="precision-score">-</div>
+                        <div class="metric-label">Precision<br>Score</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="recall-score">-</div>
+                        <div class="metric-label">Recall<br>Score</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="f1-score">-</div>
+                        <div class="metric-label">F1<br>Score</div>
+                    </div>
+                </div>
+                <div class="plot-container" id="performance-plot"></div>
+            </div>
+        </div>
+
+        <div class="data-preview" id="data-preview">
+            <strong>Pipeline Status:</strong> Ready to run preprocessing pipeline...
+        </div>
+    </div>
+
+    <script>
+        let pipelineConfig = {
+            missing: { enabled: true, strategy: 'mean', amount: 15 },
+            outliers: { enabled: true, method: 'iqr', treatment: 'remove' },
+            scaling: { enabled: true, method: 'standard' },
+            features: { enabled: true, method: 'correlation', count: 7 }
+        };
+
+        let originalData = generateSampleData();
+        let processedData = null;
+        let performanceHistory = [];
+
+        function generateSampleData() {
+            const data = [];
+            const features = ['Age', 'Income', 'Tenure', 'Calls', 'Complaints', 'Satisfaction', 'Bills', 'Usage', 'Support', 'Loyalty'];
+
+            for(let i = 0; i < 1000; i++) {
+                const age = 25 + Math.random() * 40;
+                const income = 30000 + age * 1000 + Math.random() * 20000;
+                const tenure = Math.random() * 60;
+                const calls = 5 + Math.random() * 15;
+                const complaints = Math.random() < 0.3 ? Math.floor(Math.random() * 5) : 0;
+                const satisfaction = Math.max(1, Math.min(10, 7 - complaints + Math.random() * 3));
+                const bills = income * 0.05 + Math.random() * 100;
+                const usage = 50 + Math.random() * 200;
+                const support = complaints * 2 + Math.random() * 5;
+                const loyalty = Math.max(0, Math.min(100, satisfaction * 10 + tenure - complaints * 10 + Math.random() * 20));
+
+                // Introduce some noise and outliers
+                const outlierChance = Math.random();
+                const row = [
+                    age + (outlierChance < 0.05 ? Math.random() * 100 : 0),
+                    income + (outlierChance < 0.03 ? Math.random() * 100000 : 0),
+                    tenure,
+                    calls,
+                    complaints,
+                    satisfaction,
+                    bills,
+                    usage,
+                    support,
+                    loyalty
+                ];
+
+                // Add some missing values
+                row.forEach((val, idx) => {
+                    if(Math.random() < pipelineConfig.missing.amount / 100) {
+                        row[idx] = null;
+                    }
+                });
+
+                data.push(row);
+            }
+
+            return data;
+        }
+
+        function toggleStep(stepName) {
+            pipelineConfig[stepName].enabled = !pipelineConfig[stepName].enabled;
+            const toggle = document.getElementById(`toggle-${stepName}`);
+            const step = document.getElementById(`step-${stepName}`);
+
+            if(pipelineConfig[stepName].enabled) {
+                toggle.textContent = 'Enabled';
+                toggle.classList.add('enabled');
+                step.classList.add('active');
+            } else {
+                toggle.textContent = 'Disabled';
+                toggle.classList.remove('enabled');
+                step.classList.remove('active');
+            }
+        }
+
+        function updateMissingAmount(value) {
+            pipelineConfig.missing.amount = parseInt(value);
+            document.getElementById('missing-value').textContent = value + '%';
+            originalData = generateSampleData();
+        }
+
+        function updateFeatureCount(value) {
+            pipelineConfig.features.count = parseInt(value);
+            document.getElementById('features-value').textContent = value;
+        }
+
+        function updatePipeline() {
+            pipelineConfig.missing.strategy = document.getElementById('missing-strategy').value;
+            pipelineConfig.outliers.method = document.getElementById('outlier-method').value;
+            pipelineConfig.outliers.treatment = document.getElementById('outlier-treatment').value;
+            pipelineConfig.scaling.method = document.getElementById('scaling-method').value;
+            pipelineConfig.features.method = document.getElementById('feature-method').value;
+        }
+
+        function simulatePreprocessing(data) {
+            let result = JSON.parse(JSON.stringify(data)); // Deep copy
+            let stats = {
+                originalRows: data.length,
+                originalFeatures: data[0].length,
+                missingHandled: 0,
+                outliersRemoved: 0,
+                finalRows: 0,
+                finalFeatures: 0
+            };
+
+            // Step 1: Handle missing data
+            if(pipelineConfig.missing.enabled) {
+                const strategy = pipelineConfig.missing.strategy;
+                result = result.filter(row => {
+                    const missingCount = row.filter(val => val === null).length;
+                    return strategy === 'drop' ? missingCount === 0 : true;
+                });
+
+                if(strategy !== 'drop') {
+                    // Fill missing values (simplified simulation)
+                    result.forEach(row => {
+                        row.forEach((val, idx) => {
+                            if(val === null) {
+                                row[idx] = 50 + Math.random() * 20; // Simulated fill
+                                stats.missingHandled++;
+                            }
+                        });
+                    });
+                }
+            }
+
+            // Step 2: Handle outliers
+            if(pipelineConfig.outliers.enabled) {
+                const treatment = pipelineConfig.outliers.treatment;
+                if(treatment === 'remove') {
+                    const initialLength = result.length;
+                    result = result.filter(() => Math.random() > 0.05); // Remove ~5% as outliers
+                    stats.outliersRemoved = initialLength - result.length;
+                }
+            }
+
+            // Step 3: Feature scaling (doesn't change dimensions)
+
+            // Step 4: Feature selection
+            if(pipelineConfig.features.enabled && pipelineConfig.features.method !== 'all') {
+                const keepCount = Math.min(pipelineConfig.features.count, result[0].length);
+                result = result.map(row => row.slice(0, keepCount));
+            }
+
+            stats.finalRows = result.length;
+            stats.finalFeatures = result[0].length;
+            stats.missingRemaining = 0; // After preprocessing
+
+            return { data: result, stats };
+        }
+
+        function simulateModelPerformance(processedStats) {
+            // Simulate how preprocessing affects model performance
+            let accuracy = 0.75; // Base accuracy
+            let precision = 0.73;
+            let recall = 0.77;
+
+            // Missing data handling impact
+            if(pipelineConfig.missing.enabled) {
+                const strategy = pipelineConfig.missing.strategy;
+                const missingAmount = pipelineConfig.missing.amount;
+                if(strategy === 'drop' && missingAmount > 20) {
+                    accuracy -= 0.05; // Losing too much data hurts
+                } else {
+                    accuracy += 0.03; // Proper handling helps
+                }
+            } else {
+                accuracy -= 0.08 * (pipelineConfig.missing.amount / 100); // Missing data hurts
+            }
+
+            // Outlier handling impact
+            if(pipelineConfig.outliers.enabled) {
+                accuracy += 0.04; // Removing outliers helps
+                precision += 0.03;
+            } else {
+                accuracy -= 0.03; // Outliers hurt performance
+            }
+
+            // Scaling impact
+            if(pipelineConfig.scaling.enabled) {
+                const method = pipelineConfig.scaling.method;
+                if(method !== 'none') {
+                    accuracy += 0.02; // Scaling helps most algorithms
+                }
+            }
+
+            // Feature selection impact
+            if(pipelineConfig.features.enabled) {
+                const method = pipelineConfig.features.method;
+                if(method !== 'all') {
+                    accuracy += 0.025; // Removing noise helps
+                    precision += 0.02;
+                } else if(processedStats.finalFeatures > 8) {
+                    accuracy -= 0.01; // Too many features can hurt
+                }
+            }
+
+            // Add some random variation
+            accuracy += (Math.random() - 0.5) * 0.02;
+            precision += (Math.random() - 0.5) * 0.02;
+            recall += (Math.random() - 0.5) * 0.02;
+
+            // Keep values in reasonable range
+            accuracy = Math.max(0.5, Math.min(0.95, accuracy));
+            precision = Math.max(0.5, Math.min(0.95, precision));
+            recall = Math.max(0.5, Math.min(0.95, recall));
+
+            const f1 = 2 * (precision * recall) / (precision + recall);
+
+            return { accuracy, precision, recall, f1 };
+        }
+
+        function runPipeline() {
+            const result = simulatePreprocessing(originalData);
+            processedData = result.data;
+            const stats = result.stats;
+
+            // Update data quality metrics
+            document.getElementById('rows-remaining').textContent = stats.finalRows.toLocaleString();
+            document.getElementById('features-remaining').textContent = stats.finalFeatures;
+            document.getElementById('missing-remaining').textContent = stats.missingRemaining;
+            document.getElementById('outliers-removed').textContent = stats.outliersRemoved;
+
+            // Simulate model performance
+            const performance = simulateModelPerformance(stats);
+            performanceHistory.push(performance);
+
+            // Update performance metrics
+            document.getElementById('accuracy-score').textContent = (performance.accuracy * 100).toFixed(1) + '%';
+            document.getElementById('precision-score').textContent = (performance.precision * 100).toFixed(1) + '%';
+            document.getElementById('recall-score').textContent = (performance.recall * 100).toFixed(1) + '%';
+            document.getElementById('f1-score').textContent = (performance.f1 * 100).toFixed(1) + '%';
+
+            // Update plots
+            plotQualityMetrics(stats);
+            plotPerformanceHistory();
+
+            // Update preview
+            updateDataPreview(stats);
+        }
+
+        function plotQualityMetrics(stats) {
+            const trace = {
+                x: ['Original Rows', 'After Missing', 'After Outliers', 'Final Rows'],
+                y: [stats.originalRows, stats.originalRows - 50, stats.finalRows + stats.outliersRemoved, stats.finalRows],
+                type: 'bar',
+                marker: {
+                    color: ['#034638', '#3b82f6', '#f59e0b', '#10b981']
+                }
+            };
+
+            const layout = {
+                title: 'Data Processing Flow',
+                xaxis: { title: 'Processing Stage' },
+                yaxis: { title: 'Number of Rows' },
+                margin: { t: 40, r: 20, b: 60, l: 50 }
+            };
+
+            Plotly.newPlot('quality-plot', [trace], layout, {responsive: true});
+        }
+
+        function plotPerformanceHistory() {
+            if(performanceHistory.length === 0) return;
+
+            const recent = performanceHistory.slice(-10); // Show last 10 runs
+
+            const traces = [
+                {
+                    x: recent.map((_, i) => `Run ${i + 1}`),
+                    y: recent.map(p => p.accuracy * 100),
+                    name: 'Accuracy',
+                    type: 'scatter',
+                    mode: 'lines+markers',
+                    line: { color: '#034638' }
+                },
+                {
+                    x: recent.map((_, i) => `Run ${i + 1}`),
+                    y: recent.map(p => p.f1 * 100),
+                    name: 'F1 Score',
+                    type: 'scatter',
+                    mode: 'lines+markers',
+                    line: { color: '#e74c3c' }
+                }
+            ];
+
+            const layout = {
+                title: 'Performance Over Runs',
+                xaxis: { title: 'Pipeline Run' },
+                yaxis: { title: 'Score (%)' },
+                margin: { t: 40, r: 20, b: 60, l: 50 },
+                showlegend: true
+            };
+
+            Plotly.newPlot('performance-plot', traces, layout, {responsive: true});
+        }
+
+        function updateDataPreview(stats) {
+            const enabledSteps = Object.entries(pipelineConfig)
+                .filter(([key, config]) => config.enabled)
+                .map(([key]) => key)
+                .join(', ');
+
+            const preview = `Pipeline Configuration:
+✓ Enabled Steps: ${enabledSteps}
+📊 Data Flow: ${stats.originalRows.toLocaleString()} → ${stats.finalRows.toLocaleString()} rows
+🔧 Features: ${stats.originalFeatures} → ${stats.finalFeatures} features
+🎯 Data Quality: ${stats.missingHandled} missing values handled, ${stats.outliersRemoved} outliers removed
+
+Impact: ${stats.finalRows < stats.originalRows * 0.7 ? '⚠️  Significant data loss' : '✅ Good data retention'}`;
+
+            document.getElementById('data-preview').innerHTML = preview.replace(/\n/g, '<br>');
+        }
+
+        // Initialize plots
+        Plotly.newPlot('quality-plot', [], {
+            title: 'Data Processing Flow - Run pipeline to see results',
+            margin: { t: 40, r: 20, b: 60, l: 50 }
+        }, {responsive: true});
+
+        Plotly.newPlot('performance-plot', [], {
+            title: 'Performance Over Runs - Run pipeline to see results',
+            margin: { t: 40, r: 20, b: 60, l: 50 }
+        }, {responsive: true});
+    </script>
+</body>
+</html>

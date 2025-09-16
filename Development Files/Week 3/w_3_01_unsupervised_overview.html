@@ -1,0 +1,236 @@
+<div id="dp-wrapper" class="dp-wrapper">
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+
+  <div class="dp-content-block content-block" data-title="Introduction to Unsupervised Learning">
+    <h1 class="dp-has-icon"><i class="dp-icon fas fa-search" aria-hidden="true"></i>&nbsp;Introduction to Unsupervised Learning</h1>
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+      <div class="card-body">
+        <h5 class="card-title dp-ignore-theme">What this page covers</h5>
+        <p>Discover patterns without labels: clustering, dimensionality reduction, and association rules. Learn when to use unsupervised methods and how they differ from supervised learning.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="Learning Outcomes (This Page)" data-category="Learning Outcomes">
+    <h3 class="dp-has-icon"><i class="dp-icon fas fa-bullseye" aria-hidden="true"></i> Learning Outcomes</h3>
+    <ol>
+      <li>Distinguish unsupervised learning from supervised learning approaches.</li>
+      <li>Identify the main categories of unsupervised learning: clustering, dimensionality reduction, and association rules.</li>
+      <li>Explain when unsupervised methods are valuable for business applications.</li>
+    </ol>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="Supervised vs Unsupervised Learning">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-balance-scale" aria-hidden="true"></i>&nbsp;Supervised vs Unsupervised Learning</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="supervised-recap">Supervised Learning Recap</h3>
+        <div id="supervised-recap" class="dp-panel-content" hidden>
+          <p>With supervised learning, we have <strong>labeled data</strong> - both input features and target outputs are known. The goal is to learn a mapping function that predicts targets for new, unseen inputs.</p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Classification</strong>: Predict categories (spam/not spam, approve/deny)</li>
+            <li class="list-group-item"><strong>Regression</strong>: Predict continuous values (price, demand, time)</li>
+            <li class="list-group-item"><strong>Training process</strong>: Algorithm learns from examples with known correct answers</li>
+          </ul>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="unsupervised-intro">Unsupervised Learning: No Labels Required</h3>
+        <div id="unsupervised-intro" class="dp-panel-content" hidden>
+          <p>Unsupervised learning works with <strong>unlabeled data</strong> - only input features are available, no target outputs. The goal is to discover hidden patterns, structures, or relationships in the data.</p>
+          <div class="table-responsive">
+            <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Comparison of supervised vs unsupervised learning">
+              <thead>
+                <tr>
+                  <th>Aspect</th>
+                  <th>Supervised Learning</th>
+                  <th>Unsupervised Learning</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Data Requirements</th>
+                  <td>Labeled examples (X, y)</td>
+                  <td>Unlabeled data (X only)</td>
+                </tr>
+                <tr>
+                  <th scope="row">Goal</th>
+                  <td>Predict target for new inputs</td>
+                  <td>Discover hidden patterns</td>
+                </tr>
+                <tr>
+                  <th scope="row">Validation</th>
+                  <td>Compare predictions to known answers</td>
+                  <td>Domain expertise, visualization, metrics</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="Categories of Unsupervised Learning">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-sitemap" aria-hidden="true"></i>&nbsp;Categories of Unsupervised Learning</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="clustering">Clustering: Finding Groups</h3>
+        <div id="clustering" class="dp-panel-content" hidden>
+          <div class="row">
+            <div class="col-md-8">
+              <p>Group similar data points together without knowing the groups in advance. Discover natural segments in your data.</p>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>Customer segmentation</strong>: Group customers by purchasing behavior</li>
+                <li class="list-group-item"><strong>Market research</strong>: Identify distinct consumer segments</li>
+                <li class="list-group-item"><strong>Anomaly detection</strong>: Find outliers that don't fit any cluster</li>
+              </ul>
+            </div>
+            <div class="col-md-4">
+              <div class="dp-card card" style="background-color:#f8f9fa; border:1px solid #dee2e6;">
+                <div class="card-body">
+                  <h6 class="card-title">Key Algorithm</h6>
+                  <p class="mb-0"><strong>K-means</strong>: Most popular clustering method</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="dimensionality">Dimensionality Reduction: Simplifying Complexity</h3>
+        <div id="dimensionality" class="dp-panel-content" hidden>
+          <div class="row">
+            <div class="col-md-8">
+              <p>Reduce the number of features while preserving important information. Essential for high-dimensional data and visualization.</p>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>Data visualization</strong>: Plot high-dimensional data in 2D/3D</li>
+                <li class="list-group-item"><strong>Noise reduction</strong>: Remove irrelevant features</li>
+                <li class="list-group-item"><strong>Storage efficiency</strong>: Compress data with minimal information loss</li>
+              </ul>
+            </div>
+            <div class="col-md-4">
+              <div class="dp-card card" style="background-color:#f8f9fa; border:1px solid #dee2e6;">
+                <div class="card-body">
+                  <h6 class="card-title">Key Algorithm</h6>
+                  <p class="mb-0"><strong>PCA</strong>: Principal Component Analysis</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="association">Association Rules: Finding Relationships</h3>
+        <div id="association" class="dp-panel-content" hidden>
+          <div class="row">
+            <div class="col-md-8">
+              <p>Discover relationships between different items or events. Find patterns like "if A, then B" in transactional data.</p>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>Market basket analysis</strong>: "People who buy X also buy Y"</li>
+                <li class="list-group-item"><strong>Recommendation systems</strong>: Suggest related products</li>
+                <li class="list-group-item"><strong>Web analytics</strong>: Pages visited together in sessions</li>
+              </ul>
+            </div>
+            <div class="col-md-4">
+              <div class="dp-card card" style="background-color:#f8f9fa; border:1px solid #dee2e6;">
+                <div class="card-body">
+                  <h6 class="card-title">Key Concept</h6>
+                  <p class="mb-0"><strong>Support & Confidence</strong>: Measure rule strength</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="When to Use Unsupervised Learning">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-compass" aria-hidden="true"></i>&nbsp;When to Use Unsupervised Learning</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="exploration">Data Exploration & Understanding</h3>
+        <div id="exploration" class="dp-panel-content" hidden>
+          <p>Start with unsupervised methods when you need to understand your data structure before building predictive models.</p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Explore new datasets to understand patterns</li>
+            <li class="list-group-item">Identify natural groupings in customer bases</li>
+            <li class="list-group-item">Reduce complex data to key dimensions for visualization</li>
+            <li class="list-group-item">Detect outliers and data quality issues</li>
+          </ul>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="no-labels">When Labels Are Expensive or Unavailable</h3>
+        <div id="no-labels" class="dp-panel-content" hidden>
+          <p>Many business scenarios lack labeled data or acquiring labels is too costly.</p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Medical diagnosis</strong>: Limited expert annotations available</li>
+            <li class="list-group-item"><strong>Fraud detection</strong>: Most transactions are normal, few fraud examples</li>
+            <li class="list-group-item"><strong>Content analysis</strong>: Manual labeling of documents is time-intensive</li>
+            <li class="list-group-item"><strong>Market research</strong>: Customer segments unknown in advance</li>
+          </ul>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="preprocessing">Preprocessing for Supervised Learning</h3>
+        <div id="preprocessing" class="dp-panel-content" hidden>
+          <p>Use unsupervised methods to improve supervised learning performance.</p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Feature engineering</strong>: Create better features through PCA</li>
+            <li class="list-group-item"><strong>Data cleaning</strong>: Remove outliers identified by clustering</li>
+            <li class="list-group-item"><strong>Curse of dimensionality</strong>: Reduce features before classification</li>
+            <li class="list-group-item"><strong>Class imbalance</strong>: Generate synthetic samples using clusters</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="Interactive: Concept Matching">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive: Match Concepts to Applications</h2>
+    <p class="mt-2"><em>Try it:</em> Match unsupervised learning approaches to their best business applications. Test your understanding of key concepts.</p>
+    <div class="dp-embed-wrapper">
+      <iframe title="Unsupervised Learning Concepts Matcher" role="application" src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/w3-unsupervised-concepts.html" width="100%" height="580" loading="lazy" allowfullscreen aria-label="Interactive matching game for unsupervised learning concepts and business applications"></iframe>
+    </div>
+  </div>
+
+  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
+    <div class="card-body">
+      <h3 class="card-title">Key Insight</h3>
+      <p class="card-text">Unsupervised learning is often the starting point for data science projects. Use it to understand your data structure, then decide if supervised methods are needed.</p>
+    </div>
+  </div>
+
+  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-color-dp-primary dp-callout-type-warning">
+    <div class="dp-callout-side-emphasis"><i class="dp-icon fas fa-exclamation-triangle dp-default-icon" aria-hidden="true"></i></div>
+    <div class="card-body">
+      <h4 class="card-title">Challenge Ahead</h4>
+      <p class="card-text">Without ground truth labels, validating unsupervised results requires domain expertise and careful interpretation of metrics.</p>
+    </div>
+  </div>
+
+  <hr />
+  <p>Select <strong>Next▸</strong> to continue.</p>
+</div>
+
+<script>
+(function () {
+  function toggleHead(h){
+    const content = document.getElementById(h.getAttribute('aria-controls'));
+    const expanded = h.getAttribute('aria-expanded') === 'true';
+    h.setAttribute('aria-expanded', String(!expanded));
+    if (content) content.hidden = expanded;
+  }
+  document.addEventListener('click', function (e) {
+    const h = e.target.closest('.dp-panel-heading[role="button"]');
+    if (h) toggleHead(h);
+  });
+  document.addEventListener('keydown', function (e) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role="button"]')) {
+      e.preventDefault(); toggleHead(e.target);
+    }
+  });
+})();
+</script>

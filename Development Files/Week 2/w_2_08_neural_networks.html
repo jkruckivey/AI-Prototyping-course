@@ -1,0 +1,134 @@
+<div id="dp-wrapper" class="dp-wrapper">
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+
+  <div class="dp-content-block content-block" data-title="Neural Networks: Perceptron → MLP">
+    <h1 class="dp-has-icon"><i class="dp-icon fas fa-project-diagram" aria-hidden="true"></i>&nbsp;Neural Networks: Perceptron → MLP</h1>
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+      <div class="card-body">
+        <h5 class="card-title dp-ignore-theme">What this page covers</h5>
+        <p>How simple <strong>perceptrons</strong> combine into <strong>multi‑layer perceptrons (MLPs)</strong>, why <strong>activations</strong> like sigmoid and ReLU matter, and how networks extend to <strong>multi‑class outputs</strong>.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="Learning Outcomes (This Page)" data-category="Learning Outcomes">
+    <h3 class="dp-has-icon"><i class="dp-icon fas fa-bullseye" aria-hidden="true"></i> Learning Outcomes</h3>
+    <ol>
+      <li>Describe a single perceptron (weights, bias, activation) and what it can compute.</li>
+      <li>Explain how stacking perceptrons forms <strong>hidden layers</strong> capable of modeling non‑linear functions.</li>
+      <li>Identify common <strong>activation functions</strong> and how they affect learning.</li>
+      <li>Outline how neural nets handle <strong>multi‑class classification</strong> (softmax outputs).</li>
+    </ol>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="The Perceptron">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-circle"></i>&nbsp;The Perceptron</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="nn-perc">Single neuron</h3>
+        <div id="nn-perc" class="dp-panel-content" hidden>
+          <p>A perceptron takes weighted inputs + bias, applies an activation, and outputs a decision. With step or sigmoid activations, a single perceptron can model simple functions like <strong>AND/OR</strong>.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="nn-limit">Limits</h3>
+        <div id="nn-limit" class="dp-panel-content" hidden>
+          <p>A single perceptron cannot solve problems like XOR—it needs <strong>hidden layers</strong> for non‑linear separation.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="From Perceptron to MLP">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-layer-group" aria-hidden="true"></i>&nbsp;From Perceptron to MLP</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="mlp-stack">Stacking layers</h3>
+        <div id="mlp-stack" class="dp-panel-content" hidden>
+          <p>By stacking perceptrons into <strong>layers</strong>, the network can build hierarchical representations: early layers combine raw features, later layers detect patterns and interactions.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="mlp-act">Activation functions</h3>
+        <div id="mlp-act" class="dp-panel-content" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Sigmoid</strong>: maps to 0–1; good for probabilities but saturates (vanishing gradients).</li>
+            <li class="list-group-item"><strong>ReLU</strong>: faster training, sparse activations; standard for hidden layers.</li>
+            <li class="list-group-item"><strong>Softmax</strong>: turns outputs into class probabilities; used for multi‑class classification.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="mlp-train">Training basics</h3>
+        <div id="mlp-train" class="dp-panel-content" hidden>
+          <p>Training uses <strong>backpropagation</strong> to update weights layer‑by‑layer, minimizing a loss function. Gradient descent drives learning.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="Interactive: Perceptron Playground">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive: Perceptron Playground</h2>
+    <p class="mt-2"><em>Try it:</em> Toggle weights and activation functions to see how a perceptron can (or can’t) separate data. Then add a hidden layer and observe how decision boundaries improve.</p>
+    <div class="dp-embed-wrapper">
+      <iframe title="Perceptron Playground" role="application" src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/w2-perceptron-playground.html" width="100%" height="560" loading="lazy" allowfullscreen aria-label="Interactive demo to adjust perceptron weights, add hidden layers, and visualize decision boundaries"></iframe>
+    </div>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="Scaling Up & Use Cases">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-bolt" aria-hidden="true"></i>&nbsp;Scaling Up & Use Cases</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="nn-use">Where neural nets shine</h3>
+        <div id="nn-use" class="dp-panel-content" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Image and speech recognition (deep CNNs, RNNs).</li>
+            <li class="list-group-item">Complex, non‑linear patterns where manual features fail.</li>
+            <li class="list-group-item">Large datasets with compute resources available.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="nn-limits">Limits & cautions</h3>
+        <div id="nn-limits" class="dp-panel-content" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Require significant data + compute.</li>
+            <li class="list-group-item">Harder to interpret than trees/logistic regression.</li>
+            <li class="list-group-item">Risk of overfitting small datasets.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
+    <div class="card-body">
+      <h3 class="card-title">Helpful Tip</h3>
+      <p class="card-text">Before going deep, always benchmark against simpler baselines (logistic regression, trees). Use neural nets when non‑linear complexity truly adds value.</p>
+    </div>
+  </div>
+
+  <hr />
+  <p>Select <strong>Next▸</strong> to continue.</p>
+</div>
+
+<!-- Canvas‑safe toggling -->
+<script>
+(function () {
+  function toggleHead(h){
+    const content = document.getElementById(h.getAttribute('aria-controls'));
+    const expanded = h.getAttribute('aria-expanded') === 'true';
+    h.setAttribute('aria-expanded', String(!expanded));
+    if (content) content.hidden = expanded;
+  }
+  document.addEventListener('click', function (e) {
+    const h = e.target.closest('.dp-panel-heading[role=\"button\"]');
+    if (h) toggleHead(h);
+  });
+  document.addEventListener('keydown', function (e) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role=\"button\"]')) {
+      e.preventDefault(); toggleHead(e.target);
+    }
+  });
+})();
+</script>

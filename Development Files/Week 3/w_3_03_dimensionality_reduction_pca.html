@@ -1,0 +1,409 @@
+<div id="dp-wrapper" class="dp-wrapper">
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+
+  <div class="dp-content-block content-block" data-title="PCA and Dimensionality Reduction">
+    <h1 class="dp-has-icon"><i class="dp-icon fas fa-compress-arrows-alt" aria-hidden="true"></i>&nbsp;PCA & Dimensionality Reduction</h1>
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+      <div class="card-body">
+        <h5 class="card-title dp-ignore-theme">What this page covers</h5>
+        <p>Understand the curse of dimensionality, master Principal Component Analysis (PCA), and learn when and how to reduce feature dimensions while preserving information.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="Learning Outcomes (This Page)" data-category="Learning Outcomes">
+    <h3 class="dp-has-icon"><i class="dp-icon fas fa-bullseye" aria-hidden="true"></i> Learning Outcomes</h3>
+    <ol>
+      <li>Explain the curse of dimensionality and its impact on machine learning algorithms.</li>
+      <li>Understand how PCA works and interpret principal components and explained variance.</li>
+      <li>Apply dimensionality reduction techniques appropriately for visualization and preprocessing.</li>
+    </ol>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="The Curse of Dimensionality">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;Why Too Many Features Hurt Performance</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="curse-explanation">What is the Curse of Dimensionality?</h3>
+        <div id="curse-explanation" class="dp-panel-content" hidden>
+          <p>As the number of features (dimensions) increases, several problems emerge that make machine learning more difficult:</p>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="dp-card card h-100" style="border-left: 4px solid #dc2626; padding-left: 12px;">
+                <div class="card-body">
+                  <h6 class="card-title">Sparsity Problem</h6>
+                  <p>Data points become increasingly sparse in high-dimensional space. Even large datasets seem "empty" with many features.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="dp-card card h-100" style="border-left: 4px solid #dc2626; padding-left: 12px;">
+                <div class="card-body">
+                  <h6 class="card-title">Distance Concentration</h6>
+                  <p>All points become equidistant in high dimensions. Nearest neighbors become less meaningful.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="curse-impact">Impact on Machine Learning</h3>
+        <div id="curse-impact" class="dp-panel-content" hidden>
+          <div class="table-responsive">
+            <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Impact of high dimensionality on algorithms">
+              <thead>
+                <tr>
+                  <th>Algorithm</th>
+                  <th>Problem</th>
+                  <th>Solution</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">K-Nearest Neighbors</th>
+                  <td>Distance calculations become meaningless</td>
+                  <td>Reduce dimensions before clustering</td>
+                </tr>
+                <tr>
+                  <th scope="row">Linear Regression</th>
+                  <td>Overfitting with many features</td>
+                  <td>Feature selection or regularization</td>
+                </tr>
+                <tr>
+                  <th scope="row">Decision Trees</th>
+                  <td>Many irrelevant splits possible</td>
+                  <td>Feature importance ranking</td>
+                </tr>
+                <tr>
+                  <th scope="row">Visualization</th>
+                  <td>Cannot plot more than 3 dimensions</td>
+                  <td>Project to 2D/3D with PCA</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="rule-of-thumb">The 10:1 Rule of Thumb</h3>
+        <div id="rule-of-thumb" class="dp-panel-content" hidden>
+          <p>A general guideline for avoiding dimensionality problems:</p>
+          <div class="dp-card card" style="background-color:#e7f3ff; border:1px solid #b3d9ff;">
+            <div class="card-body text-center">
+              <h5 class="card-title">Have at least 10 samples per feature</h5>
+              <p class="mb-0">100 features? Need ≥1000 data points for reliable results</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="Principal Component Analysis (PCA)">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-project-diagram" aria-hidden="true"></i>&nbsp;How PCA Works</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="pca-intuition">The Core Idea</h3>
+        <div id="pca-intuition" class="dp-panel-content" hidden>
+          <p>PCA finds the directions in your data with the most variation, then projects data onto these principal components.</p>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="dp-card card h-100" style="border-left: 4px solid #3b82f6; padding-left: 12px;">
+                <div class="card-body">
+                  <h6 class="card-title">Step 1: Find Variance</h6>
+                  <p class="mb-0">Identify directions with maximum data spread</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="dp-card card h-100" style="border-left: 4px solid #10b981; padding-left: 12px;">
+                <div class="card-body">
+                  <h6 class="card-title">Step 2: Project</h6>
+                  <p class="mb-0">Transform data onto principal components</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="dp-card card h-100" style="border-left: 4px solid #f59e0b; padding-left: 12px;">
+                <div class="card-body">
+                  <h6 class="card-title">Step 3: Select</h6>
+                  <p class="mb-0">Keep components explaining most variance</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="pca-process">Mathematical Process</h3>
+        <div id="pca-process" class="dp-panel-content" hidden>
+          <p>PCA uses linear algebra to find optimal projections:</p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Standardize</strong>: Center data (subtract mean) and scale to unit variance</li>
+            <li class="list-group-item"><strong>Covariance matrix</strong>: Calculate relationships between all feature pairs</li>
+            <li class="list-group-item"><strong>Eigendecomposition</strong>: Find eigenvectors (directions) and eigenvalues (importance)</li>
+            <li class="list-group-item"><strong>Sort components</strong>: Order by eigenvalue size (explained variance)</li>
+            <li class="list-group-item"><strong>Transform</strong>: Project original data onto selected components</li>
+          </ul>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="explained-variance">Explained Variance</h3>
+        <div id="explained-variance" class="dp-panel-content" hidden>
+          <p>Each principal component captures a portion of the total data variance. This helps decide how many components to keep.</p>
+          <div class="table-responsive">
+            <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Example explained variance by component">
+              <thead>
+                <tr>
+                  <th>Component</th>
+                  <th>Individual Variance %</th>
+                  <th>Cumulative Variance %</th>
+                  <th>Interpretation</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">PC1</th>
+                  <td>65%</td>
+                  <td>65%</td>
+                  <td>Most important pattern</td>
+                </tr>
+                <tr>
+                  <th scope="row">PC2</th>
+                  <td>20%</td>
+                  <td>85%</td>
+                  <td>Second most important</td>
+                </tr>
+                <tr>
+                  <th scope="row">PC3</th>
+                  <td>10%</td>
+                  <td>95%</td>
+                  <td>Minor pattern</td>
+                </tr>
+                <tr>
+                  <th scope="row">PC4+</th>
+                  <td>5%</td>
+                  <td>100%</td>
+                  <td>Mostly noise</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="Applying PCA Effectively">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-tools" aria-hidden="true"></i>&nbsp;PCA Best Practices</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="choosing-components">How Many Components to Keep?</h3>
+        <div id="choosing-components" class="dp-panel-content" hidden>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="dp-card card h-100">
+                <div class="card-body">
+                  <h6 class="card-title">Cumulative Variance Threshold</h6>
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">80-85%: Exploratory analysis</li>
+                    <li class="list-group-item">90-95%: Most applications</li>
+                    <li class="list-group-item">95%+: High precision needed</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="dp-card card h-100">
+                <div class="card-body">
+                  <h6 class="card-title">Elbow Method</h6>
+                  <p>Plot explained variance vs component number. Look for the "elbow" where variance gains diminish.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="preprocessing">Critical: Data Preprocessing</h3>
+        <div id="preprocessing" class="dp-panel-content" hidden>
+          <div class="dp-card card" style="border-left: 4px solid #f59e0b; padding-left: 12px;">
+            <div class="card-body">
+              <h6 class="card-title">Always Standardize First</h6>
+              <p>PCA is sensitive to feature scales. Without standardization, features with larger values dominate components.</p>
+              <div class="row mt-3">
+                <div class="col-md-6">
+                  <strong>❌ Wrong</strong>
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Age: 25-65</li>
+                    <li class="list-group-item">Income: $30K-$150K</li>
+                    <li class="list-group-item">PC1 dominated by income</li>
+                  </ul>
+                </div>
+                <div class="col-md-6">
+                  <strong>✅ Correct</strong>
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Age: -1.2 to +1.8</li>
+                    <li class="list-group-item">Income: -0.8 to +2.1</li>
+                    <li class="list-group-item">PC1 captures real patterns</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="interpretation">Interpreting Components</h3>
+        <div id="interpretation" class="dp-panel-content" hidden>
+          <p>Principal components are linear combinations of original features. Understanding what they represent is crucial:</p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Loading values</strong>: How much each original feature contributes to a component</li>
+            <li class="list-group-item"><strong>Positive/negative signs</strong>: Features move together (+) or opposite directions (-)</li>
+            <li class="list-group-item"><strong>Magnitude</strong>: Larger absolute values = more influence on component</li>
+            <li class="list-group-item"><strong>Business meaning</strong>: Can you give components intuitive names?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="PCA Use Cases and Alternatives">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-map-marked-alt" aria-hidden="true"></i>&nbsp;When and How to Use PCA</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="pca-applications">Common PCA Applications</h3>
+        <div id="pca-applications" class="dp-panel-content" hidden>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="dp-card card h-100" style="border-left: 4px solid #10b981; padding-left: 12px;">
+                <div class="card-body">
+                  <h6 class="card-title">Data Visualization</h6>
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Plot high-dimensional data in 2D/3D</li>
+                    <li class="list-group-item">Identify clusters and outliers</li>
+                    <li class="list-group-item">Communicate patterns to stakeholders</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="dp-card card h-100" style="border-left: 4px solid #3b82f6; padding-left: 12px;">
+                <div class="card-body">
+                  <h6 class="card-title">Preprocessing</h6>
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Reduce features before modeling</li>
+                    <li class="list-group-item">Remove multicollinearity</li>
+                    <li class="list-group-item">Noise reduction</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="pca-limitations">PCA Limitations</h3>
+        <div id="pca-limitations" class="dp-panel-content" hidden>
+          <div class="dp-card card" style="border-left: 4px solid #dc2626; padding-left: 12px;">
+            <div class="card-body">
+              <h6 class="card-title">When PCA May Not Help</h6>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>Linear relationships only</strong>: Cannot capture nonlinear patterns</li>
+                <li class="list-group-item"><strong>Interpretability loss</strong>: Components are combinations, not original features</li>
+                <li class="list-group-item"><strong>All features matter</strong>: If every feature is important, reduction may hurt performance</li>
+                <li class="list-group-item"><strong>Categorical data</strong>: Works best with continuous numerical features</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="alternatives">Alternative Techniques</h3>
+        <div id="alternatives" class="dp-panel-content" hidden>
+          <p>Other dimensionality reduction methods for specific scenarios:</p>
+          <div class="table-responsive">
+            <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Dimensionality reduction alternatives">
+              <thead>
+                <tr>
+                  <th>Method</th>
+                  <th>Best For</th>
+                  <th>Key Advantage</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">t-SNE</th>
+                  <td>Visualization of clusters</td>
+                  <td>Preserves local structure</td>
+                </tr>
+                <tr>
+                  <th scope="row">Factor Analysis</th>
+                  <td>Understanding latent factors</td>
+                  <td>Interpretable factors</td>
+                </tr>
+                <tr>
+                  <th scope="row">Feature Selection</th>
+                  <td>Keeping interpretability</td>
+                  <td>Uses original features</td>
+                </tr>
+                <tr>
+                  <th scope="row">Autoencoders</th>
+                  <td>Nonlinear patterns</td>
+                  <td>Neural network flexibility</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="Interactive: PCA Visualization">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive: PCA in Action</h2>
+    <p class="mt-2"><em>Experiment:</em> See how PCA reduces dimensions while preserving data patterns. Adjust component selection and watch explained variance.</p>
+    <div class="dp-embed-wrapper">
+      <iframe title="PCA Dimensionality Reduction Demo" role="application" src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/w3-pca-reduction.html" width="100%" height="620" loading="lazy" allowfullscreen aria-label="Interactive PCA demonstration with explained variance visualization"></iframe>
+    </div>
+  </div>
+
+  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
+    <div class="card-body">
+      <h3 class="card-title">Key Insight</h3>
+      <p class="card-text">PCA reveals the "shape" of your data. The first few components often capture meaningful business patterns, while later components contain noise.</p>
+    </div>
+  </div>
+
+  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-color-dp-primary dp-callout-type-warning">
+    <div class="dp-callout-side-emphasis"><i class="dp-icon fas fa-exclamation-triangle dp-default-icon" aria-hidden="true"></i></div>
+    <div class="card-body">
+      <h4 class="card-title">Critical Step</h4>
+      <p class="card-text">Always standardize your features before PCA. Skip this step and your analysis will be dominated by the feature with the largest numerical range.</p>
+    </div>
+  </div>
+
+  <hr />
+  <p>Select <strong>Next▸</strong> to continue.</p>
+</div>
+
+<script>
+(function () {
+  function toggleHead(h){
+    const content = document.getElementById(h.getAttribute('aria-controls'));
+    const expanded = h.getAttribute('aria-expanded') === 'true';
+    h.setAttribute('aria-expanded', String(!expanded));
+    if (content) content.hidden = expanded;
+  }
+  document.addEventListener('click', function (e) {
+    const h = e.target.closest('.dp-panel-heading[role="button"]');
+    if (h) toggleHead(h);
+  });
+  document.addEventListener('keydown', function (e) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role="button"]')) {
+      e.preventDefault(); toggleHead(e.target);
+    }
+  });
+})();
+</script>

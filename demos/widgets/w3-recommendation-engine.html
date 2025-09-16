@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recommendation Systems Comparison</title>
+    <link rel="stylesheet" href="../shared-demo.css">
+    <style>
+        .recommendation-container {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+            margin: 1rem 0;
+        }
+
+        .user-profile-section {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            height: fit-content;
+        }
+
+        .user-selector {
+            margin-bottom: 1rem;
+        }
+
+        .user-btn {
+            display: block;
+            width: 100%;
+            background: #f3f4f6;
+            border: 2px solid #e5e7eb;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 6px;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.3s ease;
+        }
+
+        .user-btn.active {
+            background: #034638;
+            color: white;
+            border-color: #034638;
+        }
+
+        .user-btn:hover:not(.active) {
+            background: #e5e7eb;
+        }
+
+        .user-preferences {
+            margin-top: 1rem;
+        }
+
+        .preference-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .preference-item:last-child {
+            border-bottom: none;
+        }
+
+        .rating-stars {
+            color: #f59e0b;
+        }
+
+        .results-section {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .method-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .method-tab {
+            background: none;
+            border: none;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .method-tab.active {
+            border-bottom-color: #034638;
+            color: #034638;
+        }
+
+        .method-tab:hover:not(.active) {
+            background: #f3f4f6;
+        }
+
+        .recommendation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .recommendation-card {
+            background: #f8f9fa;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 1rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .recommendation-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .rec-score {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: #034638;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .rec-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            padding-right: 3rem;
+        }
+
+        .rec-description {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .rec-reason {
+            font-size: 0.8rem;
+            color: #034638;
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            background: #e7f3ff;
+            border-radius: 4px;
+            font-style: italic;
+        }
+
+        .method-explanation {
+            background: #f0f9f4;
+            border: 1px solid #10b981;
+            border-radius: 6px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .method-explanation h4 {
+            color: #047857;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .comparison-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .metric-item {
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #034638;
+        }
+
+        .metric-label {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 0.25rem;
+        }
+
+        .association-rules {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .rule-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #ffeaa7;
+        }
+
+        .rule-item:last-child {
+            border-bottom: none;
+        }
+
+        .rule-text {
+            flex: 1;
+        }
+
+        .rule-metrics {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.8rem;
+        }
+
+        .rule-metric {
+            background: #f59e0b;
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+        }
+
+        .generate-btn {
+            background: #034638;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            width: 100%;
+            margin: 1rem 0;
+            transition: background 0.3s ease;
+        }
+
+        .generate-btn:hover {
+            background: #022c24;
+        }
+
+        @media (max-width: 768px) {
+            .recommendation-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <div class="demo-header">
+            <h1>Recommendation Systems Comparison</h1>
+            <p>Compare collaborative filtering, content-based, and association rules for different users</p>
+        </div>
+
+        <div class="recommendation-container">
+            <div class="user-profile-section">
+                <h3>👤 Select User Profile</h3>
+                <div class="user-selector">
+                    <button class="user-btn active" onclick="selectUser('alice')" data-user="alice">
+                        <strong>Alice (Movie Buff)</strong><br>
+                        <small>Loves sci-fi and action movies</small>
+                    </button>
+                    <button class="user-btn" onclick="selectUser('bob')" data-user="bob">
+                        <strong>Bob (Comedy Fan)</strong><br>
+                        <small>Prefers comedies and documentaries</small>
+                    </button>
+                    <button class="user-btn" onclick="selectUser('carol')" data-user="carol">
+                        <strong>Carol (New User)</strong><br>
+                        <small>Just signed up, limited history</small>
+                    </button>
+                </div>
+
+                <div class="user-preferences" id="user-preferences">
+                    <h4>Recent Ratings</h4>
+                    <div id="preferences-list"></div>
+                </div>
+
+                <button class="generate-btn" onclick="generateRecommendations()">
+                    Generate Recommendations
+                </button>
+            </div>
+
+            <div class="results-section">
+                <div class="method-tabs">
+                    <button class="method-tab active" onclick="showMethod('collaborative')">Collaborative Filtering</button>
+                    <button class="method-tab" onclick="showMethod('content')">Content-Based</button>
+                    <button class="method-tab" onclick="showMethod('association')">Association Rules</button>
+                </div>
+
+                <div class="method-explanation" id="method-explanation">
+                    <h4>🤝 Collaborative Filtering</h4>
+                    <p>Recommends items based on users with similar preferences. "Users like you also enjoyed..."</p>
+                </div>
+
+                <div class="comparison-metrics" id="comparison-metrics">
+                    <div class="metric-item">
+                        <div class="metric-value" id="precision-value">-</div>
+                        <div class="metric-label">Precision</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-value" id="diversity-value">-</div>
+                        <div class="metric-label">Diversity</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-value" id="novelty-value">-</div>
+                        <div class="metric-label">Novelty</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-value" id="coverage-value">-</div>
+                        <div class="metric-label">Coverage</div>
+                    </div>
+                </div>
+
+                <div class="recommendation-grid" id="recommendations-grid">
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: #666; font-style: italic;">
+                        Click "Generate Recommendations" to see personalized suggestions
+                    </div>
+                </div>
+
+                <div class="association-rules" id="association-rules" style="display: none;">
+                    <h4>📊 Association Rules Found</h4>
+                    <div id="rules-list"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentUser = 'alice';
+        let currentMethod = 'collaborative';
+        let recommendations = {};
+
+        const userData = {
+            alice: {
+                name: 'Alice (Movie Buff)',
+                description: 'Loves sci-fi and action movies',
+                ratings: {
+                    'Star Wars': 5,
+                    'Blade Runner': 5,
+                    'The Matrix': 5,
+                    'Alien': 4,
+                    'Terminator 2': 4,
+                    'Avengers': 4,
+                    'Interstellar': 5,
+                    'Mad Max': 3
+                },
+                demographics: { age: 28, genre_preference: 'sci-fi' }
+            },
+            bob: {
+                name: 'Bob (Comedy Fan)',
+                description: 'Prefers comedies and documentaries',
+                ratings: {
+                    'The Office': 5,
+                    'Parks and Rec': 5,
+                    'Brooklyn Nine-Nine': 4,
+                    'Planet Earth': 5,
+                    'Our Planet': 4,
+                    'Cosmos': 4,
+                    'The Hangover': 3,
+                    'Superbad': 4
+                },
+                demographics: { age: 35, genre_preference: 'comedy' }
+            },
+            carol: {
+                name: 'Carol (New User)',
+                description: 'Just signed up, limited history',
+                ratings: {
+                    'Friends': 4,
+                    'The Lion King': 5,
+                    'Titanic': 3
+                },
+                demographics: { age: 22, genre_preference: 'unknown' }
+            }
+        };
+
+        const movieDatabase = {
+            'Dune': { genre: 'sci-fi', director: 'Denis Villeneuve', year: 2021, rating: 8.0 },
+            'Arrival': { genre: 'sci-fi', director: 'Denis Villeneuve', year: 2016, rating: 7.9 },
+            'Ex Machina': { genre: 'sci-fi', director: 'Alex Garland', year: 2014, rating: 7.7 },
+            'The Good Place': { genre: 'comedy', director: 'Michael Schur', year: 2016, rating: 8.2 },
+            'Schitts Creek': { genre: 'comedy', director: 'Dan Levy', year: 2015, rating: 8.5 },
+            'Ted Lasso': { genre: 'comedy', director: 'Bill Lawrence', year: 2020, rating: 8.8 },
+            'Blue Planet II': { genre: 'documentary', director: 'James Honeyborne', year: 2017, rating: 9.3 },
+            'Free Solo': { genre: 'documentary', director: 'Jimmy Chin', year: 2018, rating: 8.2 },
+            'The Social Dilemma': { genre: 'documentary', director: 'Jeff Orlowski', year: 2020, rating: 7.6 },
+            'Toy Story 4': { genre: 'animation', director: 'Josh Cooley', year: 2019, rating: 7.7 },
+            'Frozen II': { genre: 'animation', director: 'Chris Buck', year: 2019, rating: 6.8 },
+            'Spider-Verse': { genre: 'animation', director: 'Peter Ramsey', year: 2018, rating: 8.4 }
+        };
+
+        const explanations = {
+            collaborative: {
+                title: '🤝 Collaborative Filtering',
+                description: 'Recommends items based on users with similar preferences. "Users like you also enjoyed..."'
+            },
+            content: {
+                title: '🎬 Content-Based Filtering',
+                description: 'Recommends items similar to those you\'ve liked based on content features like genre, director, or keywords.'
+            },
+            association: {
+                title: '📊 Association Rules',
+                description: 'Finds patterns like "Users who watched X also watched Y" using market basket analysis.'
+            }
+        };
+
+        function selectUser(userId) {
+            currentUser = userId;
+
+            // Update button states
+            document.querySelectorAll('.user-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-user="${userId}"]`).classList.add('active');
+
+            updateUserPreferences();
+        }
+
+        function updateUserPreferences() {
+            const user = userData[currentUser];
+            const container = document.getElementById('preferences-list');
+            container.innerHTML = '';
+
+            Object.entries(user.ratings).forEach(([item, rating]) => {
+                const preferenceItem = document.createElement('div');
+                preferenceItem.className = 'preference-item';
+                preferenceItem.innerHTML = `
+                    <span>${item}</span>
+                    <span class="rating-stars">${'★'.repeat(rating)}${'☆'.repeat(5-rating)}</span>
+                `;
+                container.appendChild(preferenceItem);
+            });
+        }
+
+        function showMethod(method) {
+            currentMethod = method;
+
+            // Update tab states
+            document.querySelectorAll('.method-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Update explanation
+            const explanation = document.getElementById('method-explanation');
+            explanation.innerHTML = `
+                <h4>${explanations[method].title}</h4>
+                <p>${explanations[method].description}</p>
+            `;
+
+            // Show/hide association rules
+            const associationRules = document.getElementById('association-rules');
+            if(method === 'association') {
+                associationRules.style.display = 'block';
+                updateAssociationRules();
+            } else {
+                associationRules.style.display = 'none';
+            }
+
+            // Update recommendations display
+            if(recommendations[currentUser] && recommendations[currentUser][method]) {
+                displayRecommendations(recommendations[currentUser][method]);
+                updateMetrics(recommendations[currentUser][method]);
+            }
+        }
+
+        function generateCollaborativeRecommendations(user) {
+            const userRatings = userData[user].ratings;
+            const recs = [];
+
+            // Simulate finding similar users and their preferences
+            if(user === 'alice') {
+                recs.push({
+                    title: 'Dune',
+                    score: 0.92,
+                    reason: 'Users who loved Star Wars and Blade Runner also rated this highly',
+                    description: movieDatabase['Dune'].genre + ' • ' + movieDatabase['Dune'].year
+                });
+                recs.push({
+                    title: 'Arrival',
+                    score: 0.88,
+                    reason: 'Similar users who enjoyed Interstellar found this compelling',
+                    description: movieDatabase['Arrival'].genre + ' • ' + movieDatabase['Arrival'].year
+                });
+                recs.push({
+                    title: 'Ex Machina',
+                    score: 0.84,
+                    reason: 'Highly rated by users with similar sci-fi preferences',
+                    description: movieDatabase['Ex Machina'].genre + ' • ' + movieDatabase['Ex Machina'].year
+                });
+            } else if(user === 'bob') {
+                recs.push({
+                    title: 'The Good Place',
+                    score: 0.94,
+                    reason: 'Users who loved The Office and Parks & Rec also binged this',
+                    description: movieDatabase['The Good Place'].genre + ' • ' + movieDatabase['The Good Place'].year
+                });
+                recs.push({
+                    title: 'Blue Planet II',
+                    score: 0.90,
+                    reason: 'Documentary lovers similar to you gave this top ratings',
+                    description: movieDatabase['Blue Planet II'].genre + ' • ' + movieDatabase['Blue Planet II'].year
+                });
+                recs.push({
+                    title: 'Ted Lasso',
+                    score: 0.87,
+                    reason: 'Comedy fans with similar taste highly recommend this',
+                    description: movieDatabase['Ted Lasso'].genre + ' • ' + movieDatabase['Ted Lasso'].year
+                });
+            } else {
+                recs.push({
+                    title: 'Toy Story 4',
+                    score: 0.78,
+                    reason: 'Popular among new users with similar demographics',
+                    description: movieDatabase['Toy Story 4'].genre + ' • ' + movieDatabase['Toy Story 4'].year
+                });
+                recs.push({
+                    title: 'Spider-Verse',
+                    score: 0.82,
+                    reason: 'Trending among users in your age group',
+                    description: movieDatabase['Spider-Verse'].genre + ' • ' + movieDatabase['Spider-Verse'].year
+                });
+                recs.push({
+                    title: 'The Good Place',
+                    score: 0.75,
+                    reason: 'Highly rated across all user segments',
+                    description: movieDatabase['The Good Place'].genre + ' • ' + movieDatabase['The Good Place'].year
+                });
+            }
+
+            return recs;
+        }
+
+        function generateContentBasedRecommendations(user) {
+            const userRatings = userData[user].ratings;
+            const recs = [];
+
+            if(user === 'alice') {
+                recs.push({
+                    title: 'Arrival',
+                    score: 0.95,
+                    reason: 'Same director as Blade Runner 2049, sci-fi genre match',
+                    description: movieDatabase['Arrival'].genre + ' • ' + movieDatabase['Arrival'].director
+                });
+                recs.push({
+                    title: 'Dune',
+                    score: 0.91,
+                    reason: 'Sci-fi epic with similar themes to your favorite films',
+                    description: movieDatabase['Dune'].genre + ' • ' + movieDatabase['Dune'].director
+                });
+                recs.push({
+                    title: 'Ex Machina',
+                    score: 0.87,
+                    reason: 'Cerebral sci-fi matching your preference pattern',
+                    description: movieDatabase['Ex Machina'].genre + ' • ' + movieDatabase['Ex Machina'].director
+                });
+            } else if(user === 'bob') {
+                recs.push({
+                    title: 'Schitts Creek',
+                    score: 0.93,
+                    reason: 'Comedy series similar to your highly-rated shows',
+                    description: movieDatabase['Schitts Creek'].genre + ' • ' + movieDatabase['Schitts Creek'].director
+                });
+                recs.push({
+                    title: 'Free Solo',
+                    score: 0.89,
+                    reason: 'Documentary matching your nature/adventure preferences',
+                    description: movieDatabase['Free Solo'].genre + ' • ' + movieDatabase['Free Solo'].director
+                });
+                recs.push({
+                    title: 'The Social Dilemma',
+                    score: 0.85,
+                    reason: 'Documentary with educational focus like your favorites',
+                    description: movieDatabase['The Social Dilemma'].genre + ' • ' + movieDatabase['The Social Dilemma'].director
+                });
+            } else {
+                recs.push({
+                    title: 'Frozen II',
+                    score: 0.79,
+                    reason: 'Similar feel-good animated content to The Lion King',
+                    description: movieDatabase['Frozen II'].genre + ' • ' + movieDatabase['Frozen II'].director
+                });
+                recs.push({
+                    title: 'Toy Story 4',
+                    score: 0.76,
+                    reason: 'Family-friendly content matching your ratings',
+                    description: movieDatabase['Toy Story 4'].genre + ' • ' + movieDatabase['Toy Story 4'].director
+                });
+                recs.push({
+                    title: 'The Good Place',
+                    score: 0.74,
+                    reason: 'Popular content similar to Friends in tone',
+                    description: movieDatabase['The Good Place'].genre + ' • ' + movieDatabase['The Good Place'].director
+                });
+            }
+
+            return recs;
+        }
+
+        function generateAssociationRecommendations(user) {
+            const recs = [];
+
+            if(user === 'alice') {
+                recs.push({
+                    title: 'Dune',
+                    score: 0.89,
+                    reason: 'Strong association: Star Wars → Dune (support: 0.23, confidence: 0.78)',
+                    description: movieDatabase['Dune'].genre + ' • Epic sci-fi'
+                });
+                recs.push({
+                    title: 'Ex Machina',
+                    score: 0.85,
+                    reason: 'Rule: {Blade Runner, Matrix} → Ex Machina (lift: 2.4)',
+                    description: movieDatabase['Ex Machina'].genre + ' • AI thriller'
+                });
+                recs.push({
+                    title: 'Arrival',
+                    score: 0.81,
+                    reason: 'Pattern: Interstellar viewers often watch Arrival (confidence: 0.72)',
+                    description: movieDatabase['Arrival'].genre + ' • Linguistic sci-fi'
+                });
+            } else if(user === 'bob') {
+                recs.push({
+                    title: 'Ted Lasso',
+                    score: 0.91,
+                    reason: 'Strong rule: {The Office, Parks & Rec} → Ted Lasso (support: 0.31)',
+                    description: movieDatabase['Ted Lasso'].genre + ' • Feel-good comedy'
+                });
+                recs.push({
+                    title: 'Blue Planet II',
+                    score: 0.87,
+                    reason: 'Association: Planet Earth → Blue Planet II (confidence: 0.83)',
+                    description: movieDatabase['Blue Planet II'].genre + ' • Nature documentary'
+                });
+                recs.push({
+                    title: 'Schitts Creek',
+                    score: 0.84,
+                    reason: 'Pattern: Comedy show watchers discover this (lift: 2.1)',
+                    description: movieDatabase['Schitts Creek'].genre + ' • Character comedy'
+                });
+            } else {
+                recs.push({
+                    title: 'Spider-Verse',
+                    score: 0.77,
+                    reason: 'New user pattern: Family content → Spider-Verse (support: 0.18)',
+                    description: movieDatabase['Spider-Verse'].genre + ' • Animated superhero'
+                });
+                recs.push({
+                    title: 'Toy Story 4',
+                    score: 0.74,
+                    reason: 'Association: The Lion King → Toy Story franchise (confidence: 0.65)',
+                    description: movieDatabase['Toy Story 4'].genre + ' • Animated family'
+                });
+                recs.push({
+                    title: 'Frozen II',
+                    score: 0.71,
+                    reason: 'Rule: New users often progress to popular animations (lift: 1.8)',
+                    description: movieDatabase['Frozen II'].genre + ' • Musical animation'
+                });
+            }
+
+            return recs;
+        }
+
+        function generateRecommendations() {
+            recommendations[currentUser] = {
+                collaborative: generateCollaborativeRecommendations(currentUser),
+                content: generateContentBasedRecommendations(currentUser),
+                association: generateAssociationRecommendations(currentUser)
+            };
+
+            displayRecommendations(recommendations[currentUser][currentMethod]);
+            updateMetrics(recommendations[currentUser][currentMethod]);
+
+            if(currentMethod === 'association') {
+                updateAssociationRules();
+            }
+        }
+
+        function displayRecommendations(recs) {
+            const grid = document.getElementById('recommendations-grid');
+            grid.innerHTML = '';
+
+            recs.forEach(rec => {
+                const card = document.createElement('div');
+                card.className = 'recommendation-card';
+                card.innerHTML = `
+                    <div class="rec-score">${(rec.score * 100).toFixed(0)}%</div>
+                    <div class="rec-title">${rec.title}</div>
+                    <div class="rec-description">${rec.description}</div>
+                    <div class="rec-reason">${rec.reason}</div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function updateMetrics(recs) {
+            // Simulate metrics based on method and user
+            let precision, diversity, novelty, coverage;
+
+            if(currentMethod === 'collaborative') {
+                precision = currentUser === 'carol' ? 0.72 : 0.84;
+                diversity = 0.68;
+                novelty = 0.73;
+                coverage = 0.85;
+            } else if(currentMethod === 'content') {
+                precision = 0.78;
+                diversity = currentUser === 'alice' ? 0.45 : 0.62;
+                novelty = 0.58;
+                coverage = 0.71;
+            } else { // association
+                precision = 0.81;
+                diversity = 0.76;
+                novelty = 0.65;
+                coverage = 0.79;
+            }
+
+            // Add some variation based on user
+            const userMultiplier = currentUser === 'carol' ? 0.9 : 1.0;
+            precision *= userMultiplier;
+            diversity *= (1 + (Math.random() - 0.5) * 0.1);
+
+            document.getElementById('precision-value').textContent = (precision * 100).toFixed(0) + '%';
+            document.getElementById('diversity-value').textContent = (diversity * 100).toFixed(0) + '%';
+            document.getElementById('novelty-value').textContent = (novelty * 100).toFixed(0) + '%';
+            document.getElementById('coverage-value').textContent = (coverage * 100).toFixed(0) + '%';
+        }
+
+        function updateAssociationRules() {
+            const rulesList = document.getElementById('rules-list');
+            rulesList.innerHTML = '';
+
+            const rules = [
+                {
+                    rule: 'Star Wars, Blade Runner → Dune',
+                    support: '23%',
+                    confidence: '78%',
+                    lift: '2.4'
+                },
+                {
+                    rule: 'The Office, Parks & Rec → Ted Lasso',
+                    support: '31%',
+                    confidence: '85%',
+                    lift: '2.8'
+                },
+                {
+                    rule: 'Planet Earth → Blue Planet II',
+                    support: '18%',
+                    confidence: '83%',
+                    lift: '3.1'
+                },
+                {
+                    rule: 'Comedy Shows → Schitt\'s Creek',
+                    support: '14%',
+                    confidence: '72%',
+                    lift: '2.1'
+                }
+            ];
+
+            rules.forEach(rule => {
+                const ruleItem = document.createElement('div');
+                ruleItem.className = 'rule-item';
+                ruleItem.innerHTML = `
+                    <div class="rule-text">${rule.rule}</div>
+                    <div class="rule-metrics">
+                        <div class="rule-metric">S: ${rule.support}</div>
+                        <div class="rule-metric">C: ${rule.confidence}</div>
+                        <div class="rule-metric">L: ${rule.lift}</div>
+                    </div>
+                `;
+                rulesList.appendChild(ruleItem);
+            });
+        }
+
+        // Initialize
+        updateUserPreferences();
+    </script>
+</body>
+</html>

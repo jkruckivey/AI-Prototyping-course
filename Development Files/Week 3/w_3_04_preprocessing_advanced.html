@@ -1,0 +1,470 @@
+<div id="dp-wrapper" class="dp-wrapper">
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+
+  <div class="dp-content-block content-block" data-title="Advanced Data Preprocessing">
+    <h1 class="dp-has-icon"><i class="dp-icon fas fa-filter" aria-hidden="true"></i>&nbsp;Advanced Data Preprocessing</h1>
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+      <div class="card-body">
+        <h5 class="card-title dp-ignore-theme">What this page covers</h5>
+        <p>Master advanced preprocessing: feature selection methods, handling missing data, outlier detection, and encoding strategies that prepare your data for optimal model performance.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="Learning Outcomes (This Page)" data-category="Learning Outcomes">
+    <h3 class="dp-has-icon"><i class="dp-icon fas fa-bullseye" aria-hidden="true"></i> Learning Outcomes</h3>
+    <ol>
+      <li>Apply feature selection techniques to identify the most valuable predictors.</li>
+      <li>Handle missing data and outliers using appropriate statistical methods.</li>
+      <li>Choose optimal encoding strategies for categorical variables.</li>
+    </ol>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="Feature Selection Methods">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-crosshairs" aria-hidden="true"></i>&nbsp;Selecting the Right Features</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="why-select">Why Feature Selection Matters</h3>
+        <div id="why-select" class="dp-panel-content" hidden>
+          <p>Not all features are created equal. Strategic feature selection improves model performance and interpretability:</p>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="dp-card card h-100" style="border-left: 4px solid #10b981; padding-left: 12px;">
+                <div class="card-body">
+                  <h6 class="card-title">Performance Benefits</h6>
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Reduces overfitting</li>
+                    <li class="list-group-item">Faster training and prediction</li>
+                    <li class="list-group-item">Better generalization</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="dp-card card h-100" style="border-left: 4px solid #3b82f6; padding-left: 12px;">
+                <div class="card-body">
+                  <h6 class="card-title">Business Benefits</h6>
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Simpler, interpretable models</li>
+                    <li class="list-group-item">Lower data collection costs</li>
+                    <li class="list-group-item">Easier model maintenance</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="filter-methods">Filter Methods: Statistical Significance</h3>
+        <div id="filter-methods" class="dp-panel-content" hidden>
+          <p>Evaluate features independently using statistical measures before any modeling:</p>
+          <div class="table-responsive">
+            <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Filter methods for feature selection">
+              <thead>
+                <tr>
+                  <th>Method</th>
+                  <th>Data Type</th>
+                  <th>Measures</th>
+                  <th>Use Case</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Correlation</th>
+                  <td>Continuous → Continuous</td>
+                  <td>Pearson coefficient</td>
+                  <td>Remove redundant features</td>
+                </tr>
+                <tr>
+                  <th scope="row">Chi-square</th>
+                  <td>Categorical → Categorical</td>
+                  <td>Independence test</td>
+                  <td>Feature-target relationships</td>
+                </tr>
+                <tr>
+                  <th scope="row">ANOVA F-test</th>
+                  <td>Categorical → Continuous</td>
+                  <td>Between-group variance</td>
+                  <td>Classification feature selection</td>
+                </tr>
+                <tr>
+                  <th scope="row">Mutual Information</th>
+                  <td>Any → Any</td>
+                  <td>Information sharing</td>
+                  <td>Nonlinear relationships</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="wrapper-methods">Wrapper Methods: Model-Based Selection</h3>
+        <div id="wrapper-methods" class="dp-panel-content" hidden>
+          <p>Use actual model performance to evaluate feature subsets:</p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Forward Selection</strong>: Start empty, add features that improve performance most</li>
+            <li class="list-group-item"><strong>Backward Elimination</strong>: Start with all features, remove least important</li>
+            <li class="list-group-item"><strong>Recursive Feature Elimination (RFE)</strong>: Systematically remove features using model weights</li>
+            <li class="list-group-item"><strong>Exhaustive Search</strong>: Try all possible combinations (computationally expensive)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="embedded-methods">Embedded Methods: Built-in Selection</h3>
+        <div id="embedded-methods" class="dp-panel-content" hidden>
+          <p>Algorithms that perform feature selection automatically during training:</p>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="dp-card card h-100">
+                <div class="card-body">
+                  <h6 class="card-title">Regularization (L1/L2)</h6>
+                  <p>LASSO regression automatically zeros out irrelevant features. Ridge regression reduces their impact.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="dp-card card h-100">
+                <div class="card-body">
+                  <h6 class="card-title">Tree-based Feature Importance</h6>
+                  <p>Random forests and gradient boosting rank features by their contribution to splits.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="Handling Missing Data">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-question-circle" aria-hidden="true"></i>&nbsp;Missing Data Strategies</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="missing-types">Types of Missingness</h3>
+        <div id="missing-types" class="dp-panel-content" hidden>
+          <p>Understanding why data is missing guides your handling strategy:</p>
+          <div class="table-responsive">
+            <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Types of missing data">
+              <thead>
+                <tr>
+                  <th>Type</th>
+                  <th>Description</th>
+                  <th>Example</th>
+                  <th>Strategy</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">MCAR</th>
+                  <td>Missing Completely at Random</td>
+                  <td>Survey responses lost due to server error</td>
+                  <td>Simple imputation works well</td>
+                </tr>
+                <tr>
+                  <th scope="row">MAR</th>
+                  <td>Missing at Random (given other data)</td>
+                  <td>Income missing more often for older respondents</td>
+                  <td>Use related features for imputation</td>
+                </tr>
+                <tr>
+                  <th scope="row">MNAR</th>
+                  <td>Missing Not at Random</td>
+                  <td>High earners don't report salary</td>
+                  <td>Consider missing as informative signal</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="imputation-methods">Imputation Strategies</h3>
+        <div id="imputation-methods" class="dp-panel-content" hidden>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="dp-card card h-100" style="border-left: 4px solid #f59e0b; padding-left: 12px;">
+                <div class="card-body">
+                  <h6 class="card-title">Simple Methods</h6>
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><strong>Mean/Median</strong>: For continuous variables</li>
+                    <li class="list-group-item"><strong>Mode</strong>: Most frequent category</li>
+                    <li class="list-group-item"><strong>Constant</strong>: Domain-specific default</li>
+                    <li class="list-group-item"><strong>Forward/Backward fill</strong>: Time series</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="dp-card card h-100" style="border-left: 4px solid #8b5cf6; padding-left: 12px;">
+                <div class="card-body">
+                  <h6 class="card-title">Advanced Methods</h6>
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><strong>KNN Imputation</strong>: Use similar records</li>
+                    <li class="list-group-item"><strong>Regression</strong>: Predict missing values</li>
+                    <li class="list-group-item"><strong>Multiple Imputation</strong>: Create several datasets</li>
+                    <li class="list-group-item"><strong>Matrix Factorization</strong>: Collaborative filtering</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="missing-indicators">Missing Indicator Features</h3>
+        <div id="missing-indicators" class="dp-panel-content" hidden>
+          <p>Sometimes the fact that data is missing contains valuable information:</p>
+          <div class="dp-card card" style="background-color:#e7f3ff; border:1px solid #b3d9ff;">
+            <div class="card-body">
+              <h6 class="card-title">Create Binary Indicators</h6>
+              <p>Add features like "income_was_missing" = 1 if original income was null, 0 otherwise.</p>
+              <p class="mb-0"><strong>When useful</strong>: Missingness patterns correlate with your target variable</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="Outlier Detection and Treatment">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-exclamation-circle" aria-hidden="true"></i>&nbsp;Managing Outliers</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="outlier-detection">Detection Methods</h3>
+        <div id="outlier-detection" class="dp-panel-content" hidden>
+          <p>Multiple approaches to identify unusual data points:</p>
+          <div class="table-responsive">
+            <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Outlier detection methods">
+              <thead>
+                <tr>
+                  <th>Method</th>
+                  <th>How it Works</th>
+                  <th>Best For</th>
+                  <th>Limitation</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Z-Score</th>
+                  <td>Standard deviations from mean</td>
+                  <td>Normally distributed data</td>
+                  <td>Assumes normal distribution</td>
+                </tr>
+                <tr>
+                  <th scope="row">IQR Method</th>
+                  <td>Beyond 1.5 × interquartile range</td>
+                  <td>Skewed distributions</td>
+                  <td>Fixed threshold</td>
+                </tr>
+                <tr>
+                  <th scope="row">Isolation Forest</th>
+                  <td>Easy to isolate in random splits</td>
+                  <td>High-dimensional data</td>
+                  <td>Black box method</td>
+                </tr>
+                <tr>
+                  <th scope="row">Local Outlier Factor</th>
+                  <td>Density-based anomaly detection</td>
+                  <td>Complex patterns</td>
+                  <td>Computationally intensive</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="outlier-treatment">Treatment Options</h3>
+        <div id="outlier-treatment" class="dp-panel-content" hidden>
+          <p>Once identified, you have several options for handling outliers:</p>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="dp-card card h-100" style="border-left: 4px solid #dc2626; padding-left: 12px;">
+                <div class="card-body">
+                  <h6 class="card-title">Remove</h6>
+                  <p><strong>When:</strong> Clear data errors</p>
+                  <p class="mb-0"><strong>Risk:</strong> Lose valuable information</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="dp-card card h-100" style="border-left: 4px solid #f59e0b; padding-left: 12px;">
+                <div class="card-body">
+                  <h6 class="card-title">Cap/Floor</h6>
+                  <p><strong>When:</strong> Extreme but valid values</p>
+                  <p class="mb-0"><strong>Method:</strong> Set to 95th/5th percentile</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="dp-card card h-100" style="border-left: 4px solid #10b981; padding-left: 12px;">
+                <div class="card-body">
+                  <h6 class="card-title">Transform</h6>
+                  <p><strong>When:</strong> Skewed distributions</p>
+                  <p class="mb-0"><strong>Method:</strong> Log, square root, Box-Cox</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="outlier-context">Business Context Matters</h3>
+        <div id="outlier-context" class="dp-panel-content" hidden>
+          <p>Statistical outliers aren't always problematic. Consider business significance:</p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Valuable customers</strong>: High-value transactions might be your most important data</li>
+            <li class="list-group-item"><strong>Fraud detection</strong>: Outliers are often the signal you're looking for</li>
+            <li class="list-group-item"><strong>Seasonal effects</strong>: Holiday sales spikes are outliers but predictable</li>
+            <li class="list-group-item"><strong>Market events</strong>: Stock crashes are outliers but contain valuable information</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="Encoding Categorical Variables">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-tags" aria-hidden="true"></i>&nbsp;Categorical Encoding Strategies</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="encoding-types">Common Encoding Methods</h3>
+        <div id="encoding-types" class="dp-panel-content" hidden>
+          <div class="table-responsive">
+            <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Categorical encoding methods">
+              <thead>
+                <tr>
+                  <th>Method</th>
+                  <th>How it Works</th>
+                  <th>Best For</th>
+                  <th>Drawback</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">One-Hot</th>
+                  <td>Binary column per category</td>
+                  <td>Low cardinality (2-10 categories)</td>
+                  <td>Curse of dimensionality</td>
+                </tr>
+                <tr>
+                  <th scope="row">Label Encoding</th>
+                  <td>Integer per category</td>
+                  <td>Ordinal data with natural order</td>
+                  <td>Implies false ordering</td>
+                </tr>
+                <tr>
+                  <th scope="row">Target Encoding</th>
+                  <td>Mean of target per category</td>
+                  <td>High cardinality categories</td>
+                  <td>Risk of overfitting</td>
+                </tr>
+                <tr>
+                  <th scope="row">Frequency Encoding</th>
+                  <td>Count of each category</td>
+                  <td>Category frequency is informative</td>
+                  <td>Loses category identity</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="high-cardinality">High Cardinality Categories</h3>
+        <div id="high-cardinality" class="dp-panel-content" hidden>
+          <p>Special techniques for categories with many unique values (e.g., city names, product IDs):</p>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="dp-card card h-100">
+                <div class="card-body">
+                  <h6 class="card-title">Grouping Strategies</h6>
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Keep top N categories, group rest as "Other"</li>
+                    <li class="list-group-item">Group by business logic (regions, product lines)</li>
+                    <li class="list-group-item">Frequency-based binning</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="dp-card card h-100">
+                <div class="card-body">
+                  <h6 class="card-title">Advanced Encoding</h6>
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Embedding layers (neural networks)</li>
+                    <li class="list-group-item">Hash encoding for massive cardinality</li>
+                    <li class="list-group-item">Leave-one-out target encoding</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="encoding-best-practices">Best Practices</h3>
+        <div id="encoding-best-practices" class="dp-panel-content" hidden>
+          <div class="dp-card card" style="border-left: 4px solid #10b981; padding-left: 12px;">
+            <div class="card-body">
+              <h6 class="card-title">Encoding Guidelines</h6>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>Test multiple methods</strong>: Try different encodings and compare performance</li>
+                <li class="list-group-item"><strong>Handle unseen categories</strong>: Plan for new categories in production</li>
+                <li class="list-group-item"><strong>Consider interactions</strong>: Some combinations of categories matter</li>
+                <li class="list-group-item"><strong>Validate on holdout</strong>: Avoid overfitting with target encoding</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="Interactive: Preprocessing Pipeline">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive: Preprocessing Effects</h2>
+    <p class="mt-2"><em>Compare:</em> See how different preprocessing choices affect model performance. Test feature selection, outlier handling, and encoding strategies.</p>
+    <div class="dp-embed-wrapper">
+      <iframe title="Advanced Preprocessing Techniques" role="application" src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/w3-preprocessing-pipeline.html" width="100%" height="640" loading="lazy" allowfullscreen aria-label="Interactive preprocessing pipeline showing effects of different techniques on model performance"></iframe>
+    </div>
+  </div>
+
+  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
+    <div class="card-body">
+      <h3 class="card-title">Pipeline Approach</h3>
+      <p class="card-text">Build preprocessing pipelines that can be applied consistently to training and test data. This prevents data leakage and ensures reproducible results.</p>
+    </div>
+  </div>
+
+  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-color-dp-primary dp-callout-type-warning">
+    <div class="dp-callout-side-emphasis"><i class="dp-icon fas fa-exclamation-triangle dp-default-icon" aria-hidden="true"></i></div>
+    <div class="card-body">
+      <h4 class="card-title">Data Leakage Risk</h4>
+      <p class="card-text">Never use statistics from test data for preprocessing training data. Calculate means, medians, and encodings only from training set, then apply to test set.</p>
+    </div>
+  </div>
+
+  <hr />
+  <p>Select <strong>Next▸</strong> to continue.</p>
+</div>
+
+<script>
+(function () {
+  function toggleHead(h){
+    const content = document.getElementById(h.getAttribute('aria-controls'));
+    const expanded = h.getAttribute('aria-expanded') === 'true';
+    h.setAttribute('aria-expanded', String(!expanded));
+    if (content) content.hidden = expanded;
+  }
+  document.addEventListener('click', function (e) {
+    const h = e.target.closest('.dp-panel-heading[role="button"]');
+    if (h) toggleHead(h);
+  });
+  document.addEventListener('keydown', function (e) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role="button"]')) {
+      e.preventDefault(); toggleHead(e.target);
+    }
+  });
+})();
+</script>
