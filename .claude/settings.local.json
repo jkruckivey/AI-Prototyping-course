@@ -14,7 +14,8 @@
       "Bash(findstr:*)",
       "Bash(move:*)",
       "Bash(dir:*)",
-      "Bash(del \"C:\\Users\\james\\OneDrive\\Documents2\\GitHub\\AI-Prototyping-course\\canvas-data-page-5-activities-roleplay.html\")"
+      "Bash(del \"C:\\Users\\james\\OneDrive\\Documents2\\GitHub\\AI-Prototyping-course\\canvas-data-page-5-activities-roleplay.html\")",
+      "Bash(start \"C:\\Users\\jkruck\\Ivey Business School\\EdTech Lab - Documents\\Github\\AI Prototyping Learn\\demos\\widgets\\w3-kmeans-clustering.html\")"
     ],
     "deny": [],
     "ask": []
