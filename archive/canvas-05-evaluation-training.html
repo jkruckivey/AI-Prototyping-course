@@ -1,0 +1,292 @@
+<style>
+/* Canvas-compatible collapsible using details/summary elements */
+.canvas-collapsible {
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    margin-bottom: 1rem;
+}
+
+.canvas-collapsible summary {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    padding: 0.75rem 1.25rem;
+    cursor: pointer;
+    list-style: none;
+    font-weight: 500;
+}
+
+.canvas-collapsible summary:hover {
+    background-color: #e9ecef;
+}
+
+.canvas-collapsible summary::-webkit-details-marker {
+    display: none;
+}
+
+.canvas-collapsible[open] summary {
+    border-bottom: 1px solid #dee2e6;
+}
+
+.canvas-collapsible .collapsible-content {
+    padding: 1.25rem;
+}
+</style>
+
+<div class="dp-content-block content-block" data-category="" data-title="Model Evaluation and Training Data Division">
+    <h1 class="dp-has-icon"><i class="dp-icon fas fa-chart-line" aria-hidden="true"></i>&nbsp;Model Evaluation and Training Data Division</h1>
+
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+        <div class="card-body">
+            <h5 class="card-title dp-ignore-theme">The Business Case for Rigorous Testing</h5>
+            <p>In business, you wouldn't launch a product without testing it first. The same principle applies to AI models. Understanding how to properly evaluate and compare models ensures you select the best solution for your business needs and can confidently measure ROI.</p>
+        </div>
+    </div>
+
+    <h2>The Model Selection Challenge</h2>
+
+    <p>Multiple algorithms can solve the same business problem. For classification tasks, you might choose between random forests, neural networks, or decision trees. For regression, you could use linear regression, polynomial models, or ensemble methods. How do you select the best approach for your specific business context?</p>
+
+    <div class="dp-card card" style="border-left: 4px solid #582C83; padding-left: 15px;">
+        <div class="card-body">
+            <h5 class="card-title dp-ignore-theme">Data Science as Experimentation</h5>
+            <p>Successful AI implementation requires systematic experimentation. You train multiple models, compare their performance using consistent metrics, and select the one that delivers the best business outcomes. This evidence-based approach reduces risk and maximizes return on AI investment.</p>
+        </div>
+    </div>
+
+    <h2>Training vs Testing: The Foundation of Trust</h2>
+
+    <p>To build business confidence in AI models, you need to understand the fundamental distinction between training data (where the model learns) and testing data (where we measure real-world performance).</p>
+
+    <details class="canvas-collapsible" open>
+        <summary>
+            Understanding Training Data
+        </summary>
+        <div class="collapsible-content">
+            <div class="dp-card card">
+                <div class="card-body">
+                    <h6 class="card-title">What is Training Data?</h6>
+                    <p>Training data is historical information used to teach the model patterns and relationships. This is where the model learns to adjust its parameters—like finding the best slope and intercept for a linear regression line.</p>
+
+                    <h6 class="card-title mt-3">Business Example: Weather Prediction</h6>
+                    <p>Imagine training a model to predict rain based on humidity and air pressure:</p>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Day 1: Humidity 1.2, Pressure 1.0 → <strong>Rained</strong></li>
+                        <li class="list-group-item">Day 2: Humidity 1.2, Pressure 1.5 → <strong>No Rain</strong></li>
+                        <li class="list-group-item">Day 3: Humidity 0.8, Pressure 1.0 → <strong>No Rain</strong></li>
+                        <li class="list-group-item">Day 4: Humidity 1.5, Pressure 0.8 → <strong>Rained</strong></li>
+                    </ul>
+                    <p class="mt-2">The model learns from these examples to identify patterns between weather conditions and rainfall outcomes.</p>
+                </div>
+            </div>
+        </div>
+    </details>
+
+    <details class="canvas-collapsible" open>
+        <summary>
+            Understanding Testing Data
+        </summary>
+        <div class="collapsible-content">
+            <div class="dp-card card">
+                <div class="card-body">
+                    <h6 class="card-title">What is Testing Data?</h6>
+                    <p>Testing data is a separate portion of your dataset—typically 10-20%—that is <strong>never used during training</strong>. This "held-out" data simulates real-world conditions and provides an unbiased measure of model performance.</p>
+
+                    <h6 class="card-title mt-3">The Business Validation Process</h6>
+                    <p>Continuing our weather example:</p>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><strong>Training:</strong> Use Days 1-4 to teach the model</li>
+                        <li class="list-group-item"><strong>Testing:</strong> Use Days 5-6 to evaluate performance</li>
+                        <li class="list-group-item"><strong>Validation:</strong> Compare predictions to actual outcomes</li>
+                    </ul>
+
+                    <div class="alert alert-info mt-3">
+                        <strong>Key Principle:</strong> Testing data represents future business scenarios where you don't know the answer yet. This separation ensures your performance metrics reflect real-world business value.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </details>
+
+    <h2>Evaluation Metrics: Measuring Business Success</h2>
+
+    <p>Different business problems require different success measures. Understanding evaluation metrics helps you translate model performance into business impact.</p>
+
+    <details class="canvas-collapsible" open>
+        <summary>
+            Classification Metrics: For Decision-Making Problems
+        </summary>
+        <div class="collapsible-content">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="dp-card card h-100">
+                        <div class="card-body">
+                            <h6 class="card-title">Accuracy</h6>
+                            <p><strong>Definition:</strong> Percentage of correct predictions</p>
+                            <p><strong>Formula:</strong> Correct Predictions ÷ Total Predictions</p>
+                            <p><strong>Business Use:</strong> Overall model performance assessment</p>
+                            <div class="alert alert-success">
+                                <strong>Example:</strong> Customer churn model correctly predicts 85 out of 100 customers → 85% accuracy
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="dp-card card h-100">
+                        <div class="card-body">
+                            <h6 class="card-title">Precision & Recall</h6>
+                            <p><strong>Precision:</strong> Of predicted positives, how many were correct?</p>
+                            <p><strong>Recall:</strong> Of actual positives, how many did we find?</p>
+                            <p><strong>Business Trade-off:</strong> Precision vs. Recall reflects business priorities</p>
+                            <div class="alert alert-warning">
+                                <strong>Example:</strong> Fraud detection may prioritize recall (catch all fraud) over precision (some false alarms acceptable)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </details>
+
+    <details class="canvas-collapsible" open>
+        <summary>
+            Regression Metrics: For Prediction Problems
+        </summary>
+        <div class="collapsible-content">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="dp-card card h-100">
+                        <div class="card-body">
+                            <h6 class="card-title">Mean Squared Error (MSE)</h6>
+                            <p><strong>Definition:</strong> Average of squared differences between predicted and actual values</p>
+                            <p><strong>Business Interpretation:</strong> Lower MSE = better predictions</p>
+                            <div class="alert alert-info">
+                                <strong>Example:</strong> Sales forecasting model with MSE of 100 means predictions typically differ by ~$10 from actual sales
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="dp-card card h-100">
+                        <div class="card-body">
+                            <h6 class="card-title">Mean Absolute Error (MAE)</h6>
+                            <p><strong>Definition:</strong> Average absolute difference between predicted and actual values</p>
+                            <p><strong>Business Advantage:</strong> Easier to interpret in business units</p>
+                            <div class="alert alert-success">
+                                <strong>Example:</strong> Inventory forecasting with MAE of 50 units means predictions are typically off by 50 units
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </details>
+
+    <h2>Model Comparison and Selection</h2>
+
+    <p>Using consistent evaluation metrics across the same test dataset, you can systematically compare different approaches and select the best solution for your business needs.</p>
+
+    <div class="dp-card card" style="border-left: 4px solid #f97316; padding-left: 15px;">
+        <div class="card-body">
+            <h5 class="card-title dp-ignore-theme">Business Comparison Example</h5>
+            <p><strong>Scenario:</strong> Customer churn prediction for a subscription service</p>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Model Type</th>
+                        <th>Accuracy</th>
+                        <th>Precision</th>
+                        <th>Recall</th>
+                        <th>Business Impact</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Random Forest</td>
+                        <td>87%</td>
+                        <td>0.82</td>
+                        <td>0.79</td>
+                        <td>Balanced performance</td>
+                    </tr>
+                    <tr>
+                        <td>Neural Network</td>
+                        <td>89%</td>
+                        <td>0.85</td>
+                        <td>0.75</td>
+                        <td>High accuracy, fewer false alarms</td>
+                    </tr>
+                    <tr>
+                        <td>Decision Tree</td>
+                        <td>84%</td>
+                        <td>0.78</td>
+                        <td>0.88</td>
+                        <td>Catches more churning customers</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><strong>Business Decision:</strong> Choose based on priority—minimize customer loss (Decision Tree) or reduce unnecessary retention spending (Neural Network).</p>
+        </div>
+    </div>
+
+    <h2>The Learning Process: Training, Fitting, and Optimization</h2>
+
+    <p>Understanding how models learn helps business leaders make informed decisions about AI implementation timelines and resource requirements.</p>
+
+    <details class="canvas-collapsible">
+        <summary>
+            How Models Learn from Data
+        </summary>
+        <div class="collapsible-content">
+            <div class="dp-card card">
+                <div class="card-body">
+                    <h6 class="card-title">The Training Process</h6>
+                    <ol class="list-group list-group-numbered">
+                        <li class="list-group-item">Model starts with random parameters (like a random line for linear regression)</li>
+                        <li class="list-group-item">Algorithm adjusts parameters based on training data patterns</li>
+                        <li class="list-group-item">Model iteratively improves until it finds the best fit</li>
+                        <li class="list-group-item">Final parameters represent the "learned knowledge" from your business data</li>
+                    </ol>
+
+                    <h6 class="card-title mt-3">Business Implications</h6>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><strong>Time Investment:</strong> Complex models require more training time</li>
+                        <li class="list-group-item"><strong>Data Quality:</strong> Better training data leads to better business outcomes</li>
+                        <li class="list-group-item"><strong>Computational Resources:</strong> More data and complex models need more processing power</li>
+                        <li class="list-group-item"><strong>Expertise Requirements:</strong> Proper training requires experienced data scientists</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </details>
+
+    <h2>Real-World Deployment Considerations</h2>
+
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+        <div class="card-body">
+            <h5 class="card-title dp-ignore-theme">From Model to Business Value</h5>
+            <p>After selecting the best model based on testing performance, you deploy it to make predictions on truly new data. This transition from testing to production represents the moment where AI begins delivering measurable business value.</p>
+
+            <h6 class="card-title mt-3">Success Factors</h6>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>Performance Monitoring:</strong> Continuously track model accuracy in production</li>
+                <li class="list-group-item"><strong>Business Metrics:</strong> Measure actual business impact, not just technical metrics</li>
+                <li class="list-group-item"><strong>Model Updating:</strong> Plan for retraining as business conditions change</li>
+                <li class="list-group-item"><strong>Stakeholder Communication:</strong> Translate technical performance into business outcomes</li>
+            </ul>
+        </div>
+    </div>
+
+    <h2>Key Takeaways for Business Leaders</h2>
+
+    <div class="dp-card card" style="border-left: 4px solid #582C83; padding-left: 15px;">
+        <div class="card-body">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>Multiple Solutions:</strong> Different algorithms can solve the same business problem</li>
+                <li class="list-group-item"><strong>Evidence-Based Selection:</strong> Use consistent testing to choose the best approach</li>
+                <li class="list-group-item"><strong>Training vs Testing:</strong> Proper separation ensures realistic performance estimates</li>
+                <li class="list-group-item"><strong>Metrics Matter:</strong> Choose evaluation criteria that align with business priorities</li>
+                <li class="list-group-item"><strong>Experimentation Required:</strong> Plan time and resources for systematic model comparison</li>
+                <li class="list-group-item"><strong>Continuous Monitoring:</strong> Model performance needs ongoing business validation</li>
+            </ul>
+        </div>
+    </div>
+</div>

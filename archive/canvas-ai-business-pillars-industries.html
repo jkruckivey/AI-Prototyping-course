@@ -1,0 +1,461 @@
+<style>
+/* Canvas-compatible collapsible using details/summary elements */
+.canvas-collapsible {
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    margin-bottom: 1rem;
+}
+
+.canvas-collapsible summary {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    padding: 0.75rem 1.25rem;
+    cursor: pointer;
+    list-style: none;
+    font-weight: 500;
+}
+
+.canvas-collapsible summary:hover {
+    background-color: #e9ecef;
+}
+
+.canvas-collapsible summary::-webkit-details-marker {
+    display: none;
+}
+
+.canvas-collapsible[open] summary {
+    border-bottom: 1px solid #dee2e6;
+}
+
+.canvas-collapsible .collapsible-content {
+    padding: 1.25rem;
+}
+</style>
+
+<div class="dp-content-block content-block" data-category="" data-title="AI Business Value and Industry Applications">
+    <h1 class="dp-has-icon"><i class="dp-icon fas fa-building" aria-hidden="true"></i>&nbsp;The Four Pillars of AI Business Value</h1>
+    
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+        <div class="card-body">
+            <h5 class="card-title dp-ignore-theme">Strategic Framework</h5>
+            <p>AI creates business value through four primary mechanisms. Understanding these pillars helps leaders tie use cases to measurable outcomes and choose the right starting point for their organization's AI journey.</p>
+        </div>
+    </div>
+
+    <h2>The Four Value-Creation Mechanisms</h2>
+
+    <details class="canvas-collapsible" open>
+        <summary>
+            1) Automation - Speed and Accuracy at Scale
+        </summary>
+        <div class="collapsible-content">
+            <p><strong>Automates high-volume, rules-based work with higher speed and fewer errors—freeing people for judgment and relationship tasks.</strong></p>
+            
+            <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Automation use cases showing functions, examples, and typical outcomes">
+                <caption>AI Automation - Functions and Business Outcomes</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Function</th>
+                        <th scope="col">Example</th>
+                        <th scope="col">Typical Outcome</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Customer service</th>
+                        <td>AI agents resolve common inquiries</td>
+                        <td>Large share of tickets handled without escalation</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Finance ops</th>
+                        <td>Automated invoice processing</td>
+                        <td>Faster cycle time and fewer errors</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Data entry</th>
+                        <td>Document extraction and validation</td>
+                        <td>Reduced processing time and improved accuracy</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Quality control</th>
+                        <td>Automated visual inspection</td>
+                        <td>Consistent quality standards and faster throughput</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </details>
+
+    <details class="canvas-collapsible">
+        <summary>
+            2) Personalization - Tailored Experiences at Scale
+        </summary>
+        <div class="collapsible-content">
+            <p><strong>Delivers tailored experiences at scale—improving conversion, engagement, and retention.</strong></p>
+            
+            <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Personalization use cases showing channels, examples, and typical outcomes">
+                <caption>AI Personalization - Channels and Business Outcomes</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Channel</th>
+                        <th scope="col">Example</th>
+                        <th scope="col">Typical Outcome</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Content/Media</th>
+                        <td>Recommendation engines</td>
+                        <td>Higher session length & repeat usage</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Commerce</th>
+                        <td>Personalized merchandising</td>
+                        <td>Higher AOV and conversion rate</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Marketing</th>
+                        <td>Dynamic content optimization</td>
+                        <td>Improved click-through and engagement rates</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">User experience</th>
+                        <td>Adaptive interfaces</td>
+                        <td>Reduced friction and improved satisfaction</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </details>
+
+    <details class="canvas-collapsible">
+        <summary>
+            3) Prediction - Proactive Resource Allocation
+        </summary>
+        <div class="collapsible-content">
+            <p><strong>Anticipates demand, risk, and events to proactively allocate resources and prevent loss.</strong></p>
+            
+            <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Prediction use cases showing domains, examples, and typical outcomes">
+                <caption>AI Prediction - Domains and Business Outcomes</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Domain</th>
+                        <th scope="col">Example</th>
+                        <th scope="col">Typical Outcome</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Manufacturing</th>
+                        <td>Predictive maintenance</td>
+                        <td>Reduced unplanned downtime</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Retail</th>
+                        <td>Demand forecasting</td>
+                        <td>Lower stockouts & carrying cost</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Finance</th>
+                        <td>Risk assessment</td>
+                        <td>Better portfolio performance and reduced defaults</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Healthcare</th>
+                        <td>Patient deterioration alerts</td>
+                        <td>Improved outcomes and resource optimization</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </details>
+
+    <details class="canvas-collapsible">
+        <summary>
+            4) Optimization - Best Decisions Among Many Options
+        </summary>
+        <div class="collapsible-content">
+            <p><strong>Finds the best decision among many options—pricing, routing, scheduling—often in real time.</strong></p>
+            
+            <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Optimization use cases showing areas, examples, and typical outcomes">
+                <caption>AI Optimization - Areas and Business Outcomes</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Area</th>
+                        <th scope="col">Example</th>
+                        <th scope="col">Typical Outcome</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Pricing</th>
+                        <td>Dynamic price optimization</td>
+                        <td>Revenue lift with margin guardrails</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Supply chain</th>
+                        <td>Network/routing optimization</td>
+                        <td>Lower logistics cost & faster delivery</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Resource allocation</th>
+                        <td>Workforce scheduling</td>
+                        <td>Improved utilization and service levels</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Marketing spend</th>
+                        <td>Campaign budget allocation</td>
+                        <td>Higher ROI and customer acquisition efficiency</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </details>
+
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+        <div class="card-body">
+            <h5 class="card-title dp-ignore-theme">Learning Objective</h5>
+            <p><strong>Map opportunities to Automation, Personalization, Prediction, or Optimization and articulate the business metric each improves.</strong> This framework enables leaders to connect AI capabilities directly to measurable business outcomes.</p>
+        </div>
+    </div>
+
+    <h3 class="dp-has-icon"><i class="dp-icon fas fa-calculator" aria-hidden="true"></i>&nbsp;AI Business Case Calculator</h3>
+    
+    <div class="dp-card card h-100 w-100">
+        <h5 class="card-header dp-ignore-theme">Interactive ROI Calculator</h5>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Use realistic numbers from your context</li>
+            <li class="list-group-item">Test different efficiency gains and see payback change</li>
+            <li class="list-group-item">Calculate ROI and implementation costs</li>
+        </ul>
+    </div>
+    
+    <div class="dp-embed-wrapper">
+        <iframe
+            title="AI ROI Calculator - Interactive Business Case Tool"
+            src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/canvas-roi-calculator.html?compact=1&maxWidth=760"
+            width="100%"
+            height="700"
+            loading="lazy"
+            scrolling="no"
+            allowfullscreen
+            role="application"
+            aria-label="Interactive ROI calculator for AI business cases">
+        </iframe>
+    </div>
+    
+    <blockquote>
+        <p><strong>Reflection:</strong> <em>Which pillar offers the fastest, lowest-risk win for your team in the next quarter? What single KPI would prove success?</em></p>
+    </blockquote>
+
+    <h1 class="dp-has-icon"><i class="dp-icon fas fa-industry" aria-hidden="true"></i>&nbsp;Industry-Specific AI Applications</h1>
+    
+    <div class="dp-card card" style="border-left: 4px solid #582C83; padding-left: 15px;">
+        <div class="card-body">
+            <h5 class="card-title dp-ignore-theme">Implementation Focus</h5>
+            <p>Understanding how AI creates value in your industry helps translate concepts into implementation plans. Below are practical use cases and the business outcomes they target.</p>
+        </div>
+    </div>
+
+    <details class="canvas-collapsible">
+        <summary>
+            Retail & E-commerce - Customer Journey Transformation
+        </summary>
+        <div class="collapsible-content">
+            <p><strong>AI transforms the customer journey end-to-end—from discovery to fulfillment.</strong></p>
+            
+            <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Retail AI use cases showing applications, functions, and business impact">
+                <caption>Retail & E-commerce AI Applications</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Use Case</th>
+                        <th scope="col">What It Does</th>
+                        <th scope="col">Typical Business Impact</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Recommendation engines</th>
+                        <td>Suggest products based on behavior and context</td>
+                        <td>Higher conversion and average order value</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Visual search</th>
+                        <td>Find similar items from an uploaded image</td>
+                        <td>Faster discovery; increased conversion</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Inventory optimization</th>
+                        <td>Right-size stock using demand signals</td>
+                        <td>Fewer stockouts; lower carrying costs</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Dynamic pricing</th>
+                        <td>Adjust prices to demand and competition</td>
+                        <td>Revenue lift with margin guardrails</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Service automation</th>
+                        <td>AI agents resolve common inquiries</td>
+                        <td>Lower handle time; higher CSAT</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </details>
+
+    <details class="canvas-collapsible">
+        <summary>
+            Financial Services - Risk, Growth, and Efficiency
+        </summary>
+        <div class="collapsible-content">
+            <p><strong>AI improves risk control, growth, and operational efficiency across financial operations.</strong></p>
+            
+            <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Financial services AI use cases showing applications, functions, and business impact">
+                <caption>Financial Services AI Applications</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Use Case</th>
+                        <th scope="col">What It Does</th>
+                        <th scope="col">Typical Business Impact</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Fraud detection</th>
+                        <td>Spot anomalous patterns in real time</td>
+                        <td>Reduced loss and chargebacks</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Credit scoring</th>
+                        <td>Evaluate risk with broader data</td>
+                        <td>Higher approval precision; inclusive lending</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Next-best offer</th>
+                        <td>Personalize product recommendations</td>
+                        <td>Increased cross-sell and retention</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Document automation</th>
+                        <td>Extract/validate data from forms</td>
+                        <td>Faster onboarding; fewer errors</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Algorithmic trading</th>
+                        <td>Execute data-driven strategies at speed</td>
+                        <td>Improved execution quality</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </details>
+
+    <details class="canvas-collapsible">
+        <summary>
+            Healthcare - Clinical Augmentation and Operations
+        </summary>
+        <div class="collapsible-content">
+            <p><strong>AI augments clinicians and streamlines healthcare operations while maintaining focus on patient outcomes.</strong></p>
+            
+            <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Healthcare AI use cases showing applications, functions, and business impact">
+                <caption>Healthcare AI Applications</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Use Case</th>
+                        <th scope="col">What It Does</th>
+                        <th scope="col">Typical Business Impact</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Medical imaging</th>
+                        <td>Assist detection/triage across modalities</td>
+                        <td>Higher accuracy; faster turnaround</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Predictive analytics</th>
+                        <td>Forecast admissions and acuity</td>
+                        <td>Optimized staffing; lower wait times</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Clinical documentation</th>
+                        <td>Draft notes and code encounters</td>
+                        <td>Reduced admin burden; better compliance</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Care pathways</th>
+                        <td>Recommend next steps by cohort</td>
+                        <td>Improved outcomes; lower readmissions</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Supply & pharmacy</th>
+                        <td>Forecast utilization; manage inventory</td>
+                        <td>Lower waste; availability assurance</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </details>
+
+    <details class="canvas-collapsible">
+        <summary>
+            Manufacturing - Operational Excellence and Quality
+        </summary>
+        <div class="collapsible-content">
+            <p><strong>AI optimizes manufacturing operations, quality control, and supply chain efficiency.</strong></p>
+            
+            <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Manufacturing AI use cases showing applications, functions, and business impact">
+                <caption>Manufacturing AI Applications</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Use Case</th>
+                        <th scope="col">What It Does</th>
+                        <th scope="col">Typical Business Impact</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Predictive maintenance</th>
+                        <td>Anticipate equipment failures before they occur</td>
+                        <td>Reduced downtime; lower maintenance costs</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Quality inspection</th>
+                        <td>Automated visual defect detection</td>
+                        <td>Higher quality standards; reduced waste</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Production optimization</th>
+                        <td>Optimize scheduling and resource allocation</td>
+                        <td>Increased throughput; lower costs</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Supply chain forecasting</th>
+                        <td>Predict demand and optimize inventory</td>
+                        <td>Reduced stockouts; lower carrying costs</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Energy optimization</th>
+                        <td>Optimize energy consumption patterns</td>
+                        <td>Lower energy costs; sustainability goals</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </details>
+
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+        <div class="card-body">
+            <h5 class="card-title dp-ignore-theme">Learning Objective</h5>
+            <p><strong>Identify the 1–2 AI use cases in your industry that best align with your KPIs, constraints, and data readiness.</strong> Focus on applications that offer clear measurement criteria and realistic implementation paths.</p>
+        </div>
+    </div>
+
+    <div class="dp-card card" style="border-left: 4px solid #582C83; padding-left: 15px;">
+        <div class="card-body">
+            <h5 class="card-title dp-ignore-theme">Strategic Reflection</h5>
+            <p><strong>Pick one use case above. What single metric would prove success in 90 days, and what data would you need to get started?</strong> This exercise helps translate industry examples into actionable implementation plans for your organization.</p>
+        </div>
+    </div>
+</div>

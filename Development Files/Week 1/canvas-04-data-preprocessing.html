@@ -1,0 +1,166 @@
+﻿<div id="dp-wrapper" class="dp-wrapper">
+    <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+    <div class="dp-content-block content-block" data-title="The Importance of Data Preprocessing">
+        <h1 class="dp-has-icon"><i class="dp-icon fas fa-tools" aria-hidden="true"></i>&nbsp;The Importance of Data Preprocessing</h1>
+        <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+            <div class="card-body">
+                <h5 class="card-title dp-ignore-theme">The foundation of model success</h5>
+                <p>Data quality determines model quality. Preprocessing&mdash;cleaning, shaping, and organizing raw data&mdash;often dominates the effort but is what makes models deliver real business value.</p>
+            </div>
+        </div>
+        <h2>Why data quality matters (quick example)</h2>
+        <p>Imagine distinguishing cars vs. motorcycles using only <em>color</em> and <em>height</em>&mdash;both are ambiguous. Introduce <strong>width</strong> and the model becomes much more capable. The lesson: choose features that actually differentiate outcomes in your context.</p>
+        <div class="dp-card card" style="border-left: 4px solid #dc2626; padding-left: 15px;">
+            <div class="card-body">
+                <h5 class="card-title dp-ignore-theme">Reality check</h5>
+                <p>Teams routinely spend most of their time on preprocessing. That&rsquo;s not waste&mdash;it&rsquo;s where success is made or lost.</p>
+            </div>
+        </div>
+    </div>
+    <div class="dp-content-block content-block" data-title="Feature Extraction &amp; Selection">
+        <h2 class="dp-has-icon"><i class="dp-icon fas fa-filter" aria-hidden="true"></i>&nbsp;Feature Extraction &amp; Selection</h2>
+        <details class="canvas-collapsible">
+            <summary>Essential principles</summary>
+            <div class="collapsible-content">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><strong>Relevance</strong> &mdash; tied directly to the business outcome</li>
+                    <li class="list-group-item"><strong>Discrimination</strong> &mdash; separates classes or outcomes effectively</li>
+                    <li class="list-group-item"><strong>Stability</strong> &mdash; consistently measurable across contexts</li>
+                    <li class="list-group-item"><strong>Actionability</strong> &mdash; drives a decision or intervention</li>
+                </ul>
+            </div>
+        </details>
+        <div class="dp-card card" style="border-left: 4px solid #582C83; padding-left: 15px;">
+            <div class="card-body">
+                <h5 class="card-title dp-ignore-theme">Car vs. motorcycle (better features)</h5>
+                <p>Move beyond color/height; <strong>width</strong> is more discriminative. This shows how domain knowledge guides selection.</p>
+            </div>
+        </div>
+    </div>
+    <div class="dp-content-block content-block" data-title="Feature Engineering">
+        <h2 class="dp-has-icon"><i class="dp-icon fas fa-wrench" aria-hidden="true"></i>&nbsp;Feature Engineering</h2>
+        <p>High-value signals often don&rsquo;t exist in raw form&mdash;you create them by transforming/combining fields.</p>
+        <div class="dp-card card" style="border-left: 4px solid #f97316; padding-left: 15px;">
+            <div class="card-body">
+                <h5 class="card-title dp-ignore-theme">Example: Purchase prediction</h5>
+                <p><strong>Raw:</strong> purchase date</p>
+                <p class="mb-2"><strong>Engineer:</strong> <span class="badge-chip">day-of-week</span> <span class="badge-chip">holiday flag</span> <span class="badge-chip">pay-cycle proximity</span></p>
+                <p class="mb-0"><strong>Impact:</strong> these features often predict sales patterns better than the raw date alone.</p>
+            </div>
+        </div>
+    </div>
+    <div class="dp-content-block content-block" data-title="Structured vs. Unstructured Data">
+        <h2 class="dp-has-icon"><i class="dp-icon fas fa-database" aria-hidden="true"></i>&nbsp;Structured vs. Unstructured Data</h2>
+        <details class="canvas-collapsible">
+            <summary>Structured data: ready for analysis</summary>
+            <div class="collapsible-content">
+                <div class="dp-card card">
+                    <div class="card-body">
+                        <h6 class="card-title">Characteristics &amp; examples</h6>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Tabular rows/columns with consistent meaning</li>
+                            <li class="list-group-item">Common in business databases/CRM</li>
+                            <li class="list-group-item">Examples: customer tables, ledgers, transactions</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </details>
+        <details class="canvas-collapsible">
+            <summary>Unstructured data: hidden intelligence</summary>
+            <div class="collapsible-content">
+                <div class="dp-card card">
+                    <div class="card-body">
+                        <h6 class="card-title">Characteristics &amp; examples</h6>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Text, images, audio, video&mdash;no fixed schema</li>
+                            <li class="list-group-item">Requires extra preprocessing to extract structure</li>
+                            <li class="list-group-item">Examples: reviews, chats/emails, tickets, recordings</li>
+                        </ul>
+                        <p class="mb-0"><strong>Challenge:</strong> turning this into features takes time and specialized techniques.</p>
+                    </div>
+                </div>
+            </div>
+        </details>
+    </div>
+    <div class="dp-content-block content-block" data-title="Preprocessing Pipeline">
+        <h2 class="dp-has-icon"><i class="dp-icon fas fa-route" aria-hidden="true"></i>&nbsp;The Data Preprocessing Pipeline</h2>
+        <p>A systematic approach ensures models have a solid foundation.</p>
+        <details class="canvas-collapsible">
+            <summary>Core steps</summary>
+            <div class="collapsible-content">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="dp-card card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title">Data cleaning</h6>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">Handle missing values &amp; outliers</li>
+                                    <li class="list-group-item">Fix formatting inconsistencies</li>
+                                    <li class="list-group-item">Standardize units/time zones</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="dp-card card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title">Encoding &amp; scaling</h6>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">Encode categories (one-hot, target enc.)</li>
+                                    <li class="list-group-item">Normalize/standardize numeric fields</li>
+                                    <li class="list-group-item">Time-based splits to avoid leakage</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: .75rem;">
+                    <div class="col-md-6">
+                        <div class="dp-card card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title">Text &amp; media prep</h6>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">Text cleaning/tokenization</li>
+                                    <li class="list-group-item">Embeddings (text/images/audio)</li>
+                                    <li class="list-group-item">Document image/OCR checks</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="dp-card card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title">Feature engineering</h6>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">Behavioral aggregates (RFM, windows)</li>
+                                    <li class="list-group-item">Domain flags (seasonality, holidays)</li>
+                                    <li class="list-group-item">Interaction terms &amp; ratios</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </details>
+    </div>
+    <div class="dp-content-block content-block" data-title="Interactive: Preprocessing in Practice">
+        <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive: Preprocessing in Practice</h2>
+    </div>
+    <div class="dp-content-block content-block" data-title="Check Your Understanding">
+        <h2 class="dp-has-icon"><i class="dp-icon fas fa-clipboard-check" aria-hidden="true"></i>&nbsp;Quick Check</h2>
+        <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+            <div class="dp-panel-group">
+                <h3 class="dp-panel-heading">Spot the leakage</h3>
+                <div class="dp-panel-content">
+                    <p>Predicting next month&rsquo;s churn using &ldquo;<em>total cancellations this quarter</em>&rdquo; as a feature is problematic because it includes future info. Use time-aware features (e.g., <em>last 90 days activity</em>) and split by time.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
+        <div class="card-body">
+            <h3 class="card-title">Helpful Tip</h3>
+        </div>
+    </div>
+</div>

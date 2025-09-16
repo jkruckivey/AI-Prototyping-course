@@ -1,0 +1,88 @@
+﻿<div id="dp-wrapper" class="dp-wrapper">
+    <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+    <div class="dp-content-block content-block" data-title="Big Data Dimensions (4Vs)">
+        <h1 class="dp-has-icon"><i class="dp-icon fas fa-chart-bar" aria-hidden="true"></i>&nbsp;Big Data Dimensions (4Vs)</h1>
+        <p>This page zeroes in on the <strong>4Vs</strong>&mdash;what each means in practice, quick examples, and the quality traps to watch for.</p>
+    </div>
+    <div class="dp-content-block content-block" data-title="Learning Outcomes (This Page)" data-category="Learning Outcomes">
+        <h3 class="dp-has-icon"><i class="dp-icon fas fa-bullseye" aria-hidden="true"></i> Learning Outcomes</h3>
+        <ol>
+            <li>Define Volume, Velocity, Variety, and Veracity and why they matter for AI.</li>
+            <li>Recognize real‑world examples for each V in a business context.</li>
+            <li>Identify common quality pitfalls and mitigation strategies.</li>
+        </ol>
+    </div>
+    <div class="dp-content-block content-block" data-title="Interactive: 4Vs Explorer">
+        <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive: 4Vs Explorer</h2>
+        <div class="dp-embed-wrapper"><iframe title="4Vs Explorer" role="application" src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/canvas-4vs-explorer.html" width="100%" height="560" loading="lazy" allowfullscreen="allowfullscreen" aria-label="Interactive activity on the 4Vs of big data"></iframe></div>
+    </div>
+    <div class="dp-content-block content-block" data-title="Definitions &amp; Quick Examples">
+        <h2 class="dp-has-icon"><i class="dp-icon fas fa-list" aria-hidden="true"></i>&nbsp;Definitions &amp; Quick Examples</h2>
+        <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+            <div class="dp-panel-group">
+                <h3 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="v-volume">Volume</h3>
+                <div id="v-volume" class="dp-panel-content">
+                    <p>Scale/amount of data (e.g., years of transactions, image libraries).</p>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Retail: multi‑year SKU‑level purchases</li>
+                        <li class="list-group-item">Vision: millions of labeled images</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="dp-panel-group">
+                <h3 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="v-velocity">Velocity</h3>
+                <div id="v-velocity" class="dp-panel-content">
+                    <p>Speed of data generation/consumption (streams vs batches).</p>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Ops: sensor events multiple times per second</li>
+                        <li class="list-group-item">Web: live clickstream scoring for offers</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="dp-panel-group">
+                <h3 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="v-variety">Variety</h3>
+                <div id="v-variety" class="dp-panel-content">
+                    <p>Different types/formats (text, audio, images, tables, graphs).</p>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Support: tickets + chat logs + satisfaction scores</li>
+                        <li class="list-group-item">Risk: transactions + network graph + geolocation</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="dp-panel-group">
+                <h3 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="v-veracity">Veracity</h3>
+                <div id="v-veracity" class="dp-panel-content">
+                    <p>Trustworthiness/quality&mdash;missing values, bias, noise, labels.</p>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Marketing: duplicate customers, mismatched IDs</li>
+                        <li class="list-group-item">Finance: inconsistent time zones or definitions</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="dp-content-block content-block" data-title="Quality Matters (and so do metrics)">
+        <h2 class="dp-has-icon"><i class="dp-icon fas fa-shield-alt" aria-hidden="true"></i>&nbsp;Quality Matters</h2>
+        <div class="dp-card card h-100 w-100" style="border-left: 4px solid #f97316; padding-left: 12px;">
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><strong>Garbage in &rarr; garbage out:</strong> prioritize data lineage, validation rules, and label audits.</li>
+                    <li class="list-group-item"><strong>Bias checks:</strong> examine representation across groups and measure disparate error rates.</li>
+                    <li class="list-group-item"><strong>Business fit:</strong> match data refresh cadence to decision frequency (don&rsquo;t stream what you deploy monthly).</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="dp-content-block content-block" data-title="Reflection">
+        <h2 class="dp-has-icon"><i class="dp-icon fas fa-pen" aria-hidden="true"></i>&nbsp;Reflection</h2>
+        <p><em>Quick prompt:</em> Name a decision in your org that would benefit most from <strong>Velocity</strong> (real‑time) vs <strong>Variety</strong> (more data types). What would you need to trust the result (Veracity)?</p>
+    </div>
+    <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
+        <div class="card-body">
+            <h3 class="card-title">Helpful Tip</h3>
+            <p class="card-text">When scoping projects, commit to 1&ndash;2 <strong>must‑have Vs</strong>. Trying to maximize all four at once usually slows delivery.</p>
+        </div>
+    </div>
+    <hr />
+    <p>Select <strong>Next▸</strong> to continue.</p>
+</div>

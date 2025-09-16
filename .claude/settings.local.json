@@ -12,7 +12,9 @@
       "Read(//c/Users/jkruck/Ivey Business School/EdTech Lab - Documents/Ivey Online/**)",
       "Bash(dir \"C:\\Users\\jkruck\\Ivey Business School\\EdTech Lab - Documents\\Ivey Online\" /s /b)",
       "Bash(findstr:*)",
-      "Bash(move:*)"
+      "Bash(move:*)",
+      "Bash(dir:*)",
+      "Bash(del \"C:\\Users\\james\\OneDrive\\Documents2\\GitHub\\AI-Prototyping-course\\canvas-data-page-5-activities-roleplay.html\")"
     ],
     "deny": [],
     "ask": []

@@ -1,0 +1,369 @@
+<style>
+/* Canvas-compatible collapsible using details/summary elements */
+.canvas-collapsible {
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    margin-bottom: 1rem;
+}
+
+.canvas-collapsible summary {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    padding: 0.75rem 1.25rem;
+    cursor: pointer;
+    list-style: none;
+    font-weight: 500;
+}
+
+.canvas-collapsible summary:hover {
+    background-color: #e9ecef;
+}
+
+.canvas-collapsible summary::-webkit-details-marker {
+    display: none;
+}
+
+.canvas-collapsible[open] summary {
+    border-bottom: 1px solid #dee2e6;
+}
+
+.canvas-collapsible .collapsible-content {
+    padding: 1.25rem;
+}
+
+.step-timer {
+    background-color: #e3f2fd;
+    border: 1px solid #1976d2;
+    border-radius: 0.25rem;
+    padding: 0.5rem 1rem;
+    margin-bottom: 1rem;
+    font-weight: 500;
+    color: #1976d2;
+}
+
+.priority-matrix {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    padding: 1rem;
+    text-align: center;
+    margin: 1rem 0;
+}
+</style>
+
+<div class="dp-content-block content-block" data-category="" data-title="Executive AI Reflection Workshop">
+    <h1 class="dp-has-icon"><i class="dp-icon fas fa-user-tie" aria-hidden="true"></i>&nbsp;Executive Reflection Exercise</h1>
+    
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+        <div class="card-body">
+            <h5 class="card-title dp-ignore-theme">Workshop Objective</h5>
+            <p>This hands-on activity helps you identify specific AI opportunities within your organization. You'll move from identifying pain points to prioritizing AI solutions based on impact and feasibility, creating a concrete roadmap for AI implementation.</p>
+        </div>
+    </div>
+
+    <div class="step-timer">
+        <strong>Total Workshop Time:</strong> 33 minutes | <strong>Format:</strong> Individual reflection with tools and frameworks
+    </div>
+
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-search" aria-hidden="true"></i>&nbsp;Weka Demonstration: AI Pattern Recognition</h2>
+    
+    <div class="step-timer">
+        <strong>Duration:</strong> 5 minutes | <strong>Activity:</strong> Guided demonstration
+    </div>
+
+    <div class="dp-card card" style="border-left: 4px solid #582C83; padding-left: 15px;">
+        <div class="card-body">
+            <h5 class="card-title dp-ignore-theme">Foundation Setting</h5>
+            <p><strong>Before diving into your organization's analysis,</strong> we'll use a brief Weka demo to show how AI uncovers patterns in business data. Weka is an open-source machine learning platform designed for accessibility.</p>
+        </div>
+    </div>
+
+    <details class="canvas-collapsible" open>
+        <summary>
+            Weka Demonstration - What You'll See
+        </summary>
+        <div class="collapsible-content">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>Customer Segmentation:</strong> Identify distinct customer segments through clustering analysis</li>
+                <li class="list-group-item"><strong>Purchase Prediction:</strong> Predict likely purchases based on demographic and behavioral data</li>
+                <li class="list-group-item"><strong>Pattern Visualization:</strong> See relationships and patterns that humans might miss in raw data</li>
+                <li class="list-group-item"><strong>Business Insight Generation:</strong> Transform data patterns into actionable business intelligence</li>
+            </ul>
+        </div>
+    </details>
+
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+        <div class="card-body">
+            <h5 class="card-title dp-ignore-theme">Key Insight</h5>
+            <p><strong>AI surfaces relationships hidden in raw numbers—exactly what it can do with your business data.</strong> This demonstration provides concrete evidence of AI's pattern recognition capabilities applied to business scenarios.</p>
+        </div>
+    </div>
+
+    <h2>Step 1: Pain Point Analysis</h2>
+    
+    <div class="step-timer">
+        <strong>Duration:</strong> 8 minutes | <strong>Activity:</strong> Individual reflection and documentation
+    </div>
+
+    <details class="canvas-collapsible">
+        <summary>
+            Identify Your Organization's Key Challenges
+        </summary>
+        <div class="collapsible-content">
+            <p><strong>Identify three significant challenges your organization faces.</strong> These might be inefficiencies, customer experience gaps, operational bottlenecks, or competitive disadvantages.</p>
+            
+            <h6><strong>Framework for Pain Point Identification:</strong></h6>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>Operational Inefficiencies:</strong> Repetitive tasks, manual processes, slow decision-making</li>
+                <li class="list-group-item"><strong>Customer Experience Issues:</strong> Long response times, generic experiences, service gaps</li>
+                <li class="list-group-item"><strong>Data and Insights:</strong> Limited visibility, poor forecasting, reactive decision-making</li>
+                <li class="list-group-item"><strong>Competitive Disadvantages:</strong> Higher costs, slower innovation, market share loss</li>
+            </ul>
+
+            <h6><strong>Documentation Template:</strong></h6>
+            <div class="priority-matrix">
+                <p><strong>For each pain point, document:</strong></p>
+                <p>• <strong>Problem Description:</strong> What specific challenge does your organization face?</p>
+                <p>• <strong>Current Impact:</strong> How does this affect operations, costs, or customer satisfaction?</p>
+                <p>• <strong>Frequency/Scale:</strong> How often does this occur and what's the scope?</p>
+            </div>
+        </div>
+    </details>
+
+    <h2>Step 2: Competitive Intelligence Research</h2>
+    
+    <div class="step-timer">
+        <strong>Duration:</strong> 7 minutes | <strong>Activity:</strong> External research and benchmarking
+    </div>
+
+    <details class="canvas-collapsible">
+        <summary>
+            Research Industry AI Solutions
+        </summary>
+        <div class="collapsible-content">
+            <p><strong>Research how companies in your industry use AI</strong> to solve similar problems. Use case studies, reports, or press releases. Look for specifics, not just general claims.</p>
+            
+            <h6><strong>Research Framework:</strong></h6>
+            <p>For each pain point you identified, find:</p>
+            
+            <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Competitive research framework showing what to look for in each category">
+                <caption>Competitive Intelligence Research Framework</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Research Category</th>
+                        <th scope="col">What to Find</th>
+                        <th scope="col">Example Sources</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Company Examples</th>
+                        <td>Organizations using AI for similar challenges</td>
+                        <td>Industry reports, case studies, press releases</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Solution Types</th>
+                        <td>Specific AI approaches or technologies used</td>
+                        <td>Vendor case studies, technology blogs</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Results Achieved</th>
+                        <td>Measurable outcomes, ROI, efficiency gains</td>
+                        <td>Published metrics, analyst reports</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h6><strong>Research Tips:</strong></h6>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Focus on companies of similar size and complexity</li>
+                <li class="list-group-item">Look for specific metrics rather than vague claims</li>
+                <li class="list-group-item">Note implementation timelines and resource requirements</li>
+                <li class="list-group-item">Identify potential vendors or solution providers</li>
+            </ul>
+        </div>
+    </details>
+
+    <h2>Step 3: Impact Assessment</h2>
+    
+    <div class="step-timer">
+        <strong>Duration:</strong> 3 minutes | <strong>Activity:</strong> Structured evaluation and scoring
+    </div>
+
+    <details class="canvas-collapsible">
+        <summary>
+            Rate AI Opportunities on Three Dimensions
+        </summary>
+        <div class="collapsible-content">
+            <p><strong>Rate each potential AI application (1–5 scale) on three critical dimensions:</strong></p>
+            
+            <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Impact assessment scoring criteria for AI opportunities">
+                <caption>AI Opportunity Impact Assessment Criteria</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Dimension</th>
+                        <th scope="col">Evaluation Question</th>
+                        <th scope="col">Scoring Guide</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Business Impact</th>
+                        <td>How much would it improve operations or competitiveness?</td>
+                        <td>1=Minimal, 3=Moderate, 5=Transformational</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Feasibility</th>
+                        <td>How realistic is it given current resources?</td>
+                        <td>1=Very difficult, 3=Moderate effort, 5=Highly achievable</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Data Availability</th>
+                        <td>How accessible is the required data?</td>
+                        <td>1=Limited data, 3=Some data, 5=Rich data available</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="priority-matrix">
+                <p><strong>Quick Assessment Matrix</strong></p>
+                <p>Create a simple 3-column table with your pain points and score each dimension. This creates your preliminary opportunity ranking.</p>
+            </div>
+        </div>
+    </details>
+
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+        <div class="card-body">
+            <h5 class="card-title dp-ignore-theme">Learning Objective</h5>
+            <p><strong>Students evaluate external benchmarks against internal opportunities and develop criteria for AI investment prioritization.</strong> This systematic approach ensures decisions are data-driven rather than based on assumptions.</p>
+        </div>
+    </div>
+
+    <h2>Step 4: ROI & Priority Matrix</h2>
+    
+    <div class="step-timer">
+        <strong>Duration:</strong> 10 minutes | <strong>Activity:</strong> Quantitative analysis and strategic prioritization
+    </div>
+
+    <details class="canvas-collapsible">
+        <summary>
+            Personal ROI Analysis Framework
+        </summary>
+        <div class="collapsible-content">
+            <p><strong>💼 Quantify potential impact for your top 3 AI opportunities:</strong></p>
+            
+            <ol class="list-group list-group-numbered">
+                <li class="list-group-item"><strong>Estimate current costs</strong> of each problem (labor hours, error costs, opportunity costs)</li>
+                <li class="list-group-item"><strong>Project realistic efficiency gains</strong> from AI (based on benchmarks found in research)</li>
+                <li class="list-group-item"><strong>Research implementation costs</strong> from vendor information and industry benchmarks</li>
+                <li class="list-group-item"><strong>Calculate ROI and payback period</strong> using standard business formulas</li>
+            </ol>
+
+            <h6><strong>ROI Calculation Framework:</strong></h6>
+            <div class="priority-matrix">
+                <p><strong>ROI = (Annual Benefits - Annual Costs) / Implementation Costs × 100</strong></p>
+                <p><strong>Payback Period = Implementation Costs / Annual Net Benefits</strong></p>
+            </div>
+        </div>
+    </details>
+
+    <div class="dp-card card h-100 w-100">
+        <h5 class="card-header dp-ignore-theme">Interactive ROI Calculator</h5>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Input your specific cost and benefit estimates</li>
+            <li class="list-group-item">Test different scenarios and assumptions</li>
+            <li class="list-group-item">Generate business case supporting data</li>
+        </ul>
+    </div>
+    
+    <div class="dp-embed-wrapper">
+        <iframe
+            title="AI ROI Calculator - Personal Executive Analysis"
+            src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/canvas-roi-calculator.html?compact=1&maxWidth=760"
+            width="100%"
+            height="700"
+            loading="lazy"
+            scrolling="no"
+            allowfullscreen
+            role="application"
+            aria-label="Interactive ROI calculator for executive AI opportunity analysis">
+        </iframe>
+    </div>
+
+    <details class="canvas-collapsible">
+        <summary>
+            Strategic Priority Matrix Development
+        </summary>
+        <div class="collapsible-content">
+            <h6><strong>Priority Matrix:</strong> Plot each opportunity on a 2×2 grid (Impact vs. Feasibility)</h6>
+            
+            <div class="priority-matrix">
+                <p><strong>High Impact + High Feasibility = Priority 1 (Quick Wins)</strong></p>
+                <p><strong>High Impact + Low Feasibility = Priority 2 (Strategic Projects)</strong></p>
+                <p><strong>Low Impact + High Feasibility = Priority 3 (Easy Implementation)</strong></p>
+                <p><strong>Low Impact + Low Feasibility = Priority 4 (Avoid)</strong></p>
+            </div>
+
+            <p><strong>The top-right quadrant contains your best candidates for immediate AI implementation.</strong></p>
+
+            <h6><strong>Additional Strategic Considerations:</strong></h6>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Alignment with organizational strategic priorities</li>
+                <li class="list-group-item">Resource availability and timing constraints</li>
+                <li class="list-group-item">Risk tolerance and change management capacity</li>
+                <li class="list-group-item">Competitive urgency and market dynamics</li>
+            </ul>
+        </div>
+    </details>
+
+    <div class="dp-card card" style="border-left: 4px solid #582C83; padding-left: 15px;">
+        <div class="card-body">
+            <h5 class="card-title dp-ignore-theme">Expected Workshop Outcome</h5>
+            <p><strong>You'll leave with a clear list of AI opportunities, validated examples, and a prioritized roadmap.</strong> This concrete framework enables immediate next steps: stakeholder discussions, vendor evaluations, pilot project planning, and budget development.</p>
+        </div>
+    </details>
+
+    <h3>Next Steps Beyond the Workshop</h3>
+
+    <details class="canvas-collapsible">
+        <summary>
+            Implementation Roadmap Template
+        </summary>
+        <div class="collapsible-content">
+            <p><strong>Transform your workshop results into action with this structured roadmap:</strong></p>
+            
+            <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Implementation roadmap showing timeframes and activities">
+                <caption>Post-Workshop Implementation Roadmap</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Timeframe</th>
+                        <th scope="col">Activities</th>
+                        <th scope="col">Key Deliverables</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Week 1-2</th>
+                        <td>Stakeholder socialization, leadership alignment</td>
+                        <td>Executive summary, preliminary business cases</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Week 3-6</th>
+                        <td>Detailed feasibility analysis, vendor research</td>
+                        <td>Comprehensive business cases, vendor shortlist</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Month 2-3</th>
+                        <td>Pilot project planning, resource allocation</td>
+                        <td>Project charters, success metrics, timelines</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Month 4+</th>
+                        <td>Pilot implementation, measurement, scaling decisions</td>
+                        <td>Pilot results, scaling recommendations</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </details>
+</div>

@@ -1,0 +1,113 @@
+﻿<div id="dp-wrapper" class="dp-wrapper">
+    <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+    <div class="dp-content-block content-block" data-title="Supermarket Case Study">
+        <h1 class="dp-has-icon"><i class="dp-icon fas fa-shopping-basket" aria-hidden="true"></i>&nbsp;Supermarket Case Study</h1>
+        <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+            <div class="card-body">
+                <h5 class="card-title dp-ignore-theme">Context</h5>
+                <p>Use a realistic supermarket scenario to connect <strong>data</strong>, <strong>modeling choices</strong>, and <strong>business outcomes</strong> (pricing, promos, assortment, staffing).</p>
+            </div>
+        </div>
+    </div>
+    <div class="dp-content-block content-block" data-title="Learning Outcomes (This Page)" data-category="Learning Outcomes">
+        <h3 class="dp-has-icon"><i class="dp-icon fas fa-bullseye" aria-hidden="true"></i> Learning Outcomes</h3>
+        <ol>
+            <li>Frame a business decision and align to measurable KPIs.</li>
+            <li>Identify data sources and guardrails required to deliver value safely.</li>
+            <li>Propose an experiment or deployment plan that closes the last-mile gap.</li>
+        </ol>
+    </div>
+    <div class="dp-content-block content-block" data-title="Case Prompts">
+        <h2 class="dp-has-icon"><i class="dp-icon fas fa-clipboard-list" aria-hidden="true"></i>&nbsp;Case Prompts</h2>
+        <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+            <div class="dp-panel-group">
+                <h3 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="cs-decision">1) Decision &amp; KPI</h3>
+                <div id="cs-decision" class="dp-panel-content">
+                    <p>Define the <strong>decision</strong> (e.g., which products to discount next week) and primary <strong>KPI</strong> (e.g., contribution margin, units, or basket size). List any <em>constraints</em> (brand commitments, stock limits, fairness rules).</p>
+                </div>
+            </div>
+            <div class="dp-panel-group">
+                <h3 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="cs-data">2) Data inventory</h3>
+                <div id="cs-data" class="dp-panel-content">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Transactions (SKU, price, promo, units, margin)</li>
+                        <li class="list-group-item">Calendar (holiday flags, payday cycles, seasons)</li>
+                        <li class="list-group-item">Store ops (inventory on hand, staffing, shelf space)</li>
+                        <li class="list-group-item">External (weather, local events, competitor price checks)</li>
+                    </ul>
+                    <p class="mb-0"><strong>Quality check:</strong> missing promos? price overrides? time‑zones? dedupe customer IDs?</p>
+                </div>
+            </div>
+            <div class="dp-panel-group">
+                <h3 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="cs-models">3) Modeling options</h3>
+                <div id="cs-models" class="dp-panel-content">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="dp-card card h-100" style="border-left: 4px solid #034638; padding-left: 12px;">
+                                <div class="card-body">
+                                    <h6 class="card-title">Forecasting (Supervised)</h6>
+                                    <p>Predict demand by SKU/store/week including price &amp; promo features. Useful for inventory and labor planning.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="dp-card card h-100" style="border-left: 4px solid #582C83; padding-left: 12px;">
+                                <div class="card-body">
+                                    <h6 class="card-title">Segmentation (Unsupervised)</h6>
+                                    <p>Cluster stores or customers to tailor assortments and promo strategies.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: .75rem;">
+                        <div class="col-md-6">
+                            <div class="dp-card card h-100" style="border-left: 4px solid #f97316; padding-left: 12px;">
+                                <div class="card-body">
+                                    <h6 class="card-title">Recommendation</h6>
+                                    <p>Next‑best offer or basket‑aware suggestions online or at POS (guardrails for sensitive items).</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="dp-card card h-100" style="border-left: 4px solid #dc2626; padding-left: 12px;">
+                                <div class="card-body">
+                                    <h6 class="card-title">Cautions</h6>
+                                    <p>Avoid leakage (e.g., using future inventory) and measure net lift, not clicks. Watch fairness metrics across neighborhoods.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="dp-panel-group">
+                <h3 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="cs-rollout">4) Experiment &amp; Rollout</h3>
+                <div id="cs-rollout" class="dp-panel-content">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><strong>Design:</strong> A/B stores or time‑based ramp. Pre‑register KPI and duration.</li>
+                        <li class="list-group-item"><strong>Last‑mile:</strong> surface recommendations in the tools where decisions happen (planogram app, POS prompts, promo calendar).</li>
+                        <li class="list-group-item"><strong>Monitoring:</strong> dashboard for lift, substitution effects, margin impact, and fairness.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="dp-panel-group">
+                <h3 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="cs-governance">5) Governance &amp; Guardrails</h3>
+                <div id="cs-governance" class="dp-panel-content">
+                    <p>Document data rights, privacy, and equity considerations. Assign owners for model changes and incident response. Provide opt‑outs and human review for sensitive decisions.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="dp-content-block content-block" data-title="Reflection">
+        <h2 class="dp-has-icon"><i class="dp-icon fas fa-pen" aria-hidden="true"></i>&nbsp;Reflection</h2>
+        <p>Pick one proposed action (e.g., price change for a category). What <strong>data</strong> is most critical? What <strong>guardrail</strong> prevents harm? How will you <strong>measure</strong> success?</p>
+    </div>
+    <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-color-dp-primary dp-callout-type-info" role="note" aria-label="Session completion reminder">
+        <div class="dp-callout-side-emphasis"><i class="dp-icon fas fa-info-circle dp-default-icon" aria-hidden="true"></i></div>
+        <div class="card-body">
+            <h4 class="card-title"><strong>Reminder</strong></h4>
+            <p class="card-text">This is the last page in the session. Please ensure you&rsquo;ve completed all activities and quizzes.</p>
+        </div>
+    </div>
+    <hr />
+    <p>Select <strong>Modules</strong> on the left-hand side to return to the session list.</p>
+</div>

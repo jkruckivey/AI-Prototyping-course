@@ -1,0 +1,181 @@
+﻿<!-- AMBA Canvas Page Template (Updated)
+- Consistent structure using dp-wrapper → content-blocks → panels / callouts
+- Accordion panels with a11y (aria-expanded/controls, keyboard support)
+- Widget/iframe embed pattern with title + role + aria-label
+- Optional end-of-session reminder block
+-->
+
+<div id="dp-wrapper" class="dp-wrapper">
+  <!-- Progress placeholder (kept for AMBA theme hooks) -->
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+
+  <!-- 1) Page Intro / Title Block -->
+  <div class="dp-content-block content-block" data-title="[Page Title / Purpose]">
+    <h1 class="dp-has-icon"><i class="dp-icon fas fa-star" aria-hidden="true"></i>&nbsp;[Page Title]</h1>
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+      <div class="card-body">
+        <h5 class="card-title dp-ignore-theme">What this page covers</h5>
+        <p>[Brief 1–2 sentence overview of the page’s goal and what learners will do.]</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2) Learning Outcomes (optional) -->
+  <div class="dp-content-block content-block" data-title="Learning Outcomes (This Page)" data-category="Learning Outcomes">
+    <h3 class="dp-has-icon"><i class="dp-icon fas fa-bullseye" aria-hidden="true"></i> Learning Outcomes</h3>
+    <ol>
+      <li>[Outcome 1]</li>
+      <li>[Outcome 2]</li>
+      <li>[Outcome 3]</li>
+    </ol>
+  </div>
+
+  <!-- 3) Accordion Panels (replace any <details> blocks with this pattern) -->
+  <div class="dp-content-block content-block" data-title="[Section Title]">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-lightbulb" aria-hidden="true"></i>&nbsp;[Section Title]</h2>
+
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+      <!-- Panel A -->
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="panel-a">[Panel A Heading]</h3>
+        <div id="panel-a" class="dp-panel-content" hidden>
+          <p>[Panel A content goes here. Lists, cards, tables are fine.]</p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Point A</li>
+            <li class="list-group-item">Point B</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Panel B -->
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="panel-b">[Panel B Heading]</h3>
+        <div id="panel-b" class="dp-panel-content" hidden>
+          <div class="dp-card card" style="background-color:#f8f9fa; border:1px solid #dee2e6;">
+            <div class="card-body">
+              <p>[Example card inside a panel.]</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel C (example with table) -->
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="panel-c">[Panel C Heading]</h3>
+        <div id="panel-c" class="dp-panel-content" hidden>
+          <div class="table-responsive">
+            <table class="ic-Table ic-Table--hover-row" role="table" aria-label="[Descriptive table label]">
+              <caption>[Optional table caption]</caption>
+              <thead>
+                <tr>
+                  <th>Column 1</th>
+                  <th>Column 2</th>
+                  <th>Column 3</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Row A</th>
+                  <td>Cell</td>
+                  <td>Cell</td>
+                </tr>
+                <tr>
+                  <th scope="row">Row B</th>
+                  <td>Cell</td>
+                  <td>Cell</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4) Interactive Widget / Embed Pattern -->
+  <div class="dp-content-block content-block" data-title="Interactive: [Widget Name]">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive: [Widget Name]</h2>
+    <p class="mt-2"><em>Tip:</em> [Short instruction or context for the activity.]</p>
+    <div class="dp-embed-wrapper">
+      <iframe
+        title="[Widget Title for screen readers]"
+        role="application"
+        src="[WIDGET_URL]"
+        width="100%"
+        height="560"
+        loading="lazy"
+        allowfullscreen
+        aria-label="[Clear description of what the widget does]">
+      </iframe>
+    </div>
+  </div>
+
+  <!-- 5) Quick Check / Knowledge Check (as an accordion to keep short pages tidy) -->
+  <div class="dp-content-block content-block" data-title="Check Your Understanding">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-clipboard-check" aria-hidden="true"></i>&nbsp;Quick Check</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="quiz-1">[Quiz title or prompt]</h3>
+        <div id="quiz-1" class="dp-panel-content" hidden>
+          <ul>
+            <li>[Item 1]</li>
+            <li>[Item 2]</li>
+            <li>[Item 3]</li>
+          </ul>
+          <p class="mb-0"><em>Optional:</em> convert to a graded Canvas quiz later.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6) Callouts: Tip, Warning, Info (choose 0–2 per page) -->
+  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
+    <div class="card-body">
+      <h3 class="card-title">Helpful Tip</h3>
+      <p class="card-text">[Short, actionable guidance relevant to the page’s task.]</p>
+    </div>
+  </div>
+
+  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-color-dp-primary dp-callout-type-warning">
+    <div class="dp-callout-side-emphasis"><i class="dp-icon fas fa-exclamation-triangle dp-default-icon" aria-hidden="true"></i></div>
+    <div class="card-body">
+      <h4 class="card-title">Heads up</h4>
+      <p class="card-text">[Risk, constraint, or common pitfall worth highlighting.]</p>
+    </div>
+  </div>
+
+  <!-- 7) Optional: End‑of‑session reminder block (use only on the last page in a session) -->
+  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-color-dp-primary dp-callout-type-info" role="note" aria-label="Session completion reminder">
+    <div class="dp-callout-side-emphasis"><i class="dp-icon fas fa-info-circle dp-default-icon" aria-hidden="true"></i></div>
+    <div class="card-body">
+      <h4 class="card-title"><strong>Reminder</strong></h4>
+      <p class="card-text">This is the last page in the session. Please ensure you’ve completed all activities and quizzes.</p>
+    </div>
+  </div>
+
+  <!-- 8) Standard bottom nav cue -->
+  <hr />
+  <p>Select <strong>Next▸</strong> to continue.</p>
+  <!-- Or, on a last page: <p>Select <strong>Modules</strong> on the left-hand side to return to the session list.</p> -->
+</div>
+
+<!-- Lightweight, Canvas‑safe toggling for panel accordions (skip if your global theme already wires this) -->
+<script>
+(function () {
+  function toggleHead(h){
+    const content = document.getElementById(h.getAttribute('aria-controls'));
+    const expanded = h.getAttribute('aria-expanded') === 'true';
+    h.setAttribute('aria-expanded', String(!expanded));
+    if (content) content.hidden = expanded;
+  }
+  document.addEventListener('click', function (e) {
+    const h = e.target.closest('.dp-panel-heading[role="button"]');
+    if (h) toggleHead(h);
+  });
+  document.addEventListener('keydown', function (e) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role="button"]')) {
+      e.preventDefault(); toggleHead(e.target);
+    }
+  });
+})();
+</script>
