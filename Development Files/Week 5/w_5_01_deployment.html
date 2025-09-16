@@ -1,0 +1,186 @@
+<div id="dp-wrapper" class="dp-wrapper">
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+
+  <!-- Deployment & Last‑Mile Integration -->
+  <div class="dp-content-block content-block" data-title="Deployment & Last‑Mile Integration">
+    <h1 class="dp-has-icon"><i class="dp-icon fas fa-rocket" aria-hidden="true"></i>&nbsp;Deployment &amp; Last‑Mile Integration</h1>
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+      <div class="card-body">
+        <h5 class="card-title dp-ignore-theme">What this page covers</h5>
+        <p>How to turn a trained model into <strong>business impact</strong>: deployment patterns (batch, real‑time, human‑in‑the‑loop), integration points (APIs, events), safe rollout (shadow, canary, A/B), and the <strong>instrumentation</strong> that makes monitoring & governance possible.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Learning Outcomes -->
+  <div class="dp-content-block content-block" data-title="Learning Outcomes (This Page)" data-category="Learning Outcomes">
+    <h3 class="dp-has-icon"><i class="dp-icon fas fa-bullseye" aria-hidden="true"></i> Learning Outcomes</h3>
+    <ol>
+      <li>Choose a deployment pattern (batch vs. online vs. human‑in‑the‑loop) based on <strong>decision cadence</strong> and <strong>latency budgets</strong>.</li>
+      <li>Sketch an integration plan: <strong>feature store</strong>/data contracts, scoring service, queues/events, <strong>idempotent</strong> writes.</li>
+      <li>Plan a safe rollout: shadow, canary, or A/B with <strong>guardrails</strong> and <strong>roll‑back</strong>.</li>
+    </ol>
+  </div>
+
+  <!-- Deployment Patterns -->
+  <div class="dp-content-block content-block" data-title="Deployment Patterns">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-project-diagram" aria-hidden="true"></i>&nbsp;Deployment Patterns</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="dep-batch">Batch scoring</h3>
+        <div id="dep-batch" class="dp-panel-content" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Run scores on a schedule (hourly/daily) and write to a table or CRM.</li>
+            <li class="list-group-item">Great for campaigns, nightly pricing, inventory, risk repricing.</li>
+            <li class="list-group-item">Lower infra complexity; align with <strong>decision cadence</strong>.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="dep-online">Online (real‑time) scoring</h3>
+        <div id="dep-online" class="dp-panel-content" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Synchronous API (<em>request → score → action</em>) with latency budget (e.g., &lt;100ms).</li>
+            <li class="list-group-item">Use for fraud, recommendations, dynamic routing, chat assistants.</li>
+            <li class="list-group-item">Requires caching, <strong>feature serving</strong>, fallbacks, and rate limits.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="dep-hitl">Human‑in‑the‑loop (HITL)</h3>
+        <div id="dep-hitl" class="dp-panel-content" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Model proposes; humans review/override within SLA.</li>
+            <li class="list-group-item">Interfaces: review queues, triage dashboards, explanations.</li>
+            <li class="list-group-item">Great for high‑risk decisions; feedback fuels <strong>continuous learning</strong>.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Integration Plan -->
+  <div class="dp-content-block content-block" data-title="Integration Plan">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-puzzle-piece" aria-hidden="true"></i>&nbsp;Integration Plan</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="int-features">Features & data contracts</h3>
+        <div id="int-features" class="dp-panel-content" hidden>
+          <p>Define a <strong>feature spec</strong> (name, type, freshness, null policy). Use a <strong>feature store</strong> or consistent ETL so training/serving are aligned. Add <strong>schema validation</strong> at ingress.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="int-service">Scoring service</h3>
+        <div id="int-service" class="dp-panel-content" hidden>
+          <p>Expose a <strong>versioned</strong> API (e.g., <code>POST /v1/score</code>), return score + metadata (version, timestamp, latency). Log <em>inputs, score, decision, outcome id</em> for monitoring.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="int-events">Queues & events</h3>
+        <div id="int-events" class="dp-panel-content" hidden>
+          <p>Publish decisions/outcomes to an <strong>event bus</strong> (Kafka, Pub/Sub) for downstream actions and analytics. Use retries + <strong>idempotency keys</strong>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Safe Rollout -->
+  <div class="dp-content-block content-block" data-title="Safe Rollout">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-traffic-light" aria-hidden="true"></i>&nbsp;Safe Rollout</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="roll-shadow">Shadow</h3>
+        <div id="roll-shadow" class="dp-panel-content" hidden>
+          <p>Run the new model <em>in parallel</em> without affecting decisions; compare scores and outcomes to baseline.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="roll-canary">Canary</h3>
+        <div id="roll-canary" class="dp-panel-content" hidden>
+          <p>Gradually route traffic (e.g., 5% → 25% → 50% → 100%) while monitoring KPIs, latency, error rates. Automate <strong>rollback</strong> on breach.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="roll-ab">A/B testing</h3>
+        <div id="roll-ab" class="dp-panel-content" hidden>
+          <p>Randomly assign users to control vs. treatment. Measure <strong>business lift</strong>; ensure sample sizes and run length are adequate.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive: Deployment Flow Designer -->
+  <div class="dp-content-block content-block" data-title="Interactive: Deployment Flow Designer">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive: Deployment Flow Designer</h2>
+    <p class="mt-2"><em>Try it:</em> Pick a pattern (batch/online/HITL), set a latency budget, and choose rollout strategy; the diagram updates.</p>
+    <div class="dp-embed-wrapper">
+      <iframe title="Deployment Flow Designer" role="application" src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/w5-deployment-designer.html" width="100%" height="560" loading="lazy" allowfullscreen aria-label="Interactive diagram to configure batch/online/HITL deployment, latency, and rollout strategy"></iframe>
+    </div>
+  </div>
+
+  <!-- SLAs, Latency & Reliability -->
+  <div class="dp-content-block content-block" data-title="SLAs, Latency & Reliability">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-stopwatch" aria-hidden="true"></i>&nbsp;SLAs, Latency &amp; Reliability</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="sla-lat">Latency budget</h3>
+        <div id="sla-lat" class="dp-panel-content" hidden>
+          <p>Set <strong>P95</strong> and <strong>P99</strong> latency goals. Use caching, batching, and <strong>asynchronous fallbacks</strong> when predictions are slow.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="sla-obs">Observability</h3>
+        <div id="sla-obs" class="dp-panel-content" hidden>
+          <p>Emit <strong>structured logs</strong> and <strong>metrics</strong> (requests/sec, error rate, timeouts). Trace requests end‑to‑end. Keep <strong>version tags</strong> everywhere.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="sla-inc">Incidents & rollback</h3>
+        <div id="sla-inc" class="dp-panel-content" hidden>
+          <p>Define <strong>guardrails</strong> (precision floor, max review backlog). If breached, automatically revert to the last good version and alert owners.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive: Rollout Simulator -->
+  <div class="dp-content-block content-block" data-title="Interactive: Rollout Simulator">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive: Rollout Simulator</h2>
+    <p class="mt-2"><em>Try it:</em> Simulate shadow/canary/A‑B with guardrails. Watch KPIs and latency under different traffic splits.</p>
+    <div class="dp-embed-wrapper">
+      <iframe title="Rollout Simulator" role="application" src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/w5-rollout-simulator.html" width="100%" height="520" loading="lazy" allowfullscreen aria-label="Interactive simulator for shadow, canary and A/B rollout with guardrails"></iframe>
+    </div>
+  </div>
+
+  <!-- Helpful Tip -->
+  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
+    <div class="card-body">
+      <h3 class="card-title">Helpful Tip</h3>
+      <p class="card-text">Design for <strong>idempotency</strong> (safe re‑tries) and capture <strong>decision context</strong> (inputs, score, version, threshold) on every call—future you will thank you during audits.</p>
+    </div>
+  </div>
+
+  <hr />
+  <p>Select <strong>Next▸</strong> to continue with <strong>Monitoring & Drift</strong>.</p>
+</div>
+
+<!-- Canvas‑safe toggling -->
+<script>
+(function () {
+  function toggleHead(h){
+    const content = document.getElementById(h.getAttribute('aria-controls'));
+    const expanded = h.getAttribute('aria-expanded') === 'true';
+    h.setAttribute('aria-expanded', String(!expanded));
+    if (content) content.hidden = expanded;
+  }
+  document.addEventListener('click', function (e) {
+    const h = e.target.closest('.dp-panel-heading[role=\"button\"]');
+    if (h) toggleHead(h);
+  });
+  document.addEventListener('keydown', function (e) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role=\"button\"]')) {
+      e.preventDefault(); toggleHead(e.target);
+    }
+  });
+})();
+</script>

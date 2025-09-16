@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drag the Line - MSE Explorer</title>
+    <link rel="stylesheet" href="../shared-demo.css">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        .regression-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 1rem 0;
+        }
+
+        .controls-section {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            height: fit-content;
+        }
+
+        .control-group {
+            margin: 1.5rem 0;
+        }
+
+        .control-group label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 0.5rem 0;
+        }
+
+        .slider-container input[type="range"] {
+            flex: 1;
+        }
+
+        .value-display {
+            background: #e7f3ff;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: bold;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .plot-section {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .plot-container {
+            height: 400px;
+            margin: 1rem 0;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            background: white;
+            cursor: crosshair;
+        }
+
+        .mse-display {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            border: 2px solid #ef4444;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            text-align: center;
+        }
+
+        .mse-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #dc2626;
+        }
+
+        .mse-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        .error-breakdown {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .error-metric {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 6px;
+            text-align: center;
+            border-left: 4px solid #034638;
+        }
+
+        .error-metric-value {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #034638;
+        }
+
+        .error-metric-label {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 0.25rem;
+        }
+
+        .instructions {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 6px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .best-fit-btn {
+            background: #034638;
+            color: white;
+            border: none;
+            padding: 1rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            width: 100%;
+            margin: 1rem 0;
+            transition: background 0.3s ease;
+        }
+
+        .best-fit-btn:hover {
+            background: #022c24;
+        }
+
+        .reset-btn {
+            background: #582C83;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            width: 100%;
+            margin: 0.5rem 0;
+            transition: background 0.3s ease;
+        }
+
+        .reset-btn:hover {
+            background: #4c1d75;
+        }
+
+        .drag-hint {
+            background: #e7f3ff;
+            border: 1px solid #3b82f6;
+            border-radius: 6px;
+            padding: 0.75rem;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .mse-explanation {
+            background: #f0f9f4;
+            border: 1px solid #10b981;
+            border-radius: 6px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+
+        .mse-explanation h4 {
+            color: #047857;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .outlier-highlight {
+            background: #fef2f2;
+            border: 1px solid #ef4444;
+            border-radius: 6px;
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 768px) {
+            .regression-container {
+                grid-template-columns: 1fr;
+            }
+
+            .error-breakdown {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <div class="demo-header">
+            <h1>Drag the Line - MSE Explorer</h1>
+            <p>Adjust slope and intercept to minimize Mean Squared Error. See how large errors dominate!</p>
+        </div>
+
+        <div class="instructions">
+            <strong>🎯 Your Goal:</strong> Minimize the Mean Squared Error (MSE) by adjusting the line to best fit the data points. Notice how a few large errors can dramatically increase MSE!
+        </div>
+
+        <div class="regression-container">
+            <div class="controls-section">
+                <h3>📏 Line Parameters</h3>
+
+                <div class="control-group">
+                    <label>Slope (m):</label>
+                    <div class="slider-container">
+                        <input type="range" id="slope-slider" min="-10" max="15" value="5" step="0.1" onchange="updateSlope(this.value)">
+                        <div class="value-display" id="slope-value">5.0</div>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label>Intercept (b):</label>
+                    <div class="slider-container">
+                        <input type="range" id="intercept-slider" min="0" max="80" value="35" step="1" onchange="updateIntercept(this.value)">
+                        <div class="value-display" id="intercept-value">35</div>
+                    </div>
+                </div>
+
+                <div class="drag-hint">
+                    💡 <strong>Tip:</strong> Try clicking and dragging the line directly on the plot to adjust it interactively!
+                </div>
+
+                <button class="best-fit-btn" onclick="findBestFit()">🎯 Find Best Fit</button>
+                <button class="reset-btn" onclick="resetLine()">🔄 Reset Line</button>
+
+                <div class="mse-explanation">
+                    <h4>📊 Why MSE Matters</h4>
+                    <p><strong>MSE = Mean Squared Error</strong><br>
+                    Squaring errors means large mistakes are penalized much more than small ones. A single outlier can dramatically increase MSE!</p>
+                </div>
+            </div>
+
+            <div class="plot-section">
+                <div class="plot-container" id="regression-plot"></div>
+
+                <div class="mse-display">
+                    <div class="mse-value" id="mse-value">245.2</div>
+                    <div class="mse-label">Mean Squared Error (MSE)</div>
+                </div>
+
+                <div class="error-breakdown">
+                    <div class="error-metric">
+                        <div class="error-metric-value" id="mae-value">12.5</div>
+                        <div class="error-metric-label">Mean Absolute Error</div>
+                    </div>
+                    <div class="error-metric">
+                        <div class="error-metric-value" id="rmse-value">15.7</div>
+                        <div class="error-metric-label">Root MSE (RMSE)</div>
+                    </div>
+                    <div class="error-metric">
+                        <div class="error-metric-value" id="r2-value">0.85</div>
+                        <div class="error-metric-label">R² Score</div>
+                    </div>
+                    <div class="error-metric">
+                        <div class="error-metric-value" id="worst-error">28.3</div>
+                        <div class="error-metric-label">Worst Single Error</div>
+                    </div>
+                </div>
+
+                <div class="outlier-highlight" id="outlier-warning" style="display: none;">
+                    ⚠️ <strong>Outlier Impact:</strong> The point furthest from your line contributes <span id="outlier-contribution">15%</span> of total MSE!
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let slope = 5.0;
+        let intercept = 35;
+        let isDragging = false;
+
+        // MBA salary data: Years of Experience vs Annual Salary (CAD $k)
+        const data = {
+            x: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 15, 18, 20, 22],
+            y: [45, 52, 58, 65, 72, 78, 85, 92, 98, 105, 118, 135, 155, 170, 185]
+        };
+
+        function updateSlope(value) {
+            slope = parseFloat(value);
+            document.getElementById('slope-value').textContent = slope.toFixed(1);
+            updatePlot();
+        }
+
+        function updateIntercept(value) {
+            intercept = parseFloat(value);
+            document.getElementById('intercept-value').textContent = intercept;
+            updatePlot();
+        }
+
+        function calculateMetrics() {
+            let mse = 0;
+            let mae = 0;
+            let ss_res = 0;
+            let ss_tot = 0;
+            let maxError = 0;
+            let worstErrorIndex = 0;
+
+            const yMean = data.y.reduce((sum, val) => sum + val, 0) / data.y.length;
+
+            for(let i = 0; i < data.x.length; i++) {
+                const predicted = slope * data.x[i] + intercept;
+                const actual = data.y[i];
+                const error = Math.abs(predicted - actual);
+                const squaredError = Math.pow(predicted - actual, 2);
+
+                mse += squaredError;
+                mae += error;
+                ss_res += squaredError;
+                ss_tot += Math.pow(actual - yMean, 2);
+
+                if(error > maxError) {
+                    maxError = error;
+                    worstErrorIndex = i;
+                }
+            }
+
+            mse /= data.x.length;
+            mae /= data.x.length;
+            const rmse = Math.sqrt(mse);
+            const r2 = 1 - (ss_res / ss_tot);
+
+            return { mse, mae, rmse, r2, maxError, worstErrorIndex };
+        }
+
+        function updatePlot() {
+            const metrics = calculateMetrics();
+
+            // Predicted values for the line
+            const xRange = [0, 25];
+            const yPredicted = xRange.map(x => slope * x + intercept);
+
+            // Create error bars (residuals)
+            const errorBars = {
+                x: [],
+                y: [],
+                mode: 'lines',
+                line: { color: 'rgba(239, 68, 68, 0.5)', width: 1, dash: 'dot' },
+                showlegend: false,
+                hoverinfo: 'skip'
+            };
+
+            // Add error lines
+            for(let i = 0; i < data.x.length; i++) {
+                const predicted = slope * data.x[i] + intercept;
+                errorBars.x.push(data.x[i], data.x[i], null);
+                errorBars.y.push(data.y[i], predicted, null);
+            }
+
+            // Color points by error magnitude
+            const errors = data.x.map((x, i) => Math.abs(slope * x + intercept - data.y[i]));
+            const maxError = Math.max(...errors);
+            const colors = errors.map(error => {
+                const intensity = error / maxError;
+                if(intensity > 0.7) return '#dc2626'; // Red for large errors
+                if(intensity > 0.4) return '#f59e0b'; // Orange for medium errors
+                return '#10b981'; // Green for small errors
+            });
+
+            const traces = [
+                {
+                    x: data.x,
+                    y: data.y,
+                    mode: 'markers',
+                    type: 'scatter',
+                    name: 'MBA Salaries',
+                    marker: {
+                        color: colors,
+                        size: 12,
+                        line: { color: 'white', width: 2 }
+                    },
+                    hovertemplate: '<b>%{x} years experience</b><br>' +
+                                 'Salary: $%{y}k<br>' +
+                                 '<extra></extra>'
+                },
+                errorBars,
+                {
+                    x: xRange,
+                    y: yPredicted,
+                    mode: 'lines',
+                    type: 'scatter',
+                    name: `y = ${slope.toFixed(1)}x + ${intercept}`,
+                    line: { color: '#034638', width: 4 }
+                }
+            ];
+
+            const layout = {
+                title: 'MBA Salary Prediction - Drag to Adjust Line',
+                xaxis: {
+                    title: 'Years of Experience',
+                    range: [-1, 24]
+                },
+                yaxis: {
+                    title: 'Annual Salary (CAD $k)',
+                    range: [30, 200]
+                },
+                showlegend: true,
+                margin: { t: 50, r: 50, b: 50, l: 60 },
+                hovermode: 'closest'
+            };
+
+            Plotly.newPlot('regression-plot', traces, layout, {responsive: true});
+
+            // Add drag functionality
+            const plotDiv = document.getElementById('regression-plot');
+            plotDiv.on('plotly_click', function(data) {
+                if(data.points[0].curveNumber === 2) { // Clicked on the line
+                    isDragging = true;
+                }
+            });
+
+            plotDiv.on('plotly_hover', function(data) {
+                if(data.points[0].curveNumber === 2) { // Hovering over line
+                    plotDiv.style.cursor = 'move';
+                } else {
+                    plotDiv.style.cursor = 'crosshair';
+                }
+            });
+
+            // Update metrics display
+            document.getElementById('mse-value').textContent = metrics.mse.toFixed(1);
+            document.getElementById('mae-value').textContent = metrics.mae.toFixed(1);
+            document.getElementById('rmse-value').textContent = metrics.rmse.toFixed(1);
+            document.getElementById('r2-value').textContent = metrics.r2.toFixed(3);
+            document.getElementById('worst-error').textContent = metrics.maxError.toFixed(1);
+
+            // Show outlier impact
+            const worstErrorContribution = (Math.pow(metrics.maxError, 2) / (metrics.mse * data.x.length)) * 100;
+            document.getElementById('outlier-contribution').textContent = worstErrorContribution.toFixed(0) + '%';
+
+            if(worstErrorContribution > 20) {
+                document.getElementById('outlier-warning').style.display = 'block';
+            } else {
+                document.getElementById('outlier-warning').style.display = 'none';
+            }
+
+            // Update sliders to match current values
+            document.getElementById('slope-slider').value = slope;
+            document.getElementById('intercept-slider').value = intercept;
+            document.getElementById('slope-value').textContent = slope.toFixed(1);
+            document.getElementById('intercept-value').textContent = intercept;
+        }
+
+        function findBestFit() {
+            // Simple least squares solution
+            const n = data.x.length;
+            const sumX = data.x.reduce((sum, val) => sum + val, 0);
+            const sumY = data.y.reduce((sum, val) => sum + val, 0);
+            const sumXY = data.x.reduce((sum, x, i) => sum + x * data.y[i], 0);
+            const sumXX = data.x.reduce((sum, x) => sum + x * x, 0);
+
+            slope = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
+            intercept = (sumY - slope * sumX) / n;
+
+            // Animate the change
+            animateToTarget(slope, intercept);
+        }
+
+        function resetLine() {
+            slope = 5.0;
+            intercept = 35;
+            animateToTarget(slope, intercept);
+        }
+
+        function animateToTarget(targetSlope, targetIntercept) {
+            const startSlope = slope;
+            const startIntercept = intercept;
+            const steps = 30;
+            let currentStep = 0;
+
+            const animate = () => {
+                currentStep++;
+                const progress = currentStep / steps;
+                const easeProgress = 1 - Math.pow(1 - progress, 3); // Ease out cubic
+
+                slope = startSlope + (targetSlope - startSlope) * easeProgress;
+                intercept = startIntercept + (targetIntercept - startIntercept) * easeProgress;
+
+                updatePlot();
+
+                if(currentStep < steps) {
+                    requestAnimationFrame(animate);
+                } else {
+                    slope = targetSlope;
+                    intercept = targetIntercept;
+                    updatePlot();
+                }
+            };
+
+            animate();
+        }
+
+        // Initialize
+        updatePlot();
+
+        // Add keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if(e.key === 'f' || e.key === 'F') {
+                findBestFit();
+            } else if(e.key === 'r' || e.key === 'R') {
+                resetLine();
+            }
+        });
+    </script>
+</body>
+</html>

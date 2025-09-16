@@ -1,0 +1,185 @@
+<div id="dp-wrapper" class="dp-wrapper">
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+
+  <!-- Business Lens on Metrics -->
+  <div class="dp-content-block content-block" data-title="Business Lens on Metrics">
+    <h1 class="dp-has-icon"><i class="dp-icon fas fa-briefcase" aria-hidden="true"></i>&nbsp;Business Lens on Metrics</h1>
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+      <div class="card-body">
+        <h5 class="card-title dp-ignore-theme">What this page covers</h5>
+        <p>How to translate model metrics into <strong>business outcomes</strong>. You’ll map precision/recall to <em>costs and benefits</em>, choose <strong>thresholds</strong> that optimize value, and communicate trade‑offs to stakeholders.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Learning Outcomes -->
+  <div class="dp-content-block content-block" data-title="Learning Outcomes (This Page)" data-category="Learning Outcomes">
+    <h3 class="dp-has-icon"><i class="dp-icon fas fa-bullseye" aria-hidden="true"></i> Learning Outcomes</h3>
+    <ol>
+      <li>Connect precision/recall to <strong>false‑positive</strong> and <strong>false‑negative</strong> costs.</li>
+      <li>Use <strong>expected value</strong> / <strong>expected cost</strong> to pick decision thresholds.</li>
+      <li>Explain results with lift/deciles and simple ROI framing.</li>
+    </ol>
+  </div>
+
+  <!-- Metrics → Business Questions Table -->
+  <div class="dp-content-block content-block" data-title="Map Metrics to Business Questions">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-exchange-alt" aria-hidden="true"></i>&nbsp;Map Metrics to Business Questions</h2>
+    <div class="table-responsive">
+      <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Mapping model metrics to business questions">
+        <caption>Pick the metric that answers the stakeholder’s question</caption>
+        <thead>
+          <tr>
+            <th>Stakeholder Question</th>
+            <th>Metric(s)</th>
+            <th>Why</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>“When we flag something, how often are we right?”</td>
+            <td><strong>Precision</strong></td>
+            <td>Controls false alarms and downstream costs (manual review, customer friction).</td>
+          </tr>
+          <tr>
+            <td>“How many of the real cases are we catching?”</td>
+            <td><strong>Recall</strong></td>
+            <td>Prioritizes finding positives (e.g., fraud, safety events, churn).</td>
+          </tr>
+          <tr>
+            <td>“What’s our overall balance across thresholds?”</td>
+            <td><strong>PR curve</strong> (rare events), <strong>ROC</strong> (balanced)</td>
+            <td>Curves summarize trade‑offs across all thresholds.</td>
+          </tr>
+          <tr>
+            <td>“Does the model improve targeting over random?”</td>
+            <td><strong>Lift</strong>, <strong>Top‑Decile Lift</strong></td>
+            <td>Shows concentration of positives in top scores (great for marketing/risk ops).</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Cost-Sensitive Framing -->
+  <div class="dp-content-block content-block" data-title="Cost-Sensitive Decisions">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-dollar-sign" aria-hidden="true"></i>&nbsp;Cost‑Sensitive Decisions</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="cost-matrix">Cost matrix</h3>
+        <div id="cost-matrix" class="dp-panel-content" hidden>
+          <div class="table-responsive">
+            <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Confusion outcomes with example costs">
+              <caption>Example costs per decision (set your own numbers)</caption>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Actual Positive</th>
+                  <th>Actual Negative</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Predicted Positive</th>
+                  <td>TP → +Benefit (e.g., retained customer)</td>
+                  <td>FP → −Cost (e.g., review time)</td>
+                </tr>
+                <tr>
+                  <th scope="row">Predicted Negative</th>
+                  <td>FN → −Cost (missed opportunity/risk)</td>
+                  <td>TN → Neutral (or small benefit)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="mb-0">Thresholds should minimize <strong>expected cost</strong> or maximize <strong>expected value</strong> given these entries.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="cost-ev">Expected value</h3>
+        <div id="cost-ev" class="dp-panel-content" hidden>
+          <p>For a candidate threshold, compute counts (TP, FP, FN, TN) and apply your cost/benefit assumptions to estimate <strong>net value</strong>. Choose the threshold with the best net.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="cost-seg">Segmented thresholds</h3>
+        <div id="cost-seg" class="dp-panel-content" hidden>
+          <p>Costs differ by customer or transaction type. Use <strong>different thresholds</strong> per segment (e.g., high‑value vs. standard accounts) if governance allows.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive: Threshold ↔ Cost Explorer -->
+  <div class="dp-content-block content-block" data-title="Interactive: Threshold ↔ Cost Explorer">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive: Threshold ↔ Cost Explorer</h2>
+    <p class="mt-2"><em>Try it:</em> Adjust the decision threshold and the FP/FN costs; see the expected cost and recommended threshold update.</p>
+    <div class="dp-embed-wrapper">
+      <iframe title="Threshold and Cost Explorer" role="application" src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/w4-threshold-cost-explorer.html" width="100%" height="560" loading="lazy" allowfullscreen aria-label="Interactive demo to set FP/FN costs and tune threshold for minimum expected cost"></iframe>
+    </div>
+  </div>
+
+  <!-- Communicating Results -->
+  <div class="dp-content-block content-block" data-title="Communicating Results">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-chalkboard-teacher" aria-hidden="true"></i>&nbsp;Communicating Results</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="comm-story">Tell the story</h3>
+        <div id="comm-story" class="dp-panel-content" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Start with the <strong>business KPI</strong> (e.g., saves, prevented fraud, incremental revenue).</li>
+            <li class="list-group-item">Show the <strong>trade‑off curve</strong> and chosen threshold with rationale.</li>
+            <li class="list-group-item">Add a <strong>lift chart / decile table</strong> to demonstrate targeting efficiency.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="comm-guard">Guardrails</h3>
+        <div id="comm-guard" class="dp-panel-content" hidden>
+          <p>Document human‑in‑the‑loop checks, fairness audits across subgroups, and operational limits (e.g., daily review capacity).</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lift / Decile Widget -->
+  <div class="dp-content-block content-block" data-title="Interactive: Lift & Deciles">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-layer-group" aria-hidden="true"></i>&nbsp;Interactive: Lift &amp; Deciles</h2>
+    <p class="mt-2">Visualize how positives concentrate in top‑scored buckets and estimate campaign ROI.</p>
+    <div class="dp-embed-wrapper">
+      <iframe title="Lift & Decile Explorer" role="application" src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/w4-lift-deciles.html" width="100%" height="520" loading="lazy" allowfullscreen aria-label="Interactive demo for lift curves, deciles, and ROI estimation"></iframe>
+    </div>
+  </div>
+
+  <!-- Helpful Tip -->
+  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
+    <div class="card-body">
+      <h3 class="card-title">Helpful Tip</h3>
+      <p class="card-text">Always align thresholds with <strong>operational capacity</strong>. If you can only review 500 cases/day, set the cutoff so predicted positives ≈ 500/day.</p>
+    </div>
+  </div>
+
+  <hr />
+  <p>Select <strong>Next▸</strong> to continue with <strong>Mini Case: Metrics in the Wild</strong>.</p>
+</div>
+
+<!-- Canvas-safe toggling -->
+<script>
+(function () {
+  function toggleHead(h){
+    const content = document.getElementById(h.getAttribute('aria-controls'));
+    const expanded = h.getAttribute('aria-expanded') === 'true';
+    h.setAttribute('aria-expanded', String(!expanded));
+    if (content) content.hidden = expanded;
+  }
+  document.addEventListener('click', function (e) {
+    const h = e.target.closest('.dp-panel-heading[role=\"button\"]');
+    if (h) toggleHead(h);
+  });
+  document.addEventListener('keydown', function (e) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role=\"button\"]')) {
+      e.preventDefault(); toggleHead(e.target);
+    }
+  });
+})();
+</script>

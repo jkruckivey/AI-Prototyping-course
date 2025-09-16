@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naive Bayes Posterior Calculator</title>
+    <link rel="stylesheet" href="../shared-demo.css">
+    <style>
+        .bayes-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 1rem 0;
+        }
+
+        .controls-section {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .results-section {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .scenario-selector {
+            display: flex;
+            gap: 0.5rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .scenario-btn {
+            background: #f3f4f6;
+            border: 2px solid #e5e7eb;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            text-align: center;
+            flex: 1;
+        }
+
+        .scenario-btn.active {
+            background: #034638;
+            color: white;
+            border-color: #034638;
+        }
+
+        .token-controls {
+            margin: 1.5rem 0;
+        }
+
+        .token-group {
+            margin: 1rem 0;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border-left: 4px solid #034638;
+        }
+
+        .token-group h4 {
+            margin: 0 0 1rem 0;
+            color: #034638;
+        }
+
+        .token-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 1rem;
+            margin: 0.5rem 0;
+            align-items: center;
+        }
+
+        .token-row label {
+            font-weight: 600;
+        }
+
+        .token-input {
+            padding: 0.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            text-align: center;
+            width: 60px;
+        }
+
+        .smoothing-control {
+            margin: 1rem 0;
+            padding: 1rem;
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 6px;
+        }
+
+        .smoothing-control label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .slider-container input[type="range"] {
+            flex: 1;
+        }
+
+        .value-display {
+            background: #e7f3ff;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: bold;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .probability-display {
+            margin: 1rem 0;
+        }
+
+        .prob-card {
+            background: #f8f9fa;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .prob-card.winner {
+            border-color: #10b981;
+            background: #ecfdf5;
+        }
+
+        .prob-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #034638;
+        }
+
+        .prob-label {
+            font-size: 1rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        .calculation-steps {
+            background: #e7f3ff;
+            border: 1px solid #3b82f6;
+            border-radius: 6px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+        }
+
+        .formula-display {
+            background: #f0f9f4;
+            border: 1px solid #10b981;
+            border-radius: 6px;
+            padding: 1rem;
+            margin: 1rem 0;
+            text-align: center;
+        }
+
+        .formula-display h4 {
+            color: #047857;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .test-document {
+            background: #fef2f2;
+            border: 1px solid #ef4444;
+            border-radius: 6px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .test-document h4 {
+            color: #dc2626;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .likelihood-breakdown {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .likelihood-card {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 6px;
+            border-left: 4px solid #034638;
+        }
+
+        .likelihood-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #034638;
+        }
+
+        .likelihood-label {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 0.25rem;
+        }
+
+        .reset-btn {
+            background: #582C83;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            width: 100%;
+            margin: 1rem 0;
+            transition: background 0.3s ease;
+        }
+
+        .reset-btn:hover {
+            background: #4c1d75;
+        }
+
+        @media (max-width: 768px) {
+            .bayes-container {
+                grid-template-columns: 1fr;
+            }
+
+            .likelihood-breakdown {
+                grid-template-columns: 1fr;
+            }
+
+            .token-row {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <div class="demo-header">
+            <h1>Naive Bayes Posterior Calculator</h1>
+            <p>Adjust token counts and smoothing to see how Naive Bayes calculates posterior probabilities</p>
+        </div>
+
+        <div class="bayes-container">
+            <div class="controls-section">
+                <h3>📧 Email Classification Setup</h3>
+
+                <div class="scenario-selector">
+                    <button class="scenario-btn active" onclick="selectScenario('email')">Email Spam</button>
+                    <button class="scenario-btn" onclick="selectScenario('sentiment')">Movie Reviews</button>
+                    <button class="scenario-btn" onclick="selectScenario('medical')">Medical Diagnosis</button>
+                </div>
+
+                <div class="test-document" id="test-document">
+                    <h4>📄 Test Document</h4>
+                    <p id="test-text">"FREE money offer discount WIN click"</p>
+                    <p><small>Tokens: <span id="test-tokens">FREE, money, offer, discount, WIN, click</span></small></p>
+                </div>
+
+                <div class="token-controls">
+                    <div class="token-group">
+                        <h4>🟥 SPAM Class Token Counts</h4>
+                        <div class="token-row">
+                            <label>Token</label>
+                            <label>Count in SPAM</label>
+                            <label>Count in HAM</label>
+                        </div>
+                        <div id="spam-tokens"></div>
+                    </div>
+                </div>
+
+                <div class="smoothing-control">
+                    <label>Laplace Smoothing (α):</label>
+                    <div class="slider-container">
+                        <input type="range" id="smoothing-slider" min="0" max="2" value="1" step="0.1" onchange="updateSmoothing(this.value)">
+                        <div class="value-display" id="smoothing-value">1.0</div>
+                    </div>
+                    <p style="font-size: 0.8rem; margin-top: 0.5rem;">
+                        Prevents zero probabilities for unseen words
+                    </p>
+                </div>
+
+                <button class="reset-btn" onclick="resetToDefaults()">🔄 Reset to Defaults</button>
+            </div>
+
+            <div class="results-section">
+                <div class="formula-display">
+                    <h4>🧮 Bayes' Theorem</h4>
+                    <p><strong>P(class|document) ∝ P(class) × ∏ P(word|class)</strong></p>
+                    <small>Posterior ∝ Prior × Likelihood</small>
+                </div>
+
+                <h3>📊 Posterior Probabilities</h3>
+                <div class="probability-display">
+                    <div class="prob-card" id="spam-prob">
+                        <div class="prob-value" id="spam-prob-value">0.847</div>
+                        <div class="prob-label">P(SPAM | document)</div>
+                    </div>
+                    <div class="prob-card" id="ham-prob">
+                        <div class="prob-value" id="ham-prob-value">0.153</div>
+                        <div class="prob-label">P(HAM | document)</div>
+                    </div>
+                </div>
+
+                <h4>🔍 Likelihood Breakdown</h4>
+                <div class="likelihood-breakdown">
+                    <div class="likelihood-card">
+                        <div class="likelihood-value" id="spam-likelihood">2.4e-8</div>
+                        <div class="likelihood-label">P(document | SPAM)</div>
+                    </div>
+                    <div class="likelihood-card">
+                        <div class="likelihood-value" id="ham-likelihood">1.2e-9</div>
+                        <div class="likelihood-label">P(document | HAM)</div>
+                    </div>
+                </div>
+
+                <div class="calculation-steps" id="calculation-steps">
+                    <strong>Calculation Steps:</strong><br>
+                    1. Prior: P(SPAM) = 0.4, P(HAM) = 0.6<br>
+                    2. P(FREE|SPAM) = (50+1)/(1000+5000) = 0.0085<br>
+                    3. P(FREE|HAM) = (5+1)/(4000+5000) = 0.0007<br>
+                    4. P(money|SPAM) = (80+1)/(1000+5000) = 0.0135<br>
+                    5. P(money|HAM) = (12+1)/(4000+5000) = 0.0014<br>
+                    6. ... (continuing for all tokens)<br>
+                    7. Normalize probabilities to sum to 1
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentScenario = 'email';
+        let smoothing = 1.0;
+        let spamPrior = 0.4;
+        let hamPrior = 0.6;
+
+        const scenarios = {
+            email: {
+                name: 'Email Spam Detection',
+                testDoc: '"FREE money offer discount WIN click"',
+                tokens: ['FREE', 'money', 'offer', 'discount', 'WIN', 'click'],
+                spamClass: 'SPAM',
+                hamClass: 'HAM',
+                spamVocabSize: 1000,
+                hamVocabSize: 4000,
+                totalVocabSize: 5000,
+                tokenCounts: {
+                    'FREE': { spam: 50, ham: 5 },
+                    'money': { spam: 80, ham: 12 },
+                    'offer': { spam: 35, ham: 8 },
+                    'discount': { spam: 25, ham: 15 },
+                    'WIN': { spam: 60, ham: 3 },
+                    'click': { spam: 40, ham: 20 }
+                }
+            },
+            sentiment: {
+                name: 'Movie Review Sentiment',
+                testDoc: '"amazing great fantastic love wonderful"',
+                tokens: ['amazing', 'great', 'fantastic', 'love', 'wonderful'],
+                spamClass: 'POSITIVE',
+                hamClass: 'NEGATIVE',
+                spamVocabSize: 1500,
+                hamVocabSize: 1200,
+                totalVocabSize: 3000,
+                tokenCounts: {
+                    'amazing': { spam: 120, ham: 8 },
+                    'great': { spam: 200, ham: 25 },
+                    'fantastic': { spam: 85, ham: 5 },
+                    'love': { spam: 150, ham: 15 },
+                    'wonderful': { spam: 95, ham: 12 }
+                }
+            },
+            medical: {
+                name: 'Medical Diagnosis',
+                testDoc: '"fever cough headache fatigue"',
+                tokens: ['fever', 'cough', 'headache', 'fatigue'],
+                spamClass: 'FLU',
+                hamClass: 'COLD',
+                spamVocabSize: 200,
+                hamVocabSize: 180,
+                totalVocabSize: 300,
+                tokenCounts: {
+                    'fever': { spam: 45, ham: 10 },
+                    'cough': { spam: 35, ham: 40 },
+                    'headache': { spam: 30, ham: 15 },
+                    'fatigue': { spam: 40, ham: 8 }
+                }
+            }
+        };
+
+        function selectScenario(scenario) {
+            currentScenario = scenario;
+
+            // Update button states
+            document.querySelectorAll('.scenario-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            updateScenarioDisplay();
+            updateTokenInputs();
+            calculateProbabilities();
+        }
+
+        function updateScenarioDisplay() {
+            const scenario = scenarios[currentScenario];
+            document.getElementById('test-text').textContent = scenario.testDoc;
+            document.getElementById('test-tokens').textContent = scenario.tokens.join(', ');
+        }
+
+        function updateTokenInputs() {
+            const scenario = scenarios[currentScenario];
+            const container = document.getElementById('spam-tokens');
+            container.innerHTML = '';
+
+            const headerRow = document.createElement('div');
+            headerRow.className = 'token-row';
+            headerRow.innerHTML = `
+                <label></label>
+                <label>${scenario.spamClass}</label>
+                <label>${scenario.hamClass}</label>
+            `;
+            container.appendChild(headerRow);
+
+            scenario.tokens.forEach(token => {
+                const row = document.createElement('div');
+                row.className = 'token-row';
+                row.innerHTML = `
+                    <label>${token}</label>
+                    <input type="number" class="token-input" value="${scenario.tokenCounts[token].spam}"
+                           onchange="updateTokenCount('${token}', 'spam', this.value)" min="0">
+                    <input type="number" class="token-input" value="${scenario.tokenCounts[token].ham}"
+                           onchange="updateTokenCount('${token}', 'ham', this.value)" min="0">
+                `;
+                container.appendChild(row);
+            });
+        }
+
+        function updateTokenCount(token, classType, value) {
+            const scenario = scenarios[currentScenario];
+            scenario.tokenCounts[token][classType] = parseInt(value) || 0;
+            calculateProbabilities();
+        }
+
+        function updateSmoothing(value) {
+            smoothing = parseFloat(value);
+            document.getElementById('smoothing-value').textContent = smoothing.toFixed(1);
+            calculateProbabilities();
+        }
+
+        function calculateProbabilities() {
+            const scenario = scenarios[currentScenario];
+
+            // Calculate likelihoods for each class
+            let spamLikelihood = 1.0;
+            let hamLikelihood = 1.0;
+
+            let calculationSteps = '<strong>Calculation Steps:</strong><br>';
+            calculationSteps += `1. Prior: P(${scenario.spamClass}) = ${spamPrior}, P(${scenario.hamClass}) = ${hamPrior}<br>`;
+
+            let stepCount = 2;
+            scenario.tokens.forEach(token => {
+                const spamCount = scenario.tokenCounts[token].spam;
+                const hamCount = scenario.tokenCounts[token].ham;
+
+                // P(word|class) = (count + α) / (total_words_in_class + α * vocabulary_size)
+                const spamProb = (spamCount + smoothing) / (scenario.spamVocabSize + smoothing * scenario.totalVocabSize);
+                const hamProb = (hamCount + smoothing) / (scenario.hamVocabSize + smoothing * scenario.totalVocabSize);
+
+                spamLikelihood *= spamProb;
+                hamLikelihood *= hamProb;
+
+                calculationSteps += `${stepCount}. P(${token}|${scenario.spamClass}) = (${spamCount}+${smoothing})/(${scenario.spamVocabSize}+${smoothing * scenario.totalVocabSize}) = ${spamProb.toExponential(3)}<br>`;
+                stepCount++;
+                calculationSteps += `${stepCount}. P(${token}|${scenario.hamClass}) = (${hamCount}+${smoothing})/(${scenario.hamVocabSize}+${smoothing * scenario.totalVocabSize}) = ${hamProb.toExponential(3)}<br>`;
+                stepCount++;
+            });
+
+            // Calculate unnormalized posteriors
+            const spamPosterior = spamPrior * spamLikelihood;
+            const hamPosterior = hamPrior * hamLikelihood;
+
+            // Normalize
+            const total = spamPosterior + hamPosterior;
+            const spamProbFinal = spamPosterior / total;
+            const hamProbFinal = hamPosterior / total;
+
+            // Update display
+            document.getElementById('spam-prob-value').textContent = spamProbFinal.toFixed(3);
+            document.getElementById('ham-prob-value').textContent = hamProbFinal.toFixed(3);
+
+            document.getElementById('spam-likelihood').textContent = spamLikelihood.toExponential(2);
+            document.getElementById('ham-likelihood').textContent = hamLikelihood.toExponential(2);
+
+            // Highlight winner
+            const spamCard = document.getElementById('spam-prob');
+            const hamCard = document.getElementById('ham-prob');
+
+            spamCard.classList.remove('winner');
+            hamCard.classList.remove('winner');
+
+            if(spamProbFinal > hamProbFinal) {
+                spamCard.classList.add('winner');
+            } else {
+                hamCard.classList.add('winner');
+            }
+
+            calculationSteps += `${stepCount}. Unnormalized: ${scenario.spamClass} = ${spamPosterior.toExponential(3)}, ${scenario.hamClass} = ${hamPosterior.toExponential(3)}<br>`;
+            stepCount++;
+            calculationSteps += `${stepCount}. Normalize: P(${scenario.spamClass}|doc) = ${spamProbFinal.toFixed(3)}, P(${scenario.hamClass}|doc) = ${hamProbFinal.toFixed(3)}`;
+
+            document.getElementById('calculation-steps').innerHTML = calculationSteps;
+        }
+
+        function resetToDefaults() {
+            // Reset smoothing
+            smoothing = 1.0;
+            document.getElementById('smoothing-slider').value = 1.0;
+            document.getElementById('smoothing-value').textContent = '1.0';
+
+            // Reset token counts to defaults
+            const scenario = scenarios[currentScenario];
+            const originalCounts = {
+                email: {
+                    'FREE': { spam: 50, ham: 5 },
+                    'money': { spam: 80, ham: 12 },
+                    'offer': { spam: 35, ham: 8 },
+                    'discount': { spam: 25, ham: 15 },
+                    'WIN': { spam: 60, ham: 3 },
+                    'click': { spam: 40, ham: 20 }
+                },
+                sentiment: {
+                    'amazing': { spam: 120, ham: 8 },
+                    'great': { spam: 200, ham: 25 },
+                    'fantastic': { spam: 85, ham: 5 },
+                    'love': { spam: 150, ham: 15 },
+                    'wonderful': { spam: 95, ham: 12 }
+                },
+                medical: {
+                    'fever': { spam: 45, ham: 10 },
+                    'cough': { spam: 35, ham: 40 },
+                    'headache': { spam: 30, ham: 15 },
+                    'fatigue': { spam: 40, ham: 8 }
+                }
+            };
+
+            scenario.tokenCounts = originalCounts[currentScenario];
+            updateTokenInputs();
+            calculateProbabilities();
+        }
+
+        // Initialize
+        updateScenarioDisplay();
+        updateTokenInputs();
+        calculateProbabilities();
+    </script>
+</body>
+</html>

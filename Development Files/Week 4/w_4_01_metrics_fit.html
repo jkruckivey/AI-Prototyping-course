@@ -1,0 +1,107 @@
+<div id="dp-wrapper" class="dp-wrapper">
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+
+  <!-- Metrics & Model Fit -->
+  <div class="dp-content-block content-block" data-title="Metrics & Model Fit">
+    <h1 class="dp-has-icon"><i class="dp-icon fas fa-chart-line" aria-hidden="true"></i>&nbsp;Metrics & Model Fit</h1>
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+      <div class="card-body">
+        <h5 class="card-title dp-ignore-theme">What this page covers</h5>
+        <p>How to assess <strong>model fit</strong> and interpret common metrics for both <strong>classification</strong> and <strong>regression</strong>. We’ll also look at the dangers of overfitting and underfitting.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bias vs Variance -->
+  <div class="dp-content-block content-block" data-title="Bias vs. Variance">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-balance-scale" aria-hidden="true"></i>&nbsp;Bias vs. Variance</h2>
+    <p><strong>Bias</strong> = error from overly simple assumptions (underfitting).<br>
+       <strong>Variance</strong> = error from sensitivity to training data (overfitting).</p>
+    <p>Good models strike a balance between the two.</p>
+  </div>
+
+  <!-- Regression Metrics -->
+  <div class="dp-content-block content-block" data-title="Regression Metrics">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-ruler"></i>&nbsp;Regression Metrics</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w4-mse">MSE / RMSE</h3>
+        <div id="w4-mse" class="dp-panel-content" hidden>
+          <p><strong>Mean Squared Error (MSE)</strong> and its square root (RMSE) measure average squared deviation. Lower = better fit.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w4-mae">MAE</h3>
+        <div id="w4-mae" class="dp-panel-content" hidden>
+          <p><strong>Mean Absolute Error (MAE)</strong> measures average absolute deviation. Less sensitive to outliers than MSE.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w4-r2">R²</h3>
+        <div id="w4-r2" class="dp-panel-content" hidden>
+          <p><strong>R²</strong> shows how much variance is explained by the model. Closer to 1 = better.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Classification Metrics -->
+  <div class="dp-content-block content-block" data-title="Classification Metrics">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-th"></i>&nbsp;Classification Metrics</h2>
+    <div class="table-responsive">
+      <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Classification Metrics Summary">
+        <caption>Key Metrics</caption>
+        <thead>
+          <tr><th>Metric</th><th>What it tells you</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Accuracy</strong></td><td>Share of correct predictions. Misleading if classes are imbalanced.</td></tr>
+          <tr><td><strong>Precision</strong></td><td>Of predicted positives, how many were correct? Important when false positives are costly.</td></tr>
+          <tr><td><strong>Recall</strong></td><td>Of actual positives, how many were captured? Important when missing positives is costly.</td></tr>
+          <tr><td><strong>F1 Score</strong></td><td>Balance between precision & recall. Useful with class imbalance.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Interactive ROC/Threshold Explorer -->
+  <div class="dp-content-block content-block" data-title="Interactive: Threshold Explorer">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive: Threshold Explorer</h2>
+    <p class="mt-2">Explore how moving the threshold affects precision, recall, and accuracy.</p>
+    <div class="dp-embed-wrapper">
+      <iframe title="Threshold Explorer" role="application" src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/w4-threshold-explorer.html" width="100%" height="520" loading="lazy" allowfullscreen aria-label="Interactive demo for adjusting classification thresholds"></iframe>
+    </div>
+  </div>
+
+  <!-- Helpful Tip -->
+  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
+    <div class="card-body">
+      <h3 class="card-title">Helpful Tip</h3>
+      <p class="card-text">Choose metrics that match the decision context. For fraud detection, <em>recall</em> may matter more; for spam filtering, <em>precision</em> may matter more.</p>
+    </div>
+  </div>
+
+  <hr />
+  <p>Select <strong>Next▸</strong> to continue with <strong>Cross-Validation & Training</strong>.</p>
+</div>
+
+<!-- Canvas-safe toggling -->
+<script>
+(function () {
+  function toggleHead(h){
+    const content = document.getElementById(h.getAttribute('aria-controls'));
+    const expanded = h.getAttribute('aria-expanded') === 'true';
+    h.setAttribute('aria-expanded', String(!expanded));
+    if (content) content.hidden = expanded;
+  }
+  document.addEventListener('click', function (e) {
+    const h = e.target.closest('.dp-panel-heading[role=\"button\"]');
+    if (h) toggleHead(h);
+  });
+  document.addEventListener('keydown', function (e) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role=\"button\"]')) {
+      e.preventDefault(); toggleHead(e.target);
+    }
+  });
+})();
+</script>

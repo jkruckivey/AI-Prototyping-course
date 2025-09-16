@@ -1,0 +1,199 @@
+<div id="dp-wrapper" class="dp-wrapper">
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+
+  <!-- Monitoring & Drift -->
+  <div class="dp-content-block content-block" data-title="Monitoring & Drift">
+    <h1 class="dp-has-icon"><i class="dp-icon fas fa-tachometer-alt" aria-hidden="true"></i>&nbsp;Monitoring &amp; Drift</h1>
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+      <div class="card-body">
+        <h5 class="card-title dp-ignore-theme">What this page covers</h5>
+        <p>How to instrument models for <strong>ongoing health</strong>: data & concept drift, <strong>calibration</strong>, performance & business KPIs, <strong>fairness</strong> checks, alerting, and response playbooks.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Learning Outcomes -->
+  <div class="dp-content-block content-block" data-title="Learning Outcomes (This Page)" data-category="Learning Outcomes">
+    <h3 class="dp-has-icon"><i class="dp-icon fas fa-bullseye" aria-hidden="true"></i> Learning Outcomes</h3>
+    <ol>
+      <li>Define <strong>input</strong>, <strong>score</strong>, and <strong>outcome</strong> logs required for monitoring.</li>
+      <li>Detect <strong>data drift</strong> vs. <strong>concept drift</strong> and know which tests to use.</li>
+      <li>Track <strong>calibration</strong> and <strong>fairness</strong> over time and set actionable alerts.</li>
+    </ol>
+  </div>
+
+  <!-- What to Log -->
+  <div class="dp-content-block content-block" data-title="Instrument the Model: What to Log">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-clipboard-list" aria-hidden="true"></i>&nbsp;Instrument the Model: What to Log</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="mon-inputs">Inputs</h3>
+        <div id="mon-inputs" class="dp-panel-content" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Feature vector (or feature hash), schema version, null counts, basic stats (min/max/mean).</li>
+            <li class="list-group-item">Request metadata: timestamp, user/segment, region, channel, model version.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="mon-scores">Scores & decisions</h3>
+        <div id="mon-scores" class="dp-panel-content" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Raw score / probability, threshold used, decision taken (block/flag/route).</li>
+            <li class="list-group-item">Latency (P50/P95/P99) and errors/timeouts.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="mon-outcomes">Outcomes</h3>
+        <div id="mon-outcomes" class="dp-panel-content" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Ground truth when available (labels), time‑to‑label, downstream KPIs (revenue saved, churn prevented).</li>
+            <li class="list-group-item">Link inputs↔scores↔outcomes via a durable <strong>correlation id</strong>.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Drift Types -->
+  <div class="dp-content-block content-block" data-title="Data vs. Concept Drift">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-random" aria-hidden="true"></i>&nbsp;Data vs. Concept Drift</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="drift-data">Data drift (input shift)</h3>
+        <div id="drift-data" class="dp-panel-content" hidden>
+          <p>Feature distributions change (e.g., new product mix). Track with <strong>PSI</strong>, <strong>KL divergence</strong>, or two‑sample tests (KS, chi‑square).</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="drift-concept">Concept drift (label/relationship shift)</h3>
+        <div id="drift-concept" class="dp-panel-content" hidden>
+          <p>Target behavior or mapping changes (e.g., fraudster tactics). Watch <strong>calibration</strong>, <strong>AUC/PR</strong> over time, and <strong>population stability</strong> within score bands.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive: Monitoring Dashboard -->
+  <div class="dp-content-block content-block" data-title="Interactive: Monitoring Dashboard">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive: Monitoring Dashboard</h2>
+    <p class="mt-2">Explore a live‑style dashboard of <strong>drift metrics</strong>, <strong>performance</strong>, and <strong>business KPIs</strong> with alert thresholds.</p>
+    <div class="dp-embed-wrapper">
+      <iframe title="Monitoring Dashboard" role="application" src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/w5-monitoring-dashboard.html" width="100%" height="560" loading="lazy" allowfullscreen aria-label="Interactive monitoring dashboard with drift tests, AUC/PR trends, calibration, fairness, and alerts"></iframe>
+    </div>
+  </div>
+
+  <!-- Calibration -->
+  <div class="dp-content-block content-block" data-title="Calibration (Are Probabilities Trustworthy?)">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-balance-scale-right" aria-hidden="true"></i>&nbsp;Calibration (Are Probabilities Trustworthy?)</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="cal-what">What & why</h3>
+        <div id="cal-what" class="dp-panel-content" hidden>
+          <p>A model is <strong>well‑calibrated</strong> if among cases scored at 0.7, roughly 70% are truly positive. Calibration matters for cost‑sensitive thresholds and triage.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="cal-how">How to monitor</h3>
+        <div id="cal-how" class="dp-panel-content" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Plot <strong>reliability curves</strong> / ECE (expected calibration error).</li>
+            <li class="list-group-item">Track by <strong>segment</strong> (region, product, channel).</li>
+            <li class="list-group-item">Recalibrate with <em>Platt</em> scaling or <em>isotonic</em> when needed.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fairness & Subgroup Monitoring -->
+  <div class="dp-content-block content-block" data-title="Fairness & Subgroup Monitoring">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-users" aria-hidden="true"></i>&nbsp;Fairness &amp; Subgroup Monitoring</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="fair-metrics">What to track</h3>
+        <div id="fair-metrics" class="dp-panel-content" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Subgroup <strong>precision/recall</strong>, selection/approval rates, calibration curves.</li>
+            <li class="list-group-item">Swap‑in <strong>counterfactual</strong> checks where possible (e.g., same case, different sensitive attribute).</li>
+          </ul>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="fair-govern">Governance</h3>
+        <div id="fair-govern" class="dp-panel-content" hidden>
+          <p>Define <strong>alert thresholds</strong> and <strong>review cadence</strong>. Document mitigations (threshold per segment, feature audit, retraining).</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive: Drift Detector -->
+  <div class="dp-content-block content-block" data-title="Interactive: Drift Detector">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive: Drift Detector</h2>
+    <p class="mt-2"><em>Try it:</em> Choose a feature and time window; compare incoming data to a reference set; see PSI/KS and alerts.</p>
+    <div class="dp-embed-wrapper">
+      <iframe title="Drift Detector" role="application" src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/w5-drift-detector.html" width="100%" height="520" loading="lazy" allowfullscreen aria-label="Interactive drift detector with PSI/KS tests and alert thresholds"></iframe>
+    </div>
+  </div>
+
+  <!-- Alerts & Playbooks -->
+  <div class="dp-content-block content-block" data-title="Alerts & Playbooks">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-bell" aria-hidden="true"></i>&nbsp;Alerts &amp; Playbooks</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="alerts-what">What to alert on</h3>
+        <div id="alerts-what" class="dp-panel-content" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Data drift tests over threshold (PSI &gt; 0.25, KS p-value &lt; α).</li>
+            <li class="list-group-item">Metric degradation (PR‑AUC ↓, calibration ECE ↑), subgroup disparities.</li>
+            <li class="list-group-item">Operational breaches: latency, error rate, review backlog beyond SLA.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="alerts-play">Playbooks</h3>
+        <div id="alerts-play" class="dp-panel-content" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Verify</strong> signal (check logging, sanity stats, and dashboards).</li>
+            <li class="list-group-item"><strong>Mitigate</strong> (temporary threshold tweak, traffic shift, rollout revert).</li>
+            <li class="list-group-item"><strong>Remediate</strong> (hotfix features, retrain with recent data, recalibrate, post‑mortem).</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Helpful Tip -->
+  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
+    <div class="card-body">
+      <h3 class="card-title">Helpful Tip</h3>
+      <p class="card-text">Set <strong>owner + SLA</strong> for every alert. If no one responds, the alert doesn’t exist. Route to on‑call with clear runbooks and escalation rules.</p>
+    </div>
+  </div>
+
+  <hr />
+  <p>Select <strong>Next▸</strong> to continue with <strong>Governance & Responsible AI</strong>.</p>
+</div>
+
+<!-- Canvas‑safe toggling -->
+<script>
+(function () {
+  function toggleHead(h){
+    const content = document.getElementById(h.getAttribute('aria-controls'));
+    const expanded = h.getAttribute('aria-expanded') === 'true';
+    h.setAttribute('aria-expanded', String(!expanded));
+    if (content) content.hidden = expanded;
+  }
+  document.addEventListener('click', function (e) {
+    const h = e.target.closest('.dp-panel-heading[role=\"button\"]');
+    if (h) toggleHead(h);
+  });
+  document.addEventListener('keydown', function (e) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role=\"button\"]')) {
+      e.preventDefault(); toggleHead(e.target);
+    }
+  });
+})();
+</script>

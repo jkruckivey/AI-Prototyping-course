@@ -1,0 +1,116 @@
+<div id="dp-wrapper" class="dp-wrapper">
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+
+  <!-- Module 1 Wrap-Up -->
+  <div class="dp-content-block content-block" data-title="Module 1 — Review & Wrap-Up">
+    <h1 class="dp-has-icon"><i class="dp-icon fas fa-flag-checkered" aria-hidden="true"></i>&nbsp;Module 1 — Review & Wrap-Up</h1>
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+      <div class="card-body">
+        <h5 class="card-title dp-ignore-theme">Quick Recap</h5>
+        <p>This module covered: <strong>AI in business</strong>, the <strong>data science framework</strong>, <strong>Big Data 4Vs</strong>, <strong>ML model families</strong>, <strong>preprocessing</strong>, and <strong>evaluation basics</strong>.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Knowledge Check (accordion with items) -->
+  <div class="dp-content-block content-block" data-title="Knowledge Check">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-clipboard-check" aria-hidden="true"></i>&nbsp;Knowledge Check</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="m1-q1">1) Which ML type fits discovering customer segments?</h3>
+        <div id="m1-q1" class="dp-panel-content" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">A. Supervised</li>
+            <li class="list-group-item"><strong>B. Unsupervised</strong> ✓</li>
+            <li class="list-group-item">C. Reinforcement</li>
+            <li class="list-group-item">D. Self‑Supervised</li>
+          </ul>
+          <p class="mb-0"><em>Why:</em> You don’t have labels; you’re discovering structure.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="m1-q2">2) First step in the data science framework?</h3>
+        <div id="m1-q2" class="dp-panel-content" hidden>
+          <p><strong>Problem framing</strong> ✓ — Clarify the decision, KPI, constraints, and success criteria.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="m1-q3">3) What’s the risk of using future information during training?</h3>
+        <div id="m1-q3" class="dp-panel-content" hidden>
+          <p><strong>Leakage</strong> ✓ — Your model looks unrealistically good and fails in production.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="m1-q4">4) Match each ‘V’ to its concern (Volume, Velocity, Variety, Veracity)</h3>
+        <div id="m1-q4" class="dp-panel-content" hidden>
+          <ul>
+            <li><strong>Volume</strong> → storage/compute strategies</li>
+            <li><strong>Velocity</strong> → ingestion/streaming cadence</li>
+            <li><strong>Variety</strong> → structured vs. unstructured integration</li>
+            <li><strong>Veracity</strong> → data quality & trust</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Optional interactive quiz widget -->
+  <div class="dp-content-block content-block" data-title="Interactive Quiz (Optional)">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive Quiz (Optional)</h2>
+    <p class="mt-2">Prefer an interactive check? Use the short quiz below.</p>
+    <div class="dp-embed-wrapper">
+      <iframe title="Module 1 Wrap-Up Quiz" role="application" src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/m1-wrap-quiz.html" width="100%" height="520" loading="lazy" allowfullscreen aria-label="Interactive multiple-choice quiz covering Module 1"></iframe>
+    </div>
+  </div>
+
+  <!-- Reflection & Transfer -->
+  <div class="dp-content-block content-block" data-title="Reflection & Transfer">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-pen" aria-hidden="true"></i>&nbsp;Reflection & Transfer</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="m1-reflect">Prompt</h3>
+        <div id="m1-reflect" class="dp-panel-content" hidden>
+          <p>Where in your work could <strong>data quality</strong> or <strong>feature engineering</strong> make the biggest difference? Write 3–5 sentences or a short bullet list.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="m1-action">Action idea</h3>
+        <div id="m1-action" class="dp-panel-content" hidden>
+          <p>Pick one upcoming decision and sketch a <em>mini plan</em>: data sources, guardrails, and success metric you’d monitor.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Helpful Tip -->
+  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
+    <div class="card-body">
+      <h3 class="card-title">Helpful Tip</h3>
+      <p class="card-text">Pair model type with decision cadence: <em>real‑time personalization ≠ quarterly batch scoring</em>.</p>
+    </div>
+  </div>
+
+  <hr />
+  <p>Select <strong>Next▸</strong> to begin Module 2, or return to <strong>Modules</strong> to revisit any topic.</p>
+</div>
+
+<!-- Canvas‑safe toggling -->
+<script>
+(function () {
+  function toggleHead(h){
+    const content = document.getElementById(h.getAttribute('aria-controls'));
+    const expanded = h.getAttribute('aria-expanded') === 'true';
+    h.setAttribute('aria-expanded', String(!expanded));
+    if (content) content.hidden = expanded;
+  }
+  document.addEventListener('click', function (e) {
+    const h = e.target.closest('.dp-panel-heading[role=\"button\"]');
+    if (h) toggleHead(h);
+  });
+  document.addEventListener('keydown', function (e) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role=\"button\"]')) {
+      e.preventDefault(); toggleHead(e.target);
+    }
+  });
+})();
+</script>

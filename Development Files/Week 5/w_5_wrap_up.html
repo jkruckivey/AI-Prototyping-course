@@ -1,0 +1,114 @@
+<div id="dp-wrapper" class="dp-wrapper">
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+
+  <!-- Week 5 Wrap-Up -->
+  <div class="dp-content-block content-block" data-title="Week 5 — Review & Wrap-Up">
+    <h1 class="dp-has-icon"><i class="dp-icon fas fa-flag-checkered" aria-hidden="true"></i>&nbsp;Week 5 — Review & Wrap-Up</h1>
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+      <div class="card-body">
+        <h5 class="card-title dp-ignore-theme">Quick Recap</h5>
+        <p>You translated models into <strong>deployed systems</strong>, instrumented <strong>monitoring</strong> for drift and calibration, and built <strong>governance</strong> that stands up to audits and real‑world change.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Knowledge Check -->
+  <div class="dp-content-block content-block" data-title="Knowledge Check">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-clipboard-check" aria-hidden="true"></i>&nbsp;Knowledge Check</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w5-q1">1) Match the phase to the artifact</h3>
+        <div id="w5-q1" class="dp-panel-content" hidden>
+          <ul>
+            <li><strong>Deployment</strong> → API contract, idempotency keys</li>
+            <li><strong>Monitoring</strong> → drift dashboard, calibration curve</li>
+            <li><strong>Governance</strong> → model card, change log, approvals</li>
+          </ul>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w5-q2">2) Spot the missing guardrail</h3>
+        <div id="w5-q2" class="dp-panel-content" hidden>
+          <p>Team launches a new model via canary but has no <strong>rollback trigger</strong> defined. What’s missing? <strong>Guardrail & incident playbook</strong> with automatic revert criteria.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w5-q3">3) Which drift test compares distributions over time for a numeric feature?</h3>
+        <div id="w5-q3" class="dp-panel-content" hidden>
+          <p><strong>Population Stability Index (PSI)</strong> or a two‑sample test like <strong>KS</strong>.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w5-q4">4) What belongs in a model card?</h3>
+        <div id="w5-q4" class="dp-panel-content" hidden>
+          <p>Purpose/scope, data sources & span, metrics (overall & by subgroup), limitations/risks, operational guardrails, monitoring plan.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive quiz widget -->
+  <div class="dp-content-block content-block" data-title="Interactive Quiz (Optional)">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive Quiz (Optional)</h2>
+    <p class="mt-2">Prefer an interactive check? Use the short quiz below.</p>
+    <div class="dp-embed-wrapper">
+      <iframe title="Week 5 Wrap-Up Quiz" role="application" src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/w5-wrap-quiz.html" width="100%" height="520" loading="lazy" allowfullscreen aria-label="Interactive multiple-choice quiz covering Week 5"></iframe>
+    </div>
+  </div>
+
+  <!-- Reflection & Action Plan -->
+  <div class="dp-content-block content-block" data-title="Reflection & Action Plan">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-pen" aria-hidden="true"></i>&nbsp;Reflection & Action Plan</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w5-reflect">Reflection</h3>
+        <div id="w5-reflect" class="dp-panel-content" hidden>
+          <p>Where in your org would stronger <strong>monitoring</strong> or <strong>governance</strong> make the biggest difference? Outline 2 quick wins you can implement this quarter.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w5-action">Action plan</h3>
+        <div id="w5-action" class="dp-panel-content" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Pick one model → draft a one‑page <strong>model card</strong>.</li>
+            <li class="list-group-item">Add a <strong>calibration</strong> + <strong>drift</strong> chart to your dashboard.</li>
+            <li class="list-group-item">Define a <strong>rollback</strong> trigger and owner for canary rollouts.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- End-of-session reminder -->
+  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-color-dp-primary dp-callout-type-info" role="note" aria-label="Session completion reminder">
+    <div class="dp-callout-side-emphasis"><i class="dp-icon fas fa-info-circle dp-default-icon" aria-hidden="true"></i></div>
+    <div class="card-body">
+      <h4 class="card-title"><strong>Reminder</strong></h4>
+      <p class="card-text">This is the last page in Week 5. Ensure you’ve completed the quiz and reflection prompts before moving on.</p>
+    </div>
+  </div>
+
+  <hr />
+  <p>Select <strong>Modules</strong> to return to the course overview, or continue to the next week.</p>
+</div>
+
+<!-- Canvas-safe toggling -->
+<script>
+(function () {
+  function toggleHead(h){
+    const content = document.getElementById(h.getAttribute('aria-controls'));
+    const expanded = h.getAttribute('aria-expanded') === 'true';
+    h.setAttribute('aria-expanded', String(!expanded));
+    if (content) content.hidden = expanded;
+  }
+  document.addEventListener('click', function (e) {
+    const h = e.target.closest('.dp-panel-heading[role=\"button\"]');
+    if (h) toggleHead(h);
+  });
+  document.addEventListener('keydown', function (e) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role=\"button\"]')) {
+      e.preventDefault(); toggleHead(e.target);
+    }
+  });
+})();
+</script>

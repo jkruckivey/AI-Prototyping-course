@@ -1,0 +1,202 @@
+<div id="dp-wrapper" class="dp-wrapper">
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+
+  <!-- Governance & Responsible AI -->
+  <div class="dp-content-block content-block" data-title="Governance & Responsible AI">
+    <h1 class="dp-has-icon"><i class="dp-icon fas fa-shield-alt" aria-hidden="true"></i>&nbsp;Governance &amp; Responsible AI</h1>
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+      <div class="card-body">
+        <h5 class="card-title dp-ignore-theme">What this page covers</h5>
+        <p>How to ship models <strong>safely</strong> and <strong>credibly</strong>: risk tiers, approvals, documentation, privacy controls, explainability, fairness reviews, and change management. You’ll leave with a lightweight <strong>governance checklist</strong> you can adapt to your org.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Learning Outcomes -->
+  <div class="dp-content-block content-block" data-title="Learning Outcomes (This Page)" data-category="Learning Outcomes">
+    <h3 class="dp-has-icon"><i class="dp-icon fas fa-bullseye" aria-hidden="true"></i> Learning Outcomes</h3>
+    <ol>
+      <li>Classify models by <strong>risk tier</strong> and route them through the right level of review.</li>
+      <li>Document a model with <strong>purpose, data, metrics, limitations, and guardrails</strong>.</li>
+      <li>Set up <strong>privacy, fairness, and change‑control</strong> practices that stand up to audits.</li>
+    </ol>
+  </div>
+
+  <!-- Risk Tiers & Approvals -->
+  <div class="dp-content-block content-block" data-title="Risk Tiers & Approvals">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-layer-group" aria-hidden="true"></i>&nbsp;Risk Tiers &amp; Approvals</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="gov-tiers">Define tiers</h3>
+        <div id="gov-tiers" class="dp-panel-content" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>T1 — Low:</strong> internal analytics, no automated actions, low impact.</li>
+            <li class="list-group-item"><strong>T2 — Medium:</strong> customer‑facing recommendations, human‑in‑the‑loop, moderate impact.</li>
+            <li class="list-group-item"><strong>T3 — High:</strong> automated decisions that affect access/eligibility, safety, or financial outcomes.</li>
+          </ul>
+          <p class="mb-0">Higher tiers need stricter validation, fairness checks, legal/ethics review, and executive sign‑off.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="gov-raci">Ownership (RACI)</h3>
+        <div id="gov-raci" class="dp-panel-content" hidden>
+          <p>Clarify who is <strong>Responsible</strong> (build/monitor), <strong>Accountable</strong> (business owner), <strong>Consulted</strong> (legal, risk, privacy), and <strong>Informed</strong> (ops, exec sponsors).</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Documentation & Transparency -->
+  <div class="dp-content-block content-block" data-title="Documentation & Transparency">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-file-alt" aria-hidden="true"></i>&nbsp;Documentation &amp; Transparency</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="gov-model-card">Model card essentials</h3>
+        <div id="gov-model-card" class="dp-panel-content" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Purpose &amp; scope</strong> (in/out of scope use).</li>
+            <li class="list-group-item"><strong>Data</strong> (sources, time span, sampling, known gaps).</li>
+            <li class="list-group-item"><strong>Metrics</strong> (overall &amp; by segment; calibration).</li>
+            <li class="list-group-item"><strong>Limitations</strong> &amp; <strong>ethical risks</strong>.</li>
+            <li class="list-group-item"><strong>Operational guardrails</strong> (thresholds, review queues, rate limits).</li>
+            <li class="list-group-item"><strong>Monitoring plan</strong> (KPIs, drift tests, alert rules, owners).</li>
+          </ul>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="gov-explain">Explainability</h3>
+        <div id="gov-explain" class="dp-panel-content" hidden>
+          <p>Use <strong>global</strong> feature importance for trends and <strong>local</strong> explanations for case decisions (e.g., top contributing factors). Avoid exposing sensitive attributes or inferring them.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Privacy & Data Protection -->
+  <div class="dp-content-block content-block" data-title="Privacy & Data Protection">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-user-shield" aria-hidden="true"></i>&nbsp;Privacy &amp; Data Protection</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="gov-privacy">Core controls</h3>
+        <div id="gov-privacy" class="dp-panel-content" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Minimize data; collect only what’s necessary for the stated purpose.</li>
+            <li class="list-group-item">Identify <strong>PII</strong>/sensitive attributes; apply protection (encryption at rest/in transit, access controls).</li>
+            <li class="list-group-item">Define retention &amp; deletion policies; log data lineage and access.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="gov-consent">Consent & disclosure</h3>
+        <div id="gov-consent" class="dp-panel-content" hidden>
+          <p>State what is automated, how data is used, and how to seek human review or appeal, consistent with local regulations and company policy.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fairness Reviews -->
+  <div class="dp-content-block content-block" data-title="Fairness Reviews">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-balance-scale" aria-hidden="true"></i>&nbsp;Fairness Reviews</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="gov-fair-metrics">Subgroup metrics</h3>
+        <div id="gov-fair-metrics" class="dp-panel-content" hidden>
+          <p>Report precision/recall, approval rates, and calibration by subgroup. Investigate large gaps; document mitigations (thresholds by segment, features review, additional oversight).</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="gov-impact">Impact assessment</h3>
+        <div id="gov-impact" class="dp-panel-content" hidden>
+          <p>Conduct a lightweight <strong>impact assessment</strong>: populations affected, failure modes, reversibility, compensation/appeal process, and communication plan.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Change Control & Auditability -->
+  <div class="dp-content-block content-block" data-title="Change Control & Auditability">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-history" aria-hidden="true"></i>&nbsp;Change Control &amp; Auditability</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="gov-change">Versioning & approvals</h3>
+        <div id="gov-change" class="dp-panel-content" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Version data, code, and models; tag deployments with model + config.</li>
+            <li class="list-group-item">Require approvals for T2/T3 changes; document rationale and expected impact.</li>
+            <li class="list-group-item">Keep a <strong>changelog</strong> and link to evaluation reports.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="gov-incident">Incidents & post‑mortems</h3>
+        <div id="gov-incident" class="dp-panel-content" hidden>
+          <p>Define severity levels, on‑call rotation, rollback triggers, and post‑mortem templates with action items and owners.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive: Policy Builder -->
+  <div class="dp-content-block content-block" data-title="Interactive: Policy Builder">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive: Policy Builder</h2>
+    <p class="mt-2"><em>Try it:</em> Select a risk tier, pick documentation requirements, and generate a lightweight governance checklist.</p>
+    <div class="dp-embed-wrapper">
+      <iframe title="Governance Policy Builder" role="application" src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/w5-policy-builder.html" width="100%" height="560" loading="lazy" allowfullscreen aria-label="Interactive widget to select risk tier and build a governance checklist (model card fields, approvals, monitoring)"></iframe>
+    </div>
+  </div>
+
+  <!-- Governance Checklist (printable) -->
+  <div class="dp-content-block content-block" data-title="Governance Checklist (Printable)">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-clipboard-check" aria-hidden="true"></i>&nbsp;Governance Checklist (Printable)</h2>
+    <div class="table-responsive">
+      <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Governance checklist for AI models">
+        <caption>Use this checklist before launch and at major updates</caption>
+        <thead>
+          <tr><th>Item</th><th>Owner</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Risk tier assigned (T1/T2/T3)</td><td>Business owner</td><td>☐</td></tr>
+          <tr><td>Model card drafted & reviewed</td><td>Data science</td><td>☐</td></tr>
+          <tr><td>PII inventory & privacy controls in place</td><td>Privacy/Sec</td><td>☐</td></tr>
+          <tr><td>Fairness subgroup analysis completed</td><td>Data science</td><td>☐</td></tr>
+          <tr><td>Monitoring plan & alert thresholds set</td><td>Data eng/DS</td><td>☐</td></tr>
+          <tr><td>Rollback & incident playbook approved</td><td>Ops</td><td>☐</td></tr>
+          <tr><td>Change control & approvals recorded</td><td>PM/Owner</td><td>☐</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Helpful Tip -->
+  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
+    <div class="card-body">
+      <h3 class="card-title">Helpful Tip</h3>
+      <p class="card-text">Start small: apply the full governance flow to <strong>one</strong> high‑impact model first, then templatize for the rest.</p>
+    </div>
+  </div>
+
+  <hr />
+  <p>Select <strong>Next▸</strong> to continue with <strong>Mini Case: Governance in Practice</strong>.</p>
+</div>
+
+<!-- Canvas‑safe toggling -->
+<script>
+(function () {
+  function toggleHead(h){
+    const content = document.getElementById(h.getAttribute('aria-controls'));
+    const expanded = h.getAttribute('aria-expanded') === 'true';
+    h.setAttribute('aria-expanded', String(!expanded));
+    if (content) content.hidden = expanded;
+  }
+  document.addEventListener('click', function (e) {
+    const h = e.target.closest('.dp-panel-heading[role=\"button\"]');
+    if (h) toggleHead(h);
+  });
+  document.addEventListener('keydown', function (e) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role=\"button\"]')) {
+      e.preventDefault(); toggleHead(e.target);
+    }
+  });
+})();
+</script>

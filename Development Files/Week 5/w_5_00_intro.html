@@ -1,0 +1,102 @@
+<div id="dp-wrapper" class="dp-wrapper">
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+
+  <!-- Week 5 Intro / Orientation -->
+  <div class="dp-content-block content-block" data-title="Week 5 — Orientation">
+    <h1 class="dp-has-icon"><i class="dp-icon fas fa-compass" aria-hidden="true"></i>&nbsp;Week 5 — Orientation</h1>
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+      <div class="card-body">
+        <h5 class="card-title dp-ignore-theme">What this week is about</h5>
+        <p>This week moves from <em>modeling</em> to <strong>making models work in the real world</strong>. You’ll connect deployment choices to business workflows, design <strong>monitoring</strong> for model health and fairness, and outline <strong>governance</strong> that keeps systems reliable over time.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Readiness checklist -->
+  <div class="dp-content-block content-block" data-title="Before you start (readiness)">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-check-circle" aria-hidden="true"></i>&nbsp;Before you start</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w5-ready">Readiness checklist</h3>
+        <div id="w5-ready" class="dp-panel-content" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">You can map a business problem to a supervised learning task (classification vs regression).</li>
+            <li class="list-group-item">You’ve used the right <strong>metrics</strong> (precision/recall, MAE/RMSE) and understand <strong>thresholds</strong>.</li>
+            <li class="list-group-item">You’re familiar with <strong>cross‑validation</strong>, leak‑safe <strong>pipelines</strong>, and <strong>early stopping</strong>.</li>
+          </ul>
+          <p class="mt-2 mb-0"><em>Need a refresher?</em> See: 
+            <a href="../W4-01-metrics-fit.html">Metrics & Model Fit</a> · 
+            <a href="../W4-02-cross-validation-training.html">Cross‑Validation</a> · 
+            <a href="../W4-03-business-metrics.html">Business Lens on Metrics</a>
+          </p>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w5-map">What you’ll do this week</h3>
+        <div id="w5-map" class="dp-panel-content" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Sketch deployment options and <strong>last‑mile</strong> integration (APIs, batch jobs, human‑in‑the‑loop).</li>
+            <li class="list-group-item">Design <strong>monitoring</strong>: data & concept drift, calibration, fairness checks, business KPIs.</li>
+            <li class="list-group-item">Outline <strong>governance</strong>: owners, SLAs, change control, incident response, documentation.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Warm-up activity -->
+  <div class="dp-content-block content-block" data-title="Warm‑up: The Last‑Mile Gap">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Warm‑up: The Last‑Mile Gap</h2>
+    <p class="mt-2">Reflect: <em>What could stop a working model from delivering business value after it leaves the notebook?</em> List technical and organizational blockers.</p>
+    <div class="dp-embed-wrapper">
+      <iframe title="Week 5 Warm‑up: Last‑Mile Gap" role="application" src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/w5-last-mile-warmup.html" width="100%" height="320" loading="lazy" allowfullscreen aria-label="Interactive warm‑up reflection about deployment last‑mile gap"></iframe>
+    </div>
+  </div>
+
+  <!-- Tips & expectations -->
+  <div class="dp-content-block content-block" data-title="How to get the most out of Week 5">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-lightbulb" aria-hidden="true"></i>&nbsp;How to get the most out of Week 5</h2>
+    <div class="dp-card card" style="border-left: 4px solid #f97316; padding-left: 15px;">
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><strong>Design for decisions:</strong> Start from the action you want (block, flag, route, message) and work backward.</li>
+          <li class="list-group-item"><strong>Instrument everything:</strong> Log inputs, scores, decisions, and outcomes to power monitoring and audits.</li>
+          <li class="list-group-item"><strong>Plan ownership:</strong> Define who responds to drift, outages, and fairness issues—and within what SLA.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Callout -->
+  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
+    <div class="card-body">
+      <h3 class="card-title">Heads up</h3>
+      <p class="card-text">You’ll see <strong>deployment flow</strong> and <strong>monitoring dashboard</strong> widgets this week. If a widget doesn’t load, refresh or try another tab.</p>
+    </div>
+  </div>
+
+  <hr />
+  <p>Select <strong>Next▸</strong> to begin with <strong>Deployment & Last‑Mile Integration</strong>.</p>
+</div>
+
+<!-- Canvas‑safe toggling -->
+<script>
+(function () {
+  function toggleHead(h){
+    const content = document.getElementById(h.getAttribute('aria-controls'));
+    const expanded = h.getAttribute('aria-expanded') === 'true';
+    h.setAttribute('aria-expanded', String(!expanded));
+    if (content) content.hidden = expanded;
+  }
+  document.addEventListener('click', function (e) {
+    const h = e.target.closest('.dp-panel-heading[role=\"button\"]');
+    if (h) toggleHead(h);
+  });
+  document.addEventListener('keydown', function (e) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role=\"button\"]')) {
+      e.preventDefault(); toggleHead(e.target);
+    }
+  });
+})();
+</script>

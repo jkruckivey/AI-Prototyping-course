@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task to Model Type Matcher</title>
+    <link rel="stylesheet" href="../shared-demo.css">
+    <style>
+        .matcher-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .matcher-column {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .column-header {
+            text-align: center;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .task-card, .model-card, .baseline-card {
+            background: #f8f9fa;
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 1rem;
+            margin: 0.75rem 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .task-card:hover, .model-card:hover, .baseline-card:hover {
+            border-color: #034638;
+            background: #f0f9f4;
+        }
+
+        .task-card.selected {
+            background: #034638;
+            color: white;
+            border-color: #034638;
+        }
+
+        .model-card.correct, .baseline-card.correct {
+            background: #10b981;
+            color: white;
+            border-color: #10b981;
+        }
+
+        .model-card.incorrect, .baseline-card.incorrect {
+            background: #ef4444;
+            color: white;
+            border-color: #ef4444;
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-3px); }
+            75% { transform: translateX(3px); }
+        }
+
+        .card-title {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-description {
+            font-size: 0.85rem;
+            line-height: 1.4;
+            opacity: 0.9;
+        }
+
+        .card-example {
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            font-style: italic;
+        }
+
+        .progress-section {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #034638, #10b981);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .score-display {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 1rem 0;
+        }
+
+        .score-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+
+        .score-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #034638;
+        }
+
+        .score-label {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 0.25rem;
+        }
+
+        .reset-btn {
+            background: #582C83;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s ease;
+        }
+
+        .reset-btn:hover {
+            background: #4c1d75;
+        }
+
+        .instructions {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 6px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .feedback {
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+            display: none;
+        }
+
+        .feedback.success {
+            background: #d1fae5;
+            border: 1px solid #10b981;
+            color: #047857;
+        }
+
+        .feedback.complete {
+            background: #ddd6fe;
+            border: 1px solid #8b5cf6;
+            color: #5b21b6;
+        }
+
+        .completion-badge {
+            display: none;
+            background: #10b981;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin: 1rem auto;
+            width: fit-content;
+        }
+
+        @media (max-width: 768px) {
+            .matcher-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <div class="demo-header">
+            <h1>Business Task → Model Type Matcher</h1>
+            <p>Match real business scenarios to the right machine learning approach and baseline strategy</p>
+        </div>
+
+        <div class="instructions">
+            <strong>How to play:</strong>
+            1) Click a business task on the left
+            2) Select the best model type in the middle
+            3) Choose an appropriate baseline on the right
+            <br><em>Get all 6 scenarios correct to complete the activity!</em>
+        </div>
+
+        <div class="progress-section">
+            <div class="score-display">
+                <div class="score-item">
+                    <div class="score-value" id="correct-count">0</div>
+                    <div class="score-label">Correct Matches</div>
+                </div>
+                <div class="score-item">
+                    <div class="score-value" id="total-attempts">0</div>
+                    <div class="score-label">Total Attempts</div>
+                </div>
+                <div class="score-item">
+                    <div class="score-value" id="accuracy">0%</div>
+                    <div class="score-label">Accuracy</div>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <div class="completion-badge" id="completion-badge">🎉 All Scenarios Mastered!</div>
+        </div>
+
+        <div class="matcher-container">
+            <!-- Business Tasks Column -->
+            <div class="matcher-column">
+                <div class="column-header">📋 Business Tasks</div>
+
+                <div class="task-card" data-task="email-spam" onclick="selectTask(this)">
+                    <div class="card-title">Email Spam Detection</div>
+                    <div class="card-description">Automatically identify and filter spam emails from legitimate messages</div>
+                    <div class="card-example">Input: Email content → Output: Spam/Not Spam</div>
+                </div>
+
+                <div class="task-card" data-task="house-price" onclick="selectTask(this)">
+                    <div class="card-title">House Price Prediction</div>
+                    <div class="card-description">Estimate property values based on size, location, and features</div>
+                    <div class="card-example">Input: Square feet, bedrooms, location → Output: $450,000</div>
+                </div>
+
+                <div class="task-card" data-task="customer-churn" onclick="selectTask(this)">
+                    <div class="card-title">Customer Churn Prediction</div>
+                    <div class="card-description">Identify customers likely to cancel their subscription</div>
+                    <div class="card-example">Input: Usage, support tickets, tenure → Output: Will Churn/Stay</div>
+                </div>
+
+                <div class="task-card" data-task="sales-forecast" onclick="selectTask(this)">
+                    <div class="card-title">Monthly Sales Forecasting</div>
+                    <div class="card-description">Predict next month's revenue based on historical trends</div>
+                    <div class="card-example">Input: Past 12 months data → Output: $125,000 next month</div>
+                </div>
+
+                <div class="task-card" data-task="loan-approval" onclick="selectTask(this)">
+                    <div class="card-title">Loan Approval Decision</div>
+                    <div class="card-description">Decide whether to approve or deny loan applications</div>
+                    <div class="card-example">Input: Income, credit score, debt → Output: Approve/Deny</div>
+                </div>
+
+                <div class="task-card" data-task="inventory-demand" onclick="selectTask(this)">
+                    <div class="card-title">Inventory Demand Prediction</div>
+                    <div class="card-description">Forecast how many units of each product to stock</div>
+                    <div class="card-example">Input: Seasonality, promotions, trends → Output: 1,250 units</div>
+                </div>
+            </div>
+
+            <!-- Model Types Column -->
+            <div class="matcher-column">
+                <div class="column-header">🤖 Model Type</div>
+
+                <div class="model-card" data-model="classification" onclick="selectModel(this)">
+                    <div class="card-title">Classification</div>
+                    <div class="card-description">Predicts categories or classes</div>
+                    <div class="card-example">Output: Discrete labels (Yes/No, Class A/B/C)</div>
+                </div>
+
+                <div class="model-card" data-model="regression" onclick="selectModel(this)">
+                    <div class="card-title">Regression</div>
+                    <div class="card-description">Predicts continuous numerical values</div>
+                    <div class="card-example">Output: Numbers ($450K, 1,250 units, 85%)</div>
+                </div>
+            </div>
+
+            <!-- Baselines Column -->
+            <div class="matcher-column">
+                <div class="column-header">📊 Baseline Strategy</div>
+
+                <div class="baseline-card" data-baseline="majority-class" onclick="selectBaseline(this)">
+                    <div class="card-title">Majority Class</div>
+                    <div class="card-description">Always predict the most common category</div>
+                    <div class="card-example">If 80% emails are not spam → Always predict "Not Spam"</div>
+                </div>
+
+                <div class="baseline-card" data-baseline="historical-average" onclick="selectBaseline(this)">
+                    <div class="card-title">Historical Average</div>
+                    <div class="card-description">Use the average of past values</div>
+                    <div class="card-example">Average house price = $400K → Predict $400K</div>
+                </div>
+
+                <div class="baseline-card" data-baseline="seasonal-naive" onclick="selectBaseline(this)">
+                    <div class="card-title">Seasonal Naïve</div>
+                    <div class="card-description">Use same period from previous cycle</div>
+                    <div class="card-example">This January = Last January's sales</div>
+                </div>
+
+                <div class="baseline-card" data-baseline="rule-based" onclick="selectBaseline(this)">
+                    <div class="card-title">Rule-Based</div>
+                    <div class="card-description">Simple if-then business rules</div>
+                    <div class="card-example">If credit score > 700 → Approve loan</div>
+                </div>
+
+                <div class="baseline-card" data-baseline="random" onclick="selectBaseline(this)">
+                    <div class="card-title">Random Guess</div>
+                    <div class="card-description">Random prediction within reasonable range</div>
+                    <div class="card-example">Random number between min-max historical values</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="feedback success" id="success-feedback">
+            <strong>✅ Correct!</strong> <span id="success-text"></span>
+        </div>
+
+        <div class="feedback complete" id="complete-feedback">
+            <strong>🎉 Outstanding!</strong> You've successfully matched all business scenarios to their appropriate ML approaches and baseline strategies. You understand the fundamental difference between classification and regression problems, and how to establish meaningful baselines for evaluation.
+        </div>
+
+        <button class="reset-btn" onclick="resetGame()" style="display: block; margin: 1rem auto;">🔄 Reset Activity</button>
+    </div>
+
+    <script>
+        let selectedTask = null;
+        let selectedModel = null;
+        let selectedBaseline = null;
+        let correctCount = 0;
+        let totalAttempts = 0;
+        let completedTasks = new Set();
+
+        const solutions = {
+            'email-spam': { model: 'classification', baseline: 'majority-class' },
+            'house-price': { model: 'regression', baseline: 'historical-average' },
+            'customer-churn': { model: 'classification', baseline: 'majority-class' },
+            'sales-forecast': { model: 'regression', baseline: 'seasonal-naive' },
+            'loan-approval': { model: 'classification', baseline: 'rule-based' },
+            'inventory-demand': { model: 'regression', baseline: 'seasonal-naive' }
+        };
+
+        const explanations = {
+            'email-spam': "Email spam detection is classification - we're sorting emails into discrete categories (spam/not spam). Majority class baseline works well since most emails are typically legitimate.",
+            'house-price': "House prices are continuous numerical values, making this a regression problem. Historical average provides a sensible starting point for property valuation.",
+            'customer-churn': "Churn prediction classifies customers into discrete categories (will churn/won't churn). Majority class baseline reflects that most customers typically stay.",
+            'sales-forecast': "Sales amounts are continuous values (regression). Seasonal naïve captures business cycles - January sales often resemble last January's patterns.",
+            'loan-approval': "Loan decisions are discrete categories (approve/deny). Rule-based baselines using credit scores are common industry practice and regulatory requirement.",
+            'inventory-demand': "Inventory quantities are continuous numbers (regression). Seasonal patterns strongly influence demand - winter coat sales peak in fall/winter."
+        };
+
+        function selectTask(element) {
+            // Clear previous selections
+            document.querySelectorAll('.task-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            document.querySelectorAll('.model-card').forEach(card => {
+                card.classList.remove('correct', 'incorrect');
+            });
+            document.querySelectorAll('.baseline-card').forEach(card => {
+                card.classList.remove('correct', 'incorrect');
+            });
+
+            // Select new task
+            element.classList.add('selected');
+            selectedTask = element.getAttribute('data-task');
+            selectedModel = null;
+            selectedBaseline = null;
+
+            // Check if this task is already completed
+            if (completedTasks.has(selectedTask)) {
+                // Show the correct answers
+                const solution = solutions[selectedTask];
+                document.querySelector(`[data-model="${solution.model}"]`).classList.add('correct');
+                document.querySelector(`[data-baseline="${solution.baseline}"]`).classList.add('correct');
+            }
+        }
+
+        function selectModel(element) {
+            if (!selectedTask || completedTasks.has(selectedTask)) return;
+
+            selectedModel = element.getAttribute('data-model');
+            checkMatch();
+        }
+
+        function selectBaseline(element) {
+            if (!selectedTask || completedTasks.has(selectedTask)) return;
+
+            selectedBaseline = element.getAttribute('data-baseline');
+            checkMatch();
+        }
+
+        function checkMatch() {
+            if (!selectedTask || !selectedModel || !selectedBaseline) return;
+
+            totalAttempts++;
+            const solution = solutions[selectedTask];
+            const modelCorrect = selectedModel === solution.model;
+            const baselineCorrect = selectedBaseline === solution.baseline;
+
+            // Visual feedback
+            const modelElement = document.querySelector(`[data-model="${selectedModel}"]`);
+            const baselineElement = document.querySelector(`[data-baseline="${selectedBaseline}"]`);
+
+            if (modelCorrect && baselineCorrect) {
+                // Both correct
+                modelElement.classList.add('correct');
+                baselineElement.classList.add('correct');
+                correctCount++;
+                completedTasks.add(selectedTask);
+                showSuccess();
+
+                // Check if all tasks completed
+                if (completedTasks.size === 6) {
+                    setTimeout(showCompletion, 1000);
+                }
+            } else {
+                // Show which parts are wrong
+                if (!modelCorrect) {
+                    modelElement.classList.add('incorrect');
+                    setTimeout(() => modelElement.classList.remove('incorrect'), 500);
+                } else {
+                    modelElement.classList.add('correct');
+                }
+
+                if (!baselineCorrect) {
+                    baselineElement.classList.add('incorrect');
+                    setTimeout(() => baselineElement.classList.remove('incorrect'), 500);
+                } else {
+                    baselineElement.classList.add('correct');
+                }
+            }
+
+            updateStats();
+            selectedModel = null;
+            selectedBaseline = null;
+        }
+
+        function showSuccess() {
+            const feedback = document.getElementById('success-feedback');
+            const text = document.getElementById('success-text');
+            text.textContent = explanations[selectedTask];
+            feedback.style.display = 'block';
+
+            setTimeout(() => {
+                feedback.style.display = 'none';
+            }, 4000);
+        }
+
+        function showCompletion() {
+            document.getElementById('complete-feedback').style.display = 'block';
+            document.getElementById('completion-badge').style.display = 'block';
+        }
+
+        function updateStats() {
+            document.getElementById('correct-count').textContent = correctCount;
+            document.getElementById('total-attempts').textContent = totalAttempts;
+
+            const accuracy = totalAttempts > 0 ? Math.round((correctCount / totalAttempts) * 100) : 0;
+            document.getElementById('accuracy').textContent = accuracy + '%';
+
+            const progress = (completedTasks.size / 6) * 100;
+            document.getElementById('progress-fill').style.width = progress + '%';
+        }
+
+        function resetGame() {
+            selectedTask = null;
+            selectedModel = null;
+            selectedBaseline = null;
+            correctCount = 0;
+            totalAttempts = 0;
+            completedTasks.clear();
+
+            // Reset all visual states
+            document.querySelectorAll('.task-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            document.querySelectorAll('.model-card').forEach(card => {
+                card.classList.remove('correct', 'incorrect');
+            });
+            document.querySelectorAll('.baseline-card').forEach(card => {
+                card.classList.remove('correct', 'incorrect');
+            });
+
+            // Hide feedback
+            document.querySelectorAll('.feedback').forEach(feedback => {
+                feedback.style.display = 'none';
+            });
+            document.getElementById('completion-badge').style.display = 'none';
+
+            updateStats();
+        }
+
+        // Initialize
+        updateStats();
+    </script>
+</body>
+</html>

@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVM Decision Boundary Explorer</title>
+    <link rel="stylesheet" href="../shared-demo.css">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        .svm-container {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+            margin: 1rem 0;
+        }
+
+        .controls-section {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            height: fit-content;
+        }
+
+        .control-group {
+            margin: 1.5rem 0;
+        }
+
+        .control-group label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 0.5rem 0;
+        }
+
+        .slider-container input[type="range"] {
+            flex: 1;
+        }
+
+        .value-display {
+            background: #e7f3ff;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: bold;
+            min-width: 70px;
+            text-align: center;
+        }
+
+        .kernel-selector {
+            display: flex;
+            gap: 0.5rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .kernel-btn {
+            background: #f3f4f6;
+            border: 2px solid #e5e7eb;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            text-align: center;
+            flex: 1;
+            min-width: 80px;
+        }
+
+        .kernel-btn.active {
+            background: #034638;
+            color: white;
+            border-color: #034638;
+        }
+
+        .kernel-btn:hover:not(.active) {
+            background: #e5e7eb;
+        }
+
+        .dataset-selector {
+            display: flex;
+            gap: 0.5rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .dataset-btn {
+            background: #f3f4f6;
+            border: 2px solid #e5e7eb;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .dataset-btn.active {
+            background: #582C83;
+            color: white;
+            border-color: #582C83;
+        }
+
+        .visualization-section {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .plot-container {
+            height: 500px;
+            margin: 1rem 0;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            background: white;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .metric-card {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 6px;
+            text-align: center;
+            border-left: 4px solid #034638;
+        }
+
+        .metric-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #034638;
+        }
+
+        .metric-label {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 0.25rem;
+        }
+
+        .parameter-explanation {
+            background: #f0f9f4;
+            border: 1px solid #10b981;
+            border-radius: 6px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+
+        .parameter-explanation h4 {
+            color: #047857;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .kernel-info {
+            background: #fffbeb;
+            border: 1px solid #f59e0b;
+            border-radius: 6px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+
+        .kernel-info h4 {
+            color: #d97706;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .generate-btn {
+            background: #034638;
+            color: white;
+            border: none;
+            padding: 1rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            width: 100%;
+            margin: 1rem 0;
+            transition: background 0.3s ease;
+        }
+
+        .generate-btn:hover {
+            background: #022c24;
+        }
+
+        .support-vectors-info {
+            background: #e7f3ff;
+            border: 1px solid #3b82f6;
+            border-radius: 6px;
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            font-size: 0.8rem;
+        }
+
+        .complexity-warning {
+            background: #fef2f2;
+            border: 1px solid #ef4444;
+            border-radius: 6px;
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            font-size: 0.8rem;
+            color: #dc2626;
+        }
+
+        @media (max-width: 768px) {
+            .svm-container {
+                grid-template-columns: 1fr;
+            }
+
+            .kernel-selector, .dataset-selector {
+                flex-direction: column;
+            }
+
+            .kernel-btn, .dataset-btn {
+                flex: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <div class="demo-header">
+            <h1>SVM Decision Boundary Explorer</h1>
+            <p>Adjust kernel, C, and gamma parameters to see how SVMs create different decision boundaries</p>
+        </div>
+
+        <div class="svm-container">
+            <div class="controls-section">
+                <h3>🎛️ SVM Parameters</h3>
+
+                <div class="control-group">
+                    <label>Dataset:</label>
+                    <div class="dataset-selector">
+                        <button class="dataset-btn active" onclick="selectDataset('linear')">Linear</button>
+                        <button class="dataset-btn" onclick="selectDataset('circular')">Circular</button>
+                        <button class="dataset-btn" onclick="selectDataset('moons')">Moons</button>
+                        <button class="dataset-btn" onclick="selectDataset('noisy')">Noisy</button>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label>Kernel Type:</label>
+                    <div class="kernel-selector">
+                        <button class="kernel-btn active" onclick="selectKernel('linear')">Linear</button>
+                        <button class="kernel-btn" onclick="selectKernel('poly')">Polynomial</button>
+                        <button class="kernel-btn" onclick="selectKernel('rbf')">RBF</button>
+                        <button class="kernel-btn" onclick="selectKernel('sigmoid')">Sigmoid</button>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label>C (Regularization):</label>
+                    <div class="slider-container">
+                        <input type="range" id="c-slider" min="0.01" max="100" value="1" step="0.01" onchange="updateC(this.value)">
+                        <div class="value-display" id="c-value">1.00</div>
+                    </div>
+                    <div class="parameter-explanation">
+                        <h4>C Parameter</h4>
+                        <p><strong>Low C:</strong> Wider margin, more misclassifications allowed (underfitting)<br>
+                        <strong>High C:</strong> Narrow margin, fewer misclassifications (overfitting)</p>
+                    </div>
+                </div>
+
+                <div class="control-group" id="gamma-control">
+                    <label>Gamma (Kernel Width):</label>
+                    <div class="slider-container">
+                        <input type="range" id="gamma-slider" min="0.001" max="10" value="1" step="0.001" onchange="updateGamma(this.value)">
+                        <div class="value-display" id="gamma-value">1.000</div>
+                    </div>
+                    <div class="parameter-explanation">
+                        <h4>Gamma Parameter</h4>
+                        <p><strong>Low Gamma:</strong> Smooth decision boundary, far-reaching influence<br>
+                        <strong>High Gamma:</strong> Complex boundary, close-range influence only</p>
+                    </div>
+                </div>
+
+                <div class="control-group" id="degree-control" style="display: none;">
+                    <label>Degree:</label>
+                    <div class="slider-container">
+                        <input type="range" id="degree-slider" min="2" max="5" value="3" step="1" onchange="updateDegree(this.value)">
+                        <div class="value-display" id="degree-value">3</div>
+                    </div>
+                    <div class="parameter-explanation">
+                        <h4>Polynomial Degree</h4>
+                        <p>Higher degrees create more complex, curved boundaries but risk overfitting</p>
+                    </div>
+                </div>
+
+                <button class="generate-btn" onclick="generateSVM()">🚀 Generate SVM Model</button>
+
+                <div class="support-vectors-info">
+                    <strong>Support Vectors:</strong> <span id="support-vector-count">-</span><br>
+                    <small>Data points that define the decision boundary</small>
+                </div>
+            </div>
+
+            <div class="visualization-section">
+                <div class="kernel-info" id="kernel-info">
+                    <h4>🔧 Linear Kernel</h4>
+                    <p>Creates straight-line decision boundaries. Best for linearly separable data. Simple and fast.</p>
+                </div>
+
+                <div class="plot-container" id="svm-plot"></div>
+
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-value" id="accuracy-value">-</div>
+                        <div class="metric-label">Training Accuracy</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="margin-value">-</div>
+                        <div class="metric-label">Margin Width</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="complexity-value">-</div>
+                        <div class="metric-label">Model Complexity</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentDataset = 'linear';
+        let currentKernel = 'linear';
+        let C = 1.0;
+        let gamma = 1.0;
+        let degree = 3;
+        let data = [];
+        let labels = [];
+
+        const kernelInfo = {
+            linear: {
+                title: '🔧 Linear Kernel',
+                description: 'Creates straight-line decision boundaries. Best for linearly separable data. Simple and fast.'
+            },
+            poly: {
+                title: '📐 Polynomial Kernel',
+                description: 'Creates curved boundaries using polynomial functions. Good for moderately non-linear data.'
+            },
+            rbf: {
+                title: '🌊 RBF (Radial Basis Function) Kernel',
+                description: 'Creates circular/elliptical boundaries. Most popular for non-linear data. Very flexible.'
+            },
+            sigmoid: {
+                title: '📈 Sigmoid Kernel',
+                description: 'Creates S-shaped boundaries. Similar to neural networks. Less commonly used.'
+            }
+        };
+
+        function generateDataset(type) {
+            data = [];
+            labels = [];
+            const n = 100;
+
+            switch(type) {
+                case 'linear':
+                    for(let i = 0; i < n; i++) {
+                        const x = (Math.random() - 0.5) * 10;
+                        const y = (Math.random() - 0.5) * 10;
+                        const label = x + y > 0 ? 1 : -1;
+                        data.push([x, y]);
+                        labels.push(label);
+                    }
+                    break;
+
+                case 'circular':
+                    for(let i = 0; i < n; i++) {
+                        const x = (Math.random() - 0.5) * 10;
+                        const y = (Math.random() - 0.5) * 10;
+                        const distance = Math.sqrt(x*x + y*y);
+                        const label = distance < 3 ? 1 : -1;
+                        data.push([x, y]);
+                        labels.push(label);
+                    }
+                    break;
+
+                case 'moons':
+                    for(let i = 0; i < n/2; i++) {
+                        // Upper moon
+                        const t = Math.random() * Math.PI;
+                        const x = Math.cos(t) * 3 + (Math.random() - 0.5) * 0.5;
+                        const y = Math.sin(t) * 1.5 + (Math.random() - 0.5) * 0.5;
+                        data.push([x, y]);
+                        labels.push(1);
+                    }
+                    for(let i = 0; i < n/2; i++) {
+                        // Lower moon
+                        const t = Math.random() * Math.PI;
+                        const x = -Math.cos(t) * 3 + 3 + (Math.random() - 0.5) * 0.5;
+                        const y = -Math.sin(t) * 1.5 - 0.5 + (Math.random() - 0.5) * 0.5;
+                        data.push([x, y]);
+                        labels.push(-1);
+                    }
+                    break;
+
+                case 'noisy':
+                    for(let i = 0; i < n; i++) {
+                        const x = (Math.random() - 0.5) * 10;
+                        const y = (Math.random() - 0.5) * 10;
+                        let label = x + y + Math.sin(x) * 2 > 0 ? 1 : -1;
+                        // Add noise
+                        if(Math.random() < 0.1) label *= -1;
+                        data.push([x, y]);
+                        labels.push(label);
+                    }
+                    break;
+            }
+        }
+
+        function selectDataset(type) {
+            currentDataset = type;
+
+            // Update button states
+            document.querySelectorAll('.dataset-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            generateDataset(type);
+            plotData();
+        }
+
+        function selectKernel(kernel) {
+            currentKernel = kernel;
+
+            // Update button states
+            document.querySelectorAll('.kernel-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Update kernel info
+            const info = kernelInfo[kernel];
+            document.getElementById('kernel-info').innerHTML = `
+                <h4>${info.title}</h4>
+                <p>${info.description}</p>
+            `;
+
+            // Show/hide relevant controls
+            const gammaControl = document.getElementById('gamma-control');
+            const degreeControl = document.getElementById('degree-control');
+
+            if(kernel === 'linear') {
+                gammaControl.style.display = 'none';
+                degreeControl.style.display = 'none';
+            } else if(kernel === 'poly') {
+                gammaControl.style.display = 'block';
+                degreeControl.style.display = 'block';
+            } else {
+                gammaControl.style.display = 'block';
+                degreeControl.style.display = 'none';
+            }
+        }
+
+        function updateC(value) {
+            C = parseFloat(value);
+            document.getElementById('c-value').textContent = C.toFixed(2);
+        }
+
+        function updateGamma(value) {
+            gamma = parseFloat(value);
+            document.getElementById('gamma-value').textContent = gamma.toFixed(3);
+        }
+
+        function updateDegree(value) {
+            degree = parseInt(value);
+            document.getElementById('degree-value').textContent = degree;
+        }
+
+        function plotData() {
+            const positives = data.filter((point, i) => labels[i] === 1);
+            const negatives = data.filter((point, i) => labels[i] === -1);
+
+            const traces = [
+                {
+                    x: positives.map(p => p[0]),
+                    y: positives.map(p => p[1]),
+                    mode: 'markers',
+                    type: 'scatter',
+                    name: 'Class +1',
+                    marker: {
+                        color: '#ef4444',
+                        size: 8,
+                        symbol: 'circle'
+                    }
+                },
+                {
+                    x: negatives.map(p => p[0]),
+                    y: negatives.map(p => p[1]),
+                    mode: 'markers',
+                    type: 'scatter',
+                    name: 'Class -1',
+                    marker: {
+                        color: '#3b82f6',
+                        size: 8,
+                        symbol: 'square'
+                    }
+                }
+            ];
+
+            const layout = {
+                title: `Dataset: ${currentDataset.charAt(0).toUpperCase() + currentDataset.slice(1)}`,
+                xaxis: { title: 'Feature X' },
+                yaxis: { title: 'Feature Y' },
+                showlegend: true,
+                margin: { t: 50, r: 50, b: 50, l: 50 },
+                hovermode: 'closest'
+            };
+
+            Plotly.newPlot('svm-plot', traces, layout, {responsive: true});
+        }
+
+        function generateDecisionBoundary() {
+            // Create grid for decision boundary
+            const gridSize = 50;
+            const xMin = Math.min(...data.map(p => p[0])) - 1;
+            const xMax = Math.max(...data.map(p => p[0])) + 1;
+            const yMin = Math.min(...data.map(p => p[1])) - 1;
+            const yMax = Math.max(...data.map(p => p[1])) + 1;
+
+            const xStep = (xMax - xMin) / gridSize;
+            const yStep = (yMax - yMin) / gridSize;
+
+            const contourX = [];
+            const contourY = [];
+            const contourZ = [];
+
+            for(let i = 0; i <= gridSize; i++) {
+                const x = xMin + i * xStep;
+                contourX.push(x);
+            }
+
+            for(let j = 0; j <= gridSize; j++) {
+                const y = yMin + j * yStep;
+                contourY.push(y);
+
+                const row = [];
+                for(let i = 0; i <= gridSize; i++) {
+                    const x = xMin + i * xStep;
+                    const prediction = predictSVM(x, y);
+                    row.push(prediction);
+                }
+                contourZ.push(row);
+            }
+
+            return { x: contourX, y: contourY, z: contourZ };
+        }
+
+        function predictSVM(x, y) {
+            // Simplified SVM prediction based on kernel and parameters
+            let decision = 0;
+
+            // Use a subset of points as "support vectors"
+            const supportVectors = data.filter((point, i) => Math.random() < 0.3); // Simulate support vectors
+            const supportLabels = supportVectors.map(sv => {
+                const idx = data.findIndex(p => p[0] === sv[0] && p[1] === sv[1]);
+                return labels[idx];
+            });
+
+            for(let i = 0; i < supportVectors.length; i++) {
+                const sv = supportVectors[i];
+                const label = supportLabels[i];
+                const alpha = Math.random() * 0.5 + 0.1; // Simulated alpha
+
+                let kernelValue = 0;
+                switch(currentKernel) {
+                    case 'linear':
+                        kernelValue = x * sv[0] + y * sv[1];
+                        break;
+                    case 'poly':
+                        const dot = x * sv[0] + y * sv[1];
+                        kernelValue = Math.pow(gamma * dot + 1, degree);
+                        break;
+                    case 'rbf':
+                        const distSq = Math.pow(x - sv[0], 2) + Math.pow(y - sv[1], 2);
+                        kernelValue = Math.exp(-gamma * distSq);
+                        break;
+                    case 'sigmoid':
+                        const dotSig = x * sv[0] + y * sv[1];
+                        kernelValue = Math.tanh(gamma * dotSig + 1);
+                        break;
+                }
+
+                decision += alpha * label * kernelValue;
+            }
+
+            // Apply C parameter influence (simplified)
+            decision *= Math.min(C, 1.0);
+
+            return decision;
+        }
+
+        function generateSVM() {
+            const positives = data.filter((point, i) => labels[i] === 1);
+            const negatives = data.filter((point, i) => labels[i] === -1);
+
+            // Generate decision boundary
+            const boundary = generateDecisionBoundary();
+
+            const traces = [
+                {
+                    x: positives.map(p => p[0]),
+                    y: positives.map(p => p[1]),
+                    mode: 'markers',
+                    type: 'scatter',
+                    name: 'Class +1',
+                    marker: {
+                        color: '#ef4444',
+                        size: 8,
+                        symbol: 'circle'
+                    }
+                },
+                {
+                    x: negatives.map(p => p[0]),
+                    y: negatives.map(p => p[1]),
+                    mode: 'markers',
+                    type: 'scatter',
+                    name: 'Class -1',
+                    marker: {
+                        color: '#3b82f6',
+                        size: 8,
+                        symbol: 'square'
+                    }
+                },
+                {
+                    x: boundary.x,
+                    y: boundary.y,
+                    z: boundary.z,
+                    type: 'contour',
+                    showscale: false,
+                    contours: {
+                        start: -0.1,
+                        end: 0.1,
+                        size: 0.2
+                    },
+                    line: { width: 3, color: '#034638' },
+                    name: 'Decision Boundary'
+                }
+            ];
+
+            const layout = {
+                title: `SVM: ${currentKernel.toUpperCase()} Kernel (C=${C.toFixed(2)}${currentKernel !== 'linear' ? `, γ=${gamma.toFixed(2)}` : ''})`,
+                xaxis: { title: 'Feature X' },
+                yaxis: { title: 'Feature Y' },
+                showlegend: true,
+                margin: { t: 50, r: 50, b: 50, l: 50 }
+            };
+
+            Plotly.newPlot('svm-plot', traces, layout, {responsive: true});
+
+            // Update metrics
+            updateMetrics();
+        }
+
+        function updateMetrics() {
+            // Simulate metrics based on parameters
+            let accuracy = 0.75;
+            let margin = 1.0;
+            let complexity = 0.5;
+
+            // Adjust based on C parameter
+            if(C > 10) {
+                accuracy += 0.1;
+                margin -= 0.3;
+                complexity += 0.3;
+            } else if(C < 0.1) {
+                accuracy -= 0.1;
+                margin += 0.2;
+                complexity -= 0.2;
+            }
+
+            // Adjust based on kernel
+            switch(currentKernel) {
+                case 'linear':
+                    complexity -= 0.2;
+                    break;
+                case 'poly':
+                    complexity += 0.1 + (degree - 2) * 0.1;
+                    break;
+                case 'rbf':
+                    complexity += 0.2 + Math.min(gamma / 5, 0.3);
+                    break;
+                case 'sigmoid':
+                    complexity += 0.15;
+                    break;
+            }
+
+            // Adjust for dataset
+            if(currentDataset === 'noisy') accuracy -= 0.15;
+            if(currentDataset === 'linear' && currentKernel === 'linear') accuracy += 0.1;
+
+            // Keep values in reasonable ranges
+            accuracy = Math.max(0.5, Math.min(0.98, accuracy));
+            margin = Math.max(0.1, Math.min(2.0, margin));
+            complexity = Math.max(0.1, Math.min(1.0, complexity));
+
+            document.getElementById('accuracy-value').textContent = (accuracy * 100).toFixed(1) + '%';
+            document.getElementById('margin-value').textContent = margin.toFixed(2);
+            document.getElementById('complexity-value').textContent = (complexity * 100).toFixed(0) + '%';
+
+            // Support vectors (simulated)
+            const svCount = Math.max(3, Math.min(30, Math.round(data.length * (0.1 + complexity * 0.4))));
+            document.getElementById('support-vector-count').textContent = svCount;
+        }
+
+        // Initialize
+        generateDataset(currentDataset);
+        plotData();
+        updateMetrics();
+    </script>
+</body>
+</html>
