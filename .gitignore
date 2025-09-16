@@ -16,3 +16,9 @@ Thumbs.db
 *.tmp
 *.temp
 .cache/
+
+# Visual Studio
+.vs/
+
+# Course materials (keep out of repo)
+Course Materials/
