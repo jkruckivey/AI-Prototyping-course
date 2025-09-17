@@ -15,7 +15,10 @@
       "Bash(move:*)",
       "Bash(dir:*)",
       "Bash(del \"C:\\Users\\james\\OneDrive\\Documents2\\GitHub\\AI-Prototyping-course\\canvas-data-page-5-activities-roleplay.html\")",
-      "Bash(start \"C:\\Users\\jkruck\\Ivey Business School\\EdTech Lab - Documents\\Github\\AI Prototyping Learn\\demos\\widgets\\w3-kmeans-clustering.html\")"
+      "Bash(start \"C:\\Users\\jkruck\\Ivey Business School\\EdTech Lab - Documents\\Github\\AI Prototyping Learn\\demos\\widgets\\w3-kmeans-clustering.html\")",
+      "Bash(find:*)",
+      "Bash(start \"Development Files/Week 5/w_5_03_governance.html\")",
+      "Bash(start:*)"
     ],
     "deny": [],
     "ask": []

@@ -2,7 +2,7 @@
   <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
 
   <div class="dp-content-block content-block" data-title="Logistic Regression & Decision Thresholds">
-    <h1 class="dp-has-icon"><i class="dp-icon fas fa-adjust" aria-hidden="true"></i>&nbsp;Logistic Regression &amp; Decision Thresholds</h1>
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-adjust" aria-hidden="true"></i>&nbsp;Logistic Regression &amp; Decision Thresholds</h2>
     <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
       <div class="card-body">
         <h5 class="card-title dp-ignore-theme">What this page covers</h5>
@@ -12,7 +12,7 @@
   </div>
 
   <div class="dp-content-block content-block" data-title="Learning Outcomes (This Page)" data-category="Learning Outcomes">
-    <h3 class="dp-has-icon"><i class="dp-icon fas fa-bullseye" aria-hidden="true"></i> Learning Outcomes</h3>
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-bullseye" aria-hidden="true"></i> Learning Outcomes</h2>
     <ol>
       <li>Explain the role of the <strong>sigmoid</strong> curve in mapping scores to 0–1 probabilities.</li>
       <li>Choose and adjust a <strong>decision threshold</strong> based on precision/recall trade‑offs and business cost.</li>
@@ -24,14 +24,14 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-signal" aria-hidden="true"></i>&nbsp;From Linear Score to Probability</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="lg-sigmoid">Sigmoid intuition</h3>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="lg-sigmoid">Sigmoid intuition</h4>
         <div id="lg-sigmoid" class="dp-panel-content" hidden>
           <p>Logistic regression fits an <em>S‑shaped</em> curve that maps input combinations to a value between <strong>0 and 1</strong>. Interpret this as the model’s estimated probability of the positive class.</p>
           <p class="mb-0">A final class label requires a <em>threshold</em> (e.g., 0.5 by default).</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="lg-loss">Training signal (loss)</h3>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="lg-loss">Training signal (loss)</h4>
         <div id="lg-loss" class="dp-panel-content" hidden>
           <p>During training the model adjusts parameters to reduce classification error according to a chosen <em>loss function</em> (e.g., squared error in our recap). The key output for practice is the calibrated probability and the ability to set a threshold.</p>
         </div>
@@ -43,13 +43,13 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-sliders-h" aria-hidden="true"></i>&nbsp;Thresholds &amp; Business Trade‑offs</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="thresh-why">Why thresholds matter</h3>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="thresh-why">Why thresholds matter</h4>
         <div id="thresh-why" class="dp-panel-content" hidden>
           <p>Moving the threshold changes how many positives you predict. Lowering it usually <strong>catches more positives</strong> (higher recall) but increases false alarms (lower precision). Raising it does the opposite.</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="thresh-cost">Tie to business cost</h3>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="thresh-cost">Tie to business cost</h4>
         <div id="thresh-cost" class="dp-panel-content" hidden>
           <ul class="list-group list-group-flush">
             <li class="list-group-item"><strong>False Positive cost</strong> (e.g., contacting a non‑churner): staff time, customer annoyance.</li>
@@ -59,7 +59,7 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="thresh-imbalance">Class imbalance</h3>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="thresh-imbalance">Class imbalance</h4>
         <div id="thresh-imbalance" class="dp-panel-content" hidden>
           <p>When the positive class is rare, accuracy can be misleading. Focus on <strong>precision/recall</strong> (and PR curves) and consider resampling or class‑weighted training.</p>
         </div>

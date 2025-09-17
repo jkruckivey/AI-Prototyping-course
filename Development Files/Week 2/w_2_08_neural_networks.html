@@ -2,7 +2,7 @@
   <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
 
   <div class="dp-content-block content-block" data-title="Neural Networks: Perceptron → MLP">
-    <h1 class="dp-has-icon"><i class="dp-icon fas fa-project-diagram" aria-hidden="true"></i>&nbsp;Neural Networks: Perceptron → MLP</h1>
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-project-diagram" aria-hidden="true"></i>&nbsp;Neural Networks: Perceptron → MLP</h2>
     <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
       <div class="card-body">
         <h5 class="card-title dp-ignore-theme">What this page covers</h5>
@@ -12,7 +12,7 @@
   </div>
 
   <div class="dp-content-block content-block" data-title="Learning Outcomes (This Page)" data-category="Learning Outcomes">
-    <h3 class="dp-has-icon"><i class="dp-icon fas fa-bullseye" aria-hidden="true"></i> Learning Outcomes</h3>
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-bullseye" aria-hidden="true"></i> Learning Outcomes</h2>
     <ol>
       <li>Describe a single perceptron (weights, bias, activation) and what it can compute.</li>
       <li>Explain how stacking perceptrons forms <strong>hidden layers</strong> capable of modeling non‑linear functions.</li>
@@ -25,13 +25,13 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-circle"></i>&nbsp;The Perceptron</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="nn-perc">Single neuron</h3>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="nn-perc">Single neuron</h4>
         <div id="nn-perc" class="dp-panel-content" hidden>
           <p>A perceptron takes weighted inputs + bias, applies an activation, and outputs a decision. With step or sigmoid activations, a single perceptron can model simple functions like <strong>AND/OR</strong>.</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="nn-limit">Limits</h3>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="nn-limit">Limits</h4>
         <div id="nn-limit" class="dp-panel-content" hidden>
           <p>A single perceptron cannot solve problems like XOR—it needs <strong>hidden layers</strong> for non‑linear separation.</p>
         </div>
@@ -43,13 +43,13 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-layer-group" aria-hidden="true"></i>&nbsp;From Perceptron to MLP</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="mlp-stack">Stacking layers</h3>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="mlp-stack">Stacking layers</h4>
         <div id="mlp-stack" class="dp-panel-content" hidden>
           <p>By stacking perceptrons into <strong>layers</strong>, the network can build hierarchical representations: early layers combine raw features, later layers detect patterns and interactions.</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="mlp-act">Activation functions</h3>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="mlp-act">Activation functions</h4>
         <div id="mlp-act" class="dp-panel-content" hidden>
           <ul class="list-group list-group-flush">
             <li class="list-group-item"><strong>Sigmoid</strong>: maps to 0–1; good for probabilities but saturates (vanishing gradients).</li>
@@ -59,7 +59,7 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="mlp-train">Training basics</h3>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="mlp-train">Training basics</h4>
         <div id="mlp-train" class="dp-panel-content" hidden>
           <p>Training uses <strong>backpropagation</strong> to update weights layer‑by‑layer, minimizing a loss function. Gradient descent drives learning.</p>
         </div>
@@ -79,7 +79,7 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-bolt" aria-hidden="true"></i>&nbsp;Scaling Up & Use Cases</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="nn-use">Where neural nets shine</h3>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="nn-use">Where neural nets shine</h4>
         <div id="nn-use" class="dp-panel-content" hidden>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">Image and speech recognition (deep CNNs, RNNs).</li>
@@ -89,7 +89,7 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="nn-limits">Limits & cautions</h3>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="nn-limits">Limits & cautions</h4>
         <div id="nn-limits" class="dp-panel-content" hidden>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">Require significant data + compute.</li>

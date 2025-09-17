@@ -11,101 +11,107 @@
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
-  <div class="container">
-    <header class="header">
-      <h1 class="site-title">Linear Regression: Step-by-Step</h1>
-      <p class="site-subtitle">Master prediction through interactive line-fitting</p>
-    </header>
 
-    <main class="main-content">
-      <!-- Step Navigation -->
-      <section class="step-navigation">
-        <div class="nav-container">
-          <button class="nav-btn active" data-step="1">1. The Problem</button>
-          <button class="nav-btn" data-step="2">2. The Line</button>
-          <button class="nav-btn" data-step="3">3. Finding Best Fit</button>
-          <button class="nav-btn" data-step="4">4. Interactive Model</button>
-          <button class="nav-btn" data-step="5">5. Practice</button>
-        </div>
-      </section>
+<div id="dp-wrapper" class="dp-wrapper">
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
 
-      <!-- Step 1: The Prediction Problem -->
-      <section class="demo-step active" id="step1">
-        <div class="step-header">
-          <h2>📊 The Prediction Problem</h2>
-          <p class="step-intro">Let's start with a real scenario: predicting MBA salaries based on work experience.</p>
+  <!-- Page Intro -->
+  <div class="dp-content-block content-block" data-title="Linear Regression Interactive Demo">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-chart-line" aria-hidden="true"></i>&nbsp;Linear Regression: Step-by-Step</h2>
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+      <div class="card-body">
+        <h5 class="card-title dp-ignore-theme">What this demo covers</h5>
+        <p>Master prediction through interactive line-fitting using real MBA salary data. Learn the fundamentals of linear regression in a hands-on, step-by-step format.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step Navigation -->
+  <div class="dp-content-block content-block" data-title="Interactive Demo Navigation">
+    <h3 class="dp-has-icon"><i class="dp-icon fas fa-map" aria-hidden="true"></i>&nbsp;Demo Steps</h3>
+    <div class="step-navigation">
+      <div class="nav-container">
+        <button class="nav-btn active" data-step="1">1. The Problem</button>
+        <button class="nav-btn" data-step="2">2. The Line</button>
+        <button class="nav-btn" data-step="3">3. Finding Best Fit</button>
+        <button class="nav-btn" data-step="4">4. Interactive Model</button>
+        <button class="nav-btn" data-step="5">5. Practice</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 1: The Prediction Problem -->
+  <div class="dp-content-block content-block demo-step active" data-title="Step 1: The Prediction Problem" id="step1">
+    <h3 class="dp-has-icon"><i class="dp-icon fas fa-question-circle" aria-hidden="true"></i>&nbsp;📊 The Prediction Problem</h3>
+    <p class="step-intro">Let's start with a real scenario: predicting MBA salaries based on work experience.</p>
+
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+      <div class="dp-panel-group">
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="real-world-scenario">💼 Real-World Scenario</h4>
+        <div id="real-world-scenario" class="dp-panel-content" hidden>
+          <p>You're a Canadian MBA student wondering: <strong>"How much should I expect to earn based on my work experience?"</strong></p>
+
+          <div class="dp-card card" style="border-left: 4px solid #582C83; padding-left: 15px;">
+            <div class="card-body">
+              <h6 class="card-title">🔍 Key Insight</h6>
+              <p>Unlike classification (apple vs orange), here we want to predict a <em>continuous number</em> - the salary amount.</p>
+            </div>
+          </div>
         </div>
-        
-        <div class="step-content">
-          <div class="problem-explanation">
-            <div class="scenario-box">
-              <h3>💼 Real-World Scenario</h3>
-              <p>You're a Canadian MBA student wondering: <strong>"How much should I expect to earn based on my work experience?"</strong></p>
-              
-              <div class="key-insight">
-                <strong>🔍 Key Insight:</strong> Unlike classification (apple vs orange), here we want to predict a <em>continuous number</em> - the salary amount.
+      </div>
+
+      <div class="dp-panel-group">
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="our-dataset">📈 Our Dataset</h4>
+        <div id="our-dataset" class="dp-panel-content" hidden>
+          <div class="feature-explanations">
+            <div class="dp-card card" style="background-color: #f8f9fa; border: 1px solid #dee2e6; margin-bottom: 1rem;">
+              <div class="card-body">
+                <h6 class="card-title">📊 The Pattern</h6>
+                <p>A Canadian MBA program collected data from 15 recent graduates:</p>
+                <div class="data-preview">
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">👶 1 year: $35k CAD</li>
+                    <li class="list-group-item">🚀 5 years: $58k CAD</li>
+                    <li class="list-group-item">💪 10 years: $90k CAD</li>
+                    <li class="list-group-item">🏆 15 years: $120k CAD</li>
+                  </ul>
+                </div>
               </div>
             </div>
 
-            <div class="data-explanation">
-              <h3>📈 Our Dataset</h3>
-              <div class="feature-explanations">
-                <div class="feature-explanation">
-                  <strong>📊 The Pattern:</strong>
-                  <p>A Canadian MBA program collected data from 15 recent graduates:</p>
-                  <div class="data-preview">
-                    <div class="data-point-example">
-                      <span class="experience">👶 1 year:</span> <span class="salary">$35k CAD</span>
-                    </div>
-                    <div class="data-point-example">
-                      <span class="experience">🚀 5 years:</span> <span class="salary">$58k CAD</span>
-                    </div>
-                    <div class="data-point-example">
-                      <span class="experience">💪 10 years:</span> <span class="salary">$90k CAD</span>
-                    </div>
-                    <div class="data-point-example">
-                      <span class="experience">🏆 15 years:</span> <span class="salary">$120k CAD</span>
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="feature-explanation">
-                  <strong>🤔 The Challenge:</strong>
-                  <p>How do we predict salaries for any experience level?</p>
-                  <div class="challenge-examples">
-                    <div class="challenge-item">6 years experience → <strong>? CAD</strong></div>
-                    <div class="challenge-item">8.5 years experience → <strong>? CAD</strong></div>
-                    <div class="challenge-item">12 years experience → <strong>? CAD</strong></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="solution-preview">
-              <h3>💡 The Linear Regression Solution</h3>
-              <div class="solution-explanation">
-                <p><strong>The Big Idea:</strong> Find the straight line that best fits through all our data points. This line becomes our salary predictor!</p>
-                
-                <div class="line-benefits">
-                  <div class="benefit">
-                    <strong>✅ Simple:</strong> Just a straight line equation
-                  </div>
-                  <div class="benefit">
-                    <strong>✅ Interpretable:</strong> We can explain what it means
-                  </div>
-                  <div class="benefit">
-                    <strong>✅ Predictive:</strong> Works for any experience level
-                  </div>
-                </div>
+            <div class="dp-card card" style="background-color: #f8f9fa; border: 1px solid #dee2e6;">
+              <div class="card-body">
+                <h6 class="card-title">🤔 The Challenge</h6>
+                <p>How do we predict salaries for any experience level?</p>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">6 years experience → <strong>? CAD</strong></li>
+                  <li class="list-group-item">8.5 years experience → <strong>? CAD</strong></li>
+                  <li class="list-group-item">12 years experience → <strong>? CAD</strong></li>
+                </ul>
               </div>
             </div>
           </div>
         </div>
+      </div>
 
-        <div class="step-actions">
-          <button class="btn btn-primary next-step" data-next="2">Next: Understanding the Line →</button>
+      <div class="dp-panel-group">
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="linear-solution">💡 The Linear Regression Solution</h4>
+        <div id="linear-solution" class="dp-panel-content" hidden>
+          <p><strong>The Big Idea:</strong> Find the straight line that best fits through all our data points. This line becomes our salary predictor!</p>
+
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>✅ Simple:</strong> Just a straight line equation</li>
+            <li class="list-group-item"><strong>✅ Interpretable:</strong> We can explain what it means</li>
+            <li class="list-group-item"><strong>✅ Predictive:</strong> Works for any experience level</li>
+          </ul>
         </div>
-      </section>
+      </div>
+    </div>
+
+    <div class="step-actions">
+      <button class="btn btn-primary next-step" data-next="2">Next: Understanding the Line →</button>
+    </div>
+  </div>
 
       <!-- Step 2: Understanding the Line -->
       <section class="demo-step" id="step2">

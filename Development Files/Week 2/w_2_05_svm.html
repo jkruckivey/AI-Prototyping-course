@@ -2,7 +2,7 @@
   <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
 
   <div class="dp-content-block content-block" data-title="Support Vector Machines (SVM)">
-    <h1 class="dp-has-icon"><i class="dp-icon fas fa-border-all" aria-hidden="true"></i>&nbsp;Support Vector Machines (SVM)</h1>
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-border-all" aria-hidden="true"></i>&nbsp;Support Vector Machines (SVM)</h2>
     <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
       <div class="card-body">
         <h5 class="card-title dp-ignore-theme">What this page covers</h5>
@@ -12,7 +12,7 @@
   </div>
 
   <div class="dp-content-block content-block" data-title="Learning Outcomes (This Page)" data-category="Learning Outcomes">
-    <h3 class="dp-has-icon"><i class="dp-icon fas fa-bullseye" aria-hidden="true"></i> Learning Outcomes</h3>
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-bullseye" aria-hidden="true"></i> Learning Outcomes</h2>
     <ol>
       <li>Explain <strong>margin</strong> and <strong>support vectors</strong> and why maximizing margin promotes generalization.</li>
       <li>Choose between <strong>linear</strong> and <strong>kernel</strong> SVMs based on data separability and feature space.</li>
@@ -24,13 +24,13 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-lightbulb" aria-hidden="true"></i>&nbsp;Concepts & Intuition</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="svm-what">What is an SVM?</h3>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="svm-what">What is an SVM?</h4>
         <div id="svm-what" class="dp-panel-content" hidden>
           <p>An SVM is a supervised model that finds a <strong>decision boundary</strong> separating classes with the <strong>largest possible margin</strong>. The data points that touch the margin are the <em>support vectors</em>.</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="svm-margin">Maximum margin & support vectors</h3>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="svm-margin">Maximum margin & support vectors</h4>
         <div id="svm-margin" class="dp-panel-content" hidden>
           <p>Among all separating boundaries, SVM prefers the one that maximizes the distance to the closest points of each class. This tends to <strong>generalize</strong> better to new data.</p>
           <div class="dp-card card" style="background-color:#f8f9fa; border:1px solid #dee2e6; margin-top:.5rem;">
@@ -41,7 +41,7 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="svm-linear">Linear vs non‑linear</h3>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="svm-linear">Linear vs non‑linear</h4>
         <div id="svm-linear" class="dp-panel-content" hidden>
           <ul class="list-group list-group-flush">
             <li class="list-group-item"><strong>Linear SVM:</strong> Works well when a (nearly) straight boundary in feature space separates classes. Fast and strong baseline.</li>
@@ -50,13 +50,13 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="svm-scale">Scaling & regularization</h3>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="svm-scale">Scaling & regularization</h4>
         <div id="svm-scale" class="dp-panel-content" hidden>
           <p>SVMs are sensitive to feature scale. <strong>Standardize</strong> inputs and tune <strong>C</strong> (and kernel hyperparameters such as <em>gamma</em>) via validation. Fit the scaler on <em>training</em> only to avoid leakage.</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="svm-svr">SVM for regression (SVR)</h3>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="svm-svr">SVM for regression (SVR)</h4>
         <div id="svm-svr" class="dp-panel-content" hidden>
           <p>Support Vector <strong>Regression</strong> fits a function within an <em>epsilon‑insensitive</em> tube around the data. Points outside the tube influence the fit (analogous to support vectors).</p>
         </div>
@@ -89,13 +89,13 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-clipboard-check" aria-hidden="true"></i>&nbsp;Quick Check</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="qc-1">What does maximizing the margin achieve?</h3>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="qc-1">What does maximizing the margin achieve?</h4>
         <div id="qc-1" class="dp-panel-content" hidden>
           <p>It picks the boundary least sensitive to small perturbations in the training data, which usually <strong>improves generalization</strong>.</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="qc-2">When would you try an RBF kernel?</h3>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="qc-2">When would you try an RBF kernel?</h4>
         <div id="qc-2" class="dp-panel-content" hidden>
           <p>When the classes are not well separated by a straight line in the original feature space; RBF can create <strong>curved</strong> boundaries.</p>
         </div>

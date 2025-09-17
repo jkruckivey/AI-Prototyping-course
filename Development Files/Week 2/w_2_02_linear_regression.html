@@ -2,7 +2,7 @@
   <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
 
   <div class="dp-content-block content-block" data-title="Linear Regression: From Loss to Learning">
-    <h1 class="dp-has-icon"><i class="dp-icon fas fa-chart-line" aria-hidden="true"></i>&nbsp;Linear Regression: From Loss to Learning</h1>
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-chart-line" aria-hidden="true"></i>&nbsp;Linear Regression: From Loss to Learning</h2>
     <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
       <div class="card-body">
         <h5 class="card-title dp-ignore-theme">What this page covers</h5>
@@ -12,7 +12,7 @@
   </div>
 
   <div class="dp-content-block content-block" data-title="Learning Outcomes (This Page)" data-category="Learning Outcomes">
-    <h3 class="dp-has-icon"><i class="dp-icon fas fa-bullseye" aria-hidden="true"></i> Learning Outcomes</h3>
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-bullseye" aria-hidden="true"></i> Learning Outcomes</h2>
     <ol>
       <li>Explain the linear model (weights + bias) and how training minimizes loss.</li>
       <li>Interpret slope/intercept and relate error reduction to better generalization.</li>
@@ -24,19 +24,19 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-brain" aria-hidden="true"></i>&nbsp;Model &amp; Loss (Intuition)</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dp-dark">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="lin-eq">Equation of the model</h3>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="lin-eq">Equation of the model</h4>
         <div id="lin-eq" class="dp-panel-content" hidden>
           <p>In 1‑D: <em>ŷ = βx + ε</em> (slope <em>β</em>, intercept <em>ε</em>). In higher dimensions: <em>ŷ = w·x + b</em>. Parameters (<em>w, b</em>) are learned to minimize error.</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="lin-loss">Loss function</h3>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="lin-loss">Loss function</h4>
         <div id="lin-loss" class="dp-panel-content" hidden>
           <p>We typically minimize <strong>Mean Squared Error (MSE)</strong>: the average of squared differences between predictions and true values. Squaring treats over‑ and under‑prediction symmetrically and penalizes large misses.</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="lin-opt">Optimization</h3>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="lin-opt">Optimization</h4>
         <div id="lin-opt" class="dp-panel-content" hidden>
           <p>Training is an <strong>optimization</strong> process: start with initial parameters and update them to reduce loss until a good fit is reached.</p>
         </div>
@@ -56,13 +56,13 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-shield-alt" aria-hidden="true"></i>&nbsp;Evaluation &amp; Leakage</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="eval-splits">Train/validation (time‑aware)</h3>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="eval-splits">Train/validation (time‑aware)</h4>
         <div id="eval-splits" class="dp-panel-content" hidden>
           <p>For temporal data (e.g., monthly sales), split by <strong>time</strong> so the model only trains on the past and evaluates on the future—avoiding “peeking.”</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="eval-diag">Diagnostics</h3>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="eval-diag">Diagnostics</h4>
         <div id="eval-diag" class="dp-panel-content" hidden>
           <div class="table-responsive">
             <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Regression diagnostics and notes">

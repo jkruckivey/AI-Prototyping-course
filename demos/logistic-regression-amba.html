@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logistic Regression Interactive Demo - AMBA Template</title>
+  <link rel="stylesheet" href="shared-demo.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+
+<div id="dp-wrapper" class="dp-wrapper">
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+
+  <!-- Page Intro -->
+  <div class="dp-content-block content-block" data-title="Logistic Regression Interactive Demo">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-project-diagram" aria-hidden="true"></i>&nbsp;Logistic Regression: Interactive Demo</h2>
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+      <div class="card-body">
+        <h5 class="card-title dp-ignore-theme">What this demo covers</h5>
+        <p>Master classification through interactive exploration of the sigmoid function. Learn how logistic regression separates categories using probabilistic predictions.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Learning Outcomes -->
+  <div class="dp-content-block content-block" data-title="Learning Outcomes" data-category="Learning Outcomes">
+    <h3 class="dp-has-icon"><i class="dp-icon fas fa-bullseye" aria-hidden="true"></i> Learning Outcomes</h3>
+    <ol>
+      <li>Understand how logistic regression classifies items into categories</li>
+      <li>Learn why the sigmoid function is perfect for probability predictions</li>
+      <li>Explore how decision thresholds affect classification accuracy</li>
+      <li>Practice making predictions with trained logistic regression models</li>
+    </ol>
+  </div>
+
+  <!-- The Classification Problem -->
+  <div class="dp-content-block content-block" data-title="The Classification Problem">
+    <h3 class="dp-has-icon"><i class="dp-icon fas fa-search" aria-hidden="true"></i>&nbsp;🍎🍊 The Classification Problem</h3>
+
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+      <div class="dp-panel-group">
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="grocery-scenario">🛒 Real-World Scenario</h4>
+        <div id="grocery-scenario" class="dp-panel-content" hidden>
+          <p>You're building a smart grocery scanner. When someone scans a fruit, your system needs to answer: <strong>"Is this an apple or an orange?"</strong></p>
+
+          <div class="dp-card card" style="border-left: 4px solid #582C83; padding-left: 15px;">
+            <div class="card-body">
+              <h6 class="card-title">🔍 Key Insight</h6>
+              <p>This is different from predicting a number (like price). Here we need to <em>classify</em> - put things into discrete categories.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="fruit-features">🔬 Our Features</h4>
+        <div id="fruit-features" class="dp-panel-content" hidden>
+          <p>We'll use simple, measurable features to distinguish apples from oranges:</p>
+
+          <div class="table-responsive">
+            <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Fruit classification features">
+              <thead>
+                <tr>
+                  <th>Feature</th>
+                  <th>Apple (Typical)</th>
+                  <th>Orange (Typical)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Smoothness (0-10)</strong></td>
+                  <td>8.5 (very smooth)</td>
+                  <td>3.2 (bumpy texture)</td>
+                </tr>
+                <tr>
+                  <td><strong>Roundness (0-10)</strong></td>
+                  <td>7.8 (somewhat round)</td>
+                  <td>9.1 (very round)</td>
+                </tr>
+                <tr>
+                  <td><strong>Color Intensity (0-10)</strong></td>
+                  <td>4.5 (muted red/green)</td>
+                  <td>8.7 (bright orange)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p><strong>🤔 The Challenge:</strong> How do we combine these features to make accurate predictions?</p>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="why-not-linear">❌ Why Not Linear Regression?</h4>
+        <div id="why-not-linear" class="dp-panel-content" hidden>
+          <p>Linear regression predicts any number, but we only want two outcomes: Apple (0) or Orange (1).</p>
+
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Problem 1:</strong> Linear regression might predict 2.3 or -0.7 (what does that mean?)</li>
+            <li class="list-group-item"><strong>Problem 2:</strong> We want probabilities between 0 and 1</li>
+            <li class="list-group-item"><strong>Solution:</strong> Use logistic regression with sigmoid function!</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- The Sigmoid Function -->
+  <div class="dp-content-block content-block" data-title="The Sigmoid Function">
+    <h3 class="dp-has-icon"><i class="dp-icon fas fa-wave-square" aria-hidden="true"></i>&nbsp;The Sigmoid Function</h3>
+
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+      <div class="dp-panel-group">
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="sigmoid-magic">✨ The Magic S-Curve</h4>
+        <div id="sigmoid-magic" class="dp-panel-content" hidden>
+          <div class="dp-card card" style="background-color: #f8f9fa; border: 1px solid #dee2e6;">
+            <div class="card-body">
+              <h6 class="card-title">The Sigmoid Formula</h6>
+              <p><strong>Probability = 1 / (1 + e^(-z))</strong></p>
+              <p>Where z = slope × feature + intercept</p>
+            </div>
+          </div>
+
+          <p><strong>Why sigmoid is perfect:</strong></p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">📊 Always outputs between 0 and 1 (perfect for probabilities)</li>
+            <li class="list-group-item">📈 S-shaped curve creates smooth transitions</li>
+            <li class="list-group-item">🎯 Clear decision boundary at 0.5 probability</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="sigmoid-behavior">📐 How Parameters Affect the Curve</h4>
+        <div id="sigmoid-behavior" class="dp-panel-content" hidden>
+          <div class="table-responsive">
+            <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Sigmoid parameter effects">
+              <thead>
+                <tr>
+                  <th>Parameter</th>
+                  <th>Effect</th>
+                  <th>Example</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Slope (steepness)</strong></td>
+                  <td>Higher = sharper transition</td>
+                  <td>Slope 5: Quick apple/orange decision</td>
+                </tr>
+                <tr>
+                  <td><strong>Intercept (shift)</strong></td>
+                  <td>Moves curve left/right</td>
+                  <td>Intercept -2: Need higher smoothness for apple</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive Sigmoid Explorer -->
+  <div class="dp-content-block content-block" data-title="Interactive: Sigmoid Explorer">
+    <h3 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive: Sigmoid Explorer</h3>
+    <p class="mt-2"><em>Tip:</em> Adjust the slope and intercept to see how they change the sigmoid curve and classification boundary.</p>
+
+    <div class="sigmoid-explorer" style="margin-top: 20px;">
+      <div class="sigmoid-controls" style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+        <h4>🎛️ Sigmoid Parameters</h4>
+
+        <div class="control-section">
+          <div class="control-group" style="margin-bottom: 15px;">
+            <label for="sigmoidSlope">Slope (steepness): <span id="sigmoidSlopeValue">2.0</span></label>
+            <input type="range" id="sigmoidSlope" min="0.5" max="8.0" step="0.1" value="2.0" style="width: 100%; margin: 5px 0;">
+            <div class="control-hint" style="font-size: 0.9em; color: #666;">Higher = sharper transition between classes</div>
+          </div>
+
+          <div class="control-group" style="margin-bottom: 15px;">
+            <label for="sigmoidIntercept">Intercept (shift): <span id="sigmoidInterceptValue">-10</span></label>
+            <input type="range" id="sigmoidIntercept" min="-20" max="5" step="0.5" value="-10" style="width: 100%; margin: 5px 0;">
+            <div class="control-hint" style="font-size: 0.9em; color: #666;">Shifts the decision boundary left/right</div>
+          </div>
+
+          <div class="current-equation" style="background: white; padding: 15px; border-radius: 5px; margin: 15px 0;">
+            <strong>Current Model:</strong>
+            <div id="sigmoidEquation" style="font-family: monospace; margin-top: 5px;">P(Orange) = 1 / (1 + e^(-(2.0 × smoothness - 10)))</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="visualization-area">
+        <div class="plot-container">
+          <div id="sigmoidPlot" style="width: 100%; height: 400px;"></div>
+        </div>
+
+        <div class="prediction-examples" style="background: #f8f9fa; padding: 15px; margin-top: 10px; border-radius: 5px;">
+          <h5>🔮 Sample Predictions:</h5>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="prediction-card" style="background: white; padding: 10px; border-radius: 5px; margin: 5px;">
+                <strong>Smoothness: 2</strong><br>
+                <span id="pred2">P(Orange) = 86%</span><br>
+                <span style="color: #f97316;">Prediction: 🍊 Orange</span>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="prediction-card" style="background: white; padding: 10px; border-radius: 5px; margin: 5px;">
+                <strong>Smoothness: 5</strong><br>
+                <span id="pred5">P(Orange) = 50%</span><br>
+                <span style="color: #666;">Prediction: 🤔 Uncertain</span>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="prediction-card" style="background: white; padding: 10px; border-radius: 5px; margin: 5px;">
+                <strong>Smoothness: 8</strong><br>
+                <span id="pred8">P(Orange) = 14%</span><br>
+                <span style="color: #dc2626;">Prediction: 🍎 Apple</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Classification in Practice -->
+  <div class="dp-content-block content-block" data-title="Classification in Practice">
+    <h3 class="dp-has-icon"><i class="dp-icon fas fa-clipboard-check" aria-hidden="true"></i>&nbsp;Classification in Practice</h3>
+
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+      <div class="dp-panel-group">
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="decision-threshold">🎯 Decision Threshold</h4>
+        <div id="decision-threshold" class="dp-panel-content" hidden>
+          <p>To make a classification, we need to choose a probability threshold:</p>
+
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Standard Rule:</strong> If P(Orange) ≥ 0.5 → Orange, else Apple</li>
+            <li class="list-group-item"><strong>Conservative Rule:</strong> If P(Orange) ≥ 0.7 → Orange (fewer orange predictions)</li>
+            <li class="list-group-item"><strong>Aggressive Rule:</strong> If P(Orange) ≥ 0.3 → Orange (more orange predictions)</li>
+          </ul>
+
+          <div class="dp-card card" style="border-left: 4px solid #f97316; padding-left: 15px; margin-top: 15px;">
+            <div class="card-body">
+              <h6 class="card-title">Business Impact</h6>
+              <p>The threshold affects your error types. Conservative = fewer false oranges but might miss real oranges. Aggressive = catch more oranges but more false alarms.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="model-training">🏋️ How the Model Learns</h4>
+        <div id="model-training" class="dp-panel-content" hidden>
+          <p>The algorithm finds the best slope and intercept by:</p>
+
+          <ol>
+            <li><strong>Try different parameters</strong> (slope and intercept values)</li>
+            <li><strong>Calculate accuracy</strong> on training data (known apple/orange examples)</li>
+            <li><strong>Adjust parameters</strong> to minimize classification errors</li>
+            <li><strong>Repeat</strong> until accuracy stops improving</li>
+          </ol>
+
+          <p><strong>Result:</strong> A sigmoid curve that best separates apples from oranges in your training data!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Practice Your Skills -->
+  <div class="dp-content-block content-block" data-title="Practice Your Skills">
+    <h3 class="dp-has-icon"><i class="dp-icon fas fa-graduation-cap" aria-hidden="true"></i>&nbsp;Practice Your Skills</h3>
+
+    <div class="fruit-classifier" style="background: #f8f9fa; padding: 20px; border-radius: 8px;">
+      <h4>🍎🍊 Fruit Classifier</h4>
+      <div class="classifier-interface">
+        <div class="input-section" style="margin-bottom: 20px;">
+          <label for="smoothnessInput"><strong>Fruit Smoothness (0-10):</strong></label>
+          <input type="number" id="smoothnessInput" value="5" min="0" max="10" step="0.1" style="margin: 5px 10px; padding: 5px;">
+          <button id="classifyFruit" class="btn btn-primary">Classify Fruit 🔍</button>
+        </div>
+
+        <div class="classification-display" style="background: white; padding: 15px; border-radius: 5px;">
+          <h5>Classification Result</h5>
+
+          <div class="calculation-steps">
+            <div class="calc-step" style="margin-bottom: 10px;">
+              <strong>1. Calculate z-value:</strong>
+              <div class="formula-application">
+                z = <span id="currentSlopeDisplay">2.0</span> × <span id="inputSmoothness">5</span> + <span id="currentInterceptDisplay">(-10)</span>
+                = <span id="zValue">0</span>
+              </div>
+            </div>
+
+            <div class="calc-step" style="margin-bottom: 10px;">
+              <strong>2. Apply sigmoid function:</strong>
+              <div class="calculation-work">
+                P(Orange) = 1 / (1 + e^(-<span id="zValueSigmoid">0</span>)) = <span id="probabilityResult">50</span>%
+              </div>
+            </div>
+
+            <div class="calc-step final" style="font-size: 1.2em; font-weight: bold;">
+              <strong>3. Final Classification:</strong>
+              <div id="finalClassification" style="font-size: 1.5em; margin-top: 10px;">🤔 Uncertain (50% threshold)</div>
+            </div>
+          </div>
+
+          <div class="confidence-bar" style="margin-top: 15px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+              <span style="color: #dc2626;">🍎 Apple</span>
+              <span style="color: #f97316;">🍊 Orange</span>
+            </div>
+            <div style="background: #e5e7eb; height: 20px; border-radius: 10px; position: relative;">
+              <div id="confidenceBar" style="background: linear-gradient(to right, #dc2626, #f97316); height: 100%; border-radius: 10px; width: 50%;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Key Takeaways -->
+  <div class="dp-content-block content-block" data-title="Key Takeaways">
+    <h3 class="dp-has-icon"><i class="dp-icon fas fa-lightbulb" aria-hidden="true"></i>&nbsp;Key Takeaways</h3>
+
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item"><strong>🎯 Classification Goal:</strong> Predict discrete categories (apple/orange, spam/not spam)</li>
+      <li class="list-group-item"><strong>📊 Sigmoid Function:</strong> Converts any input to probability between 0 and 1</li>
+      <li class="list-group-item"><strong>⚖️ Decision Threshold:</strong> Usually 0.5, but can be adjusted based on business needs</li>
+      <li class="list-group-item"><strong>📈 S-Curve Shape:</strong> Provides smooth transitions and clear decision boundaries</li>
+      <li class="list-group-item"><strong>🔧 Parameter Learning:</strong> Algorithm finds optimal slope and intercept automatically</li>
+    </ul>
+  </div>
+
+  <!-- Helpful Tip -->
+  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
+    <div class="card-body">
+      <h3 class="card-title">Helpful Tip</h3>
+      <p class="card-text">Logistic regression works best with linearly separable data. If your classes overlap significantly, consider more complex algorithms or additional features!</p>
+    </div>
+  </div>
+
+  <hr />
+  <p>Select <strong>Next▸</strong> to continue with more advanced classification techniques.</p>
+</div>
+
+<!-- Canvas-safe toggling -->
+<script>
+(function () {
+  function toggleHead(h){
+    const content = document.getElementById(h.getAttribute('aria-controls'));
+    const expanded = h.getAttribute('aria-expanded') === 'true';
+    h.setAttribute('aria-expanded', String(!expanded));
+    if (content) content.hidden = expanded;
+  }
+  document.addEventListener('click', function (e) {
+    const h = e.target.closest('.dp-panel-heading[role="button"]');
+    if (h) toggleHead(h);
+  });
+  document.addEventListener('keydown', function (e) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role="button"]')) {
+      e.preventDefault(); toggleHead(e.target);
+    }
+  });
+})();
+
+// Demo functionality
+document.addEventListener('DOMContentLoaded', function() {
+  let currentSlope = 2.0;
+  let currentIntercept = -10;
+
+  function sigmoid(x) {
+    return 1 / (1 + Math.exp(-(currentSlope * x + currentIntercept)));
+  }
+
+  function updateEquation() {
+    document.getElementById('sigmoidEquation').textContent =
+      `P(Orange) = 1 / (1 + e^(-(${currentSlope} × smoothness + ${currentIntercept})))`;
+    document.getElementById('sigmoidSlopeValue').textContent = currentSlope;
+    document.getElementById('sigmoidInterceptValue').textContent = currentIntercept;
+  }
+
+  function updatePlot() {
+    const smoothnessRange = Array.from({length: 101}, (_, i) => i / 10); // 0 to 10
+    const probabilities = smoothnessRange.map(x => sigmoid(x));
+
+    const trace = {
+      x: smoothnessRange,
+      y: probabilities,
+      mode: 'lines',
+      type: 'scatter',
+      name: 'Sigmoid Curve',
+      line: { color: '#034638', width: 3 }
+    };
+
+    const thresholdLine = {
+      x: [0, 10],
+      y: [0.5, 0.5],
+      mode: 'lines',
+      type: 'scatter',
+      name: 'Decision Threshold (0.5)',
+      line: { color: 'red', width: 2, dash: 'dash' }
+    };
+
+    const layout = {
+      title: 'Sigmoid Function: Smoothness → Orange Probability',
+      xaxis: { title: 'Fruit Smoothness (0-10)', range: [0, 10] },
+      yaxis: { title: 'P(Orange)', range: [0, 1] },
+      showlegend: true
+    };
+
+    Plotly.newPlot('sigmoidPlot', [trace, thresholdLine], layout);
+
+    // Update sample predictions
+    updateSamplePredictions();
+  }
+
+  function updateSamplePredictions() {
+    const smoothnessValues = [2, 5, 8];
+    const predictionIds = ['pred2', 'pred5', 'pred8'];
+
+    smoothnessValues.forEach((smoothness, index) => {
+      const prob = sigmoid(smoothness);
+      const percentage = Math.round(prob * 100);
+      document.getElementById(predictionIds[index]).textContent = `P(Orange) = ${percentage}%`;
+    });
+  }
+
+  function classifyFruit() {
+    const smoothness = parseFloat(document.getElementById('smoothnessInput').value);
+    const z = currentSlope * smoothness + currentIntercept;
+    const prob = sigmoid(smoothness);
+    const percentage = Math.round(prob * 100);
+
+    document.getElementById('inputSmoothness').textContent = smoothness;
+    document.getElementById('currentSlopeDisplay').textContent = currentSlope;
+    document.getElementById('currentInterceptDisplay').textContent = `(${currentIntercept})`;
+    document.getElementById('zValue').textContent = z.toFixed(2);
+    document.getElementById('zValueSigmoid').textContent = z.toFixed(2);
+    document.getElementById('probabilityResult').textContent = percentage;
+
+    // Determine classification
+    let classification, color;
+    if (percentage >= 70) {
+      classification = '🍊 Orange (High Confidence)';
+      color = '#f97316';
+    } else if (percentage >= 50) {
+      classification = '🍊 Orange (Low Confidence)';
+      color = '#f97316';
+    } else if (percentage >= 30) {
+      classification = '🍎 Apple (Low Confidence)';
+      color = '#dc2626';
+    } else {
+      classification = '🍎 Apple (High Confidence)';
+      color = '#dc2626';
+    }
+
+    document.getElementById('finalClassification').textContent = classification;
+    document.getElementById('finalClassification').style.color = color;
+
+    // Update confidence bar
+    document.getElementById('confidenceBar').style.width = `${percentage}%`;
+  }
+
+  // Event listeners
+  document.getElementById('sigmoidSlope').addEventListener('input', function(e) {
+    currentSlope = parseFloat(e.target.value);
+    updateEquation();
+    updatePlot();
+  });
+
+  document.getElementById('sigmoidIntercept').addEventListener('input', function(e) {
+    currentIntercept = parseFloat(e.target.value);
+    updateEquation();
+    updatePlot();
+  });
+
+  document.getElementById('classifyFruit').addEventListener('click', classifyFruit);
+
+  // Initialize
+  updateEquation();
+  updatePlot();
+  classifyFruit();
+});
+</script>
+
+</body>
+</html>

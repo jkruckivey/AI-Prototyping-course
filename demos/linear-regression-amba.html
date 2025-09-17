@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Linear Regression Interactive Demo - AMBA Template</title>
+  <link rel="stylesheet" href="shared-demo.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+
+<div id="dp-wrapper" class="dp-wrapper">
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+
+  <!-- Page Intro -->
+  <div class="dp-content-block content-block" data-title="Linear Regression Interactive Demo">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-chart-line" aria-hidden="true"></i>&nbsp;Linear Regression: Interactive Demo</h2>
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+      <div class="card-body">
+        <h5 class="card-title dp-ignore-theme">What this demo covers</h5>
+        <p>Master prediction through interactive line-fitting using real MBA salary data. Learn the fundamentals of linear regression in a hands-on format.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Learning Outcomes -->
+  <div class="dp-content-block content-block" data-title="Learning Outcomes" data-category="Learning Outcomes">
+    <h3 class="dp-has-icon"><i class="dp-icon fas fa-bullseye" aria-hidden="true"></i> Learning Outcomes</h3>
+    <ol>
+      <li>Understand how linear regression predicts continuous values using a straight line</li>
+      <li>Interpret slope and intercept parameters in business context</li>
+      <li>Experience how Mean Squared Error (MSE) measures model accuracy</li>
+      <li>Practice making predictions with trained linear regression models</li>
+    </ol>
+  </div>
+
+  <!-- The Prediction Problem -->
+  <div class="dp-content-block content-block" data-title="The Prediction Problem">
+    <h3 class="dp-has-icon"><i class="dp-icon fas fa-question-circle" aria-hidden="true"></i>&nbsp;The Prediction Problem</h3>
+
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+      <div class="dp-panel-group">
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="real-world-scenario">💼 Real-World Scenario</h4>
+        <div id="real-world-scenario" class="dp-panel-content" hidden>
+          <p>You're a Canadian MBA student wondering: <strong>"How much should I expect to earn based on my work experience?"</strong></p>
+
+          <div class="dp-card card" style="border-left: 4px solid #582C83; padding-left: 15px;">
+            <div class="card-body">
+              <h6 class="card-title">🔍 Key Insight</h6>
+              <p>Unlike classification (apple vs orange), here we want to predict a <em>continuous number</em> - the salary amount.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="our-dataset">📈 Our Dataset</h4>
+        <div id="our-dataset" class="dp-panel-content" hidden>
+          <p>A Canadian MBA program collected data from 15 recent graduates:</p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">👶 1 year: $35k CAD</li>
+            <li class="list-group-item">🚀 5 years: $58k CAD</li>
+            <li class="list-group-item">💪 10 years: $90k CAD</li>
+            <li class="list-group-item">🏆 15 years: $120k CAD</li>
+          </ul>
+
+          <p><strong>🤔 The Challenge:</strong> How do we predict salaries for any experience level?</p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">6 years experience → <strong>? CAD</strong></li>
+            <li class="list-group-item">8.5 years experience → <strong>? CAD</strong></li>
+            <li class="list-group-item">12 years experience → <strong>? CAD</strong></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="linear-solution">💡 The Linear Regression Solution</h4>
+        <div id="linear-solution" class="dp-panel-content" hidden>
+          <p><strong>The Big Idea:</strong> Find the straight line that best fits through all our data points. This line becomes our salary predictor!</p>
+
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>✅ Simple:</strong> Just a straight line equation</li>
+            <li class="list-group-item"><strong>✅ Interpretable:</strong> We can explain what it means</li>
+            <li class="list-group-item"><strong>✅ Predictive:</strong> Works for any experience level</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Understanding the Line -->
+  <div class="dp-content-block content-block" data-title="Understanding the Line">
+    <h3 class="dp-has-icon"><i class="dp-icon fas fa-ruler" aria-hidden="true"></i>&nbsp;Understanding the Line</h3>
+
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+      <div class="dp-panel-group">
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="line-equation">📐 The Line Equation</h4>
+        <div id="line-equation" class="dp-panel-content" hidden>
+          <div class="dp-card card" style="background-color: #f8f9fa; border: 1px solid #dee2e6;">
+            <div class="card-body">
+              <h6 class="card-title">Formula</h6>
+              <p><strong>Salary = Slope × Experience + Intercept</strong></p>
+              <p>This simple equation can predict any salary!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="slope-explanation">📈 Slope: How much salary increases per year</h4>
+        <div id="slope-explanation" class="dp-panel-content" hidden>
+          <p><strong>What it means:</strong> For every additional year of experience, how much does salary go up?</p>
+
+          <div class="table-responsive">
+            <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Slope examples">
+              <thead>
+                <tr>
+                  <th>Slope Value</th>
+                  <th>Meaning</th>
+                  <th>Interpretation</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>7.3</td>
+                  <td>Each year = +$7,300 CAD</td>
+                  <td>🚀 Experience really pays off!</td>
+                </tr>
+                <tr>
+                  <td>2.1</td>
+                  <td>Each year = +$2,100 CAD</td>
+                  <td>😐 Experience helps, but not dramatically</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="intercept-explanation">📍 Intercept: Starting salary with zero experience</h4>
+        <div id="intercept-explanation" class="dp-panel-content" hidden>
+          <p><strong>What it means:</strong> If someone had 0 years of experience, what would their salary be?</p>
+
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>High Intercept ($45k):</strong> Even with 0 experience = $45,000 CAD 💼 Strong base salary</li>
+            <li class="list-group-item"><strong>Low Intercept ($25k):</strong> With 0 experience = $25,000 CAD 📚 Need experience to earn well</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive Model -->
+  <div class="dp-content-block content-block" data-title="Interactive: Linear Regression Model">
+    <h3 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive: Linear Regression Model</h3>
+    <p class="mt-2"><em>Tip:</em> Adjust the slope and intercept to see how they affect the model's predictions and accuracy.</p>
+
+    <div class="interactive-model" style="margin-top: 20px;">
+      <div class="model-controls" style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+        <h4>🎛️ Adjust the Line Parameters</h4>
+
+        <div class="control-section">
+          <div class="control-group" style="margin-bottom: 15px;">
+            <label for="slope">Slope ($ per year): <span id="slopeValue">7.3</span></label>
+            <input type="range" id="slope" min="1.0" max="15.0" step="0.1" value="7.3" style="width: 100%; margin: 5px 0;">
+            <div class="control-hint" style="font-size: 0.9em; color: #666;">How much salary increases per year of experience</div>
+          </div>
+
+          <div class="control-group" style="margin-bottom: 15px;">
+            <label for="intercept">Intercept ($k CAD): <span id="interceptValue">37</span></label>
+            <input type="range" id="intercept" min="20" max="60" step="1" value="37" style="width: 100%; margin: 5px 0;">
+            <div class="control-hint" style="font-size: 0.9em; color: #666;">Starting salary with 0 years experience</div>
+          </div>
+
+          <div class="metrics-display" style="background: white; padding: 15px; border-radius: 5px; margin: 15px 0;">
+            <div class="metric" style="margin-bottom: 10px;">
+              <span class="metric-label"><strong>Current MSE:</strong></span>
+              <span class="metric-value" id="currentMSE">245.2</span>
+            </div>
+            <div class="metric">
+              <span class="metric-label"><strong>Model Equation:</strong></span>
+              <span class="equation-display" id="currentEquation">Salary = 7.3 × Experience + 37</span>
+            </div>
+          </div>
+
+          <button id="findBestFit" class="btn btn-primary" style="margin-right: 10px;">🎯 Find Optimal Parameters</button>
+          <button id="resetParameters" class="btn btn-outline">🔄 Reset</button>
+        </div>
+      </div>
+
+      <div class="visualization-area">
+        <div class="plot-container">
+          <div id="regressionPlot" style="width: 100%; height: 500px;"></div>
+        </div>
+
+        <div class="plot-legend" style="background: #f8f9fa; padding: 15px; margin-top: 10px; border-radius: 5px;">
+          <h5>Legend:</h5>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">🔴 Red dots: Actual MBA graduate salaries</li>
+            <li class="list-group-item">📈 Blue line: Your prediction line</li>
+            <li class="list-group-item">⚫ Gray lines: Prediction errors</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Practice Your Skills -->
+  <div class="dp-content-block content-block" data-title="Practice Your Skills">
+    <h3 class="dp-has-icon"><i class="dp-icon fas fa-graduation-cap" aria-hidden="true"></i>&nbsp;Practice Your Skills</h3>
+
+    <div class="salary-predictor" style="background: #f8f9fa; padding: 20px; border-radius: 8px;">
+      <h4>💰 MBA Salary Predictor</h4>
+      <div class="predictor-interface">
+        <div class="input-section" style="margin-bottom: 20px;">
+          <label for="experienceInput"><strong>Years of Experience:</strong></label>
+          <input type="number" id="experienceInput" value="6" min="0" max="25" step="0.5" style="margin: 5px 10px; padding: 5px;">
+          <button id="makePrediction" class="btn btn-primary">Predict Salary 🔮</button>
+        </div>
+
+        <div class="prediction-display" style="background: white; padding: 15px; border-radius: 5px;">
+          <h5>Salary Prediction</h5>
+
+          <div class="calculation-steps">
+            <div class="calc-step" style="margin-bottom: 10px;">
+              <strong>1. Apply the formula:</strong>
+              <div class="formula-application">
+                Salary = <span id="currentSlopeDisplay">7.3</span> × <span id="inputExperience">6</span> + <span id="currentInterceptDisplay">37</span>
+              </div>
+            </div>
+
+            <div class="calc-step" style="margin-bottom: 10px;">
+              <strong>2. Calculate:</strong>
+              <div class="calculation-work">
+                = <span id="slopeProduct">43.8</span> + <span id="interceptAmount">37</span>
+              </div>
+            </div>
+
+            <div class="calc-step final" style="font-size: 1.2em; font-weight: bold; color: #034638;">
+              <strong>3. Final Prediction:</strong>
+              <span id="finalSalaryPrediction">$80,800</span> CAD
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Key Takeaways -->
+  <div class="dp-content-block content-block" data-title="Key Takeaways">
+    <h3 class="dp-has-icon"><i class="dp-icon fas fa-lightbulb" aria-hidden="true"></i>&nbsp;Key Takeaways</h3>
+
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item"><strong>📈 Linear Relationship:</strong> Assumes a straight-line relationship between input and output</li>
+      <li class="list-group-item"><strong>📏 Two Parameters:</strong> Slope controls steepness, intercept controls starting point</li>
+      <li class="list-group-item"><strong>🎯 MSE Optimization:</strong> Finds the line that minimizes prediction errors</li>
+      <li class="list-group-item"><strong>🔮 Simple Predictions:</strong> Just plug values into: y = slope × x + intercept</li>
+      <li class="list-group-item"><strong>🌍 Widely Applicable:</strong> Works for many real-world prediction problems</li>
+    </ul>
+  </div>
+
+  <!-- Helpful Tip -->
+  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
+    <div class="card-body">
+      <h3 class="card-title">Helpful Tip</h3>
+      <p class="card-text">Linear regression works best when there's actually a linear relationship in your data. Always visualize your data first to check if a straight line makes sense!</p>
+    </div>
+  </div>
+
+  <hr />
+  <p>Select <strong>Next▸</strong> to continue with more advanced modeling techniques.</p>
+</div>
+
+<!-- Canvas-safe toggling -->
+<script>
+(function () {
+  function toggleHead(h){
+    const content = document.getElementById(h.getAttribute('aria-controls'));
+    const expanded = h.getAttribute('aria-expanded') === 'true';
+    h.setAttribute('aria-expanded', String(!expanded));
+    if (content) content.hidden = expanded;
+  }
+  document.addEventListener('click', function (e) {
+    const h = e.target.closest('.dp-panel-heading[role="button"]');
+    if (h) toggleHead(h);
+  });
+  document.addEventListener('keydown', function (e) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role="button"]')) {
+      e.preventDefault(); toggleHead(e.target);
+    }
+  });
+})();
+
+// Demo functionality
+document.addEventListener('DOMContentLoaded', function() {
+  // Sample data for MBA salaries
+  const experienceData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+  const salaryData = [35, 42, 38, 51, 58, 55, 62, 71, 68, 90, 85, 95, 102, 110, 120];
+
+  let currentSlope = 7.3;
+  let currentIntercept = 37;
+
+  function updateEquation() {
+    document.getElementById('currentEquation').textContent = `Salary = ${currentSlope} × Experience + ${currentIntercept}`;
+    document.getElementById('slopeValue').textContent = currentSlope;
+    document.getElementById('interceptValue').textContent = currentIntercept;
+  }
+
+  function calculateMSE(slope, intercept) {
+    let totalError = 0;
+    for (let i = 0; i < experienceData.length; i++) {
+      const predicted = slope * experienceData[i] + intercept;
+      const actual = salaryData[i];
+      const error = predicted - actual;
+      totalError += error * error;
+    }
+    return (totalError / experienceData.length).toFixed(1);
+  }
+
+  function updatePlot() {
+    const predictedSalaries = experienceData.map(exp => currentSlope * exp + currentIntercept);
+
+    const trace1 = {
+      x: experienceData,
+      y: salaryData,
+      mode: 'markers',
+      type: 'scatter',
+      name: 'Actual Salaries',
+      marker: { color: 'red', size: 10 }
+    };
+
+    const trace2 = {
+      x: experienceData,
+      y: predictedSalaries,
+      mode: 'lines',
+      type: 'scatter',
+      name: 'Predicted Line',
+      line: { color: 'blue', width: 3 }
+    };
+
+    const layout = {
+      title: 'MBA Salary vs Experience',
+      xaxis: { title: 'Years of Experience' },
+      yaxis: { title: 'Salary ($k CAD)' },
+      showlegend: true
+    };
+
+    Plotly.newPlot('regressionPlot', [trace1, trace2], layout);
+
+    // Update MSE
+    const mse = calculateMSE(currentSlope, currentIntercept);
+    document.getElementById('currentMSE').textContent = mse;
+  }
+
+  function makePrediction() {
+    const experience = parseFloat(document.getElementById('experienceInput').value);
+    const slopeProduct = (currentSlope * experience).toFixed(1);
+    const prediction = (currentSlope * experience + currentIntercept).toFixed(0);
+
+    document.getElementById('inputExperience').textContent = experience;
+    document.getElementById('currentSlopeDisplay').textContent = currentSlope;
+    document.getElementById('currentInterceptDisplay').textContent = currentIntercept;
+    document.getElementById('slopeProduct').textContent = slopeProduct;
+    document.getElementById('interceptAmount').textContent = currentIntercept;
+    document.getElementById('finalSalaryPrediction').textContent = `$${prediction}k`;
+  }
+
+  // Event listeners
+  document.getElementById('slope').addEventListener('input', function(e) {
+    currentSlope = parseFloat(e.target.value);
+    updateEquation();
+    updatePlot();
+  });
+
+  document.getElementById('intercept').addEventListener('input', function(e) {
+    currentIntercept = parseFloat(e.target.value);
+    updateEquation();
+    updatePlot();
+  });
+
+  document.getElementById('findBestFit').addEventListener('click', function() {
+    // Optimal parameters for this dataset (calculated via least squares)
+    currentSlope = 6.8;
+    currentIntercept = 31.5;
+    document.getElementById('slope').value = currentSlope;
+    document.getElementById('intercept').value = currentIntercept;
+    updateEquation();
+    updatePlot();
+  });
+
+  document.getElementById('resetParameters').addEventListener('click', function() {
+    currentSlope = 7.3;
+    currentIntercept = 37;
+    document.getElementById('slope').value = currentSlope;
+    document.getElementById('intercept').value = currentIntercept;
+    updateEquation();
+    updatePlot();
+  });
+
+  document.getElementById('makePrediction').addEventListener('click', makePrediction);
+
+  // Initialize
+  updateEquation();
+  updatePlot();
+  makePrediction();
+});
+</script>
+
+</body>
+</html>

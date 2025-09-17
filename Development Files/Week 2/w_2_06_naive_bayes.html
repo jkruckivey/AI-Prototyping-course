@@ -2,7 +2,7 @@
   <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
 
   <div class="dp-content-block content-block" data-title="Naive Bayes (Probabilistic Classifiers)">
-    <h1 class="dp-has-icon"><i class="dp-icon fas fa-calculator" aria-hidden="true"></i>&nbsp;Naive Bayes (Probabilistic Classifiers)</h1>
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-calculator" aria-hidden="true"></i>&nbsp;Naive Bayes (Probabilistic Classifiers)</h2>
     <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
       <div class="card-body">
         <h5 class="card-title dp-ignore-theme">What this page covers</h5>
@@ -12,7 +12,7 @@
   </div>
 
   <div class="dp-content-block content-block" data-title="Learning Outcomes (This Page)" data-category="Learning Outcomes">
-    <h3 class="dp-has-icon"><i class="dp-icon fas fa-bullseye" aria-hidden="true"></i> Learning Outcomes</h3>
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-bullseye" aria-hidden="true"></i> Learning Outcomes</h2>
     <ol>
       <li>Explain Naive Bayes using <strong>Bayes’ theorem</strong> and class‑conditional likelihoods.</li>
       <li>Differentiate common variants: <strong>Gaussian</strong>, <strong>Multinomial</strong>, and <strong>Bernoulli</strong>.</li>
@@ -24,19 +24,19 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-lightbulb" aria-hidden="true"></i>&nbsp;Bayes’ Rule, the Naive Assumption</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="nb-bayes">Bayes’ theorem (intuition)</h3>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="nb-bayes">Bayes’ theorem (intuition)</h4>
         <div id="nb-bayes" class="dp-panel-content" hidden>
           <p>Update our belief in a class using evidence: <em>Posterior ∝ Likelihood × Prior</em>. For each class <em>y</em>, we compute <em>P(y) × P(x|y)</em> and pick the largest.</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="nb-naive">The “naive” independence assumption</h3>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="nb-naive">The “naive” independence assumption</h4>
         <div id="nb-naive" class="dp-panel-content" hidden>
           <p>Features are assumed conditionally independent given the class: <em>P(x|y) ≈ ∏<sub>i</sub> P(x<sub>i</sub>|y)</em>. It’s often wrong—but works shockingly well on sparse, high‑dimensional data.</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="nb-variants">Common variants</h3>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="nb-variants">Common variants</h4>
         <div id="nb-variants" class="dp-panel-content" hidden>
           <ul class="list-group list-group-flush">
             <li class="list-group-item"><strong>Gaussian NB</strong>: continuous features (assume normal distribution per class/feature).</li>
@@ -52,7 +52,7 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-file-alt" aria-hidden="true"></i>&nbsp;Text Classification Workflow</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="nb-prep">Prep: tokens → features</h3>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="nb-prep">Prep: tokens → features</h4>
         <div id="nb-prep" class="dp-panel-content" hidden>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">Clean & tokenize text; build vocabulary.</li>
@@ -62,13 +62,13 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="nb-train">Train & predict</h3>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="nb-train">Train & predict</h4>
         <div id="nb-train" class="dp-panel-content" hidden>
           <p>Estimate priors <em>P(y)</em> from label frequencies and likelihoods <em>P(token|y)</em> from token counts per class (with smoothing). For a new doc, multiply likelihoods × prior and normalize for probabilities.</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="nb-eval">Evaluate</h3>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="nb-eval">Evaluate</h4>
         <div id="nb-eval" class="dp-panel-content" hidden>
           <p>Use precision/recall/F1 and a confusion matrix. With imbalanced classes, prefer PR curves to accuracy.</p>
         </div>
@@ -88,7 +88,7 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-balance-scale" aria-hidden="true"></i>&nbsp;Pros, Cons & Use Cases</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="nb-pros">Why it’s great</h3>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="nb-pros">Why it’s great</h4>
         <div id="nb-pros" class="dp-panel-content" hidden>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">Extremely fast to train and predict.</li>
@@ -98,7 +98,7 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="nb-cons">Cautions</h3>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="nb-cons">Cautions</h4>
         <div id="nb-cons" class="dp-panel-content" hidden>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">Independence assumption can misestimate probabilities.</li>

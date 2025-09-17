@@ -2,7 +2,7 @@
   <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
 
   <div class="dp-content-block content-block" data-title="Decision Trees & Random Forests">
-    <h1 class="dp-has-icon"><i class="dp-icon fas fa-tree" aria-hidden="true"></i>&nbsp;Decision Trees &amp; Random Forests</h1>
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-tree" aria-hidden="true"></i>&nbsp;Decision Trees &amp; Random Forests</h2>
     <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
       <div class="card-body">
         <h5 class="card-title dp-ignore-theme">What this page covers</h5>
@@ -12,7 +12,7 @@
   </div>
 
   <div class="dp-content-block content-block" data-title="Learning Outcomes (This Page)" data-category="Learning Outcomes">
-    <h3 class="dp-has-icon"><i class="dp-icon fas fa-bullseye" aria-hidden="true"></i> Learning Outcomes</h3>
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-bullseye" aria-hidden="true"></i> Learning Outcomes</h2>
     <ol>
       <li>Explain how a decision tree chooses splits and grows leaves.</li>
       <li>Apply controls (max depth, min samples) to reduce overfitting and improve generalization.</li>
@@ -24,14 +24,14 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-sitemap" aria-hidden="true"></i>&nbsp;Trees: Concepts & Intuition</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="tree-splits">Choosing splits (purity)</h3>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="tree-splits">Choosing splits (purity)</h4>
         <div id="tree-splits" class="dp-panel-content" hidden>
           <p>At each node the algorithm tries different <strong>feature thresholds</strong> and picks the split that best increases <em>purity</em> of the child nodes (e.g., <strong>Gini</strong> or <strong>entropy</strong> for classification; <strong>MSE</strong> for regression).</p>
           <p class="mb-0">Leaves hold a final prediction: a class majority (classification) or mean value (regression).</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="tree-overfit">Overfitting & control</h3>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="tree-overfit">Overfitting & control</h4>
         <div id="tree-overfit" class="dp-panel-content" hidden>
           <ul class="list-group list-group-flush">
             <li class="list-group-item"><strong>Limit depth</strong> (max_depth) and require <strong>min samples</strong> per split/leaf.</li>
@@ -41,7 +41,7 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="tree-interpret">Interpretability</h3>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="tree-interpret">Interpretability</h4>
         <div id="tree-interpret" class="dp-panel-content" hidden>
           <p>Single trees are easy to explain (IF‑THEN rules), making them ideal for <strong>policy prototypes</strong> or regulated contexts—though they may lag state‑of‑the‑art accuracy.</p>
         </div>
@@ -53,19 +53,19 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-forest" aria-hidden="true"></i>&nbsp;Random Forests: Ensembles</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="rf-bagging">Bagging & voting</h3>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="rf-bagging">Bagging & voting</h4>
         <div id="rf-bagging" class="dp-panel-content" hidden>
           <p>Train many trees on <strong>bootstrap samples</strong> (random draws with replacement). Combine their predictions by <strong>majority vote</strong> (classification) or <strong>average</strong> (regression). This reduces variance—overfitting drops.</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="rf-features">Feature subsampling</h3>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="rf-features">Feature subsampling</h4>
         <div id="rf-features" class="dp-panel-content" hidden>
           <p>Each split considers only a random subset of features (<em>max_features</em>). This forces trees to diversify, further improving robustness.</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="rf-oob">Out‑of‑bag (OOB) error</h3>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="rf-oob">Out‑of‑bag (OOB) error</h4>
         <div id="rf-oob" class="dp-panel-content" hidden>
           <p>About one‑third of samples are left out of each bootstrap draw. Use them as a built‑in <strong>validation</strong> set to estimate error without a separate split.</p>
         </div>
@@ -85,13 +85,13 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-balance-scale" aria-hidden="true"></i>&nbsp;Feature Importance & Fairness</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="fi-imp">Feature importance</h3>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="fi-imp">Feature importance</h4>
         <div id="fi-imp" class="dp-panel-content" hidden>
           <p>Forests can score features by how much they reduce impurity across the ensemble. Use with care—correlated features can distort rankings; consider permutation importance for a second opinion.</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="fi-fair">Equity & access</h3>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="fi-fair">Equity & access</h4>
         <div id="fi-fair" class="dp-panel-content" hidden>
           <p>Audit subgroup error rates (precision/recall/MAE) to prevent systematic disadvantages. Document exclusions and human‑in‑the‑loop checks for sensitive decisions.</p>
         </div>
