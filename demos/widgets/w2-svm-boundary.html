@@ -4,51 +4,100 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SVM Decision Boundary Explorer</title>
-    <link rel="stylesheet" href="../shared-demo.css">
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <style>
+        /* AMBA Template Styles */
+        .dp-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+        }
+
+        .dp-content-block {
+            margin-bottom: 2rem;
+        }
+
+        .dp-has-icon {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #034638;
+            margin: 0 0 1rem 0;
+        }
+
+        .dp-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin: 1rem 0;
+        }
+
+        .dp-card.intro-card {
+            border-left: 4px solid #034638;
+            background: #f8fffe;
+        }
+
         .svm-container {
             display: grid;
             grid-template-columns: 1fr 2fr;
             gap: 2rem;
-            margin: 1rem 0;
+            margin: 1.5rem 0;
         }
 
         .controls-section {
             background: white;
             border-radius: 8px;
-            padding: 1rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             height: fit-content;
         }
 
         .control-group {
-            margin: 1.5rem 0;
+            margin: 2rem 0;
         }
 
         .control-group label {
             font-weight: 600;
             display: block;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
+            color: #2c3e50;
         }
 
         .slider-container {
             display: flex;
             align-items: center;
             gap: 1rem;
-            margin: 0.5rem 0;
+            margin: 0.75rem 0;
         }
 
         .slider-container input[type="range"] {
             flex: 1;
+            height: 6px;
+            background: #e5e7eb;
+            border-radius: 3px;
+            outline: none;
+        }
+
+        .slider-container input[type="range"]::-webkit-slider-thumb {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #034638;
+            border-radius: 50%;
+            cursor: pointer;
         }
 
         .value-display {
-            background: #e7f3ff;
+            background: #034638;
+            color: white;
             padding: 0.5rem 1rem;
-            border-radius: 4px;
+            border-radius: 6px;
             font-weight: bold;
-            min-width: 70px;
+            min-width: 80px;
             text-align: center;
         }
 
@@ -70,6 +119,7 @@
             text-align: center;
             flex: 1;
             min-width: 80px;
+            font-weight: 500;
         }
 
         .kernel-btn.active {
@@ -92,11 +142,13 @@
         .dataset-btn {
             background: #f3f4f6;
             border: 2px solid #e5e7eb;
-            padding: 0.5rem 1rem;
+            padding: 0.75rem 1rem;
             border-radius: 6px;
             cursor: pointer;
             transition: all 0.3s ease;
             font-size: 0.9rem;
+            flex: 1;
+            font-weight: 500;
         }
 
         .dataset-btn.active {
@@ -105,17 +157,21 @@
             border-color: #582C83;
         }
 
+        .dataset-btn:hover:not(.active) {
+            background: #e5e7eb;
+        }
+
         .visualization-section {
             background: white;
             border-radius: 8px;
-            padding: 1rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
         .plot-container {
             height: 500px;
-            margin: 1rem 0;
-            border: 1px solid #e5e7eb;
+            margin: 1.5rem 0;
+            border: 2px solid #e5e7eb;
             border-radius: 8px;
             background: white;
         }
@@ -123,92 +179,101 @@
         .metrics-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
-            margin: 1rem 0;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
         }
 
         .metric-card {
-            background: #f8f9fa;
-            padding: 1rem;
-            border-radius: 6px;
+            background: #f8fffe;
+            padding: 1.5rem;
+            border-radius: 8px;
             text-align: center;
             border-left: 4px solid #034638;
+            transition: transform 0.3s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-2px);
         }
 
         .metric-value {
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             font-weight: bold;
             color: #034638;
         }
 
         .metric-label {
-            font-size: 0.8rem;
+            font-size: 0.9rem;
             color: #666;
-            margin-top: 0.25rem;
+            margin-top: 0.5rem;
+            font-weight: 500;
         }
 
         .parameter-explanation {
             background: #f0f9f4;
-            border: 1px solid #10b981;
-            border-radius: 6px;
-            padding: 1rem;
+            border: 2px solid #10b981;
+            border-radius: 8px;
+            padding: 1.5rem;
             margin: 1rem 0;
             font-size: 0.9rem;
         }
 
         .parameter-explanation h4 {
             color: #047857;
-            margin: 0 0 0.5rem 0;
+            margin: 0 0 0.75rem 0;
+            font-weight: 600;
         }
 
         .kernel-info {
             background: #fffbeb;
-            border: 1px solid #f59e0b;
-            border-radius: 6px;
-            padding: 1rem;
-            margin: 1rem 0;
-            font-size: 0.9rem;
+            border: 2px solid #f59e0b;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-size: 0.95rem;
         }
 
         .kernel-info h4 {
             color: #d97706;
-            margin: 0 0 0.5rem 0;
+            margin: 0 0 0.75rem 0;
+            font-weight: 600;
         }
 
         .generate-btn {
             background: #034638;
             color: white;
             border: none;
-            padding: 1rem 1.5rem;
-            border-radius: 6px;
+            padding: 1.25rem 2rem;
+            border-radius: 8px;
             cursor: pointer;
             font-size: 1rem;
             font-weight: 600;
             width: 100%;
-            margin: 1rem 0;
-            transition: background 0.3s ease;
+            margin: 1.5rem 0;
+            transition: all 0.3s ease;
         }
 
         .generate-btn:hover {
             background: #022c24;
+            transform: translateY(-1px);
         }
 
         .support-vectors-info {
-            background: #e7f3ff;
-            border: 1px solid #3b82f6;
-            border-radius: 6px;
-            padding: 0.75rem;
-            margin: 0.5rem 0;
-            font-size: 0.8rem;
+            background: #eff6ff;
+            border: 2px solid #3b82f6;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-size: 0.9rem;
         }
 
         .complexity-warning {
             background: #fef2f2;
-            border: 1px solid #ef4444;
-            border-radius: 6px;
-            padding: 0.75rem;
-            margin: 0.5rem 0;
-            font-size: 0.8rem;
+            border: 2px solid #ef4444;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-size: 0.9rem;
             color: #dc2626;
         }
 
@@ -228,10 +293,12 @@
     </style>
 </head>
 <body>
-    <div class="demo-container">
-        <div class="demo-header">
-            <h1>SVM Decision Boundary Explorer</h1>
-            <p>Adjust kernel, C, and gamma parameters to see how SVMs create different decision boundaries</p>
+    <div class="dp-wrapper">
+        <div class="dp-content-block">
+            <h2 class="dp-has-icon">🎯 SVM Decision Boundary Explorer</h2>
+            <div class="dp-card intro-card">
+                <p><strong>Interactive Learning:</strong> Adjust kernel types, regularization (C), and gamma parameters to see how Support Vector Machines create different decision boundaries for various datasets.</p>
+            </div>
         </div>
 
         <div class="svm-container">

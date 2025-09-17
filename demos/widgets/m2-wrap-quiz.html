@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 2 Wrap-Up Quiz</title>
+    <style>
+        /* AMBA Template Widget Styling */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: white;
+            color: #333;
+            line-height: 1.5;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* AMBA dp-wrapper equivalent for widgets */
+        .dp-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 15px;
+            background: #ffffff;
+        }
+
+        /* AMBA content blocks */
+        .dp-content-block {
+            margin-bottom: 20px;
+        }
+
+        /* AMBA headings */
+        .dp-has-icon {
+            color: #034638;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            font-weight: 600;
+        }
+
+        .dp-has-icon i {
+            margin-right: 8px;
+            color: #582C83;
+        }
+
+        /* Quiz styling */
+        .quiz-question {
+            background: #f8f9fa;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .question-number {
+            color: #582C83;
+            font-weight: 600;
+            font-size: 1.1em;
+            margin-bottom: 0.5rem;
+        }
+
+        .question-text {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #034638;
+        }
+
+        .answer-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .answer-option {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .answer-option:hover {
+            border-color: #034638;
+            transform: translateY(-1px);
+        }
+
+        .answer-option.selected {
+            border-color: #034638;
+            background: #f0f9f4;
+        }
+
+        .answer-option.correct {
+            border-color: #10b981;
+            background: #ecfdf5;
+        }
+
+        .answer-option.incorrect {
+            border-color: #ef4444;
+            background: #fef2f2;
+        }
+
+        .feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 6px;
+            display: none;
+        }
+
+        .feedback.correct {
+            background: #ecfdf5;
+            border: 1px solid #10b981;
+            color: #047857;
+        }
+
+        .feedback.incorrect {
+            background: #fef2f2;
+            border: 1px solid #ef4444;
+            color: #dc2626;
+        }
+
+        .submit-btn {
+            background: #034638;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            display: block;
+            margin: 2rem auto;
+        }
+
+        .submit-btn:hover {
+            background: #022c24;
+            transform: translateY(-1px);
+        }
+
+        .submit-btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .results {
+            background: #f0f9f4;
+            border: 1px solid #10b981;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            margin-top: 2rem;
+            display: none;
+        }
+
+        .score {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #047857;
+            margin-bottom: 0.5rem;
+        }
+
+        .reset-btn {
+            background: #582C83;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .reset-btn:hover {
+            background: #4c1d75;
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 768px) {
+            .dp-wrapper {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="dp-wrapper">
+    <!-- Widget Title -->
+    <div class="dp-content-block">
+        <h2 class="dp-has-icon">
+            <span style="margin-right: 8px; color: #582C83;">🧠</span>
+            Module 2 Wrap-Up Quiz
+        </h2>
+        <p>Test your understanding of supervised learning algorithms and concepts.</p>
+    </div>
+
+    <!-- Quiz Questions -->
+    <div class="dp-content-block" id="quiz-container">
+        <div class="quiz-question" data-question="1">
+            <div class="question-number">Question 1 of 6</div>
+            <div class="question-text">Which algorithm directly minimizes MSE to fit numeric targets?</div>
+            <div class="answer-options">
+                <div class="answer-option" data-answer="a">Linear Regression</div>
+                <div class="answer-option" data-answer="b">Logistic Regression</div>
+                <div class="answer-option" data-answer="c">Decision Trees</div>
+                <div class="answer-option" data-answer="d">KNN</div>
+            </div>
+            <div class="feedback correct">
+                <strong>Correct!</strong> Linear Regression fits a line/plane by minimizing mean squared error.
+            </div>
+            <div class="feedback incorrect">
+                <strong>Not quite.</strong> Linear Regression is the algorithm that directly minimizes MSE for numeric targets.
+            </div>
+        </div>
+
+        <div class="quiz-question" data-question="2">
+            <div class="question-number">Question 2 of 6</div>
+            <div class="question-text">In logistic regression, what does the decision threshold control?</div>
+            <div class="answer-options">
+                <div class="answer-option" data-answer="a">The learning rate</div>
+                <div class="answer-option" data-answer="b">The number of features</div>
+                <div class="answer-option" data-answer="c">Converting probabilities to class labels</div>
+                <div class="answer-option" data-answer="d">The regularization strength</div>
+            </div>
+            <div class="feedback correct">
+                <strong>Correct!</strong> The threshold converts predicted probabilities into class labels, trading precision vs. recall based on business cost.
+            </div>
+            <div class="feedback incorrect">
+                <strong>Not quite.</strong> The threshold controls how probabilities are converted to class labels.
+            </div>
+        </div>
+
+        <div class="quiz-question" data-question="3">
+            <div class="question-number">Question 3 of 6</div>
+            <div class="question-text">Why is feature scaling important for KNN and SVM?</div>
+            <div class="answer-options">
+                <div class="answer-option" data-answer="a">It speeds up training</div>
+                <div class="answer-option" data-answer="b">Both algorithms depend on distances</div>
+                <div class="answer-option" data-answer="c">It reduces overfitting</div>
+                <div class="answer-option" data-answer="d">It improves interpretability</div>
+            </div>
+            <div class="feedback correct">
+                <strong>Correct!</strong> Both KNN and SVM depend on distances; unscaled features can dominate and distort neighborhoods/margins.
+            </div>
+            <div class="feedback incorrect">
+                <strong>Not quite.</strong> KNN and SVM are distance-based algorithms that need feature scaling to work properly.
+            </div>
+        </div>
+
+        <div class="quiz-question" data-question="4">
+            <div class="question-number">Question 4 of 6</div>
+            <div class="question-text">Random Forests vs. a single Decision Tree — what's the typical advantage?</div>
+            <div class="answer-options">
+                <div class="answer-option" data-answer="a">Faster training</div>
+                <div class="answer-option" data-answer="b">Lower variance and better generalization</div>
+                <div class="answer-option" data-answer="c">Better interpretability</div>
+                <div class="answer-option" data-answer="d">Fewer hyperparameters</div>
+            </div>
+            <div class="feedback correct">
+                <strong>Correct!</strong> Random Forests have lower variance and better generalization via bagging and feature subsampling.
+            </div>
+            <div class="feedback incorrect">
+                <strong>Not quite.</strong> Random Forests typically provide better generalization through ensemble methods.
+            </div>
+        </div>
+
+        <div class="quiz-question" data-question="5">
+            <div class="question-number">Question 5 of 6</div>
+            <div class="question-text">Naive Bayes works well for text mainly because...</div>
+            <div class="answer-options">
+                <div class="answer-option" data-answer="a">It's the most accurate algorithm</div>
+                <div class="answer-option" data-answer="b">The independence assumption works well with sparse, high-dimensional features</div>
+                <div class="answer-option" data-answer="c">It requires no feature engineering</div>
+                <div class="answer-option" data-answer="d">It handles missing data automatically</div>
+            </div>
+            <div class="feedback correct">
+                <strong>Correct!</strong> With sparse, high-dimensional features, the independence assumption is a decent approximation and the model is fast and effective.
+            </div>
+            <div class="feedback incorrect">
+                <strong>Not quite.</strong> Naive Bayes works well for text because the independence assumption is reasonable for sparse text features.
+            </div>
+        </div>
+
+        <div class="quiz-question" data-question="6">
+            <div class="question-number">Question 6 of 6</div>
+            <div class="question-text">Neural networks add value when...</div>
+            <div class="answer-options">
+                <div class="answer-option" data-answer="a">You have a small dataset</div>
+                <div class="answer-option" data-answer="b">You need maximum interpretability</div>
+                <div class="answer-option" data-answer="c">Data is large/complex and patterns are non-linear</div>
+                <div class="answer-option" data-answer="d">You want the fastest training time</div>
+            </div>
+            <div class="feedback correct">
+                <strong>Correct!</strong> Neural networks excel when data is large/complex, patterns are non-linear, and simple baselines plateau.
+            </div>
+            <div class="feedback incorrect">
+                <strong>Not quite.</strong> Neural networks are best for large, complex data with non-linear patterns.
+            </div>
+        </div>
+    </div>
+
+    <button class="submit-btn" id="submit-quiz">Submit Quiz</button>
+
+    <div class="results" id="results">
+        <div class="score" id="score"></div>
+        <div id="score-message"></div>
+        <button class="reset-btn" onclick="resetQuiz()">Try Again</button>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        { id: 1, correct: 'a' },
+        { id: 2, correct: 'c' },
+        { id: 3, correct: 'b' },
+        { id: 4, correct: 'b' },
+        { id: 5, correct: 'b' },
+        { id: 6, correct: 'c' }
+    ];
+
+    let userAnswers = {};
+
+    // Add click handlers for answer options
+    document.querySelectorAll('.answer-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const question = this.closest('.quiz-question');
+            const questionNum = question.dataset.question;
+
+            // Remove previous selection
+            question.querySelectorAll('.answer-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+
+            // Mark this option as selected
+            this.classList.add('selected');
+            userAnswers[questionNum] = this.dataset.answer;
+
+            // Check if all questions are answered
+            const submitBtn = document.getElementById('submit-quiz');
+            if (Object.keys(userAnswers).length === questions.length) {
+                submitBtn.disabled = false;
+            }
+        });
+    });
+
+    // Submit quiz handler
+    document.getElementById('submit-quiz').addEventListener('click', function() {
+        let correct = 0;
+
+        questions.forEach(q => {
+            const questionEl = document.querySelector(`[data-question="${q.id}"]`);
+            const userAnswer = userAnswers[q.id];
+            const correctAnswer = q.correct;
+
+            // Mark all options with correct/incorrect classes
+            questionEl.querySelectorAll('.answer-option').forEach(option => {
+                if (option.dataset.answer === correctAnswer) {
+                    option.classList.add('correct');
+                } else if (option.dataset.answer === userAnswer && userAnswer !== correctAnswer) {
+                    option.classList.add('incorrect');
+                }
+                option.style.pointerEvents = 'none';
+            });
+
+            // Show feedback
+            if (userAnswer === correctAnswer) {
+                correct++;
+                questionEl.querySelector('.feedback.correct').style.display = 'block';
+            } else {
+                questionEl.querySelector('.feedback.incorrect').style.display = 'block';
+            }
+        });
+
+        // Show results
+        const percentage = Math.round((correct / questions.length) * 100);
+        document.getElementById('score').textContent = `${correct}/${questions.length} (${percentage}%)`;
+
+        let message = '';
+        if (percentage >= 90) {
+            message = 'Excellent! You have a strong understanding of supervised learning algorithms.';
+        } else if (percentage >= 70) {
+            message = 'Good job! You understand most of the key concepts.';
+        } else if (percentage >= 50) {
+            message = 'Not bad! Consider reviewing the material to strengthen your understanding.';
+        } else {
+            message = 'Keep studying! Review the Week 2 materials and try again.';
+        }
+
+        document.getElementById('score-message').textContent = message;
+        document.getElementById('results').style.display = 'block';
+        this.style.display = 'none';
+
+        // Scroll to results
+        document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    function resetQuiz() {
+        userAnswers = {};
+
+        // Reset all questions
+        document.querySelectorAll('.quiz-question').forEach(question => {
+            question.querySelectorAll('.answer-option').forEach(option => {
+                option.classList.remove('selected', 'correct', 'incorrect');
+                option.style.pointerEvents = 'auto';
+            });
+
+            question.querySelectorAll('.feedback').forEach(feedback => {
+                feedback.style.display = 'none';
+            });
+        });
+
+        // Reset UI
+        document.getElementById('submit-quiz').style.display = 'block';
+        document.getElementById('submit-quiz').disabled = true;
+        document.getElementById('results').style.display = 'none';
+
+        // Scroll to top
+        document.querySelector('.dp-wrapper').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Initialize
+    document.getElementById('submit-quiz').disabled = true;
+</script>
+
+</body>
+</html>

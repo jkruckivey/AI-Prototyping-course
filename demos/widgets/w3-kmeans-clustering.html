@@ -1,556 +1,615 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>K-means Clustering Visualization</title>
-    <link rel="stylesheet" href="../shared-demo.css">
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <style>
-        .controls-section {
-            background: white;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>K-means Clustering Visualization</title>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <style>
+    /* AMBA Template Widget Styling */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-        .control-group {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin: 0.5rem 0;
-            flex-wrap: wrap;
-        }
+    body {
+      font-family: Arial, sans-serif;
+      background: white;
+      color: #333;
+      line-height: 1.5;
+      padding: 0;
+      margin: 0;
+    }
 
-        .control-group label {
-            font-weight: 600;
-            min-width: 100px;
-        }
+    /* AMBA dp-wrapper equivalent for widgets */
+    .dp-wrapper {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 15px;
+      background: #ffffff;
+    }
 
-        .slider-container {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            flex: 1;
-        }
+    /* AMBA content blocks */
+    .dp-content-block {
+      margin-bottom: 20px;
+    }
 
-        .slider-container input[type="range"] {
-            flex: 1;
-            max-width: 200px;
-        }
+    /* AMBA headings */
+    .dp-has-icon {
+      color: #034638;
+      margin-bottom: 15px;
+      font-size: 1.3em;
+      font-weight: 600;
+    }
 
-        .value-display {
-            background: #e7f3ff;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            font-weight: bold;
-            min-width: 60px;
-            text-align: center;
-        }
+    .dp-has-icon i {
+      margin-right: 8px;
+      color: #582C83;
+    }
 
-        .run-button {
-            background: #034638;
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: background 0.3s ease;
-        }
+    /* Interactive controls styling */
+    .controls-section {
+      background: #f8f9fa;
+      padding: 16px;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+      margin-bottom: 15px;
+    }
 
-        .run-button:hover {
-            background: #022c24;
-        }
+    .control-group {
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
 
-        .run-button:disabled {
-            background: #9ca3af;
-            cursor: not-allowed;
-        }
+    .control-group:last-child {
+      margin-bottom: 0;
+    }
 
-        .metrics-display {
-            display: flex;
-            gap: 1rem;
-            margin: 1rem 0;
-            flex-wrap: wrap;
-        }
+    .control-label {
+      font-weight: 600;
+      color: #034638;
+      min-width: 120px;
+    }
 
-        .metric-card {
-            background: white;
-            padding: 1rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            text-align: center;
-            flex: 1;
-            min-width: 150px;
-        }
+    input[type="range"] {
+      flex: 1;
+      max-width: 200px;
+      height: 6px;
+      border-radius: 3px;
+      background: #d1d5db;
+      outline: none;
+      -webkit-appearance: none;
+    }
 
-        .metric-value {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #034638;
-        }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #582C83;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
 
-        .metric-label {
-            font-size: 0.9rem;
-            color: #666;
-            margin-top: 0.25rem;
-        }
+    .value-display {
+      background: #034638;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-weight: bold;
+      min-width: 60px;
+      text-align: center;
+    }
 
-        .iteration-counter {
-            background: #fff3cd;
-            border: 1px solid #ffeaa7;
-            padding: 0.75rem;
-            border-radius: 6px;
-            margin: 1rem 0;
-            text-align: center;
-            font-weight: 600;
-        }
+    .widget-btn {
+      background: #034638;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 0.95em;
+    }
 
-        .plot-container {
-            height: 400px;
-            margin: 1rem 0;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            background: white;
-        }
+    .widget-btn:hover {
+      background: #0a5c49;
+      transform: translateY(-1px);
+    }
 
-        .dataset-selector {
-            display: flex;
-            gap: 0.5rem;
-            margin: 1rem 0;
-        }
+    .widget-btn:disabled {
+      background: #9ca3af;
+      cursor: not-allowed;
+      transform: none;
+    }
 
-        .dataset-btn {
-            background: #f3f4f6;
-            border: 2px solid #e5e7eb;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
+    .widget-btn.secondary {
+      background: #582C83;
+    }
 
-        .dataset-btn.active {
-            background: #034638;
-            color: white;
-            border-color: #034638;
-        }
+    .widget-btn.secondary:hover {
+      background: #6b3494;
+    }
 
-        .loading-indicator {
-            display: none;
-            text-align: center;
-            padding: 1rem;
-            font-style: italic;
-            color: #666;
-        }
-    </style>
+    /* Metrics display */
+    .metrics-display {
+      display: flex;
+      gap: 12px;
+      margin: 15px 0;
+      flex-wrap: wrap;
+    }
+
+    .metric-card {
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 12px;
+      text-align: center;
+      flex: 1;
+      min-width: 140px;
+    }
+
+    .metric-value {
+      font-size: 1.4em;
+      font-weight: bold;
+      color: #034638;
+      margin-bottom: 4px;
+    }
+
+    .metric-label {
+      font-size: 0.85em;
+      color: #666;
+      font-weight: 500;
+    }
+
+    /* Plot container */
+    .plot-container {
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 16px;
+      margin: 15px 0;
+    }
+
+    /* Status indicators */
+    .status-indicator {
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.85em;
+      font-weight: 600;
+      display: inline-block;
+      margin-top: 8px;
+    }
+
+    .status-good {
+      color: #166534;
+      background: #dcfce7;
+    }
+
+    .status-warning {
+      color: #92400e;
+      background: #fef3c7;
+    }
+
+    .status-info {
+      color: #1e40af;
+      background: #dbeafe;
+    }
+
+    /* Responsive design */
+    @media (max-width: 600px) {
+      .dp-wrapper {
+        padding: 10px;
+      }
+
+      .control-group {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 6px;
+      }
+
+      .control-label {
+        min-width: auto;
+      }
+
+      .metrics-display {
+        flex-direction: column;
+      }
+
+      .metric-card {
+        min-width: auto;
+      }
+    }
+
+    /* Animation */
+    .fade-in {
+      animation: fadeIn 0.3s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
 </head>
 <body>
-    <div class="demo-container">
-        <div class="demo-header">
-            <h1>K-means Clustering Algorithm</h1>
-            <p>Watch K-means find customer segments step by step. Adjust K and see how clusters change.</p>
-        </div>
 
-        <div class="controls-section">
-            <div class="control-group">
-                <label>Dataset:</label>
-                <div class="dataset-selector">
-                    <button class="dataset-btn active" onclick="selectDataset('customers')">Customer Segments</button>
-                    <button class="dataset-btn" onclick="selectDataset('blobs')">Simple Clusters</button>
-                    <button class="dataset-btn" onclick="selectDataset('circles')">Challenging Shapes</button>
-                </div>
-            </div>
+<div class="dp-wrapper">
+  <!-- Widget Title -->
+  <div class="dp-content-block">
+    <h2 class="dp-has-icon">
+      <span style="margin-right: 8px; color: #582C83;">🎯</span>
+      K-means Clustering Visualization
+    </h2>
+  </div>
 
-            <div class="control-group">
-                <label>Number of Clusters (K):</label>
-                <div class="slider-container">
-                    <input type="range" id="k-slider" min="2" max="8" value="3" onchange="updateK(this.value)">
-                    <div class="value-display" id="k-value">3</div>
-                </div>
-            </div>
+  <!-- Controls Section -->
+  <div class="dp-content-block">
+    <h3 class="dp-has-icon">
+      <span style="margin-right: 8px; color: #582C83;">⚙️</span>
+      Clustering Parameters
+    </h3>
 
-            <div class="control-group">
-                <label>Max Iterations:</label>
-                <div class="slider-container">
-                    <input type="range" id="iter-slider" min="5" max="50" value="20" onchange="updateMaxIter(this.value)">
-                    <div class="value-display" id="iter-value">20</div>
-                </div>
-            </div>
+    <div class="controls-section">
+      <div class="control-group">
+        <label class="control-label" for="k-value">Number of Clusters (k):</label>
+        <input type="range" id="k-value" min="2" max="8" value="3">
+        <div class="value-display" id="k-display">3</div>
+      </div>
 
-            <div class="control-group">
-                <button class="run-button" onclick="runKMeans()" id="run-btn">Run K-means</button>
-                <button class="run-button" onclick="resetClustering()" style="background: #582C83;">Reset</button>
-            </div>
-        </div>
+      <div class="control-group">
+        <label class="control-label" for="max-iterations">Max Iterations:</label>
+        <input type="range" id="max-iterations" min="10" max="100" step="10" value="50">
+        <div class="value-display" id="iterations-display">50</div>
+      </div>
 
-        <div class="iteration-counter" id="iteration-display">
-            Ready to run K-means clustering
-        </div>
+      <div class="control-group">
+        <label class="control-label" for="data-points">Number of Points:</label>
+        <input type="range" id="data-points" min="50" max="300" step="25" value="150">
+        <div class="value-display" id="points-display">150</div>
+      </div>
 
-        <div class="loading-indicator" id="loading">
-            Running K-means algorithm...
-        </div>
+      <div class="control-group">
+        <button class="widget-btn" id="generate-data">🎲 Generate New Data</button>
+        <button class="widget-btn secondary" id="run-clustering">🚀 Run K-means</button>
+        <button class="widget-btn secondary" id="reset-algorithm">🔄 Reset</button>
+      </div>
+    </div>
+  </div>
 
-        <div class="plot-container" id="plot"></div>
+  <!-- Visualization -->
+  <div class="dp-content-block">
+    <h3 class="dp-has-icon">
+      <span style="margin-right: 8px; color: #582C83;">📊</span>
+      Clustering Results
+    </h3>
 
-        <div class="metrics-display">
-            <div class="metric-card">
-                <div class="metric-value" id="wcss-value">-</div>
-                <div class="metric-label">Within-Cluster<br>Sum of Squares</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-value" id="silhouette-value">-</div>
-                <div class="metric-label">Silhouette<br>Score</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-value" id="iterations-value">-</div>
-                <div class="metric-label">Iterations<br>to Converge</div>
-            </div>
-        </div>
+    <div class="plot-container">
+      <div id="clustering-plot" style="width: 100%; height: 400px;"></div>
     </div>
 
-    <script>
-        let currentDataset = 'customers';
-        let currentK = 3;
-        let maxIterations = 20;
-        let data = [];
-        let centroids = [];
-        let clusters = [];
-        let isRunning = false;
+    <!-- Metrics Display -->
+    <div class="metrics-display">
+      <div class="metric-card">
+        <div class="metric-value" id="iterations-used">0</div>
+        <div class="metric-label">Iterations Used</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value" id="inertia-value">--</div>
+        <div class="metric-label">Within-cluster Sum of Squares</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value" id="convergence-status">Not Started</div>
+        <div class="metric-label">Status</div>
+      </div>
+    </div>
+  </div>
 
-        const datasets = {
-            customers: {
-                name: 'Customer Segments',
-                data: generateCustomerData(),
-                description: 'Age vs Annual Income ($k)'
-            },
-            blobs: {
-                name: 'Simple Clusters',
-                data: generateBlobData(),
-                description: 'Feature X vs Feature Y'
-            },
-            circles: {
-                name: 'Challenging Shapes',
-                data: generateCircleData(),
-                description: 'Feature A vs Feature B'
+  <!-- Current Analysis -->
+  <div class="dp-content-block" id="analysis-section" style="display: none;">
+    <h3 class="dp-has-icon">
+      <span style="margin-right: 8px; color: #582C83;">📈</span>
+      Clustering Analysis
+    </h3>
+
+    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 6px; padding: 15px;">
+      <h5 style="color: #034638; font-size: 1.1em; font-weight: 600; margin-bottom: 8px;">Summary</h5>
+      <p id="analysis-text">Run the k-means algorithm to see analysis of your clustering results.</p>
+      <div class="status-indicator status-info" id="analysis-status">Ready to analyze</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// K-means clustering implementation
+document.addEventListener('DOMContentLoaded', function() {
+  let dataPoints = [];
+  let centroids = [];
+  let clusters = [];
+  let currentK = 3;
+  let isRunning = false;
+
+  // Generate random data points
+  function generateData() {
+    const numPoints = parseInt(document.getElementById('data-points').value);
+    dataPoints = [];
+
+    // Create 3 natural clusters
+    const clusterCenters = [
+      {x: 2, y: 2}, {x: 8, y: 8}, {x: 2, y: 8}
+    ];
+
+    clusterCenters.forEach(center => {
+      for (let i = 0; i < Math.floor(numPoints / 3); i++) {
+        dataPoints.push({
+          x: center.x + (Math.random() - 0.5) * 4,
+          y: center.y + (Math.random() - 0.5) * 4
+        });
+      }
+    });
+
+    updatePlot();
+    resetMetrics();
+  }
+
+  // Initialize random centroids
+  function initializeCentroids(k) {
+    centroids = [];
+    for (let i = 0; i < k; i++) {
+      centroids.push({
+        x: Math.random() * 10,
+        y: Math.random() * 10
+      });
+    }
+  }
+
+  // Calculate distance between two points
+  function distance(p1, p2) {
+    return Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2));
+  }
+
+  // Assign points to nearest centroid
+  function assignPointsToClusters() {
+    clusters = Array(currentK).fill().map(() => []);
+
+    dataPoints.forEach(point => {
+      let minDistance = Infinity;
+      let closestCluster = 0;
+
+      centroids.forEach((centroid, index) => {
+        const dist = distance(point, centroid);
+        if (dist < minDistance) {
+          minDistance = dist;
+          closestCluster = index;
+        }
+      });
+
+      clusters[closestCluster].push(point);
+    });
+  }
+
+  // Update centroids to cluster centers
+  function updateCentroids() {
+    const newCentroids = [];
+
+    clusters.forEach(cluster => {
+      if (cluster.length > 0) {
+        const centerX = cluster.reduce((sum, point) => sum + point.x, 0) / cluster.length;
+        const centerY = cluster.reduce((sum, point) => sum + point.y, 0) / cluster.length;
+        newCentroids.push({x: centerX, y: centerY});
+      } else {
+        // Keep old centroid if cluster is empty
+        newCentroids.push(centroids[newCentroids.length]);
+      }
+    });
+
+    // Check convergence
+    const threshold = 0.5;
+    let maxChange = 0;
+
+    centroids.forEach((oldCentroid, index) => {
+      const change = distance(oldCentroid, newCentroids[index]);
+      maxChange = Math.max(maxChange, change);
+    });
+
+    centroids = newCentroids;
+    return maxChange < threshold;
+  }
+
+  // Calculate within-cluster sum of squares (inertia)
+  function calculateInertia() {
+    let inertia = 0;
+
+    clusters.forEach((cluster, clusterIndex) => {
+      cluster.forEach(point => {
+        inertia += Math.pow(distance(point, centroids[clusterIndex]), 2);
+      });
+    });
+
+    return inertia;
+  }
+
+  // Run k-means algorithm
+  async function runKMeans() {
+    if (isRunning) return;
+
+    isRunning = true;
+    currentK = parseInt(document.getElementById('k-value').value);
+    const maxIter = parseInt(document.getElementById('max-iterations').value);
+
+    document.getElementById('run-clustering').disabled = true;
+    document.getElementById('convergence-status').textContent = 'Running...';
+
+    initializeCentroids(currentK);
+    let iteration = 0;
+    let converged = false;
+
+    while (iteration < maxIter && !converged) {
+      assignPointsToClusters();
+      converged = updateCentroids();
+      iteration++;
+
+      // Update plot every few iterations for animation
+      if (iteration % 5 === 0) {
+        updatePlot();
+        await new Promise(resolve => setTimeout(resolve, 100));
+      }
+    }
+
+    // Final update
+    assignPointsToClusters();
+    updatePlot();
+
+    // Update metrics
+    const inertia = calculateInertia();
+    document.getElementById('iterations-used').textContent = iteration;
+    document.getElementById('inertia-value').textContent = inertia.toFixed(2);
+    document.getElementById('convergence-status').textContent = converged ? 'Converged' : 'Max Iterations';
+
+    // Show analysis
+    showAnalysis(iteration, converged, inertia);
+
+    document.getElementById('run-clustering').disabled = false;
+    isRunning = false;
+  }
+
+  // Update the plot
+  function updatePlot() {
+    const traces = [];
+
+    // Plot data points colored by cluster
+    if (clusters.length > 0) {
+      const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#98D8C8', '#F7DC6F'];
+
+      clusters.forEach((cluster, index) => {
+        if (cluster.length > 0) {
+          traces.push({
+            x: cluster.map(p => p.x),
+            y: cluster.map(p => p.y),
+            mode: 'markers',
+            type: 'scatter',
+            name: `Cluster ${index + 1}`,
+            marker: {
+              color: colors[index % colors.length],
+              size: 8,
+              opacity: 0.7
             }
-        };
-
-        function generateCustomerData() {
-            const data = [];
-            // High income, middle age
-            for(let i = 0; i < 30; i++) {
-                data.push([
-                    25 + Math.random() * 15, // age 25-40
-                    70 + Math.random() * 40   // income 70-110k
-                ]);
-            }
-            // Low income, young
-            for(let i = 0; i < 25; i++) {
-                data.push([
-                    20 + Math.random() * 10, // age 20-30
-                    20 + Math.random() * 25   // income 20-45k
-                ]);
-            }
-            // Medium income, older
-            for(let i = 0; i < 35; i++) {
-                data.push([
-                    35 + Math.random() * 20, // age 35-55
-                    45 + Math.random() * 30   // income 45-75k
-                ]);
-            }
-            return data;
+          });
         }
+      });
+    } else {
+      // Plot all points in gray if not clustered
+      traces.push({
+        x: dataPoints.map(p => p.x),
+        y: dataPoints.map(p => p.y),
+        mode: 'markers',
+        type: 'scatter',
+        name: 'Data Points',
+        marker: { color: '#999999', size: 6 }
+      });
+    }
 
-        function generateBlobData() {
-            const data = [];
-            const centers = [[2, 2], [8, 8], [2, 8], [8, 2]];
-            centers.forEach(center => {
-                for(let i = 0; i < 20; i++) {
-                    data.push([
-                        center[0] + (Math.random() - 0.5) * 2,
-                        center[1] + (Math.random() - 0.5) * 2
-                    ]);
-                }
-            });
-            return data;
+    // Plot centroids
+    if (centroids.length > 0) {
+      traces.push({
+        x: centroids.map(c => c.x),
+        y: centroids.map(c => c.y),
+        mode: 'markers',
+        type: 'scatter',
+        name: 'Centroids',
+        marker: {
+          color: '#FF0000',
+          size: 15,
+          symbol: 'x',
+          line: { width: 3 }
         }
+      });
+    }
 
-        function generateCircleData() {
-            const data = [];
-            // Inner circle
-            for(let i = 0; i < 30; i++) {
-                const angle = Math.random() * 2 * Math.PI;
-                const radius = 2 + Math.random() * 1;
-                data.push([
-                    5 + radius * Math.cos(angle),
-                    5 + radius * Math.sin(angle)
-                ]);
-            }
-            // Outer circle
-            for(let i = 0; i < 50; i++) {
-                const angle = Math.random() * 2 * Math.PI;
-                const radius = 5 + Math.random() * 1;
-                data.push([
-                    5 + radius * Math.cos(angle),
-                    5 + radius * Math.sin(angle)
-                ]);
-            }
-            return data;
-        }
+    const layout = {
+      title: `K-means Clustering (k=${currentK})`,
+      xaxis: { title: 'X Coordinate', range: [-2, 12] },
+      yaxis: { title: 'Y Coordinate', range: [-2, 12] },
+      showlegend: true,
+      height: 400
+    };
 
-        function selectDataset(datasetName) {
-            currentDataset = datasetName;
-            data = datasets[datasetName].data;
+    Plotly.newPlot('clustering-plot', traces, layout);
+  }
 
-            // Update button states
-            document.querySelectorAll('.dataset-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
+  // Show analysis
+  function showAnalysis(iterations, converged, inertia) {
+    const analysisSection = document.getElementById('analysis-section');
+    const analysisText = document.getElementById('analysis-text');
+    const analysisStatus = document.getElementById('analysis-status');
 
-            resetClustering();
-            plotInitialData();
-        }
+    let analysis = `K-means completed with k=${currentK} clusters in ${iterations} iterations. `;
 
-        function updateK(value) {
-            currentK = parseInt(value);
-            document.getElementById('k-value').textContent = value;
-            resetClustering();
-        }
+    if (converged) {
+      analysis += "The algorithm converged successfully. ";
+      analysisStatus.textContent = "Converged";
+      analysisStatus.className = "status-indicator status-good";
+    } else {
+      analysis += "The algorithm reached maximum iterations without full convergence. ";
+      analysisStatus.textContent = "Max Iterations Reached";
+      analysisStatus.className = "status-indicator status-warning";
+    }
 
-        function updateMaxIter(value) {
-            maxIterations = parseInt(value);
-            document.getElementById('iter-value').textContent = value;
-        }
+    analysis += `The within-cluster sum of squares is ${inertia.toFixed(2)}. `;
 
-        function plotInitialData() {
-            const trace = {
-                x: data.map(d => d[0]),
-                y: data.map(d => d[1]),
-                mode: 'markers',
-                type: 'scatter',
-                marker: {
-                    color: '#034638',
-                    size: 8,
-                    opacity: 0.7
-                },
-                name: 'Data Points'
-            };
+    if (inertia < 50) {
+      analysis += "This indicates tight, well-separated clusters.";
+    } else if (inertia < 150) {
+      analysis += "This indicates moderately compact clusters.";
+    } else {
+      analysis += "This indicates loose clusters - consider adjusting k or checking your data.";
+    }
 
-            const layout = {
-                title: `${datasets[currentDataset].name} - ${datasets[currentDataset].description}`,
-                xaxis: { title: currentDataset === 'customers' ? 'Age' : 'Feature X' },
-                yaxis: { title: currentDataset === 'customers' ? 'Annual Income ($k)' : 'Feature Y' },
-                showlegend: false,
-                margin: { t: 50, r: 50, b: 50, l: 50 }
-            };
+    analysisText.textContent = analysis;
+    analysisSection.style.display = 'block';
+    analysisSection.classList.add('fade-in');
+  }
 
-            Plotly.newPlot('plot', [trace], layout, {responsive: true});
-        }
+  // Reset metrics
+  function resetMetrics() {
+    document.getElementById('iterations-used').textContent = '0';
+    document.getElementById('inertia-value').textContent = '--';
+    document.getElementById('convergence-status').textContent = 'Not Started';
+    document.getElementById('analysis-section').style.display = 'none';
+  }
 
-        function distance(point1, point2) {
-            return Math.sqrt(Math.pow(point1[0] - point2[0], 2) + Math.pow(point1[1] - point2[1], 2));
-        }
+  // Update display values
+  function updateDisplayValues() {
+    document.getElementById('k-display').textContent = document.getElementById('k-value').value;
+    document.getElementById('iterations-display').textContent = document.getElementById('max-iterations').value;
+    document.getElementById('points-display').textContent = document.getElementById('data-points').value;
+  }
 
-        function initializeCentroids(k) {
-            centroids = [];
-            for(let i = 0; i < k; i++) {
-                const randomPoint = data[Math.floor(Math.random() * data.length)];
-                centroids.push([
-                    randomPoint[0] + (Math.random() - 0.5) * 2,
-                    randomPoint[1] + (Math.random() - 0.5) * 2
-                ]);
-            }
-        }
+  // Event listeners
+  document.getElementById('generate-data').addEventListener('click', generateData);
+  document.getElementById('run-clustering').addEventListener('click', runKMeans);
+  document.getElementById('reset-algorithm').addEventListener('click', () => {
+    clusters = [];
+    centroids = [];
+    updatePlot();
+    resetMetrics();
+  });
 
-        function assignClusters() {
-            clusters = data.map(point => {
-                let minDistance = Infinity;
-                let assignedCluster = 0;
+  // Range input listeners
+  ['k-value', 'max-iterations', 'data-points'].forEach(id => {
+    document.getElementById(id).addEventListener('input', updateDisplayValues);
+  });
 
-                centroids.forEach((centroid, index) => {
-                    const dist = distance(point, centroid);
-                    if(dist < minDistance) {
-                        minDistance = dist;
-                        assignedCluster = index;
-                    }
-                });
+  // Initialize
+  generateData();
+  updateDisplayValues();
+});
+</script>
 
-                return assignedCluster;
-            });
-        }
-
-        function updateCentroids() {
-            const newCentroids = [];
-
-            for(let k = 0; k < currentK; k++) {
-                const clusterPoints = data.filter((point, index) => clusters[index] === k);
-
-                if(clusterPoints.length > 0) {
-                    const avgX = clusterPoints.reduce((sum, point) => sum + point[0], 0) / clusterPoints.length;
-                    const avgY = clusterPoints.reduce((sum, point) => sum + point[1], 0) / clusterPoints.length;
-                    newCentroids.push([avgX, avgY]);
-                } else {
-                    newCentroids.push(centroids[k]); // Keep old centroid if no points assigned
-                }
-            }
-
-            const converged = centroids.every((centroid, index) =>
-                distance(centroid, newCentroids[index]) < 0.01
-            );
-
-            centroids = newCentroids;
-            return converged;
-        }
-
-        function calculateWCSS() {
-            let wcss = 0;
-            data.forEach((point, index) => {
-                const clusterIndex = clusters[index];
-                wcss += Math.pow(distance(point, centroids[clusterIndex]), 2);
-            });
-            return wcss.toFixed(2);
-        }
-
-        function calculateSilhouette() {
-            // Simplified silhouette calculation
-            let totalSilhouette = 0;
-
-            data.forEach((point, index) => {
-                const clusterIndex = clusters[index];
-
-                // Average distance within cluster
-                const sameClusterPoints = data.filter((p, i) => clusters[i] === clusterIndex && i !== index);
-                const avgWithinDistance = sameClusterPoints.length > 0
-                    ? sameClusterPoints.reduce((sum, p) => sum + distance(point, p), 0) / sameClusterPoints.length
-                    : 0;
-
-                // Average distance to nearest cluster
-                let minAvgBetweenDistance = Infinity;
-                for(let k = 0; k < currentK; k++) {
-                    if(k !== clusterIndex) {
-                        const otherClusterPoints = data.filter((p, i) => clusters[i] === k);
-                        if(otherClusterPoints.length > 0) {
-                            const avgBetweenDistance = otherClusterPoints.reduce((sum, p) => sum + distance(point, p), 0) / otherClusterPoints.length;
-                            minAvgBetweenDistance = Math.min(minAvgBetweenDistance, avgBetweenDistance);
-                        }
-                    }
-                }
-
-                const silhouette = minAvgBetweenDistance !== Infinity
-                    ? (minAvgBetweenDistance - avgWithinDistance) / Math.max(avgWithinDistance, minAvgBetweenDistance)
-                    : 0;
-
-                totalSilhouette += silhouette;
-            });
-
-            return (totalSilhouette / data.length).toFixed(3);
-        }
-
-        function plotClusters(iteration) {
-            const colors = ['#e74c3c', '#3498db', '#2ecc71', '#f39c12', '#9b59b6', '#1abc9c', '#e67e22', '#34495e'];
-            const traces = [];
-
-            // Plot data points by cluster
-            for(let k = 0; k < currentK; k++) {
-                const clusterPoints = data.filter((point, index) => clusters[index] === k);
-                if(clusterPoints.length > 0) {
-                    traces.push({
-                        x: clusterPoints.map(p => p[0]),
-                        y: clusterPoints.map(p => p[1]),
-                        mode: 'markers',
-                        type: 'scatter',
-                        marker: {
-                            color: colors[k % colors.length],
-                            size: 8,
-                            opacity: 0.7
-                        },
-                        name: `Cluster ${k + 1}`
-                    });
-                }
-            }
-
-            // Plot centroids
-            traces.push({
-                x: centroids.map(c => c[0]),
-                y: centroids.map(c => c[1]),
-                mode: 'markers',
-                type: 'scatter',
-                marker: {
-                    color: 'black',
-                    size: 15,
-                    symbol: 'x',
-                    line: { width: 3 }
-                },
-                name: 'Centroids'
-            });
-
-            const layout = {
-                title: `${datasets[currentDataset].name} - Iteration ${iteration}`,
-                xaxis: { title: currentDataset === 'customers' ? 'Age' : 'Feature X' },
-                yaxis: { title: currentDataset === 'customers' ? 'Annual Income ($k)' : 'Feature Y' },
-                showlegend: true,
-                margin: { t: 50, r: 50, b: 50, l: 50 }
-            };
-
-            Plotly.newPlot('plot', traces, layout, {responsive: true});
-        }
-
-        async function runKMeans() {
-            if(isRunning) return;
-
-            isRunning = true;
-            document.getElementById('run-btn').disabled = true;
-            document.getElementById('loading').style.display = 'block';
-
-            initializeCentroids(currentK);
-            let iteration = 0;
-            let converged = false;
-
-            while(!converged && iteration < maxIterations) {
-                iteration++;
-                assignClusters();
-                converged = updateCentroids();
-
-                // Update display
-                document.getElementById('iteration-display').textContent =
-                    `Iteration ${iteration}${converged ? ' - Converged!' : ''}`;
-
-                plotClusters(iteration);
-
-                // Update metrics
-                document.getElementById('wcss-value').textContent = calculateWCSS();
-                document.getElementById('silhouette-value').textContent = calculateSilhouette();
-                document.getElementById('iterations-value').textContent = iteration;
-
-                // Small delay for visualization
-                if(!converged) {
-                    await new Promise(resolve => setTimeout(resolve, 800));
-                }
-            }
-
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('run-btn').disabled = false;
-            isRunning = false;
-        }
-
-        function resetClustering() {
-            centroids = [];
-            clusters = [];
-            document.getElementById('iteration-display').textContent = 'Ready to run K-means clustering';
-            document.getElementById('wcss-value').textContent = '-';
-            document.getElementById('silhouette-value').textContent = '-';
-            document.getElementById('iterations-value').textContent = '-';
-            plotInitialData();
-        }
-
-        // Initialize
-        data = datasets[currentDataset].data;
-        plotInitialData();
-    </script>
 </body>
 </html>

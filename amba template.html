@@ -1,44 +1,63 @@
-﻿<!-- AMBA Canvas Page Template (Updated)
-- Consistent structure using dp-wrapper → content-blocks → panels / callouts
-- Accordion panels with a11y (aria-expanded/controls, keyboard support)
-- Widget/iframe embed pattern with title + role + aria-label
-- Optional end-of-session reminder block
--->
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>[Course] — [Page Title]</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Optional: page-specific styles or theme hooks -->
+</head>
+<body>
+
+<!-- Skip link & main landmark -->
+<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
+<main id="main-content" role="main">
 
 <div id="dp-wrapper" class="dp-wrapper">
-  <!-- Progress placeholder (kept for AMBA theme hooks) -->
-  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+  <!-- Progress placeholder (kept for theme hooks) -->
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display:none;" aria-hidden="true">
+    Icon Progress Bar (browser only)
+  </div>
 
   <!-- 1) Page Intro / Title Block -->
-  <div class="dp-content-block content-block" data-title="[Page Title / Purpose]">
-    <h2 class="dp-has-icon"><i class="dp-icon fas fa-star" aria-hidden="true"></i>&nbsp;[Page Title]</h2>
-    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+  <section class="dp-content-block content-block" data-title="[Page Title / Purpose]" aria-labelledby="page-title">
+    <h2 id="page-title" class="dp-has-icon">
+      <i class="dp-icon fas fa-star" aria-hidden="true"></i>&nbsp;[Page Title]
+    </h2>
+    <div class="dp-card card" style="border-left:4px solid #034638; padding-left:15px;">
       <div class="card-body">
-        <h5 class="card-title dp-ignore-theme">What this page covers</h5>
+        <!-- h3 under the section h2 (no heading skips) -->
+        <h3 class="card-title dp-ignore-theme">What this page covers</h3>
         <p>[Brief 1–2 sentence overview of the page’s goal and what learners will do.]</p>
       </div>
     </div>
-  </div>
+  </section>
 
   <!-- 2) Learning Outcomes (optional) -->
-  <div class="dp-content-block content-block" data-title="Learning Outcomes (This Page)" data-category="Learning Outcomes">
-    <h3 class="dp-has-icon"><i class="dp-icon fas fa-bullseye" aria-hidden="true"></i> Learning Outcomes</h3>
+  <section class="dp-content-block content-block" data-title="Learning Outcomes" aria-labelledby="outcomes-title">
+    <h2 id="outcomes-title" class="dp-has-icon">
+      <i class="dp-icon fas fa-bullseye" aria-hidden="true"></i>&nbsp;Learning Outcomes
+    </h2>
     <ol>
       <li>[Outcome 1]</li>
       <li>[Outcome 2]</li>
       <li>[Outcome 3]</li>
     </ol>
-  </div>
+  </section>
 
-  <!-- 3) Accordion Panels (replace any <details> blocks with this pattern) -->
-  <div class="dp-content-block content-block" data-title="[Section Title]">
-    <h3 class="dp-has-icon"><i class="dp-icon fas fa-lightbulb" aria-hidden="true"></i>&nbsp;[Section Title]</h3>
+  <!-- 3) Accordion Panels (Accessible “dropdowns”) -->
+  <section class="dp-content-block content-block" data-title="[Section Title]" aria-labelledby="section-a-title">
+    <h2 id="section-a-title" class="dp-has-icon">
+      <i class="dp-icon fas fa-lightbulb" aria-hidden="true"></i>&nbsp;[Section Title]
+    </h2>
 
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
       <!-- Panel A -->
       <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="panel-a">[Panel A Heading]</h4>
-        <div id="panel-a" class="dp-panel-content" hidden>
+        <!-- h3 for panel headings; aria-controls + hidden pattern -->
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="panel-a">[Panel A Heading]</h3>
+        <div id="panel-a" class="dp-panel-content" role="region" aria-labelledby="panel-a" hidden>
+          <!-- h4 for titles inside panel content -->
+          <h4 class="card-title">[Optional subheading]</h4>
           <p>[Panel A content goes here. Lists, cards, tables are fine.]</p>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">Point A</li>
@@ -49,28 +68,30 @@
 
       <!-- Panel B -->
       <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="panel-b">[Panel B Heading]</h4>
-        <div id="panel-b" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="panel-b">[Panel B Heading]</h3>
+        <div id="panel-b" class="dp-panel-content" role="region" aria-labelledby="panel-b" hidden>
           <div class="dp-card card" style="background-color:#f8f9fa; border:1px solid #dee2e6;">
             <div class="card-body">
-              <p>[Example card inside a panel.]</p>
+              <h4 class="card-title">[Example card inside a panel]</h4>
+              <p>[Card details.]</p>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Panel C (example with table) -->
+      <!-- Panel C (with table example) -->
       <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="panel-c">[Panel C Heading]</h4>
-        <div id="panel-c" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="panel-c">[Panel C Heading]</h3>
+        <div id="panel-c" class="dp-panel-content" role="region" aria-labelledby="panel-c" hidden>
           <div class="table-responsive">
+            <!-- Table a11y: caption + scope + optional aria-label -->
             <table class="ic-Table ic-Table--hover-row" role="table" aria-label="[Descriptive table label]">
               <caption>[Optional table caption]</caption>
               <thead>
                 <tr>
-                  <th>Column 1</th>
-                  <th>Column 2</th>
-                  <th>Column 3</th>
+                  <th scope="col">Column 1</th>
+                  <th scope="col">Column 2</th>
+                  <th scope="col">Column 3</th>
                 </tr>
               </thead>
               <tbody>
@@ -89,12 +110,15 @@
           </div>
         </div>
       </div>
+
     </div>
-  </div>
+  </section>
 
   <!-- 4) Interactive Widget / Embed Pattern -->
-  <div class="dp-content-block content-block" data-title="Interactive: [Widget Name]">
-    <h3 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive: [Widget Name]</h3>
+  <section class="dp-content-block content-block" data-title="Interactive: [Widget Name]" aria-labelledby="interactive-title">
+    <h2 id="interactive-title" class="dp-has-icon">
+      <i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive: [Widget Name]
+    </h2>
     <p class="mt-2"><em>Tip:</em> [Short instruction or context for the activity.]</p>
     <div class="dp-embed-wrapper">
       <iframe
@@ -108,15 +132,18 @@
         aria-label="[Clear description of what the widget does]">
       </iframe>
     </div>
-  </div>
+    <noscript>This interactive requires JavaScript enabled.</noscript>
+  </section>
 
-  <!-- 5) Quick Check / Knowledge Check (as an accordion to keep short pages tidy) -->
-  <div class="dp-content-block content-block" data-title="Check Your Understanding">
-    <h3 class="dp-has-icon"><i class="dp-icon fas fa-clipboard-check" aria-hidden="true"></i>&nbsp;Quick Check</h3>
+  <!-- 5) Quick Check -->
+  <section class="dp-content-block content-block" data-title="Check Your Understanding" aria-labelledby="check-title">
+    <h2 id="check-title" class="dp-has-icon">
+      <i class="dp-icon fas fa-clipboard-check" aria-hidden="true"></i>&nbsp;Quick Check
+    </h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
       <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="quiz-1">[Quiz title or prompt]</h4>
-        <div id="quiz-1" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="quiz-1">[Quiz title or prompt]</h3>
+        <div id="quiz-1" class="dp-panel-content" role="region" aria-labelledby="quiz-1" hidden>
           <ul>
             <li>[Item 1]</li>
             <li>[Item 2]</li>
@@ -126,40 +153,32 @@
         </div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- 6) Callouts: Tip, Warning, Info (choose 0–2 per page) -->
-  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
+  <!-- 6) Callouts -->
+  <aside class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary" role="note" aria-label="Helpful Tip">
     <div class="card-body">
       <h3 class="card-title">Helpful Tip</h3>
       <p class="card-text">[Short, actionable guidance relevant to the page’s task.]</p>
     </div>
-  </div>
+  </aside>
 
-  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-color-dp-primary dp-callout-type-warning">
+  <aside class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-color-dp-primary dp-callout-type-warning" role="note" aria-label="Heads up">
     <div class="dp-callout-side-emphasis"><i class="dp-icon fas fa-exclamation-triangle dp-default-icon" aria-hidden="true"></i></div>
     <div class="card-body">
       <h4 class="card-title">Heads up</h4>
       <p class="card-text">[Risk, constraint, or common pitfall worth highlighting.]</p>
     </div>
-  </div>
+  </aside>
 
-  <!-- 7) Optional: End‑of‑session reminder block (use only on the last page in a session) -->
-  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-color-dp-primary dp-callout-type-info" role="note" aria-label="Session completion reminder">
-    <div class="dp-callout-side-emphasis"><i class="dp-icon fas fa-info-circle dp-default-icon" aria-hidden="true"></i></div>
-    <div class="card-body">
-      <h4 class="card-title"><strong>Reminder</strong></h4>
-      <p class="card-text">This is the last page in the session. Please ensure you’ve completed all activities and quizzes.</p>
-    </div>
-  </div>
-
-  <!-- 8) Standard bottom nav cue -->
-  <hr />
+  <!-- 7) Bottom nav cue -->
+  <hr aria-hidden="true" />
   <p>Select <strong>Next▸</strong> to continue.</p>
-  <!-- Or, on a last page: <p>Select <strong>Modules</strong> on the left-hand side to return to the session list.</p> -->
+  <!-- Or, on a last page: <p>Select <strong>Modules</strong> to return to the session list.</p> -->
 </div>
+</main>
 
-<!-- Lightweight, Canvas‑safe toggling for panel accordions (skip if your global theme already wires this) -->
+<!-- Lightweight, Canvas-safe toggling for accordions -->
 <script>
 (function () {
   function toggleHead(h){
@@ -179,3 +198,6 @@
   });
 })();
 </script>
+
+</body>
+</html>

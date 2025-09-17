@@ -1,175 +1,230 @@
-﻿<div id="dp-wrapper" class="dp-wrapper">
-    <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
-    <div class="dp-content-block content-block" data-title="The Importance of Data Preprocessing">
-        <h2 class="dp-has-icon"><i class="dp-icon fas fa-tools" aria-hidden="true"></i>&nbsp;The Importance of Data Preprocessing</h2>
-        <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
-            <div class="card-body">
-                <h5 class="card-title dp-ignore-theme">The foundation of model success</h5>
-                <p>Data quality determines model quality. Preprocessing&mdash;cleaning, shaping, and organizing raw data&mdash;often dominates the effort but is what makes models deliver real business value.</p>
-            </div>
-        </div>
-        <h2>Why data quality matters (quick example)</h2>
-        <p>Imagine distinguishing cars vs. motorcycles using only <em>color</em> and <em>height</em>&mdash;both are ambiguous. Introduce <strong>width</strong> and the model becomes much more capable. The lesson: choose features that actually differentiate outcomes in your context.</p>
-        <div class="dp-card card" style="border-left: 4px solid #dc2626; padding-left: 15px;">
-            <div class="card-body">
-                <h5 class="card-title dp-ignore-theme">Reality check</h5>
-                <p>Teams routinely spend most of their time on preprocessing. That&rsquo;s not waste&mdash;it&rsquo;s where success is made or lost.</p>
-            </div>
-        </div>
-    </div>
-    <div class="dp-content-block content-block" data-title="Feature Extraction &amp; Selection">
-        <h2 class="dp-has-icon"><i class="dp-icon fas fa-filter" aria-hidden="true"></i>&nbsp;Feature Extraction &amp; Selection</h2>
-        <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
-            <div class="dp-panel-group">
-                <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="fe-principles">Essential principles</h4>
-                <div id="fe-principles" class="dp-panel-content">
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><strong>Relevance</strong> &mdash; tied directly to the business outcome</li>
-                        <li class="list-group-item"><strong>Discrimination</strong> &mdash; separates classes or outcomes effectively</li>
-                        <li class="list-group-item"><strong>Stability</strong> &mdash; consistently measurable across contexts</li>
-                        <li class="list-group-item"><strong>Actionability</strong> &mdash; drives a decision or intervention</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="dp-panel-group">
-                <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="fe-example">Car vs. motorcycle (better features)</h4>
-                <div id="fe-example" class="dp-panel-content">
-                    <div class="dp-card card" style="border-left: 4px solid #582C83; padding-left: 15px;">
-                        <div class="card-body">
-                            <p>Move beyond color/height; <strong>width</strong> is more discriminative. This shows how domain knowledge guides selection.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="dp-content-block content-block" data-title="Feature Engineering">
-        <h2 class="dp-has-icon"><i class="dp-icon fas fa-wrench" aria-hidden="true"></i>&nbsp;Feature Engineering</h2>
-        <p>High‑value signals often don&rsquo;t exist in raw form&mdash;you create them by transforming/combining fields.</p>
-        <div class="dp-card card" style="border-left: 4px solid #f97316; padding-left: 15px;">
-            <div class="card-body">
-                <h5 class="card-title dp-ignore-theme">Example: Purchase prediction</h5>
-                <p><strong>Raw:</strong> purchase date</p>
-                <p class="mb-2"><strong>Engineer:</strong> <span class="badge-chip">day‑of‑week</span> <span class="badge-chip">holiday flag</span> <span class="badge-chip">pay‑cycle proximity</span></p>
-                <p class="mb-0"><strong>Impact:</strong> these features often predict sales patterns better than the raw date alone.</p>
-            </div>
-        </div>
-    </div>
-    <div class="dp-content-block content-block" data-title="Structured vs. Unstructured Data">
-        <h2 class="dp-has-icon"><i class="dp-icon fas fa-database" aria-hidden="true"></i>&nbsp;Structured vs. Unstructured Data</h2>
-        <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
-            <div class="dp-panel-group">
-                <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="data-structured">Structured data: ready for analysis</h4>
-                <div id="data-structured" class="dp-panel-content">
-                    <div class="dp-card card">
-                        <div class="card-body">
-                            <h6 class="card-title">Characteristics &amp; examples</h6>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">Tabular rows/columns with consistent meaning</li>
-                                <li class="list-group-item">Common in business databases/CRM</li>
-                                <li class="list-group-item">Examples: customer tables, ledgers, transactions</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="dp-panel-group">
-                <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="data-unstructured">Unstructured data: hidden intelligence</h4>
-                <div id="data-unstructured" class="dp-panel-content">
-                    <div class="dp-card card">
-                        <div class="card-body">
-                            <h6 class="card-title">Characteristics &amp; examples</h6>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">Text, images, audio, video&mdash;no fixed schema</li>
-                                <li class="list-group-item">Requires extra preprocessing to extract structure</li>
-                                <li class="list-group-item">Examples: reviews, chats/emails, tickets, recordings</li>
-                            </ul>
-                            <p class="mb-0"><strong>Challenge:</strong> turning this into features takes time and specialized techniques.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="dp-content-block content-block" data-title="Preprocessing Pipeline">
-        <h2 class="dp-has-icon"><i class="dp-icon fas fa-route" aria-hidden="true"></i>&nbsp;The Data Preprocessing Pipeline</h2>
-        <p>A systematic approach ensures models have a solid foundation.</p>
-        <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="dp-panel-group">
-                        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="pipe-cleaning">Data cleaning</h4>
-                        <div id="pipe-cleaning" class="dp-panel-content">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">Handle missing values &amp; outliers</li>
-                                <li class="list-group-item">Fix formatting inconsistencies</li>
-                                <li class="list-group-item">Standardize units/time zones</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="dp-panel-group">
-                        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="pipe-encoding">Encoding &amp; scaling</h4>
-                        <div id="pipe-encoding" class="dp-panel-content">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">Encode categories (one‑hot, target enc.)</li>
-                                <li class="list-group-item">Normalize/standardize numeric fields</li>
-                                <li class="list-group-item">Time‑based splits to avoid leakage</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row" style="margin-top: .75rem;">
-                <div class="col-md-6">
-                    <div class="dp-panel-group">
-                        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="pipe-text">Text &amp; media prep</h4>
-                        <div id="pipe-text" class="dp-panel-content">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">Text cleaning/tokenization</li>
-                                <li class="list-group-item">Embeddings (text/images/audio)</li>
-                                <li class="list-group-item">Document image/OCR checks</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="dp-panel-group">
-                        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="pipe-fe">Feature engineering</h4>
-                        <div id="pipe-fe" class="dp-panel-content">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">Behavioral aggregates (RFM, windows)</li>
-                                <li class="list-group-item">Domain flags (seasonality, holidays)</li>
-                                <li class="list-group-item">Interaction terms &amp; ratios</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="dp-content-block content-block" data-title="Interactive: Preprocessing in Practice">
-        <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive: Preprocessing in Practice</h2>
-        <div class="dp-embed-wrapper"><iframe title="Preprocessing Lab" role="application" src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/canvas-preprocessing-lab.html" width="100%" height="560" loading="lazy" allowfullscreen="allowfullscreen" aria-label="Hands-on preprocessing and leakage-spotting activity"></iframe></div>
-    </div>
-    <div class="dp-content-block content-block" data-title="Check Your Understanding">
-        <h2 class="dp-has-icon"><i class="dp-icon fas fa-clipboard-check" aria-hidden="true"></i>&nbsp;Quick Check</h2>
-        <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
-            <div class="dp-panel-group">
-                <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="quiz-leakage">Spot the leakage</h4>
-                <div id="quiz-leakage" class="dp-panel-content">
-                    <p>Predicting next month&rsquo;s churn using &ldquo;<em>total cancellations this quarter</em>&rdquo; as a feature is problematic because it includes future info. Use time‑aware features (e.g., <em>last 90 days activity</em>) and split by time.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
+﻿<!-- Skip link for keyboard users -->
+<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<main id="main-content" role="main">
+  <div id="dp-wrapper" class="dp-wrapper">
+    <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;" aria-hidden="true">Icon Progress Bar (browser only)</div>
+
+    <!-- Page Intro -->
+    <section class="dp-content-block content-block" data-title="Model Evaluation & Training" aria-labelledby="eval-title">
+      <h2 id="eval-title" class="dp-has-icon">
+        <i class="dp-icon fas fa-chart-line" aria-hidden="true"></i>
+        Model Evaluation &amp; Training
+      </h2>
+      <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
         <div class="card-body">
-            <h3 class="card-title">Helpful Tip</h3>
-            <p class="card-text">When in doubt, chart your features against the target over time. Many leakage issues reveal themselves on a timeline.</p>
+          <h3 class="card-title dp-ignore-theme">From offline metrics to real business impact</h3>
+          <p>Good models don’t just score well in notebooks—they improve decisions in production. This page connects <strong>metrics</strong>, <strong>experiments</strong>, and <strong>monitoring</strong> to make evaluation meaningful and actionable.</p>
         </div>
+      </div>
+    </section>
+
+    <!-- Core Metrics -->
+    <section class="dp-content-block content-block" data-title="Core Metrics" aria-labelledby="metrics-title">
+      <h2 id="metrics-title" class="dp-has-icon">
+        <i class="dp-icon fas fa-sliders-h" aria-hidden="true"></i>
+        Core Metrics
+      </h2>
+
+      <details class="canvas-collapsible">
+        <summary aria-label="Classification metrics">Classification (precision, recall, F1)</summary>
+        <div class="collapsible-content">
+          <div class="dp-card card">
+            <div class="card-body">
+              <h3 class="card-title">Choosing the right trade‑off</h3>
+              <p>Optimize for <em>precision</em> when false positives are costly; optimize for <em>recall</em> when missing positives is riskier. Use <strong>F1</strong> when both matter. Calibrate scores so thresholds are meaningful.</p>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <details class="canvas-collapsible">
+        <summary aria-label="Regression metrics">Regression (MAE, RMSE, MAPE)</summary>
+        <div class="collapsible-content">
+          <div class="dp-card card">
+            <div class="card-body">
+              <h3 class="card-title">Error shapes &amp; units</h3>
+              <p><strong>MAE</strong> is in business units and robust to outliers; <strong>RMSE</strong> penalizes large errors; <strong>MAPE</strong> is scale‑free but undefined at zero—consider <em>SMAPE</em> when needed.</p>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <details class="canvas-collapsible">
+        <summary aria-label="Ranking and retrieval metrics">Ranking/Retrieval (AUC, PR‑AUC, NDCG)</summary>
+        <div class="collapsible-content">
+          <div class="dp-card card">
+            <div class="card-body">
+              <h3 class="card-title">When the order matters</h3>
+              <p>Use <strong>PR‑AUC</strong> for rare positives; <strong>NDCG</strong> when you care about top‑k quality (e.g., recommendations).</p>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <div class="dp-card card" style="border-left: 4px solid #dc2626; padding-left: 15px;" role="note" aria-label="Business sanity check">
+        <div class="card-body">
+          <h3 class="card-title dp-ignore-theme">Business sanity check</h3>
+          <p>Always pair model metrics with a <strong>business KPI</strong> (e.g., margin, retention, SLA). A small metric lift can be a big win—or irrelevant—depending on the decision it drives.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Experiments & Rollouts -->
+    <section class="dp-content-block content-block" data-title="Experiments & Rollouts" aria-labelledby="exp-title">
+      <h2 id="exp-title" class="dp-has-icon">
+        <i class="dp-icon fas fa-vial" aria-hidden="true"></i>
+        Experiments &amp; Rollouts
+      </h2>
+
+      <details class="canvas-collapsible">
+        <summary aria-label="A/B and time-based experiments">A/B and time‑based experiments</summary>
+        <div class="collapsible-content">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Design:</strong> define primary KPI, horizon, and guardrails <em>before</em> launch.</li>
+            <li class="list-group-item"><strong>Unit of randomization:</strong> user, store, or time window—avoid spillover.</li>
+            <li class="list-group-item"><strong>Readouts:</strong> average effect + distribution; segment by key cohorts for equity.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="canvas-collapsible">
+        <summary aria-label="Decision design and last mile">Decision design &amp; the last mile</summary>
+        <div class="collapsible-content">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Surface scores where actions happen (CRM, POS, Ops dashboards).</li>
+            <li class="list-group-item">Provide explanations, confidence, and next‑best‑actions.</li>
+            <li class="list-group-item">Define ownership and on‑call for incidents.</li>
+          </ul>
+        </div>
+      </details>
+    </section>
+
+    <!-- Monitoring & Drift -->
+    <section class="dp-content-block content-block" data-title="Monitoring & Drift" aria-labelledby="monitor-title">
+      <h2 id="monitor-title" class="dp-has-icon">
+        <i class="dp-icon fas fa-tachometer-alt" aria-hidden="true"></i>
+        Monitoring &amp; Drift
+      </h2>
+
+      <div class="dp-card card" style="border-left: 4px solid #582C83; padding-left: 15px;">
+        <div class="card-body">
+          <h3 class="card-title dp-ignore-theme">What to track</h3>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Input drift &amp; label drift</li>
+            <li class="list-group-item">Performance by segment for fairness/equity</li>
+            <li class="list-group-item">Business KPIs; alert on regressions</li>
+          </ul>
+        </div>
+      </div>
+
+      <details class="canvas-collapsible">
+        <summary aria-label="Retraining cadence and data pipelines">Retraining cadence &amp; data pipelines</summary>
+        <div class="collapsible-content">
+          <p>Codify a retrain schedule (e.g., monthly/quarterly) with <em>versioned data</em>, <em>model cards</em>, and rollback plans.</p>
+        </div>
+      </details>
+    </section>
+
+    <!-- Human-in-the-loop & Feedback -->
+    <section class="dp-content-block content-block" data-title="Human-in-the-loop & Feedback" aria-labelledby="hitl-title">
+      <h2 id="hitl-title" class="dp-has-icon">
+        <i class="dp-icon fas fa-user-check" aria-hidden="true"></i>
+        Human‑in‑the‑loop &amp; Feedback
+      </h2>
+      <p>Close the loop between model outputs and human judgment to improve quality and trust.</p>
+
+      <details class="canvas-collapsible">
+        <summary aria-label="Labeling strategies and guidance">Labeling strategies &amp; guidance</summary>
+        <div class="collapsible-content">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Lightweight guidance &amp; examples for consistent labels</li>
+            <li class="list-group-item">Spot checks and adjudication for edge cases</li>
+            <li class="list-group-item">Measure inter‑rater agreement; refine definitions</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="canvas-collapsible">
+        <summary aria-label="Feedback channels in production">Feedback channels in production</summary>
+        <div class="collapsible-content">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Thumbs‑up/down or override reasons captured at point of use</li>
+            <li class="list-group-item">Triage queue for low‑confidence items</li>
+            <li class="list-group-item">Route examples back to training set</li>
+          </ul>
+        </div>
+      </details>
+    </section>
+
+    <!-- Interactive: Evaluation Lab -->
+    <section class="dp-content-block content-block" data-title="Interactive: Evaluation Lab" aria-labelledby="interactive-title">
+      <h2 id="interactive-title" class="dp-has-icon">
+        <i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>
+        Interactive: Evaluation Lab
+      </h2>
+      <p class="mt-2">Explore thresholds and trade‑offs; see how precision/recall changes affect business KPIs.</p>
+      <div class="dp-embed-wrapper">
+        <!-- Replace src with your hosted widget when ready -->
+        <iframe title="Evaluation Lab" role="application" src="about:blank" width="100%" height="520" loading="lazy" aria-label="Interactive demo for model evaluation and thresholding" tabindex="0"></iframe>
+      </div>
+      <noscript>This interactive requires JavaScript enabled.</noscript>
+    </section>
+
+    <!-- Quick Check -->
+    <section class="dp-content-block content-block" data-title="Check Your Understanding" aria-labelledby="check-title">
+      <h2 id="check-title" class="dp-has-icon">
+        <i class="dp-icon fas fa-clipboard-check" aria-hidden="true"></i>
+        Quick Check
+      </h2>
+      <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+        <div class="dp-panel-group">
+          <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="qc-metric" id="qc-metric-heading">Pick the metric</h3>
+          <div id="qc-metric" class="dp-panel-content" role="region" aria-labelledby="qc-metric-heading" hidden>
+            <p><strong>Scenario:</strong> Flag potentially fraudulent transactions for review. Which is more critical—precision or recall—and why? <em>Hint:</em> Review capacity may be limited.</p>
+          </div>
+        </div>
+        <div class="dp-panel-group">
+          <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="qc-rollout" id="qc-rollout-heading">Rollout choice</h3>
+          <div id="qc-rollout" class="dp-panel-content" role="region" aria-labelledby="qc-rollout-heading" hidden>
+            <p>Would you prefer an A/B at the <em>store</em> level or a <em>time‑ramp</em>? State the KPI and any guardrails you’d set before launch.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Helpful Tip callout -->
+    <div class="dp-callout card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary" role="complementary" aria-label="Helpful Tip">
+      <div class="card-body">
+        <h3 class="card-title">Helpful Tip</h3>
+        <p class="card-text">Always include a <em>business sanity check</em> alongside model metrics—define the decision, KPI, and acceptable risk before modeling.</p>
+      </div>
     </div>
-    <hr />
+
+    <hr aria-hidden="true" />
     <p>Select <strong>Next▸</strong> to continue.</p>
-</div>
+  </div>
+</main>
+
+<!-- Minimal JS to make the custom panel accessible without relying on Canvas-blocked scripts -->
+<script>
+  (function () {
+    try {
+      var headings = document.querySelectorAll('.dp-panel-heading[role="button"]');
+      headings.forEach(function (h) {
+        var controls = h.getAttribute('aria-controls');
+        var panel = controls ? document.getElementById(controls) : null;
+        if (!panel) return;
+        function toggle(open) {
+          var isOpen = open !== undefined ? open : h.getAttribute('aria-expanded') === 'false';
+          h.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+          panel.hidden = !isOpen;
+        }
+        h.addEventListener('click', function () { toggle(); });
+        h.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+        });
+      });
+    } catch (e) { /* no-op if JS blocked */ }
+  })();
+</script>

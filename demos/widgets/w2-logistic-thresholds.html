@@ -4,9 +4,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Logistic Regression Threshold Tuner</title>
-    <link rel="stylesheet" href="../shared-demo.css">
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <style>
+        /* AMBA Template Widget Styling */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: white;
+            color: #333;
+            line-height: 1.5;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* AMBA dp-wrapper equivalent for widgets */
+        .dp-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 15px;
+            background: #ffffff;
+        }
+
+        /* AMBA content blocks */
+        .dp-content-block {
+            margin-bottom: 20px;
+        }
+
+        /* AMBA headings */
+        .dp-has-icon {
+            color: #034638;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            font-weight: 600;
+        }
+
+        .dp-has-icon i {
+            margin-right: 8px;
+            color: #582C83;
+        }
+
+        /* Scenario info styling */
+        .scenario-info {
+            background: #e7f3ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 6px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-size: 0.9em;
+        }
+
+        /* Threshold container layout */
         .threshold-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -15,20 +67,29 @@
         }
 
         .controls-section {
-            background: white;
+            background: #f8f9fa;
+            border: 1px solid #e2e8f0;
             border-radius: 8px;
-            padding: 1rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 1.5rem;
+            height: fit-content;
+        }
+
+        .controls-section h3 {
+            color: #034638;
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 15px;
         }
 
         .control-group {
-            margin: 1rem 0;
+            margin: 1.5rem 0;
         }
 
         .control-group label {
             font-weight: 600;
             display: block;
             margin-bottom: 0.5rem;
+            color: #034638;
         }
 
         .slider-container {
@@ -39,6 +100,20 @@
 
         .slider-container input[type="range"] {
             flex: 1;
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 3px;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .slider-container input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #034638;
+            border-radius: 50%;
+            cursor: pointer;
         }
 
         .value-display {
@@ -48,6 +123,8 @@
             font-weight: bold;
             min-width: 70px;
             text-align: center;
+            color: #034638;
+            border: 1px solid #034638;
         }
 
         .threshold-line {
@@ -84,8 +161,14 @@
             padding: 0.5rem 1rem;
             border-radius: 6px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             font-size: 0.9rem;
+            color: #333;
+        }
+
+        .scenario-btn:hover {
+            transform: translateY(-1px);
+            background: #e5e7eb;
         }
 
         .scenario-btn.active {
@@ -95,10 +178,17 @@
         }
 
         .metrics-section {
-            background: white;
+            background: #f8f9fa;
+            border: 1px solid #e2e8f0;
             border-radius: 8px;
-            padding: 1rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 1.5rem;
+        }
+
+        .metrics-section h3 {
+            color: #034638;
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 15px;
         }
 
         .metrics-grid {
@@ -109,11 +199,12 @@
         }
 
         .metric-card {
-            background: #f8f9fa;
+            background: white;
             padding: 1rem;
             border-radius: 8px;
             border-left: 4px solid #034638;
             text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
 
         .metric-value {
@@ -126,6 +217,7 @@
             font-size: 0.9rem;
             color: #666;
             margin-top: 0.25rem;
+            font-weight: 600;
         }
 
         .metric-description {
@@ -150,6 +242,7 @@
             font-weight: 600;
             font-size: 0.8rem;
             border-radius: 4px;
+            color: #034638;
         }
 
         .cm-cell {
@@ -192,6 +285,13 @@
             margin: 1rem 0;
         }
 
+        .cost-analysis h4 {
+            color: #034638;
+            margin-bottom: 0.5rem;
+            font-size: 1em;
+            font-weight: 600;
+        }
+
         .cost-breakdown {
             display: flex;
             justify-content: space-between;
@@ -210,14 +310,6 @@
             color: #dc2626;
         }
 
-        .scenario-info {
-            background: #e7f3ff;
-            border: 1px solid #bfdbfe;
-            border-radius: 6px;
-            padding: 1rem;
-            margin: 1rem 0;
-        }
-
         @media (max-width: 768px) {
             .threshold-container {
                 grid-template-columns: 1fr;
@@ -226,21 +318,35 @@
             .metrics-grid {
                 grid-template-columns: 1fr;
             }
+
+            .dp-wrapper {
+                padding: 10px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="demo-container">
-        <div class="demo-header">
-            <h1>Logistic Regression Threshold Tuner</h1>
-            <p>Adjust the decision threshold and see how precision, recall, and business costs change</p>
-        </div>
 
+<div class="dp-wrapper">
+    <!-- Widget Title -->
+    <div class="dp-content-block">
+        <h2 class="dp-has-icon">
+            <span style="margin-right: 8px; color: #582C83;">⚖️</span>
+            Logistic Regression Threshold Tuner
+        </h2>
+        <p>Adjust the decision threshold and see how precision, recall, and business costs change</p>
+    </div>
+
+    <!-- Scenario Information -->
+    <div class="dp-content-block">
         <div class="scenario-info" id="scenario-info">
             <strong>📧 Email Spam Detection</strong><br>
             Classifying emails as spam (positive) or legitimate (negative). False positives (legitimate emails marked as spam) are costly!
         </div>
+    </div>
 
+    <!-- Main Interactive Content -->
+    <div class="dp-content-block">
         <div class="threshold-container">
             <div class="controls-section">
                 <h3>⚙️ Controls</h3>
@@ -282,7 +388,7 @@
                     </div>
                 </div>
 
-                <h4>Confusion Matrix</h4>
+                <h4 style="color: #034638; margin: 1.5rem 0 1rem 0; font-size: 1em; font-weight: 600;">Confusion Matrix</h4>
                 <div class="confusion-matrix">
                     <div class="cm-header"></div>
                     <div class="cm-header">Predicted<br>Negative</div>
@@ -365,238 +471,240 @@
             </div>
         </div>
     </div>
+</div>
 
-    <script>
-        let currentScenario = 'spam';
-        let threshold = 0.5;
-        let positiveRate = 0.2; // Class balance
-        let totalSamples = 1000;
+<script>
+    let currentScenario = 'spam';
+    let threshold = 0.5;
+    let positiveRate = 0.2; // Class balance
+    let totalSamples = 1000;
 
-        const scenarios = {
-            spam: {
-                name: '📧 Email Spam Detection',
-                description: 'Classifying emails as spam (positive) or legitimate (negative). False positives (legitimate emails marked as spam) are costly!',
-                fpCost: 5, // Cost per false positive
-                fnCost: 1, // Cost per false negative
-                positiveLabel: 'Spam',
-                negativeLabel: 'Legitimate'
-            },
-            fraud: {
-                name: '💳 Fraud Detection',
-                description: 'Detecting fraudulent transactions (positive) vs legitimate ones (negative). Missing fraud is very expensive!',
-                fpCost: 10,
-                fnCost: 100,
-                positiveLabel: 'Fraud',
-                negativeLabel: 'Legitimate'
-            },
-            medical: {
-                name: '🩺 Medical Screening',
-                description: 'Screening for disease (positive) vs healthy (negative). Missing a disease can be life-threatening!',
-                fpCost: 50,
-                fnCost: 500,
-                positiveLabel: 'Disease',
-                negativeLabel: 'Healthy'
-            },
-            loan: {
-                name: '🏦 Loan Approval',
-                description: 'Approving loans (positive) vs denying (negative). Bad loans are costly, but missed good customers hurt revenue!',
-                fpCost: 1000,
-                fnCost: 200,
-                positiveLabel: 'Approve',
-                negativeLabel: 'Deny'
-            }
-        };
-
-        function selectScenario(scenario) {
-            currentScenario = scenario;
-
-            // Update button states
-            document.querySelectorAll('.scenario-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
-
-            // Update scenario info
-            const info = scenarios[scenario];
-            document.getElementById('scenario-info').innerHTML = `<strong>${info.name}</strong><br>${info.description}`;
-
-            updateMetrics();
-            updateROCCurve();
+    const scenarios = {
+        spam: {
+            name: '📧 Email Spam Detection',
+            description: 'Classifying emails as spam (positive) or legitimate (negative). False positives (legitimate emails marked as spam) are costly!',
+            fpCost: 5, // Cost per false positive
+            fnCost: 1, // Cost per false negative
+            positiveLabel: 'Spam',
+            negativeLabel: 'Legitimate'
+        },
+        fraud: {
+            name: '💳 Fraud Detection',
+            description: 'Detecting fraudulent transactions (positive) vs legitimate ones (negative). Missing fraud is very expensive!',
+            fpCost: 10,
+            fnCost: 100,
+            positiveLabel: 'Fraud',
+            negativeLabel: 'Legitimate'
+        },
+        medical: {
+            name: '🩺 Medical Screening',
+            description: 'Screening for disease (positive) vs healthy (negative). Missing a disease can be life-threatening!',
+            fpCost: 50,
+            fnCost: 500,
+            positiveLabel: 'Disease',
+            negativeLabel: 'Healthy'
+        },
+        loan: {
+            name: '🏦 Loan Approval',
+            description: 'Approving loans (positive) vs denying (negative). Bad loans are costly, but missed good customers hurt revenue!',
+            fpCost: 1000,
+            fnCost: 200,
+            positiveLabel: 'Approve',
+            negativeLabel: 'Deny'
         }
+    };
 
-        function updateThreshold(value) {
-            threshold = parseFloat(value);
-            document.getElementById('threshold-value').textContent = threshold.toFixed(2);
+    function selectScenario(scenario) {
+        currentScenario = scenario;
 
-            // Update visual indicator
-            const indicator = document.getElementById('threshold-indicator');
-            const percentage = ((threshold - 0.1) / 0.8) * 100;
-            indicator.style.left = percentage + '%';
+        // Update button states
+        document.querySelectorAll('.scenario-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        event.target.classList.add('active');
 
-            updateMetrics();
-        }
+        // Update scenario info
+        const info = scenarios[scenario];
+        document.getElementById('scenario-info').innerHTML = `<strong>${info.name}</strong><br>${info.description}`;
 
-        function updateBalance(value) {
-            positiveRate = parseInt(value) / 100;
-            document.getElementById('balance-value').textContent = value + '%';
-            updateMetrics();
-        }
-
-        function calculateConfusionMatrix() {
-            // Simulate logistic regression probability distribution
-            const actualPositives = Math.round(totalSamples * positiveRate);
-            const actualNegatives = totalSamples - actualPositives;
-
-            // Simulate prediction probabilities
-            // Positives have higher average probability
-            let tp = 0, fp = 0, fn = 0, tn = 0;
-
-            // For positive samples
-            for(let i = 0; i < actualPositives; i++) {
-                const prob = Math.max(0, Math.min(1, 0.7 + (Math.random() - 0.5) * 0.4)); // Centered around 0.7
-                if(prob >= threshold) {
-                    tp++;
-                } else {
-                    fn++;
-                }
-            }
-
-            // For negative samples
-            for(let i = 0; i < actualNegatives; i++) {
-                const prob = Math.max(0, Math.min(1, 0.3 + (Math.random() - 0.5) * 0.4)); // Centered around 0.3
-                if(prob >= threshold) {
-                    fp++;
-                } else {
-                    tn++;
-                }
-            }
-
-            return { tp, fp, fn, tn };
-        }
-
-        function updateMetrics() {
-            const { tp, fp, fn, tn } = calculateConfusionMatrix();
-
-            // Update confusion matrix display
-            document.getElementById('tp-value').textContent = tp;
-            document.getElementById('fp-value').textContent = fp;
-            document.getElementById('fn-value').textContent = fn;
-            document.getElementById('tn-value').textContent = tn;
-
-            // Calculate metrics
-            const precision = tp > 0 ? (tp / (tp + fp)) : 0;
-            const recall = tp > 0 ? (tp / (tp + fn)) : 0;
-            const specificity = tn > 0 ? (tn / (tn + fp)) : 0;
-            const f1 = (precision + recall) > 0 ? (2 * precision * recall) / (precision + recall) : 0;
-
-            // Update metric displays
-            document.getElementById('precision-value').textContent = (precision * 100).toFixed(1) + '%';
-            document.getElementById('recall-value').textContent = (recall * 100).toFixed(1) + '%';
-            document.getElementById('specificity-value').textContent = (specificity * 100).toFixed(1) + '%';
-            document.getElementById('f1-value').textContent = (f1 * 100).toFixed(1) + '%';
-
-            // Calculate costs
-            const scenario = scenarios[currentScenario];
-            const fpCost = fp * scenario.fpCost;
-            const fnCost = fn * scenario.fnCost;
-            const totalCost = fpCost + fnCost;
-
-            document.getElementById('fp-cost').textContent = '$' + fpCost.toLocaleString();
-            document.getElementById('fn-cost').textContent = '$' + fnCost.toLocaleString();
-            document.getElementById('total-cost').textContent = '$' + totalCost.toLocaleString();
-        }
-
-        function updateROCCurve() {
-            const thresholds = [];
-            const tprValues = [];
-            const fprValues = [];
-
-            // Generate ROC curve points
-            for(let t = 0.05; t <= 0.95; t += 0.05) {
-                const { tp, fp, fn, tn } = simulateAtThreshold(t);
-                const tpr = tp > 0 ? tp / (tp + fn) : 0; // True Positive Rate (Recall)
-                const fpr = fp > 0 ? fp / (fp + tn) : 0; // False Positive Rate
-
-                thresholds.push(t);
-                tprValues.push(tpr);
-                fprValues.push(fpr);
-            }
-
-            // Current threshold point
-            const currentMetrics = calculateConfusionMatrix();
-            const currentTPR = currentMetrics.tp > 0 ? currentMetrics.tp / (currentMetrics.tp + currentMetrics.fn) : 0;
-            const currentFPR = currentMetrics.fp > 0 ? currentMetrics.fp / (currentMetrics.fp + currentMetrics.tn) : 0;
-
-            const traces = [
-                {
-                    x: fprValues,
-                    y: tprValues,
-                    type: 'scatter',
-                    mode: 'lines',
-                    name: 'ROC Curve',
-                    line: { color: '#034638', width: 3 }
-                },
-                {
-                    x: [0, 1],
-                    y: [0, 1],
-                    type: 'scatter',
-                    mode: 'lines',
-                    name: 'Random Classifier',
-                    line: { color: '#9ca3af', dash: 'dash' }
-                },
-                {
-                    x: [currentFPR],
-                    y: [currentTPR],
-                    type: 'scatter',
-                    mode: 'markers',
-                    name: `Current Threshold (${threshold.toFixed(2)})`,
-                    marker: { color: '#ef4444', size: 12 }
-                }
-            ];
-
-            const layout = {
-                title: 'ROC Curve',
-                xaxis: {
-                    title: 'False Positive Rate',
-                    range: [0, 1]
-                },
-                yaxis: {
-                    title: 'True Positive Rate (Recall)',
-                    range: [0, 1]
-                },
-                showlegend: true,
-                margin: { t: 50, r: 50, b: 50, l: 50 },
-                height: 280
-            };
-
-            Plotly.newPlot('roc-plot', traces, layout, {responsive: true});
-        }
-
-        function simulateAtThreshold(t) {
-            const actualPositives = Math.round(totalSamples * positiveRate);
-            const actualNegatives = totalSamples - actualPositives;
-
-            // Simplified simulation for ROC curve
-            let tp = Math.round(actualPositives * (1.2 - t)); // Higher threshold = lower recall
-            let fn = actualPositives - tp;
-            let fp = Math.round(actualNegatives * (t - 0.2)); // Higher threshold = lower FPR
-            let tn = actualNegatives - fp;
-
-            // Ensure non-negative values
-            tp = Math.max(0, Math.min(actualPositives, tp));
-            fn = actualPositives - tp;
-            fp = Math.max(0, Math.min(actualNegatives, fp));
-            tn = actualNegatives - fp;
-
-            return { tp, fp, fn, tn };
-        }
-
-        // Initialize
         updateMetrics();
         updateROCCurve();
+    }
 
-        // Update threshold indicator position
-        document.getElementById('threshold-indicator').style.left = '50%';
-    </script>
+    function updateThreshold(value) {
+        threshold = parseFloat(value);
+        document.getElementById('threshold-value').textContent = threshold.toFixed(2);
+
+        // Update visual indicator
+        const indicator = document.getElementById('threshold-indicator');
+        const percentage = ((threshold - 0.1) / 0.8) * 100;
+        indicator.style.left = percentage + '%';
+
+        updateMetrics();
+    }
+
+    function updateBalance(value) {
+        positiveRate = parseInt(value) / 100;
+        document.getElementById('balance-value').textContent = value + '%';
+        updateMetrics();
+    }
+
+    function calculateConfusionMatrix() {
+        // Simulate logistic regression probability distribution
+        const actualPositives = Math.round(totalSamples * positiveRate);
+        const actualNegatives = totalSamples - actualPositives;
+
+        // Simulate prediction probabilities
+        // Positives have higher average probability
+        let tp = 0, fp = 0, fn = 0, tn = 0;
+
+        // For positive samples
+        for(let i = 0; i < actualPositives; i++) {
+            const prob = Math.max(0, Math.min(1, 0.7 + (Math.random() - 0.5) * 0.4)); // Centered around 0.7
+            if(prob >= threshold) {
+                tp++;
+            } else {
+                fn++;
+            }
+        }
+
+        // For negative samples
+        for(let i = 0; i < actualNegatives; i++) {
+            const prob = Math.max(0, Math.min(1, 0.3 + (Math.random() - 0.5) * 0.4)); // Centered around 0.3
+            if(prob >= threshold) {
+                fp++;
+            } else {
+                tn++;
+            }
+        }
+
+        return { tp, fp, fn, tn };
+    }
+
+    function updateMetrics() {
+        const { tp, fp, fn, tn } = calculateConfusionMatrix();
+
+        // Update confusion matrix display
+        document.getElementById('tp-value').textContent = tp;
+        document.getElementById('fp-value').textContent = fp;
+        document.getElementById('fn-value').textContent = fn;
+        document.getElementById('tn-value').textContent = tn;
+
+        // Calculate metrics
+        const precision = tp > 0 ? (tp / (tp + fp)) : 0;
+        const recall = tp > 0 ? (tp / (tp + fn)) : 0;
+        const specificity = tn > 0 ? (tn / (tn + fp)) : 0;
+        const f1 = (precision + recall) > 0 ? (2 * precision * recall) / (precision + recall) : 0;
+
+        // Update metric displays
+        document.getElementById('precision-value').textContent = (precision * 100).toFixed(1) + '%';
+        document.getElementById('recall-value').textContent = (recall * 100).toFixed(1) + '%';
+        document.getElementById('specificity-value').textContent = (specificity * 100).toFixed(1) + '%';
+        document.getElementById('f1-value').textContent = (f1 * 100).toFixed(1) + '%';
+
+        // Calculate costs
+        const scenario = scenarios[currentScenario];
+        const fpCost = fp * scenario.fpCost;
+        const fnCost = fn * scenario.fnCost;
+        const totalCost = fpCost + fnCost;
+
+        document.getElementById('fp-cost').textContent = '$' + fpCost.toLocaleString();
+        document.getElementById('fn-cost').textContent = '$' + fnCost.toLocaleString();
+        document.getElementById('total-cost').textContent = '$' + totalCost.toLocaleString();
+    }
+
+    function updateROCCurve() {
+        const thresholds = [];
+        const tprValues = [];
+        const fprValues = [];
+
+        // Generate ROC curve points
+        for(let t = 0.05; t <= 0.95; t += 0.05) {
+            const { tp, fp, fn, tn } = simulateAtThreshold(t);
+            const tpr = tp > 0 ? tp / (tp + fn) : 0; // True Positive Rate (Recall)
+            const fpr = fp > 0 ? fp / (fp + tn) : 0; // False Positive Rate
+
+            thresholds.push(t);
+            tprValues.push(tpr);
+            fprValues.push(fpr);
+        }
+
+        // Current threshold point
+        const currentMetrics = calculateConfusionMatrix();
+        const currentTPR = currentMetrics.tp > 0 ? currentMetrics.tp / (currentMetrics.tp + currentMetrics.fn) : 0;
+        const currentFPR = currentMetrics.fp > 0 ? currentMetrics.fp / (currentMetrics.fp + currentMetrics.tn) : 0;
+
+        const traces = [
+            {
+                x: fprValues,
+                y: tprValues,
+                type: 'scatter',
+                mode: 'lines',
+                name: 'ROC Curve',
+                line: { color: '#034638', width: 3 }
+            },
+            {
+                x: [0, 1],
+                y: [0, 1],
+                type: 'scatter',
+                mode: 'lines',
+                name: 'Random Classifier',
+                line: { color: '#9ca3af', dash: 'dash' }
+            },
+            {
+                x: [currentFPR],
+                y: [currentTPR],
+                type: 'scatter',
+                mode: 'markers',
+                name: `Current Threshold (${threshold.toFixed(2)})`,
+                marker: { color: '#ef4444', size: 12 }
+            }
+        ];
+
+        const layout = {
+            title: 'ROC Curve',
+            xaxis: {
+                title: 'False Positive Rate',
+                range: [0, 1]
+            },
+            yaxis: {
+                title: 'True Positive Rate (Recall)',
+                range: [0, 1]
+            },
+            showlegend: true,
+            margin: { t: 50, r: 50, b: 50, l: 50 },
+            height: 280
+        };
+
+        Plotly.newPlot('roc-plot', traces, layout, {responsive: true});
+    }
+
+    function simulateAtThreshold(t) {
+        const actualPositives = Math.round(totalSamples * positiveRate);
+        const actualNegatives = totalSamples - actualPositives;
+
+        // Simplified simulation for ROC curve
+        let tp = Math.round(actualPositives * (1.2 - t)); // Higher threshold = lower recall
+        let fn = actualPositives - tp;
+        let fp = Math.round(actualNegatives * (t - 0.2)); // Higher threshold = lower FPR
+        let tn = actualNegatives - fp;
+
+        // Ensure non-negative values
+        tp = Math.max(0, Math.min(actualPositives, tp));
+        fn = actualPositives - tp;
+        fp = Math.max(0, Math.min(actualNegatives, fp));
+        tn = actualNegatives - fp;
+
+        return { tp, fp, fn, tn };
+    }
+
+    // Initialize
+    updateMetrics();
+    updateROCCurve();
+
+    // Update threshold indicator position
+    document.getElementById('threshold-indicator').style.left = '50%';
+</script>
+
 </body>
 </html>

@@ -6,41 +6,39 @@
     <title>Decision Trees & Random Forest Explorer</title>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #034638 0%, #034638 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
+        /* AMBA Template Styles */
+        .dp-wrapper {
             max-width: 1200px;
             margin: 0 auto;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            padding: 30px;
+            padding: 20px;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
         }
 
-        h1 {
+        .dp-content-block {
+            margin-bottom: 2rem;
+        }
+
+        .dp-has-icon {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
             color: #034638;
-            text-align: center;
-            margin-bottom: 10px;
-            font-size: 2.2em;
-            font-weight: 700;
+            margin: 0 0 1rem 0;
         }
 
-        .subtitle {
-            text-align: center;
-            color: #6b7280;
-            margin-bottom: 30px;
-            font-size: 1.1em;
+        .dp-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin: 1rem 0;
+        }
+
+        .dp-card.intro-card {
+            border-left: 4px solid #034638;
+            background: #f8fffe;
         }
 
         .controls-section {
@@ -201,12 +199,16 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Decision Trees & Random Forest Explorer</h1>
-        <p class="subtitle">Explore how decision trees work individually and in ensemble methods</p>
+    <div class="dp-wrapper">
+        <div class="dp-content-block">
+            <h2 class="dp-has-icon">🌳 Decision Trees & Random Forest Explorer</h2>
+            <div class="dp-card intro-card">
+                <p><strong>Interactive Learning:</strong> Explore how decision trees work individually and compare their performance with Random Forest ensemble methods across different scenarios.</p>
+            </div>
+        </div>
 
         <div class="controls-section">
-            <h3 style="color: #034638; margin-bottom: 15px;">Dataset & Model Configuration</h3>
+            <h3>Dataset & Model Configuration</h3>
 
             <div class="scenario-selector">
                 <button class="scenario-btn active" data-scenario="customer">Customer Retention</button>
