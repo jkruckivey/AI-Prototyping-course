@@ -6,7 +6,7 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-sync-alt" aria-hidden="true"></i>&nbsp;Cross‑Validation &amp; Training</h2>
     <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
       <div class="card-body">
-        <h5 class="card-title dp-ignore-theme">What this page covers</h5>
+        <h3 class="card-title dp-ignore-theme">What this page covers</h3>
         <p>Reliable ways to <strong>estimate generalization</strong> and <strong>tune hyperparameters</strong> without leaking information. You’ll compare <em>holdout</em>, <em>k‑fold</em>, and <em>time‑series CV</em>, then set up leak‑safe <strong>pipelines</strong> and <strong>early‑stopping</strong>.</p>
       </div>
     </div>
@@ -27,19 +27,19 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-project-diagram" aria-hidden="true"></i>&nbsp;Cross‑Validation Patterns</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
       <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="cv-holdout">Simple holdout</h4>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="cv-holdout">Simple holdout</h4>
         <div id="cv-holdout" class="dp-panel-content" hidden>
           <p>Split into <strong>train</strong> / <strong>validation</strong> / <strong>test</strong> once (e.g., 60/20/20). Fast and easy for large IID datasets.</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="cv-kfold">k‑fold (and stratified)</h4>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="cv-kfold">k‑fold (and stratified)</h4>
         <div id="cv-kfold" class="dp-panel-content" hidden>
           <p>Split into <strong>k</strong> folds; train on k‑1, validate on the remaining fold; repeat and average. Use <strong>stratified</strong> folds to preserve class ratios for classification.</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="cv-time">Time‑series CV</h4>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="cv-time">Time‑series CV</h4>
         <div id="cv-time" class="dp-panel-content" hidden>
           <p>Use <strong>rolling‑origin</strong> (walk‑forward) splits: always train on the past and validate on the future windows. Never shuffle time.</p>
         </div>
@@ -52,13 +52,13 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-sliders-h" aria-hidden="true"></i>&nbsp;Hyperparameter Search (Leak‑Safe)</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
       <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="hp-why">Why tune?</h4>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="hp-why">Why tune?</h4>
         <div id="hp-why" class="dp-panel-content" hidden>
           <p>Hyperparameters (e.g., <em>C</em> for SVM, <em>K</em> for KNN) strongly influence performance. Tune them with CV to estimate generalization while avoiding overfitting to one split.</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="hp-how">How to search</h4>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="hp-how">How to search</h4>
         <div id="hp-how" class="dp-panel-content" hidden>
           <ul class="list-group list-group-flush">
             <li class="list-group-item"><strong>Grid</strong> search: systematic combos over a small grid.</li>
@@ -68,7 +68,7 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="hp-pipeline">Pipelines prevent leakage</h4>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="hp-pipeline">Pipelines prevent leakage</h4>
         <div id="hp-pipeline" class="dp-panel-content" hidden>
           <p>Put <strong>preprocessing inside the CV loop</strong> (e.g., scaling, encoding, imputation) so it is learned <em>only from the training folds</em>, then applied to the validation fold.</p>
         </div>
@@ -81,7 +81,7 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive: CV &amp; Tuning Playground</h2>
     <p class="mt-2"><em>Try it:</em> Switch among holdout, k‑fold, and time‑series CV. Compare grid vs random search budgets and see validation variance.</p>
     <div class="dp-embed-wrapper">
-      <iframe title="Cross-Validation & Tuning Playground" role="application" src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/w4-cv-tuning-playground.html" width="100%" height="560" loading="lazy" allowfullscreen aria-label="Interactive demo to compare holdout, k-fold, time-series CV and grid vs random search"></iframe>
+      <iframe title="Cross-Validation & Tuning Playground" role="application" src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/w4-cv-tuning-playground.html" width="100%" height="700" loading="lazy" allowfullscreen aria-label="Interactive demo to compare holdout, k-fold, time-series CV and grid vs random search"></iframe>
     </div>
   </div>
 
@@ -90,13 +90,13 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-chart-area" aria-hidden="true"></i>&nbsp;Learning Curves &amp; Early Stopping</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
       <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="lc-curves">Reading learning curves</h4>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="lc-curves">Reading learning curves</h4>
         <div id="lc-curves" class="dp-panel-content" hidden>
           <p>Plot <strong>train</strong> and <strong>validation</strong> scores as a function of training set size or epochs. <em>Large gap</em> ⇒ high variance; <em>both low</em> ⇒ high bias.</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="lc-early">Early stopping</h4>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="lc-early">Early stopping</h4>
         <div id="lc-early" class="dp-panel-content" hidden>
           <p>Stop training when validation score stops improving (with patience). Saves compute and prevents overfitting—especially for neural nets and boosted trees.</p>
         </div>
@@ -109,7 +109,7 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive: Learning Curves Explorer</h2>
     <p class="mt-2"><em>Try it:</em> Adjust dataset size and model capacity; watch train vs. validation scores evolve and find a sweet spot.</p>
     <div class="dp-embed-wrapper">
-      <iframe title="Learning Curves Explorer" role="application" src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/w4-learning-curves.html" width="100%" height="520" loading="lazy" allowfullscreen aria-label="Interactive demo to visualize learning curves and early stopping"></iframe>
+      <iframe title="Learning Curves Explorer" role="application" src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/w4-learning-curves.html" width="100%" height="700" loading="lazy" allowfullscreen aria-label="Interactive demo to visualize learning curves and early stopping"></iframe>
     </div>
   </div>
 

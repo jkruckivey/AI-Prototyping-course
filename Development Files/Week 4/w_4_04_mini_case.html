@@ -6,7 +6,7 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-briefcase" aria-hidden="true"></i>&nbsp;Mini Case — Metrics in the Wild</h2>
     <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
       <div class="card-body">
-        <h5 class="card-title dp-ignore-theme">Scenario</h5>
+        <h3 class="card-title dp-ignore-theme">Scenario</h3>
         <p>Your team is deploying a <strong>fraud detection</strong> model. Only <strong>0.8% of transactions</strong> are fraudulent. Manual review capacity is <strong>500 cases/day</strong>. Each reviewed false alarm costs <strong>$2</strong> in staff time; each missed fraud costs an average of <strong>$250</strong>.</p>
       </div>
     </div>
@@ -17,7 +17,7 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-bullseye" aria-hidden="true"></i>&nbsp;1) Frame the decision</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
       <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="mc-kpi">Business KPI & constraints</h4>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="mc-kpi">Business KPI & constraints</h3>
         <div id="mc-kpi" class="dp-panel-content" hidden>
           <ul class="list-group list-group-flush">
             <li class="list-group-item"><strong>KPI:</strong> Net fraud dollars prevented per day.</li>
@@ -27,7 +27,7 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="mc-metrics">Relevant metrics</h4>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="mc-metrics">Relevant metrics</h3>
         <div id="mc-metrics" class="dp-panel-content" hidden>
           <p>Prioritize <strong>precision</strong> (to avoid false alarms) and <strong>recall</strong> (to catch fraud). Use <strong>PR curve</strong> and <strong>lift</strong> to understand concentration at the top scores.</p>
         </div>
@@ -40,7 +40,7 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-sliders-h" aria-hidden="true"></i>&nbsp;2) Explore Threshold &amp; Cost</h2>
     <p class="mt-2">Adjust the decision threshold to see <strong>precision/recall</strong>, <strong>review volume</strong>, and <strong>expected net value</strong>.</p>
     <div class="dp-embed-wrapper">
-      <iframe title="Mini Case Threshold & Cost" role="application" src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/w4-mini-case-threshold-cost.html" width="100%" height="560" loading="lazy" allowfullscreen aria-label="Interactive mini-case widget to adjust threshold and view expected cost, precision/recall, and review volume"></iframe>
+      <iframe title="Mini Case Threshold & Cost" role="application" src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/w4-mini-case-threshold-cost.html" width="100%" height="700" loading="lazy" allowfullscreen aria-label="Interactive mini-case widget to adjust threshold and view expected cost, precision/recall, and review volume"></iframe>
     </div>
   </div>
 
@@ -49,13 +49,13 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-users-cog" aria-hidden="true"></i>&nbsp;3) Align to Capacity</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
       <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="mc-capacity">Operational cutoff</h4>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="mc-capacity">Operational cutoff</h3>
         <div id="mc-capacity" class="dp-panel-content" hidden>
           <p>Set the score cutoff so predicted positives ≈ <strong>500/day</strong>. If the ideal cost‑minimizing threshold yields more than 500, raise the cutoff or introduce a <strong>tiered workflow</strong> (auto‑approve low risk, queue medium risk, escalate high risk).</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="mc-seg">Segmented thresholds</h4>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="mc-seg">Segmented thresholds</h3>
         <div id="mc-seg" class="dp-panel-content" hidden>
           <p>Consider stricter thresholds for high‑value cards/merchants and looser ones for low‑risk segments, subject to governance.</p>
         </div>
@@ -68,7 +68,7 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-chalkboard-teacher" aria-hidden="true"></i>&nbsp;4) Communicate the Trade‑off Story</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
       <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="mc-story">Narrative</h4>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="mc-story">Narrative</h3>
         <div id="mc-story" class="dp-panel-content" hidden>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">Start with the KPI (net prevented fraud).</li>
@@ -78,7 +78,7 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="mc-guard">Guardrails</h4>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="mc-guard">Guardrails</h3>
         <div id="mc-guard" class="dp-panel-content" hidden>
           <p>Track subgroup precision/recall, weekly drift in scores, and review backlog. Define escalation paths for edge cases.</p>
         </div>
