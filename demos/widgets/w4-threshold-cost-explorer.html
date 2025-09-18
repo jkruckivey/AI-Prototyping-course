@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Threshold Cost Explorer - AMBA Template</title>
   <!-- Canvas iframe sizing hint -->
-  <meta name="canvas-height" content="950">
+  <meta name="canvas-height" content="680">
   <meta name="description" content="Cost-sensitive threshold optimization with interactive Plotly charts">
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   <style>
@@ -50,9 +50,9 @@
 
     .controls-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: 1fr 1fr;
       gap: 15px;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
     }
 
     .control-panel {
@@ -250,9 +250,8 @@
 
   <div class="controls-grid">
     <div class="control-panel">
-      <div class="panel-title">🎯 Decision Threshold</div>
+      <div class="panel-title">Decision Threshold</div>
       <div class="control-group">
-        <label class="control-label">Threshold Value</label>
         <div class="slider-container">
           <input type="range" class="slider" id="threshold-slider"
                  min="0" max="1" step="0.01" value="0.5">
@@ -262,54 +261,39 @@
     </div>
 
     <div class="control-panel">
-      <div class="panel-title">💰 Cost Structure</div>
-      <div class="control-group">
-        <label class="control-label">False Positive Cost ($)</label>
-        <input type="number" id="fp-cost" value="5" min="0" step="1">
-      </div>
-      <div class="control-group">
-        <label class="control-label">False Negative Cost ($)</label>
-        <input type="number" id="fn-cost" value="500" min="0" step="10">
-      </div>
-      <div class="control-group">
-        <label class="control-label">True Positive Benefit ($)</label>
-        <input type="number" id="tp-benefit" value="450" min="0" step="10">
+      <div class="panel-title">Cost Structure ($)</div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 0.85em;">
+        <div>
+          <label class="control-label">False Positive:</label>
+          <input type="number" id="fp-cost" value="5" min="0" step="1" style="width: 60px;">
+        </div>
+        <div>
+          <label class="control-label">False Negative:</label>
+          <input type="number" id="fn-cost" value="500" min="0" step="10" style="width: 60px;">
+        </div>
       </div>
     </div>
-  </div>
-
-  <div class="cost-matrix">
-    <div class="matrix-cell matrix-header"></div>
-    <div class="matrix-cell matrix-header">Pred Positive</div>
-    <div class="matrix-cell matrix-header">Pred Negative</div>
-
-    <div class="matrix-cell matrix-label">Actual Pos</div>
-    <div class="matrix-cell tp">TP: <span id="tp-count">40</span><br>+$<span id="tp-value">18000</span></div>
-    <div class="matrix-cell fn">FN: <span id="fn-count">10</span><br>-$<span id="fn-value">5000</span></div>
-
-    <div class="matrix-cell matrix-label">Actual Neg</div>
-    <div class="matrix-cell fp">FP: <span id="fp-count">100</span><br>-$<span id="fp-value">500</span></div>
-    <div class="matrix-cell tn">TN: <span id="tn-count">850</span><br>$<span id="tn-value">0</span></div>
   </div>
 
   <div class="metrics-grid">
     <div class="metric-card">
-      <div class="metric-label">Precision</div>
-      <div class="metric-value" id="precision">28.6%</div>
+      <div class="metric-label">True Positives</div>
+      <div class="metric-value" id="tp-count">40</div>
     </div>
     <div class="metric-card">
-      <div class="metric-label">Recall</div>
-      <div class="metric-value" id="recall">80.0%</div>
+      <div class="metric-label">False Positives</div>
+      <div class="metric-value" id="fp-count">100</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">False Negatives</div>
+      <div class="metric-value" id="fn-count">10</div>
     </div>
     <div class="metric-card">
       <div class="metric-label">Expected Net Value</div>
       <div class="cost-value" id="net-value">$12,500</div>
     </div>
-    <div class="metric-card">
-      <div class="metric-label">Per Transaction</div>
-      <div class="cost-value" id="per-transaction">$12.50</div>
-    </div>
   </div>
+
 
   <div id="optimal-threshold" class="optimal-indicator">
     <div class="optimal-text">
@@ -319,12 +303,12 @@
   </div>
 
   <div class="plot-container">
-    <div id="cost-threshold-plot" style="height: 400px;"></div>
+    <div id="cost-threshold-plot" style="height: 300px;"></div>
   </div>
 
   <div id="insights" class="insight-box">
-    <h3>💡 Cost-Benefit Analysis</h3>
-    <p id="insight-text">Adjust the threshold and costs to see how they affect the expected value and optimal decision point.</p>
+    <strong>Optimal Threshold: <span id="optimal-value">0.62</span></strong><br>
+    <span id="insight-text">Adjust threshold and costs to find the optimal decision point.</span>
   </div>
 </div>
 
@@ -415,27 +399,13 @@ function updateMetrics() {
   document.getElementById('tn-count').textContent = metrics.tn;
   document.getElementById('fn-count').textContent = metrics.fn;
 
-  document.getElementById('tp-value').textContent = metrics.tpValue.toLocaleString();
-  document.getElementById('fp-value').textContent = metrics.fpValue.toLocaleString();
-  document.getElementById('fn-value').textContent = metrics.fnValue.toLocaleString();
-  document.getElementById('tn-value').textContent = metrics.tnValue.toLocaleString();
-
-  // Update metrics
-  document.getElementById('precision').textContent = (metrics.precision * 100).toFixed(1) + '%';
-  document.getElementById('recall').textContent = (metrics.recall * 100).toFixed(1) + '%';
 
   const netValueEl = document.getElementById('net-value');
-  const perTransactionEl = document.getElementById('per-transaction');
-
   netValueEl.textContent = '$' + metrics.netValue.toLocaleString();
   netValueEl.className = metrics.netValue >= 0 ? 'cost-value cost-positive' : 'cost-value cost-negative';
 
-  perTransactionEl.textContent = '$' + metrics.perTransaction.toFixed(2);
-  perTransactionEl.className = metrics.perTransaction >= 0 ? 'cost-value cost-positive' : 'cost-value cost-negative';
-
   // Update optimal threshold
   document.getElementById('optimal-value').textContent = optimal.threshold.toFixed(2);
-  document.getElementById('optimal-net').textContent = optimal.netValue.toLocaleString();
 
   // Update plot
   updatePlot(threshold, fpCost, fnCost, tpBenefit, optimal.threshold);

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Learning Curves Explorer - AMBA Template</title>
   <!-- Canvas iframe sizing hint -->
-  <meta name="canvas-height" content="850">
+  <meta name="canvas-height" content="650">
   <meta name="description" content="Bias/variance diagnosis with scenario-based learning curves">
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   <style>
@@ -235,21 +235,8 @@
 
   <div class="controls-grid">
     <div class="control-panel">
-      <div class="panel-title">📊 Dataset Size</div>
+      <div class="panel-title">Model Complexity</div>
       <div class="control-group">
-        <label class="control-label">Training Samples</label>
-        <div class="slider-container">
-          <input type="range" class="slider" id="dataset-size"
-                 min="100" max="2000" step="100" value="1000">
-          <div class="slider-value" id="dataset-size-value">1000</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="control-panel">
-      <div class="panel-title">🧠 Model Complexity</div>
-      <div class="control-group">
-        <label class="control-label">Complexity Level</label>
         <div class="slider-container">
           <input type="range" class="slider" id="model-complexity"
                  min="1" max="10" step="1" value="5">
@@ -259,32 +246,19 @@
     </div>
 
     <div class="control-panel">
-      <div class="panel-title">📈 Noise Level</div>
+      <div class="panel-title">Dataset Size</div>
       <div class="control-group">
-        <label class="control-label">Data Noise</label>
         <div class="slider-container">
-          <input type="range" class="slider" id="noise-level"
-                 min="0.1" max="1.0" step="0.1" value="0.3">
-          <div class="slider-value" id="noise-value">0.3</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="control-panel">
-      <div class="panel-title">⏰ Early Stopping</div>
-      <div class="control-group">
-        <label class="control-label">Patience (epochs)</label>
-        <div class="slider-container">
-          <input type="range" class="slider" id="early-stop-patience"
-                 min="5" max="50" step="5" value="10">
-          <div class="slider-value" id="patience-value">10</div>
+          <input type="range" class="slider" id="dataset-size"
+                 min="100" max="2000" step="100" value="1000">
+          <div class="slider-value" id="dataset-size-value">1000</div>
         </div>
       </div>
     </div>
   </div>
 
   <div class="plot-container">
-    <div id="learning-curves-plot" style="height: 400px;"></div>
+    <div id="learning-curves-plot" style="height: 300px;"></div>
   </div>
 
   <div class="diagnosis-panel">

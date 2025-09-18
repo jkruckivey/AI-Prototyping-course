@@ -199,14 +199,14 @@
             <span style="margin-right: 8px; color: #582C83;">🧠</span>
             Module 2 Wrap-Up Quiz
         </h2>
-        <p>Test your understanding of supervised learning algorithms and concepts.</p>
+        <p>Quick check of supervised learning concepts.</p>
     </div>
 
     <!-- Quiz Questions -->
     <div class="dp-content-block" id="quiz-container">
         <div class="quiz-question" data-question="1">
-            <div class="question-number">Question 1 of 6</div>
-            <div class="question-text">Which algorithm directly minimizes MSE to fit numeric targets?</div>
+            <div class="question-number">Question 1 of 4</div>
+            <div class="question-text">Which algorithm directly minimizes MSE for numeric targets?</div>
             <div class="answer-options">
                 <div class="answer-option" data-answer="a">Linear Regression</div>
                 <div class="answer-option" data-answer="b">Logistic Regression</div>
@@ -214,32 +214,15 @@
                 <div class="answer-option" data-answer="d">KNN</div>
             </div>
             <div class="feedback correct">
-                <strong>Correct!</strong> Linear Regression fits a line/plane by minimizing mean squared error.
+                <strong>Correct!</strong> Linear Regression minimizes MSE for numeric targets.
             </div>
             <div class="feedback incorrect">
-                <strong>Not quite.</strong> Linear Regression is the algorithm that directly minimizes MSE for numeric targets.
+                <strong>Try again.</strong> Linear Regression minimizes MSE for numeric targets.
             </div>
         </div>
 
         <div class="quiz-question" data-question="2">
-            <div class="question-number">Question 2 of 6</div>
-            <div class="question-text">In logistic regression, what does the decision threshold control?</div>
-            <div class="answer-options">
-                <div class="answer-option" data-answer="a">The learning rate</div>
-                <div class="answer-option" data-answer="b">The number of features</div>
-                <div class="answer-option" data-answer="c">Converting probabilities to class labels</div>
-                <div class="answer-option" data-answer="d">The regularization strength</div>
-            </div>
-            <div class="feedback correct">
-                <strong>Correct!</strong> The threshold converts predicted probabilities into class labels, trading precision vs. recall based on business cost.
-            </div>
-            <div class="feedback incorrect">
-                <strong>Not quite.</strong> The threshold controls how probabilities are converted to class labels.
-            </div>
-        </div>
-
-        <div class="quiz-question" data-question="3">
-            <div class="question-number">Question 3 of 6</div>
+            <div class="question-number">Question 2 of 4</div>
             <div class="question-text">Why is feature scaling important for KNN and SVM?</div>
             <div class="answer-options">
                 <div class="answer-option" data-answer="a">It speeds up training</div>
@@ -248,16 +231,16 @@
                 <div class="answer-option" data-answer="d">It improves interpretability</div>
             </div>
             <div class="feedback correct">
-                <strong>Correct!</strong> Both KNN and SVM depend on distances; unscaled features can dominate and distort neighborhoods/margins.
+                <strong>Correct!</strong> KNN and SVM are distance-based algorithms.
             </div>
             <div class="feedback incorrect">
-                <strong>Not quite.</strong> KNN and SVM are distance-based algorithms that need feature scaling to work properly.
+                <strong>Try again.</strong> KNN and SVM depend on distances between data points.
             </div>
         </div>
 
-        <div class="quiz-question" data-question="4">
-            <div class="question-number">Question 4 of 6</div>
-            <div class="question-text">Random Forests vs. a single Decision Tree — what's the typical advantage?</div>
+        <div class="quiz-question" data-question="3">
+            <div class="question-number">Question 3 of 4</div>
+            <div class="question-text">Random Forests vs. single Decision Tree — main advantage?</div>
             <div class="answer-options">
                 <div class="answer-option" data-answer="a">Faster training</div>
                 <div class="answer-option" data-answer="b">Lower variance and better generalization</div>
@@ -265,32 +248,15 @@
                 <div class="answer-option" data-answer="d">Fewer hyperparameters</div>
             </div>
             <div class="feedback correct">
-                <strong>Correct!</strong> Random Forests have lower variance and better generalization via bagging and feature subsampling.
+                <strong>Correct!</strong> Random Forests reduce variance through ensemble methods.
             </div>
             <div class="feedback incorrect">
-                <strong>Not quite.</strong> Random Forests typically provide better generalization through ensemble methods.
+                <strong>Try again.</strong> Random Forests provide better generalization.
             </div>
         </div>
 
-        <div class="quiz-question" data-question="5">
-            <div class="question-number">Question 5 of 6</div>
-            <div class="question-text">Naive Bayes works well for text mainly because...</div>
-            <div class="answer-options">
-                <div class="answer-option" data-answer="a">It's the most accurate algorithm</div>
-                <div class="answer-option" data-answer="b">The independence assumption works well with sparse, high-dimensional features</div>
-                <div class="answer-option" data-answer="c">It requires no feature engineering</div>
-                <div class="answer-option" data-answer="d">It handles missing data automatically</div>
-            </div>
-            <div class="feedback correct">
-                <strong>Correct!</strong> With sparse, high-dimensional features, the independence assumption is a decent approximation and the model is fast and effective.
-            </div>
-            <div class="feedback incorrect">
-                <strong>Not quite.</strong> Naive Bayes works well for text because the independence assumption is reasonable for sparse text features.
-            </div>
-        </div>
-
-        <div class="quiz-question" data-question="6">
-            <div class="question-number">Question 6 of 6</div>
+        <div class="quiz-question" data-question="4">
+            <div class="question-number">Question 4 of 4</div>
             <div class="question-text">Neural networks add value when...</div>
             <div class="answer-options">
                 <div class="answer-option" data-answer="a">You have a small dataset</div>
@@ -299,12 +265,13 @@
                 <div class="answer-option" data-answer="d">You want the fastest training time</div>
             </div>
             <div class="feedback correct">
-                <strong>Correct!</strong> Neural networks excel when data is large/complex, patterns are non-linear, and simple baselines plateau.
+                <strong>Correct!</strong> Neural networks excel with large, complex data.
             </div>
             <div class="feedback incorrect">
-                <strong>Not quite.</strong> Neural networks are best for large, complex data with non-linear patterns.
+                <strong>Try again.</strong> Neural networks are best for large, complex data.
             </div>
         </div>
+
     </div>
 
     <button class="submit-btn" id="submit-quiz">Submit Quiz</button>
@@ -319,11 +286,9 @@
 <script>
     const questions = [
         { id: 1, correct: 'a' },
-        { id: 2, correct: 'c' },
+        { id: 2, correct: 'b' },
         { id: 3, correct: 'b' },
-        { id: 4, correct: 'b' },
-        { id: 5, correct: 'b' },
-        { id: 6, correct: 'c' }
+        { id: 4, correct: 'c' }
     ];
 
     let userAnswers = {};

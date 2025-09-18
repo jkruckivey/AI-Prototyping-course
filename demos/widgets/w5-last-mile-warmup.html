@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Last-Mile Gap Warm-up - AMBA Template</title>
   <!-- Canvas iframe sizing hint -->
-  <meta name="canvas-height" content="900">
+  <meta name="canvas-height" content="600">
   <meta name="description" content="Interactive reflection on deployment challenges and blockers">
   <style>
     /* AMBA Template Widget Styling */
@@ -252,29 +252,27 @@
   </div>
 
   <div class="scenario-box">
-    <div class="scenario-title">🚀 The Challenge</div>
-    <p><strong>Your model works perfectly in the notebook</strong> - 95% accuracy, clean validation curves, and stakeholders are excited.</p>
-    <p>But 6 months later, it's still not delivering business value. Sound familiar?</p>
-    <p>This is the <em>"last-mile gap"</em> - the space between a working model and real business impact.</p>
+    <div class="scenario-title">The Challenge</div>
+    <p><strong>Your model works perfectly in the notebook</strong> but isn't delivering business value.</p>
+    <p>This is the <em>"last-mile gap"</em> - the space between working models and real impact.</p>
   </div>
 
   <div class="reflection-section">
-    <div class="reflection-prompt">🤔 Reflection Exercise:</div>
-    <p><strong>What could stop a working model from delivering business value after it leaves the notebook?</strong></p>
-    <p>Think about both <em>technical</em> and <em>organizational</em> blockers. Add your ideas to the lists below:</p>
+    <div class="reflection-prompt">Quick Reflection:</div>
+    <p><strong>What blocks models from delivering business value?</strong> Add your ideas below:</p>
   </div>
 
   <div class="category-container">
-    <h3 class="category-title">🔧 Technical Blockers</h3>
+    <h3 class="category-title">Technical Blockers</h3>
     <div class="blockers-list" id="technical-blockers">
-      <div class="add-blocker" onclick="addBlocker('technical')">+ Click to add a technical blocker</div>
+      <div class="add-blocker" onclick="addBlocker('technical')">+ Add technical blocker</div>
     </div>
   </div>
 
   <div class="category-container">
-    <h3 class="category-title">👥 Organizational Blockers</h3>
+    <h3 class="category-title">Organizational Blockers</h3>
     <div class="blockers-list" id="organizational-blockers">
-      <div class="add-blocker" onclick="addBlocker('organizational')">+ Click to add an organizational blocker</div>
+      <div class="add-blocker" onclick="addBlocker('organizational')">+ Add organizational blocker</div>
     </div>
   </div>
 
@@ -283,52 +281,38 @@
   </div>
 
   <div class="action-buttons">
-    <button class="btn" onclick="showInsights()">Show Common Blockers & Solutions</button>
-    <button class="btn" style="background: #582C83;" onclick="clearAll()">Start Over</button>
+    <button class="btn" onclick="showInsights()">Show Examples</button>
   </div>
 
   <div class="insights-section" id="insights-section">
-    <div class="insights-title">💡 Common Last-Mile Blockers & Solutions</div>
+    <div class="insights-title">Common Blockers</div>
 
     <div class="examples-grid">
       <div class="example-card">
-        <div class="example-title">Technical Blockers</div>
+        <div class="example-title">Technical</div>
         <ul class="example-list">
-          <li>Data pipeline breaks in production</li>
-          <li>Feature serving latency too high</li>
-          <li>Model inference infrastructure unavailable</li>
+          <li>Data pipeline breaks</li>
+          <li>Feature serving latency</li>
           <li>API integration issues</li>
-          <li>Real-time vs batch scoring misalignment</li>
-          <li>Schema drift between training and serving</li>
           <li>Missing fallback mechanisms</li>
         </ul>
       </div>
 
       <div class="example-card">
-        <div class="example-title">Organizational Blockers</div>
+        <div class="example-title">Organizational</div>
         <ul class="example-list">
-          <li>No clear owner for production deployment</li>
-          <li>Legal/compliance review bottlenecks</li>
-          <li>End users don't trust model outputs</li>
-          <li>No budget for infrastructure/operations</li>
+          <li>No clear deployment owner</li>
+          <li>End users don't trust outputs</li>
           <li>Change management resistance</li>
-          <li>Unclear success metrics or ROI</li>
-          <li>Missing monitoring and alerting</li>
+          <li>Unclear success metrics</li>
         </ul>
       </div>
     </div>
-
-    <div class="insight-item">Focus on deployment patterns: batch vs real-time vs human-in-the-loop</div>
-    <div class="insight-item">Design for observability from day one - log inputs, outputs, and decisions</div>
-    <div class="insight-item">Start with a pilot: limited scope, clear success criteria, quick wins</div>
-    <div class="insight-item">Build fallback mechanisms: what happens when the model fails?</div>
-    <div class="insight-item">Plan for change: models drift, data changes, business needs evolve</div>
   </div>
 
   <div class="reflection-section">
-    <div class="reflection-prompt">📝 Key Takeaway</div>
-    <p>Successful ML deployment requires as much planning for the <strong>last mile</strong> as for the model itself.
-    This week you'll learn deployment patterns, monitoring strategies, and governance practices that bridge this gap.</p>
+    <div class="reflection-prompt">Key Takeaway</div>
+    <p>This week: deployment patterns, monitoring, and governance that bridge the last-mile gap.</p>
   </div>
 </div>
 

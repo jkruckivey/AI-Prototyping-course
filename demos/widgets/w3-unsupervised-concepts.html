@@ -120,15 +120,11 @@
     <div class="demo-container">
         <div class="demo-header">
             <h1>Match Unsupervised Learning Concepts</h1>
-            <p>Click a concept on the left, then click the matching business example on the right</p>
-        </div>
-
-        <div class="instructions">
-            <strong>Instructions:</strong> Select an unsupervised learning approach, then find its best business application. Get all 5 correct to complete the activity!
+            <p>Click a concept, then its matching business example</p>
         </div>
 
         <div class="score-display">
-            <span id="score">Score: 0/5</span>
+            <span id="score">Score: 0/4</span>
             <button class="reset-btn" onclick="resetGame()" style="margin-left: 1rem;">Reset</button>
         </div>
 
@@ -137,23 +133,19 @@
                 <h3>🎯 Unsupervised Learning Approaches</h3>
                 <div class="concept-card" data-concept="clustering" onclick="selectConcept(this)">
                     <strong>Clustering</strong>
-                    <p>Group similar data points together without knowing groups in advance</p>
+                    <p>Group similar data points</p>
                 </div>
                 <div class="concept-card" data-concept="dimensionality" onclick="selectConcept(this)">
                     <strong>Dimensionality Reduction</strong>
-                    <p>Reduce features while preserving important information</p>
+                    <p>Reduce features, preserve info</p>
                 </div>
                 <div class="concept-card" data-concept="association" onclick="selectConcept(this)">
                     <strong>Association Rules</strong>
-                    <p>Find relationships and patterns between items or events</p>
+                    <p>Find item relationships</p>
                 </div>
                 <div class="concept-card" data-concept="anomaly" onclick="selectConcept(this)">
                     <strong>Anomaly Detection</strong>
-                    <p>Identify unusual patterns that don't fit normal behavior</p>
-                </div>
-                <div class="concept-card" data-concept="recommendation" onclick="selectConcept(this)">
-                    <strong>Collaborative Filtering</strong>
-                    <p>Recommend based on behavior patterns of similar users</p>
+                    <p>Identify unusual patterns</p>
                 </div>
             </div>
 
@@ -161,23 +153,19 @@
                 <h3>💼 Business Applications</h3>
                 <div class="example-card" data-match="clustering" onclick="selectExample(this)">
                     <strong>Customer Segmentation</strong>
-                    <p>Divide customers into distinct groups based on purchasing behavior for targeted marketing</p>
+                    <p>Group customers for targeted marketing</p>
                 </div>
                 <div class="example-card" data-match="dimensionality" onclick="selectExample(this)">
                     <strong>Data Visualization</strong>
-                    <p>Create 2D plots of high-dimensional customer data to identify patterns and outliers</p>
+                    <p>Create 2D plots from high-dimensional data</p>
                 </div>
                 <div class="example-card" data-match="association" onclick="selectExample(this)">
                     <strong>Market Basket Analysis</strong>
-                    <p>"Customers who buy X also buy Y" - optimize product placement and cross-selling</p>
+                    <p>"Customers who buy X also buy Y"</p>
                 </div>
                 <div class="example-card" data-match="anomaly" onclick="selectExample(this)">
                     <strong>Fraud Detection</strong>
-                    <p>Identify unusual transaction patterns that may indicate fraudulent activity</p>
-                </div>
-                <div class="example-card" data-match="recommendation" onclick="selectExample(this)">
-                    <strong>Netflix Suggestions</strong>
-                    <p>"Users like you also enjoyed..." - recommend content based on similar viewing patterns</p>
+                    <p>Identify unusual transaction patterns</p>
                 </div>
             </div>
         </div>
@@ -249,7 +237,7 @@
                 selectedConcept = null;
 
                 // Check completion
-                if (score === 5) {
+                if (score === 4) {
                     setTimeout(showCompletion, 1000);
                 }
             } else {
@@ -262,7 +250,7 @@
         }
 
         function updateScore() {
-            document.getElementById('score').textContent = `Score: ${score}/5`;
+            document.getElementById('score').textContent = `Score: ${score}/4`;
         }
 
         function showSuccess(concept) {
