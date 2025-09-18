@@ -7,47 +7,10 @@
   <!-- Canvas iframe sizing hint -->
   <meta name="canvas-height" content="900">
   <meta name="description" content="Decile analysis with lift calculations and ROI tables">
-  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <link rel="stylesheet" href="ivey-widget-base.css">
+  <script src="https://cdn.plot.ly/plotly-2.28.0.min.js"></script>
   <style>
-    /* AMBA Template Widget Styling */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: Arial, sans-serif;
-      background: white;
-      color: #333;
-      line-height: 1.5;
-      padding: 0;
-      margin: 0;
-    }
-
-    .dp-wrapper {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 15px;
-      background: #ffffff;
-      border-radius: 8px;
-    }
-
-    .widget-header {
-      background: #034638;
-      color: white;
-      padding: 12px 16px;
-      text-align: center;
-      border-radius: 8px 8px 0 0;
-      margin: -15px -15px 20px -15px;
-    }
-
-    .widget-title {
-      font-size: 1.2em;
-      font-weight: bold;
-      margin: 0;
-    }
-
+    /* Widget-specific styling */
     .scenario-tabs {
       display: flex;
       gap: 5px;
@@ -56,9 +19,9 @@
     }
 
     .tab-btn {
-      background: #f8f9fa;
-      border: 1px solid #034638;
-      color: #034638;
+      background: var(--bg-secondary);
+      border: 1px solid var(--ivey-green);
+      color: var(--ivey-green);
       padding: 8px 12px;
       border-radius: 4px;
       cursor: pointer;
@@ -66,7 +29,7 @@
     }
 
     .tab-btn.active {
-      background: #034638;
+      background: var(--ivey-green);
       color: white;
     }
 
@@ -85,7 +48,7 @@
     }
 
     .deciles-table th {
-      background: #034638;
+      background: var(--ivey-green);
       color: white;
       font-size: 0.85em;
     }
@@ -107,51 +70,16 @@
       background: #f8d7da !important;
     }
 
-    .plot-container {
-      background: white;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      margin: 20px 0;
-      padding: 10px;
-    }
-
-    .metrics-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 10px;
-      margin: 15px 0;
-    }
-
-    .metric-card {
-      background: white;
-      border: 2px solid #034638;
-      border-radius: 8px;
-      padding: 12px;
-      text-align: center;
-    }
-
-    .metric-label {
-      font-size: 0.8em;
-      color: #666;
-      margin-bottom: 5px;
-    }
-
-    .metric-value {
-      font-size: 1.2em;
-      font-weight: bold;
-      color: #034638;
-    }
-
     .roi-panel {
       background: #e8f5e8;
-      border: 2px solid #034638;
+      border: 2px solid var(--ivey-green);
       border-radius: 8px;
       padding: 15px;
       margin: 15px 0;
     }
 
     .roi-title {
-      color: #034638;
+      color: var(--ivey-green);
       font-weight: bold;
       margin-bottom: 10px;
       font-size: 1.1em;
@@ -159,58 +87,12 @@
 
     .roi-calculation {
       background: white;
-      border: 1px solid #034638;
+      border: 1px solid var(--ivey-green);
       border-radius: 4px;
       padding: 10px;
       margin: 10px 0;
       font-family: monospace;
       font-size: 0.9em;
-    }
-
-    .insight-box {
-      background: #fff3cd;
-      border-left: 4px solid #ffc107;
-      padding: 15px;
-      margin: 15px 0;
-      border-radius: 4px;
-    }
-
-    .control-panel {
-      background: #f8f9fa;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      padding: 12px;
-      margin-bottom: 15px;
-    }
-
-    .control-label {
-      font-weight: bold;
-      color: #555;
-      margin-right: 10px;
-      font-size: 0.9em;
-    }
-
-    input[type="number"] {
-      width: 80px;
-      padding: 4px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      margin: 0 5px;
-    }
-
-    .btn {
-      background: #034638;
-      color: white;
-      border: none;
-      padding: 6px 12px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 0.9em;
-      margin-left: 10px;
-    }
-
-    .btn:hover {
-      background: #045a42;
     }
   </style>
 </head>
