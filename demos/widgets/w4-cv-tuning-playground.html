@@ -7,7 +7,7 @@
   <!-- Canvas iframe sizing hint -->
   <meta name="canvas-height" content="1000">
   <meta name="description" content="Cross-validation strategy comparison with multiple interactive plots">
-  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-2.28.0.min.js"></script>
   <style>
     /* AMBA Template Widget Styling */
     * {
@@ -439,7 +439,12 @@ function updatePlots() {
     margin: { t: 50, b: 50, l: 60, r: 20 }
   };
 
-  Plotly.newPlot('search-progress-plot', [trace1, trace2], layout1, {responsive: true});
+  try {
+    Plotly.newPlot('search-progress-plot', [trace1, trace2], layout1, {responsive: true});
+  } catch (error) {
+    console.error('Error creating search progress plot:', error);
+    document.getElementById('search-progress-plot').innerHTML = '<p style="text-align: center; color: #666; padding: 20px;">Error loading visualization. Please refresh the page.</p>';
+  }
 
   // CV variance plot
   const top10 = experimentResults.slice(0, 10);
@@ -467,7 +472,12 @@ function updatePlots() {
     margin: { t: 50, b: 80, l: 60, r: 20 }
   };
 
-  Plotly.newPlot('cv-variance-plot', [trace3], layout2, {responsive: true});
+  try {
+    Plotly.newPlot('cv-variance-plot', [trace3], layout2, {responsive: true});
+  } catch (error) {
+    console.error('Error creating CV variance plot:', error);
+    document.getElementById('cv-variance-plot').innerHTML = '<p style="text-align: center; color: #666; padding: 20px;">Error loading visualization. Please refresh the page.</p>';
+  }
 }
 
 function updateInsights(cvMethod, searchStrategy) {
@@ -500,11 +510,13 @@ function updateInsights(cvMethod, searchStrategy) {
   document.getElementById('insight-text').textContent = insight;
 }
 
-// Initialize
-document.getElementById('cv-method').addEventListener('change', function() {
-  const method = this.value;
-  const foldsInput = document.getElementById('n-folds');
-  foldsInput.disabled = method === 'holdout';
+// Initialize with proper DOM ready handling
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('cv-method').addEventListener('change', function() {
+    const method = this.value;
+    const foldsInput = document.getElementById('n-folds');
+    foldsInput.disabled = method === 'holdout';
+  });
 });
 </script>
 
