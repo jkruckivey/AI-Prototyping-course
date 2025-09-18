@@ -3,451 +3,455 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Framework Explorer</title>
+    <title>Data Science Framework - Simplified</title>
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: Georgia, serif;
+        /* Reset and Base Styles */
+        * {
             margin: 0;
-            padding: 20px;
-            background: linear-gradient(135deg, #f0f9f6 0%, #e8f4f8 100%);
-            min-height: 100vh;
+            padding: 0;
             box-sizing: border-box;
         }
-        
-        .framework-container {
-            max-width: 100%;
+
+        body {
+            font-family: 'Figtree', sans-serif;
+            background: #ffffff;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+
+        .widget-container {
+            max-width: 900px;
             margin: 0 auto;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(3, 70, 56, 0.1);
-            overflow: hidden;
-        }
-        
-        .header {
-            background: linear-gradient(135deg, #034638 0%, #0a6b4a 100%);
-            color: white;
             padding: 20px;
+        }
+
+        .framework-header {
             text-align: center;
+            margin-bottom: 30px;
         }
-        
-        .header h2 {
-            margin: 0;
-            font-size: 1.5em;
+
+        .framework-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #034638;
+            margin-bottom: 10px;
         }
-        
-        .steps-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 0;
+
+        .framework-subtitle {
+            font-size: 16px;
+            color: #4a5568;
+            max-width: 600px;
+            margin: 0 auto;
         }
-        
-        .step-card {
+
+        /* Simplified Step Flow */
+        .steps-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .step {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
             padding: 20px;
-            border-right: 1px solid #e5e7eb;
-            border-bottom: 1px solid #e5e7eb;
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
-            background: white;
-            border: none;
-            text-align: left;
-            font-family: inherit;
-            width: 100%;
         }
-        
-        .step-card:focus {
-            outline: 2px solid #034638;
-            outline-offset: 2px;
+
+        .step:hover {
+            border-color: #034638;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
-        
-        .step-card:hover {
-            background: #f0f9f6;
-            transform: translateY(-2px);
+
+        .step.active {
+            border-color: #034638;
+            background: rgba(3, 70, 56, 0.05);
+            box-shadow: 0 4px 16px rgba(3, 70, 56, 0.2);
         }
-        
-        .step-card.active {
-            background: #034638;
-            color: white;
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
-        
+
         .step-number {
             background: #034638;
             color: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 8px 12px;
+            border-radius: 20px;
+            min-width: 35px;
+            text-align: center;
+        }
+
+        .step-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a202c;
+            flex-grow: 1;
+            margin-left: 15px;
+        }
+
+        .step-expand {
+            color: #4a5568;
+            font-size: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .step.active .step-expand {
+            transform: rotate(90deg);
+        }
+
+        .step-description {
+            font-size: 14px;
+            color: #4a5568;
+            margin-top: 8px;
+            margin-left: 50px;
+        }
+
+        .step-details {
+            margin-top: 20px;
+            margin-left: 50px;
+            display: none;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 15px;
+        }
+
+        .step.active .step-details {
+            display: block;
+        }
+
+        .step-key-points {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .key-point {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 3px solid #034638;
+        }
+
+        .key-point-title {
+            font-weight: 600;
+            color: #1a202c;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .key-point-text {
+            font-size: 13px;
+            color: #4a5568;
+            line-height: 1.5;
+        }
+
+        /* Flow Arrows */
+        .flow-arrow {
+            text-align: center;
+            color: #034638;
+            font-size: 24px;
+            margin: 5px 0;
+            opacity: 0.6;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .widget-container {
+                padding: 15px;
+            }
+
+            .framework-title {
+                font-size: 20px;
+            }
+
+            .framework-subtitle {
+                font-size: 14px;
+            }
+
+            .step {
+                padding: 15px;
+            }
+
+            .step-title {
+                font-size: 16px;
+            }
+
+            .step-description {
+                margin-left: 40px;
+            }
+
+            .step-details {
+                margin-left: 40px;
+            }
+
+            .step-key-points {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+        }
+
+        /* Summary Box */
+        .framework-summary {
+            background: rgba(3, 70, 56, 0.1);
+            border: 1px solid rgba(3, 70, 56, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .summary-title {
+            font-weight: 600;
+            color: #034638;
             margin-bottom: 10px;
         }
-        
-        .step-card.active .step-number {
-            background: white;
-            color: #034638;
-        }
-        
-        .step-title {
-            font-weight: bold;
-            font-size: 1.1em;
-            margin-bottom: 5px;
-        }
-        
-        .step-focus {
-            font-size: 0.9em;
-            opacity: 0.8;
-            margin-bottom: 8px;
-        }
-        
-        .step-time {
-            font-size: 0.8em;
-            background: #f3f4f6;
-            padding: 3px 8px;
-            border-radius: 12px;
-            display: inline-block;
-        }
-        
-        .step-card.active .step-time {
-            background: rgba(255, 255, 255, 0.2);
-        }
-        
-        .detail-panel {
-            padding: 30px;
-            background: #f8f9fa;
-            border-top: 3px solid #034638;
-            min-height: 200px;
-        }
-        
-        .detail-content {
-            display: none;
-        }
-        
-        .detail-content.active {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .detail-title {
-            color: #034638;
-            font-size: 1.4em;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #034638;
-            padding-bottom: 8px;
-        }
-        
-        .executive-role {
-            background: #e8f4f8;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 15px 0;
-            border-left: 4px solid #034638;
-        }
-        
-        .key-activities {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 15px 0;
-            border: 1px solid #e5e7eb;
-        }
-        
-        .timeline-insight {
-            background: #fef7cd;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 20px;
-            border: 1px solid #eab308;
-        }
-        
-        .timeline-insight strong {
-            color: #92400e;
-        }
-        
-        @media (max-width: 768px) {
-            .steps-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .step-card {
-                border-right: none;
-            }
-            
-            body {
-                padding: 10px;
-            }
+
+        .summary-text {
+            font-size: 14px;
+            color: #4a5568;
         }
     </style>
 </head>
 <body>
-    <div class="framework-container">
-        <div class="header">
-            <h2>🚀 Executive's 6-Step Data Science Framework</h2>
-            <p>Click each step to explore the executive's role and business impact</p>
+    <div class="widget-container">
+        <div class="framework-header">
+            <h2 class="framework-title">Data Science Framework</h2>
+            <p class="framework-subtitle">A simplified 6-step workflow for business-driven data science projects</p>
         </div>
-        
-        <div class="steps-grid" role="tablist" aria-label="Data science framework steps">
-            <button class="step-card active" data-step="1" role="tab" aria-selected="true" aria-controls="step-1-content" id="step-1-tab" tabindex="0">
-                <div class="step-number" aria-hidden="true">1</div>
-                <div class="step-title">Collect</div>
-                <div class="step-focus">Systematic data acquisition</div>
-                <div class="step-time">2-3 weeks</div>
-            </button>
-            
-            <button class="step-card" data-step="2" role="tab" aria-selected="false" aria-controls="step-2-content" id="step-2-tab" tabindex="-1">
-                <div class="step-number" aria-hidden="true">2</div>
-                <div class="step-title">Clean & Organize</div>
-                <div class="step-focus">Ensure quality and accessibility</div>
-                <div class="step-time">4-6 weeks</div>
-            </button>
-            
-            <button class="step-card" data-step="3" role="tab" aria-selected="false" aria-controls="step-3-content" id="step-3-tab" tabindex="-1">
-                <div class="step-number" aria-hidden="true">3</div>
-                <div class="step-title">Analyze</div>
-                <div class="step-focus">Statistical pattern discovery</div>
-                <div class="step-time">2-4 weeks</div>
-            </button>
-            
-            <button class="step-card" data-step="4" role="tab" aria-selected="false" aria-controls="step-4-content" id="step-4-tab" tabindex="-1">
-                <div class="step-number" aria-hidden="true">4</div>
-                <div class="step-title">Model</div>
-                <div class="step-focus">Build predictive systems</div>
-                <div class="step-time">6-8 weeks</div>
-            </button>
-            
-            <button class="step-card" data-step="5" role="tab" aria-selected="false" aria-controls="step-5-content" id="step-5-tab" tabindex="-1">
-                <div class="step-number" aria-hidden="true">5</div>
-                <div class="step-title">Act</div>
-                <div class="step-focus">Implement into processes</div>
-                <div class="step-time">4-6 weeks</div>
-            </button>
-            
-            <button class="step-card" data-step="6" role="tab" aria-selected="false" aria-controls="step-6-content" id="step-6-tab" tabindex="-1">
-                <div class="step-number" aria-hidden="true">6</div>
-                <div class="step-title">Monitor</div>
-                <div class="step-focus">Continuous improvement</div>
-                <div class="step-time">Ongoing</div>
-            </button>
-        </div>
-        
-        <div class="detail-panel">
-            <div class="detail-content active" data-step="1" role="tabpanel" id="step-1-content" aria-labelledby="step-1-tab">
-                <div class="detail-title">Step 1: Collect - Define What Matters</div>
-                
-                <div class="executive-role">
-                    <strong>Executive Role:</strong> Define what data matters for strategic advantage. Avoid the trap of collecting everything—focus on data that directly supports business outcomes and competitive positioning.
+
+        <div class="steps-container">
+            <div class="step" data-step="1">
+                <div class="step-header">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Problem Framing</div>
+                    <div class="step-expand">▶</div>
                 </div>
-                
-                <div class="key-activities">
-                    <strong>Key Activities:</strong>
-                    <ul>
-                        <li>Identify data sources aligned with business strategy</li>
-                        <li>Establish data collection standards and protocols</li>
-                        <li>Prioritize high-value data over high-volume data</li>
-                        <li>Ensure compliance and privacy considerations</li>
-                    </ul>
+                <div class="step-description">Define the business problem and success criteria</div>
+                <div class="step-details">
+                    <div class="step-key-points">
+                        <div class="key-point">
+                            <div class="key-point-title">Business Question</div>
+                            <div class="key-point-text">What specific decision needs to be made?</div>
+                        </div>
+                        <div class="key-point">
+                            <div class="key-point-title">Success Metrics</div>
+                            <div class="key-point-text">How will you measure project success?</div>
+                        </div>
+                        <div class="key-point">
+                            <div class="key-point-title">Constraints</div>
+                            <div class="key-point-text">Timeline, budget, and resource limitations</div>
+                        </div>
+                    </div>
                 </div>
-                
-                <p><strong>Business Impact:</strong> Strategic data collection creates the foundation for competitive intelligence. Organizations that collect the right data—not just more data—gain sustainable advantages through better decision-making capabilities.</p>
             </div>
-            
-            <div class="detail-content" data-step="2" role="tabpanel" id="step-2-content" aria-labelledby="step-2-tab">
-                <div class="detail-title">Step 2: Clean & Organize - Set Quality Standards</div>
-                
-                <div class="executive-role">
-                    <strong>Executive Role:</strong> Set organizational standards for data quality and accessibility. Ensure reliable inputs for AI systems by establishing quality frameworks across all data sources.
+
+            <div class="flow-arrow">↓</div>
+
+            <div class="step" data-step="2">
+                <div class="step-header">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Data Collection</div>
+                    <div class="step-expand">▶</div>
                 </div>
-                
-                <div class="key-activities">
-                    <strong>Key Activities:</strong>
-                    <ul>
-                        <li>Implement data validation and cleansing processes</li>
-                        <li>Standardize data formats across systems</li>
-                        <li>Create data governance policies and procedures</li>
-                        <li>Establish data quality metrics and monitoring</li>
-                    </ul>
+                <div class="step-description">Gather and assess available data sources</div>
+                <div class="step-details">
+                    <div class="step-key-points">
+                        <div class="key-point">
+                            <div class="key-point-title">Data Sources</div>
+                            <div class="key-point-text">Internal systems, external APIs, third-party data</div>
+                        </div>
+                        <div class="key-point">
+                            <div class="key-point-title">Data Quality</div>
+                            <div class="key-point-text">Completeness, accuracy, and consistency checks</div>
+                        </div>
+                        <div class="key-point">
+                            <div class="key-point-title">Data Volume</div>
+                            <div class="key-point-text">Sufficient data for reliable model training</div>
+                        </div>
+                    </div>
                 </div>
-                
-                <p><strong>Business Impact:</strong> Quality data prevents the $3.1 trillion annual cost of poor data quality. Clean, organized data enables accurate AI predictions and prevents costly strategic mistakes.</p>
             </div>
-            
-            <div class="detail-content" data-step="3" role="tabpanel" id="step-3-content" aria-labelledby="step-3-tab">
-                <div class="detail-title">Step 3: Analyze - Ask the Right Questions</div>
-                
-                <div class="executive-role">
-                    <strong>Executive Role:</strong> Focus analysis on business outcomes rather than technical possibilities. Ask questions that drive strategic advantage, not just interesting insights.
+
+            <div class="flow-arrow">↓</div>
+
+            <div class="step" data-step="3">
+                <div class="step-header">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Data Processing</div>
+                    <div class="step-expand">▶</div>
                 </div>
-                
-                <div class="key-activities">
-                    <strong>Key Activities:</strong>
-                    <ul>
-                        <li>Define business-critical questions to answer</li>
-                        <li>Conduct statistical pattern discovery</li>
-                        <li>Identify actionable insights from data patterns</li>
-                        <li>Validate findings against business context</li>
-                    </ul>
+                <div class="step-description">Clean, transform, and prepare data for analysis</div>
+                <div class="step-details">
+                    <div class="step-key-points">
+                        <div class="key-point">
+                            <div class="key-point-title">Data Cleaning</div>
+                            <div class="key-point-text">Handle missing values, outliers, and inconsistencies</div>
+                        </div>
+                        <div class="key-point">
+                            <div class="key-point-title">Feature Engineering</div>
+                            <div class="key-point-text">Create meaningful variables from raw data</div>
+                        </div>
+                        <div class="key-point">
+                            <div class="key-point-title">Data Splitting</div>
+                            <div class="key-point-text">Separate training, validation, and test sets</div>
+                        </div>
+                    </div>
                 </div>
-                
-                <p><strong>Business Impact:</strong> Strategic analysis reveals hidden patterns that drive competitive advantage. The right questions unlock insights that transform operations, customer experiences, and market positioning.</p>
             </div>
-            
-            <div class="detail-content" data-step="4" role="tabpanel" id="step-4-content" aria-labelledby="step-4-tab">
-                <div class="detail-title">Step 4: Model - Approve Strategic Priorities</div>
-                
-                <div class="executive-role">
-                    <strong>Executive Role:</strong> Approve priorities for predictive system development. Ensure AI model development aligns with strategic business objectives and resource allocation.
+
+            <div class="flow-arrow">↓</div>
+
+            <div class="step" data-step="4">
+                <div class="step-header">
+                    <div class="step-number">4</div>
+                    <div class="step-title">Model Building</div>
+                    <div class="step-expand">▶</div>
                 </div>
-                
-                <div class="key-activities">
-                    <strong>Key Activities:</strong>
-                    <ul>
-                        <li>Prioritize AI model development based on business value</li>
-                        <li>Allocate resources for high-impact predictive systems</li>
-                        <li>Review model performance and business applicability</li>
-                        <li>Ensure models address real business problems</li>
-                    </ul>
+                <div class="step-description">Develop and train predictive models</div>
+                <div class="step-details">
+                    <div class="step-key-points">
+                        <div class="key-point">
+                            <div class="key-point-title">Algorithm Selection</div>
+                            <div class="key-point-text">Choose appropriate methods for your problem type</div>
+                        </div>
+                        <div class="key-point">
+                            <div class="key-point-title">Model Training</div>
+                            <div class="key-point-text">Fit models using training data</div>
+                        </div>
+                        <div class="key-point">
+                            <div class="key-point-title">Hyperparameter Tuning</div>
+                            <div class="key-point-text">Optimize model settings for best performance</div>
+                        </div>
+                    </div>
                 </div>
-                
-                <p><strong>Business Impact:</strong> Strategic AI models predict future trends, optimize operations, and enable proactive decision-making. Well-prioritized models deliver measurable ROI and competitive advantages.</p>
             </div>
-            
-            <div class="detail-content" data-step="5" role="tabpanel" id="step-5-content" aria-labelledby="step-5-tab">
-                <div class="detail-title">Step 5: Act - Champion Adoption</div>
-                
-                <div class="executive-role">
-                    <strong>Executive Role:</strong> Champion adoption across the organization. Drive change management to ensure AI insights translate into improved business processes and outcomes.
+
+            <div class="flow-arrow">↓</div>
+
+            <div class="step" data-step="5">
+                <div class="step-header">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Model Evaluation</div>
+                    <div class="step-expand">▶</div>
                 </div>
-                
-                <div class="key-activities">
-                    <strong>Key Activities:</strong>
-                    <ul>
-                        <li>Integrate AI insights into business processes</li>
-                        <li>Lead organizational change management</li>
-                        <li>Train teams on new data-driven workflows</li>
-                        <li>Remove barriers to AI adoption</li>
-                    </ul>
+                <div class="step-description">Test model performance and validate results</div>
+                <div class="step-details">
+                    <div class="step-key-points">
+                        <div class="key-point">
+                            <div class="key-point-title">Performance Metrics</div>
+                            <div class="key-point-text">Accuracy, precision, recall based on problem type</div>
+                        </div>
+                        <div class="key-point">
+                            <div class="key-point-title">Model Comparison</div>
+                            <div class="key-point-text">Compare different approaches and select the best</div>
+                        </div>
+                        <div class="key-point">
+                            <div class="key-point-title">Business Validation</div>
+                            <div class="key-point-text">Ensure results align with business objectives</div>
+                        </div>
+                    </div>
                 </div>
-                
-                <p><strong>Business Impact:</strong> Implementation transforms insights into business value. Organizations that successfully adopt AI-driven processes see improved efficiency, better customer experiences, and enhanced competitive positioning.</p>
             </div>
-            
-            <div class="detail-content" data-step="6" role="tabpanel" id="step-6-content" aria-labelledby="step-6-tab">
-                <div class="detail-title">Step 6: Monitor - Review Performance</div>
-                
-                <div class="executive-role">
-                    <strong>Executive Role:</strong> Review performance and drive continuous improvement. Establish monitoring as a permanent business capability for sustained competitive advantage.
+
+            <div class="flow-arrow">↓</div>
+
+            <div class="step" data-step="6">
+                <div class="step-header">
+                    <div class="step-number">6</div>
+                    <div class="step-title">Deployment & Monitoring</div>
+                    <div class="step-expand">▶</div>
                 </div>
-                
-                <div class="key-activities">
-                    <strong>Key Activities:</strong>
-                    <ul>
-                        <li>Track AI system performance and business impact</li>
-                        <li>Monitor ROI and strategic value delivery</li>
-                        <li>Identify opportunities for improvement and expansion</li>
-                        <li>Adjust strategies based on performance data</li>
-                    </ul>
+                <div class="step-description">Implement model in production and track performance</div>
+                <div class="step-details">
+                    <div class="step-key-points">
+                        <div class="key-point">
+                            <div class="key-point-title">Model Deployment</div>
+                            <div class="key-point-text">Integrate model into business processes</div>
+                        </div>
+                        <div class="key-point">
+                            <div class="key-point-title">Performance Monitoring</div>
+                            <div class="key-point-text">Track model accuracy over time</div>
+                        </div>
+                        <div class="key-point">
+                            <div class="key-point-title">Model Maintenance</div>
+                            <div class="key-point-text">Update and retrain as needed</div>
+                        </div>
+                    </div>
                 </div>
-                
-                <p><strong>Business Impact:</strong> Continuous monitoring ensures sustained value from AI investments. Organizations with robust monitoring capabilities adapt quickly to market changes and maintain competitive advantages.</p>
             </div>
         </div>
-        
-        <div class="timeline-insight">
-            <strong>Timeline Insight:</strong> The complete framework typically requires <em>18-24 weeks</em> for full implementation, with monitoring becoming an ongoing capability. Executives who understand this timeline can set realistic expectations and allocate resources effectively.
+
+        <div class="framework-summary">
+            <div class="summary-title">Key Insight</div>
+            <div class="summary-text">
+                This framework is iterative – you'll often cycle back to earlier steps as you learn more about your data and problem.
+                The goal is systematic progress toward business value.
+            </div>
         </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const stepCards = document.querySelectorAll('.step-card');
-            const detailContents = document.querySelectorAll('.detail-content');
-            
-            function activateStep(stepNumber) {
-                // Remove active class from all cards and contents
-                stepCards.forEach(card => {
-                    card.classList.remove('active');
-                    card.setAttribute('aria-selected', 'false');
-                    card.setAttribute('tabindex', '-1');
+        class DataFrameworkExplorer {
+            constructor() {
+                this.currentStep = null;
+                this.init();
+            }
+
+            init() {
+                // Add click handlers for steps
+                document.querySelectorAll('.step').forEach(step => {
+                    step.addEventListener('click', (e) => {
+                        this.toggleStep(step);
+                    });
+
+                    // Handle keyboard navigation
+                    step.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            this.toggleStep(step);
+                        }
+                    });
                 });
-                detailContents.forEach(content => content.classList.remove('active'));
-                
-                // Add active class to selected card and corresponding content
-                const activeCard = document.querySelector(`.step-card[data-step="${stepNumber}"]`);
-                const targetContent = document.querySelector(`.detail-content[data-step="${stepNumber}"]`);
-                
-                if (activeCard && targetContent) {
-                    activeCard.classList.add('active');
-                    activeCard.setAttribute('aria-selected', 'true');
-                    activeCard.setAttribute('tabindex', '0');
-                    targetContent.classList.add('active');
-                    
-                    // Announce change to screen readers
-                    const announcement = document.createElement('div');
-                    announcement.setAttribute('aria-live', 'polite');
-                    announcement.setAttribute('aria-atomic', 'true');
-                    announcement.className = 'sr-only';
-                    announcement.textContent = `Viewing ${activeCard.querySelector('.step-title').textContent} step details`;
-                    document.body.appendChild(announcement);
-                    setTimeout(() => document.body.removeChild(announcement), 1000);
+            }
+
+            toggleStep(step) {
+                const stepNumber = step.dataset.step;
+
+                if (this.currentStep === stepNumber) {
+                    // Collapse current step
+                    step.classList.remove('active');
+                    this.currentStep = null;
+                } else {
+                    // Collapse all steps
+                    document.querySelectorAll('.step').forEach(s => {
+                        s.classList.remove('active');
+                    });
+
+                    // Expand clicked step
+                    step.classList.add('active');
+                    this.currentStep = stepNumber;
+
+                    // Smooth scroll to step
+                    step.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
                 }
             }
-            
-            stepCards.forEach(card => {
-                // Click handler
-                card.addEventListener('click', function() {
-                    const stepNumber = this.getAttribute('data-step');
-                    activateStep(stepNumber);
-                });
-                
-                // Keyboard navigation
-                card.addEventListener('keydown', function(e) {
-                    const currentIndex = Array.from(stepCards).indexOf(this);
-                    let newIndex;
-                    
-                    switch(e.key) {
-                        case 'ArrowRight':
-                        case 'ArrowDown':
-                            e.preventDefault();
-                            newIndex = (currentIndex + 1) % stepCards.length;
-                            stepCards[newIndex].focus();
-                            activateStep(stepCards[newIndex].getAttribute('data-step'));
-                            break;
-                        case 'ArrowLeft':
-                        case 'ArrowUp':
-                            e.preventDefault();
-                            newIndex = currentIndex === 0 ? stepCards.length - 1 : currentIndex - 1;
-                            stepCards[newIndex].focus();
-                            activateStep(stepCards[newIndex].getAttribute('data-step'));
-                            break;
-                        case 'Home':
-                            e.preventDefault();
-                            stepCards[0].focus();
-                            activateStep(stepCards[0].getAttribute('data-step'));
-                            break;
-                        case 'End':
-                            e.preventDefault();
-                            stepCards[stepCards.length - 1].focus();
-                            activateStep(stepCards[stepCards.length - 1].getAttribute('data-step'));
-                            break;
-                        case 'Enter':
-                        case ' ':
-                            e.preventDefault();
-                            this.click();
-                            break;
-                    }
-                });
-            });
-            
-            // Handle URL parameters for Canvas integration
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('compact') === '1') {
-                document.body.style.padding = '10px';
-            }
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new DataFrameworkExplorer();
         });
     </script>
 </body>
