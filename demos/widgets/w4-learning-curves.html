@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learning Curves Explorer - AMBA Template</title>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <style>
+    /* AMBA Template Widget Styling */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: white;
+      color: #333;
+      line-height: 1.5;
+      padding: 0;
+      margin: 0;
+    }
+
+    .dp-wrapper {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 15px;
+      background: #ffffff;
+      border-radius: 8px;
+    }
+
+    .widget-header {
+      background: #034638;
+      color: white;
+      padding: 12px 16px;
+      text-align: center;
+      border-radius: 8px 8px 0 0;
+      margin: -15px -15px 20px -15px;
+    }
+
+    .widget-title {
+      font-size: 1.2em;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    .controls-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .control-panel {
+      background: #f8f9fa;
+      border: 2px solid #034638;
+      border-radius: 8px;
+      padding: 15px;
+    }
+
+    .panel-title {
+      color: #034638;
+      font-weight: bold;
+      margin-bottom: 10px;
+      font-size: 1em;
+    }
+
+    .control-group {
+      margin-bottom: 12px;
+    }
+
+    .control-label {
+      font-weight: bold;
+      color: #555;
+      display: block;
+      margin-bottom: 5px;
+      font-size: 0.9em;
+    }
+
+    .slider-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .slider {
+      flex: 1;
+      height: 6px;
+      border-radius: 3px;
+      background: #ddd;
+      outline: none;
+      -webkit-appearance: none;
+    }
+
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #034638;
+      cursor: pointer;
+    }
+
+    .slider::-moz-range-thumb {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #034638;
+      cursor: pointer;
+      border: none;
+    }
+
+    .slider-value {
+      background: #034638;
+      color: white;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: bold;
+      min-width: 40px;
+      text-align: center;
+      font-size: 0.85em;
+    }
+
+    .plot-container {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      margin: 20px 0;
+      padding: 10px;
+    }
+
+    .diagnosis-panel {
+      background: #e8f5e8;
+      border: 2px solid #034638;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+    }
+
+    .diagnosis-title {
+      color: #034638;
+      font-weight: bold;
+      margin-bottom: 10px;
+      font-size: 1.1em;
+    }
+
+    .diagnosis-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px;
+    }
+
+    .diagnosis-item {
+      background: white;
+      border: 1px solid #034638;
+      border-radius: 6px;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .diagnosis-label {
+      font-size: 0.9em;
+      color: #666;
+      margin-bottom: 5px;
+    }
+
+    .diagnosis-value {
+      font-weight: bold;
+      font-size: 1.1em;
+    }
+
+    .bias-high { color: #d63384; }
+    .bias-low { color: #198754; }
+    .variance-high { color: #fd7e14; }
+    .variance-low { color: #0dcaf0; }
+
+    .recommendations {
+      background: #fff3cd;
+      border-left: 4px solid #ffc107;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 4px;
+    }
+
+    .early-stop-indicator {
+      position: absolute;
+      background: #dc3545;
+      color: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.8em;
+      font-weight: bold;
+    }
+
+    .scenario-tabs {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 15px;
+    }
+
+    .tab-btn {
+      background: #f8f9fa;
+      border: 1px solid #034638;
+      color: #034638;
+      padding: 8px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9em;
+    }
+
+    .tab-btn.active {
+      background: #034638;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+<div class="dp-wrapper">
+  <div class="widget-header">
+    <h1 class="widget-title">Learning Curves Explorer</h1>
+  </div>
+
+  <div class="scenario-tabs">
+    <button class="tab-btn active" onclick="loadScenario('balanced')">Balanced</button>
+    <button class="tab-btn" onclick="loadScenario('underfitting')">High Bias</button>
+    <button class="tab-btn" onclick="loadScenario('overfitting')">High Variance</button>
+    <button class="tab-btn" onclick="loadScenario('good')">Good Fit</button>
+  </div>
+
+  <div class="controls-grid">
+    <div class="control-panel">
+      <div class="panel-title">📊 Dataset Size</div>
+      <div class="control-group">
+        <label class="control-label">Training Samples</label>
+        <div class="slider-container">
+          <input type="range" class="slider" id="dataset-size"
+                 min="100" max="2000" step="100" value="1000">
+          <div class="slider-value" id="dataset-size-value">1000</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="control-panel">
+      <div class="panel-title">🧠 Model Complexity</div>
+      <div class="control-group">
+        <label class="control-label">Complexity Level</label>
+        <div class="slider-container">
+          <input type="range" class="slider" id="model-complexity"
+                 min="1" max="10" step="1" value="5">
+          <div class="slider-value" id="complexity-value">5</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="control-panel">
+      <div class="panel-title">📈 Noise Level</div>
+      <div class="control-group">
+        <label class="control-label">Data Noise</label>
+        <div class="slider-container">
+          <input type="range" class="slider" id="noise-level"
+                 min="0.1" max="1.0" step="0.1" value="0.3">
+          <div class="slider-value" id="noise-value">0.3</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="control-panel">
+      <div class="panel-title">⏰ Early Stopping</div>
+      <div class="control-group">
+        <label class="control-label">Patience (epochs)</label>
+        <div class="slider-container">
+          <input type="range" class="slider" id="early-stop-patience"
+                 min="5" max="50" step="5" value="10">
+          <div class="slider-value" id="patience-value">10</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="plot-container">
+    <div id="learning-curves-plot" style="height: 400px;"></div>
+  </div>
+
+  <div class="diagnosis-panel">
+    <div class="diagnosis-title">🔍 Model Diagnosis</div>
+    <div class="diagnosis-grid">
+      <div class="diagnosis-item">
+        <div class="diagnosis-label">Bias Level</div>
+        <div class="diagnosis-value" id="bias-diagnosis">-</div>
+      </div>
+      <div class="diagnosis-item">
+        <div class="diagnosis-label">Variance Level</div>
+        <div class="diagnosis-value" id="variance-diagnosis">-</div>
+      </div>
+      <div class="diagnosis-item">
+        <div class="diagnosis-label">Training Gap</div>
+        <div class="diagnosis-value" id="gap-diagnosis">-</div>
+      </div>
+      <div class="diagnosis-item">
+        <div class="diagnosis-label">Early Stop Epoch</div>
+        <div class="diagnosis-value" id="early-stop-epoch">-</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="recommendations" class="recommendations">
+    <h3>💡 Recommendations</h3>
+    <p id="recommendation-text">Adjust the parameters above to see how they affect the learning curves and model performance.</p>
+  </div>
+</div>
+
+<script>
+let currentScenario = 'balanced';
+
+function loadScenario(scenario) {
+  currentScenario = scenario;
+
+  // Update tab styling
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+
+  // Set parameters for each scenario
+  switch(scenario) {
+    case 'underfitting':
+      document.getElementById('model-complexity').value = 2;
+      document.getElementById('dataset-size').value = 500;
+      document.getElementById('noise-level').value = 0.5;
+      break;
+    case 'overfitting':
+      document.getElementById('model-complexity').value = 9;
+      document.getElementById('dataset-size').value = 300;
+      document.getElementById('noise-level').value = 0.2;
+      break;
+    case 'good':
+      document.getElementById('model-complexity').value = 6;
+      document.getElementById('dataset-size').value = 1500;
+      document.getElementById('noise-level').value = 0.2;
+      break;
+    default: // balanced
+      document.getElementById('model-complexity').value = 5;
+      document.getElementById('dataset-size').value = 1000;
+      document.getElementById('noise-level').value = 0.3;
+  }
+
+  updateSliderValues();
+  updateLearningCurves();
+}
+
+function generateLearningCurve(datasetSize, complexity, noise, patience) {
+  const maxEpochs = 100;
+  const trainSizes = [];
+  const trainScores = [];
+  const valScores = [];
+
+  // Generate training sizes from 10% to 100% of dataset
+  for (let i = 0.1; i <= 1.0; i += 0.1) {
+    trainSizes.push(Math.floor(datasetSize * i));
+  }
+
+  let earlyStopEpoch = maxEpochs;
+  let bestValScore = 0;
+  let patienceCounter = 0;
+
+  for (let size of trainSizes) {
+    // Training score (generally improves with more data, affected by complexity)
+    let trainScore = 0.6 + (size / datasetSize) * 0.3;
+
+    // Adjust for complexity
+    if (complexity < 3) {
+      trainScore -= 0.1; // Underfitting
+    } else if (complexity > 7) {
+      trainScore += 0.1; // Can fit training data well
+    }
+
+    trainScore += (Math.random() - 0.5) * 0.05; // Small random variation
+    trainScore = Math.min(0.98, Math.max(0.4, trainScore));
+
+    // Validation score (more complex relationship)
+    let valScore = 0.5 + (size / datasetSize) * 0.25;
+
+    // Complexity effects on validation
+    if (complexity < 3) {
+      valScore -= 0.15; // Underfitting hurts validation
+    } else if (complexity > 7) {
+      valScore -= (complexity - 7) * 0.03; // Overfitting hurts validation
+      valScore -= Math.max(0, (1 - size / datasetSize)) * 0.1; // Worse with less data
+    }
+
+    // Noise effects
+    valScore -= noise * 0.1;
+
+    valScore += (Math.random() - 0.5) * 0.03; // Random variation
+    valScore = Math.min(0.95, Math.max(0.3, valScore));
+
+    trainScores.push(trainScore);
+    valScores.push(valScore);
+
+    // Early stopping simulation (simplified)
+    if (valScore > bestValScore) {
+      bestValScore = valScore;
+      patienceCounter = 0;
+    } else {
+      patienceCounter++;
+      if (patienceCounter >= patience && trainSizes.indexOf(size) > 3) {
+        earlyStopEpoch = trainSizes.indexOf(size) * 10;
+        break;
+      }
+    }
+  }
+
+  return { trainSizes, trainScores, valScores, earlyStopEpoch };
+}
+
+function updateLearningCurves() {
+  const datasetSize = parseInt(document.getElementById('dataset-size').value);
+  const complexity = parseInt(document.getElementById('model-complexity').value);
+  const noise = parseFloat(document.getElementById('noise-level').value);
+  const patience = parseInt(document.getElementById('early-stop-patience').value);
+
+  const curves = generateLearningCurve(datasetSize, complexity, noise, patience);
+
+  // Convert scores to percentages
+  const trainScoresPercent = curves.trainScores.map(s => s * 100);
+  const valScoresPercent = curves.valScores.map(s => s * 100);
+
+  const trace1 = {
+    x: curves.trainSizes,
+    y: trainScoresPercent,
+    type: 'scatter',
+    mode: 'lines+markers',
+    name: 'Training Score',
+    line: { color: '#034638', width: 3 },
+    marker: { size: 6 }
+  };
+
+  const trace2 = {
+    x: curves.trainSizes,
+    y: valScoresPercent,
+    type: 'scatter',
+    mode: 'lines+markers',
+    name: 'Validation Score',
+    line: { color: '#582C83', width: 3 },
+    marker: { size: 6 }
+  };
+
+  const layout = {
+    title: 'Learning Curves: Training vs Validation Performance',
+    xaxis: {
+      title: 'Training Set Size',
+      type: 'linear'
+    },
+    yaxis: {
+      title: 'Accuracy (%)',
+      range: [30, 100]
+    },
+    showlegend: true,
+    margin: { t: 50, b: 50, l: 60, r: 20 }
+  };
+
+  // Add early stopping line if applicable
+  const traces = [trace1, trace2];
+  if (curves.earlyStopEpoch < 100) {
+    const stopSize = curves.trainSizes[Math.floor(curves.earlyStopEpoch / 10)];
+    if (stopSize) {
+      traces.push({
+        x: [stopSize, stopSize],
+        y: [30, 100],
+        type: 'scatter',
+        mode: 'lines',
+        name: 'Early Stop',
+        line: { color: '#dc3545', width: 2, dash: 'dash' }
+      });
+    }
+  }
+
+  Plotly.newPlot('learning-curves-plot', traces, layout, {responsive: true});
+
+  // Update diagnosis
+  updateDiagnosis(curves, complexity);
+}
+
+function updateDiagnosis(curves, complexity) {
+  const finalTrainScore = curves.trainScores[curves.trainScores.length - 1];
+  const finalValScore = curves.valScores[curves.valScores.length - 1];
+  const gap = finalTrainScore - finalValScore;
+
+  // Bias diagnosis (low final validation score)
+  let biasLevel, biasClass;
+  if (finalValScore < 0.7) {
+    biasLevel = "High";
+    biasClass = "bias-high";
+  } else if (finalValScore < 0.8) {
+    biasLevel = "Medium";
+    biasClass = "bias-medium";
+  } else {
+    biasLevel = "Low";
+    biasClass = "bias-low";
+  }
+
+  // Variance diagnosis (large gap between train and validation)
+  let varianceLevel, varianceClass;
+  if (gap > 0.15) {
+    varianceLevel = "High";
+    varianceClass = "variance-high";
+  } else if (gap > 0.08) {
+    varianceLevel = "Medium";
+    varianceClass = "variance-medium";
+  } else {
+    varianceLevel = "Low";
+    varianceClass = "variance-low";
+  }
+
+  document.getElementById('bias-diagnosis').textContent = biasLevel;
+  document.getElementById('bias-diagnosis').className = `diagnosis-value ${biasClass}`;
+
+  document.getElementById('variance-diagnosis').textContent = varianceLevel;
+  document.getElementById('variance-diagnosis').className = `diagnosis-value ${varianceClass}`;
+
+  document.getElementById('gap-diagnosis').textContent = `${(gap * 100).toFixed(1)}%`;
+  document.getElementById('early-stop-epoch').textContent = curves.earlyStopEpoch < 100 ? curves.earlyStopEpoch : "None";
+
+  // Generate recommendations
+  updateRecommendations(biasLevel, varianceLevel, gap, complexity);
+}
+
+function updateRecommendations(biasLevel, varianceLevel, gap, complexity) {
+  let recommendations = [];
+
+  if (biasLevel === "High") {
+    recommendations.push("🔧 Increase model complexity (more features, deeper networks)");
+    recommendations.push("📚 Collect more relevant features");
+  }
+
+  if (varianceLevel === "High") {
+    recommendations.push("📊 Collect more training data");
+    recommendations.push("🎯 Reduce model complexity or add regularization");
+    recommendations.push("⏰ Use early stopping to prevent overfitting");
+  }
+
+  if (gap > 0.1) {
+    recommendations.push("✅ Large train-val gap suggests overfitting");
+  }
+
+  if (complexity < 3) {
+    recommendations.push("⚡ Model may be too simple - consider increasing complexity");
+  } else if (complexity > 7) {
+    recommendations.push("🎛️ Model may be too complex - consider regularization");
+  }
+
+  if (recommendations.length === 0) {
+    recommendations.push("🎉 Model appears well-balanced! Consider testing on held-out data.");
+  }
+
+  document.getElementById('recommendation-text').innerHTML = recommendations.join('<br>');
+}
+
+function updateSliderValues() {
+  document.getElementById('dataset-size-value').textContent = document.getElementById('dataset-size').value;
+  document.getElementById('complexity-value').textContent = document.getElementById('model-complexity').value;
+  document.getElementById('noise-value').textContent = document.getElementById('noise-level').value;
+  document.getElementById('patience-value').textContent = document.getElementById('early-stop-patience').value;
+}
+
+// Event listeners
+document.getElementById('dataset-size').addEventListener('input', function() {
+  updateSliderValues();
+  updateLearningCurves();
+});
+
+document.getElementById('model-complexity').addEventListener('input', function() {
+  updateSliderValues();
+  updateLearningCurves();
+});
+
+document.getElementById('noise-level').addEventListener('input', function() {
+  updateSliderValues();
+  updateLearningCurves();
+});
+
+document.getElementById('early-stop-patience').addEventListener('input', function() {
+  updateSliderValues();
+  updateLearningCurves();
+});
+
+// Initialize
+updateSliderValues();
+updateLearningCurves();
+</script>
+
+</body>
+</html>

@@ -1,67 +1,105 @@
 # AI Prototyping Course - Claude Code Reference
 
 ## Project Overview
-Interactive learning hub for machine learning concepts with hands-on demonstrations. Built for educational use with professional Ivey branding.
+Canvas LMS course development project converting Subject Matter Expert (SME) materials into self-paced AI/ML learning modules. The project transforms traditional course materials into an engaging, interactive Canvas LMS experience following strict accessibility and pedagogical standards.
 
 ## Repository
 - **GitHub**: https://github.com/jkruckivey/AI-Prototyping-course.git
-- **Local Path**: `C:\Users\jkruck\Ivey Business School\EdTech Lab - Documents\Github\linear-regression-demo`
+- **GitHub Pages**: https://jkruckivey.github.io/AI-Prototyping-course/
+- **Local Path**: `C:\Users\jkruck\Ivey Business School\EdTech Lab - Documents\Github\AI Prototyping Learn`
 
 ## Project Structure
 ```
-├── index.html              # Main course hub landing page
-├── styles.css              # Course hub styling
-├── script.js               # Course hub interactions and progress tracking
-├── README.md               # Project documentation
+├── Course Materials/       # Original SME content organized by weeks
+├── Development Files/      # 5-week structured HTML pages for Canvas LMS
+│   ├── Week 1/            # AI fundamentals and importance
+│   ├── Week 2/            # Supervised learning algorithms
+│   ├── Week 3/            # Unsupervised learning and preprocessing
+│   ├── Week 4/            # Model evaluation and business metrics
+│   └── Week 5/            # Deployment and governance
 ├── demos/
-│   ├── shared-demo.css     # Shared stylesheet for all demos
-│   ├── linear-regression.html    # Linear regression demo
-│   ├── linear-regression.js      # Linear regression functionality  
-│   ├── logistic-regression.html  # Logistic regression demo
-│   ├── logistic-regression.js    # Logistic regression functionality
-│   ├── knn.html            # K-Nearest Neighbors demo
-│   └── knn.js              # KNN functionality
+│   └── widgets/           # 40+ interactive Canvas-embeddable widgets
+├── archive/               # Legacy Canvas pages and experiments
+├── amba template.html     # Master accessibility-compliant template
+├── index.html            # Course hub landing page
+├── styles.css            # Course hub styling
+└── Documentation files   # Implementation guides and checklists
 ```
 
-## Available Demos
-1. **Linear Regression** - MBA salary prediction with parameter adjustment
-2. **Logistic Regression** - Apple vs Orange classification with sigmoid function
-3. **K-Nearest Neighbors** - Height-based gender classification and chest circumference regression
+## Course Components
+
+### Canvas LMS Pages (Development Files/)
+- **Week 1**: AI importance, data understanding, machine learning models
+- **Week 2**: Supervised learning (linear regression, logistic regression, KNN, SVM, etc.)
+- **Week 3**: Unsupervised learning (clustering, PCA, preprocessing, recommendations)
+- **Week 4**: Model evaluation, cross-validation, business metrics
+- **Week 5**: Deployment, monitoring, governance
+
+### Interactive Widgets (demos/widgets/)
+- **AI Evolution Timeline**: Historical AI development exploration
+- **AI Hierarchy Explorer**: Interactive AI → ML → Deep Learning relationships
+- **ROI Calculator**: Business value calculation for AI projects
+- **Algorithm Demonstrations**: Linear regression, logistic regression, K-means clustering
+- **Business Applications**: Customer segmentation, data frameworks, infrastructure strategy
 
 ## Key Technologies
+- **AMBA Template System** - Accessibility-compliant Canvas LMS structure
+- **Canvas dp-framework** - Ivey's Canvas integration system
 - **Plotly.js** - Interactive visualizations (loaded via CDN)
 - **Vanilla JavaScript** - No framework dependencies
-- **CSS Grid/Flexbox** - Responsive layouts
-- **Figtree Font** - Google Fonts integration
+- **GitHub Pages** - Widget hosting for Canvas embedding
+- **Responsive Design** - Mobile-friendly breakpoints
 
 ## Styling System
-- **Shared CSS**: `demos/shared-demo.css` used by all demo pages
-- **Ivey Branding**: 
+- **AMBA Template**: Master template with accessibility compliance
+- **Canvas Widget Templates**: Optimized for 450px max width Canvas embedding
+- **Ivey Branding**:
   - Primary: `#034638` (Ivey Green)
-  - Accent: `#582C83` (Ivey Purple) 
+  - Accent: `#582C83` (Ivey Purple)
   - Classification colors: `#dc2626` (Apple Red), `#f97316` (Orange), `#3b82f6` (Male Blue), `#ec4899` (Female Pink)
-- **Responsive Design**: Mobile-friendly breakpoints
+- **dp-wrapper Framework**: Canvas LMS integration structure
+- **Responsive Design**: Mobile-friendly breakpoints with accessibility standards
 
-## Demo Architecture
-Each demo follows consistent structure:
-- **4-step storytelling** with navigation controls
-- **Interactive parameter controls** with real-time updates
-- **Plotly visualization** with educational annotations
-- **Concept explanation cards** with click highlighting
-- **Custom prediction tools** for hands-on testing
+## Canvas Integration Architecture
 
-## Adding New Demos
-1. Create `demos/[algorithm-name].html` using existing demo as template
-2. Create `demos/[algorithm-name].js` with interactive functionality
-3. Add demo card to main `index.html` in demos grid
-4. Extend `demos/shared-demo.css` if algorithm-specific styles needed
-5. Test all interactive features work correctly
-6. Commit and push to GitHub
+### AMBA Template Structure
+- **Page Intro/Title Block** with learning objectives
+- **Accordion Panels** for content organization
+- **Interactive Widget Sections** with embedded iframes
+- **Quick Check** sections for knowledge validation
+- **Accessibility Features** (ARIA labels, keyboard navigation, screen reader support)
+
+### Widget Embedding Pattern
+```html
+<div class="dp-content-block content-block">
+  <h2 class="dp-has-icon"><i class="dp-icon fas fa-icon"></i>&nbsp;Widget Title</h2>
+  <div class="dp-embed-wrapper">
+    <iframe src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/widget-name.html"
+            width="100%" height="480" frameborder="0"></iframe>
+  </div>
+</div>
+```
+
+## Adding New Content
+
+### New Canvas Pages
+1. Use `amba template.html` as base template
+2. Follow dp-wrapper structure and accessibility guidelines
+3. Place in appropriate `Development Files/Week X/` folder
+4. Test accordion functionality and responsive design
+
+### New Widgets
+1. Create widget using `demos/widgets/canvas-widget-template.html`
+2. Create AMBA version with `-amba.html` suffix
+3. Optimize for 450px max width Canvas embedding
+4. Test across devices and screen readers
+5. Add embedding code to instructor templates
+6. Update documentation guides
 
 ## Development Commands
 ```bash
 # Navigate to project
-cd "C:\Users\jkruck\Ivey Business School\EdTech Lab - Documents\Github\linear-regression-demo"
+cd "C:\Users\jkruck\Ivey Business School\EdTech Lab - Documents\Github\AI Prototyping Learn"
 
 # Check git status
 git status
@@ -74,45 +112,53 @@ git commit -m "Description of changes
 
 Co-Authored-By: Claude <noreply@anthropic.com>"
 
-# Push to GitHub
+# Push to GitHub (auto-deploys to GitHub Pages)
 git push
 ```
 
 ## Testing
-- **Manual testing** - Open demos in browser and test all interactive features
-- **Responsive testing** - Check mobile/tablet layouts
-- **Cross-browser testing** - Verify in Chrome, Firefox, Safari, Edge
-- No automated test suite currently implemented
+- **Canvas Integration Testing** - Test embedded widgets in Canvas LMS environment
+- **Accessibility Testing** - Screen reader compatibility and keyboard navigation
+- **Responsive Testing** - Mobile/tablet layouts within Canvas constraints
+- **Cross-browser Testing** - Chrome, Firefox, Safari, Edge compatibility
+- **Template Validation** - AMBA template structure and dp-framework compliance
 
 ## Deployment
-- **Static hosting** - All files are client-side, no server required
-- **GitHub Pages compatible** - Can deploy directly from repository
-- **Local development** - Simply open `index.html` in browser
+- **GitHub Pages** - Widgets automatically deployed at https://jkruckivey.github.io/AI-Prototyping-course/
+- **Canvas LMS Integration** - HTML pages copied into Canvas modules
+- **Widget Embedding** - iframes point to GitHub Pages URLs
+- **Local Development** - Test widgets locally before Canvas integration
 
 ## Educational Features
-- **Progress tracking** - LocalStorage-based completion tracking
-- **Concept highlighting** - Click concept cards to highlight related UI elements
-- **Interactive storytelling** - Auto-advancing narrative with manual controls
-- **Real-time feedback** - Immediate visual response to parameter changes
+- **Accordion-based Content** - Organized, accessible content panels
+- **Interactive Widgets** - Hands-on learning with real-time feedback
+- **Canvas LMS Integration** - Seamless embedding in course modules
+- **Accessibility Compliance** - WCAG standards and screen reader support
+- **Mobile Responsive** - Optimized for all device types
+- **Progress Tracking** - Canvas LMS native progress monitoring
 
 ## Common Issues
-- **Plotly.js loading** - Ensure CDN connection for visualizations
-- **Path references** - Use relative paths for demo navigation
-- **CSS conflicts** - All demos share single stylesheet, test style changes across all demos
+- **Canvas Embedding** - Use exact iframe dimensions and GitHub Pages URLs
+- **AMBA Template Compliance** - Maintain dp-wrapper structure and accessibility features
+- **Widget Responsiveness** - Test 450px max width constraint in Canvas
+- **Accessibility** - Ensure ARIA labels and keyboard navigation work
+- **Cross-browser Canvas** - Test embedded widgets across different browsers
 
 ## Future Enhancements
-- Neural Networks demo
-- Decision Trees demo  
-- Classification algorithms comparison
-- Clustering (K-means) demo
-- Optimization/Gradient Descent visualization
+- **Advanced Algorithms**: Neural networks, ensemble methods
+- **Business Case Studies**: Industry-specific AI applications
+- **Assessment Tools**: Interactive quizzes and Canvas-integrated assessments
+- **Video Integration**: Embedded learning videos with widget synchronization
+- **Analytics Dashboard**: Learning progress and engagement metrics
 
 ## Notes for Claude Code
-- Always test new demos thoroughly before committing
-- Maintain consistent Ivey branding across all new features
-- Follow existing naming conventions and file structure
-- Update this CLAUDE.md file when making significant changes
-- Shared CSS approach means style changes affect all demos
+- **AMBA Template Compliance**: Always use amba template.html as base for new Canvas pages
+- **Widget Development**: Create both standalone and AMBA versions of widgets
+- **Canvas Optimization**: Maintain 450px max width for embedded widgets
+- **Accessibility Priority**: Test screen reader compatibility and keyboard navigation
+- **Documentation Updates**: Update instructor guides and embedding templates
+- **GitHub Pages Deployment**: Remember widgets auto-deploy for Canvas embedding
+- **Course Material Workflow**: SME content → Development Files → Canvas LMS integration
 
 ## Changelog
 

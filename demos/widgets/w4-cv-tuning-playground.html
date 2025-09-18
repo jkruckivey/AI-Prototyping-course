@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CV & Tuning Playground - AMBA Template</title>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <style>
+    /* AMBA Template Widget Styling */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: white;
+      color: #333;
+      line-height: 1.5;
+      padding: 0;
+      margin: 0;
+    }
+
+    .dp-wrapper {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 15px;
+      background: #ffffff;
+      border-radius: 8px;
+    }
+
+    .widget-header {
+      background: #034638;
+      color: white;
+      padding: 12px 16px;
+      text-align: center;
+      border-radius: 8px 8px 0 0;
+      margin: -15px -15px 20px -15px;
+    }
+
+    .widget-title {
+      font-size: 1.2em;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    .controls-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .control-panel {
+      background: #f8f9fa;
+      border: 2px solid #034638;
+      border-radius: 8px;
+      padding: 15px;
+    }
+
+    .panel-title {
+      color: #034638;
+      font-weight: bold;
+      margin-bottom: 10px;
+      font-size: 1.1em;
+    }
+
+    .control-group {
+      margin-bottom: 12px;
+    }
+
+    .control-label {
+      font-weight: bold;
+      color: #555;
+      display: block;
+      margin-bottom: 5px;
+      font-size: 0.9em;
+    }
+
+    select, input[type="number"] {
+      width: 100%;
+      padding: 6px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .btn {
+      background: #034638;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .btn:hover {
+      background: #045a42;
+    }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin: 20px 0;
+    }
+
+    .result-card {
+      background: white;
+      border: 2px solid #034638;
+      border-radius: 8px;
+      padding: 15px;
+      text-align: center;
+    }
+
+    .result-title {
+      font-size: 0.9em;
+      color: #666;
+      margin-bottom: 8px;
+    }
+
+    .result-value {
+      font-size: 1.3em;
+      font-weight: bold;
+      color: #034638;
+    }
+
+    .result-variance {
+      font-size: 0.8em;
+      color: #888;
+      margin-top: 4px;
+    }
+
+    .plot-container {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      margin: 20px 0;
+      padding: 10px;
+    }
+
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+      font-size: 0.9em;
+    }
+
+    .comparison-table th,
+    .comparison-table td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+    }
+
+    .comparison-table th {
+      background: #034638;
+      color: white;
+    }
+
+    .comparison-table tr:nth-child(even) {
+      background: #f9f9f9;
+    }
+
+    .status-indicator {
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.8em;
+      font-weight: bold;
+    }
+
+    .status-running {
+      background: #fff3cd;
+      color: #856404;
+    }
+
+    .status-complete {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    .insight-box {
+      background: #e8f5e8;
+      border-left: 4px solid #034638;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="dp-wrapper">
+  <div class="widget-header">
+    <h1 class="widget-title">Cross-Validation & Hyperparameter Tuning Playground</h1>
+  </div>
+
+  <div class="controls-grid">
+    <div class="control-panel">
+      <div class="panel-title">📊 CV Strategy</div>
+      <div class="control-group">
+        <label class="control-label">Validation Method</label>
+        <select id="cv-method">
+          <option value="holdout">Simple Holdout (70/30)</option>
+          <option value="kfold">K-Fold CV</option>
+          <option value="stratified">Stratified K-Fold</option>
+          <option value="timeseries">Time Series CV</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <label class="control-label">Number of Folds (if applicable)</label>
+        <input type="number" id="n-folds" value="5" min="2" max="10">
+      </div>
+    </div>
+
+    <div class="control-panel">
+      <div class="panel-title">🔍 Hyperparameter Search</div>
+      <div class="control-group">
+        <label class="control-label">Search Strategy</label>
+        <select id="search-strategy">
+          <option value="grid">Grid Search</option>
+          <option value="random">Random Search</option>
+          <option value="bayesian">Bayesian Optimization</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <label class="control-label">Search Budget (iterations)</label>
+        <input type="number" id="search-budget" value="20" min="5" max="100">
+      </div>
+      <button class="btn" onclick="runExperiment()">Run Experiment</button>
+    </div>
+  </div>
+
+  <div id="status" class="status-indicator status-complete">Ready to run experiment</div>
+
+  <div class="results-grid">
+    <div class="result-card">
+      <div class="result-title">Best CV Score</div>
+      <div class="result-value" id="best-score">-</div>
+      <div class="result-variance" id="score-variance">-</div>
+    </div>
+    <div class="result-card">
+      <div class="result-title">Best Parameters</div>
+      <div class="result-value" id="best-params">-</div>
+    </div>
+    <div class="result-card">
+      <div class="result-title">Time Elapsed</div>
+      <div class="result-value" id="time-elapsed">-</div>
+    </div>
+    <div class="result-card">
+      <div class="result-title">Iterations</div>
+      <div class="result-value" id="iterations">-</div>
+    </div>
+  </div>
+
+  <div class="plot-container">
+    <div id="search-progress-plot" style="height: 350px;"></div>
+  </div>
+
+  <div class="plot-container">
+    <div id="cv-variance-plot" style="height: 300px;"></div>
+  </div>
+
+  <table class="comparison-table">
+    <thead>
+      <tr>
+        <th>CV Method</th>
+        <th>Pros</th>
+        <th>Cons</th>
+        <th>Best For</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Holdout</strong></td>
+        <td>Fast, simple</td>
+        <td>High variance estimate</td>
+        <td>Large datasets, quick testing</td>
+      </tr>
+      <tr>
+        <td><strong>K-Fold</strong></td>
+        <td>Lower variance, uses all data</td>
+        <td>More computation</td>
+        <td>Medium datasets, balanced classes</td>
+      </tr>
+      <tr>
+        <td><strong>Stratified</strong></td>
+        <td>Preserves class ratios</td>
+        <td>Only for classification</td>
+        <td>Imbalanced datasets</td>
+      </tr>
+      <tr>
+        <td><strong>Time Series</strong></td>
+        <td>Respects temporal order</td>
+        <td>Limited training data per fold</td>
+        <td>Temporal data, forecasting</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div id="insights" class="insight-box">
+    <h3>💡 Experiment Insights</h3>
+    <p id="insight-text">Configure your experiment above and click "Run Experiment" to see how different CV strategies and search methods compare.</p>
+  </div>
+</div>
+
+<script>
+let experimentResults = [];
+
+function simulateExperiment(cvMethod, searchStrategy, budget, nFolds) {
+  // Simulate different parameter combinations and their performance
+  const results = [];
+  const params = ['C', 'gamma', 'kernel'];
+
+  for (let i = 0; i < budget; i++) {
+    // Simulate parameter values
+    const paramSet = {
+      C: Math.pow(10, Math.random() * 4 - 2), // 0.01 to 100
+      gamma: Math.pow(10, Math.random() * 3 - 3), // 0.001 to 1
+      kernel: Math.random() > 0.5 ? 'rbf' : 'linear'
+    };
+
+    // Simulate CV scores with different variance patterns
+    let baseScore = 0.75 + Math.random() * 0.2; // 75-95% base accuracy
+    let variance = 0.02; // base variance
+
+    // Adjust based on CV method
+    switch(cvMethod) {
+      case 'holdout':
+        variance = 0.05; // Higher variance
+        break;
+      case 'kfold':
+        variance = 0.02;
+        break;
+      case 'stratified':
+        variance = 0.015;
+        break;
+      case 'timeseries':
+        variance = 0.03;
+        baseScore -= 0.05; // Often lower scores due to temporal constraints
+        break;
+    }
+
+    // Generate fold scores
+    const foldScores = [];
+    for (let f = 0; f < nFolds; f++) {
+      foldScores.push(baseScore + (Math.random() - 0.5) * variance * 2);
+    }
+
+    const meanScore = foldScores.reduce((a, b) => a + b, 0) / foldScores.length;
+    const scoreStd = Math.sqrt(foldScores.reduce((sum, score) => sum + Math.pow(score - meanScore, 2), 0) / foldScores.length);
+
+    results.push({
+      iteration: i + 1,
+      params: paramSet,
+      score: meanScore,
+      std: scoreStd,
+      foldScores: foldScores
+    });
+  }
+
+  return results.sort((a, b) => b.score - a.score);
+}
+
+function runExperiment() {
+  const cvMethod = document.getElementById('cv-method').value;
+  const searchStrategy = document.getElementById('search-strategy').value;
+  const budget = parseInt(document.getElementById('search-budget').value);
+  const nFolds = parseInt(document.getElementById('n-folds').value);
+
+  // Update status
+  document.getElementById('status').className = 'status-indicator status-running';
+  document.getElementById('status').textContent = 'Running experiment...';
+
+  // Simulate delay
+  setTimeout(() => {
+    experimentResults = simulateExperiment(cvMethod, searchStrategy, budget, nFolds);
+    updateResults();
+    updatePlots();
+    updateInsights(cvMethod, searchStrategy);
+
+    document.getElementById('status').className = 'status-indicator status-complete';
+    document.getElementById('status').textContent = 'Experiment complete';
+  }, 1000);
+}
+
+function updateResults() {
+  const best = experimentResults[0];
+
+  document.getElementById('best-score').textContent = (best.score * 100).toFixed(1) + '%';
+  document.getElementById('score-variance').textContent = `±${(best.std * 100).toFixed(1)}%`;
+  document.getElementById('best-params').textContent = `C=${best.params.C.toFixed(3)}`;
+  document.getElementById('time-elapsed').textContent = (Math.random() * 10 + 5).toFixed(1) + 's';
+  document.getElementById('iterations').textContent = experimentResults.length;
+}
+
+function updatePlots() {
+  // Search progress plot
+  const iterations = experimentResults.map(r => r.iteration);
+  const scores = experimentResults.map(r => r.score * 100);
+  const bestSoFar = [];
+  let currentBest = 0;
+
+  for (let score of scores) {
+    currentBest = Math.max(currentBest, score);
+    bestSoFar.push(currentBest);
+  }
+
+  const trace1 = {
+    x: iterations,
+    y: scores,
+    type: 'scatter',
+    mode: 'markers',
+    name: 'Trial Score',
+    marker: { color: '#034638', size: 6 }
+  };
+
+  const trace2 = {
+    x: iterations,
+    y: bestSoFar,
+    type: 'scatter',
+    mode: 'lines',
+    name: 'Best So Far',
+    line: { color: '#582C83', width: 3 }
+  };
+
+  const layout1 = {
+    title: 'Hyperparameter Search Progress',
+    xaxis: { title: 'Iteration' },
+    yaxis: { title: 'CV Score (%)' },
+    showlegend: true,
+    margin: { t: 50, b: 50, l: 60, r: 20 }
+  };
+
+  Plotly.newPlot('search-progress-plot', [trace1, trace2], layout1, {responsive: true});
+
+  // CV variance plot
+  const top10 = experimentResults.slice(0, 10);
+  const paramLabels = top10.map((r, i) => `Trial ${r.iteration}`);
+  const meanScores = top10.map(r => r.score * 100);
+  const errorBars = top10.map(r => r.std * 100);
+
+  const trace3 = {
+    x: paramLabels,
+    y: meanScores,
+    error_y: {
+      type: 'data',
+      array: errorBars,
+      visible: true
+    },
+    type: 'bar',
+    marker: { color: '#034638' },
+    name: 'CV Score'
+  };
+
+  const layout2 = {
+    title: 'Top 10 Parameter Sets (with CV variance)',
+    xaxis: { title: 'Parameter Set' },
+    yaxis: { title: 'CV Score (%)' },
+    margin: { t: 50, b: 80, l: 60, r: 20 }
+  };
+
+  Plotly.newPlot('cv-variance-plot', [trace3], layout2, {responsive: true});
+}
+
+function updateInsights(cvMethod, searchStrategy) {
+  let insight = `Using ${cvMethod} cross-validation with ${searchStrategy} search: `;
+
+  const best = experimentResults[0];
+  const scoreRange = (Math.max(...experimentResults.map(r => r.score)) - Math.min(...experimentResults.map(r => r.score))) * 100;
+
+  if (cvMethod === 'holdout') {
+    insight += "Single split may give optimistic estimates. Consider k-fold for more reliable validation. ";
+  } else if (cvMethod === 'kfold') {
+    insight += "Good balance of computational cost and variance reduction. ";
+  } else if (cvMethod === 'stratified') {
+    insight += "Maintains class balance across folds, important for imbalanced data. ";
+  } else if (cvMethod === 'timeseries') {
+    insight += "Respects temporal ordering, crucial for time-dependent data. ";
+  }
+
+  if (searchStrategy === 'grid') {
+    insight += "Grid search systematically explores parameter combinations. ";
+  } else if (searchStrategy === 'random') {
+    insight += "Random search often finds good solutions faster than grid search. ";
+  } else if (searchStrategy === 'bayesian') {
+    insight += "Bayesian optimization efficiently explores promising regions. ";
+  }
+
+  insight += `Score variance: ±${(best.std * 100).toFixed(1)}%. `;
+  insight += `Parameter range explored: ${scoreRange.toFixed(1)}% score difference.`;
+
+  document.getElementById('insight-text').textContent = insight;
+}
+
+// Initialize
+document.getElementById('cv-method').addEventListener('change', function() {
+  const method = this.value;
+  const foldsInput = document.getElementById('n-folds');
+  foldsInput.disabled = method === 'holdout';
+});
+</script>
+
+</body>
+</html>

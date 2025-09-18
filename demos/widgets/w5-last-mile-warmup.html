@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Last-Mile Gap Warm-up - AMBA Template</title>
+  <style>
+    /* AMBA Template Widget Styling */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: white;
+      color: #333;
+      line-height: 1.5;
+      padding: 0;
+      margin: 0;
+    }
+
+    .dp-wrapper {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 15px;
+      background: #ffffff;
+      border-radius: 8px;
+    }
+
+    .widget-header {
+      background: #034638;
+      color: white;
+      padding: 12px 16px;
+      text-align: center;
+      border-radius: 8px 8px 0 0;
+      margin: -15px -15px 20px -15px;
+    }
+
+    .widget-title {
+      font-size: 1.2em;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    .scenario-box {
+      background: #f8f9fa;
+      border: 2px solid #034638;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 15px 0;
+    }
+
+    .scenario-title {
+      color: #034638;
+      font-size: 1.1em;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .reflection-section {
+      background: #ffffff;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+    }
+
+    .reflection-prompt {
+      font-weight: bold;
+      color: #034638;
+      margin-bottom: 10px;
+    }
+
+    .category-container {
+      margin: 15px 0;
+    }
+
+    .category-title {
+      background: #582C83;
+      color: white;
+      padding: 8px 12px;
+      font-weight: bold;
+      border-radius: 4px 4px 0 0;
+      margin: 0;
+    }
+
+    .blockers-list {
+      background: #f8f9fa;
+      border: 1px solid #582C83;
+      border-radius: 0 0 4px 4px;
+      padding: 15px;
+      min-height: 120px;
+    }
+
+    .blocker-item {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 8px 12px;
+      margin: 5px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .add-blocker {
+      background: #e9ecef;
+      border: 2px dashed #6c757d;
+      border-radius: 4px;
+      padding: 12px;
+      text-align: center;
+      cursor: pointer;
+      color: #6c757d;
+      margin: 5px 0;
+      transition: all 0.2s ease;
+    }
+
+    .add-blocker:hover {
+      background: #dee2e6;
+      border-color: #495057;
+      color: #495057;
+    }
+
+    .blocker-input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .btn {
+      background: #034638;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      margin: 0 2px;
+    }
+
+    .btn:hover {
+      background: #045a42;
+    }
+
+    .btn-remove {
+      background: #dc3545;
+      padding: 4px 8px;
+      font-size: 12px;
+    }
+
+    .btn-remove:hover {
+      background: #c82333;
+    }
+
+    .insights-section {
+      background: #e8f5e8;
+      border-left: 4px solid #034638;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 4px;
+      display: none;
+    }
+
+    .insights-section.show {
+      display: block;
+    }
+
+    .insights-title {
+      color: #034638;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .insight-item {
+      margin: 8px 0;
+      padding-left: 15px;
+      position: relative;
+    }
+
+    .insight-item::before {
+      content: "💡";
+      position: absolute;
+      left: 0;
+    }
+
+    .examples-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+      margin: 15px 0;
+    }
+
+    .example-card {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 15px;
+    }
+
+    .example-title {
+      font-weight: bold;
+      color: #034638;
+      margin-bottom: 8px;
+    }
+
+    .example-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .example-list li {
+      margin: 4px 0;
+      padding-left: 15px;
+      position: relative;
+      font-size: 0.9em;
+    }
+
+    .example-list li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: #034638;
+    }
+
+    .action-buttons {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    .progress-summary {
+      background: #fff3cd;
+      border: 1px solid #ffc107;
+      border-radius: 4px;
+      padding: 10px;
+      margin: 10px 0;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<div class="dp-wrapper">
+  <div class="widget-header">
+    <h1 class="widget-title">The Last-Mile Gap: From Notebook to Business Value</h1>
+  </div>
+
+  <div class="scenario-box">
+    <div class="scenario-title">🚀 The Challenge</div>
+    <p><strong>Your model works perfectly in the notebook</strong> - 95% accuracy, clean validation curves, and stakeholders are excited.</p>
+    <p>But 6 months later, it's still not delivering business value. Sound familiar?</p>
+    <p>This is the <em>"last-mile gap"</em> - the space between a working model and real business impact.</p>
+  </div>
+
+  <div class="reflection-section">
+    <div class="reflection-prompt">🤔 Reflection Exercise:</div>
+    <p><strong>What could stop a working model from delivering business value after it leaves the notebook?</strong></p>
+    <p>Think about both <em>technical</em> and <em>organizational</em> blockers. Add your ideas to the lists below:</p>
+  </div>
+
+  <div class="category-container">
+    <h3 class="category-title">🔧 Technical Blockers</h3>
+    <div class="blockers-list" id="technical-blockers">
+      <div class="add-blocker" onclick="addBlocker('technical')">+ Click to add a technical blocker</div>
+    </div>
+  </div>
+
+  <div class="category-container">
+    <h3 class="category-title">👥 Organizational Blockers</h3>
+    <div class="blockers-list" id="organizational-blockers">
+      <div class="add-blocker" onclick="addBlocker('organizational')">+ Click to add an organizational blocker</div>
+    </div>
+  </div>
+
+  <div class="progress-summary" id="progress-summary" style="display: none;">
+    You've identified <span id="blocker-count">0</span> potential blockers. Keep going to unlock insights!
+  </div>
+
+  <div class="action-buttons">
+    <button class="btn" onclick="showInsights()">Show Common Blockers & Solutions</button>
+    <button class="btn" style="background: #582C83;" onclick="clearAll()">Start Over</button>
+  </div>
+
+  <div class="insights-section" id="insights-section">
+    <div class="insights-title">💡 Common Last-Mile Blockers & Solutions</div>
+
+    <div class="examples-grid">
+      <div class="example-card">
+        <div class="example-title">Technical Blockers</div>
+        <ul class="example-list">
+          <li>Data pipeline breaks in production</li>
+          <li>Feature serving latency too high</li>
+          <li>Model inference infrastructure unavailable</li>
+          <li>API integration issues</li>
+          <li>Real-time vs batch scoring misalignment</li>
+          <li>Schema drift between training and serving</li>
+          <li>Missing fallback mechanisms</li>
+        </ul>
+      </div>
+
+      <div class="example-card">
+        <div class="example-title">Organizational Blockers</div>
+        <ul class="example-list">
+          <li>No clear owner for production deployment</li>
+          <li>Legal/compliance review bottlenecks</li>
+          <li>End users don't trust model outputs</li>
+          <li>No budget for infrastructure/operations</li>
+          <li>Change management resistance</li>
+          <li>Unclear success metrics or ROI</li>
+          <li>Missing monitoring and alerting</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="insight-item">Focus on deployment patterns: batch vs real-time vs human-in-the-loop</div>
+    <div class="insight-item">Design for observability from day one - log inputs, outputs, and decisions</div>
+    <div class="insight-item">Start with a pilot: limited scope, clear success criteria, quick wins</div>
+    <div class="insight-item">Build fallback mechanisms: what happens when the model fails?</div>
+    <div class="insight-item">Plan for change: models drift, data changes, business needs evolve</div>
+  </div>
+
+  <div class="reflection-section">
+    <div class="reflection-prompt">📝 Key Takeaway</div>
+    <p>Successful ML deployment requires as much planning for the <strong>last mile</strong> as for the model itself.
+    This week you'll learn deployment patterns, monitoring strategies, and governance practices that bridge this gap.</p>
+  </div>
+</div>
+
+<script>
+let blockerCount = 0;
+
+function addBlocker(category) {
+  const container = document.getElementById(`${category}-blockers`);
+  const addButton = container.querySelector('.add-blocker');
+
+  // Create input element
+  const inputDiv = document.createElement('div');
+  inputDiv.className = 'blocker-item';
+  inputDiv.innerHTML = `
+    <input type="text" class="blocker-input" placeholder="Enter a ${category} blocker..." onkeypress="handleKeyPress(event, this, '${category}')">
+    <button class="btn btn-remove" onclick="removeBlocker(this)">Remove</button>
+  `;
+
+  // Insert before the add button
+  container.insertBefore(inputDiv, addButton);
+
+  // Focus on the input
+  inputDiv.querySelector('.blocker-input').focus();
+}
+
+function handleKeyPress(event, input, category) {
+  if (event.key === 'Enter') {
+    const text = input.value.trim();
+    if (text) {
+      // Replace input with static text
+      const blockerDiv = input.parentElement;
+      blockerDiv.innerHTML = `
+        <span>${text}</span>
+        <button class="btn btn-remove" onclick="removeBlocker(this)">Remove</button>
+      `;
+
+      blockerCount++;
+      updateProgress();
+    }
+  }
+}
+
+function removeBlocker(button) {
+  button.parentElement.remove();
+  blockerCount = Math.max(0, blockerCount - 1);
+  updateProgress();
+}
+
+function updateProgress() {
+  const progressDiv = document.getElementById('progress-summary');
+  const countSpan = document.getElementById('blocker-count');
+
+  countSpan.textContent = blockerCount;
+
+  if (blockerCount > 0) {
+    progressDiv.style.display = 'block';
+  } else {
+    progressDiv.style.display = 'none';
+  }
+}
+
+function showInsights() {
+  const insightsSection = document.getElementById('insights-section');
+  insightsSection.classList.add('show');
+  insightsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function clearAll() {
+  // Clear all blockers
+  ['technical', 'organizational'].forEach(category => {
+    const container = document.getElementById(`${category}-blockers`);
+    const addButton = container.querySelector('.add-blocker');
+    container.innerHTML = '';
+    container.appendChild(addButton);
+  });
+
+  blockerCount = 0;
+  updateProgress();
+
+  // Hide insights
+  document.getElementById('insights-section').classList.remove('show');
+}
+</script>
+
+</body>
+</html>

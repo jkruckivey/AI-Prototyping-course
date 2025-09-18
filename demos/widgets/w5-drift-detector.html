@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Drift Detector - AMBA Template</title>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; background: white; color: #333; line-height: 1.5; }
+    .dp-wrapper { max-width: 900px; margin: 0 auto; padding: 15px; background: #ffffff; }
+    .widget-header { background: #034638; color: white; padding: 12px 16px; text-align: center; border-radius: 8px 8px 0 0; margin: -15px -15px 20px -15px; }
+    .widget-title { font-size: 1.2em; font-weight: bold; margin: 0; }
+    .controls-panel { background: #f8f9fa; border: 2px solid #034638; border-radius: 8px; padding: 15px; margin-bottom: 20px; }
+    .controls-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; }
+    .control-group { background: white; border: 1px solid #ddd; border-radius: 4px; padding: 10px; }
+    .control-label { font-weight: bold; color: #034638; margin-bottom: 6px; display: block; font-size: 0.9em; }
+    select, input[type="number"] { width: 100%; padding: 6px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
+    .btn { background: #034638; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 14px; margin: 5px; }
+    .btn:hover { background: #045a42; }
+    .results-panel { background: #e8f5e8; border: 2px solid #034638; border-radius: 8px; padding: 15px; margin: 15px 0; }
+    .test-result { background: white; border: 1px solid #034638; border-radius: 4px; padding: 10px; margin: 8px 0; display: flex; justify-content: space-between; align-items: center; }
+    .test-name { font-weight: bold; }
+    .test-value { font-family: monospace; }
+    .status-ok { color: #198754; font-weight: bold; }
+    .status-warning { color: #ffc107; font-weight: bold; }
+    .status-danger { color: #dc3545; font-weight: bold; }
+    .plot-container { background: white; border: 1px solid #ddd; border-radius: 8px; margin: 20px 0; padding: 10px; }
+    .alert-box { background: #fff3cd; border: 1px solid #ffc107; border-radius: 4px; padding: 10px; margin: 10px 0; }
+  </style>
+</head>
+<body>
+
+<div class="dp-wrapper">
+  <div class="widget-header">
+    <h1 class="widget-title">Drift Detector: PSI & Statistical Tests</h1>
+  </div>
+
+  <div class="controls-panel">
+    <h3 style="color: #034638; margin-bottom: 15px;">Configure Drift Detection</h3>
+    <div class="controls-grid">
+      <div class="control-group">
+        <label class="control-label">Feature to Monitor</label>
+        <select id="feature-select" onchange="updateAnalysis()">
+          <option value="age">Customer Age</option>
+          <option value="income">Annual Income</option>
+          <option value="credit_score">Credit Score</option>
+          <option value="transaction_amount">Transaction Amount</option>
+          <option value="session_duration">Session Duration</option>
+        </select>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label">Time Window</label>
+        <select id="time-window" onchange="updateAnalysis()">
+          <option value="1">Last 1 Day</option>
+          <option value="7">Last 7 Days</option>
+          <option value="30">Last 30 Days</option>
+          <option value="90">Last 90 Days</option>
+        </select>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label">Reference Period</label>
+        <select id="reference-period" onchange="updateAnalysis()">
+          <option value="training">Training Data</option>
+          <option value="last-month">Last Month</option>
+          <option value="last-quarter">Last Quarter</option>
+        </select>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label">PSI Alert Threshold</label>
+        <input type="number" id="psi-threshold" value="0.25" step="0.05" min="0.1" max="0.5" onchange="updateAnalysis()">
+      </div>
+
+      <div class="control-group">
+        <label class="control-label">Significance Level</label>
+        <select id="significance-level" onchange="updateAnalysis()">
+          <option value="0.01">0.01 (99% confidence)</option>
+          <option value="0.05" selected>0.05 (95% confidence)</option>
+          <option value="0.10">0.10 (90% confidence)</option>
+        </select>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 15px;">
+      <button class="btn" onclick="runDriftTests()">Run Drift Tests</button>
+      <button class="btn" style="background: #582C83;" onclick="generateSyntheticDrift()">Simulate Drift</button>
+    </div>
+  </div>
+
+  <div class="results-panel">
+    <h3 style="color: #034638; margin-bottom: 10px;">🔍 Drift Test Results</h3>
+    <div class="test-result">
+      <div>
+        <div class="test-name">Population Stability Index (PSI)</div>
+        <div style="font-size: 0.8em; color: #666;">Measures distribution shift between periods</div>
+      </div>
+      <div>
+        <div class="test-value" id="psi-value">0.18</div>
+        <div class="status-ok" id="psi-status">OK</div>
+      </div>
+    </div>
+
+    <div class="test-result">
+      <div>
+        <div class="test-name">Kolmogorov-Smirnov Test</div>
+        <div style="font-size: 0.8em; color: #666;">Two-sample test for distribution equality</div>
+      </div>
+      <div>
+        <div class="test-value" id="ks-value">p = 0.12</div>
+        <div class="status-ok" id="ks-status">OK</div>
+      </div>
+    </div>
+
+    <div class="test-result">
+      <div>
+        <div class="test-name">Chi-Square Test</div>
+        <div style="font-size: 0.8em; color: #666;">Tests independence of distributions</div>
+      </div>
+      <div>
+        <div class="test-value" id="chi-value">p = 0.08</div>
+        <div class="status-ok" id="chi-status">OK</div>
+      </div>
+    </div>
+
+    <div class="test-result">
+      <div>
+        <div class="test-name">Jensen-Shannon Divergence</div>
+        <div style="font-size: 0.8em; color: #666;">Symmetric measure of distribution similarity</div>
+      </div>
+      <div>
+        <div class="test-value" id="js-value">0.05</div>
+        <div class="status-ok" id="js-status">OK</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="plot-container">
+    <div id="distribution-plot" style="height: 400px;"></div>
+  </div>
+
+  <div class="plot-container">
+    <div id="psi-trend" style="height: 300px;"></div>
+  </div>
+
+  <div id="alert-container"></div>
+</div>
+
+<script>
+function generateData(feature, drift = false) {
+  const n = 1000;
+  const reference = [];
+  const current = [];
+
+  for (let i = 0; i < n; i++) {
+    if (feature === 'age') {
+      reference.push(Math.random() * 50 + 25);
+      current.push((Math.random() * 50 + 25) + (drift ? 5 : 0));
+    } else if (feature === 'income') {
+      reference.push(Math.random() * 80000 + 30000);
+      current.push((Math.random() * 80000 + 30000) * (drift ? 1.2 : 1));
+    } else if (feature === 'credit_score') {
+      reference.push(Math.random() * 300 + 500);
+      current.push((Math.random() * 300 + 500) + (drift ? -30 : 0));
+    } else {
+      reference.push(Math.random() * 100);
+      current.push(Math.random() * 100 + (drift ? 20 : 0));
+    }
+  }
+
+  return { reference, current };
+}
+
+function calculatePSI(reference, current, bins = 10) {
+  const refCounts = new Array(bins).fill(0);
+  const curCounts = new Array(bins).fill(0);
+
+  const min = Math.min(...reference, ...current);
+  const max = Math.max(...reference, ...current);
+  const binWidth = (max - min) / bins;
+
+  reference.forEach(val => {
+    const bin = Math.min(Math.floor((val - min) / binWidth), bins - 1);
+    refCounts[bin]++;
+  });
+
+  current.forEach(val => {
+    const bin = Math.min(Math.floor((val - min) / binWidth), bins - 1);
+    curCounts[bin]++;
+  });
+
+  let psi = 0;
+  for (let i = 0; i < bins; i++) {
+    const refProp = (refCounts[i] + 1e-10) / reference.length;
+    const curProp = (curCounts[i] + 1e-10) / current.length;
+    psi += (curProp - refProp) * Math.log(curProp / refProp);
+  }
+
+  return psi;
+}
+
+function runDriftTests() {
+  const feature = document.getElementById('feature-select').value;
+  const data = generateData(feature, Math.random() > 0.7); // 30% chance of drift
+
+  const psi = calculatePSI(data.reference, data.current);
+  const ksP = Math.random(); // Simulated p-value
+  const chiP = Math.random(); // Simulated p-value
+  const js = Math.random() * 0.2; // Simulated JS divergence
+
+  updateResults(psi, ksP, chiP, js);
+  updateDistributionPlot(data);
+  updatePSITrend();
+}
+
+function updateResults(psi, ksP, chiP, js) {
+  const psiThreshold = parseFloat(document.getElementById('psi-threshold').value);
+  const alpha = parseFloat(document.getElementById('significance-level').value);
+
+  // PSI
+  document.getElementById('psi-value').textContent = psi.toFixed(3);
+  const psiStatus = document.getElementById('psi-status');
+  if (psi < 0.1) {
+    psiStatus.textContent = 'OK';
+    psiStatus.className = 'status-ok';
+  } else if (psi < psiThreshold) {
+    psiStatus.textContent = 'WARNING';
+    psiStatus.className = 'status-warning';
+  } else {
+    psiStatus.textContent = 'ALERT';
+    psiStatus.className = 'status-danger';
+  }
+
+  // KS Test
+  document.getElementById('ks-value').textContent = `p = ${ksP.toFixed(3)}`;
+  const ksStatus = document.getElementById('ks-status');
+  if (ksP >= alpha) {
+    ksStatus.textContent = 'OK';
+    ksStatus.className = 'status-ok';
+  } else {
+    ksStatus.textContent = 'SIGNIFICANT';
+    ksStatus.className = 'status-danger';
+  }
+
+  // Chi-Square Test
+  document.getElementById('chi-value').textContent = `p = ${chiP.toFixed(3)}`;
+  const chiStatus = document.getElementById('chi-status');
+  if (chiP >= alpha) {
+    chiStatus.textContent = 'OK';
+    chiStatus.className = 'status-ok';
+  } else {
+    chiStatus.textContent = 'SIGNIFICANT';
+    chiStatus.className = 'status-danger';
+  }
+
+  // JS Divergence
+  document.getElementById('js-value').textContent = js.toFixed(3);
+  const jsStatus = document.getElementById('js-status');
+  if (js < 0.1) {
+    jsStatus.textContent = 'OK';
+    jsStatus.className = 'status-ok';
+  } else if (js < 0.2) {
+    jsStatus.textContent = 'MODERATE';
+    jsStatus.className = 'status-warning';
+  } else {
+    jsStatus.textContent = 'HIGH';
+    jsStatus.className = 'status-danger';
+  }
+
+  // Show alerts if needed
+  showAlerts(psi >= psiThreshold || ksP < alpha);
+}
+
+function updateDistributionPlot(data) {
+  const trace1 = {
+    x: data.reference,
+    type: 'histogram',
+    name: 'Reference Period',
+    opacity: 0.7,
+    marker: { color: '#034638' },
+    nbinsx: 20
+  };
+
+  const trace2 = {
+    x: data.current,
+    type: 'histogram',
+    name: 'Current Period',
+    opacity: 0.7,
+    marker: { color: '#582C83' },
+    nbinsx: 20
+  };
+
+  const layout = {
+    title: 'Distribution Comparison',
+    xaxis: { title: 'Feature Value' },
+    yaxis: { title: 'Count' },
+    barmode: 'overlay',
+    showlegend: true,
+    margin: { t: 50, b: 50, l: 60, r: 20 }
+  };
+
+  Plotly.newPlot('distribution-plot', [trace1, trace2], layout, {responsive: true});
+}
+
+function updatePSITrend() {
+  const days = Array.from({length: 30}, (_, i) => i + 1);
+  const psiValues = days.map(() => Math.random() * 0.4);
+
+  const trace = {
+    x: days,
+    y: psiValues,
+    type: 'scatter',
+    mode: 'lines+markers',
+    name: 'PSI',
+    line: { color: '#034638', width: 2 },
+    marker: { size: 4 }
+  };
+
+  const layout = {
+    title: 'PSI Trend (Last 30 Days)',
+    xaxis: { title: 'Days Ago' },
+    yaxis: { title: 'PSI Value' },
+    shapes: [{
+      type: 'line',
+      x0: 1,
+      x1: 30,
+      y0: 0.25,
+      y1: 0.25,
+      line: { color: '#dc3545', dash: 'dash', width: 2 }
+    }],
+    margin: { t: 50, b: 50, l: 60, r: 20 }
+  };
+
+  Plotly.newPlot('psi-trend', [trace], layout, {responsive: true});
+}
+
+function showAlerts(hasDrift) {
+  const container = document.getElementById('alert-container');
+
+  if (hasDrift) {
+    container.innerHTML = `
+      <div class="alert-box">
+        <strong>⚠️ Drift Alert:</strong> Significant distribution shift detected.
+        Consider retraining the model or investigating data pipeline changes.
+      </div>
+    `;
+  } else {
+    container.innerHTML = '';
+  }
+}
+
+function generateSyntheticDrift() {
+  const feature = document.getElementById('feature-select').value;
+  const data = generateData(feature, true); // Force drift
+
+  const psi = calculatePSI(data.reference, data.current);
+  updateResults(psi, 0.01, 0.02, 0.25); // High drift values
+  updateDistributionPlot(data);
+  updatePSITrend();
+}
+
+function updateAnalysis() {
+  runDriftTests();
+}
+
+// Initialize
+runDriftTests();
+</script>
+
+</body>
+</html>
