@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Big Data 4 V's Explorer</title>
     <link rel="stylesheet" href="ivey-widget-base.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body {
             font-family: Georgia, serif;
@@ -30,10 +31,15 @@
             padding: 20px;
             text-align: center;
         }
-        
+
         .header h2 {
             margin: 0;
             font-size: 1.5em;
+            color: white;
+        }
+
+        .header p {
+            color: white;
         }
         
         .dimensions-grid {
@@ -69,6 +75,11 @@
         
         .dimension-card.active {
             background: #034638;
+            color: white;
+        }
+
+        .dimension-card.active .dimension-title,
+        .dimension-card.active .dimension-description {
             color: white;
         }
         
@@ -248,34 +259,34 @@
 <body>
     <div class="bigdata-container">
         <div class="header">
-            <h2>🔍 Big Data's Four Critical Dimensions</h2>
-            <p>Explore how Volume, Velocity, Variety, and Veracity create competitive advantage</p>
+            <h2><i class="fas fa-database" aria-hidden="true"></i> Big Data's Four Critical Dimensions</h2>
+            <p>Click each "V" to see a clear business example of how it creates competitive advantage</p>
         </div>
         
         <div class="dimensions-grid" role="tablist" aria-label="Big data dimensions explorer">
             <button class="dimension-card active" data-dimension="volume" role="tab" aria-selected="true" aria-controls="volume-content" id="volume-tab" tabindex="0">
-                <div class="dimension-icon" aria-hidden="true">📈</div>
+                <div class="dimension-icon" aria-hidden="true"><i class="fas fa-chart-line"></i></div>
                 <div class="dimension-title">Volume</div>
                 <div class="dimension-description">From transaction records to complete behavioral intelligence across entire customer populations.</div>
                 <div class="dimension-impact">Population-based insights</div>
             </button>
-            
+
             <button class="dimension-card" data-dimension="velocity" role="tab" aria-selected="false" aria-controls="velocity-content" id="velocity-tab" tabindex="-1">
-                <div class="dimension-icon" aria-hidden="true">⚡</div>
+                <div class="dimension-icon" aria-hidden="true"><i class="fas fa-bolt"></i></div>
                 <div class="dimension-title">Velocity</div>
                 <div class="dimension-description">Real-time analysis enabling instant responses to opportunities and threats.</div>
                 <div class="dimension-impact">Immediate competitive advantage</div>
             </button>
-            
+
             <button class="dimension-card" data-dimension="variety" role="tab" aria-selected="false" aria-controls="variety-content" id="variety-tab" tabindex="-1">
-                <div class="dimension-icon" aria-hidden="true">🌈</div>
+                <div class="dimension-icon" aria-hidden="true"><i class="fas fa-layer-group"></i></div>
                 <div class="dimension-title">Variety</div>
                 <div class="dimension-description">Multiple data formats combining to reveal insights no single source could provide.</div>
                 <div class="dimension-impact">Comprehensive intelligence</div>
             </button>
-            
+
             <button class="dimension-card" data-dimension="veracity" role="tab" aria-selected="false" aria-controls="veracity-content" id="veracity-tab" tabindex="-1">
-                <div class="dimension-icon" aria-hidden="true">✅</div>
+                <div class="dimension-icon" aria-hidden="true"><i class="fas fa-check-circle"></i></div>
                 <div class="dimension-title">Veracity</div>
                 <div class="dimension-description">Data quality determining whether AI creates business value or costly mistakes.</div>
                 <div class="dimension-impact">$3.1T impact annually</div>
@@ -334,31 +345,31 @@
                 
                 <div class="data-types-grid">
                     <div class="data-type-card">
-                        <div class="data-type-icon">📝</div>
+                        <div class="data-type-icon"><i class="fas fa-file-text"></i></div>
                         <strong>Text</strong>
                         <p>Customer sentiment from reviews and social media</p>
                     </div>
-                    
+
                     <div class="data-type-card">
-                        <div class="data-type-icon">📸</div>
+                        <div class="data-type-icon"><i class="fas fa-image"></i></div>
                         <strong>Images</strong>
                         <p>Visual quality control in manufacturing</p>
                     </div>
-                    
+
                     <div class="data-type-card">
-                        <div class="data-type-icon">🎤</div>
+                        <div class="data-type-icon"><i class="fas fa-microphone"></i></div>
                         <strong>Voice</strong>
                         <p>Call center conversation analysis</p>
                     </div>
-                    
+
                     <div class="data-type-card">
-                        <div class="data-type-icon">📍</div>
+                        <div class="data-type-icon"><i class="fas fa-map-marker-alt"></i></div>
                         <strong>Location</strong>
                         <p>Store performance based on traffic patterns</p>
                     </div>
-                    
+
                     <div class="data-type-card">
-                        <div class="data-type-icon">📱</div>
+                        <div class="data-type-icon"><i class="fas fa-hashtag"></i></div>
                         <strong>Social Media</strong>
                         <p>Brand perception monitoring across platforms</p>
                     </div>
