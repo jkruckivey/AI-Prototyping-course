@@ -18,7 +18,9 @@ Canvas LMS course development project converting Subject Matter Expert (SME) mat
 │   ├── Week 4/            # Model evaluation and business metrics
 │   └── Week 5/            # Deployment and governance
 ├── demos/
-│   └── widgets/           # 40+ interactive Canvas-embeddable widgets
+│   ├── widgets/           # 60+ interactive Canvas-embeddable widgets
+│   │   └── ivey-widget-base.css  # Universal widget stylesheet
+│   └── shared-demo.css    # Shared styles for main demos
 ├── archive/               # Legacy Canvas pages and experiments
 ├── amba template.html     # Master accessibility-compliant template
 ├── index.html            # Course hub landing page
@@ -36,16 +38,19 @@ Canvas LMS course development project converting Subject Matter Expert (SME) mat
 - **Week 5**: Deployment, monitoring, governance
 
 ### Interactive Widgets (demos/widgets/)
+- **60+ widgets** organized by weeks (w1-*, w2-*, w3-*, w4-*, w5-*)
+- **Canvas-specific widgets** (canvas-*.html) for LMS embedding
 - **AI Evolution Timeline**: Historical AI development exploration
 - **AI Hierarchy Explorer**: Interactive AI → ML → Deep Learning relationships
 - **ROI Calculator**: Business value calculation for AI projects
 - **Algorithm Demonstrations**: Linear regression, logistic regression, K-means clustering
 - **Business Applications**: Customer segmentation, data frameworks, infrastructure strategy
+- **All widgets now use**: `ivey-widget-base.css` universal stylesheet
 
 ## Key Technologies
 - **AMBA Template System** - Accessibility-compliant Canvas LMS structure
 - **Canvas dp-framework** - Ivey's Canvas integration system
-- **Plotly.js** - Interactive visualizations (loaded via CDN)
+- **Plotly.js v2.28.0** - Interactive visualizations (standardized version)
 - **Vanilla JavaScript** - No framework dependencies
 - **GitHub Pages** - Widget hosting for Canvas embedding
 - **Responsive Design** - Mobile-friendly breakpoints
