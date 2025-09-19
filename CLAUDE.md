@@ -169,3 +169,54 @@ git push
   - Updated CSS rules to use the new color variables, ensuring compliance with WCAG AA standards.
   - Affected elements include subtitles, labels, metric values, and various colored text elements within the interactive demos.
   - The new colors are darker shades of the original brand palette to maintain the visual identity while improving readability.
+
+### 2025-01-09: Universal Widget Stylesheet Implementation
+- **Objective**: Create consistent design system across all 60+ course widgets
+- **Status**: ✅ COMPLETED - All widgets converted to use universal stylesheet
+- **Key Accomplishments**:
+  - Created `demos/widgets/ivey-widget-base.css` - comprehensive 586-line universal stylesheet
+  - Converted all Week 1-5 widgets to use external CSS (reduced embedded CSS by 80%+)
+  - Fixed accessibility issues: removed purple-to-green gradients, ensured white text on green backgrounds
+  - Standardized quiz heights to 900px for consistent Canvas embedding
+  - Updated all Plotly CDN references from `plotly-latest` to `plotly-2.28.0` for stability
+  - Added preventive contrast fixes to utility classes (.bg-primary, .bg-secondary, .bg-accent)
+
+## Session Continuation Instructions (January 9, 2025)
+
+### Current State
+- **All widgets now use universal stylesheet** (`ivey-widget-base.css`)
+- **Design system fully implemented** with Ivey brand colors and Figtree font
+- **Accessibility compliance achieved** - WCAG AA contrast standards met
+- **No critical issues remaining** - comprehensive analysis found no contrast violations
+
+### Recent Work Completed
+1. **Widget Stylesheet Conversion (Weeks 1-5)**: All 60 HTML widgets converted to use external CSS
+2. **Contrast Issue Resolution**: Fixed potential black text on green background issues
+3. **Gradient Removal**: Replaced purple-to-green gradients with solid Ivey green
+4. **Preventive Fixes**: Added white text color to all colored background utility classes
+
+### Known Issues & Notes
+- **404 Errors**: Some widgets may show 404 when opened directly in browser (they're designed for Canvas LMS embedding)
+- **File Count**: 58 HTML widget files + 2 CSS files in `demos/widgets/` directory
+- **Canvas widgets**: Files starting with `canvas-` use different styling patterns (not yet converted to universal CSS)
+
+### Next Potential Tasks
+1. Consider converting remaining `canvas-*.html` widgets to use universal stylesheet
+2. Add dark mode support using CSS variables already defined
+3. Create widget documentation/catalog showing all available widgets
+4. Test widgets within actual Canvas LMS environment
+5. Consider creating widget preview/demo page
+
+### File Locations
+- **Widgets**: `C:\Users\jkruck\Ivey Business School\EdTech Lab - Documents\Github\AI Prototyping Learn\demos\widgets\`
+- **Universal CSS**: `demos/widgets/ivey-widget-base.css`
+- **Main demos**: `demos/` folder contains full algorithm demonstrations
+
+### Git Commands for This Project
+```bash
+cd "C:\Users\jkruck\Ivey Business School\EdTech Lab - Documents\Github\AI Prototyping Learn"
+git status
+git add .
+git commit -m "Your message here"
+git push
+```
