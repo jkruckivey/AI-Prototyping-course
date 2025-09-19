@@ -56,7 +56,7 @@ body {
     height: 350px;
     top: 50px;
     left: 50px;
-    background: rgba(3, 70, 56, 0.1);
+    background: linear-gradient(to bottom, rgba(255,255,255,0.95), rgba(3, 70, 56, 0.05));
     border-color: #034638;
 }
 
@@ -65,7 +65,7 @@ body {
     height: 250px;
     top: 100px;
     left: 100px;
-    background: rgba(88, 44, 131, 0.1);
+    background: linear-gradient(to bottom, rgba(255,255,255,0.95), rgba(88, 44, 131, 0.05));
     border-color: #582C83;
 }
 
@@ -74,7 +74,7 @@ body {
     height: 150px;
     top: 150px;
     left: 150px;
-    background: rgba(249, 115, 22, 0.1);
+    background: linear-gradient(to bottom, rgba(255,255,255,0.95), rgba(249, 115, 22, 0.05));
     border-color: #f97316;
 }
 
@@ -85,18 +85,33 @@ body {
 }
 
 .ai-circle.active {
-    background: rgba(3, 70, 56, 0.2);
+    background: rgba(3, 70, 56, 0.9);
     box-shadow: 0 0 20px rgba(3, 70, 56, 0.3);
 }
 
+.ai-circle.active .circle-label,
+.ai-circle.active .circle-subtitle {
+    color: white;
+}
+
 .ml-circle.active {
-    background: rgba(88, 44, 131, 0.2);
+    background: rgba(88, 44, 131, 0.9);
     box-shadow: 0 0 20px rgba(88, 44, 131, 0.3);
 }
 
+.ml-circle.active .circle-label,
+.ml-circle.active .circle-subtitle {
+    color: white;
+}
+
 .dl-circle.active {
-    background: rgba(249, 115, 22, 0.2);
+    background: rgba(249, 115, 22, 0.9);
     box-shadow: 0 0 20px rgba(249, 115, 22, 0.3);
+}
+
+.dl-circle.active .circle-label,
+.dl-circle.active .circle-subtitle {
+    color: white;
 }
 
 .circle-label {
