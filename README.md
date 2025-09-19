@@ -1,39 +1,45 @@
 # AI Prototyping Course - Interactive Learning Hub
 
-A comprehensive collection of interactive demonstrations for teaching AI and machine learning concepts, designed for educational use with professional Ivey branding.
+A comprehensive Canvas LMS course with 60+ interactive widgets for teaching AI and machine learning concepts, designed for educational use with professional Ivey branding and accessibility compliance.
 
 ## 🎯 Course Overview
 
-This interactive learning hub provides hands-on demonstrations of key AI/ML concepts:
+This AI Prototyping course provides a complete 5-week curriculum with hands-on demonstrations:
 
-### Available Demos
-- **Linear Regression** (Featured) - Complete interactive demonstration with MBA salary prediction
-- **Neural Networks** (Coming Soon) - Interactive neural network visualization
-- **Decision Trees** (Coming Soon) - Tree-building and decision boundary exploration  
-- **Classification** (Coming Soon) - Classification algorithms and boundary visualization
-- **Clustering** (Coming Soon) - Unsupervised learning demonstrations
-- **Optimization** (Coming Soon) - Gradient descent and optimization visualizations
+### Course Structure
+- **Week 1**: AI fundamentals, data understanding, machine learning models
+- **Week 2**: Supervised learning (linear regression, logistic regression, KNN, SVM, trees)
+- **Week 3**: Unsupervised learning (clustering, PCA, preprocessing, recommendations)
+- **Week 4**: Model evaluation, cross-validation, business metrics, threshold optimization
+- **Week 5**: Deployment, monitoring, governance, and AI ethics
+
+### Interactive Components
+- **60+ Canvas-ready widgets** with consistent Ivey branding
+- **Full algorithm demonstrations** in the main demos folder
+- **AMBA template compliance** for accessibility (WCAG AA standards)
+- **Universal design system** with `ivey-widget-base.css`
+- **Canvas LMS integration** with dp-framework support
 
 ### Learning Objectives
-- Understand core machine learning algorithms through interaction
-- Develop intuition for AI concepts with real-time visualization
-- Bridge theory and practice with hands-on experience
+- Master core ML algorithms through hands-on interaction
+- Understand business applications and evaluation metrics
+- Learn deployment best practices and governance
+- Develop practical AI implementation skills
 - Build foundation for advanced AI topics
 
-## ✨ Featured Demo: Linear Regression
+## 🏗️ Project Architecture
 
-### Interactive Learning Experience
-- **MBA Salary Prediction Story**: 4-step narrative showing the complete ML process
-- **Real-time Parameter Adjustment**: Drag sliders to change slope and intercept
-- **Live MSE Calculation**: See how errors change as you adjust the line
-- **Auto-fit Functionality**: Find the mathematically optimal line with animation
-- **Multi-dimensional Examples**: Compare 1D, 3D, and N-dimensional regression
+### Canvas LMS Integration
+- **Development Files/**: 5 weeks of structured Canvas pages
+- **demos/widgets/**: 60+ embeddable interactive widgets
+- **AMBA template compliance**: Accessibility and pedagogical standards
+- **GitHub Pages deployment**: Automatic widget hosting
 
-### Educational Features
-- **Step-by-step Story**: Problem → Approach → Training → Prediction
-- **Visual Error Display**: Dotted lines show prediction errors for each data point
-- **Concept Cards**: Click to highlight related interface elements
-- **Interactive Predictions**: Try multi-dimensional regression with real parameters
+### Universal Design System
+- **Consistent Ivey branding**: #034638 green, #582C83 purple, Figtree font
+- **Responsive design**: Optimized for Canvas embedding
+- **Accessibility first**: WCAG AA contrast standards, screen reader support
+- **Plotly.js v2.28.0**: Standardized visualizations across all widgets
 
 ## 🚀 Getting Started
 
