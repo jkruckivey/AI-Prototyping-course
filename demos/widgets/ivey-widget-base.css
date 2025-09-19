@@ -494,9 +494,18 @@ textarea:focus {
 .text-accent { color: var(--ivey-orange); }
 .text-muted { color: var(--text-muted); }
 
-.bg-primary { background-color: var(--ivey-green); }
-.bg-secondary { background-color: var(--ivey-purple); }
-.bg-accent { background-color: var(--ivey-orange); }
+.bg-primary {
+    background-color: var(--ivey-green);
+    color: white;
+}
+.bg-secondary {
+    background-color: var(--ivey-purple);
+    color: white;
+}
+.bg-accent {
+    background-color: var(--ivey-orange);
+    color: white;
+}
 .bg-light { background-color: var(--bg-light); }
 
 /* ========================================
