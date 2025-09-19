@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Linear Regression - MSE Explorer</title>
+    <link rel="stylesheet" href="ivey-widget-base.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background: var(--bg-light);
+            padding: 20px;
+        }
+
+        .widget-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: var(--ivey-green);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h2 {
+            font-size: 1.4em;
+            margin-bottom: 8px;
+            color: white;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 0.9em;
+            color: white;
+        }
+
+        .controls-section {
+            padding: 20px;
+            background: var(--bg-subtle);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .control-group {
+            margin-bottom: 15px;
+        }
+
+        .control-label {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .slider {
+            flex: 1;
+            height: 6px;
+            border-radius: 3px;
+            background: var(--border-light);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--ivey-green);
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--ivey-green);
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .value-display {
+            background: white;
+            border: 2px solid var(--ivey-green);
+            color: var(--ivey-green);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            min-width: 60px;
+            text-align: center;
+            font-size: 0.9em;
+        }
+
+        .chart-container {
+            padding: 20px;
+            background: white;
+        }
+
+        .chart-area {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            border: 2px solid var(--border-light);
+            border-radius: 8px;
+            background: var(--bg-light);
+            cursor: crosshair;
+            overflow: hidden;
+        }
+
+        .chart-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .data-point {
+            fill: var(--ivey-purple);
+            stroke: white;
+            stroke-width: 2;
+            r: 4;
+        }
+
+        .regression-line {
+            stroke: var(--ivey-green);
+            stroke-width: 3;
+            fill: none;
+            cursor: grab;
+        }
+
+        .regression-line:active {
+            cursor: grabbing;
+        }
+
+        .error-line {
+            stroke: var(--ivey-orange);
+            stroke-width: 1;
+            stroke-dasharray: 2,2;
+            opacity: 0.6;
+        }
+
+        .mse-display {
+            background: linear-gradient(135deg, var(--bg-light), #f0f9f6);
+            border: 2px solid var(--ivey-green);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px;
+            text-align: center;
+        }
+
+        .mse-value {
+            font-size: 2.2em;
+            font-weight: 700;
+            color: var(--ivey-green);
+            margin-bottom: 5px;
+        }
+
+        .mse-label {
+            color: var(--text-secondary);
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        .action-buttons {
+            padding: 20px;
+            display: flex;
+            gap: 10px;
+            background: var(--bg-subtle);
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--ivey-green);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #025a44;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--text-primary);
+            border: 2px solid var(--border-medium);
+        }
+
+        .btn-secondary:hover {
+            background: var(--hover-bg);
+            border-color: var(--ivey-green);
+        }
+
+        .instructions {
+            background: linear-gradient(135deg, #e0f2fe, #f0f9f6);
+            border-left: 4px solid var(--ivey-green);
+            padding: 15px;
+            margin: 20px;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .instructions h4 {
+            color: var(--ivey-green);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .drag-hint {
+            background: rgba(88, 44, 131, 0.1);
+            border: 1px solid var(--ivey-purple);
+            border-radius: 6px;
+            padding: 12px;
+            margin: 15px 0;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .achievement {
+            background: linear-gradient(135deg, #fef7cd, #f0f9f6);
+            border: 2px solid #10b981;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px;
+            text-align: center;
+            display: none;
+        }
+
+        .achievement.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .grid-lines {
+            stroke: var(--border-light);
+            stroke-width: 1;
+            opacity: 0.5;
+        }
+
+        .axis-label {
+            font-size: 12px;
+            fill: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            .widget-container {
+                max-width: 100%;
+            }
+
+            .chart-area {
+                height: 250px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="widget-container">
+        <div class="header">
+            <h2><i class="fas fa-chart-line" aria-hidden="true"></i> Linear Regression Explorer</h2>
+            <p>Drag the line to minimize Mean Squared Error</p>
+        </div>
+
+        <div class="instructions">
+            <h4><i class="fas fa-lightbulb"></i> How to Use</h4>
+            <p>Use the sliders below or <strong>click and drag the green line</strong> directly on the chart to adjust the slope and intercept. Watch how the MSE changes!</p>
+        </div>
+
+        <div class="controls-section">
+            <div class="control-group">
+                <div class="control-label">
+                    <i class="fas fa-arrow-up"></i>
+                    <span>Slope</span>
+                </div>
+                <div class="slider-container">
+                    <input type="range" class="slider" id="slope-slider" min="-5" max="10" value="2" step="0.1">
+                    <div class="value-display" id="slope-display">2.0</div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
+                    <i class="fas fa-arrows-alt-v"></i>
+                    <span>Intercept</span>
+                </div>
+                <div class="slider-container">
+                    <input type="range" class="slider" id="intercept-slider" min="0" max="50" value="20" step="0.5">
+                    <div class="value-display" id="intercept-display">20.0</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <div class="chart-area" id="chart-area">
+                <svg class="chart-svg" id="chart-svg">
+                    <!-- Grid lines -->
+                    <g id="grid-lines"></g>
+                    <!-- Error lines -->
+                    <g id="error-lines"></g>
+                    <!-- Data points -->
+                    <g id="data-points"></g>
+                    <!-- Regression line -->
+                    <line id="regression-line" class="regression-line"></line>
+                    <!-- Axis labels -->
+                    <g id="axis-labels"></g>
+                </svg>
+            </div>
+
+            <div class="drag-hint">
+                <i class="fas fa-mouse-pointer"></i>
+                <span><strong>Pro Tip:</strong> Click and drag the green line to adjust it directly!</span>
+            </div>
+        </div>
+
+        <div class="mse-display">
+            <div class="mse-value" id="mse-value">156.4</div>
+            <div class="mse-label">Mean Squared Error</div>
+        </div>
+
+        <div class="achievement" id="achievement">
+            <h4><i class="fas fa-trophy"></i> Great Job!</h4>
+            <p>You found a good fit! MSE below 50 shows the line captures the trend well.</p>
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn btn-primary" id="best-fit-btn">
+                <i class="fas fa-bullseye"></i>
+                <span>Find Best Fit</span>
+            </button>
+            <button class="btn btn-secondary" id="reset-btn">
+                <i class="fas fa-undo"></i>
+                <span>Reset</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        class LinearRegressionExplorer {
+            constructor() {
+                // Data points (years of experience vs salary in thousands)
+                this.data = [
+                    {x: 1, y: 25}, {x: 2, y: 28}, {x: 3, y: 32}, {x: 4, y: 35},
+                    {x: 5, y: 40}, {x: 6, y: 42}, {x: 7, y: 47}, {x: 8, y: 50},
+                    {x: 9, y: 55}, {x: 10, y: 58}, {x: 12, y: 65}, {x: 15, y: 75}
+                ];
+
+                // Chart dimensions and scales
+                this.margin = { top: 20, right: 20, bottom: 40, left: 40 };
+                this.width = 400;
+                this.height = 220;
+
+                // Scale ranges
+                this.xRange = [0, 16];
+                this.yRange = [20, 80];
+
+                // Line parameters
+                this.slope = 2.0;
+                this.intercept = 20.0;
+
+                // Optimal values (calculated from data)
+                this.optimalSlope = 3.2;
+                this.optimalIntercept = 22.5;
+
+                // Drag state
+                this.isDragging = false;
+                this.dragStart = null;
+
+                this.init();
+            }
+
+            init() {
+                this.setupChart();
+                this.bindEvents();
+                this.updateDisplay();
+            }
+
+            setupChart() {
+                const svg = document.getElementById('chart-svg');
+
+                // Create grid lines
+                this.createGridLines();
+
+                // Create axis labels
+                this.createAxisLabels();
+
+                // Draw data points
+                this.drawDataPoints();
+
+                // Update line
+                this.updateLine();
+            }
+
+            createGridLines() {
+                const gridGroup = document.getElementById('grid-lines');
+
+                // Vertical grid lines
+                for (let x = 0; x <= 16; x += 4) {
+                    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                    line.setAttribute('x1', this.xScale(x));
+                    line.setAttribute('y1', this.margin.top);
+                    line.setAttribute('x2', this.xScale(x));
+                    line.setAttribute('y2', this.height - this.margin.bottom);
+                    line.setAttribute('class', 'grid-lines');
+                    gridGroup.appendChild(line);
+                }
+
+                // Horizontal grid lines
+                for (let y = 20; y <= 80; y += 10) {
+                    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                    line.setAttribute('x1', this.margin.left);
+                    line.setAttribute('y1', this.yScale(y));
+                    line.setAttribute('x2', this.width - this.margin.right);
+                    line.setAttribute('y2', this.yScale(y));
+                    line.setAttribute('class', 'grid-lines');
+                    gridGroup.appendChild(line);
+                }
+            }
+
+            createAxisLabels() {
+                const labelGroup = document.getElementById('axis-labels');
+
+                // X-axis label
+                const xLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                xLabel.setAttribute('x', this.width / 2);
+                xLabel.setAttribute('y', this.height - 5);
+                xLabel.setAttribute('text-anchor', 'middle');
+                xLabel.setAttribute('class', 'axis-label');
+                xLabel.textContent = 'Years of Experience';
+                labelGroup.appendChild(xLabel);
+
+                // Y-axis label
+                const yLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                yLabel.setAttribute('x', 15);
+                yLabel.setAttribute('y', this.height / 2);
+                yLabel.setAttribute('text-anchor', 'middle');
+                yLabel.setAttribute('transform', `rotate(-90, 15, ${this.height / 2})`);
+                yLabel.setAttribute('class', 'axis-label');
+                yLabel.textContent = 'Salary ($K)';
+                labelGroup.appendChild(yLabel);
+            }
+
+            drawDataPoints() {
+                const pointGroup = document.getElementById('data-points');
+
+                this.data.forEach(point => {
+                    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                    circle.setAttribute('cx', this.xScale(point.x));
+                    circle.setAttribute('cy', this.yScale(point.y));
+                    circle.setAttribute('class', 'data-point');
+                    pointGroup.appendChild(circle);
+                });
+            }
+
+            updateLine() {
+                const line = document.getElementById('regression-line');
+
+                const x1 = this.margin.left;
+                const x2 = this.width - this.margin.right;
+                const y1 = this.yScale(this.intercept);
+                const y2 = this.yScale(this.slope * this.xRange[1] + this.intercept);
+
+                line.setAttribute('x1', x1);
+                line.setAttribute('y1', y1);
+                line.setAttribute('x2', x2);
+                line.setAttribute('y2', y2);
+
+                this.updateErrorLines();
+            }
+
+            updateErrorLines() {
+                const errorGroup = document.getElementById('error-lines');
+                errorGroup.innerHTML = '';
+
+                this.data.forEach(point => {
+                    const predicted = this.slope * point.x + this.intercept;
+
+                    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                    line.setAttribute('x1', this.xScale(point.x));
+                    line.setAttribute('y1', this.yScale(point.y));
+                    line.setAttribute('x2', this.xScale(point.x));
+                    line.setAttribute('y2', this.yScale(predicted));
+                    line.setAttribute('class', 'error-line');
+                    errorGroup.appendChild(line);
+                });
+            }
+
+            xScale(x) {
+                return this.margin.left + (x / this.xRange[1]) * (this.width - this.margin.left - this.margin.right);
+            }
+
+            yScale(y) {
+                return this.height - this.margin.bottom - ((y - this.yRange[0]) / (this.yRange[1] - this.yRange[0])) * (this.height - this.margin.top - this.margin.bottom);
+            }
+
+            xInverse(px) {
+                return ((px - this.margin.left) / (this.width - this.margin.left - this.margin.right)) * this.xRange[1];
+            }
+
+            yInverse(py) {
+                return this.yRange[0] + (1 - (py - this.margin.top) / (this.height - this.margin.top - this.margin.bottom)) * (this.yRange[1] - this.yRange[0]);
+            }
+
+            calculateMSE() {
+                let sumSquaredErrors = 0;
+
+                this.data.forEach(point => {
+                    const predicted = this.slope * point.x + this.intercept;
+                    const error = point.y - predicted;
+                    sumSquaredErrors += error * error;
+                });
+
+                return sumSquaredErrors / this.data.length;
+            }
+
+            updateDisplay() {
+                // Update slider displays
+                document.getElementById('slope-display').textContent = this.slope.toFixed(1);
+                document.getElementById('intercept-display').textContent = this.intercept.toFixed(1);
+
+                // Update sliders
+                document.getElementById('slope-slider').value = this.slope;
+                document.getElementById('intercept-slider').value = this.intercept;
+
+                // Update MSE
+                const mse = this.calculateMSE();
+                document.getElementById('mse-value').textContent = mse.toFixed(1);
+
+                // Update line
+                this.updateLine();
+
+                // Check for achievement
+                if (mse < 50) {
+                    document.getElementById('achievement').classList.add('show');
+                } else {
+                    document.getElementById('achievement').classList.remove('show');
+                }
+            }
+
+            bindEvents() {
+                // Slider events
+                document.getElementById('slope-slider').addEventListener('input', (e) => {
+                    this.slope = parseFloat(e.target.value);
+                    this.updateDisplay();
+                });
+
+                document.getElementById('intercept-slider').addEventListener('input', (e) => {
+                    this.intercept = parseFloat(e.target.value);
+                    this.updateDisplay();
+                });
+
+                // Line dragging
+                const line = document.getElementById('regression-line');
+                line.addEventListener('mousedown', (e) => this.startDrag(e));
+                document.addEventListener('mousemove', (e) => this.drag(e));
+                document.addEventListener('mouseup', () => this.endDrag());
+
+                // Touch events for mobile
+                line.addEventListener('touchstart', (e) => this.startDrag(e.touches[0]));
+                document.addEventListener('touchmove', (e) => {
+                    e.preventDefault();
+                    this.drag(e.touches[0]);
+                });
+                document.addEventListener('touchend', () => this.endDrag());
+
+                // Button events
+                document.getElementById('best-fit-btn').addEventListener('click', () => {
+                    this.slope = this.optimalSlope;
+                    this.intercept = this.optimalIntercept;
+                    this.updateDisplay();
+                });
+
+                document.getElementById('reset-btn').addEventListener('click', () => {
+                    this.slope = 2.0;
+                    this.intercept = 20.0;
+                    this.updateDisplay();
+                });
+            }
+
+            startDrag(e) {
+                this.isDragging = true;
+                const rect = document.getElementById('chart-area').getBoundingClientRect();
+                this.dragStart = {
+                    x: e.clientX - rect.left,
+                    y: e.clientY - rect.top,
+                    initialSlope: this.slope,
+                    initialIntercept: this.intercept
+                };
+            }
+
+            drag(e) {
+                if (!this.isDragging) return;
+
+                const rect = document.getElementById('chart-area').getBoundingClientRect();
+                const currentX = e.clientX - rect.left;
+                const currentY = e.clientY - rect.top;
+
+                const deltaX = currentX - this.dragStart.x;
+                const deltaY = currentY - this.dragStart.y;
+
+                // Convert pixel deltas to parameter changes
+                const slopeChange = -deltaY / 50; // Invert Y axis
+                const interceptChange = deltaY / 5;
+
+                this.slope = Math.max(-5, Math.min(10, this.dragStart.initialSlope + slopeChange));
+                this.intercept = Math.max(0, Math.min(50, this.dragStart.initialIntercept + interceptChange));
+
+                this.updateDisplay();
+            }
+
+            endDrag() {
+                this.isDragging = false;
+                this.dragStart = null;
+            }
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new LinearRegressionExplorer();
+        });
+    </script>
+</body>
+</html>
