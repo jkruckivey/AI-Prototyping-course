@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Naive Bayes Posterior Calculator</title>
     <link rel="stylesheet" href="ivey-widget-base.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         /* AMBA Template Styles */
         .dp-wrapper {
@@ -338,7 +339,10 @@
 <body>
     <div class="dp-wrapper">
         <div class="dp-content-block">
-            <h2 class="dp-has-icon">🧮 Naive Bayes Posterior Calculator</h2>
+            <h2 class="dp-has-icon">
+                <i class="dp-icon fas fa-calculator" aria-hidden="true"></i>
+                Naive Bayes Posterior Calculator
+            </h2>
             <div class="dp-card intro-card">
                 <p><strong>Interactive Learning:</strong> Adjust token counts and smoothing parameters to see how Naive Bayes calculates posterior probabilities for text classification tasks.</p>
             </div>
@@ -346,7 +350,7 @@
 
         <div class="controls-grid">
             <div class="controls-section">
-                <h3>📧 Classification Setup</h3>
+                <h3><i class="fas fa-envelope" aria-hidden="true"></i> Classification Setup</h3>
 
                 <div class="scenario-selector">
                     <button class="scenario-btn active" onclick="selectScenario('email')">Email Spam</button>
@@ -355,14 +359,14 @@
                 </div>
 
                 <div class="test-document" id="test-document">
-                    <h4>📄 Test Document</h4>
+                    <h4><i class="fas fa-file-text" aria-hidden="true"></i> Test Document</h4>
                     <p id="test-text">"FREE money offer discount WIN click"</p>
                     <p><small>Tokens: <span id="test-tokens">FREE, money, offer, discount, WIN, click</span></small></p>
                 </div>
 
                 <div class="token-controls">
                     <div class="token-group">
-                        <h4>🟥 Token Counts by Class</h4>
+                        <h4><i class="fas fa-hashtag" aria-hidden="true"></i> Token Counts by Class</h4>
                         <div class="token-row">
                             <label>Token</label>
                             <label>Class 1</label>
@@ -383,17 +387,19 @@
                     </p>
                 </div>
 
-                <button class="reset-btn" onclick="resetToDefaults()">🔄 Reset to Defaults</button>
+                <button class="reset-btn" onclick="resetToDefaults()">
+                    <i class="fas fa-redo-alt" aria-hidden="true"></i> Reset to Defaults
+                </button>
             </div>
 
             <div class="results-section">
                 <div class="formula-display">
-                    <h4>🧮 Bayes' Theorem</h4>
+                    <h4><i class="fas fa-equals" aria-hidden="true"></i> Bayes' Theorem</h4>
                     <p><strong>P(class|document) ∝ P(class) × ∏ P(word|class)</strong></p>
                     <small>Posterior ∝ Prior × Likelihood</small>
                 </div>
 
-                <h3>📊 Posterior Probabilities</h3>
+                <h3><i class="fas fa-chart-bar" aria-hidden="true"></i> Posterior Probabilities</h3>
                 <div class="probability-display">
                     <div class="prob-card" id="spam-prob">
                         <div class="prob-value" id="spam-prob-value">0.847</div>
@@ -405,7 +411,7 @@
                     </div>
                 </div>
 
-                <h4>🔍 Likelihood Breakdown</h4>
+                <h4><i class="fas fa-search" aria-hidden="true"></i> Likelihood Breakdown</h4>
                 <div class="likelihood-breakdown">
                     <div class="likelihood-card">
                         <div class="likelihood-value" id="spam-likelihood">2.4e-8</div>
