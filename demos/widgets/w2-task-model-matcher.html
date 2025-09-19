@@ -3,134 +3,147 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Task to Model Type Matcher - Streamlined</title>
+    <title>Task to Model Type Matcher</title>
     <link rel="stylesheet" href="ivey-widget-base.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Figtree', sans-serif;
-            background: #ffffff;
-            color: #2d3748;
-            line-height: 1.5;
-        }
-
-        .widget-container {
-            max-width: 900px;
+        .dp-wrapper {
+            max-width: 500px;
             margin: 0 auto;
             padding: 20px;
+            font-family: 'Figtree', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: #fff;
         }
 
-        .header-section {
-            background: rgba(3, 70, 56, 0.1);
-            border: 1px solid rgba(3, 70, 56, 0.3);
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 20px;
-            text-align: center;
+        .dp-content-block {
+            margin-bottom: 2rem;
         }
 
-        .widget-title {
-            font-size: 20px;
-            font-weight: 700;
+        .dp-has-icon {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
             color: #034638;
-            margin-bottom: 8px;
+            margin: 0 0 1rem 0;
+            font-size: 1.5rem;
+            font-weight: 600;
         }
 
-        .instructions {
-            font-size: 14px;
-            color: #4a5568;
-            margin-bottom: 10px;
+        .dp-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin: 1rem 0;
+        }
+
+        .dp-card.intro-card {
+            border-left: 4px solid #034638;
+            background: #f8fffe;
         }
 
         .progress-display {
-            font-size: 16px;
+            background: #eff6ff;
+            border: 2px solid #3b82f6;
+            border-radius: 6px;
+            padding: 1rem;
+            text-align: center;
+            margin: 1rem 0;
             font-weight: 600;
-            color: #034638;
+            color: #1e40af;
         }
 
-        /* Streamlined Layout */
-        .matcher-grid {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 20px;
-            margin-bottom: 20px;
+        .matcher-section {
+            margin: 2rem 0;
         }
 
         .tasks-column {
-            background: #f8fafc;
-            border-radius: 12px;
-            padding: 15px;
-            border: 2px solid #e2e8f0;
+            background: #f8fffe;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid #034638;
         }
 
-        .targets-column {
+        .tasks-column h3 {
+            color: #034638;
+            margin: 0 0 1rem 0;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .targets-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-
-        .column-header {
-            font-size: 16px;
-            font-weight: 600;
-            color: #1a202c;
-            margin-bottom: 12px;
-            text-align: center;
-            padding-bottom: 8px;
-            border-bottom: 2px solid #034638;
+            gap: 1rem;
+            margin: 1.5rem 0;
         }
 
         .target-section {
             background: white;
-            border-radius: 12px;
-            padding: 15px;
-            border: 2px solid #e2e8f0;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 1rem;
         }
 
-        /* Compact Cards */
+        .target-section h4 {
+            color: #374151;
+            margin: 0 0 1rem 0;
+            font-weight: 600;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
         .task-card {
             background: white;
-            border: 2px solid #e2e8f0;
+            border: 2px solid #e5e7eb;
             border-radius: 8px;
-            padding: 12px;
-            margin-bottom: 10px;
+            padding: 1rem;
+            margin: 0.75rem 0;
             cursor: grab;
             transition: all 0.3s ease;
+            user-select: none;
         }
 
         .task-card:hover {
             border-color: #034638;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
         .task-card.dragging {
-            opacity: 0.6;
-            transform: rotate(2deg);
+            opacity: 0.5;
+            transform: rotate(5deg);
         }
 
         .task-title {
-            font-size: 14px;
             font-weight: 600;
-            color: #1a202c;
-            margin-bottom: 4px;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
         }
 
         .task-description {
-            font-size: 12px;
-            color: #4a5568;
+            font-size: 0.8rem;
+            color: #666;
+            line-height: 1.4;
         }
 
-        /* Target Cards */
         .target-card {
-            background: #f8fafc;
-            border: 2px dashed #cbd5e0;
-            border-radius: 8px;
-            padding: 10px;
-            margin-bottom: 8px;
+            background: #f9fafb;
+            border: 2px dashed #d1d5db;
+            border-radius: 6px;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            text-align: center;
             min-height: 60px;
             display: flex;
             align-items: center;
@@ -138,36 +151,50 @@
             transition: all 0.3s ease;
         }
 
-        .target-card.drag-over {
+        .target-card.drop-zone {
             border-color: #034638;
-            background: rgba(3, 70, 56, 0.1);
+            background: #f0f9f4;
         }
 
         .target-card.filled {
-            border-style: solid;
-            border-color: #034638;
-            background: rgba(3, 70, 56, 0.1);
+            background: #f0f9f4;
+            border: 2px solid #10b981;
+        }
+
+        .target-card.correct {
+            background: #ecfdf5;
+            border-color: #10b981;
+        }
+
+        .target-card.incorrect {
+            background: #fef2f2;
+            border-color: #ef4444;
         }
 
         .target-label {
-            font-size: 13px;
+            font-size: 0.8rem;
+            color: #4a5568;
             font-weight: 500;
-            color: #1a202c;
             text-align: center;
         }
 
-        .target-card.filled .target-label {
-            color: #034638;
-            font-weight: 600;
-        }
-
-        /* Feedback */
-        .feedback-section {
+        .placed-task {
             background: white;
-            border-radius: 12px;
-            border: 2px solid #e2e8f0;
-            padding: 15px;
+            border: 1px solid #10b981;
+            border-radius: 6px;
+            padding: 0.75rem;
+            font-size: 0.8rem;
+            color: #047857;
+            font-weight: 500;
             text-align: center;
+        }
+
+        .feedback-section {
+            background: #fffbeb;
+            border: 2px solid #f59e0b;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
             display: none;
         }
 
@@ -175,83 +202,116 @@
             display: block;
         }
 
-        .feedback-section.correct {
-            border-color: #16a34a;
-            background: rgba(22, 163, 74, 0.1);
-        }
-
-        .feedback-section.incorrect {
-            border-color: #dc2626;
-            background: rgba(220, 38, 38, 0.1);
+        .feedback-title {
+            font-weight: 600;
+            color: #92400e;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .feedback-message {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 8px;
+            color: #78350f;
+            font-weight: 500;
+            margin-bottom: 0.75rem;
         }
 
         .feedback-explanation {
-            font-size: 13px;
-            color: #4a5568;
+            color: #78350f;
+            font-size: 0.9rem;
+            line-height: 1.5;
         }
 
-        /* Reset Button */
         .reset-button {
             background: #034638;
             color: white;
             border: none;
-            border-radius: 8px;
-            padding: 10px 20px;
-            font-family: 'Figtree', sans-serif;
-            font-size: 14px;
+            border-radius: 6px;
+            padding: 0.75rem 1.5rem;
             font-weight: 600;
             cursor: pointer;
-            transition: background 0.3s ease;
-            margin-top: 15px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 1.5rem auto 0;
+            font-size: 0.9rem;
         }
 
         .reset-button:hover {
-            background: #052e23;
+            background: #0a5c4a;
+            transform: translateY(-1px);
         }
 
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .widget-container {
-                padding: 15px;
-            }
+        .completion-celebration {
+            background: #ecfdf5;
+            border: 2px solid #10b981;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            text-align: center;
+            display: none;
+        }
 
-            .matcher-grid {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
+        .completion-celebration.show {
+            display: block;
+        }
 
-            .targets-column {
+        .celebration-title {
+            color: #047857;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .celebration-text {
+            color: #065f46;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 480px) {
+            .targets-grid {
                 grid-template-columns: 1fr;
-                gap: 10px;
             }
 
             .task-title {
-                font-size: 13px;
+                font-size: 0.85rem;
             }
 
             .task-description {
-                font-size: 11px;
+                font-size: 0.75rem;
+            }
+
+            .target-label {
+                font-size: 0.75rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="widget-container">
-        <div class="header-section">
-            <h2 class="widget-title">Match Business Tasks to Model Types</h2>
-            <p class="instructions">Drag each business task to the correct model type and baseline approach</p>
-            <div class="progress-display" id="progress">0/4 Complete</div>
+    <div class="dp-wrapper">
+        <div class="dp-content-block">
+            <h2 class="dp-has-icon">
+                <i class="dp-icon fas fa-puzzle-piece" aria-hidden="true"></i>
+                Match Business Tasks to Model Types
+            </h2>
+            <div class="dp-card intro-card">
+                <p><strong>Interactive Learning:</strong> Drag each business task to the correct model type and baseline approach. Learn how to classify ML problems and choose appropriate starting points.</p>
+            </div>
         </div>
 
-        <div class="matcher-grid">
+        <div class="progress-display" id="progress">
+            <i class="fas fa-chart-line" aria-hidden="true"></i>
+            Progress: <span id="progress-count">0/4</span> Complete
+        </div>
+
+        <div class="matcher-section">
             <div class="tasks-column">
-                <h3 class="column-header">Business Tasks</h3>
+                <h3><i class="fas fa-briefcase" aria-hidden="true"></i> Business Tasks</h3>
                 <div id="tasks-container">
                     <div class="task-card" data-task="spam" draggable="true">
                         <div class="task-title">Email Spam Detection</div>
@@ -272,35 +332,35 @@
                 </div>
             </div>
 
-            <div class="targets-column">
+            <div class="targets-grid">
                 <div class="target-section">
-                    <h3 class="column-header">Model Type</h3>
-                    <div class="target-card" data-type="classification">
+                    <h4><i class="fas fa-tags" aria-hidden="true"></i> Model Type</h4>
+                    <div class="target-card" data-type="classification" data-task-slot="spam">
                         <div class="target-label">Classification<br><small>Predict categories</small></div>
                     </div>
-                    <div class="target-card" data-type="classification">
-                        <div class="target-label">Classification<br><small>Predict categories</small></div>
-                    </div>
-                    <div class="target-card" data-type="regression">
+                    <div class="target-card" data-type="regression" data-task-slot="price">
                         <div class="target-label">Regression<br><small>Predict numbers</small></div>
                     </div>
-                    <div class="target-card" data-type="regression">
+                    <div class="target-card" data-type="classification" data-task-slot="churn">
+                        <div class="target-label">Classification<br><small>Predict categories</small></div>
+                    </div>
+                    <div class="target-card" data-type="regression" data-task-slot="sales">
                         <div class="target-label">Regression<br><small>Predict numbers</small></div>
                     </div>
                 </div>
 
                 <div class="target-section">
-                    <h3 class="column-header">Baseline Approach</h3>
-                    <div class="target-card" data-baseline="majority">
+                    <h4><i class="fas fa-bullseye" aria-hidden="true"></i> Baseline Approach</h4>
+                    <div class="target-card" data-baseline="majority" data-task-slot="spam">
                         <div class="target-label">Majority Class<br><small>Most common outcome</small></div>
                     </div>
-                    <div class="target-card" data-baseline="majority">
-                        <div class="target-label">Majority Class<br><small>Most common outcome</small></div>
-                    </div>
-                    <div class="target-card" data-baseline="average">
+                    <div class="target-card" data-baseline="average" data-task-slot="price">
                         <div class="target-label">Historical Average<br><small>Mean of past values</small></div>
                     </div>
-                    <div class="target-card" data-baseline="seasonal">
+                    <div class="target-card" data-baseline="majority" data-task-slot="churn">
+                        <div class="target-label">Majority Class<br><small>Most common outcome</small></div>
+                    </div>
+                    <div class="target-card" data-baseline="seasonal" data-task-slot="sales">
                         <div class="target-label">Seasonal Naïve<br><small>Last period's value</small></div>
                     </div>
                 </div>
@@ -308,13 +368,27 @@
         </div>
 
         <div class="feedback-section" id="feedback">
+            <div class="feedback-title">
+                <i class="fas fa-lightbulb" aria-hidden="true"></i>
+                Learning Insight
+            </div>
             <div class="feedback-message" id="feedback-message"></div>
             <div class="feedback-explanation" id="feedback-explanation"></div>
         </div>
 
-        <div style="text-align: center;">
-            <button class="reset-button" onclick="resetActivity()">Reset Activity</button>
+        <div class="completion-celebration" id="completion">
+            <div class="celebration-title">
+                <i class="fas fa-trophy" aria-hidden="true"></i>
+                Excellent Work!
+            </div>
+            <div class="celebration-text">
+                You've successfully matched all business tasks to their correct model types and baseline approaches. This understanding is crucial for choosing the right ML techniques in practice.
+            </div>
         </div>
+
+        <button class="reset-button" onclick="resetActivity()">
+            <i class="fas fa-redo-alt" aria-hidden="true"></i> Reset Activity
+        </button>
     </div>
 
     <script>
@@ -328,6 +402,7 @@
                 };
 
                 this.completed = 0;
+                this.placedTasks = {};
                 this.feedback = {
                     spam: 'Spam detection is classification (spam vs. not spam). Majority class baseline assumes most emails are legitimate.',
                     price: 'House prices are continuous numbers (regression). Historical average provides a simple baseline.',
@@ -351,100 +426,168 @@
                         card.classList.add('dragging');
                     });
 
-                    card.addEventListener('dragend', () => {
+                    card.addEventListener('dragend', (e) => {
                         card.classList.remove('dragging');
                     });
                 });
 
-                // Setup drop for target cards
+                // Setup drop zones
                 document.querySelectorAll('.target-card').forEach(card => {
                     card.addEventListener('dragover', (e) => {
                         e.preventDefault();
-                        card.classList.add('drag-over');
+                        card.classList.add('drop-zone');
                     });
 
-                    card.addEventListener('dragleave', () => {
-                        card.classList.remove('drag-over');
+                    card.addEventListener('dragleave', (e) => {
+                        card.classList.remove('drop-zone');
                     });
 
                     card.addEventListener('drop', (e) => {
                         e.preventDefault();
-                        card.classList.remove('drag-over');
+                        card.classList.remove('drop-zone');
 
                         const taskId = e.dataTransfer.getData('text/plain');
-                        const targetType = card.dataset.type || card.dataset.baseline;
+                        const taskSlot = card.dataset.taskSlot;
 
-                        this.handleDrop(taskId, targetType, card);
+                        // Only allow dropping on the correct slot
+                        if (taskId === taskSlot) {
+                            this.handleDrop(taskId, card);
+                        }
                     });
                 });
             }
 
-            handleDrop(taskId, targetType, targetCard) {
-                // Check if already filled
-                if (targetCard.classList.contains('filled')) return;
+            handleDrop(taskId, targetCard) {
+                // Check if task already placed elsewhere
+                if (this.placedTasks[taskId]) {
+                    this.placedTasks[taskId].innerHTML = this.placedTasks[taskId].originalContent;
+                    this.placedTasks[taskId].classList.remove('filled', 'correct', 'incorrect');
+                }
 
-                // Find and move the task card
-                const taskCard = document.querySelector(`[data-task="${taskId}"]`);
-                if (!taskCard) return;
+                // Store original content if not already stored
+                if (!targetCard.originalContent) {
+                    targetCard.originalContent = targetCard.innerHTML;
+                }
 
-                // Mark as filled and add task
+                // Place task in target
+                const taskElement = document.querySelector(`[data-task="${taskId}"]`);
+                const taskTitle = taskElement.querySelector('.task-title').textContent;
+
+                targetCard.innerHTML = `<div class="placed-task">${taskTitle}</div>`;
                 targetCard.classList.add('filled');
-                targetCard.innerHTML = `<div class="target-label">${taskCard.innerHTML}</div>`;
-                targetCard.dataset.task = taskId;
 
-                // Hide original task card
-                taskCard.style.display = 'none';
+                this.placedTasks[taskId] = targetCard;
 
-                // Check if correct
-                const isCorrect = this.checkAnswer(taskId, targetType);
-                this.showFeedback(taskId, isCorrect);
+                // Hide the original task card
+                taskElement.style.display = 'none';
 
-                if (isCorrect) {
+                // Check if this placement is correct
+                this.checkPlacement(taskId, targetCard);
+            }
+
+            checkPlacement(taskId, targetCard) {
+                const correct = this.correctMappings[taskId];
+                const type = targetCard.dataset.type;
+                const baseline = targetCard.dataset.baseline;
+
+                let isCorrect = false;
+                if (type && correct.type === type) {
+                    isCorrect = true;
+                    targetCard.classList.add('correct');
+                } else if (baseline && correct.baseline === baseline) {
+                    isCorrect = true;
+                    targetCard.classList.add('correct');
+                } else {
+                    targetCard.classList.add('incorrect');
+                }
+
+                // Check if both placements for this task are correct
+                const typeCard = document.querySelector(`[data-type="${correct.type}"][data-task-slot="${taskId}"]`);
+                const baselineCard = document.querySelector(`[data-baseline="${correct.baseline}"][data-task-slot="${taskId}"]`);
+
+                if (typeCard.classList.contains('filled') && baselineCard.classList.contains('filled') &&
+                    typeCard.classList.contains('correct') && baselineCard.classList.contains('correct')) {
                     this.completed++;
+                    this.showFeedback(taskId);
                     this.updateProgress();
+
+                    if (this.completed === 4) {
+                        this.showCompletion();
+                    }
                 }
             }
 
-            checkAnswer(taskId, targetType) {
-                const correct = this.correctMappings[taskId];
-                return correct.type === targetType || correct.baseline === targetType;
-            }
-
-            showFeedback(taskId, isCorrect) {
+            showFeedback(taskId) {
                 const feedbackSection = document.getElementById('feedback');
-                const message = document.getElementById('feedback-message');
-                const explanation = document.getElementById('feedback-explanation');
+                const messageEl = document.getElementById('feedback-message');
+                const explanationEl = document.getElementById('feedback-explanation');
 
-                message.textContent = isCorrect ? '✓ Correct!' : '✗ Try again';
-                explanation.textContent = this.feedback[taskId];
+                messageEl.textContent = `Great job with ${this.getTaskName(taskId)}!`;
+                explanationEl.textContent = this.feedback[taskId];
 
-                feedbackSection.className = `feedback-section show ${isCorrect ? 'correct' : 'incorrect'}`;
+                feedbackSection.classList.add('show');
 
+                // Hide feedback after 4 seconds
                 setTimeout(() => {
                     feedbackSection.classList.remove('show');
-                }, 3000);
+                }, 4000);
+            }
+
+            getTaskName(taskId) {
+                const names = {
+                    spam: 'Email Spam Detection',
+                    price: 'House Price Prediction',
+                    churn: 'Customer Churn Prediction',
+                    sales: 'Monthly Sales Forecasting'
+                };
+                return names[taskId];
+            }
+
+            showCompletion() {
+                document.getElementById('completion').classList.add('show');
             }
 
             updateProgress() {
-                document.getElementById('progress').textContent = `${this.completed}/4 Complete`;
+                document.getElementById('progress-count').textContent = `${this.completed}/4`;
+            }
 
-                if (this.completed === 4) {
-                    setTimeout(() => {
-                        this.showFeedback('complete', true);
-                        document.getElementById('feedback-message').textContent = '🎉 Perfect! You understand the fundamentals.';
-                        document.getElementById('feedback-explanation').textContent = 'You successfully matched all business tasks to their appropriate model types and baseline approaches.';
-                    }, 500);
-                }
+            reset() {
+                this.completed = 0;
+                this.placedTasks = {};
+
+                // Reset task cards
+                document.querySelectorAll('.task-card').forEach(card => {
+                    card.style.display = 'block';
+                });
+
+                // Reset target cards
+                document.querySelectorAll('.target-card').forEach(card => {
+                    if (card.originalContent) {
+                        card.innerHTML = card.originalContent;
+                    }
+                    card.classList.remove('filled', 'correct', 'incorrect', 'drop-zone');
+                });
+
+                // Hide feedback and completion
+                document.getElementById('feedback').classList.remove('show');
+                document.getElementById('completion').classList.remove('show');
+
+                this.updateProgress();
             }
         }
 
+        // Initialize the matcher
+        let matcher;
+
         function resetActivity() {
-            location.reload();
+            if (matcher) {
+                matcher.reset();
+            }
         }
 
-        // Initialize when DOM is loaded
-        document.addEventListener('DOMContentLoaded', () => {
-            new TaskModelMatcher();
+        // Initialize when page loads
+        window.addEventListener('load', () => {
+            matcher = new TaskModelMatcher();
         });
     </script>
 </body>
