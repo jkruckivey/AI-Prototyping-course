@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Module 1 Wrap-Up Quiz - AMBA Template</title>
+  <!-- Canvas iframe sizing hint -->
+  <meta name="canvas-height" content="900">
+  <meta name="description" content="Interactive Module 1 quiz covering AI fundamentals, data science framework, and ML basics">
+  <link rel="stylesheet" href="ivey-widget-base.css">
+  <style>
+    /* Widget-specific styling */
+    .quiz-progress {
+      background: var(--bg-secondary);
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .progress-bar {
+      background: #e9ecef;
+      border-radius: 4px;
+      height: 8px;
+      margin: 10px 0;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      background: var(--ivey-green);
+      height: 100%;
+      transition: width 0.3s ease;
+      width: 0%;
+    }
+
+    .question-number {
+      color: var(--ivey-green);
+      font-weight: bold;
+      font-size: 0.9em;
+      margin-bottom: 10px;
+    }
+
+    .answer-options {
+      list-style: none;
+      padding: 0;
+    }
+
+    .answer-option {
+      background: var(--bg-secondary);
+      border: 2px solid var(--border-light);
+      border-radius: 6px;
+      margin: 8px 0;
+      padding: 12px 15px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+    }
+
+    .answer-option:hover {
+      border-color: var(--ivey-green);
+      background: var(--hover-bg);
+    }
+
+    .answer-option.selected {
+      background: rgba(3, 70, 56, 0.1);
+      border-color: var(--ivey-green);
+    }
+
+    .answer-option.correct {
+      background: rgba(16, 185, 129, 0.1);
+      border-color: #10b981;
+    }
+
+    .answer-option.incorrect {
+      background: rgba(239, 68, 68, 0.1);
+      border-color: #ef4444;
+    }
+
+    .option-letter {
+      background: var(--ivey-green);
+      color: white;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.9em;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+
+    .explanation {
+      background: var(--bg-light);
+      border-left: 4px solid var(--ivey-green);
+      padding: 15px;
+      margin-top: 15px;
+      border-radius: 0 6px 6px 0;
+      display: none;
+    }
+
+    .explanation.show {
+      display: block;
+      animation: slideDown 0.3s ease;
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .quiz-actions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+      gap: 10px;
+    }
+
+    .btn {
+      background: var(--ivey-green);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: 'Figtree', sans-serif;
+      font-weight: 500;
+      transition: background 0.3s ease;
+      flex: 1;
+      max-width: 150px;
+    }
+
+    .btn:hover {
+      background: #025a44;
+    }
+
+    .btn:disabled {
+      background: #cbd5e0;
+      cursor: not-allowed;
+    }
+
+    .btn-secondary {
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      border: 2px solid var(--border-medium);
+    }
+
+    .btn-secondary:hover {
+      background: var(--hover-bg);
+    }
+
+    .question-container {
+      display: none;
+    }
+
+    .question-container.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .score-display {
+      background: var(--ivey-green);
+      color: white;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      margin: 20px 0;
+      display: none;
+    }
+
+    .score-display.show {
+      display: block;
+    }
+
+    .header {
+      background: var(--ivey-green);
+      color: white;
+      padding: 20px;
+      text-align: center;
+      margin: -20px -20px 20px -20px;
+    }
+
+    .header h2 {
+      margin: 0;
+      color: white;
+    }
+
+    .header p {
+      margin: 5px 0 0 0;
+      opacity: 0.9;
+      color: white;
+    }
+
+    .widget-container {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      max-width: 800px;
+      margin: 0 auto;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <div class="widget-container">
+    <div class="header">
+      <h2><i class="fas fa-clipboard-check" aria-hidden="true"></i> Module 1 Wrap-Up Quiz</h2>
+      <p>Test your understanding of AI fundamentals, data science framework, and ML basics</p>
+    </div>
+
+    <div class="quiz-progress">
+      <div class="question-number">Question <span id="current-question">1</span> of <span id="total-questions">5</span></div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+      <div>Score: <span id="current-score">0</span>/<span id="total-possible">5</span></div>
+    </div>
+
+    <!-- Question 1 -->
+    <div class="question-container active" data-question="1">
+      <h3>Which ML type is best suited for discovering customer segments?</h3>
+      <ul class="answer-options">
+        <li class="answer-option" data-value="A">
+          <span class="option-letter">A</span>
+          <span>Supervised Learning</span>
+        </li>
+        <li class="answer-option" data-value="B">
+          <span class="option-letter">B</span>
+          <span>Unsupervised Learning</span>
+        </li>
+        <li class="answer-option" data-value="C">
+          <span class="option-letter">C</span>
+          <span>Reinforcement Learning</span>
+        </li>
+        <li class="answer-option" data-value="D">
+          <span class="option-letter">D</span>
+          <span>Self-Supervised Learning</span>
+        </li>
+      </ul>
+      <div class="explanation">
+        <strong>Correct Answer: B - Unsupervised Learning</strong><br>
+        <em>Explanation:</em> Customer segmentation involves discovering hidden patterns and groupings in data without pre-defined labels. Since you don't have existing categories to learn from, unsupervised learning techniques like clustering are ideal for finding natural customer segments.
+      </div>
+    </div>
+
+    <!-- Question 2 -->
+    <div class="question-container" data-question="2">
+      <h3>What is the first step in the data science framework?</h3>
+      <ul class="answer-options">
+        <li class="answer-option" data-value="A">
+          <span class="option-letter">A</span>
+          <span>Data Collection</span>
+        </li>
+        <li class="answer-option" data-value="B">
+          <span class="option-letter">B</span>
+          <span>Problem Framing</span>
+        </li>
+        <li class="answer-option" data-value="C">
+          <span class="option-letter">C</span>
+          <span>Model Building</span>
+        </li>
+        <li class="answer-option" data-value="D">
+          <span class="option-letter">D</span>
+          <span>Data Cleaning</span>
+        </li>
+      </ul>
+      <div class="explanation">
+        <strong>Correct Answer: B - Problem Framing</strong><br>
+        <em>Explanation:</em> Before collecting or analyzing any data, you must clearly define the business problem, decision context, key performance indicators (KPIs), constraints, and success criteria. This ensures all subsequent work is aligned with business objectives.
+      </div>
+    </div>
+
+    <!-- Question 3 -->
+    <div class="question-container" data-question="3">
+      <h3>What is the main risk of using future information during model training?</h3>
+      <ul class="answer-options">
+        <li class="answer-option" data-value="A">
+          <span class="option-letter">A</span>
+          <span>Overfitting</span>
+        </li>
+        <li class="answer-option" data-value="B">
+          <span class="option-letter">B</span>
+          <span>Data Leakage</span>
+        </li>
+        <li class="answer-option" data-value="C">
+          <span class="option-letter">C</span>
+          <span>Underfitting</span>
+        </li>
+        <li class="answer-option" data-value="D">
+          <span class="option-letter">D</span>
+          <span>Class Imbalance</span>
+        </li>
+      </ul>
+      <div class="explanation">
+        <strong>Correct Answer: B - Data Leakage</strong><br>
+        <em>Explanation:</em> Data leakage occurs when information from the future (relative to prediction time) is used during training. This makes the model appear unrealistically accurate during development but fail catastrophically in production when future information isn't available.
+      </div>
+    </div>
+
+    <!-- Question 4 -->
+    <div class="question-container" data-question="4">
+      <h3>Which of the Big Data "4Vs" is most concerned with data quality and trust?</h3>
+      <ul class="answer-options">
+        <li class="answer-option" data-value="A">
+          <span class="option-letter">A</span>
+          <span>Volume (Scale)</span>
+        </li>
+        <li class="answer-option" data-value="B">
+          <span class="option-letter">B</span>
+          <span>Velocity (Speed)</span>
+        </li>
+        <li class="answer-option" data-value="C">
+          <span class="option-letter">C</span>
+          <span>Variety (Types)</span>
+        </li>
+        <li class="answer-option" data-value="D">
+          <span class="option-letter">D</span>
+          <span>Veracity (Quality)</span>
+        </li>
+      </ul>
+      <div class="explanation">
+        <strong>Correct Answer: D - Veracity (Quality)</strong><br>
+        <em>Explanation:</em> Veracity refers to the accuracy, reliability, and trustworthiness of data. Poor data quality can cost organizations trillions of dollars annually and is especially critical in AI systems that amplify patterns found in training data.
+      </div>
+    </div>
+
+    <!-- Question 5 -->
+    <div class="question-container" data-question="5">
+      <h3>What should guide the choice between real-time and batch processing for ML models?</h3>
+      <ul class="answer-options">
+        <li class="answer-option" data-value="A">
+          <span class="option-letter">A</span>
+          <span>Model accuracy requirements</span>
+        </li>
+        <li class="answer-option" data-value="B">
+          <span class="option-letter">B</span>
+          <span>Decision cadence and business impact</span>
+        </li>
+        <li class="answer-option" data-value="C">
+          <span class="option-letter">C</span>
+          <span>Data storage capacity</span>
+        </li>
+        <li class="answer-option" data-value="D">
+          <span class="option-letter">D</span>
+          <span>Programming language choice</span>
+        </li>
+      </ul>
+      <div class="explanation">
+        <strong>Correct Answer: B - Decision cadence and business impact</strong><br>
+        <em>Explanation:</em> The processing approach should match how quickly decisions need to be made and their business impact. Real-time personalization requires immediate responses, while quarterly strategic planning can use batch processing. Match the technical approach to the business need.
+      </div>
+    </div>
+
+    <div class="score-display" id="final-score">
+      <h3>Quiz Complete!</h3>
+      <p>Your Score: <span id="final-score-text">0/5</span></p>
+      <p id="score-message"></p>
+    </div>
+
+    <div class="quiz-actions">
+      <button class="btn btn-secondary" id="prev-btn" disabled>Previous</button>
+      <button class="btn" id="next-btn">Next</button>
+      <button class="btn" id="finish-btn" style="display: none;">Finish Quiz</button>
+      <button class="btn btn-secondary" id="restart-btn" style="display: none;">Restart Quiz</button>
+    </div>
+  </div>
+
+  <script>
+    class Module1Quiz {
+      constructor() {
+        this.currentQuestion = 1;
+        this.totalQuestions = 5;
+        this.score = 0;
+        this.answers = {};
+        this.correctAnswers = {
+          1: 'B',
+          2: 'B',
+          3: 'B',
+          4: 'D',
+          5: 'B'
+        };
+        this.init();
+      }
+
+      init() {
+        this.bindEvents();
+        this.updateProgress();
+      }
+
+      bindEvents() {
+        // Answer option clicks
+        document.querySelectorAll('.answer-option').forEach(option => {
+          option.addEventListener('click', (e) => {
+            this.selectAnswer(e.currentTarget);
+          });
+        });
+
+        // Navigation buttons
+        document.getElementById('next-btn').addEventListener('click', () => {
+          this.nextQuestion();
+        });
+
+        document.getElementById('prev-btn').addEventListener('click', () => {
+          this.prevQuestion();
+        });
+
+        document.getElementById('finish-btn').addEventListener('click', () => {
+          this.finishQuiz();
+        });
+
+        document.getElementById('restart-btn').addEventListener('click', () => {
+          this.restartQuiz();
+        });
+      }
+
+      selectAnswer(selectedOption) {
+        const questionNum = this.currentQuestion;
+        const questionContainer = document.querySelector(`[data-question="${questionNum}"]`);
+        const options = questionContainer.querySelectorAll('.answer-option');
+
+        // Clear previous selections
+        options.forEach(opt => {
+          opt.classList.remove('selected', 'correct', 'incorrect');
+        });
+
+        // Mark selected
+        selectedOption.classList.add('selected');
+
+        // Store answer
+        this.answers[questionNum] = selectedOption.dataset.value;
+
+        // Show explanation and mark correct/incorrect
+        const explanation = questionContainer.querySelector('.explanation');
+        const correctAnswer = this.correctAnswers[questionNum];
+        const isCorrect = this.answers[questionNum] === correctAnswer;
+
+        if (isCorrect) {
+          selectedOption.classList.add('correct');
+        } else {
+          selectedOption.classList.add('incorrect');
+          // Highlight correct answer
+          options.forEach(opt => {
+            if (opt.dataset.value === correctAnswer) {
+              opt.classList.add('correct');
+            }
+          });
+        }
+
+        explanation.classList.add('show');
+
+        // Enable next button
+        document.getElementById('next-btn').disabled = false;
+      }
+
+      nextQuestion() {
+        if (this.currentQuestion < this.totalQuestions) {
+          this.currentQuestion++;
+          this.showQuestion(this.currentQuestion);
+        } else {
+          this.showFinishButton();
+        }
+        this.updateProgress();
+      }
+
+      prevQuestion() {
+        if (this.currentQuestion > 1) {
+          this.currentQuestion--;
+          this.showQuestion(this.currentQuestion);
+          this.updateProgress();
+        }
+      }
+
+      showQuestion(questionNum) {
+        // Hide all questions
+        document.querySelectorAll('.question-container').forEach(container => {
+          container.classList.remove('active');
+        });
+
+        // Show current question
+        document.querySelector(`[data-question="${questionNum}"]`).classList.add('active');
+
+        // Update navigation
+        document.getElementById('prev-btn').disabled = questionNum === 1;
+
+        if (this.answers[questionNum]) {
+          document.getElementById('next-btn').disabled = false;
+        } else {
+          document.getElementById('next-btn').disabled = true;
+        }
+
+        // Show/hide finish button
+        if (questionNum === this.totalQuestions) {
+          this.showFinishButton();
+        } else {
+          document.getElementById('next-btn').style.display = 'block';
+          document.getElementById('finish-btn').style.display = 'none';
+        }
+      }
+
+      showFinishButton() {
+        document.getElementById('next-btn').style.display = 'none';
+        document.getElementById('finish-btn').style.display = 'block';
+      }
+
+      updateProgress() {
+        document.getElementById('current-question').textContent = this.currentQuestion;
+        document.getElementById('total-questions').textContent = this.totalQuestions;
+
+        const progress = (this.currentQuestion / this.totalQuestions) * 100;
+        document.getElementById('progress-fill').style.width = `${progress}%`;
+
+        // Update score
+        this.calculateScore();
+        document.getElementById('current-score').textContent = this.score;
+        document.getElementById('total-possible').textContent = this.totalQuestions;
+      }
+
+      calculateScore() {
+        this.score = 0;
+        for (let i = 1; i <= this.totalQuestions; i++) {
+          if (this.answers[i] === this.correctAnswers[i]) {
+            this.score++;
+          }
+        }
+      }
+
+      finishQuiz() {
+        this.calculateScore();
+
+        // Hide question container
+        document.querySelectorAll('.question-container').forEach(container => {
+          container.style.display = 'none';
+        });
+
+        // Show final score
+        const finalScoreDiv = document.getElementById('final-score');
+        const scorePercentage = Math.round((this.score / this.totalQuestions) * 100);
+
+        document.getElementById('final-score-text').textContent = `${this.score}/${this.totalQuestions} (${scorePercentage}%)`;
+
+        let message = '';
+        if (scorePercentage >= 90) {
+          message = 'Excellent! You have a strong understanding of Module 1 concepts.';
+        } else if (scorePercentage >= 70) {
+          message = 'Good work! You understand most of the key concepts.';
+        } else if (scorePercentage >= 50) {
+          message = 'Not bad! Consider reviewing the material to strengthen your understanding.';
+        } else {
+          message = 'You may want to review the Module 1 content before proceeding.';
+        }
+
+        document.getElementById('score-message').textContent = message;
+        finalScoreDiv.classList.add('show');
+
+        // Hide navigation, show restart
+        document.getElementById('prev-btn').style.display = 'none';
+        document.getElementById('finish-btn').style.display = 'none';
+        document.getElementById('restart-btn').style.display = 'block';
+      }
+
+      restartQuiz() {
+        this.currentQuestion = 1;
+        this.score = 0;
+        this.answers = {};
+
+        // Reset UI
+        document.querySelectorAll('.question-container').forEach(container => {
+          container.style.display = 'block';
+          container.classList.remove('active');
+
+          // Reset answer options
+          container.querySelectorAll('.answer-option').forEach(opt => {
+            opt.classList.remove('selected', 'correct', 'incorrect');
+          });
+
+          // Hide explanations
+          container.querySelector('.explanation').classList.remove('show');
+        });
+
+        document.getElementById('final-score').classList.remove('show');
+
+        // Reset navigation
+        document.getElementById('prev-btn').style.display = 'block';
+        document.getElementById('next-btn').style.display = 'block';
+        document.getElementById('finish-btn').style.display = 'none';
+        document.getElementById('restart-btn').style.display = 'none';
+
+        this.showQuestion(1);
+        this.updateProgress();
+      }
+    }
+
+    // Initialize quiz when page loads
+    document.addEventListener('DOMContentLoaded', () => {
+      new Module1Quiz();
+    });
+  </script>
+</body>
+</html>
