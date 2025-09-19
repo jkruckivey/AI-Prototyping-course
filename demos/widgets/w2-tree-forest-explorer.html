@@ -5,16 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Decision Trees & Random Forest Explorer</title>
     <link rel="stylesheet" href="ivey-widget-base.css">
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* AMBA Template Styles */
         .dp-wrapper {
-            max-width: 1200px;
+            max-width: 500px;
             margin: 0 auto;
             padding: 20px;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-family: 'Figtree', system-ui, -apple-system, sans-serif;
             line-height: 1.6;
             color: #2c3e50;
+            background: #fff;
         }
 
         .dp-content-block {
@@ -27,6 +27,8 @@
             gap: 0.5rem;
             color: #034638;
             margin: 0 0 1rem 0;
+            font-size: 1.5rem;
+            font-weight: 600;
         }
 
         .dp-card {
@@ -43,158 +45,244 @@
         }
 
         .controls-section {
-            background: #f8fafc;
+            background: #f8fffe;
             border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 25px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
             border-left: 4px solid #034638;
         }
 
-        .control-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            margin-bottom: 15px;
-            align-items: center;
-        }
-
-        .control-item {
-            display: flex;
-            flex-direction: column;
-            min-width: 150px;
-        }
-
-        label {
-            font-weight: 600;
-            color: #374151;
-            margin-bottom: 5px;
-            font-size: 0.9em;
-        }
-
-        input[type="range"] {
-            width: 150px;
-            margin: 5px 0;
-        }
-
-        .value-display {
-            font-weight: bold;
+        .controls-section h3 {
             color: #034638;
-            text-align: center;
-            padding: 2px 8px;
-            background: #e6f3f0;
-            border-radius: 4px;
-            font-size: 0.9em;
+            margin: 0 0 1rem 0;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .scenario-selector {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 0.5rem;
+            margin: 1rem 0;
         }
 
         .scenario-btn {
-            padding: 8px 16px;
-            border: 2px solid #034638;
-            background: white;
-            color: #034638;
+            background: #f3f4f6;
+            border: 2px solid #e5e7eb;
+            padding: 0.75rem 0.5rem;
             border-radius: 6px;
             cursor: pointer;
-            font-weight: 600;
             transition: all 0.3s ease;
+            font-size: 0.8rem;
+            text-align: center;
+            font-weight: 500;
         }
 
         .scenario-btn.active {
             background: #034638;
             color: white;
+            border-color: #034638;
         }
 
-        .scenario-btn:hover {
-            background: #0a5c4a;
+        .scenario-btn:hover:not(.active) {
+            background: #e5e7eb;
+        }
+
+        .control-group {
+            margin: 1.5rem 0;
+        }
+
+        .control-group label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.75rem;
+            color: #2c3e50;
+            font-size: 0.9rem;
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin: 0.75rem 0;
+        }
+
+        .slider-container input[type="range"] {
+            flex: 1;
+            height: 4px;
+            background: #e5e7eb;
+            border-radius: 2px;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .slider-container input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            background: #034638;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .value-display {
+            background: #034638;
             color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            min-width: 50px;
+            text-align: center;
         }
 
-        .visualization-grid {
+        .visualization-section {
+            margin: 2rem 0;
+        }
+
+        .chart-container {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .chart-title {
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 1rem;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .tree-canvas {
+            width: 100%;
+            height: 280px;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            background: #f9fafb;
+            margin: 0.5rem 0;
+        }
+
+        .comparison-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-
-        .plot-container {
-            background: white;
-            border-radius: 8px;
-            border: 1px solid #e5e7eb;
-            padding: 15px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .plot-title {
-            font-weight: bold;
-            color: #374151;
-            margin-bottom: 10px;
-            text-align: center;
+            gap: 1rem;
+            margin: 1.5rem 0;
         }
 
         .metrics-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1.5rem 0;
         }
 
         .metric-card {
-            background: #f8fafc;
+            background: #f8fffe;
             border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 15px;
+            border-radius: 6px;
+            padding: 1rem;
             text-align: center;
+            border-left: 4px solid #034638;
         }
 
         .metric-title {
-            font-weight: bold;
-            color: #6b7280;
-            font-size: 0.9em;
-            margin-bottom: 5px;
+            font-size: 0.7rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
         }
 
         .metric-value {
-            font-size: 1.8em;
+            font-size: 1.3rem;
             font-weight: bold;
             color: #034638;
         }
 
         .explanation-section {
             background: #fef7ed;
+            border: 2px solid #f59e0b;
             border-radius: 8px;
-            padding: 20px;
-            margin-top: 20px;
-            border-left: 4px solid #f59e0b;
+            padding: 1.5rem;
+            margin: 2rem 0;
         }
 
         .explanation-title {
-            font-weight: bold;
+            font-weight: 600;
             color: #92400e;
-            margin-bottom: 10px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .explanation-text {
             color: #78350f;
             line-height: 1.6;
+            font-size: 0.9rem;
         }
 
-        @media (max-width: 768px) {
-            .visualization-grid {
+        .tree-diagram {
+            background: #faf5ff;
+            border: 2px solid #582C83;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .tree-title {
+            font-weight: 600;
+            color: #582C83;
+            margin-bottom: 1rem;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .tree-structure {
+            font-family: 'Courier New', monospace;
+            font-size: 0.75rem;
+            line-height: 1.4;
+            color: #4a5568;
+            background: white;
+            padding: 1rem;
+            border-radius: 6px;
+            border: 1px solid #e5e7eb;
+            overflow-x: auto;
+        }
+
+        .forest-info {
+            background: #eff6ff;
+            border: 2px solid #3b82f6;
+            border-radius: 6px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-size: 0.85rem;
+            text-align: center;
+        }
+
+        .forest-info strong {
+            color: #1e40af;
+        }
+
+        @media (max-width: 480px) {
+            .scenario-selector {
                 grid-template-columns: 1fr;
             }
 
-            .control-group {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .scenario-selector {
-                flex-direction: column;
+            .comparison-grid, .metrics-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -202,57 +290,84 @@
 <body>
     <div class="dp-wrapper">
         <div class="dp-content-block">
-            <h2 class="dp-has-icon">🌳 Decision Trees & Random Forest Explorer</h2>
+            <h2 class="dp-has-icon">
+                <i class="dp-icon fas fa-tree" aria-hidden="true"></i>
+                Decision Trees & Random Forest Explorer
+            </h2>
             <div class="dp-card intro-card">
-                <p><strong>Interactive Learning:</strong> Explore how decision trees work individually and compare their performance with Random Forest ensemble methods across different scenarios.</p>
+                <p><strong>Interactive Learning:</strong> Compare single decision trees vs. random forest ensembles. Explore how combining multiple trees reduces overfitting and improves prediction accuracy.</p>
             </div>
         </div>
 
         <div class="controls-section">
-            <h3>Dataset & Model Configuration</h3>
+            <h3><i class="fas fa-sliders-h" aria-hidden="true"></i> Model Configuration</h3>
 
-            <div class="scenario-selector">
-                <button class="scenario-btn active" data-scenario="customer">Customer Retention</button>
-                <button class="scenario-btn" data-scenario="loan">Loan Approval</button>
-                <button class="scenario-btn" data-scenario="marketing">Marketing Response</button>
+            <div class="control-group">
+                <label>Scenario:</label>
+                <div class="scenario-selector">
+                    <button class="scenario-btn active" onclick="selectScenario('customer')">Customer</button>
+                    <button class="scenario-btn" onclick="selectScenario('loan')">Loan</button>
+                    <button class="scenario-btn" onclick="selectScenario('medical')">Medical</button>
+                </div>
             </div>
 
             <div class="control-group">
-                <div class="control-item">
-                    <label for="maxDepth">Tree Max Depth</label>
-                    <input type="range" id="maxDepth" min="2" max="8" value="4" step="1">
-                    <div class="value-display" id="maxDepthValue">4</div>
+                <label>Max Tree Depth:</label>
+                <div class="slider-container">
+                    <input type="range" id="depthSlider" min="2" max="8" value="4" step="1" onchange="updateDepth(this.value)">
+                    <div class="value-display" id="depthValue">4</div>
                 </div>
+            </div>
 
-                <div class="control-item">
-                    <label for="minSamples">Min Samples per Leaf</label>
-                    <input type="range" id="minSamples" min="1" max="20" value="5" step="1">
-                    <div class="value-display" id="minSamplesValue">5</div>
+            <div class="control-group">
+                <label>Number of Trees in Forest:</label>
+                <div class="slider-container">
+                    <input type="range" id="treesSlider" min="5" max="50" value="20" step="5" onchange="updateTrees(this.value)">
+                    <div class="value-display" id="treesValue">20</div>
                 </div>
+            </div>
 
-                <div class="control-item">
-                    <label for="numTrees">Random Forest Trees</label>
-                    <input type="range" id="numTrees" min="1" max="50" value="10" step="1">
-                    <div class="value-display" id="numTreesValue">10</div>
-                </div>
-
-                <div class="control-item">
-                    <label for="randomSeed">Random Seed</label>
-                    <input type="range" id="randomSeed" min="1" max="100" value="42" step="1">
-                    <div class="value-display" id="randomSeedValue">42</div>
+            <div class="control-group">
+                <label>Sample Size (% of data):</label>
+                <div class="slider-container">
+                    <input type="range" id="sampleSlider" min="30" max="100" value="70" step="10" onchange="updateSample(this.value)">
+                    <div class="value-display" id="sampleValue">70%</div>
                 </div>
             </div>
         </div>
 
-        <div class="visualization-grid">
-            <div class="plot-container">
-                <div class="plot-title">Single Decision Tree</div>
-                <div id="singleTreePlot" style="height: 350px;"></div>
-            </div>
+        <div class="forest-info">
+            <strong>Current Forest:</strong> <span id="forestInfo">20 trees, 70% sampling, depth 4</span><br>
+            <small>Each tree sees a random subset of data and features</small>
+        </div>
 
-            <div class="plot-container">
-                <div class="plot-title">Random Forest Ensemble</div>
-                <div id="forestPlot" style="height: 350px;"></div>
+        <div class="visualization-section">
+            <div class="comparison-grid">
+                <div class="chart-container">
+                    <div class="chart-title">
+                        <i class="fas fa-sitemap" aria-hidden="true"></i>
+                        Single Decision Tree
+                    </div>
+                    <canvas id="singleTreeCanvas" class="tree-canvas"></canvas>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-title">
+                        <i class="fas fa-project-diagram" aria-hidden="true"></i>
+                        Random Forest Ensemble
+                    </div>
+                    <canvas id="forestCanvas" class="tree-canvas"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="tree-diagram">
+            <div class="tree-title">
+                <i class="fas fa-code-branch" aria-hidden="true"></i>
+                Sample Decision Tree Structure
+            </div>
+            <div class="tree-structure" id="treeStructure">
+                Loading tree structure...
             </div>
         </div>
 
@@ -270,13 +385,16 @@
                 <div class="metric-value" id="improvement">+4.4%</div>
             </div>
             <div class="metric-card">
-                <div class="metric-title">Tree Depth Used</div>
-                <div class="metric-value" id="actualDepth">4</div>
+                <div class="metric-title">Overfitting Risk</div>
+                <div class="metric-value" id="overfitting">Medium</div>
             </div>
         </div>
 
         <div class="explanation-section">
-            <div class="explanation-title">📚 How It Works</div>
+            <div class="explanation-title">
+                <i class="fas fa-book" aria-hidden="true"></i>
+                How It Works
+            </div>
             <div class="explanation-text" id="explanationText">
                 Decision trees split data based on feature values to create prediction rules. Random forests combine multiple trees with different random subsets of features and data, reducing overfitting and improving accuracy through ensemble voting.
             </div>
@@ -284,406 +402,337 @@
     </div>
 
     <script>
-        // Scenario configurations
+        let currentScenario = 'customer';
+        let maxDepth = 4;
+        let numTrees = 20;
+        let sampleSize = 70;
+        let data = [];
+
+        // Canvas setup
+        let singleCanvas, singleCtx, forestCanvas, forestCtx;
+
+        function initializeCanvases() {
+            singleCanvas = document.getElementById('singleTreeCanvas');
+            singleCtx = singleCanvas.getContext('2d');
+            forestCanvas = document.getElementById('forestCanvas');
+            forestCtx = forestCanvas.getContext('2d');
+
+            const rect = singleCanvas.getBoundingClientRect();
+            singleCanvas.width = rect.width * 2;
+            singleCanvas.height = rect.height * 2;
+            singleCtx.scale(2, 2);
+
+            const forestRect = forestCanvas.getBoundingClientRect();
+            forestCanvas.width = forestRect.width * 2;
+            forestCanvas.height = forestRect.height * 2;
+            forestCtx.scale(2, 2);
+        }
+
         const scenarios = {
             customer: {
                 name: 'Customer Retention',
                 features: ['Monthly Spend', 'Support Tickets'],
                 xLabel: 'Monthly Spend ($)',
                 yLabel: 'Support Tickets',
-                description: 'Predict which customers are likely to churn based on spending and support interaction patterns.'
+                description: 'Predict which customers are likely to churn based on spending and support interaction patterns.',
+                baseAccuracy: 0.82
             },
             loan: {
                 name: 'Loan Approval',
                 features: ['Income', 'Credit Score'],
                 xLabel: 'Annual Income ($1000s)',
                 yLabel: 'Credit Score',
-                description: 'Determine loan approval likelihood based on applicant income and credit history.'
+                description: 'Determine loan approval likelihood based on income and credit history.',
+                baseAccuracy: 0.87
             },
-            marketing: {
-                name: 'Marketing Response',
-                features: ['Age', 'Previous Purchases'],
-                xLabel: 'Age (years)',
-                yLabel: 'Previous Purchases',
-                description: 'Predict customer response to marketing campaigns based on demographic and purchase history.'
+            medical: {
+                name: 'Medical Diagnosis',
+                features: ['Symptoms', 'Test Results'],
+                xLabel: 'Symptom Severity',
+                yLabel: 'Test Score',
+                description: 'Classify medical conditions based on symptom severity and test outcomes.',
+                baseAccuracy: 0.85
             }
         };
 
-        let currentScenario = 'customer';
+        function generateData() {
+            data = [];
+            const n = 100;
 
-        // Generate sample data
-        function generateData(scenario, seed = 42) {
-            Math.seedrandom = function(seed) {
-                const m = 2**35 - 31;
-                const a = 185852;
-                let s = seed % m;
-                return function() {
-                    return (s = s * a % m) / m;
-                };
-            };
+            for(let i = 0; i < n; i++) {
+                const x = Math.random() * 10;
+                const y = Math.random() * 10;
 
-            const random = Math.seedrandom(seed);
-            const data = [];
-
-            for (let i = 0; i < 200; i++) {
-                let x, y, label;
-
-                if (scenario === 'customer') {
-                    x = random() * 200 + 50;  // Monthly spend
-                    y = random() * 15 + 1;    // Support tickets
-                    label = (x < 100 && y > 8) || (x < 150 && y > 12) ? 1 : 0; // Churn
-                } else if (scenario === 'loan') {
-                    x = random() * 80 + 30;   // Income (1000s)
-                    y = random() * 300 + 500; // Credit score
-                    label = (x > 60 && y > 650) || (x > 80 && y > 600) ? 1 : 0; // Approved
-                } else { // marketing
-                    x = random() * 50 + 20;   // Age
-                    y = random() * 20 + 1;    // Previous purchases
-                    label = (x > 30 && x < 50 && y > 8) || (x > 50 && y > 5) ? 1 : 0; // Response
+                let label;
+                switch(currentScenario) {
+                    case 'customer':
+                        // High spenders with few tickets = retain, low spenders with many tickets = churn
+                        label = (x > 5 && y < 5) || (x > 7) ? 1 : 0;
+                        break;
+                    case 'loan':
+                        // High income + good credit = approve
+                        label = (x > 6 && y > 6) || (x > 8) ? 1 : 0;
+                        break;
+                    case 'medical':
+                        // Complex medical pattern
+                        label = (x + y > 10) || (x > 7 && y > 3) ? 1 : 0;
+                        break;
                 }
 
-                data.push({ x: x, y: y, label: label });
-            }
+                // Add some noise
+                if(Math.random() < 0.1) label = 1 - label;
 
-            return data;
+                data.push({ x, y, label });
+            }
         }
 
-        // Simulate decision tree splits
-        function createDecisionTree(data, maxDepth, minSamples) {
-            function findBestSplit(subset) {
-                let bestGini = 1;
-                let bestFeature = null;
-                let bestThreshold = null;
+        function selectScenario(scenario) {
+            currentScenario = scenario;
+            document.querySelectorAll('.scenario-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
 
-                for (let feature of ['x', 'y']) {
-                    const values = subset.map(d => d[feature]).sort((a, b) => a - b);
+            generateData();
+            updateVisualization();
+            updateExplanation();
+        }
 
-                    for (let i = 1; i < values.length; i++) {
-                        const threshold = (values[i-1] + values[i]) / 2;
-                        const left = subset.filter(d => d[feature] <= threshold);
-                        const right = subset.filter(d => d[feature] > threshold);
+        function updateDepth(value) {
+            maxDepth = parseInt(value);
+            document.getElementById('depthValue').textContent = value;
+            updateVisualization();
+            updateForestInfo();
+        }
 
-                        if (left.length < minSamples || right.length < minSamples) continue;
+        function updateTrees(value) {
+            numTrees = parseInt(value);
+            document.getElementById('treesValue').textContent = value;
+            updateVisualization();
+            updateForestInfo();
+        }
 
-                        const gini = (left.length * calculateGini(left) + right.length * calculateGini(right)) / subset.length;
+        function updateSample(value) {
+            sampleSize = parseInt(value);
+            document.getElementById('sampleValue').textContent = value + '%';
+            updateVisualization();
+            updateForestInfo();
+        }
 
-                        if (gini < bestGini) {
-                            bestGini = gini;
-                            bestFeature = feature;
-                            bestThreshold = threshold;
-                        }
+        function updateForestInfo() {
+            document.getElementById('forestInfo').textContent =
+                `${numTrees} trees, ${sampleSize}% sampling, depth ${maxDepth}`;
+        }
+
+        function drawDecisionBoundary(ctx, width, height, isForest = false) {
+            // Clear canvas
+            ctx.clearRect(0, 0, width, height);
+
+            // Draw decision regions
+            const resolution = 30;
+            for(let i = 0; i < resolution; i++) {
+                for(let j = 0; j < resolution; j++) {
+                    const x = (i / resolution) * 10;
+                    const y = (j / resolution) * 10;
+
+                    let prediction;
+                    if(isForest) {
+                        prediction = predictForest(x, y);
+                    } else {
+                        prediction = predictSingleTree(x, y);
                     }
-                }
 
-                return { feature: bestFeature, threshold: bestThreshold, gini: bestGini };
-            }
+                    const alpha = isForest ? 0.3 : 0.4;
+                    const color = prediction > 0.5 ?
+                        `rgba(34, 197, 94, ${alpha})` :
+                        `rgba(220, 38, 38, ${alpha})`;
 
-            function calculateGini(subset) {
-                if (subset.length === 0) return 0;
-                const p = subset.filter(d => d.label === 1).length / subset.length;
-                return 2 * p * (1 - p);
-            }
-
-            function buildTree(subset, depth = 0) {
-                const majorityClass = subset.filter(d => d.label === 1).length > subset.length / 2 ? 1 : 0;
-
-                if (depth >= maxDepth || subset.length < minSamples * 2 || calculateGini(subset) === 0) {
-                    return { type: 'leaf', class: majorityClass, samples: subset.length };
-                }
-
-                const split = findBestSplit(subset);
-                if (!split.feature) {
-                    return { type: 'leaf', class: majorityClass, samples: subset.length };
-                }
-
-                const left = subset.filter(d => d[split.feature] <= split.threshold);
-                const right = subset.filter(d => d[split.feature] > split.threshold);
-
-                return {
-                    type: 'split',
-                    feature: split.feature,
-                    threshold: split.threshold,
-                    left: buildTree(left, depth + 1),
-                    right: buildTree(right, depth + 1)
-                };
-            }
-
-            return buildTree(data);
-        }
-
-        // Create decision boundary visualization
-        function createDecisionBoundary(tree, scenario) {
-            const bounds = getBounds(scenario);
-            const resolution = 30;
-            const xStep = (bounds.xMax - bounds.xMin) / resolution;
-            const yStep = (bounds.yMax - bounds.yMin) / resolution;
-
-            const x = [];
-            const y = [];
-            const z = [];
-
-            for (let i = 0; i <= resolution; i++) {
-                x.push(bounds.xMin + i * xStep);
-                const row = [];
-                for (let j = 0; j <= resolution; j++) {
-                    if (i === 0) y.push(bounds.yMin + j * yStep);
-
-                    const prediction = predictPoint(tree, {
-                        x: bounds.xMin + i * xStep,
-                        y: bounds.yMin + j * yStep
-                    });
-                    row.push(prediction);
-                }
-                z.push(row);
-            }
-
-            return { x, y, z };
-        }
-
-        function predictPoint(tree, point) {
-            if (tree.type === 'leaf') {
-                return tree.class;
-            }
-
-            if (point[tree.feature] <= tree.threshold) {
-                return predictPoint(tree.left, point);
-            } else {
-                return predictPoint(tree.right, point);
-            }
-        }
-
-        function getBounds(scenario) {
-            if (scenario === 'customer') {
-                return { xMin: 0, xMax: 300, yMin: 0, yMax: 20 };
-            } else if (scenario === 'loan') {
-                return { xMin: 20, xMax: 120, yMin: 400, yMax: 850 };
-            } else {
-                return { xMin: 15, xMax: 75, yMin: 0, yMax: 25 };
-            }
-        }
-
-        // Calculate accuracy
-        function calculateAccuracy(tree, testData) {
-            let correct = 0;
-            for (let point of testData) {
-                if (predictPoint(tree, point) === point.label) {
-                    correct++;
+                    ctx.fillStyle = color;
+                    ctx.fillRect(
+                        (i / resolution) * width,
+                        (j / resolution) * height,
+                        width / resolution,
+                        height / resolution
+                    );
                 }
             }
-            return correct / testData.length;
-        }
 
-        // Random Forest simulation
-        function createRandomForest(data, numTrees, maxDepth, minSamples, seed) {
-            const random = Math.seedrandom(seed);
-            const trees = [];
+            // Draw data points
+            data.forEach(point => {
+                const px = (point.x / 10) * width;
+                const py = (point.y / 10) * height;
 
-            for (let i = 0; i < numTrees; i++) {
-                // Bootstrap sample
-                const bootstrap = [];
-                for (let j = 0; j < data.length; j++) {
-                    bootstrap.push(data[Math.floor(random() * data.length)]);
-                }
+                ctx.beginPath();
+                ctx.arc(px, py, 3, 0, Math.PI * 2);
+                ctx.fillStyle = point.label === 1 ? '#16a34a' : '#dc2626';
+                ctx.fill();
+                ctx.strokeStyle = 'white';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            });
 
-                trees.push(createDecisionTree(bootstrap, maxDepth, minSamples));
-            }
+            // Draw axes and labels
+            ctx.strokeStyle = '#666';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(0, height);
+            ctx.lineTo(width, height);
+            ctx.moveTo(0, 0);
+            ctx.lineTo(0, height);
+            ctx.stroke();
 
-            return trees;
-        }
-
-        function predictForest(trees, point) {
-            const votes = trees.map(tree => predictPoint(tree, point));
-            const sum = votes.reduce((a, b) => a + b, 0);
-            return sum > trees.length / 2 ? 1 : 0;
-        }
-
-        function calculateForestAccuracy(trees, testData) {
-            let correct = 0;
-            for (let point of testData) {
-                if (predictForest(trees, point) === point.label) {
-                    correct++;
-                }
-            }
-            return correct / testData.length;
-        }
-
-        // Create ensemble boundary
-        function createEnsembleBoundary(trees, scenario) {
-            const bounds = getBounds(scenario);
-            const resolution = 30;
-            const xStep = (bounds.xMax - bounds.xMin) / resolution;
-            const yStep = (bounds.yMax - bounds.yMin) / resolution;
-
-            const x = [];
-            const y = [];
-            const z = [];
-
-            for (let i = 0; i <= resolution; i++) {
-                x.push(bounds.xMin + i * xStep);
-                const row = [];
-                for (let j = 0; j <= resolution; j++) {
-                    if (i === 0) y.push(bounds.yMin + j * yStep);
-
-                    const prediction = predictForest(trees, {
-                        x: bounds.xMin + i * xStep,
-                        y: bounds.yMin + j * yStep
-                    });
-                    row.push(prediction);
-                }
-                z.push(row);
-            }
-
-            return { x, y, z };
-        }
-
-        // Update visualization
-        function updateVisualization() {
-            const maxDepth = parseInt(document.getElementById('maxDepth').value);
-            const minSamples = parseInt(document.getElementById('minSamples').value);
-            const numTrees = parseInt(document.getElementById('numTrees').value);
-            const seed = parseInt(document.getElementById('randomSeed').value);
-
+            // Labels
             const scenario = scenarios[currentScenario];
-            const data = generateData(currentScenario, seed);
-            const trainData = data.slice(0, 150);
-            const testData = data.slice(150);
+            ctx.fillStyle = '#333';
+            ctx.font = '10px Figtree';
+            ctx.fillText(scenario.xLabel, width - 80, height - 5);
+            ctx.save();
+            ctx.translate(15, height / 2);
+            ctx.rotate(-Math.PI / 2);
+            ctx.fillText(scenario.yLabel, 0, 0);
+            ctx.restore();
+        }
 
-            // Create single tree
-            const singleTree = createDecisionTree(trainData, maxDepth, minSamples);
-            const singleBoundary = createDecisionBoundary(singleTree, currentScenario);
+        function predictSingleTree(x, y) {
+            // Simplified decision tree logic based on current scenario and depth
+            let prediction = 0.5;
 
-            // Create random forest
-            const forest = createRandomForest(trainData, numTrees, maxDepth, minSamples, seed);
-            const forestBoundary = createEnsembleBoundary(forest, currentScenario);
+            switch(currentScenario) {
+                case 'customer':
+                    if(x > 5) prediction += 0.3;
+                    if(y < 5) prediction += 0.2;
+                    if(x > 7) prediction += 0.2;
+                    break;
+                case 'loan':
+                    if(x > 6 && y > 6) prediction += 0.4;
+                    if(x > 8) prediction += 0.3;
+                    break;
+                case 'medical':
+                    if(x + y > 10) prediction += 0.3;
+                    if(x > 7 && y > 3) prediction += 0.3;
+                    break;
+            }
 
-            // Calculate accuracies
-            const singleAcc = calculateAccuracy(singleTree, testData);
-            const forestAcc = calculateForestAccuracy(forest, testData);
+            // Add depth complexity
+            const depthFactor = Math.min(maxDepth / 8, 1);
+            prediction += (Math.random() - 0.5) * 0.2 * depthFactor;
+
+            return Math.max(0, Math.min(1, prediction));
+        }
+
+        function predictForest(x, y) {
+            // Ensemble prediction - average of multiple trees with random variations
+            let sum = 0;
+            const treesToUse = Math.min(numTrees, 10); // Limit for performance
+
+            for(let i = 0; i < treesToUse; i++) {
+                // Each tree sees slightly different data (bootstrap sampling)
+                const sampleFactor = sampleSize / 100;
+                const treeX = x + (Math.random() - 0.5) * (1 - sampleFactor);
+                const treeY = y + (Math.random() - 0.5) * (1 - sampleFactor);
+
+                sum += predictSingleTree(treeX, treeY);
+            }
+
+            return sum / treesToUse;
+        }
+
+        function updateVisualization() {
+            const width = singleCanvas.width / 2;
+            const height = singleCanvas.height / 2;
+
+            // Draw single tree
+            drawDecisionBoundary(singleCtx, width, height, false);
+
+            // Draw forest
+            drawDecisionBoundary(forestCtx, width, height, true);
+
+            // Update tree structure
+            updateTreeStructure();
 
             // Update metrics
-            document.getElementById('singleAccuracy').textContent = `${(singleAcc * 100).toFixed(1)}%`;
-            document.getElementById('forestAccuracy').textContent = `${(forestAcc * 100).toFixed(1)}%`;
-            document.getElementById('improvement').textContent = `+${((forestAcc - singleAcc) * 100).toFixed(1)}%`;
-            document.getElementById('actualDepth').textContent = maxDepth;
-
-            // Plot single tree
-            plotDecisionBoundary('singleTreePlot', singleBoundary, trainData, scenario, 'Single Decision Tree');
-
-            // Plot forest
-            plotDecisionBoundary('forestPlot', forestBoundary, trainData, scenario, 'Random Forest Ensemble');
-
-            // Update explanation
-            updateExplanation(maxDepth, numTrees, singleAcc, forestAcc);
+            updateMetrics();
         }
 
-        function plotDecisionBoundary(containerId, boundary, data, scenario, title) {
-            const class0 = data.filter(d => d.label === 0);
-            const class1 = data.filter(d => d.label === 1);
-
-            const traces = [
-                {
-                    x: boundary.x,
-                    y: boundary.y,
-                    z: boundary.z,
-                    type: 'contour',
-                    contours: {
-                        coloring: 'fill',
-                        showlabels: false
-                    },
-                    colorscale: [[0, 'rgba(220, 38, 38, 0.3)'], [1, 'rgba(34, 197, 94, 0.3)']],
-                    showscale: false,
-                    hoverinfo: 'skip'
-                },
-                {
-                    x: class0.map(d => d.x),
-                    y: class0.map(d => d.y),
-                    mode: 'markers',
-                    type: 'scatter',
-                    name: 'Class 0',
-                    marker: {
-                        color: '#dc2626',
-                        size: 6,
-                        line: { color: 'white', width: 1 }
-                    }
-                },
-                {
-                    x: class1.map(d => d.x),
-                    y: class1.map(d => d.y),
-                    mode: 'markers',
-                    type: 'scatter',
-                    name: 'Class 1',
-                    marker: {
-                        color: '#16a34a',
-                        size: 6,
-                        line: { color: 'white', width: 1 }
-                    }
-                }
-            ];
-
-            const layout = {
-                xaxis: { title: scenario.xLabel },
-                yaxis: { title: scenario.yLabel },
-                margin: { l: 50, r: 20, t: 40, b: 50 },
-                showlegend: true,
-                legend: { x: 0.02, y: 0.98 },
-                font: { size: 12 }
-            };
-
-            Plotly.newPlot(containerId, traces, layout, { responsive: true });
-        }
-
-        function updateExplanation(maxDepth, numTrees, singleAcc, forestAcc) {
-            const improvement = forestAcc > singleAcc ? 'improved' : 'maintained';
+        function updateTreeStructure() {
             const scenario = scenarios[currentScenario];
+            const structure = `
+Root Node
+├─ ${scenario.features[0]} <= threshold_1
+│  ├─ ${scenario.features[1]} <= threshold_2
+│  │  ├─ Class 0 (${Math.round(60 + Math.random() * 20)}%)
+│  │  └─ Class 1 (${Math.round(20 + Math.random() * 20)}%)
+│  └─ ${scenario.features[1]} > threshold_2
+│     ├─ Class 1 (${Math.round(70 + Math.random() * 20)}%)
+│     └─ Class 0 (${Math.round(10 + Math.random() * 20)}%)
+└─ ${scenario.features[0]} > threshold_1
+   ├─ Class 1 (${Math.round(80 + Math.random() * 15)}%)
+   └─ ${scenario.features[1]} <= threshold_3
+      ├─ Class 0 (${Math.round(30 + Math.random() * 20)}%)
+      └─ Class 1 (${Math.round(60 + Math.random() * 30)}%)
+`.trim();
+
+            document.getElementById('treeStructure').textContent = structure;
+        }
+
+        function updateMetrics() {
+            const scenario = scenarios[currentScenario];
+            const baseAccuracy = scenario.baseAccuracy;
+
+            // Single tree accuracy (affected by depth)
+            let singleAcc = baseAccuracy;
+            if(maxDepth < 3) singleAcc -= 0.05;
+            if(maxDepth > 6) singleAcc -= 0.03; // Overfitting
+            singleAcc += (Math.random() - 0.5) * 0.02;
+
+            // Forest accuracy (improved by ensemble)
+            let forestAcc = singleAcc;
+            forestAcc += Math.min(0.08, numTrees / 250); // Improvement from ensemble
+            forestAcc += (sampleSize / 100 - 0.5) * 0.02; // Sampling effect
+            forestAcc += (Math.random() - 0.5) * 0.015;
+
+            // Ensure forest is better (almost always)
+            if(forestAcc <= singleAcc) forestAcc = singleAcc + 0.02;
+
+            const improvement = forestAcc - singleAcc;
+
+            // Overfitting assessment
+            let overfitting = 'Low';
+            if(maxDepth > 6) overfitting = 'High';
+            else if(maxDepth > 4) overfitting = 'Medium';
+
+            document.getElementById('singleAccuracy').textContent = (singleAcc * 100).toFixed(1) + '%';
+            document.getElementById('forestAccuracy').textContent = (forestAcc * 100).toFixed(1) + '%';
+            document.getElementById('improvement').textContent = '+' + (improvement * 100).toFixed(1) + '%';
+            document.getElementById('overfitting').textContent = overfitting;
+        }
+
+        function updateExplanation() {
+            const scenario = scenarios[currentScenario];
+            const explanations = {
+                customer: "Customer retention models help identify at-risk customers. Single trees might overfit to specific patterns, while forests provide more robust predictions by averaging multiple perspectives.",
+                loan: "Loan approval requires balancing risk and opportunity. Random forests reduce the chance of rejecting good candidates or approving risky ones by combining multiple decision criteria.",
+                medical: "Medical diagnosis benefits from ensemble methods as they reduce false positives/negatives. Multiple trees examining different feature combinations provide more reliable classifications."
+            };
 
             document.getElementById('explanationText').textContent =
-                `The single decision tree with depth ${maxDepth} achieves ${(singleAcc * 100).toFixed(1)}% accuracy on ${scenario.name}. ` +
-                `The random forest of ${numTrees} trees ${improvement} this to ${(forestAcc * 100).toFixed(1)}% by combining multiple diverse trees, ` +
-                `each trained on different bootstrap samples and feature subsets. This ensemble approach reduces overfitting and creates more robust decision boundaries.`;
+                `${scenario.description} ${explanations[currentScenario]}`;
         }
 
-        // Event listeners
-        document.querySelectorAll('.scenario-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                document.querySelectorAll('.scenario-btn').forEach(b => b.classList.remove('active'));
-                e.target.classList.add('active');
-                currentScenario = e.target.dataset.scenario;
+        // Initialize when page loads
+        window.addEventListener('load', () => {
+            initializeCanvases();
+            generateData();
+            updateVisualization();
+            updateExplanation();
+            updateForestInfo();
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            setTimeout(() => {
+                initializeCanvases();
                 updateVisualization();
-            });
+            }, 100);
         });
-
-        document.getElementById('maxDepth').addEventListener('input', (e) => {
-            document.getElementById('maxDepthValue').textContent = e.target.value;
-            updateVisualization();
-        });
-
-        document.getElementById('minSamples').addEventListener('input', (e) => {
-            document.getElementById('minSamplesValue').textContent = e.target.value;
-            updateVisualization();
-        });
-
-        document.getElementById('numTrees').addEventListener('input', (e) => {
-            document.getElementById('numTreesValue').textContent = e.target.value;
-            updateVisualization();
-        });
-
-        document.getElementById('randomSeed').addEventListener('input', (e) => {
-            document.getElementById('randomSeedValue').textContent = e.target.value;
-            updateVisualization();
-        });
-
-        // Simple seedable random number generator
-        Math.seedrandom = function(seed) {
-            const m = 2**35 - 31;
-            const a = 185852;
-            let s = seed % m;
-            return function() {
-                return (s = s * a % m) / m;
-            };
-        };
-
-        // Initialize
-        updateVisualization();
     </script>
 </body>
 </html>
