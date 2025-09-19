@@ -3,611 +3,662 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Drag the Line - MSE Explorer</title>
+    <title>Interactive Linear Regression - MSE Explorer</title>
     <link rel="stylesheet" href="ivey-widget-base.css">
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* AMBA Template Widget Styling */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
         body {
-            font-family: Arial, sans-serif;
-            background: white;
-            color: #333;
-            line-height: 1.5;
-            padding: 0;
-            margin: 0;
+            background: var(--bg-light);
+            padding: 20px;
         }
 
-        /* AMBA dp-wrapper equivalent for widgets */
-        .dp-wrapper {
-            max-width: 800px;
+        .widget-container {
+            max-width: 500px;
             margin: 0 auto;
-            padding: 15px;
-            background: #ffffff;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
         }
 
-        /* AMBA content blocks */
-        .dp-content-block {
-            margin-bottom: 20px;
+        .header {
+            background: var(--ivey-green);
+            color: white;
+            padding: 20px;
+            text-align: center;
         }
 
-        /* AMBA headings */
-        .dp-has-icon {
-            color: #034638;
-            margin-bottom: 15px;
-            font-size: 1.3em;
-            font-weight: 600;
+        .header h2 {
+            font-size: 1.4em;
+            margin-bottom: 8px;
+            color: white;
         }
 
-        .dp-has-icon i {
-            margin-right: 8px;
-            color: #582C83;
-        }
-
-        /* Instructions styling */
-        .instructions {
-            background: #fff3cd;
-            border: 1px solid #ffeaa7;
-            border-radius: 6px;
-            padding: 1rem;
-            margin-bottom: 1rem;
+        .header p {
+            opacity: 0.9;
             font-size: 0.9em;
-        }
-
-        /* Regression container layout */
-        .regression-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin: 1rem 0;
+            color: white;
         }
 
         .controls-section {
-            background: #f8f9fa;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 1.5rem;
-            height: fit-content;
-        }
-
-        .controls-section h3 {
-            color: #034638;
-            font-size: 1.1em;
-            font-weight: 600;
-            margin-bottom: 15px;
+            padding: 20px;
+            background: var(--bg-subtle);
+            border-bottom: 1px solid var(--border-light);
         }
 
         .control-group {
-            margin: 1.5rem 0;
+            margin-bottom: 15px;
         }
 
-        .control-group label {
+        .control-label {
             font-weight: 600;
-            display: block;
-            margin-bottom: 0.5rem;
-            color: #034638;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .slider-container {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            margin: 0.5rem 0;
+            gap: 12px;
         }
 
-        .slider-container input[type="range"] {
+        .slider {
             flex: 1;
             height: 6px;
-            background: #e2e8f0;
             border-radius: 3px;
+            background: var(--border-light);
             outline: none;
             -webkit-appearance: none;
         }
 
-        .slider-container input[type="range"]::-webkit-slider-thumb {
+        .slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             width: 20px;
             height: 20px;
-            background: #034638;
             border-radius: 50%;
+            background: var(--ivey-green);
             cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--ivey-green);
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
         .value-display {
-            background: #e7f3ff;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            font-weight: bold;
-            min-width: 80px;
-            text-align: center;
-            color: #034638;
-            border: 1px solid #034638;
-        }
-
-        .plot-section {
-            background: #f8f9fa;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 1.5rem;
-        }
-
-        .plot-container {
-            height: 400px;
-            margin: 1rem 0;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
             background: white;
+            border: 2px solid var(--ivey-green);
+            color: var(--ivey-green);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            min-width: 60px;
+            text-align: center;
+            font-size: 0.9em;
+        }
+
+        .chart-container {
+            padding: 20px;
+            background: white;
+        }
+
+        .chart-area {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            border: 2px solid var(--border-light);
+            border-radius: 8px;
+            background: var(--bg-light);
             cursor: crosshair;
+            overflow: hidden;
+        }
+
+        .chart-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .data-point {
+            fill: var(--ivey-purple);
+            stroke: white;
+            stroke-width: 2;
+            r: 4;
+        }
+
+        .regression-line {
+            stroke: var(--ivey-green);
+            stroke-width: 3;
+            fill: none;
+            cursor: grab;
+        }
+
+        .regression-line:active {
+            cursor: grabbing;
+        }
+
+        .error-line {
+            stroke: var(--ivey-orange);
+            stroke-width: 1;
+            stroke-dasharray: 2,2;
+            opacity: 0.6;
         }
 
         .mse-display {
-            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
-            border: 2px solid #ef4444;
+            background: linear-gradient(135deg, var(--bg-light), #f0f9f6);
+            border: 2px solid var(--ivey-green);
             border-radius: 8px;
-            padding: 1.5rem;
-            margin: 1rem 0;
+            padding: 20px;
+            margin: 20px;
             text-align: center;
         }
 
         .mse-value {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #dc2626;
+            font-size: 2.2em;
+            font-weight: 700;
+            color: var(--ivey-green);
+            margin-bottom: 5px;
         }
 
         .mse-label {
-            font-size: 0.9rem;
-            color: #666;
-            margin-top: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.9em;
+            font-weight: 500;
         }
 
-        .error-breakdown {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin: 1rem 0;
+        .action-buttons {
+            padding: 20px;
+            display: flex;
+            gap: 10px;
+            background: var(--bg-subtle);
         }
 
-        .error-metric {
-            background: white;
-            padding: 1rem;
-            border-radius: 6px;
-            text-align: center;
-            border-left: 4px solid #034638;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-
-        .error-metric-value {
-            font-size: 1.3rem;
-            font-weight: bold;
-            color: #034638;
-        }
-
-        .error-metric-label {
-            font-size: 0.8rem;
-            color: #666;
-            margin-top: 0.25rem;
-        }
-
-        .best-fit-btn {
-            background: #034638;
-            color: white;
+        .btn {
+            flex: 1;
+            padding: 12px;
             border: none;
-            padding: 1rem 1.5rem;
             border-radius: 6px;
-            cursor: pointer;
-            font-size: 1rem;
             font-weight: 600;
-            width: 100%;
-            margin: 1rem 0;
-            transition: all 0.2s ease;
-        }
-
-        .best-fit-btn:hover {
-            background: #022c24;
-            transform: translateY(-1px);
-        }
-
-        .reset-btn {
-            background: #582C83;
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 6px;
             cursor: pointer;
-            font-size: 0.9rem;
-            width: 100%;
-            margin: 0.5rem 0;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
-        .reset-btn:hover {
-            background: #4c1d75;
+        .btn-primary {
+            background: var(--ivey-green);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #025a44;
             transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--text-primary);
+            border: 2px solid var(--border-medium);
+        }
+
+        .btn-secondary:hover {
+            background: var(--hover-bg);
+            border-color: var(--ivey-green);
+        }
+
+        .instructions {
+            background: linear-gradient(135deg, #e0f2fe, #f0f9f6);
+            border-left: 4px solid var(--ivey-green);
+            padding: 15px;
+            margin: 20px;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .instructions h4 {
+            color: var(--ivey-green);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .drag-hint {
-            background: #e7f3ff;
-            border: 1px solid #3b82f6;
+            background: rgba(88, 44, 131, 0.1);
+            border: 1px solid var(--ivey-purple);
             border-radius: 6px;
-            padding: 0.75rem;
-            margin: 1rem 0;
-            font-size: 0.9rem;
+            padding: 12px;
+            margin: 15px 0;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .achievement {
+            background: linear-gradient(135deg, #fef7cd, #f0f9f6);
+            border: 2px solid #10b981;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px;
             text-align: center;
+            display: none;
         }
 
-        .mse-explanation {
-            background: #f0f9f4;
-            border: 1px solid #10b981;
-            border-radius: 6px;
-            padding: 1rem;
-            margin: 1rem 0;
-            font-size: 0.9rem;
+        .achievement.show {
+            display: block;
+            animation: slideIn 0.5s ease;
         }
 
-        .mse-explanation h4 {
-            color: #047857;
-            margin: 0 0 0.5rem 0;
-            font-size: 1em;
-            font-weight: 600;
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .outlier-highlight {
-            background: #fef2f2;
-            border: 1px solid #ef4444;
-            border-radius: 6px;
-            padding: 0.75rem;
-            margin: 0.5rem 0;
-            font-size: 0.8rem;
+        .grid-lines {
+            stroke: var(--border-light);
+            stroke-width: 1;
+            opacity: 0.5;
         }
 
-        @media (max-width: 768px) {
-            .regression-container {
-                grid-template-columns: 1fr;
-            }
+        .axis-label {
+            font-size: 12px;
+            fill: var(--text-secondary);
+            font-weight: 500;
+        }
 
-            .error-breakdown {
-                grid-template-columns: 1fr;
-            }
-
-            .dp-wrapper {
+        @media (max-width: 480px) {
+            body {
                 padding: 10px;
+            }
+
+            .widget-container {
+                max-width: 100%;
+            }
+
+            .chart-area {
+                height: 250px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
             }
         }
     </style>
 </head>
 <body>
+    <div class="widget-container">
+        <div class="header">
+            <h2><i class="fas fa-chart-line" aria-hidden="true"></i> Linear Regression Explorer</h2>
+            <p>Drag the line to minimize Mean Squared Error</p>
+        </div>
 
-<div class="dp-wrapper">
-    <!-- Widget Title -->
-    <div class="dp-content-block">
-        <h2 class="dp-has-icon">
-            <span style="margin-right: 8px; color: #582C83;">📏</span>
-            Drag the Line - MSE Explorer
-        </h2>
-        <p>Adjust slope and intercept to minimize Mean Squared Error. See how large errors dominate!</p>
-    </div>
-
-    <!-- Instructions -->
-    <div class="dp-content-block">
         <div class="instructions">
-            <strong>🎯 Your Goal:</strong> Minimize the Mean Squared Error (MSE) by adjusting the line to best fit the data points. Notice how a few large errors can dramatically increase MSE!
+            <h4><i class="fas fa-lightbulb"></i> How to Use</h4>
+            <p>Use the sliders below or <strong>click and drag the green line</strong> directly on the chart to adjust the slope and intercept. Watch how the MSE changes!</p>
         </div>
-    </div>
 
-    <!-- Main Interactive Content -->
-    <div class="dp-content-block">
-        <div class="regression-container">
-            <div class="controls-section">
-                <h3>📏 Line Parameters</h3>
-
-                <div class="control-group">
-                    <label>Slope (m):</label>
-                    <div class="slider-container">
-                        <input type="range" id="slope-slider" min="-10" max="15" value="5" step="0.1" onchange="updateSlope(this.value)">
-                        <div class="value-display" id="slope-value">5.0</div>
-                    </div>
+        <div class="controls-section">
+            <div class="control-group">
+                <div class="control-label">
+                    <i class="fas fa-arrow-up"></i>
+                    <span>Slope</span>
                 </div>
-
-                <div class="control-group">
-                    <label>Intercept (b):</label>
-                    <div class="slider-container">
-                        <input type="range" id="intercept-slider" min="0" max="80" value="35" step="1" onchange="updateIntercept(this.value)">
-                        <div class="value-display" id="intercept-value">35</div>
-                    </div>
-                </div>
-
-                <div class="drag-hint">
-                    💡 <strong>Tip:</strong> Try clicking and dragging the line directly on the plot to adjust it interactively!
-                </div>
-
-                <button class="best-fit-btn" onclick="findBestFit()">🎯 Find Best Fit</button>
-                <button class="reset-btn" onclick="resetLine()">🔄 Reset Line</button>
-
-                <div class="mse-explanation">
-                    <h4>📊 Why MSE Matters</h4>
-                    <p><strong>MSE = Mean Squared Error</strong><br>
-                    Squaring errors means large mistakes are penalized much more than small ones. A single outlier can dramatically increase MSE!</p>
+                <div class="slider-container">
+                    <input type="range" class="slider" id="slope-slider" min="-5" max="10" value="2" step="0.1">
+                    <div class="value-display" id="slope-display">2.0</div>
                 </div>
             </div>
 
-            <div class="plot-section">
-                <div class="plot-container" id="regression-plot"></div>
-
-                <div class="mse-display">
-                    <div class="mse-value" id="mse-value">245.2</div>
-                    <div class="mse-label">Mean Squared Error (MSE)</div>
+            <div class="control-group">
+                <div class="control-label">
+                    <i class="fas fa-arrows-alt-v"></i>
+                    <span>Intercept</span>
                 </div>
-
-                <div class="error-breakdown">
-                    <div class="error-metric">
-                        <div class="error-metric-value" id="mae-value">12.5</div>
-                        <div class="error-metric-label">Mean Absolute Error</div>
-                    </div>
-                    <div class="error-metric">
-                        <div class="error-metric-value" id="rmse-value">15.7</div>
-                        <div class="error-metric-label">Root MSE (RMSE)</div>
-                    </div>
-                    <div class="error-metric">
-                        <div class="error-metric-value" id="r2-value">0.85</div>
-                        <div class="error-metric-label">R² Score</div>
-                    </div>
-                    <div class="error-metric">
-                        <div class="error-metric-value" id="worst-error">28.3</div>
-                        <div class="error-metric-label">Worst Single Error</div>
-                    </div>
-                </div>
-
-                <div class="outlier-highlight" id="outlier-warning" style="display: none;">
-                    ⚠️ <strong>Outlier Impact:</strong> The point furthest from your line contributes <span id="outlier-contribution">15%</span> of total MSE!
+                <div class="slider-container">
+                    <input type="range" class="slider" id="intercept-slider" min="0" max="50" value="20" step="0.5">
+                    <div class="value-display" id="intercept-display">20.0</div>
                 </div>
             </div>
         </div>
+
+        <div class="chart-container">
+            <div class="chart-area" id="chart-area">
+                <svg class="chart-svg" id="chart-svg">
+                    <!-- Grid lines -->
+                    <g id="grid-lines"></g>
+                    <!-- Error lines -->
+                    <g id="error-lines"></g>
+                    <!-- Data points -->
+                    <g id="data-points"></g>
+                    <!-- Regression line -->
+                    <line id="regression-line" class="regression-line"></line>
+                    <!-- Axis labels -->
+                    <g id="axis-labels"></g>
+                </svg>
+            </div>
+
+            <div class="drag-hint">
+                <i class="fas fa-mouse-pointer"></i>
+                <span><strong>Pro Tip:</strong> Click and drag the green line to adjust it directly!</span>
+            </div>
+        </div>
+
+        <div class="mse-display">
+            <div class="mse-value" id="mse-value">156.4</div>
+            <div class="mse-label">Mean Squared Error</div>
+        </div>
+
+        <div class="achievement" id="achievement">
+            <h4><i class="fas fa-trophy"></i> Great Job!</h4>
+            <p>You found a good fit! MSE below 50 shows the line captures the trend well.</p>
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn btn-primary" id="best-fit-btn">
+                <i class="fas fa-bullseye"></i>
+                <span>Find Best Fit</span>
+            </button>
+            <button class="btn btn-secondary" id="reset-btn">
+                <i class="fas fa-undo"></i>
+                <span>Reset</span>
+            </button>
+        </div>
     </div>
-</div>
 
-<script>
-    let slope = 5.0;
-    let intercept = 35;
-    let isDragging = false;
+    <script>
+        class LinearRegressionExplorer {
+            constructor() {
+                // Data points (years of experience vs salary in thousands)
+                this.data = [
+                    {x: 1, y: 25}, {x: 2, y: 28}, {x: 3, y: 32}, {x: 4, y: 35},
+                    {x: 5, y: 40}, {x: 6, y: 42}, {x: 7, y: 47}, {x: 8, y: 50},
+                    {x: 9, y: 55}, {x: 10, y: 58}, {x: 12, y: 65}, {x: 15, y: 75}
+                ];
 
-    // MBA salary data: Years of Experience vs Annual Salary (CAD $k)
-    const data = {
-        x: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 15, 18, 20, 22],
-        y: [45, 52, 58, 65, 72, 78, 85, 92, 98, 105, 118, 135, 155, 170, 185]
-    };
+                // Chart dimensions and scales
+                this.margin = { top: 20, right: 20, bottom: 40, left: 40 };
+                this.width = 400;
+                this.height = 220;
 
-    function updateSlope(value) {
-        slope = parseFloat(value);
-        document.getElementById('slope-value').textContent = slope.toFixed(1);
-        updatePlot();
-    }
+                // Scale ranges
+                this.xRange = [0, 16];
+                this.yRange = [20, 80];
 
-    function updateIntercept(value) {
-        intercept = parseFloat(value);
-        document.getElementById('intercept-value').textContent = intercept;
-        updatePlot();
-    }
+                // Line parameters
+                this.slope = 2.0;
+                this.intercept = 20.0;
 
-    function calculateMetrics() {
-        let mse = 0;
-        let mae = 0;
-        let ss_res = 0;
-        let ss_tot = 0;
-        let maxError = 0;
-        let worstErrorIndex = 0;
+                // Optimal values (calculated from data)
+                this.optimalSlope = 3.2;
+                this.optimalIntercept = 22.5;
 
-        const yMean = data.y.reduce((sum, val) => sum + val, 0) / data.y.length;
+                // Drag state
+                this.isDragging = false;
+                this.dragStart = null;
 
-        for(let i = 0; i < data.x.length; i++) {
-            const predicted = slope * data.x[i] + intercept;
-            const actual = data.y[i];
-            const error = Math.abs(predicted - actual);
-            const squaredError = Math.pow(predicted - actual, 2);
+                this.init();
+            }
 
-            mse += squaredError;
-            mae += error;
-            ss_res += squaredError;
-            ss_tot += Math.pow(actual - yMean, 2);
+            init() {
+                this.setupChart();
+                this.bindEvents();
+                this.updateDisplay();
+            }
 
-            if(error > maxError) {
-                maxError = error;
-                worstErrorIndex = i;
+            setupChart() {
+                const svg = document.getElementById('chart-svg');
+
+                // Create grid lines
+                this.createGridLines();
+
+                // Create axis labels
+                this.createAxisLabels();
+
+                // Draw data points
+                this.drawDataPoints();
+
+                // Update line
+                this.updateLine();
+            }
+
+            createGridLines() {
+                const gridGroup = document.getElementById('grid-lines');
+
+                // Vertical grid lines
+                for (let x = 0; x <= 16; x += 4) {
+                    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                    line.setAttribute('x1', this.xScale(x));
+                    line.setAttribute('y1', this.margin.top);
+                    line.setAttribute('x2', this.xScale(x));
+                    line.setAttribute('y2', this.height - this.margin.bottom);
+                    line.setAttribute('class', 'grid-lines');
+                    gridGroup.appendChild(line);
+                }
+
+                // Horizontal grid lines
+                for (let y = 20; y <= 80; y += 10) {
+                    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                    line.setAttribute('x1', this.margin.left);
+                    line.setAttribute('y1', this.yScale(y));
+                    line.setAttribute('x2', this.width - this.margin.right);
+                    line.setAttribute('y2', this.yScale(y));
+                    line.setAttribute('class', 'grid-lines');
+                    gridGroup.appendChild(line);
+                }
+            }
+
+            createAxisLabels() {
+                const labelGroup = document.getElementById('axis-labels');
+
+                // X-axis label
+                const xLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                xLabel.setAttribute('x', this.width / 2);
+                xLabel.setAttribute('y', this.height - 5);
+                xLabel.setAttribute('text-anchor', 'middle');
+                xLabel.setAttribute('class', 'axis-label');
+                xLabel.textContent = 'Years of Experience';
+                labelGroup.appendChild(xLabel);
+
+                // Y-axis label
+                const yLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                yLabel.setAttribute('x', 15);
+                yLabel.setAttribute('y', this.height / 2);
+                yLabel.setAttribute('text-anchor', 'middle');
+                yLabel.setAttribute('transform', `rotate(-90, 15, ${this.height / 2})`);
+                yLabel.setAttribute('class', 'axis-label');
+                yLabel.textContent = 'Salary ($K)';
+                labelGroup.appendChild(yLabel);
+            }
+
+            drawDataPoints() {
+                const pointGroup = document.getElementById('data-points');
+
+                this.data.forEach(point => {
+                    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                    circle.setAttribute('cx', this.xScale(point.x));
+                    circle.setAttribute('cy', this.yScale(point.y));
+                    circle.setAttribute('class', 'data-point');
+                    pointGroup.appendChild(circle);
+                });
+            }
+
+            updateLine() {
+                const line = document.getElementById('regression-line');
+
+                const x1 = this.margin.left;
+                const x2 = this.width - this.margin.right;
+                const y1 = this.yScale(this.intercept);
+                const y2 = this.yScale(this.slope * this.xRange[1] + this.intercept);
+
+                line.setAttribute('x1', x1);
+                line.setAttribute('y1', y1);
+                line.setAttribute('x2', x2);
+                line.setAttribute('y2', y2);
+
+                this.updateErrorLines();
+            }
+
+            updateErrorLines() {
+                const errorGroup = document.getElementById('error-lines');
+                errorGroup.innerHTML = '';
+
+                this.data.forEach(point => {
+                    const predicted = this.slope * point.x + this.intercept;
+
+                    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                    line.setAttribute('x1', this.xScale(point.x));
+                    line.setAttribute('y1', this.yScale(point.y));
+                    line.setAttribute('x2', this.xScale(point.x));
+                    line.setAttribute('y2', this.yScale(predicted));
+                    line.setAttribute('class', 'error-line');
+                    errorGroup.appendChild(line);
+                });
+            }
+
+            xScale(x) {
+                return this.margin.left + (x / this.xRange[1]) * (this.width - this.margin.left - this.margin.right);
+            }
+
+            yScale(y) {
+                return this.height - this.margin.bottom - ((y - this.yRange[0]) / (this.yRange[1] - this.yRange[0])) * (this.height - this.margin.top - this.margin.bottom);
+            }
+
+            xInverse(px) {
+                return ((px - this.margin.left) / (this.width - this.margin.left - this.margin.right)) * this.xRange[1];
+            }
+
+            yInverse(py) {
+                return this.yRange[0] + (1 - (py - this.margin.top) / (this.height - this.margin.top - this.margin.bottom)) * (this.yRange[1] - this.yRange[0]);
+            }
+
+            calculateMSE() {
+                let sumSquaredErrors = 0;
+
+                this.data.forEach(point => {
+                    const predicted = this.slope * point.x + this.intercept;
+                    const error = point.y - predicted;
+                    sumSquaredErrors += error * error;
+                });
+
+                return sumSquaredErrors / this.data.length;
+            }
+
+            updateDisplay() {
+                // Update slider displays
+                document.getElementById('slope-display').textContent = this.slope.toFixed(1);
+                document.getElementById('intercept-display').textContent = this.intercept.toFixed(1);
+
+                // Update sliders
+                document.getElementById('slope-slider').value = this.slope;
+                document.getElementById('intercept-slider').value = this.intercept;
+
+                // Update MSE
+                const mse = this.calculateMSE();
+                document.getElementById('mse-value').textContent = mse.toFixed(1);
+
+                // Update line
+                this.updateLine();
+
+                // Check for achievement
+                if (mse < 50) {
+                    document.getElementById('achievement').classList.add('show');
+                } else {
+                    document.getElementById('achievement').classList.remove('show');
+                }
+            }
+
+            bindEvents() {
+                // Slider events
+                document.getElementById('slope-slider').addEventListener('input', (e) => {
+                    this.slope = parseFloat(e.target.value);
+                    this.updateDisplay();
+                });
+
+                document.getElementById('intercept-slider').addEventListener('input', (e) => {
+                    this.intercept = parseFloat(e.target.value);
+                    this.updateDisplay();
+                });
+
+                // Line dragging
+                const line = document.getElementById('regression-line');
+                line.addEventListener('mousedown', (e) => this.startDrag(e));
+                document.addEventListener('mousemove', (e) => this.drag(e));
+                document.addEventListener('mouseup', () => this.endDrag());
+
+                // Touch events for mobile
+                line.addEventListener('touchstart', (e) => this.startDrag(e.touches[0]));
+                document.addEventListener('touchmove', (e) => {
+                    e.preventDefault();
+                    this.drag(e.touches[0]);
+                });
+                document.addEventListener('touchend', () => this.endDrag());
+
+                // Button events
+                document.getElementById('best-fit-btn').addEventListener('click', () => {
+                    this.slope = this.optimalSlope;
+                    this.intercept = this.optimalIntercept;
+                    this.updateDisplay();
+                });
+
+                document.getElementById('reset-btn').addEventListener('click', () => {
+                    this.slope = 2.0;
+                    this.intercept = 20.0;
+                    this.updateDisplay();
+                });
+            }
+
+            startDrag(e) {
+                this.isDragging = true;
+                const rect = document.getElementById('chart-area').getBoundingClientRect();
+                this.dragStart = {
+                    x: e.clientX - rect.left,
+                    y: e.clientY - rect.top,
+                    initialSlope: this.slope,
+                    initialIntercept: this.intercept
+                };
+            }
+
+            drag(e) {
+                if (!this.isDragging) return;
+
+                const rect = document.getElementById('chart-area').getBoundingClientRect();
+                const currentX = e.clientX - rect.left;
+                const currentY = e.clientY - rect.top;
+
+                const deltaX = currentX - this.dragStart.x;
+                const deltaY = currentY - this.dragStart.y;
+
+                // Convert pixel deltas to parameter changes
+                const slopeChange = -deltaY / 50; // Invert Y axis
+                const interceptChange = deltaY / 5;
+
+                this.slope = Math.max(-5, Math.min(10, this.dragStart.initialSlope + slopeChange));
+                this.intercept = Math.max(0, Math.min(50, this.dragStart.initialIntercept + interceptChange));
+
+                this.updateDisplay();
+            }
+
+            endDrag() {
+                this.isDragging = false;
+                this.dragStart = null;
             }
         }
 
-        mse /= data.x.length;
-        mae /= data.x.length;
-        const rmse = Math.sqrt(mse);
-        const r2 = 1 - (ss_res / ss_tot);
-
-        return { mse, mae, rmse, r2, maxError, worstErrorIndex };
-    }
-
-    function updatePlot() {
-        const metrics = calculateMetrics();
-
-        // Predicted values for the line
-        const xRange = [0, 25];
-        const yPredicted = xRange.map(x => slope * x + intercept);
-
-        // Create error bars (residuals)
-        const errorBars = {
-            x: [],
-            y: [],
-            mode: 'lines',
-            line: { color: 'rgba(239, 68, 68, 0.5)', width: 1, dash: 'dot' },
-            showlegend: false,
-            hoverinfo: 'skip'
-        };
-
-        // Add error lines
-        for(let i = 0; i < data.x.length; i++) {
-            const predicted = slope * data.x[i] + intercept;
-            errorBars.x.push(data.x[i], data.x[i], null);
-            errorBars.y.push(data.y[i], predicted, null);
-        }
-
-        // Color points by error magnitude
-        const errors = data.x.map((x, i) => Math.abs(slope * x + intercept - data.y[i]));
-        const maxError = Math.max(...errors);
-        const colors = errors.map(error => {
-            const intensity = error / maxError;
-            if(intensity > 0.7) return '#dc2626'; // Red for large errors
-            if(intensity > 0.4) return '#f59e0b'; // Orange for medium errors
-            return '#10b981'; // Green for small errors
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new LinearRegressionExplorer();
         });
-
-        const traces = [
-            {
-                x: data.x,
-                y: data.y,
-                mode: 'markers',
-                type: 'scatter',
-                name: 'MBA Salaries',
-                marker: {
-                    color: colors,
-                    size: 12,
-                    line: { color: 'white', width: 2 }
-                },
-                hovertemplate: '<b>%{x} years experience</b><br>' +
-                             'Salary: $%{y}k<br>' +
-                             '<extra></extra>'
-            },
-            errorBars,
-            {
-                x: xRange,
-                y: yPredicted,
-                mode: 'lines',
-                type: 'scatter',
-                name: `y = ${slope.toFixed(1)}x + ${intercept}`,
-                line: { color: '#034638', width: 4 }
-            }
-        ];
-
-        const layout = {
-            title: 'MBA Salary Prediction - Drag to Adjust Line',
-            xaxis: {
-                title: 'Years of Experience',
-                range: [-1, 24]
-            },
-            yaxis: {
-                title: 'Annual Salary (CAD $k)',
-                range: [30, 200]
-            },
-            showlegend: true,
-            margin: { t: 50, r: 50, b: 50, l: 60 },
-            hovermode: 'closest'
-        };
-
-        Plotly.newPlot('regression-plot', traces, layout, {responsive: true});
-
-        // Add drag functionality
-        const plotDiv = document.getElementById('regression-plot');
-        plotDiv.on('plotly_click', function(data) {
-            if(data.points[0].curveNumber === 2) { // Clicked on the line
-                isDragging = true;
-            }
-        });
-
-        plotDiv.on('plotly_hover', function(data) {
-            if(data.points[0].curveNumber === 2) { // Hovering over line
-                plotDiv.style.cursor = 'move';
-            } else {
-                plotDiv.style.cursor = 'crosshair';
-            }
-        });
-
-        // Update metrics display
-        document.getElementById('mse-value').textContent = metrics.mse.toFixed(1);
-        document.getElementById('mae-value').textContent = metrics.mae.toFixed(1);
-        document.getElementById('rmse-value').textContent = metrics.rmse.toFixed(1);
-        document.getElementById('r2-value').textContent = metrics.r2.toFixed(3);
-        document.getElementById('worst-error').textContent = metrics.maxError.toFixed(1);
-
-        // Show outlier impact
-        const worstErrorContribution = (Math.pow(metrics.maxError, 2) / (metrics.mse * data.x.length)) * 100;
-        document.getElementById('outlier-contribution').textContent = worstErrorContribution.toFixed(0) + '%';
-
-        if(worstErrorContribution > 20) {
-            document.getElementById('outlier-warning').style.display = 'block';
-        } else {
-            document.getElementById('outlier-warning').style.display = 'none';
-        }
-
-        // Update sliders to match current values
-        document.getElementById('slope-slider').value = slope;
-        document.getElementById('intercept-slider').value = intercept;
-        document.getElementById('slope-value').textContent = slope.toFixed(1);
-        document.getElementById('intercept-value').textContent = intercept;
-    }
-
-    function findBestFit() {
-        // Simple least squares solution
-        const n = data.x.length;
-        const sumX = data.x.reduce((sum, val) => sum + val, 0);
-        const sumY = data.y.reduce((sum, val) => sum + val, 0);
-        const sumXY = data.x.reduce((sum, x, i) => sum + x * data.y[i], 0);
-        const sumXX = data.x.reduce((sum, x) => sum + x * x, 0);
-
-        slope = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
-        intercept = (sumY - slope * sumX) / n;
-
-        // Animate the change
-        animateToTarget(slope, intercept);
-    }
-
-    function resetLine() {
-        slope = 5.0;
-        intercept = 35;
-        animateToTarget(slope, intercept);
-    }
-
-    function animateToTarget(targetSlope, targetIntercept) {
-        const startSlope = slope;
-        const startIntercept = intercept;
-        const steps = 30;
-        let currentStep = 0;
-
-        const animate = () => {
-            currentStep++;
-            const progress = currentStep / steps;
-            const easeProgress = 1 - Math.pow(1 - progress, 3); // Ease out cubic
-
-            slope = startSlope + (targetSlope - startSlope) * easeProgress;
-            intercept = startIntercept + (targetIntercept - startIntercept) * easeProgress;
-
-            updatePlot();
-
-            if(currentStep < steps) {
-                requestAnimationFrame(animate);
-            } else {
-                slope = targetSlope;
-                intercept = targetIntercept;
-                updatePlot();
-            }
-        };
-
-        animate();
-    }
-
-    // Initialize
-    updatePlot();
-
-    // Add keyboard shortcuts
-    document.addEventListener('keydown', function(e) {
-        if(e.key === 'f' || e.key === 'F') {
-            findBestFit();
-        } else if(e.key === 'r' || e.key === 'R') {
-            resetLine();
-        }
-    });
-</script>
-
+    </script>
 </body>
 </html>
