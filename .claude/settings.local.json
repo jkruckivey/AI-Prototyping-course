@@ -1,19 +1,7 @@
 {
   "permissions": {
     "allow": [
-      "Bash(done)",
-      "Bash(python:*)",
-      "Bash(git add:*)",
-      "Bash(git push:*)",
-      "Bash(git commit:*)",
-      "Bash(dir:*)",
-      "Bash(test:*)",
-      "Bash(grep:*)",
-      "WebSearch",
-      "Bash(for file in w[2-5]-*.html)",
-      "Bash(do if ! grep -q \"ivey-widget-base.css\" \"$file\")",
-      "Bash(then echo \"$file\")",
-      "Bash(fi)"
+      "Bash(find:*)"
     ],
     "deny": [],
     "ask": []
