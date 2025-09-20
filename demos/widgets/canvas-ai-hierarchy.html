@@ -136,32 +136,30 @@
     }
     
     .ai-circle .circle-label {
-      font-size: 1.2em;
-      position: absolute;
-      top: 25px;
-      left: 50%;
-      transform: translateX(-50%);
+      font-size: 0.95em;
+      margin-bottom: 2px;
     }
-    
+
     .ai-circle .circle-subtitle {
-      position: absolute;
-      top: 45px;
-      left: 50%;
-      transform: translateX(-50%);
-      max-width: 140px;
+      font-size: 0.65em;
+      max-width: 120px;
+      line-height: 1.1;
     }
     
     .ml-circle .circle-label {
-      font-size: 1em;
+      font-size: 0.85em;
+      margin-bottom: 2px;
     }
     
     .dl-circle .circle-label {
-      font-size: 0.9em;
+      font-size: 0.75em;
+      margin-bottom: 1px;
     }
-    
+
     .dl-circle .circle-subtitle {
-      font-size: 0.7em;
-      max-width: 80px;
+      font-size: 0.6em;
+      max-width: 70px;
+      line-height: 1.1;
     }
     
     .circle-active {
@@ -265,18 +263,18 @@
       <div class="hierarchy-container">
         <div class="hierarchy-diagram">
           <div class="ai-circle" id="ai-circle" onclick="showInfo('ai')">
-            <div class="circle-label">Artificial Intelligence</div>
-            <div class="circle-subtitle">Broad field of making machines smart</div>
+            <div class="circle-label">Artificial<br>Intelligence</div>
+            <div class="circle-subtitle">Making machines smart</div>
           </div>
           
           <div class="ml-circle" id="ml-circle" onclick="showInfo('ml')">
-            <div class="circle-label">Machine Learning</div>
-            <div class="circle-subtitle">Algorithms that learn from data</div>
+            <div class="circle-label">Machine<br>Learning</div>
+            <div class="circle-subtitle">Learn from data</div>
           </div>
           
           <div class="dl-circle" id="dl-circle" onclick="showInfo('dl')">
-            <div class="circle-label">Deep Learning</div>
-            <div class="circle-subtitle">Neural networks with many layers</div>
+            <div class="circle-label">Deep<br>Learning</div>
+            <div class="circle-subtitle">Neural networks</div>
           </div>
         </div>
       </div>
