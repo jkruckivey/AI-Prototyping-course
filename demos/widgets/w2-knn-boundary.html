@@ -3,871 +3,665 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KNN Decision Boundary Explorer</title>
+    <title>K-Nearest Neighbors Interactive Explorer</title>
     <link rel="stylesheet" href="ivey-widget-base.css">
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* AMBA Template Widget Styling */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
         body {
-            font-family: Arial, sans-serif;
-            background: white;
-            color: #333;
-            line-height: 1.5;
-            padding: 0;
-            margin: 0;
+            background: var(--bg-light);
+            padding: 20px;
         }
 
-        /* AMBA dp-wrapper equivalent for widgets */
-        .dp-wrapper {
-            max-width: 800px;
+        .widget-container {
+            max-width: 500px;
             margin: 0 auto;
-            padding: 15px;
-            background: #ffffff;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
         }
 
-        /* AMBA content blocks */
-        .dp-content-block {
-            margin-bottom: 20px;
+        .header {
+            background: var(--ivey-green);
+            color: white;
+            padding: 20px;
+            text-align: center;
         }
 
-        /* AMBA headings */
-        .dp-has-icon {
-            color: #034638;
-            margin-bottom: 15px;
-            font-size: 1.3em;
-            font-weight: 600;
+        .header h2 {
+            font-size: 1.4em;
+            margin-bottom: 8px;
+            color: white;
         }
 
-        .dp-has-icon i {
-            margin-right: 8px;
-            color: #582C83;
-        }
-
-        /* KNN container layout */
-        .knn-container {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 2rem;
-            margin: 1rem 0;
+        .header p {
+            opacity: 0.9;
+            font-size: 0.9em;
+            color: white;
         }
 
         .controls-section {
-            background: #f8f9fa;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 1.5rem;
-            height: fit-content;
-        }
-
-        .controls-section h3 {
-            color: #034638;
-            font-size: 1.1em;
-            font-weight: 600;
-            margin-bottom: 15px;
+            padding: 20px;
+            background: var(--bg-subtle);
+            border-bottom: 1px solid var(--border-light);
         }
 
         .control-group {
-            margin: 1.5rem 0;
+            margin-bottom: 20px;
         }
 
-        .control-group label {
+        .control-label {
             font-weight: 600;
-            display: block;
-            margin-bottom: 0.5rem;
-            color: #034638;
-        }
-
-        .slider-container {
+            color: var(--text-primary);
+            margin-bottom: 10px;
             display: flex;
             align-items: center;
-            gap: 1rem;
-            margin: 0.5rem 0;
+            gap: 8px;
         }
 
-        .slider-container input[type="range"] {
-            flex: 1;
-            height: 6px;
-            background: #e2e8f0;
-            border-radius: 3px;
-            outline: none;
-            -webkit-appearance: none;
-        }
-
-        .slider-container input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 20px;
-            height: 20px;
-            background: #034638;
-            border-radius: 50%;
-            cursor: pointer;
-        }
-
-        .value-display {
-            background: #e7f3ff;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            font-weight: bold;
-            min-width: 50px;
-            text-align: center;
-            color: #034638;
-            border: 1px solid #034638;
-        }
-
-        .scaling-toggle {
+        .k-selector {
             display: flex;
-            gap: 0.5rem;
-            margin: 1rem 0;
-        }
-
-        .scaling-btn {
-            background: #f3f4f6;
-            border: 2px solid #e5e7eb;
-            padding: 0.75rem 1rem;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-size: 0.9rem;
-            flex: 1;
-            text-align: center;
-            color: #333;
-        }
-
-        .scaling-btn:hover {
-            transform: translateY(-1px);
-            background: #e5e7eb;
-        }
-
-        .scaling-btn.active {
-            background: #034638;
-            color: white;
-            border-color: #034638;
-        }
-
-        .dataset-selector {
-            display: flex;
-            gap: 0.5rem;
-            margin: 1rem 0;
+            gap: 8px;
             flex-wrap: wrap;
         }
 
-        .dataset-btn {
-            background: #f3f4f6;
-            border: 2px solid #e5e7eb;
-            padding: 0.5rem 1rem;
+        .k-option {
+            padding: 10px 16px;
+            border: 2px solid var(--border-medium);
+            background: white;
             border-radius: 6px;
             cursor: pointer;
-            transition: all 0.2s ease;
-            font-size: 0.9rem;
-            color: #333;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
         }
 
-        .dataset-btn:hover {
-            transform: translateY(-1px);
-            background: #e5e7eb;
+        .k-option:hover {
+            border-color: var(--ivey-green);
+            background: var(--hover-bg);
         }
 
-        .dataset-btn.active {
-            background: #582C83;
+        .k-option.active {
+            background: var(--ivey-green);
             color: white;
-            border-color: #582C83;
+            border-color: var(--ivey-green);
         }
 
-        .visualization-section {
-            background: #f8f9fa;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 1.5rem;
-        }
-
-        .plot-container {
-            height: 450px;
-            margin: 1rem 0;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
+        .canvas-container {
+            padding: 20px;
             background: white;
         }
 
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 1rem;
-            margin: 1rem 0;
-        }
-
-        .metric-card {
-            background: white;
-            padding: 1rem;
-            border-radius: 6px;
-            text-align: center;
-            border-left: 4px solid #034638;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-
-        .metric-value {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #034638;
-        }
-
-        .metric-label {
-            font-size: 0.8rem;
-            color: #666;
-            margin-top: 0.25rem;
-        }
-
-        .k-explanation {
-            background: #f0f9f4;
-            border: 1px solid #10b981;
-            border-radius: 6px;
-            padding: 1rem;
-            margin: 1rem 0;
-            font-size: 0.9rem;
-        }
-
-        .k-explanation h4 {
-            color: #047857;
-            margin: 0 0 0.5rem 0;
-            font-size: 1em;
-            font-weight: 600;
-        }
-
-        .scaling-info {
-            background: #fffbeb;
-            border: 1px solid #f59e0b;
-            border-radius: 6px;
-            padding: 1rem;
-            margin: 1rem 0;
-            font-size: 0.9rem;
-        }
-
-        .scaling-info h4 {
-            color: #d97706;
-            margin: 0 0 0.5rem 0;
-            font-size: 1em;
-            font-weight: 600;
-        }
-
-        .prediction-demo {
-            background: #e7f3ff;
-            border: 1px solid #3b82f6;
-            border-radius: 6px;
-            padding: 1rem;
-            margin: 1rem 0;
-        }
-
-        .prediction-demo h4 {
-            color: #2563eb;
-            margin: 0 0 0.5rem 0;
-            font-size: 1em;
-            font-weight: 600;
-        }
-
-        .test-point {
-            background: #fef2f2;
-            border: 1px solid #ef4444;
-            border-radius: 4px;
-            padding: 0.5rem;
-            margin: 0.5rem 0;
-            font-size: 0.8rem;
-        }
-
-        .generate-btn {
-            background: #034638;
-            color: white;
-            border: none;
-            padding: 1rem 1.5rem;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
+        .decision-canvas {
             width: 100%;
-            margin: 1rem 0;
-            transition: all 0.2s ease;
+            height: 300px;
+            border: 2px solid var(--border-light);
+            border-radius: 8px;
+            cursor: crosshair;
+            position: relative;
+            background: var(--bg-light);
         }
 
-        .generate-btn:hover {
-            background: #022c24;
+        .point {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid white;
+            transform: translate(-50%, -50%);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .point.class-a {
+            background: var(--ivey-purple);
+        }
+
+        .point.class-b {
+            background: var(--ivey-orange);
+        }
+
+        .point.test {
+            background: #10b981;
+            width: 16px;
+            height: 16px;
+            border: 3px solid white;
+            box-shadow: 0 0 0 2px #10b981;
+            z-index: 20;
+        }
+
+        .point:hover {
+            transform: translate(-50%, -50%) scale(1.3);
+        }
+
+        .boundary-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .prediction-display {
+            padding: 20px;
+            background: linear-gradient(135deg, var(--bg-light), #f0f9f6);
+            border-top: 1px solid var(--border-light);
+        }
+
+        .prediction-result {
+            background: white;
+            border: 2px solid var(--ivey-green);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .prediction-label {
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+
+        .prediction-value {
+            font-size: 1.8em;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .prediction-value.class-a {
+            color: var(--ivey-purple);
+        }
+
+        .prediction-value.class-b {
+            color: var(--ivey-orange);
+        }
+
+        .neighbors-info {
+            font-size: 0.9em;
+            color: var(--text-secondary);
+            margin-top: 10px;
+        }
+
+        .instructions {
+            background: linear-gradient(135deg, #e0f2fe, #f0f9f6);
+            border-left: 4px solid var(--ivey-green);
+            padding: 15px;
+            margin: 20px;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .instructions h4 {
+            color: var(--ivey-green);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .instructions p {
+            font-size: 0.9em;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 15px;
+            font-size: 0.9em;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .action-buttons {
+            padding: 20px;
+            background: var(--bg-subtle);
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--ivey-green);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #025a44;
             transform: translateY(-1px);
         }
 
-        .boundary-complexity {
-            background: #fff3cd;
-            border: 1px solid #ffeaa7;
-            border-radius: 6px;
-            padding: 0.75rem;
-            margin: 0.5rem 0;
-            font-size: 0.8rem;
+        .btn-secondary {
+            background: white;
+            color: var(--text-primary);
+            border: 2px solid var(--border-medium);
         }
 
-        @media (max-width: 768px) {
-            .knn-container {
-                grid-template-columns: 1fr;
-            }
+        .btn-secondary:hover {
+            background: var(--hover-bg);
+            border-color: var(--ivey-green);
+        }
 
-            .scaling-toggle, .dataset-selector {
-                flex-direction: column;
-            }
+        .connection-line {
+            position: absolute;
+            background: rgba(3, 70, 56, 0.3);
+            transform-origin: left center;
+            height: 2px;
+            pointer-events: none;
+            z-index: 5;
+        }
 
-            .dp-wrapper {
+        @media (max-width: 480px) {
+            body {
                 padding: 10px;
+            }
+
+            .widget-container {
+                max-width: 100%;
+            }
+
+            .decision-canvas {
+                height: 250px;
+            }
+
+            .k-selector {
+                justify-content: space-between;
+            }
+
+            .action-buttons {
+                flex-direction: column;
             }
         }
     </style>
 </head>
 <body>
+    <div class="widget-container">
+        <div class="header">
+            <h2><i class="fas fa-project-diagram" aria-hidden="true"></i> K-Nearest Neighbors</h2>
+            <p>See how K value affects classification decisions</p>
+        </div>
 
-<div class="dp-wrapper">
-    <!-- Widget Title -->
-    <div class="dp-content-block">
-        <h2 class="dp-has-icon">
-            <span style="margin-right: 8px; color: #582C83;">🎯</span>
-            KNN Decision Boundary Explorer
-        </h2>
-        <p>Adjust K and scaling to see how KNN creates decision boundaries. No training required!</p>
-    </div>
+        <div class="instructions">
+            <h4><i class="fas fa-lightbulb"></i> How It Works</h4>
+            <p><strong>Click anywhere</strong> on the canvas to place a test point. The algorithm finds the K nearest training points and classifies based on the majority vote.</p>
+        </div>
 
-    <!-- Main Interactive Content -->
-    <div class="dp-content-block">
-        <div class="knn-container">
-            <div class="controls-section">
-                <h3>🎛️ KNN Parameters</h3>
-
-                <div class="control-group">
-                    <label>Dataset:</label>
-                    <div class="dataset-selector">
-                        <button class="dataset-btn active" onclick="selectDataset('height-gender')">Height/Gender</button>
-                        <button class="dataset-btn" onclick="selectDataset('income-age')">Income/Age</button>
-                        <button class="dataset-btn" onclick="selectDataset('circular')">Circular</button>
-                        <button class="dataset-btn" onclick="selectDataset('mixed')">Mixed</button>
-                    </div>
+        <div class="controls-section">
+            <div class="control-group">
+                <div class="control-label">
+                    <i class="fas fa-users"></i>
+                    <span>Choose K (Number of Neighbors)</span>
                 </div>
-
-                <div class="control-group">
-                    <label>K (Number of Neighbors):</label>
-                    <div class="slider-container">
-                        <input type="range" id="k-slider" min="1" max="25" value="5" step="2" onchange="updateK(this.value)">
-                        <div class="value-display" id="k-value">5</div>
-                    </div>
-                    <div class="k-explanation">
-                        <h4>K Parameter Effects</h4>
-                        <p><strong>Low K (1-3):</strong> Flexible boundaries, sensitive to noise<br>
-                        <strong>High K (15+):</strong> Smooth boundaries, may miss patterns</p>
-                    </div>
-                </div>
-
-                <div class="control-group">
-                    <label>Feature Scaling:</label>
-                    <div class="scaling-toggle">
-                        <button class="scaling-btn active" onclick="toggleScaling('on')">Scaled</button>
-                        <button class="scaling-btn" onclick="toggleScaling('off')">Unscaled</button>
-                    </div>
-                    <div class="scaling-info">
-                        <h4>Why Scaling Matters</h4>
-                        <p><strong>Unscaled:</strong> Large-range features dominate distance<br>
-                        <strong>Scaled:</strong> All features contribute equally</p>
-                    </div>
-                </div>
-
-                <button class="generate-btn" onclick="generateKNN()">🎯 Generate Decision Boundary</button>
-
-                <div class="prediction-demo">
-                    <h4>🔍 Click to Predict</h4>
-                    <p>Click anywhere on the plot to see KNN prediction for that point!</p>
-                    <div class="test-point" id="test-point" style="display: none;">
-                        <strong>Test Point:</strong> <span id="test-coords"></span><br>
-                        <strong>Prediction:</strong> <span id="test-prediction"></span><br>
-                        <strong>Confidence:</strong> <span id="test-confidence"></span>
-                    </div>
-                </div>
-
-                <div class="boundary-complexity" id="complexity-warning">
-                    <strong>Boundary Complexity:</strong> <span id="complexity-level">Moderate</span>
-                </div>
-            </div>
-
-            <div class="visualization-section">
-                <div class="plot-container" id="knn-plot"></div>
-
-                <div class="metrics-grid">
-                    <div class="metric-card">
-                        <div class="metric-value" id="accuracy-value">-</div>
-                        <div class="metric-label">Cross-Val Accuracy</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-value" id="neighbors-value">5</div>
-                        <div class="metric-label">K Neighbors</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-value" id="boundary-value">-</div>
-                        <div class="metric-label">Boundary Regions</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-value" id="training-value">0ms</div>
-                        <div class="metric-label">Training Time</div>
-                    </div>
+                <div class="k-selector">
+                    <button class="k-option active" data-k="1">K = 1</button>
+                    <button class="k-option" data-k="3">K = 3</button>
+                    <button class="k-option" data-k="5">K = 5</button>
+                    <button class="k-option" data-k="7">K = 7</button>
                 </div>
             </div>
         </div>
+
+        <div class="canvas-container">
+            <div class="decision-canvas" id="canvas">
+                <canvas class="boundary-overlay" id="boundary-canvas"></canvas>
+                <div id="connections"></div>
+                <div id="points"></div>
+            </div>
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-dot" style="background: var(--ivey-purple);"></div>
+                    <span>Class A</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot" style="background: var(--ivey-orange);"></div>
+                    <span>Class B</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot" style="background: #10b981;"></div>
+                    <span>Test Point</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="prediction-display">
+            <div class="prediction-result">
+                <div class="prediction-label">Predicted Class</div>
+                <div class="prediction-value" id="prediction">-</div>
+                <div class="neighbors-info" id="neighbors-info">
+                    Click on the canvas to classify a point
+                </div>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn btn-primary" id="add-data-btn">
+                <i class="fas fa-plus-circle"></i>
+                <span>Add Training Data</span>
+            </button>
+            <button class="btn btn-secondary" id="reset-btn">
+                <i class="fas fa-undo"></i>
+                <span>Reset</span>
+            </button>
+        </div>
     </div>
-</div>
 
-<script>
-    let currentDataset = 'height-gender';
-    let K = 5;
-    let scalingEnabled = true;
-    let data = [];
-    let labels = [];
-    let scaledData = [];
+    <script>
+        class KNNExplorer {
+            constructor() {
+                this.k = 3;
+                this.testPoint = null;
+                this.addingData = false;
+                this.nextClass = 'A';
 
-    const datasets = {
-        'height-gender': {
-            name: 'Height vs Gender Classification',
-            xLabel: 'Height (cm)',
-            yLabel: 'Weight (kg)',
-            classLabels: ['Female', 'Male']
-        },
-        'income-age': {
-            name: 'Income vs Age Classification',
-            xLabel: 'Age',
-            yLabel: 'Income ($k)',
-            classLabels: ['Low Income', 'High Income']
-        },
-        'circular': {
-            name: 'Circular Pattern',
-            xLabel: 'Feature X',
-            yLabel: 'Feature Y',
-            classLabels: ['Inner', 'Outer']
-        },
-        'mixed': {
-            name: 'Mixed Clusters',
-            xLabel: 'Feature A',
-            yLabel: 'Feature B',
-            classLabels: ['Class A', 'Class B']
-        }
-    };
+                // Initialize with sample training data
+                this.trainingData = [
+                    {x: 0.2, y: 0.3, class: 'A'},
+                    {x: 0.3, y: 0.2, class: 'A'},
+                    {x: 0.25, y: 0.5, class: 'A'},
+                    {x: 0.15, y: 0.6, class: 'A'},
+                    {x: 0.7, y: 0.7, class: 'B'},
+                    {x: 0.8, y: 0.6, class: 'B'},
+                    {x: 0.75, y: 0.4, class: 'B'},
+                    {x: 0.6, y: 0.8, class: 'B'},
+                    {x: 0.5, y: 0.2, class: 'A'},
+                    {x: 0.85, y: 0.3, class: 'B'}
+                ];
 
-    function generateDataset(type) {
-        data = [];
-        labels = [];
-        const n = 80;
+                this.init();
+            }
 
-        switch(type) {
-            case 'height-gender':
-                // Female data (class 0)
-                for(let i = 0; i < n/2; i++) {
-                    const height = 160 + Math.random() * 15; // 160-175 cm
-                    const weight = 55 + Math.random() * 20;  // 55-75 kg
-                    data.push([height, weight]);
-                    labels.push(0);
-                }
-                // Male data (class 1)
-                for(let i = 0; i < n/2; i++) {
-                    const height = 170 + Math.random() * 20; // 170-190 cm
-                    const weight = 70 + Math.random() * 25;  // 70-95 kg
-                    data.push([height, weight]);
-                    labels.push(1);
-                }
-                break;
+            init() {
+                this.setupCanvas();
+                this.bindEvents();
+                this.renderPoints();
+                this.drawDecisionBoundary();
+            }
 
-            case 'income-age':
-                // Low income (class 0)
-                for(let i = 0; i < n/2; i++) {
-                    const age = 25 + Math.random() * 35;     // 25-60
-                    const income = 30 + Math.random() * 40;  // 30-70k
-                    data.push([age, income]);
-                    labels.push(0);
-                }
-                // High income (class 1)
-                for(let i = 0; i < n/2; i++) {
-                    const age = 30 + Math.random() * 25;     // 30-55
-                    const income = 60 + Math.random() * 80;  // 60-140k
-                    data.push([age, income]);
-                    labels.push(1);
-                }
-                break;
+            setupCanvas() {
+                this.canvas = document.getElementById('canvas');
+                this.boundaryCanvas = document.getElementById('boundary-canvas');
+                this.ctx = this.boundaryCanvas.getContext('2d');
 
-            case 'circular':
-                for(let i = 0; i < n; i++) {
-                    const x = (Math.random() - 0.5) * 10;
-                    const y = (Math.random() - 0.5) * 10;
-                    const distance = Math.sqrt(x*x + y*y);
-                    const label = distance < 3 ? 0 : 1;
-                    data.push([x, y]);
-                    labels.push(label);
-                }
-                break;
+                // Set canvas size
+                const rect = this.canvas.getBoundingClientRect();
+                this.canvasWidth = rect.width;
+                this.canvasHeight = rect.height;
 
-            case 'mixed':
-                // Create overlapping clusters
-                for(let i = 0; i < n/2; i++) {
-                    const x = Math.random() * 5;
-                    const y = Math.random() * 5;
-                    data.push([x, y]);
-                    labels.push(0);
-                }
-                for(let i = 0; i < n/2; i++) {
-                    const x = 3 + Math.random() * 5;
-                    const y = 3 + Math.random() * 5;
-                    data.push([x, y]);
-                    labels.push(1);
-                }
-                break;
-        }
+                this.boundaryCanvas.width = this.canvasWidth;
+                this.boundaryCanvas.height = this.canvasHeight;
+            }
 
-        scaleData();
-    }
+            bindEvents() {
+                // K selector
+                document.querySelectorAll('.k-option').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        document.querySelectorAll('.k-option').forEach(b => b.classList.remove('active'));
+                        e.target.classList.add('active');
+                        this.k = parseInt(e.target.dataset.k);
+                        this.updatePrediction();
+                        this.drawDecisionBoundary();
+                    });
+                });
 
-    function scaleData() {
-        if(!scalingEnabled) {
-            scaledData = [...data];
-            return;
-        }
+                // Canvas click
+                this.canvas.addEventListener('click', (e) => {
+                    const rect = this.canvas.getBoundingClientRect();
+                    const x = (e.clientX - rect.left) / rect.width;
+                    const y = (e.clientY - rect.top) / rect.height;
 
-        // Standard scaling (z-score normalization)
-        const means = [0, 0];
-        const stds = [0, 0];
+                    if (this.addingData) {
+                        this.addTrainingPoint(x, y);
+                    } else {
+                        this.setTestPoint(x, y);
+                    }
+                });
 
-        // Calculate means
-        for(let i = 0; i < data.length; i++) {
-            means[0] += data[i][0];
-            means[1] += data[i][1];
-        }
-        means[0] /= data.length;
-        means[1] /= data.length;
+                // Buttons
+                document.getElementById('add-data-btn').addEventListener('click', () => {
+                    this.addingData = !this.addingData;
+                    const btn = document.getElementById('add-data-btn');
+                    if (this.addingData) {
+                        btn.innerHTML = '<i class="fas fa-stop"></i><span>Stop Adding (Class ' + this.nextClass + ')</span>';
+                        btn.style.background = this.nextClass === 'A' ? 'var(--ivey-purple)' : 'var(--ivey-orange)';
+                    } else {
+                        btn.innerHTML = '<i class="fas fa-plus-circle"></i><span>Add Training Data</span>';
+                        btn.style.background = '';
+                    }
+                });
 
-        // Calculate standard deviations
-        for(let i = 0; i < data.length; i++) {
-            stds[0] += Math.pow(data[i][0] - means[0], 2);
-            stds[1] += Math.pow(data[i][1] - means[1], 2);
-        }
-        stds[0] = Math.sqrt(stds[0] / (data.length - 1));
-        stds[1] = Math.sqrt(stds[1] / (data.length - 1));
+                document.getElementById('reset-btn').addEventListener('click', () => {
+                    this.reset();
+                });
+            }
 
-        // Scale data
-        scaledData = data.map(point => [
-            (point[0] - means[0]) / stds[0],
-            (point[1] - means[1]) / stds[1]
-        ]);
-    }
+            renderPoints() {
+                const pointsContainer = document.getElementById('points');
+                pointsContainer.innerHTML = '';
 
-    function selectDataset(type) {
-        currentDataset = type;
+                // Render training points
+                this.trainingData.forEach((point, index) => {
+                    const div = document.createElement('div');
+                    div.className = `point class-${point.class.toLowerCase()}`;
+                    div.style.left = `${point.x * 100}%`;
+                    div.style.top = `${point.y * 100}%`;
+                    div.dataset.index = index;
+                    pointsContainer.appendChild(div);
+                });
 
-        // Update button states
-        document.querySelectorAll('.dataset-btn').forEach(btn => {
-            btn.classList.remove('active');
-        });
-        event.target.classList.add('active');
-
-        generateDataset(type);
-        plotData();
-    }
-
-    function updateK(value) {
-        K = parseInt(value);
-        document.getElementById('k-value').textContent = K;
-        document.getElementById('neighbors-value').textContent = K;
-
-        // Update complexity warning
-        updateComplexityWarning();
-    }
-
-    function toggleScaling(mode) {
-        scalingEnabled = mode === 'on';
-
-        // Update button states
-        document.querySelectorAll('.scaling-btn').forEach(btn => {
-            btn.classList.remove('active');
-        });
-        event.target.classList.add('active');
-
-        scaleData();
-        plotData();
-    }
-
-    function updateComplexityWarning() {
-        const complexityLevel = document.getElementById('complexity-level');
-        const warning = document.getElementById('complexity-warning');
-
-        if(K <= 3) {
-            complexityLevel.textContent = 'Very High';
-            warning.style.background = '#fef2f2';
-            warning.style.borderColor = '#ef4444';
-        } else if(K <= 7) {
-            complexityLevel.textContent = 'High';
-            warning.style.background = '#fff3cd';
-            warning.style.borderColor = '#ffeaa7';
-        } else if(K <= 15) {
-            complexityLevel.textContent = 'Moderate';
-            warning.style.background = '#f0f9f4';
-            warning.style.borderColor = '#10b981';
-        } else {
-            complexityLevel.textContent = 'Low';
-            warning.style.background = '#e7f3ff';
-            warning.style.borderColor = '#3b82f6';
-        }
-    }
-
-    function plotData() {
-        const workingData = scalingEnabled ? scaledData : data;
-        const class0 = workingData.filter((point, i) => labels[i] === 0);
-        const class1 = workingData.filter((point, i) => labels[i] === 1);
-
-        const dataset = datasets[currentDataset];
-
-        const traces = [
-            {
-                x: class0.map(p => p[0]),
-                y: class0.map(p => p[1]),
-                mode: 'markers',
-                type: 'scatter',
-                name: dataset.classLabels[0],
-                marker: {
-                    color: '#3b82f6',
-                    size: 10,
-                    symbol: 'circle',
-                    line: { color: 'white', width: 2 }
-                }
-            },
-            {
-                x: class1.map(p => p[0]),
-                y: class1.map(p => p[1]),
-                mode: 'markers',
-                type: 'scatter',
-                name: dataset.classLabels[1],
-                marker: {
-                    color: '#ef4444',
-                    size: 10,
-                    symbol: 'square',
-                    line: { color: 'white', width: 2 }
+                // Render test point
+                if (this.testPoint) {
+                    const div = document.createElement('div');
+                    div.className = 'point test';
+                    div.style.left = `${this.testPoint.x * 100}%`;
+                    div.style.top = `${this.testPoint.y * 100}%`;
+                    pointsContainer.appendChild(div);
                 }
             }
-        ];
 
-        const layout = {
-            title: `${dataset.name} - ${scalingEnabled ? 'Scaled' : 'Unscaled'}`,
-            xaxis: { title: dataset.xLabel },
-            yaxis: { title: dataset.yLabel },
-            showlegend: true,
-            margin: { t: 50, r: 50, b: 50, l: 50 },
-            hovermode: 'closest'
-        };
-
-        Plotly.newPlot('knn-plot', traces, layout, {responsive: true});
-
-        // Add click handler for predictions
-        const plotDiv = document.getElementById('knn-plot');
-        plotDiv.on('plotly_click', function(data) {
-            if(data.points && data.points.length > 0) {
-                const x = data.points[0].x;
-                const y = data.points[0].y;
-                predictPoint(x, y);
+            setTestPoint(x, y) {
+                this.testPoint = {x, y};
+                this.renderPoints();
+                this.updatePrediction();
+                this.drawConnections();
             }
-        });
-    }
 
-    function generateDecisionBoundary() {
-        const workingData = scalingEnabled ? scaledData : data;
+            addTrainingPoint(x, y) {
+                this.trainingData.push({
+                    x: x,
+                    y: y,
+                    class: this.nextClass
+                });
 
-        // Create grid for decision boundary
-        const gridSize = 30;
-        const xMin = Math.min(...workingData.map(p => p[0])) - 1;
-        const xMax = Math.max(...workingData.map(p => p[0])) + 1;
-        const yMin = Math.min(...workingData.map(p => p[1])) - 1;
-        const yMax = Math.max(...workingData.map(p => p[1])) + 1;
+                // Toggle class for next point
+                this.nextClass = this.nextClass === 'A' ? 'B' : 'A';
 
-        const xStep = (xMax - xMin) / gridSize;
-        const yStep = (yMax - yMin) / gridSize;
+                // Update button text
+                const btn = document.getElementById('add-data-btn');
+                if (this.addingData) {
+                    btn.innerHTML = '<i class="fas fa-stop"></i><span>Stop Adding (Class ' + this.nextClass + ')</span>';
+                    btn.style.background = this.nextClass === 'A' ? 'var(--ivey-purple)' : 'var(--ivey-orange)';
+                }
 
-        const contourX = [];
-        const contourY = [];
-        const contourZ = [];
+                this.renderPoints();
+                this.drawDecisionBoundary();
+                if (this.testPoint) {
+                    this.updatePrediction();
+                }
+            }
 
-        for(let i = 0; i <= gridSize; i++) {
-            contourX.push(xMin + i * xStep);
+            calculateDistance(p1, p2) {
+                return Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2));
+            }
+
+            updatePrediction() {
+                if (!this.testPoint) return;
+
+                // Calculate distances to all training points
+                const distances = this.trainingData.map((point, index) => ({
+                    index,
+                    distance: this.calculateDistance(this.testPoint, point),
+                    class: point.class
+                }));
+
+                // Sort by distance and get K nearest
+                distances.sort((a, b) => a.distance - b.distance);
+                const kNearest = distances.slice(0, this.k);
+
+                // Count votes
+                const votes = {A: 0, B: 0};
+                kNearest.forEach(n => votes[n.class]++);
+
+                // Make prediction
+                const prediction = votes.A > votes.B ? 'A' : 'B';
+
+                // Update display
+                const predDiv = document.getElementById('prediction');
+                predDiv.textContent = `Class ${prediction}`;
+                predDiv.className = `prediction-value class-${prediction.toLowerCase()}`;
+
+                const infoDiv = document.getElementById('neighbors-info');
+                infoDiv.innerHTML = `Based on ${this.k} nearest neighbors:<br>
+                                     Class A: ${votes.A} votes | Class B: ${votes.B} votes`;
+
+                // Store nearest for drawing connections
+                this.nearestNeighbors = kNearest;
+            }
+
+            drawConnections() {
+                const connectionsDiv = document.getElementById('connections');
+                connectionsDiv.innerHTML = '';
+
+                if (!this.testPoint || !this.nearestNeighbors) return;
+
+                const rect = this.canvas.getBoundingClientRect();
+
+                this.nearestNeighbors.forEach(neighbor => {
+                    const point = this.trainingData[neighbor.index];
+
+                    // Create line element
+                    const line = document.createElement('div');
+                    line.className = 'connection-line';
+
+                    // Calculate line position and angle
+                    const x1 = this.testPoint.x * rect.width;
+                    const y1 = this.testPoint.y * rect.height;
+                    const x2 = point.x * rect.width;
+                    const y2 = point.y * rect.height;
+
+                    const length = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+                    const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+
+                    line.style.width = `${length}px`;
+                    line.style.left = `${x1}px`;
+                    line.style.top = `${y1}px`;
+                    line.style.transform = `rotate(${angle}deg)`;
+
+                    connectionsDiv.appendChild(line);
+                });
+            }
+
+            drawDecisionBoundary() {
+                const ctx = this.ctx;
+                const resolution = 30; // Grid resolution for boundary
+
+                ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+
+                const cellWidth = this.canvasWidth / resolution;
+                const cellHeight = this.canvasHeight / resolution;
+
+                for (let i = 0; i < resolution; i++) {
+                    for (let j = 0; j < resolution; j++) {
+                        const x = (i + 0.5) / resolution;
+                        const y = (j + 0.5) / resolution;
+
+                        // Classify this point
+                        const distances = this.trainingData.map(point => ({
+                            distance: this.calculateDistance({x, y}, point),
+                            class: point.class
+                        }));
+
+                        distances.sort((a, b) => a.distance - b.distance);
+                        const kNearest = distances.slice(0, this.k);
+
+                        const votes = {A: 0, B: 0};
+                        kNearest.forEach(n => votes[n.class]++);
+
+                        const prediction = votes.A > votes.B ? 'A' : 'B';
+
+                        // Draw cell
+                        ctx.fillStyle = prediction === 'A'
+                            ? 'rgba(88, 44, 131, 0.1)'
+                            : 'rgba(249, 115, 22, 0.1)';
+                        ctx.fillRect(i * cellWidth, j * cellHeight, cellWidth, cellHeight);
+                    }
+                }
+            }
+
+            reset() {
+                // Reset to initial state
+                this.trainingData = [
+                    {x: 0.2, y: 0.3, class: 'A'},
+                    {x: 0.3, y: 0.2, class: 'A'},
+                    {x: 0.25, y: 0.5, class: 'A'},
+                    {x: 0.15, y: 0.6, class: 'A'},
+                    {x: 0.7, y: 0.7, class: 'B'},
+                    {x: 0.8, y: 0.6, class: 'B'},
+                    {x: 0.75, y: 0.4, class: 'B'},
+                    {x: 0.6, y: 0.8, class: 'B'},
+                    {x: 0.5, y: 0.2, class: 'A'},
+                    {x: 0.85, y: 0.3, class: 'B'}
+                ];
+
+                this.testPoint = null;
+                this.addingData = false;
+                this.nextClass = 'A';
+
+                const btn = document.getElementById('add-data-btn');
+                btn.innerHTML = '<i class="fas fa-plus-circle"></i><span>Add Training Data</span>';
+                btn.style.background = '';
+
+                document.getElementById('prediction').textContent = '-';
+                document.getElementById('neighbors-info').textContent = 'Click on the canvas to classify a point';
+
+                this.renderPoints();
+                this.drawDecisionBoundary();
+                document.getElementById('connections').innerHTML = '';
+            }
         }
 
-        for(let j = 0; j <= gridSize; j++) {
-            const y = yMin + j * yStep;
-            contourY.push(y);
-
-            const row = [];
-            for(let i = 0; i <= gridSize; i++) {
-                const x = xMin + i * xStep;
-                const prediction = knnPredict(x, y);
-                row.push(prediction);
-            }
-            contourZ.push(row);
-        }
-
-        return { x: contourX, y: contourY, z: contourZ };
-    }
-
-    function knnPredict(x, y) {
-        const workingData = scalingEnabled ? scaledData : data;
-
-        // Calculate distances to all points
-        const distances = workingData.map((point, i) => ({
-            distance: Math.sqrt(Math.pow(x - point[0], 2) + Math.pow(y - point[1], 2)),
-            label: labels[i],
-            index: i
-        }));
-
-        // Sort by distance and take K nearest
-        distances.sort((a, b) => a.distance - b.distance);
-        const kNearest = distances.slice(0, K);
-
-        // Vote (majority class)
-        const votes = { 0: 0, 1: 0 };
-        kNearest.forEach(neighbor => {
-            votes[neighbor.label]++;
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new KNNExplorer();
         });
-
-        return votes[1] > votes[0] ? 1 : 0;
-    }
-
-    function generateKNN() {
-        const workingData = scalingEnabled ? scaledData : data;
-        const class0 = workingData.filter((point, i) => labels[i] === 0);
-        const class1 = workingData.filter((point, i) => labels[i] === 1);
-
-        // Generate decision boundary
-        const boundary = generateDecisionBoundary();
-
-        const dataset = datasets[currentDataset];
-
-        const traces = [
-            {
-                x: class0.map(p => p[0]),
-                y: class0.map(p => p[1]),
-                mode: 'markers',
-                type: 'scatter',
-                name: dataset.classLabels[0],
-                marker: {
-                    color: '#3b82f6',
-                    size: 10,
-                    symbol: 'circle',
-                    line: { color: 'white', width: 2 }
-                }
-            },
-            {
-                x: class1.map(p => p[0]),
-                y: class1.map(p => p[1]),
-                mode: 'markers',
-                type: 'scatter',
-                name: dataset.classLabels[1],
-                marker: {
-                    color: '#ef4444',
-                    size: 10,
-                    symbol: 'square',
-                    line: { color: 'white', width: 2 }
-                }
-            },
-            {
-                x: boundary.x,
-                y: boundary.y,
-                z: boundary.z,
-                type: 'contour',
-                showscale: false,
-                contours: {
-                    start: -0.1,
-                    end: 1.1,
-                    size: 1
-                },
-                colorscale: [[0, 'rgba(59, 130, 246, 0.3)'], [1, 'rgba(239, 68, 68, 0.3)']],
-                line: { width: 2, color: '#034638' },
-                name: 'Decision Boundary'
-            }
-        ];
-
-        const layout = {
-            title: `KNN (K=${K}) - ${dataset.name} - ${scalingEnabled ? 'Scaled' : 'Unscaled'}`,
-            xaxis: { title: dataset.xLabel },
-            yaxis: { title: dataset.yLabel },
-            showlegend: true,
-            margin: { t: 50, r: 50, b: 50, l: 50 }
-        };
-
-        Plotly.newPlot('knn-plot', traces, layout, {responsive: true});
-
-        // Add click handler for predictions
-        const plotDiv = document.getElementById('knn-plot');
-        plotDiv.on('plotly_click', function(data) {
-            if(data.points && data.points.length > 0) {
-                const x = data.points[0].x;
-                const y = data.points[0].y;
-                predictPoint(x, y);
-            }
-        });
-
-        // Update metrics
-        updateMetrics();
-    }
-
-    function predictPoint(x, y) {
-        const prediction = knnPredict(x, y);
-        const dataset = datasets[currentDataset];
-
-        // Calculate confidence (proportion of K neighbors in majority class)
-        const workingData = scalingEnabled ? scaledData : data;
-        const distances = workingData.map((point, i) => ({
-            distance: Math.sqrt(Math.pow(x - point[0], 2) + Math.pow(y - point[1], 2)),
-            label: labels[i]
-        }));
-
-        distances.sort((a, b) => a.distance - b.distance);
-        const kNearest = distances.slice(0, K);
-        const votes = { 0: 0, 1: 0 };
-        kNearest.forEach(neighbor => {
-            votes[neighbor.label]++;
-        });
-
-        const maxVotes = Math.max(votes[0], votes[1]);
-        const confidence = (maxVotes / K * 100).toFixed(1);
-
-        document.getElementById('test-coords').textContent = `(${x.toFixed(2)}, ${y.toFixed(2)})`;
-        document.getElementById('test-prediction').textContent = dataset.classLabels[prediction];
-        document.getElementById('test-confidence').textContent = `${confidence}%`;
-        document.getElementById('test-point').style.display = 'block';
-    }
-
-    function updateMetrics() {
-        // Simulate cross-validation accuracy
-        let accuracy = 0.8;
-
-        // Adjust based on K
-        if(K <= 3) accuracy -= 0.05;
-        if(K >= 15) accuracy -= 0.03;
-
-        // Adjust based on scaling for mixed datasets
-        if(currentDataset === 'height-gender' && !scalingEnabled) accuracy -= 0.15;
-
-        // Add some randomness
-        accuracy += (Math.random() - 0.5) * 0.05;
-        accuracy = Math.max(0.6, Math.min(0.95, accuracy));
-
-        document.getElementById('accuracy-value').textContent = (accuracy * 100).toFixed(1) + '%';
-
-        // Boundary regions (simulated complexity)
-        const regions = Math.max(2, Math.min(20, Math.round(data.length / K)));
-        document.getElementById('boundary-value').textContent = regions;
-
-        // Training time (always 0 for KNN)
-        document.getElementById('training-value').textContent = '0ms';
-    }
-
-    // Initialize
-    generateDataset(currentDataset);
-    plotData();
-    updateComplexityWarning();
-    updateMetrics();
-</script>
-
+    </script>
 </body>
 </html>
