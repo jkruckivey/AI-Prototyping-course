@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         .dp-wrapper {
-            max-width: 500px;
+            max-width: 900px;
             margin: 0 auto;
             padding: 20px;
             font-family: 'Figtree', system-ui, -apple-system, sans-serif;
@@ -155,7 +155,7 @@
         .results-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1rem;
+            gap: 2rem;
             margin: 1rem 0;
         }
 
@@ -182,9 +182,15 @@
 
         .metrics-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            gap: 0.5rem;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
             margin: 1rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         .metric-card {

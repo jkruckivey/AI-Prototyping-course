@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         .dp-wrapper {
-            max-width: 500px;
+            max-width: 800px;
             margin: 0 auto;
             padding: 20px;
             font-family: 'Figtree', system-ui, -apple-system, sans-serif;
@@ -47,7 +47,7 @@
         .visualization-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1rem;
+            gap: 2rem;
             margin: 1rem 0;
         }
 
@@ -133,9 +133,15 @@
 
         .variance-display {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 1rem;
             margin: 1rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .variance-display {
+                grid-template-columns: 1fr;
+            }
         }
 
         .variance-card {

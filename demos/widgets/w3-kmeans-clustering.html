@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         .dp-wrapper {
-            max-width: 500px;
+            max-width: 800px;
             margin: 0 auto;
             padding: 20px;
             font-family: 'Figtree', system-ui, -apple-system, sans-serif;
@@ -225,9 +225,15 @@
 
         .metrics-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(4, 1fr);
             gap: 1rem;
             margin: 1.5rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .metrics-grid {
+                grid-template-columns: 1fr 1fr;
+            }
         }
 
         .metric-card {
@@ -863,9 +869,17 @@
 
         // Initialize when DOM is ready
         document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM Content Loaded - initializing widget');
             setTimeout(() => {
-                initCanvas();
-                generateDataset('random');
+                try {
+                    initCanvas();
+                    generateDataset('random');
+                    console.log('Widget initialized successfully');
+                    document.getElementById('status').textContent = 'Ready - Click Run Clustering';
+                } catch (error) {
+                    console.error('Widget initialization error:', error);
+                    document.getElementById('status').textContent = 'Error - Try clicking Reset';
+                }
             }, 100);
         });
     </script>
