@@ -5,8 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PCA Dimensionality Reduction</title>
     <link rel="stylesheet" href="ivey-widget-base.css">
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        .dp-wrapper {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            font-family: 'Figtree', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: #fff;
+        }
+
+        .dp-content-block {
+            margin-bottom: 2rem;
+        }
+
+        .dp-has-icon {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #034638;
+            margin: 0 0 1rem 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .dp-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin: 1rem 0;
+        }
+
+        .dp-card.intro-card {
+            border-left: 4px solid #034638;
+            background: #f8fffe;
+        }
+
         .visualization-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -22,10 +59,11 @@
         }
 
         .plot-container {
-            height: 350px;
+            height: 280px;
             margin: 0.5rem 0;
             border: 1px solid #e5e7eb;
             border-radius: 6px;
+            position: relative;
         }
 
         .controls-section {
@@ -46,7 +84,7 @@
 
         .control-row label {
             font-weight: 600;
-            min-width: 120px;
+            min-width: 80px;
         }
 
         .slider-container {
@@ -58,16 +96,17 @@
 
         .slider-container input[type="range"] {
             flex: 1;
-            max-width: 200px;
+            max-width: 150px;
         }
 
         .value-display {
             background: #e7f3ff;
-            padding: 0.5rem 1rem;
+            padding: 0.5rem 0.75rem;
             border-radius: 4px;
             font-weight: bold;
-            min-width: 60px;
+            min-width: 40px;
             text-align: center;
+            font-size: 0.9rem;
         }
 
         .dataset-selector {
@@ -79,11 +118,11 @@
         .dataset-btn {
             background: #f3f4f6;
             border: 2px solid #e5e7eb;
-            padding: 0.5rem 1rem;
+            padding: 0.5rem 0.75rem;
             border-radius: 6px;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
         }
 
         .dataset-btn.active {
@@ -94,7 +133,7 @@
 
         .variance-display {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 1rem;
             margin: 1rem 0;
         }
@@ -108,13 +147,13 @@
         }
 
         .variance-value {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: bold;
             color: #034638;
         }
 
         .variance-label {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: #666;
             margin-top: 0.25rem;
         }
@@ -144,7 +183,7 @@
             height: 8px;
             border-radius: 4px;
             overflow: hidden;
-            width: 100px;
+            width: 80px;
             margin-left: 1rem;
         }
 
@@ -164,56 +203,59 @@
             font-size: 1rem;
             font-weight: 600;
             transition: background 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .apply-btn:hover {
-            background: #022c24;
+            background: #0a5c4a;
         }
 
-        .info-box {
-            background: #ddd6fe;
-            border: 1px solid #8b5cf6;
-            border-radius: 6px;
-            padding: 1rem;
-            margin: 1rem 0;
-        }
-
-        .info-box h4 {
-            color: #5b21b6;
-            margin: 0 0 0.5rem 0;
+        .canvas-plot {
+            width: 100%;
+            height: 100%;
+            border-radius: 4px;
         }
 
         @media (max-width: 768px) {
             .visualization-container {
                 grid-template-columns: 1fr;
             }
+            .control-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .control-row label {
+                min-width: auto;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="demo-container">
-        <div class="demo-header">
-            <h1>PCA Dimensionality Reduction</h1>
-            <p>See how Principal Component Analysis reduces dimensions while preserving data patterns</p>
-        </div>
-
-        <div class="info-box">
-            <h4>🎯 Understanding PCA</h4>
-            <p>PCA finds the directions of maximum variance in your data and projects it onto these "principal components". This reduces dimensions while keeping the most important information.</p>
+    <div class="dp-wrapper">
+        <div class="dp-content-block">
+            <h2 class="dp-has-icon">
+                <i class="dp-icon fas fa-compress-arrows-alt" aria-hidden="true"></i>
+                PCA Dimensionality Reduction
+            </h2>
+            <div class="dp-card intro-card">
+                <p><strong>Interactive Learning:</strong> Explore how Principal Component Analysis reduces dimensions while preserving data patterns. See the variance breakdown and compression ratios in real-time.</p>
+            </div>
         </div>
 
         <div class="controls-section">
             <div class="control-row">
                 <label>Dataset:</label>
                 <div class="dataset-selector">
-                    <button class="dataset-btn active" onclick="selectDataset('customer')">Customer Data</button>
-                    <button class="dataset-btn" onclick="selectDataset('sales')">Sales Performance</button>
-                    <button class="dataset-btn" onclick="selectDataset('financial')">Financial Metrics</button>
+                    <button class="dataset-btn active" onclick="selectDataset('customer')">Customer</button>
+                    <button class="dataset-btn" onclick="selectDataset('sales')">Sales</button>
+                    <button class="dataset-btn" onclick="selectDataset('financial')">Finance</button>
                 </div>
             </div>
 
             <div class="control-row">
-                <label>Components to Keep:</label>
+                <label>Components:</label>
                 <div class="slider-container">
                     <input type="range" id="components-slider" min="1" max="4" value="2" onchange="updateComponents(this.value)">
                     <div class="value-display" id="components-value">2</div>
@@ -221,7 +263,7 @@
             </div>
 
             <div class="control-row">
-                <label>Add Noise Level:</label>
+                <label>Noise:</label>
                 <div class="slider-container">
                     <input type="range" id="noise-slider" min="0" max="2" value="0.5" step="0.1" onchange="updateNoise(this.value)">
                     <div class="value-display" id="noise-value">0.5</div>
@@ -229,7 +271,7 @@
             </div>
 
             <div class="control-row">
-                <button class="apply-btn" onclick="applyPCA()">Apply PCA Transformation</button>
+                <button class="apply-btn" onclick="applyPCA()"><i class="fas fa-play" aria-hidden="true"></i> Apply PCA</button>
             </div>
         </div>
 
@@ -250,17 +292,21 @@
 
         <div class="visualization-container">
             <div class="plot-section">
-                <h3>Original Data (Multi-dimensional)</h3>
-                <div class="plot-container" id="original-plot"></div>
+                <h3><i class="fas fa-database" aria-hidden="true"></i> Original Data</h3>
+                <div class="plot-container">
+                    <canvas id="original-plot" class="canvas-plot"></canvas>
+                </div>
             </div>
             <div class="plot-section">
-                <h3>PCA Reduced Data</h3>
-                <div class="plot-container" id="pca-plot"></div>
+                <h3><i class="fas fa-compress" aria-hidden="true"></i> PCA Reduced</h3>
+                <div class="plot-container">
+                    <canvas id="pca-plot" class="canvas-plot"></canvas>
+                </div>
             </div>
         </div>
 
         <div class="component-breakdown">
-            <h4>Principal Components Variance Breakdown</h4>
+            <h4><i class="fas fa-chart-bar" aria-hidden="true"></i> Components Variance Breakdown</h4>
             <div id="components-list"></div>
         </div>
     </div>
@@ -466,59 +512,149 @@
         }
 
         function plotOriginalData() {
+            const canvas = document.getElementById('original-plot');
+            const ctx = canvas.getContext('2d');
+
+            // Set canvas size
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * window.devicePixelRatio || 1;
+            canvas.height = rect.height * window.devicePixelRatio || 1;
+            ctx.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
+            canvas.style.width = rect.width + 'px';
+            canvas.style.height = rect.height + 'px';
+
+            const width = rect.width;
+            const height = rect.height;
+            const margin = { top: 30, right: 20, bottom: 40, left: 50 };
+            const plotWidth = width - margin.left - margin.right;
+            const plotHeight = height - margin.top - margin.bottom;
+
+            // Clear canvas
+            ctx.clearRect(0, 0, width, height);
+
+            // Get data bounds
+            const xValues = originalData.map(row => row[0]);
+            const yValues = originalData.map(row => row[1]);
+            const xMin = Math.min(...xValues);
+            const xMax = Math.max(...xValues);
+            const yMin = Math.min(...yValues);
+            const yMax = Math.max(...yValues);
+
+            // Scale functions
+            const xScale = (val) => margin.left + ((val - xMin) / (xMax - xMin)) * plotWidth;
+            const yScale = (val) => margin.top + plotHeight - ((val - yMin) / (yMax - yMin)) * plotHeight;
+
+            // Draw axes
+            ctx.strokeStyle = '#e5e7eb';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(margin.left, margin.top);
+            ctx.lineTo(margin.left, margin.top + plotHeight);
+            ctx.lineTo(margin.left + plotWidth, margin.top + plotHeight);
+            ctx.stroke();
+
+            // Draw data points
+            ctx.fillStyle = '#034638';
+            originalData.forEach(point => {
+                const x = xScale(point[0]);
+                const y = yScale(point[1]);
+                ctx.beginPath();
+                ctx.arc(x, y, 3, 0, 2 * Math.PI);
+                ctx.fill();
+            });
+
+            // Draw title
+            ctx.fillStyle = '#2c3e50';
+            ctx.font = '14px Figtree, sans-serif';
+            ctx.textAlign = 'center';
             const features = datasets[currentDataset].features;
-            const data = originalData;
-
-            // Create scatter plot matrix visualization (simplified to 2D for demo)
-            const trace = {
-                x: data.map(row => row[0]),
-                y: data.map(row => row[1]),
-                mode: 'markers',
-                type: 'scatter',
-                marker: {
-                    color: '#034638',
-                    size: 6,
-                    opacity: 0.6
-                },
-                name: 'Original Data'
-            };
-
-            const layout = {
-                title: `${datasets[currentDataset].name}<br><sub>${features[0]} vs ${features[1]}</sub>`,
-                xaxis: { title: features[0] },
-                yaxis: { title: features[1] },
-                showlegend: false,
-                margin: { t: 60, r: 20, b: 40, l: 50 }
-            };
-
-            Plotly.newPlot('original-plot', [trace], layout, {responsive: true});
+            ctx.fillText(`${features[0]} vs ${features[1]}`, width / 2, 20);
         }
 
         function plotPCAData() {
             if(pcaData.length === 0) return;
 
-            const trace = {
-                x: pcaData.map(row => row[0]),
-                y: componentsToKeep > 1 ? pcaData.map(row => row[1] || 0) : pcaData.map(() => 0),
-                mode: 'markers',
-                type: 'scatter',
-                marker: {
-                    color: '#e74c3c',
-                    size: 6,
-                    opacity: 0.6
-                },
-                name: 'PCA Data'
-            };
+            const canvas = document.getElementById('pca-plot');
+            const ctx = canvas.getContext('2d');
 
-            const layout = {
-                title: `PCA Reduced Data<br><sub>Principal Component 1 vs ${componentsToKeep > 1 ? '2' : 'constant'}</sub>`,
-                xaxis: { title: 'PC1' },
-                yaxis: { title: componentsToKeep > 1 ? 'PC2' : 'Zero' },
-                showlegend: false,
-                margin: { t: 60, r: 20, b: 40, l: 50 }
-            };
+            // Set canvas size
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * window.devicePixelRatio || 1;
+            canvas.height = rect.height * window.devicePixelRatio || 1;
+            ctx.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
+            canvas.style.width = rect.width + 'px';
+            canvas.style.height = rect.height + 'px';
 
-            Plotly.newPlot('pca-plot', [trace], layout, {responsive: true});
+            const width = rect.width;
+            const height = rect.height;
+            const margin = { top: 30, right: 20, bottom: 40, left: 50 };
+            const plotWidth = width - margin.left - margin.right;
+            const plotHeight = height - margin.top - margin.bottom;
+
+            // Clear canvas
+            ctx.clearRect(0, 0, width, height);
+
+            // Get data bounds
+            const xValues = pcaData.map(row => row[0]);
+            const yValues = componentsToKeep > 1 ? pcaData.map(row => row[1] || 0) : pcaData.map(() => 0);
+            const xMin = Math.min(...xValues);
+            const xMax = Math.max(...xValues);
+            const yMin = Math.min(...yValues);
+            const yMax = Math.max(...yValues);
+
+            // Ensure some range for visualization
+            const xRange = Math.max(xMax - xMin, 0.1);
+            const yRange = Math.max(yMax - yMin, 0.1);
+
+            // Scale functions
+            const xScale = (val) => margin.left + ((val - xMin) / xRange) * plotWidth;
+            const yScale = (val) => margin.top + plotHeight - ((val - yMin) / yRange) * plotHeight;
+
+            // Draw axes
+            ctx.strokeStyle = '#e5e7eb';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(margin.left, margin.top);
+            ctx.lineTo(margin.left, margin.top + plotHeight);
+            ctx.lineTo(margin.left + plotWidth, margin.top + plotHeight);
+            ctx.stroke();
+
+            // Draw principal component axes
+            ctx.strokeStyle = '#dc2626';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([5, 5]);
+
+            // PC1 (horizontal)
+            ctx.beginPath();
+            ctx.moveTo(margin.left, margin.top + plotHeight/2);
+            ctx.lineTo(margin.left + plotWidth, margin.top + plotHeight/2);
+            ctx.stroke();
+
+            if (componentsToKeep > 1) {
+                // PC2 (vertical)
+                ctx.beginPath();
+                ctx.moveTo(margin.left + plotWidth/2, margin.top);
+                ctx.lineTo(margin.left + plotWidth/2, margin.top + plotHeight);
+                ctx.stroke();
+            }
+
+            ctx.setLineDash([]);
+
+            // Draw data points
+            ctx.fillStyle = '#e74c3c';
+            pcaData.forEach((point, i) => {
+                const x = xScale(point[0]);
+                const y = yScale(componentsToKeep > 1 ? point[1] || 0 : 0);
+                ctx.beginPath();
+                ctx.arc(x, y, 3, 0, 2 * Math.PI);
+                ctx.fill();
+            });
+
+            // Draw title
+            ctx.fillStyle = '#2c3e50';
+            ctx.font = '14px Figtree, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText(`PC1 vs ${componentsToKeep > 1 ? 'PC2' : 'Zero'}`, width / 2, 20);
         }
 
         function updateMetrics(result) {
@@ -568,10 +704,16 @@
             document.getElementById('components-list').innerHTML = '';
 
             // Clear PCA plot
-            Plotly.newPlot('pca-plot', [], {
-                title: 'PCA Reduced Data<br><sub>Click "Apply PCA" to see results</sub>',
-                margin: { t: 60, r: 20, b: 40, l: 50 }
-            }, {responsive: true});
+            const canvas = document.getElementById('pca-plot');
+            const ctx = canvas.getContext('2d');
+            const rect = canvas.getBoundingClientRect();
+            ctx.clearRect(0, 0, rect.width, rect.height);
+
+            // Draw placeholder text
+            ctx.fillStyle = '#6b7280';
+            ctx.font = '14px Figtree, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('Click "Apply PCA" to see results', rect.width / 2, rect.height / 2);
         }
 
         function applyPCA() {
@@ -581,6 +723,18 @@
             plotPCAData();
             updateMetrics(result);
         }
+
+        // Initialize canvas sizes on window resize
+        function resizeCanvases() {
+            plotOriginalData();
+            if (pcaData.length > 0) {
+                plotPCAData();
+            } else {
+                resetMetrics();
+            }
+        }
+
+        window.addEventListener('resize', resizeCanvases);
 
         // Initialize
         generateData();
