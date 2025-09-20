@@ -23,9 +23,9 @@
             <table class="ic-Table ic-Table--hover-row" role="table" aria-label="K-means algorithm steps">
               <thead>
                 <tr>
-                  <th>Step</th>
-                  <th>Action</th>
-                  <th>Purpose</th>
+                  <th scope="col">Step</th>
+                  <th scope="col">Action</th>
+                  <th scope="col">Purpose</th>
                 </tr>
               </thead>
               <tbody>
@@ -73,7 +73,7 @@
             <div class="col-md-6">
               <div class="dp-card card" style="background-color:#f8f9fa; border:1px solid #dee2e6;">
                 <div class="card-body">
-                  <h6 class="card-title">Standard Distance: Euclidean</h6>
+                  <h4 class="card-title">Standard Distance: Euclidean</h4>
                   <p>Most common: straight-line distance in feature space</p>
                   <p class="mb-0"><code>√[(x₁-x₂)² + (y₁-y₂)²]</code></p>
                 </div>
@@ -82,7 +82,7 @@
             <div class="col-md-6">
               <div class="dp-card card" style="background-color:#fff3cd; border:1px solid #ffeaa7;">
                 <div class="card-body">
-                  <h6 class="card-title">Critical: Feature Scaling</h6>
+                  <h4 class="card-title">Critical: Feature Scaling</h4>
                   <p>Always normalize features to same scale</p>
                   <p class="mb-0">Otherwise: large-scale features dominate</p>
                 </div>
@@ -112,7 +112,7 @@
             <div class="col-md-4">
               <div class="dp-card card" style="background-color:#e7f3ff; border:1px solid #b3d9ff;">
                 <div class="card-body">
-                  <h6 class="card-title">Formula</h6>
+                  <h4 class="card-title">Formula</h4>
                   <p>WCSS = Σ(distance from point to centroid)²</p>
                   <p class="mb-0">Lower WCSS = tighter clusters</p>
                 </div>
@@ -129,9 +129,9 @@
             <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Silhouette score interpretation">
               <thead>
                 <tr>
-                  <th>Silhouette Score</th>
-                  <th>Interpretation</th>
-                  <th>Action</th>
+                  <th scope="col">Silhouette Score</th>
+                  <th scope="col">Interpretation</th>
+                  <th scope="col">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -185,7 +185,7 @@
             <div class="col-md-6">
               <div class="dp-card card h-100" style="border-left: 4px solid #34d399; padding-left: 12px;">
                 <div class="card-body">
-                  <h6 class="card-title">Computational Advantages</h6>
+                  <h4 class="card-title">Computational Advantages</h4>
                   <ul class="list-group list-group-flush">
                     <li class="list-group-item">Fast and scalable</li>
                     <li class="list-group-item">Simple to implement</li>
@@ -197,7 +197,7 @@
             <div class="col-md-6">
               <div class="dp-card card h-100" style="border-left: 4px solid #3b82f6; padding-left: 12px;">
                 <div class="card-body">
-                  <h6 class="card-title">Practical Benefits</h6>
+                  <h4 class="card-title">Practical Benefits</h4>
                   <ul class="list-group list-group-flush">
                     <li class="list-group-item">Well-understood algorithm</li>
                     <li class="list-group-item">Deterministic results</li>
@@ -214,7 +214,7 @@
         <div id="limitations" class="dp-panel-content" hidden>
           <div class="dp-card card" style="border-left: 4px solid #dc2626; padding-left: 12px;">
             <div class="card-body">
-              <h6 class="card-title">When K-means Struggles</h6>
+              <h4 class="card-title">When K-means Struggles</h4>
               <ul class="list-group list-group-flush">
                 <li class="list-group-item"><strong>Non-spherical clusters</strong>: Assumes circular/spherical cluster shapes</li>
                 <li class="list-group-item"><strong>Different cluster sizes</strong>: Prefers evenly-sized clusters</li>
@@ -234,7 +234,7 @@
             <div class="col-md-6">
               <div class="dp-card card h-100">
                 <div class="card-body">
-                  <h6 class="card-title">Hierarchical Clustering</h6>
+                  <h4 class="card-title">Hierarchical Clustering</h4>
                   <p>Creates tree of clusters. No need to specify K in advance. Good for exploring data structure.</p>
                 </div>
               </div>
@@ -242,7 +242,7 @@
             <div class="col-md-6">
               <div class="dp-card card h-100">
                 <div class="card-body">
-                  <h6 class="card-title">DBSCAN</h6>
+                  <h4 class="card-title">DBSCAN</h4>
                   <p>Finds clusters of any shape. Handles outliers well. Density-based approach.</p>
                 </div>
               </div>
@@ -257,7 +257,7 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive: K-means Clustering</h2>
     <p class="mt-2"><em>Explore:</em> Watch K-means find customer segments in action. Adjust K and see how clustering changes.</p>
     <div class="dp-embed-wrapper">
-      <iframe title="K-means Clustering Demonstration" role="application" src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/w3-kmeans-clustering.html" width="100%" height="650" loading="lazy" allowfullscreen aria-label="Interactive K-means clustering with customer segmentation data"></iframe>
+      <iframe title="K-means Clustering Demonstration" role="application" src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/w3-kmeans-clustering.html" width="100%" height="800" loading="lazy" allowfullscreen aria-label="Interactive K-means clustering with customer segmentation data"></iframe>
     </div>
   </div>
 

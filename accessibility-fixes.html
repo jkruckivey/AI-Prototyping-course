@@ -1,0 +1,122 @@
+<!-- ACCESSIBILITY FIXES FOR YOUR CANVAS PAGE -->
+
+<!-- 1. FIX TABLE SCOPING -->
+<!-- Replace your existing tables with these corrected versions -->
+
+<!-- K-means Algorithm Steps Table (FIXED) -->
+<div class="table-responsive">
+    <table class="ic-Table ic-Table--hover-row" role="table" aria-label="K-means algorithm steps">
+        <thead>
+            <tr>
+                <th scope="col">Step</th>
+                <th scope="col">Action</th>
+                <th scope="col">Purpose</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">1. Initialize</th>
+                <td>Randomly place K centroids</td>
+                <td>Starting positions for cluster centers</td>
+            </tr>
+            <tr>
+                <th scope="row">2. Assign</th>
+                <td>Assign each point to nearest centroid</td>
+                <td>Form clusters based on distance</td>
+            </tr>
+            <tr>
+                <th scope="row">3. Update</th>
+                <td>Move centroids to cluster means</td>
+                <td>Optimize cluster center positions</td>
+            </tr>
+            <tr>
+                <th scope="row">4. Repeat</th>
+                <td>Repeat steps 2-3 until convergence</td>
+                <td>Minimize within-cluster variance</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Silhouette Score Table (FIXED) -->
+<div class="table-responsive">
+    <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Silhouette score interpretation">
+        <thead>
+            <tr>
+                <th scope="col">Silhouette Score</th>
+                <th scope="col">Interpretation</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">0.7 - 1.0</th>
+                <td>Excellent cluster separation</td>
+                <td>Strong clustering solution</td>
+            </tr>
+            <tr>
+                <th scope="row">0.5 - 0.7</th>
+                <td>Reasonable clustering</td>
+                <td>Acceptable for most uses</td>
+            </tr>
+            <tr>
+                <th scope="row">0.25 - 0.5</th>
+                <td>Weak clustering structure</td>
+                <td>Consider different K or method</td>
+            </tr>
+            <tr>
+                <th scope="row">&lt; 0.25</th>
+                <td>No meaningful clusters</td>
+                <td>Clustering may not be appropriate</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- 2. FIX HEADING HIERARCHY -->
+<!-- Replace your h6 headings with h4 to fix the hierarchy -->
+
+<!-- BEFORE (skipped headings): h2 → h3 → h6 -->
+<!-- AFTER (proper hierarchy): h2 → h3 → h4 -->
+
+<div class="col-md-6">
+    <div class="dp-card card" style="background-color: #f8f9fa; border: 1px solid #dee2e6;">
+        <div class="card-body">
+            <h4 class="card-title">Standard Distance: Euclidean</h4>
+            <p>Most common: straight-line distance in feature space</p>
+            <p class="mb-0"><code>&radic;[(x₁-x₂)&sup2; + (y₁-y₂)&sup2;]</code></p>
+        </div>
+    </div>
+</div>
+<div class="col-md-6">
+    <div class="dp-card card" style="background-color: #fff3cd; border: 1px solid #ffeaa7;">
+        <div class="card-body">
+            <h4 class="card-title">Critical: Feature Scaling</h4>
+            <p>Always normalize features to same scale</p>
+            <p class="mb-0">Otherwise: large-scale features dominate</p>
+        </div>
+    </div>
+</div>
+
+<!-- All other h6 should become h4 -->
+<h4 class="card-title">Formula</h4>
+<h4 class="card-title">Computational Advantages</h4>
+<h4 class="card-title">Practical Benefits</h4>
+<h4 class="card-title">When K-means Struggles</h4>
+<h4 class="card-title">Hierarchical Clustering</h4>
+<h4 class="card-title">DBSCAN</h4>
+
+<!-- 3. FIX IFRAME HEIGHT FOR BETTER VISIBILITY -->
+<!-- Increase the iframe height to show more of the simulation -->
+
+<div class="dp-embed-wrapper">
+    <iframe title="K-means Clustering Demonstration"
+            role="application"
+            src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/w3-kmeans-clustering.html"
+            width="100%"
+            height="800"
+            loading="lazy"
+            allowfullscreen="allowfullscreen"
+            aria-label="Interactive K-means clustering with customer segmentation data">
+    </iframe>
+</div>
