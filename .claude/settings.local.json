@@ -9,7 +9,11 @@
       "Bash(dir:*)",
       "Bash(test:*)",
       "Bash(grep:*)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(for file in w[2-5]-*.html)",
+      "Bash(do if ! grep -q \"ivey-widget-base.css\" \"$file\")",
+      "Bash(then echo \"$file\")",
+      "Bash(fi)"
     ],
     "deny": [],
     "ask": []
