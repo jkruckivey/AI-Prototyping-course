@@ -138,7 +138,7 @@
 
   <div id="optimal-threshold" class="optimal-indicator">
     <div class="optimal-text">
-      Optimal Threshold: <span id="optimal-value">0.62</span>
+      Optimal Threshold: <span id="optimal-value-1">0.62</span>
       (Net Value: $<span id="optimal-net">15,240</span>)
     </div>
   </div>
@@ -148,7 +148,7 @@
   </div>
 
   <div id="insights" class="insight-box">
-    <strong>Optimal Threshold: <span id="optimal-value">0.62</span></strong><br>
+    <strong>Optimal Threshold: <span id="optimal-value-2">0.62</span></strong><br>
     <span id="insight-text">Adjust threshold and costs to find the optimal decision point.</span>
   </div>
 </div>
@@ -237,7 +237,6 @@ function updateMetrics() {
   // Update confusion matrix
   document.getElementById('tp-count').textContent = metrics.tp;
   document.getElementById('fp-count').textContent = metrics.fp;
-  document.getElementById('tn-count').textContent = metrics.tn;
   document.getElementById('fn-count').textContent = metrics.fn;
 
 
@@ -245,8 +244,10 @@ function updateMetrics() {
   netValueEl.textContent = '$' + metrics.netValue.toLocaleString();
   netValueEl.className = metrics.netValue >= 0 ? 'cost-value cost-positive' : 'cost-value cost-negative';
 
-  // Update optimal threshold
-  document.getElementById('optimal-value').textContent = optimal.threshold.toFixed(2);
+  // Update optimal threshold (both instances)
+  document.getElementById('optimal-value-1').textContent = optimal.threshold.toFixed(2);
+  document.getElementById('optimal-value-2').textContent = optimal.threshold.toFixed(2);
+  document.getElementById('optimal-net').textContent = optimal.netValue.toLocaleString();
 
   // Update plot
   updatePlot(threshold, fpCost, fnCost, tpBenefit, optimal.threshold);
