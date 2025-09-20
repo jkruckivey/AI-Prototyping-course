@@ -226,7 +226,7 @@ function updateMetrics() {
   const threshold = parseFloat(document.getElementById('threshold-slider').value);
   const fpCost = parseFloat(document.getElementById('fp-cost').value);
   const fnCost = parseFloat(document.getElementById('fn-cost').value);
-  const tpBenefit = parseFloat(document.getElementById('tp-benefit').value);
+  const tpBenefit = 100; // Default benefit value since tp-benefit input doesn't exist
 
   const metrics = calculateCostMetrics(threshold, fpCost, fnCost, tpBenefit);
   const optimal = findOptimalThreshold(fpCost, fnCost, tpBenefit);
@@ -347,7 +347,6 @@ function updateInsights(threshold, metrics, optimal, fpCost, fnCost) {
 document.getElementById('threshold-slider').addEventListener('input', updateMetrics);
 document.getElementById('fp-cost').addEventListener('input', updateMetrics);
 document.getElementById('fn-cost').addEventListener('input', updateMetrics);
-document.getElementById('tp-benefit').addEventListener('input', updateMetrics);
 
 // Initialize
 updateMetrics();
