@@ -16,11 +16,12 @@
                 <p>To navigate AI strategically, it helps to see how <strong>AI</strong> contains <strong>Machine Learning</strong>, which in turn contains <strong>Deep Learning</strong>. Use this as a map to match technology level to the problem.</p>
             </div>
         </div>
-        <div class="dp-embed-wrapper"><iframe title="AI Hierarchy Diagram" role="application" src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/ai-hierarchy-diagram.html" width="100%" height="500" loading="lazy" allowfullscreen="allowfullscreen" aria-label="Interactive diagram showing how AI contains ML and Deep Learning"></iframe></div>
+        <div class="dp-embed-wrapper"><iframe title="AI Hierarchy Explorer" role="application" src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/canvas-ai-hierarchy.html" width="100%" height="1200" loading="lazy" allowfullscreen="allowfullscreen" aria-label="Interactive diagram showing how AI contains ML and Deep Learning"></iframe></div>
     </div>
     <div class="dp-content-block content-block" data-title="Interactive: Model Families Overview">
         <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive: Model Families Overview</h2>
         <p class="mt-1"><em>Tip:</em> As you explore, note where <strong>your team</strong> owns steps vs. where partner teams must be involved.</p>
+        <div class="dp-embed-wrapper"><iframe title="Model Families Overview" role="application" src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/canvas-model-families-overview.html" width="100%" height="800" loading="lazy" allowfullscreen="allowfullscreen" aria-label="Interactive overview of machine learning model families and their applications"></iframe></div>
     </div>
     <div class="dp-content-block content-block" data-title="Practice: Match the AI Approach">
         <h2 class="dp-has-icon"><i class="dp-icon fas fa-check-double" aria-hidden="true"></i>&nbsp;Practice: Match the AI Approach</h2>
@@ -31,7 +32,7 @@
         <h2 class="dp-has-icon"><i class="dp-icon fas fa-layer-group" aria-hidden="true"></i>&nbsp;The Four Model Families</h2>
         <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
             <div class="dp-panel-group">
-                <h4 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="ml-supervised">3.1 Supervised Learning</h4>
+                <h3 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="ml-supervised">3.1 Supervised Learning</h3>
                 <div id="ml-supervised" class="dp-panel-content">
                     <p>Learn from labeled examples to predict outcomes&mdash;approvals, churn, demand.</p>
                     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
@@ -81,7 +82,7 @@
                 </div>
             </div>
             <div class="dp-panel-group">
-                <h4 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="ml-unsupervised">3.2 Unsupervised Learning</h4>
+                <h3 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="ml-unsupervised">3.2 Unsupervised Learning</h3>
                 <div id="ml-unsupervised" class="dp-panel-content">
                     <p>Find structure without labels&mdash;discover segments/patterns before deciding what to predict.</p>
                     <div class="dp-panel-group">
@@ -101,7 +102,7 @@
                 </div>
             </div>
             <div class="dp-panel-group">
-                <h4 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="ml-rl">3.3 Reinforcement Learning</h4>
+                <h3 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="ml-rl">3.3 Reinforcement Learning</h3>
                 <div id="ml-rl" class="dp-panel-content">
                     <p>Optimize sequential actions via trial‑and‑error feedback to maximize long‑run reward.</p>
                     <div class="dp-panel-group">
@@ -121,7 +122,7 @@
                 </div>
             </div>
             <div class="dp-panel-group">
-                <h4 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="ml-selfsup">3.4 Self‑Supervised Learning</h4>
+                <h3 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="ml-selfsup">3.4 Self‑Supervised Learning</h3>
                 <div id="ml-selfsup" class="dp-panel-content">
                     <p>Create your own labels from the data structure&mdash;powerful for language, vision, and audio.</p>
                     <div class="dp-panel-group">
@@ -145,17 +146,17 @@
         <h2 class="dp-has-icon"><i class="dp-icon fas fa-sliders-h" aria-hidden="true"></i>&nbsp;Selecting the Right Approach</h2>
         <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
             <div class="dp-panel-group">
-                <h4 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="ml-decision-guide">Quick Decision Guide</h4>
+                <h3 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="ml-decision-guide">Quick Decision Guide</h3>
                 <div id="ml-decision-guide" class="dp-panel-content">
                     <div class="table-responsive">
                         <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Decision framework for choosing ML types">
                             <caption>Machine Learning Selection Framework</caption>
                             <thead>
                                 <tr>
-                                    <th>ML Type</th>
-                                    <th>Have&hellip;</th>
-                                    <th>Want&hellip;</th>
-                                    <th>Example</th>
+                                    <th scope="col">ML Type</th>
+                                    <th scope="col">Have&hellip;</th>
+                                    <th scope="col">Want&hellip;</th>
+                                    <th scope="col">Example</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -205,7 +206,7 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-project-diagram" aria-hidden="true"></i>&nbsp;Machine Learning Building Blocks and Workflow</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
         <div class="dp-panel-group">
-            <h4 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="phase-1">Phase 1: Data Collection &amp; Understanding</h4>
+            <h3 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="phase-1">Phase 1: Data Collection &amp; Understanding</h3>
             <div id="phase-1" class="dp-panel-content">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">Inventory sources, assess quality/governance, feasibility</li>
@@ -214,7 +215,7 @@
             </div>
         </div>
         <div class="dp-panel-group">
-            <h4 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="phase-2">Phase 2: Preprocessing &amp; Feature Engineering</h4>
+            <h3 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="phase-2">Phase 2: Preprocessing &amp; Feature Engineering</h3>
             <div id="phase-2" class="dp-panel-content">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">Clean/encode/scale; engineer domain‑relevant features</li>
@@ -223,7 +224,7 @@
             </div>
         </div>
         <div class="dp-panel-group">
-            <h4 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="phase-3">Phase 3: Model Training &amp; Tuning</h4>
+            <h3 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="phase-3">Phase 3: Model Training &amp; Tuning</h3>
             <div id="phase-3" class="dp-panel-content">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">Try candidates; tune; validate</li>
@@ -232,7 +233,7 @@
             </div>
         </div>
         <div class="dp-panel-group">
-            <h4 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="phase-4">Phase 4: Evaluation &amp; Selection</h4>
+            <h3 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="phase-4">Phase 4: Evaluation &amp; Selection</h3>
             <div id="phase-4" class="dp-panel-content">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">Compare on a common metric and baseline</li>
@@ -241,7 +242,7 @@
             </div>
         </div>
         <div class="dp-panel-group">
-            <h4 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="phase-5">Phase 5: Deployment &amp; Integration</h4>
+            <h3 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="phase-5">Phase 5: Deployment &amp; Integration</h3>
             <div id="phase-5" class="dp-panel-content">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">Deliver scores where work happens (app/CRM/dashboard)</li>
@@ -250,7 +251,7 @@
             </div>
         </div>
         <div class="dp-panel-group">
-            <h4 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="phase-6">Phase 6: Monitoring, Drift &amp; Iteration</h4>
+            <h3 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="phase-6">Phase 6: Monitoring, Drift &amp; Iteration</h3>
             <div id="phase-6" class="dp-panel-content">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">Track data/label drift; retrain cadence; incident playbook</li>
