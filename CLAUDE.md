@@ -245,7 +245,7 @@ if (window.location.search.includes('standalone=true')) {
   - The new colors are darker shades of the original brand palette to maintain the visual identity while improving readability.
 
 ### 2025-01-09: Universal Widget Stylesheet Implementation
-- **Objective**: Create consistent design system across all 60+ course widgets
+- **Objective**: Create consistent design system across all course widgets
 - **Status**: ✅ COMPLETED - All widgets converted to use universal stylesheet
 - **Key Accomplishments**:
   - Created `demos/widgets/ivey-widget-base.css` - comprehensive 586-line universal stylesheet
@@ -255,35 +255,51 @@ if (window.location.search.includes('standalone=true')) {
   - Updated all Plotly CDN references from `plotly-latest` to `plotly-2.28.0` for stability
   - Added preventive contrast fixes to utility classes (.bg-primary, .bg-secondary, .bg-accent)
 
-## Session Continuation Instructions (January 9, 2025)
+### 2025-01-22: Universal Pop-out Button Implementation
+- **Objective**: Add pop-out functionality to escape Canvas iframe constraints
+- **Status**: ✅ COMPLETED - All 79 widgets equipped with pop-out buttons
+- **Key Accomplishments**:
+  - Added pop-out button to all widgets with consistent HTML template
+  - Implemented JavaScript functionality for 1200x900px popup windows
+  - Added standalone mode detection to hide buttons when already popped out
+  - Maintained flat file structure in `demos/widgets/` for Canvas embedding compatibility
+  - Created comprehensive widget inventory documentation (`WIDGET_INVENTORY.md`)
+  - Ensured all CSS references work correctly in flat structure
+
+## Session Continuation Instructions (January 22, 2025)
 
 ### Current State
-- **All widgets now use universal stylesheet** (`ivey-widget-base.css`)
-- **Design system fully implemented** with Ivey brand colors and Figtree font
-- **Accessibility compliance achieved** - WCAG AA contrast standards met
-- **No critical issues remaining** - comprehensive analysis found no contrast violations
+- **All 79 widgets equipped with pop-out functionality** - Users can escape Canvas iframe constraints
+- **Universal stylesheet implemented** - `ivey-widget-base.css` provides consistent design system
+- **Flat file structure maintained** - All widgets in `demos/widgets/` for Canvas embedding compatibility
+- **Comprehensive documentation created** - `WIDGET_INVENTORY.md` catalogs all widgets by type and week
+- **Accessibility compliance achieved** - WCAG AA contrast standards met across all widgets
 
 ### Recent Work Completed
-1. **Widget Stylesheet Conversion (Weeks 1-5)**: All 60 HTML widgets converted to use external CSS
-2. **Contrast Issue Resolution**: Fixed potential black text on green background issues
-3. **Gradient Removal**: Replaced purple-to-green gradients with solid Ivey green
-4. **Preventive Fixes**: Added white text color to all colored background utility classes
+1. **Universal Pop-out Implementation**: Added pop-out buttons to all 79 widgets with JavaScript functionality
+2. **File Structure Optimization**: Moved widgets back to flat structure to preserve Canvas iframe URLs
+3. **CSS Path Updates**: Corrected all stylesheet references to work with flat structure
+4. **Widget Inventory Documentation**: Created comprehensive catalog of all widgets with technical details
+5. **CLAUDE.md Updates**: Added pop-out functionality documentation and updated project status
 
-### Known Issues & Notes
-- **404 Errors**: Some widgets may show 404 when opened directly in browser (they're designed for Canvas LMS embedding)
-- **File Count**: 58 HTML widget files + 2 CSS files in `demos/widgets/` directory
-- **Canvas widgets**: Files starting with `canvas-` use different styling patterns (not yet converted to universal CSS)
+### Widget Inventory Summary
+- **79 Total Widgets**: Algorithm demos, quizzes, business tools, evaluation widgets
+- **5 Week Categories**: w1-*, w2-*, w3-*, w4-*, w5-* plus canvas-* and legacy versions
+- **Universal Features**: Pop-out buttons, responsive design, accessibility compliance
+- **Technical Stack**: Vanilla JavaScript, Plotly.js v2.28.0, Ivey branding system
 
 ### Next Potential Tasks
-1. Consider converting remaining `canvas-*.html` widgets to use universal stylesheet
+1. Test pop-out functionality across different browsers and Canvas environments
 2. Add dark mode support using CSS variables already defined
-3. Create widget documentation/catalog showing all available widgets
-4. Test widgets within actual Canvas LMS environment
-5. Consider creating widget preview/demo page
+3. Create widget preview/demo page for quick testing
+4. Implement analytics tracking for widget usage patterns
+5. Consider adding keyboard shortcuts for pop-out functionality
 
 ### File Locations
-- **Widgets**: `C:\Users\jkruck\Ivey Business School\EdTech Lab - Documents\Github\AI Prototyping Learn\demos\widgets\`
+- **All Widgets**: `demos/widgets/*.html` (79 files in flat structure)
 - **Universal CSS**: `demos/widgets/ivey-widget-base.css`
+- **Widget Inventory**: `WIDGET_INVENTORY.md`
+- **Course Pages**: `Development Files/Week X/` folders
 - **Main demos**: `demos/` folder contains full algorithm demonstrations
 
 ### Git Commands for This Project
