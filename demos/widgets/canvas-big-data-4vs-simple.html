@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Big Data 4 V's - Quick Examples Explorer</title>
+    <link rel="stylesheet" href="ivey-widget-base.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Georgia, serif;
+            background: #f8f9fa;
+            padding: 5px;
+            line-height: 1.6;
+            color: #2c3e50;
+        }
+        
+        .widget-container {
+            max-width: 100%;
+            width: 100%;
+            margin: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: #034638;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .header h2 {
+            font-size: 1.3em;
+            margin-bottom: 8px;
+            color: white;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 0.9em;
+            color: white;
+        }
+        
+        .vs-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2px;
+            background: #e9ecef;
+        }
+
+        @media (max-width: 768px) {
+            .vs-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        .v-card {
+            background: white;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            min-height: 160px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .v-card:hover {
+            background: #f8f9fa;
+            transform: scale(1.02);
+        }
+        
+        .v-card.active {
+            background: #034638;
+            color: white;
+            transform: scale(1.05);
+            z-index: 10;
+            box-shadow: 0 4px 20px rgba(3, 70, 56, 0.3);
+        }
+
+        .v-card.active .v-title,
+        .v-card.active .v-description {
+            color: white;
+        }
+        
+        .v-icon {
+            font-size: 1.8em;
+            margin-bottom: 8px;
+            transition: transform 0.3s ease;
+            color: #034638;
+        }
+
+        .v-card.active .v-icon {
+            color: white;
+        }
+        
+        .v-card.active .v-icon {
+            transform: scale(1.2);
+        }
+        
+        .v-title {
+            font-size: 1em;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #034638;
+        }
+        
+        .v-card.active .v-title {
+            color: white;
+        }
+        
+        .v-description {
+            font-size: 0.7em;
+            opacity: 0.8;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+        
+        .v-example {
+            background: #e8f5e8;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+            border-left: 4px solid #034638;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s ease;
+        }
+        
+        .v-card.active .v-example {
+            opacity: 1;
+            transform: translateY(0);
+            background: rgba(255,255,255,0.1);
+            border-left-color: #ffd700;
+        }
+        
+        .example-label {
+            font-weight: bold;
+            color: #034638;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+        
+        .v-card.active .example-label {
+            color: #ffd700;
+        }
+        
+        .example-text {
+            font-size: 0.85em;
+            line-height: 1.4;
+        }
+        
+        .click-hint {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.75em;
+            opacity: 0.6;
+            font-style: italic;
+        }
+        
+        .v-card.active .click-hint {
+            opacity: 0;
+        }
+        
+        .summary {
+            padding: 15px;
+            background: #e8f5e8;
+            border-left: 4px solid #034638;
+            margin: 0;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+        
+        .summary.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .summary h4 {
+            color: #034638;
+            margin-bottom: 10px;
+        }
+        
+        .controls {
+            padding: 15px;
+            text-align: center;
+            border-top: 1px solid #e9ecef;
+            background: #f8f9fa;
+        }
+        
+        .btn {
+            background: #034638;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: Georgia, serif;
+            font-size: 1em;
+            transition: background 0.3s ease;
+            margin: 0 5px;
+        }
+        
+        .btn:hover {
+            background: #025a44;
+        }
+        
+        @media (max-width: 640px) {
+            body {
+                padding: 10px;
+            }
+            
+            .vs-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .v-card {
+                min-height: 250px;
+                padding: 15px;
+            }
+            
+            .v-icon {
+                font-size: 2.5em;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .vs-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+  <!-- Pop-out button for full window view -->
+  <button class="widget-popout-btn" id="popoutBtn" title="Open in full window">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+    </svg>
+    <span>Pop Out</span>
+  </button>
+    <div class="widget-container">
+        <div class="header">
+            <h2><i class="fas fa-database" aria-hidden="true"></i> Big Data's Four Dimensions</h2>
+            <p>Click each "V" to see business examples</p>
+        </div>
+        
+        <div class="vs-container">
+            <div class="v-card" data-v="volume">
+                <div class="v-icon"><i class="fas fa-chart-line"></i></div>
+                <div class="v-title">Volume</div>
+                <div class="v-description">Population-based analysis rather than samples</div>
+                <div class="v-example">
+                    <div class="example-label">Business Example:</div>
+                    <div class="example-text">Netflix analyzes viewing patterns of 200+ million subscribers globally to create personalized recommendations and decide which original content to produce, spending $15 billion annually based on comprehensive data insights.</div>
+                </div>
+                <div class="click-hint">Click to explore</div>
+            </div>
+            
+            <div class="v-card" data-v="velocity">
+                <div class="v-icon"><i class="fas fa-bolt"></i></div>
+                <div class="v-title">Velocity</div>
+                <div class="v-description">Real-time processing for immediate responses</div>
+                <div class="v-example">
+                    <div class="example-label">Business Example:</div>
+                    <div class="example-text">Amazon adjusts prices millions of times per day based on competitor pricing, inventory levels, and demand patterns, automatically optimizing revenue while remaining competitive in real-time.</div>
+                </div>
+                <div class="click-hint">Click to explore</div>
+            </div>
+            
+            <div class="v-card" data-v="variety">
+                <div class="v-icon"><i class="fas fa-layer-group"></i></div>
+                <div class="v-title">Variety</div>
+                <div class="v-description">Multiple data formats for comprehensive intelligence</div>
+                <div class="v-example">
+                    <div class="example-label">Business Example:</div>
+                    <div class="example-text">Tesla combines sensor data, GPS locations, weather conditions, traffic patterns, and driver behavior to continuously improve autonomous driving capabilities and predict maintenance needs.</div>
+                </div>
+                <div class="click-hint">Click to explore</div>
+            </div>
+            
+            <div class="v-card" data-v="veracity">
+                <div class="v-icon"><i class="fas fa-check-circle"></i></div>
+                <div class="v-title">Veracity</div>
+                <div class="v-description">Data accuracy for reliable business insights</div>
+                <div class="v-example">
+                    <div class="example-label">Business Example:</div>
+                    <div class="example-text">Credit card companies use multiple verification layers to ensure transaction data accuracy, preventing the $24.7 billion annual losses from payment fraud while maintaining customer trust.</div>
+                </div>
+                <div class="click-hint">Click to explore</div>
+            </div>
+        </div>
+        
+        <div class="summary" id="summary">
+            <h4>Strategic Insight:</h4>
+            <p>Organizations that master all four dimensions create sustainable competitive advantages. Volume provides comprehensive insights, Velocity enables rapid response, Variety reveals hidden patterns, and Veracity ensures reliable decision-making. Companies focusing on only one or two dimensions miss opportunities for integrated business intelligence.</p>
+        </div>
+        
+        <div class="controls">
+            <button class="btn" id="showAllBtn">Show All Examples</button>
+            <button class="btn" id="resetBtn">Reset View</button>
+        </div>
+    </div>
+
+    <script>
+        const cards = document.querySelectorAll('.v-card');
+        const showAllBtn = document.getElementById('showAllBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const summary = document.getElementById('summary');
+        
+        let activeCount = 0;
+        
+        function activateCard(card) {
+            if (!card.classList.contains('active')) {
+                card.classList.add('active');
+                activeCount++;
+                
+                if (activeCount === 4) {
+                    setTimeout(() => {
+                        summary.classList.add('show');
+                        summary.scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'center' 
+                        });
+                    }, 800);
+                }
+            } else {
+                card.classList.remove('active');
+                if (activeCount > 0) activeCount--;
+                
+                if (activeCount < 4) {
+                    summary.classList.remove('show');
+                }
+            }
+        }
+        
+        function showAllExamples() {
+            cards.forEach((card, index) => {
+                if (!card.classList.contains('active')) {
+                    setTimeout(() => activateCard(card), index * 200);
+                }
+            });
+        }
+        
+        function resetAllCards() {
+            cards.forEach(card => {
+                card.classList.remove('active');
+            });
+            activeCount = 0;
+            summary.classList.remove('show');
+        }
+        
+        // Event listeners
+        cards.forEach(card => {
+            card.addEventListener('click', () => activateCard(card));
+        });
+        
+        showAllBtn.addEventListener('click', showAllExamples);
+        resetBtn.addEventListener('click', resetAllCards);
+
+        // Pop-out functionality
+        document.getElementById('popoutBtn').addEventListener('click', function() {
+            const currentUrl = window.location.href;
+            const popoutUrl = currentUrl + (currentUrl.includes('?') ? '&' : '?') + 'standalone=true';
+            const popoutWindow = window.open(popoutUrl, 'WidgetPopout', 'width=1200,height=900,resizable=yes,scrollbars=yes,status=yes');
+            if (popoutWindow) popoutWindow.focus();
+        });
+        if (window.location.search.includes('standalone=true')) {
+            document.body.classList.add('standalone-mode');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVM Decision Boundary Explorer</title>
+    <link rel="stylesheet" href="../../shared/ivey-widget-base.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .dp-wrapper {
+            max-width: 900px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 15px;
+            font-family: 'Figtree', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: #fff;
+            max-height: 1200px;
+            overflow-y: auto;
+        }
+
+        .dp-content-block {
+            margin-bottom: 2rem;
+        }
+
+        .dp-has-icon {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #034638;
+            margin: 0 0 1rem 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .dp-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin: 1rem 0;
+        }
+
+        .dp-card.intro-card {
+            border-left: 4px solid #034638;
+            background: #f8fffe;
+        }
+
+        .controls-section {
+            background: #f8fffe;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-left: 4px solid #034638;
+        }
+
+        .controls-section h3 {
+            color: #034638;
+            margin: 0 0 1rem 0;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .control-group {
+            margin: 1rem 0;
+        }
+
+        .control-group label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.75rem;
+            color: #2c3e50;
+            font-size: 0.9rem;
+        }
+
+        .dataset-selector, .kernel-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin: 0.75rem 0;
+        }
+
+        .dataset-btn, .kernel-btn {
+            background: #f3f4f6;
+            border: 2px solid #e5e7eb;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.8rem;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .dataset-btn.active, .kernel-btn.active {
+            background: #034638;
+            color: white;
+            border-color: #034638;
+        }
+
+        .dataset-btn:hover:not(.active), .kernel-btn:hover:not(.active) {
+            background: #e5e7eb;
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin: 0.75rem 0;
+        }
+
+        .slider-container input[type="range"] {
+            flex: 1;
+            height: 4px;
+            background: #e5e7eb;
+            border-radius: 2px;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .slider-container input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            background: #034638;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .value-display {
+            background: #034638;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .parameter-explanation {
+            background: #f0f9f4;
+            border: 2px solid #10b981;
+            border-radius: 6px;
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            font-size: 0.8rem;
+        }
+
+        .parameter-explanation h4 {
+            color: #047857;
+            margin: 0 0 0.5rem 0;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .generate-btn {
+            background: #034638;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.25rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            width: 100%;
+            margin: 1rem 0;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .generate-btn:hover {
+            background: #0a5c4a;
+            transform: translateY(-1px);
+        }
+
+        .visualization-section {
+            margin: 2rem 0;
+        }
+
+        .chart-container {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .chart-title {
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 1rem;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .svm-canvas {
+            width: 100%;
+            height: 250px;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            background: #f9fafb;
+        }
+
+        .kernel-info {
+            background: #fffbeb;
+            border: 2px solid #f59e0b;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-size: 0.85rem;
+        }
+
+        .kernel-info h4 {
+            color: #d97706;
+            margin: 0 0 0.5rem 0;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.75rem;
+            margin: 1rem 0;
+        }
+
+        .metric-card {
+            background: #f8fffe;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 1rem;
+            text-align: center;
+            border-left: 4px solid #034638;
+        }
+
+        .metric-title {
+            font-size: 0.7rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .metric-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #034638;
+        }
+
+        .support-vectors-info {
+            background: #eff6ff;
+            border: 2px solid #3b82f6;
+            border-radius: 6px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-size: 0.85rem;
+            text-align: center;
+        }
+
+        .support-vectors-info strong {
+            color: #1e40af;
+        }
+
+        @media (max-width: 768px) {
+            .dataset-selector, .kernel-selector {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .dataset-selector, .kernel-selector {
+                grid-template-columns: 1fr;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dp-wrapper">
+        <div class="dp-content-block">
+            <h2 class="dp-has-icon">
+                <i class="dp-icon fas fa-bullseye" aria-hidden="true"></i>
+                SVM Decision Boundary Explorer
+            </h2>
+            <div class="dp-card intro-card">
+                <p><strong>Interactive Learning:</strong> Adjust kernel types, regularization (C), and gamma parameters to see how Support Vector Machines create different decision boundaries for various datasets.</p>
+            </div>
+        </div>
+
+        <div class="controls-section">
+            <h3><i class="fas fa-sliders-h" aria-hidden="true"></i> SVM Parameters</h3>
+
+            <div class="control-group">
+                <label>Dataset:</label>
+                <div class="dataset-selector">
+                    <button class="dataset-btn active" onclick="selectDataset('linear')">Linear</button>
+                    <button class="dataset-btn" onclick="selectDataset('circular')">Circular</button>
+                    <button class="dataset-btn" onclick="selectDataset('moons')">Moons</button>
+                    <button class="dataset-btn" onclick="selectDataset('noisy')">Noisy</button>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label>Kernel Type:</label>
+                <div class="kernel-selector">
+                    <button class="kernel-btn active" onclick="selectKernel('linear')">Linear</button>
+                    <button class="kernel-btn" onclick="selectKernel('poly')">Polynomial</button>
+                    <button class="kernel-btn" onclick="selectKernel('rbf')">RBF</button>
+                    <button class="kernel-btn" onclick="selectKernel('sigmoid')">Sigmoid</button>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label>C (Regularization):</label>
+                <div class="slider-container">
+                    <input type="range" id="c-slider" min="0.1" max="10" value="1" step="0.1" onchange="updateC(this.value)">
+                    <div class="value-display" id="c-value">1.0</div>
+                </div>
+                <div class="parameter-explanation">
+                    <h4>C Parameter</h4>
+                    <p><strong>Low C:</strong> Wider margin, more misclassifications allowed<br>
+                    <strong>High C:</strong> Narrow margin, fewer misclassifications</p>
+                </div>
+            </div>
+
+            <div class="control-group" id="gamma-control">
+                <label>Gamma (Kernel Width):</label>
+                <div class="slider-container">
+                    <input type="range" id="gamma-slider" min="0.1" max="5" value="1" step="0.1" onchange="updateGamma(this.value)">
+                    <div class="value-display" id="gamma-value">1.0</div>
+                </div>
+                <div class="parameter-explanation">
+                    <h4>Gamma Parameter</h4>
+                    <p><strong>Low Gamma:</strong> Smooth decision boundary<br>
+                    <strong>High Gamma:</strong> Complex boundary, tight fit</p>
+                </div>
+            </div>
+
+            <div class="control-group" id="degree-control" style="display: none;">
+                <label>Degree:</label>
+                <div class="slider-container">
+                    <input type="range" id="degree-slider" min="2" max="5" value="3" step="1" onchange="updateDegree(this.value)">
+                    <div class="value-display" id="degree-value">3</div>
+                </div>
+                <div class="parameter-explanation">
+                    <h4>Polynomial Degree</h4>
+                    <p>Higher degrees create more complex, curved boundaries</p>
+                </div>
+            </div>
+
+            <button class="generate-btn" onclick="generateSVM()">
+                <i class="fas fa-rocket" aria-hidden="true"></i> Generate SVM Model
+            </button>
+
+            <div class="support-vectors-info">
+                <strong>Support Vectors:</strong> <span id="support-vector-count">-</span><br>
+                <small>Data points that define the decision boundary</small>
+            </div>
+        </div>
+
+        <div class="kernel-info" id="kernel-info">
+            <h4><i class="fas fa-cog" aria-hidden="true"></i> Linear Kernel</h4>
+            <p>Creates straight-line decision boundaries. Best for linearly separable data. Simple and fast.</p>
+        </div>
+
+        <div class="visualization-section">
+            <div class="chart-container">
+                <div class="chart-title">
+                    <i class="fas fa-chart-scatter" aria-hidden="true"></i>
+                    SVM Decision Boundary
+                </div>
+                <canvas id="svmCanvas" class="svm-canvas"></canvas>
+            </div>
+        </div>
+
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-title">Training Accuracy</div>
+                <div class="metric-value" id="accuracy-value">-</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">Margin Width</div>
+                <div class="metric-value" id="margin-value">-</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">Model Complexity</div>
+                <div class="metric-value" id="complexity-value">-</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">Support Vectors</div>
+                <div class="metric-value" id="sv-count-metric">-</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentDataset = 'linear';
+        let currentKernel = 'linear';
+        let C = 1.0;
+        let gamma = 1.0;
+        let degree = 3;
+        let data = [];
+        let labels = [];
+        let supportVectors = [];
+
+        // Canvas setup
+        let canvas, ctx;
+
+        function initializeCanvas() {
+            canvas = document.getElementById('svmCanvas');
+            ctx = canvas.getContext('2d');
+
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * 2;
+            canvas.height = rect.height * 2;
+            ctx.scale(2, 2);
+        }
+
+        const kernelInfo = {
+            linear: {
+                title: 'Linear Kernel',
+                icon: 'fas fa-minus',
+                description: 'Creates straight-line decision boundaries. Best for linearly separable data. Simple and fast.'
+            },
+            poly: {
+                title: 'Polynomial Kernel',
+                icon: 'fas fa-wave-square',
+                description: 'Creates curved boundaries using polynomial functions. Good for moderately non-linear data.'
+            },
+            rbf: {
+                title: 'RBF (Radial Basis Function) Kernel',
+                icon: 'fas fa-circle',
+                description: 'Creates circular/elliptical boundaries. Most popular for non-linear data. Very flexible.'
+            },
+            sigmoid: {
+                title: 'Sigmoid Kernel',
+                icon: 'fas fa-chart-line',
+                description: 'Creates S-shaped boundaries. Similar to neural networks. Less commonly used.'
+            }
+        };
+
+        function generateDataset(type) {
+            data = [];
+            labels = [];
+            const n = 80;
+
+            switch(type) {
+                case 'linear':
+                    for(let i = 0; i < n; i++) {
+                        const x = (Math.random() - 0.5) * 8;
+                        const y = (Math.random() - 0.5) * 8;
+                        const label = x + y + Math.random() * 0.5 > 0 ? 1 : -1;
+                        data.push([x, y]);
+                        labels.push(label);
+                    }
+                    break;
+
+                case 'circular':
+                    for(let i = 0; i < n; i++) {
+                        const x = (Math.random() - 0.5) * 8;
+                        const y = (Math.random() - 0.5) * 8;
+                        const distance = Math.sqrt(x*x + y*y);
+                        const label = distance < 2.5 ? 1 : -1;
+                        data.push([x, y]);
+                        labels.push(label);
+                    }
+                    break;
+
+                case 'moons':
+                    for(let i = 0; i < n/2; i++) {
+                        // Upper moon
+                        const t = Math.random() * Math.PI;
+                        const x = Math.cos(t) * 2.5 + (Math.random() - 0.5) * 0.8;
+                        const y = Math.sin(t) * 1.2 + (Math.random() - 0.5) * 0.8;
+                        data.push([x, y]);
+                        labels.push(1);
+                    }
+                    for(let i = 0; i < n/2; i++) {
+                        // Lower moon
+                        const t = Math.random() * Math.PI;
+                        const x = -Math.cos(t) * 2.5 + 2.5 + (Math.random() - 0.5) * 0.8;
+                        const y = -Math.sin(t) * 1.2 - 0.3 + (Math.random() - 0.5) * 0.8;
+                        data.push([x, y]);
+                        labels.push(-1);
+                    }
+                    break;
+
+                case 'noisy':
+                    for(let i = 0; i < n; i++) {
+                        const x = (Math.random() - 0.5) * 8;
+                        const y = (Math.random() - 0.5) * 8;
+                        let label = x + y + Math.sin(x * 0.5) * 2 > 0 ? 1 : -1;
+                        // Add noise
+                        if(Math.random() < 0.15) label *= -1;
+                        data.push([x, y]);
+                        labels.push(label);
+                    }
+                    break;
+            }
+        }
+
+        function selectDataset(type) {
+            currentDataset = type;
+            document.querySelectorAll('.dataset-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            generateDataset(type);
+            plotData();
+        }
+
+        function selectKernel(kernel) {
+            currentKernel = kernel;
+            document.querySelectorAll('.kernel-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            const info = kernelInfo[kernel];
+            document.getElementById('kernel-info').innerHTML = `
+                <h4><i class="${info.icon}" aria-hidden="true"></i> ${info.title}</h4>
+                <p>${info.description}</p>
+            `;
+
+            const gammaControl = document.getElementById('gamma-control');
+            const degreeControl = document.getElementById('degree-control');
+
+            if(kernel === 'linear') {
+                gammaControl.style.display = 'none';
+                degreeControl.style.display = 'none';
+            } else if(kernel === 'poly') {
+                gammaControl.style.display = 'block';
+                degreeControl.style.display = 'block';
+            } else {
+                gammaControl.style.display = 'block';
+                degreeControl.style.display = 'none';
+            }
+        }
+
+        function updateC(value) {
+            C = parseFloat(value);
+            document.getElementById('c-value').textContent = C.toFixed(1);
+        }
+
+        function updateGamma(value) {
+            gamma = parseFloat(value);
+            document.getElementById('gamma-value').textContent = gamma.toFixed(1);
+        }
+
+        function updateDegree(value) {
+            degree = parseInt(value);
+            document.getElementById('degree-value').textContent = degree;
+        }
+
+        function plotData() {
+            const width = canvas.width / 2;
+            const height = canvas.height / 2;
+            ctx.clearRect(0, 0, width, height);
+
+            // Find data bounds
+            const xMin = Math.min(...data.map(p => p[0])) - 1;
+            const xMax = Math.max(...data.map(p => p[0])) + 1;
+            const yMin = Math.min(...data.map(p => p[1])) - 1;
+            const yMax = Math.max(...data.map(p => p[1])) + 1;
+
+            // Transform coordinates
+            function transformX(x) {
+                return ((x - xMin) / (xMax - xMin)) * width;
+            }
+
+            function transformY(y) {
+                return height - ((y - yMin) / (yMax - yMin)) * height;
+            }
+
+            // Draw axes
+            ctx.strokeStyle = '#e5e7eb';
+            ctx.lineWidth = 1;
+            const centerX = transformX(0);
+            const centerY = transformY(0);
+
+            ctx.beginPath();
+            ctx.moveTo(centerX, 0);
+            ctx.lineTo(centerX, height);
+            ctx.moveTo(0, centerY);
+            ctx.lineTo(width, centerY);
+            ctx.stroke();
+
+            // Draw data points
+            data.forEach((point, i) => {
+                const px = transformX(point[0]);
+                const py = transformY(point[1]);
+
+                ctx.beginPath();
+                ctx.arc(px, py, 4, 0, Math.PI * 2);
+                ctx.fillStyle = labels[i] === 1 ? '#ef4444' : '#3b82f6';
+                ctx.fill();
+                ctx.strokeStyle = 'white';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            });
+
+            // Labels
+            ctx.fillStyle = '#666';
+            ctx.font = '12px Figtree';
+            ctx.fillText('X', width - 15, centerY - 5);
+            ctx.fillText('Y', centerX + 5, 15);
+        }
+
+        function kernelFunction(x1, y1, x2, y2) {
+            switch(currentKernel) {
+                case 'linear':
+                    return x1 * x2 + y1 * y2;
+                case 'poly':
+                    const dot = x1 * x2 + y1 * y2;
+                    return Math.pow(gamma * dot + 1, degree);
+                case 'rbf':
+                    const distSq = Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2);
+                    return Math.exp(-gamma * distSq);
+                case 'sigmoid':
+                    const dotSig = x1 * x2 + y1 * y2;
+                    return Math.tanh(gamma * dotSig + 1);
+                default:
+                    return 0;
+            }
+        }
+
+        function predictSVM(x, y) {
+            let decision = 0;
+
+            for(let i = 0; i < supportVectors.length; i++) {
+                const sv = supportVectors[i];
+                const svData = data[sv];
+                const svLabel = labels[sv];
+                const alpha = 0.1 + Math.random() * 0.4; // Simulated alpha
+
+                const kernelValue = kernelFunction(x, y, svData[0], svData[1]);
+                decision += alpha * svLabel * kernelValue;
+            }
+
+            return decision;
+        }
+
+        function generateSVM() {
+            // Select support vectors (simplified)
+            supportVectors = [];
+            const numSV = Math.max(5, Math.min(20, Math.round(data.length * (0.1 + C * 0.05))));
+
+            // Find points near the decision boundary
+            const candidates = [];
+            for(let i = 0; i < data.length; i++) {
+                candidates.push(i);
+            }
+
+            // Random selection for demo (in real SVM, these would be optimized)
+            supportVectors = candidates.sort(() => Math.random() - 0.5).slice(0, numSV);
+
+            const width = canvas.width / 2;
+            const height = canvas.height / 2;
+            ctx.clearRect(0, 0, width, height);
+
+            // Find data bounds
+            const xMin = Math.min(...data.map(p => p[0])) - 1;
+            const xMax = Math.max(...data.map(p => p[0])) + 1;
+            const yMin = Math.min(...data.map(p => p[1])) - 1;
+            const yMax = Math.max(...data.map(p => p[1])) + 1;
+
+            function transformX(x) {
+                return ((x - xMin) / (xMax - xMin)) * width;
+            }
+
+            function transformY(y) {
+                return height - ((y - yMin) / (yMax - yMin)) * height;
+            }
+
+            // Draw decision boundary
+            const resolution = 50;
+            const imageData = ctx.createImageData(width, height);
+
+            for(let i = 0; i < width; i++) {
+                for(let j = 0; j < height; j++) {
+                    const x = xMin + (i / width) * (xMax - xMin);
+                    const y = yMax - (j / height) * (yMax - yMin);
+
+                    const prediction = predictSVM(x, y);
+                    const intensity = Math.abs(prediction) < 0.1 ? 255 : 0;
+
+                    if(intensity > 0) {
+                        const idx = (j * width + i) * 4;
+                        imageData.data[idx] = 3; // R
+                        imageData.data[idx + 1] = 70; // G
+                        imageData.data[idx + 2] = 56; // B
+                        imageData.data[idx + 3] = 120; // A
+                    }
+                }
+            }
+
+            ctx.putImageData(imageData, 0, 0);
+
+            // Draw background regions
+            for(let i = 0; i < width; i += 8) {
+                for(let j = 0; j < height; j += 8) {
+                    const x = xMin + (i / width) * (xMax - xMin);
+                    const y = yMax - (j / height) * (yMax - yMin);
+
+                    const prediction = predictSVM(x, y);
+                    const alpha = Math.min(0.1, Math.abs(prediction) * 0.05);
+
+                    if(alpha > 0.01) {
+                        ctx.fillStyle = prediction > 0 ? `rgba(239, 68, 68, ${alpha})` : `rgba(59, 130, 246, ${alpha})`;
+                        ctx.fillRect(i, j, 8, 8);
+                    }
+                }
+            }
+
+            // Draw axes
+            ctx.strokeStyle = '#e5e7eb';
+            ctx.lineWidth = 1;
+            const centerX = transformX(0);
+            const centerY = transformY(0);
+
+            ctx.beginPath();
+            ctx.moveTo(centerX, 0);
+            ctx.lineTo(centerX, height);
+            ctx.moveTo(0, centerY);
+            ctx.lineTo(width, centerY);
+            ctx.stroke();
+
+            // Draw data points
+            data.forEach((point, i) => {
+                const px = transformX(point[0]);
+                const py = transformY(point[1]);
+
+                // Highlight support vectors
+                const isSV = supportVectors.includes(i);
+
+                ctx.beginPath();
+                ctx.arc(px, py, isSV ? 6 : 4, 0, Math.PI * 2);
+                ctx.fillStyle = labels[i] === 1 ? '#ef4444' : '#3b82f6';
+                ctx.fill();
+                ctx.strokeStyle = isSV ? '#034638' : 'white';
+                ctx.lineWidth = isSV ? 2 : 1;
+                ctx.stroke();
+
+                if(isSV) {
+                    ctx.beginPath();
+                    ctx.arc(px, py, 8, 0, Math.PI * 2);
+                    ctx.strokeStyle = '#034638';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                }
+            });
+
+            // Labels
+            ctx.fillStyle = '#666';
+            ctx.font = '12px Figtree';
+            ctx.fillText('X', width - 15, centerY - 5);
+            ctx.fillText('Y', centerX + 5, 15);
+
+            updateMetrics();
+        }
+
+        function updateMetrics() {
+            let accuracy = 0.75;
+            let margin = 1.0;
+            let complexity = 0.5;
+
+            // Adjust based on C parameter
+            if(C > 5) {
+                accuracy += 0.1;
+                margin -= 0.3;
+                complexity += 0.3;
+            } else if(C < 0.5) {
+                accuracy -= 0.1;
+                margin += 0.2;
+                complexity -= 0.2;
+            }
+
+            // Adjust based on kernel
+            switch(currentKernel) {
+                case 'linear':
+                    complexity -= 0.2;
+                    break;
+                case 'poly':
+                    complexity += 0.1 + (degree - 2) * 0.1;
+                    break;
+                case 'rbf':
+                    complexity += 0.2 + Math.min(gamma / 3, 0.3);
+                    break;
+                case 'sigmoid':
+                    complexity += 0.15;
+                    break;
+            }
+
+            // Adjust for dataset
+            if(currentDataset === 'noisy') accuracy -= 0.15;
+            if(currentDataset === 'linear' && currentKernel === 'linear') accuracy += 0.1;
+
+            // Keep values in reasonable ranges
+            accuracy = Math.max(0.5, Math.min(0.98, accuracy));
+            margin = Math.max(0.1, Math.min(2.0, margin));
+            complexity = Math.max(0.1, Math.min(1.0, complexity));
+
+            document.getElementById('accuracy-value').textContent = (accuracy * 100).toFixed(1) + '%';
+            document.getElementById('margin-value').textContent = margin.toFixed(2);
+            document.getElementById('complexity-value').textContent = (complexity * 100).toFixed(0) + '%';
+
+            const svCount = supportVectors.length;
+            document.getElementById('support-vector-count').textContent = svCount;
+            document.getElementById('sv-count-metric').textContent = svCount;
+        }
+
+        // Initialize when page loads
+        window.addEventListener('load', () => {
+            initializeCanvas();
+            generateDataset(currentDataset);
+            plotData();
+            updateMetrics();
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            setTimeout(() => {
+                initializeCanvas();
+                if(data.length > 0) {
+                    plotData();
+                }
+            }, 100);
+        });
+    </script>
+</body>
+</html>

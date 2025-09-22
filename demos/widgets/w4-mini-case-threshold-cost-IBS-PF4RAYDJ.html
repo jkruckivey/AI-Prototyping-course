@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mini Case: Fraud Detection Threshold - AMBA Template</title>
+  <!-- Canvas iframe sizing hint -->
+  <meta name="canvas-height" content="700">
+  <meta name="description" content="Compact fraud detection case study with threshold optimization">
+  <link rel="stylesheet" href="../../shared/ivey-widget-base.css">
+  <script src="https://cdn.plot.ly/plotly-2.28.0.min.js"></script>
+  <style>
+    /* Widget-specific styling */
+    .case-scenario {
+      background: var(--bg-secondary);
+      border: 2px solid var(--ivey-green);
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+
+    .scenario-title {
+      color: var(--ivey-green);
+      font-weight: bold;
+      font-size: 1.1em;
+      margin-bottom: 10px;
+    }
+
+    .scenario-facts {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 10px;
+      margin: 10px 0;
+    }
+
+    .fact-item {
+      margin-bottom: 5px;
+    }
+
+    .control-section {
+      background: #e8f5e8;
+      border: 2px solid var(--ivey-green);
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+    }
+
+    .control-title {
+      color: var(--ivey-green);
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
+      margin: 15px 0;
+    }
+
+    .constraint-warning {
+      background: #fff3cd;
+      border: 1px solid #ffc107;
+      border-radius: 4px;
+      padding: 8px;
+      margin: 5px 0;
+      font-size: 0.9em;
+    }
+
+    .constraint-ok {
+      background: #d4edda;
+      border: 1px solid var(--success-color);
+      border-radius: 4px;
+      padding: 8px;
+      margin: 5px 0;
+      font-size: 0.9em;
+    }
+
+    .recommendations {
+      background: #d4edda;
+      border: 2px solid var(--success-color);
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+    }
+
+    .recommendation-title {
+      color: var(--success-color);
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .recommendation-item {
+      margin-bottom: 8px;
+      padding-left: 15px;
+      position: relative;
+    }
+
+    .recommendation-item::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--success-color);
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<div class="dp-wrapper">
+  <div class="widget-header">
+    <h1 class="widget-title">Mini Case: Fraud Detection Threshold Optimization</h1>
+  </div>
+
+  <div class="case-scenario">
+    <div class="scenario-title">🏦 Bank Fraud Detection Scenario</div>
+    <div class="scenario-facts">
+      <div class="fact-item">• Your bank processes <span class="highlight">100,000 transactions/day</span></div>
+      <div class="fact-item">• Only <span class="highlight">0.8% are fraudulent</span> (800 fraud cases daily)</div>
+      <div class="fact-item">• Manual review capacity: <span class="highlight">500 cases/day</span></div>
+      <div class="fact-item">• Each false alarm costs <span class="highlight">$2</span> in staff time</div>
+      <div class="fact-item">• Each missed fraud costs <span class="highlight">$250</span> on average</div>
+      <div class="fact-item">• Each detected fraud saves <span class="highlight">$225</span> (after review costs)</div>
+    </div>
+  </div>
+
+  <div class="control-section">
+    <div class="control-title">🎯 Adjust Decision Threshold</div>
+    <div class="slider-container">
+      <div class="slider-label">Threshold:</div>
+      <input type="range" class="slider" id="threshold-slider"
+             min="0.1" max="0.9" step="0.01" value="0.6">
+      <div class="slider-value" id="threshold-value">0.60</div>
+    </div>
+    <small>Lower threshold = flag more transactions as suspicious</small>
+  </div>
+
+  <div class="results-grid">
+    <div class="result-card">
+      <div class="result-label">Daily Reviews</div>
+      <div class="result-value" id="daily-reviews">-</div>
+    </div>
+    <div class="result-card">
+      <div class="result-label">Precision</div>
+      <div class="result-value" id="precision">-</div>
+    </div>
+    <div class="result-card">
+      <div class="result-label">Recall</div>
+      <div class="result-value" id="recall">-</div>
+    </div>
+    <div class="result-card">
+      <div class="result-label">Fraud Caught</div>
+      <div class="result-value" id="fraud-caught">-</div>
+    </div>
+    <div class="result-card">
+      <div class="result-label">False Alarms</div>
+      <div class="result-value" id="false-alarms">-</div>
+    </div>
+    <div class="result-card">
+      <div class="result-label">Daily Net Value</div>
+      <div class="result-value" id="net-value">-</div>
+    </div>
+  </div>
+
+  <div id="capacity-warning"></div>
+
+  <div class="plot-container">
+    <div id="threshold-analysis-plot" style="height: 400px;"></div>
+  </div>
+
+  <div class="business-impact">
+    <h3>📊 Business Impact Analysis</h3>
+    <p id="impact-text">Adjust the threshold above to see the business impact analysis.</p>
+  </div>
+
+  <div id="recommendations" class="recommendations">
+    <div class="recommendation-title">💡 Strategic Recommendations</div>
+    <div id="recommendation-list">
+      <!-- Recommendations will be populated by JavaScript -->
+    </div>
+  </div>
+</div>
+
+<script>
+// Fraud detection model simulation
+const dailyTransactions = 100000;
+const fraudRate = 0.008;
+const reviewCapacity = 500;
+const fpCost = 2;
+const fnCost = 250;
+const tpBenefit = 225;
+
+// Generate realistic fraud detection scores
+function generateFraudScores() {
+  const scores = [];
+  const labels = [];
+  const dailyFraud = Math.round(dailyTransactions * fraudRate);
+
+  // Generate fraud cases (higher scores)
+  for (let i = 0; i < dailyFraud; i++) {
+    labels.push(1);
+    scores.push(Math.random() * 0.3 + 0.6 + (Math.random() - 0.5) * 0.1); // 0.55-0.95 range
+  }
+
+  // Generate legitimate cases (lower scores)
+  for (let i = 0; i < dailyTransactions - dailyFraud; i++) {
+    labels.push(0);
+    scores.push(Math.random() * 0.7 + (Math.random() - 0.5) * 0.1); // 0.0-0.75 range
+  }
+
+  return { scores, labels };
+}
+
+const fraudData = generateFraudScores();
+
+function calculateFraudMetrics(threshold) {
+  let tp = 0, fp = 0, tn = 0, fn = 0;
+
+  for (let i = 0; i < dailyTransactions; i++) {
+    const predicted = fraudData.scores[i] >= threshold ? 1 : 0;
+    const actual = fraudData.labels[i];
+
+    if (predicted === 1 && actual === 1) tp++;
+    else if (predicted === 1 && actual === 0) fp++;
+    else if (predicted === 0 && actual === 0) tn++;
+    else if (predicted === 0 && actual === 1) fn++;
+  }
+
+  const precision = tp + fp > 0 ? tp / (tp + fp) : 0;
+  const recall = tp + fn > 0 ? tp / (tp + fn) : 0;
+  const dailyReviews = tp + fp;
+
+  // Financial calculations
+  const tpValue = tp * tpBenefit;
+  const fpValue = fp * fpCost;
+  const fnValue = fn * fnCost;
+  const netValue = tpValue - fpValue - fnValue;
+
+  return {
+    tp, fp, tn, fn,
+    precision, recall,
+    dailyReviews,
+    netValue,
+    tpValue, fpValue, fnValue
+  };
+}
+
+function updateAnalysis() {
+  const threshold = parseFloat(document.getElementById('threshold-slider').value);
+  const metrics = calculateFraudMetrics(threshold);
+
+  // Update threshold display
+  document.getElementById('threshold-value').textContent = threshold.toFixed(2);
+
+  // Update metrics
+  document.getElementById('daily-reviews').textContent = metrics.dailyReviews.toLocaleString();
+  document.getElementById('precision').textContent = (metrics.precision * 100).toFixed(1) + '%';
+  document.getElementById('recall').textContent = (metrics.recall * 100).toFixed(1) + '%';
+  document.getElementById('fraud-caught').textContent = metrics.tp + '/' + (metrics.tp + metrics.fn);
+  document.getElementById('false-alarms').textContent = metrics.fp.toLocaleString();
+
+  const netValueEl = document.getElementById('net-value');
+  netValueEl.textContent = '$' + metrics.netValue.toLocaleString();
+  netValueEl.style.color = metrics.netValue >= 0 ? '#198754' : '#dc3545';
+
+  // Capacity warning
+  updateCapacityWarning(metrics.dailyReviews);
+
+  // Update plot
+  updatePlot(threshold);
+
+  // Update business impact
+  updateBusinessImpact(threshold, metrics);
+
+  // Update recommendations
+  updateRecommendations(threshold, metrics);
+}
+
+function updateCapacityWarning(dailyReviews) {
+  const warningDiv = document.getElementById('capacity-warning');
+
+  if (dailyReviews > reviewCapacity) {
+    warningDiv.innerHTML = `
+      <div class="constraint-warning">
+        ⚠️ <strong>Capacity Exceeded:</strong> ${dailyReviews.toLocaleString()} reviews needed, but only ${reviewCapacity} capacity available.
+        Consider raising threshold or increasing review capacity.
+      </div>
+    `;
+  } else {
+    const utilizationRate = (dailyReviews / reviewCapacity * 100).toFixed(0);
+    warningDiv.innerHTML = `
+      <div class="constraint-ok">
+        ✅ <strong>Within Capacity:</strong> ${dailyReviews.toLocaleString()} reviews (${utilizationRate}% utilization)
+      </div>
+    `;
+  }
+}
+
+function updatePlot(currentThreshold) {
+  const thresholds = [];
+  const netValues = [];
+  const dailyReviewsArray = [];
+  const precisionArray = [];
+  const recallArray = [];
+
+  for (let t = 0.1; t <= 0.9; t += 0.01) {
+    thresholds.push(t);
+    const metrics = calculateFraudMetrics(t);
+    netValues.push(metrics.netValue);
+    dailyReviewsArray.push(metrics.dailyReviews);
+    precisionArray.push(metrics.precision * 100);
+    recallArray.push(metrics.recall * 100);
+  }
+
+  // Find optimal threshold (max net value within capacity)
+  let optimalThreshold = 0.5;
+  let maxValue = -Infinity;
+  for (let i = 0; i < thresholds.length; i++) {
+    if (dailyReviewsArray[i] <= reviewCapacity && netValues[i] > maxValue) {
+      maxValue = netValues[i];
+      optimalThreshold = thresholds[i];
+    }
+  }
+
+  const trace1 = {
+    x: thresholds,
+    y: netValues,
+    type: 'scatter',
+    mode: 'lines',
+    name: 'Daily Net Value',
+    line: { color: '#034638', width: 3 }
+  };
+
+  const trace2 = {
+    x: [currentThreshold],
+    y: [calculateFraudMetrics(currentThreshold).netValue],
+    type: 'scatter',
+    mode: 'markers',
+    name: 'Current Threshold',
+    marker: {
+      color: '#582C83',
+      size: 12,
+      symbol: 'diamond'
+    }
+  };
+
+  const trace3 = {
+    x: [optimalThreshold],
+    y: [maxValue],
+    type: 'scatter',
+    mode: 'markers',
+    name: 'Optimal (within capacity)',
+    marker: {
+      color: '#198754',
+      size: 12,
+      symbol: 'star'
+    }
+  };
+
+  // Capacity constraint line
+  const capacityThreshold = thresholds.find((t, i) => dailyReviewsArray[i] <= reviewCapacity);
+  const trace4 = {
+    x: [capacityThreshold, capacityThreshold],
+    y: [Math.min(...netValues), Math.max(...netValues)],
+    type: 'scatter',
+    mode: 'lines',
+    name: 'Capacity Limit',
+    line: { color: '#dc3545', dash: 'dash', width: 2 }
+  };
+
+  const layout = {
+    title: 'Threshold vs Daily Net Value (with Capacity Constraint)',
+    xaxis: { title: 'Decision Threshold' },
+    yaxis: { title: 'Daily Net Value ($)' },
+    showlegend: true,
+    margin: { t: 50, b: 50, l: 80, r: 20 }
+  };
+
+  Plotly.newPlot('threshold-analysis-plot', [trace1, trace2, trace3, trace4], layout, {responsive: true});
+}
+
+function updateBusinessImpact(threshold, metrics) {
+  const fraudMissed = metrics.fn;
+  const fraudCaught = metrics.tp;
+  const falsePosRate = (metrics.fp / dailyTransactions * 100).toFixed(3);
+  const annualValue = metrics.netValue * 365;
+
+  let impact = `At threshold ${threshold.toFixed(2)}: `;
+  impact += `You catch ${fraudCaught} of ${fraudCaught + fraudMissed} daily fraud cases (${(metrics.recall * 100).toFixed(0)}% recall), `;
+  impact += `but generate ${metrics.fp} false alarms (${falsePosRate}% of all transactions). `;
+  impact += `Daily net value: $${metrics.netValue.toLocaleString()}. `;
+  impact += `Annualized impact: $${annualValue.toLocaleString()}.`;
+
+  document.getElementById('impact-text').textContent = impact;
+}
+
+function updateRecommendations(threshold, metrics) {
+  const recommendations = [];
+
+  // Capacity-based recommendations
+  if (metrics.dailyReviews > reviewCapacity) {
+    recommendations.push("Increase threshold to stay within review capacity of 500 cases/day");
+    recommendations.push("Consider expanding review team or implementing tiered review process");
+  }
+
+  // Performance-based recommendations
+  if (metrics.recall < 0.7) {
+    recommendations.push("Low recall - consider lowering threshold to catch more fraud");
+  }
+
+  if (metrics.precision < 0.1) {
+    recommendations.push("Very low precision - too many false alarms, consider raising threshold");
+  }
+
+  // Business value recommendations
+  if (metrics.netValue < 0) {
+    recommendations.push("Negative ROI - current settings lose money, optimize threshold");
+  }
+
+  // Optimal threshold suggestion
+  const optimalMetrics = findOptimalWithinCapacity();
+  if (Math.abs(threshold - optimalMetrics.threshold) > 0.05) {
+    recommendations.push(`Consider threshold ${optimalMetrics.threshold.toFixed(2)} for optimal value within capacity ($${optimalMetrics.value.toLocaleString()}/day)`);
+  }
+
+  // General recommendations
+  recommendations.push("Monitor model performance weekly for score drift");
+  recommendations.push("Implement customer feedback loop for false positive reduction");
+  recommendations.push("Consider different thresholds for high-value vs standard transactions");
+
+  const listHtml = recommendations.map(rec => `<div class="recommendation-item">${rec}</div>`).join('');
+  document.getElementById('recommendation-list').innerHTML = listHtml;
+}
+
+function findOptimalWithinCapacity() {
+  let bestThreshold = 0.5;
+  let bestValue = -Infinity;
+
+  for (let t = 0.1; t <= 0.9; t += 0.01) {
+    const metrics = calculateFraudMetrics(t);
+    if (metrics.dailyReviews <= reviewCapacity && metrics.netValue > bestValue) {
+      bestValue = metrics.netValue;
+      bestThreshold = t;
+    }
+  }
+
+  return { threshold: bestThreshold, value: bestValue };
+}
+
+// Event listener
+document.getElementById('threshold-slider').addEventListener('input', updateAnalysis);
+
+// Initialize
+updateAnalysis();
+</script>
+
+</body>
+</html>

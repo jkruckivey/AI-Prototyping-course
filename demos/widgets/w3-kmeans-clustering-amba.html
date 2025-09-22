@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>K-means Clustering - AMBA Template</title>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <style>
+    /* AMBA Template Widget Styling */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: white;
+      color: #333;
+      line-height: 1.5;
+      padding: 0;
+      margin: 0;
+    }
+
+    /* AMBA dp-wrapper equivalent for widgets */
+    .dp-wrapper {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 15px;
+      background: #ffffff;
+    }
+
+    /* AMBA content blocks */
+    .dp-content-block {
+      margin-bottom: 20px;
+    }
+
+    /* AMBA headings */
+    .dp-has-icon {
+      color: #034638;
+      margin-bottom: 15px;
+      font-size: 1.3em;
+      font-weight: 600;
+    }
+
+    .dp-has-icon i {
+      margin-right: 8px;
+      color: #582C83;
+    }
+
+    /* AMBA accordion panels */
+    .dp-panels-wrapper {
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .dp-panel-group {
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .dp-panel-group:last-child {
+      border-bottom: none;
+    }
+
+    .dp-panel-heading {
+      background: #f8f9fa;
+      color: #034638;
+      padding: 12px 16px;
+      cursor: pointer;
+      border: none;
+      width: 100%;
+      text-align: left;
+      font-weight: 600;
+      transition: background-color 0.2s ease;
+    }
+
+    .dp-panel-heading:hover {
+      background: #e9ecef;
+    }
+
+    .dp-panel-heading[aria-expanded="true"] {
+      background: #034638;
+      color: white;
+    }
+
+    .dp-panel-content {
+      padding: 16px;
+      background: #ffffff;
+    }
+
+    .dp-panel-content[hidden] {
+      display: none;
+    }
+
+    /* AMBA cards */
+    .dp-card {
+      border: 1px solid #dee2e6;
+      border-radius: 6px;
+      margin-bottom: 15px;
+    }
+
+    .dp-card.card {
+      background: #ffffff;
+    }
+
+    .card-body {
+      padding: 15px;
+    }
+
+    .card-title {
+      color: #034638;
+      font-size: 1.1em;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    /* Interactive controls styling */
+    .controls-section {
+      background: #f8f9fa;
+      padding: 16px;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+      margin-bottom: 15px;
+    }
+
+    .control-group {
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .control-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .control-label {
+      font-weight: 600;
+      color: #034638;
+      min-width: 120px;
+    }
+
+    input[type="range"] {
+      flex: 1;
+      max-width: 200px;
+      height: 6px;
+      border-radius: 3px;
+      background: #d1d5db;
+      outline: none;
+      -webkit-appearance: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #582C83;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .value-display {
+      background: #034638;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-weight: bold;
+      min-width: 60px;
+      text-align: center;
+    }
+
+    .widget-btn {
+      background: #034638;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 0.95em;
+    }
+
+    .widget-btn:hover {
+      background: #0a5c49;
+      transform: translateY(-1px);
+    }
+
+    .widget-btn:disabled {
+      background: #9ca3af;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .widget-btn.secondary {
+      background: #582C83;
+    }
+
+    .widget-btn.secondary:hover {
+      background: #6b3494;
+    }
+
+    /* Metrics display */
+    .metrics-display {
+      display: flex;
+      gap: 12px;
+      margin: 15px 0;
+      flex-wrap: wrap;
+    }
+
+    .metric-card {
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 12px;
+      text-align: center;
+      flex: 1;
+      min-width: 140px;
+    }
+
+    .metric-value {
+      font-size: 1.4em;
+      font-weight: bold;
+      color: #034638;
+      margin-bottom: 4px;
+    }
+
+    .metric-label {
+      font-size: 0.85em;
+      color: #666;
+      font-weight: 500;
+    }
+
+    /* Plot container */
+    .plot-container {
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 16px;
+      margin: 15px 0;
+    }
+
+    /* AMBA list styling */
+    .list-group {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .list-group-item {
+      padding: 8px 12px;
+      border-bottom: 1px solid #e9ecef;
+      background: #f8f9fa;
+      margin-bottom: 2px;
+    }
+
+    .list-group-item:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+
+    /* Status indicators */
+    .status-indicator {
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.85em;
+      font-weight: 600;
+      display: inline-block;
+      margin-top: 8px;
+    }
+
+    .status-good {
+      color: #166534;
+      background: #dcfce7;
+    }
+
+    .status-warning {
+      color: #92400e;
+      background: #fef3c7;
+    }
+
+    .status-info {
+      color: #1e40af;
+      background: #dbeafe;
+    }
+
+    /* Responsive design */
+    @media (max-width: 600px) {
+      .dp-wrapper {
+        padding: 10px;
+      }
+
+      .control-group {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 6px;
+      }
+
+      .control-label {
+        min-width: auto;
+      }
+
+      .metrics-display {
+        flex-direction: column;
+      }
+
+      .metric-card {
+        min-width: auto;
+      }
+    }
+
+    /* Animation */
+    .fade-in {
+      animation: fadeIn 0.3s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="dp-wrapper">
+  <!-- Widget Title -->
+  <div class="dp-content-block">
+    <h2 class="dp-has-icon">
+      <i class="fas fa-project-diagram" aria-hidden="true"></i>
+      K-means Clustering Visualization
+    </h2>
+  </div>
+
+  <!-- Controls Section -->
+  <div class="dp-content-block">
+    <h3 class="dp-has-icon">
+      <i class="fas fa-sliders-h" aria-hidden="true"></i>
+      Clustering Parameters
+    </h3>
+
+    <div class="dp-panels-wrapper">
+      <div class="dp-panel-group">
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="true" aria-controls="basic-controls">
+          Basic Controls
+        </h4>
+        <div id="basic-controls" class="dp-panel-content">
+          <div class="controls-section">
+            <div class="control-group">
+              <label class="control-label" for="k-value">Number of Clusters (k):</label>
+              <input type="range" id="k-value" min="2" max="8" value="3">
+              <div class="value-display" id="k-display">3</div>
+            </div>
+
+            <div class="control-group">
+              <label class="control-label" for="max-iterations">Max Iterations:</label>
+              <input type="range" id="max-iterations" min="10" max="100" step="10" value="50">
+              <div class="value-display" id="iterations-display">50</div>
+            </div>
+
+            <div class="control-group">
+              <button class="widget-btn" id="generate-data">🎲 Generate New Data</button>
+              <button class="widget-btn secondary" id="run-clustering">🚀 Run K-means</button>
+              <button class="widget-btn secondary" id="reset-algorithm">🔄 Reset</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="advanced-settings">
+          Advanced Settings
+        </h4>
+        <div id="advanced-settings" class="dp-panel-content" hidden>
+          <div class="controls-section">
+            <div class="control-group">
+              <label class="control-label" for="data-points">Number of Points:</label>
+              <input type="range" id="data-points" min="50" max="300" step="25" value="150">
+              <div class="value-display" id="points-display">150</div>
+            </div>
+
+            <div class="control-group">
+              <label class="control-label" for="convergence-threshold">Convergence Threshold:</label>
+              <input type="range" id="convergence-threshold" min="0.1" max="2.0" step="0.1" value="0.5">
+              <div class="value-display" id="threshold-display">0.5</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Visualization -->
+  <div class="dp-content-block">
+    <h3 class="dp-has-icon">
+      <i class="fas fa-chart-scatter" aria-hidden="true"></i>
+      Clustering Results
+    </h3>
+
+    <div class="plot-container">
+      <div id="clustering-plot" style="width: 100%; height: 400px;"></div>
+    </div>
+
+    <!-- Metrics Display -->
+    <div class="metrics-display">
+      <div class="metric-card">
+        <div class="metric-value" id="iterations-used">0</div>
+        <div class="metric-label">Iterations Used</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value" id="inertia-value">--</div>
+        <div class="metric-label">Within-cluster Sum of Squares</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value" id="convergence-status">Not Started</div>
+        <div class="metric-label">Status</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Understanding Section -->
+  <div class="dp-content-block">
+    <h3 class="dp-has-icon">
+      <i class="fas fa-lightbulb" aria-hidden="true"></i>
+      Understanding K-means
+    </h3>
+
+    <div class="dp-panels-wrapper">
+      <div class="dp-panel-group">
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="how-it-works">
+          How K-means Works
+        </h4>
+        <div id="how-it-works" class="dp-panel-content" hidden>
+          <ol class="list-group">
+            <li class="list-group-item"><strong>Initialize:</strong> Place k random centroids in the data space</li>
+            <li class="list-group-item"><strong>Assign:</strong> Each point joins the cluster of its nearest centroid</li>
+            <li class="list-group-item"><strong>Update:</strong> Move centroids to the center of their assigned points</li>
+            <li class="list-group-item"><strong>Repeat:</strong> Steps 2-3 until centroids stop moving significantly</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="choosing-k">
+          Choosing the Right K
+        </h4>
+        <div id="choosing-k" class="dp-panel-content" hidden>
+          <div class="dp-card card">
+            <div class="card-body">
+              <h5 class="card-title">Elbow Method</h5>
+              <p>Look for the "elbow" in the plot where adding more clusters doesn't significantly reduce the within-cluster sum of squares.</p>
+            </div>
+          </div>
+
+          <ul class="list-group">
+            <li class="list-group-item"><strong>Too few clusters (k=2):</strong> May miss natural groupings</li>
+            <li class="list-group-item"><strong>Too many clusters (k=8):</strong> May over-segment the data</li>
+            <li class="list-group-item"><strong>Just right (k=3-4):</strong> Captures natural structure without over-fitting</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="business-applications">
+          Business Applications
+        </h4>
+        <div id="business-applications" class="dp-panel-content" hidden>
+          <ul class="list-group">
+            <li class="list-group-item"><strong>Customer Segmentation:</strong> Group customers by purchasing behavior</li>
+            <li class="list-group-item"><strong>Market Research:</strong> Identify distinct consumer preferences</li>
+            <li class="list-group-item"><strong>Inventory Management:</strong> Cluster products by demand patterns</li>
+            <li class="list-group-item"><strong>Geographic Analysis:</strong> Group locations by demographic similarities</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Current Analysis -->
+  <div class="dp-content-block" id="analysis-section" style="display: none;">
+    <h3 class="dp-has-icon">
+      <i class="fas fa-analytics" aria-hidden="true"></i>
+      Current Analysis
+    </h3>
+
+    <div class="dp-card card">
+      <div class="card-body">
+        <h5 class="card-title">Clustering Summary</h5>
+        <p id="analysis-text">Run the k-means algorithm to see analysis of your clustering results.</p>
+        <div class="status-indicator status-info" id="analysis-status">Ready to analyze</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Canvas-safe toggling script -->
+<script>
+(function () {
+  function toggleHead(h){
+    const content = document.getElementById(h.getAttribute('aria-controls'));
+    const expanded = h.getAttribute('aria-expanded') === 'true';
+    h.setAttribute('aria-expanded', String(!expanded));
+    if (content) content.hidden = expanded;
+  }
+  document.addEventListener('click', function (e) {
+    const h = e.target.closest('.dp-panel-heading[role="button"]');
+    if (h) toggleHead(h);
+  });
+  document.addEventListener('keydown', function (e) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role="button"]')) {
+      e.preventDefault(); toggleHead(e.target);
+    }
+  });
+})();
+
+// K-means clustering implementation
+document.addEventListener('DOMContentLoaded', function() {
+  let dataPoints = [];
+  let centroids = [];
+  let clusters = [];
+  let currentK = 3;
+  let isRunning = false;
+
+  // Generate random data points
+  function generateData() {
+    const numPoints = parseInt(document.getElementById('data-points').value);
+    dataPoints = [];
+
+    // Create 3 natural clusters
+    const clusterCenters = [
+      {x: 2, y: 2}, {x: 8, y: 8}, {x: 2, y: 8}
+    ];
+
+    clusterCenters.forEach(center => {
+      for (let i = 0; i < Math.floor(numPoints / 3); i++) {
+        dataPoints.push({
+          x: center.x + (Math.random() - 0.5) * 4,
+          y: center.y + (Math.random() - 0.5) * 4
+        });
+      }
+    });
+
+    updatePlot();
+    resetMetrics();
+  }
+
+  // Initialize random centroids
+  function initializeCentroids(k) {
+    centroids = [];
+    for (let i = 0; i < k; i++) {
+      centroids.push({
+        x: Math.random() * 10,
+        y: Math.random() * 10
+      });
+    }
+  }
+
+  // Calculate distance between two points
+  function distance(p1, p2) {
+    return Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2));
+  }
+
+  // Assign points to nearest centroid
+  function assignPointsToClusters() {
+    clusters = Array(currentK).fill().map(() => []);
+
+    dataPoints.forEach(point => {
+      let minDistance = Infinity;
+      let closestCluster = 0;
+
+      centroids.forEach((centroid, index) => {
+        const dist = distance(point, centroid);
+        if (dist < minDistance) {
+          minDistance = dist;
+          closestCluster = index;
+        }
+      });
+
+      clusters[closestCluster].push(point);
+    });
+  }
+
+  // Update centroids to cluster centers
+  function updateCentroids() {
+    const newCentroids = [];
+
+    clusters.forEach(cluster => {
+      if (cluster.length > 0) {
+        const centerX = cluster.reduce((sum, point) => sum + point.x, 0) / cluster.length;
+        const centerY = cluster.reduce((sum, point) => sum + point.y, 0) / cluster.length;
+        newCentroids.push({x: centerX, y: centerY});
+      } else {
+        // Keep old centroid if cluster is empty
+        newCentroids.push(centroids[newCentroids.length]);
+      }
+    });
+
+    // Check convergence
+    const threshold = parseFloat(document.getElementById('convergence-threshold').value);
+    let maxChange = 0;
+
+    centroids.forEach((oldCentroid, index) => {
+      const change = distance(oldCentroid, newCentroids[index]);
+      maxChange = Math.max(maxChange, change);
+    });
+
+    centroids = newCentroids;
+    return maxChange < threshold;
+  }
+
+  // Calculate within-cluster sum of squares (inertia)
+  function calculateInertia() {
+    let inertia = 0;
+
+    clusters.forEach((cluster, clusterIndex) => {
+      cluster.forEach(point => {
+        inertia += Math.pow(distance(point, centroids[clusterIndex]), 2);
+      });
+    });
+
+    return inertia;
+  }
+
+  // Run k-means algorithm
+  async function runKMeans() {
+    if (isRunning) return;
+
+    isRunning = true;
+    currentK = parseInt(document.getElementById('k-value').value);
+    const maxIter = parseInt(document.getElementById('max-iterations').value);
+
+    document.getElementById('run-clustering').disabled = true;
+    document.getElementById('convergence-status').textContent = 'Running...';
+
+    initializeCentroids(currentK);
+    let iteration = 0;
+    let converged = false;
+
+    while (iteration < maxIter && !converged) {
+      assignPointsToClusters();
+      converged = updateCentroids();
+      iteration++;
+
+      // Update plot every few iterations for animation
+      if (iteration % 5 === 0) {
+        updatePlot();
+        await new Promise(resolve => setTimeout(resolve, 100));
+      }
+    }
+
+    // Final update
+    assignPointsToClusters();
+    updatePlot();
+
+    // Update metrics
+    const inertia = calculateInertia();
+    document.getElementById('iterations-used').textContent = iteration;
+    document.getElementById('inertia-value').textContent = inertia.toFixed(2);
+    document.getElementById('convergence-status').textContent = converged ? 'Converged' : 'Max Iterations';
+
+    // Show analysis
+    showAnalysis(iteration, converged, inertia);
+
+    document.getElementById('run-clustering').disabled = false;
+    isRunning = false;
+  }
+
+  // Update the plot
+  function updatePlot() {
+    const traces = [];
+
+    // Plot data points colored by cluster
+    if (clusters.length > 0) {
+      const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#98D8C8', '#F7DC6F'];
+
+      clusters.forEach((cluster, index) => {
+        if (cluster.length > 0) {
+          traces.push({
+            x: cluster.map(p => p.x),
+            y: cluster.map(p => p.y),
+            mode: 'markers',
+            type: 'scatter',
+            name: `Cluster ${index + 1}`,
+            marker: {
+              color: colors[index % colors.length],
+              size: 8,
+              opacity: 0.7
+            }
+          });
+        }
+      });
+    } else {
+      // Plot all points in gray if not clustered
+      traces.push({
+        x: dataPoints.map(p => p.x),
+        y: dataPoints.map(p => p.y),
+        mode: 'markers',
+        type: 'scatter',
+        name: 'Data Points',
+        marker: { color: '#999999', size: 6 }
+      });
+    }
+
+    // Plot centroids
+    if (centroids.length > 0) {
+      traces.push({
+        x: centroids.map(c => c.x),
+        y: centroids.map(c => c.y),
+        mode: 'markers',
+        type: 'scatter',
+        name: 'Centroids',
+        marker: {
+          color: '#FF0000',
+          size: 15,
+          symbol: 'x',
+          line: { width: 3 }
+        }
+      });
+    }
+
+    const layout = {
+      title: `K-means Clustering (k=${currentK})`,
+      xaxis: { title: 'X Coordinate', range: [-2, 12] },
+      yaxis: { title: 'Y Coordinate', range: [-2, 12] },
+      showlegend: true,
+      height: 400
+    };
+
+    Plotly.newPlot('clustering-plot', traces, layout);
+  }
+
+  // Show analysis
+  function showAnalysis(iterations, converged, inertia) {
+    const analysisSection = document.getElementById('analysis-section');
+    const analysisText = document.getElementById('analysis-text');
+    const analysisStatus = document.getElementById('analysis-status');
+
+    let analysis = `K-means completed with k=${currentK} clusters in ${iterations} iterations. `;
+
+    if (converged) {
+      analysis += "The algorithm converged successfully. ";
+      analysisStatus.textContent = "Converged";
+      analysisStatus.className = "status-indicator status-good";
+    } else {
+      analysis += "The algorithm reached maximum iterations without full convergence. ";
+      analysisStatus.textContent = "Max Iterations Reached";
+      analysisStatus.className = "status-indicator status-warning";
+    }
+
+    analysis += `The within-cluster sum of squares is ${inertia.toFixed(2)}. `;
+
+    if (inertia < 50) {
+      analysis += "This indicates tight, well-separated clusters.";
+    } else if (inertia < 150) {
+      analysis += "This indicates moderately compact clusters.";
+    } else {
+      analysis += "This indicates loose clusters - consider adjusting k or checking your data.";
+    }
+
+    analysisText.textContent = analysis;
+    analysisSection.style.display = 'block';
+    analysisSection.classList.add('fade-in');
+  }
+
+  // Reset metrics
+  function resetMetrics() {
+    document.getElementById('iterations-used').textContent = '0';
+    document.getElementById('inertia-value').textContent = '--';
+    document.getElementById('convergence-status').textContent = 'Not Started';
+    document.getElementById('analysis-section').style.display = 'none';
+  }
+
+  // Update display values
+  function updateDisplayValues() {
+    document.getElementById('k-display').textContent = document.getElementById('k-value').value;
+    document.getElementById('iterations-display').textContent = document.getElementById('max-iterations').value;
+    document.getElementById('points-display').textContent = document.getElementById('data-points').value;
+    document.getElementById('threshold-display').textContent = document.getElementById('convergence-threshold').value;
+  }
+
+  // Event listeners
+  document.getElementById('generate-data').addEventListener('click', generateData);
+  document.getElementById('run-clustering').addEventListener('click', runKMeans);
+  document.getElementById('reset-algorithm').addEventListener('click', () => {
+    clusters = [];
+    centroids = [];
+    updatePlot();
+    resetMetrics();
+  });
+
+  // Range input listeners
+  ['k-value', 'max-iterations', 'data-points', 'convergence-threshold'].forEach(id => {
+    document.getElementById(id).addEventListener('input', updateDisplayValues);
+  });
+
+  // Initialize
+  generateData();
+  updateDisplayValues();
+});
+</script>
+
+</body>
+</html>

@@ -38,14 +38,16 @@ Canvas LMS course development project converting Subject Matter Expert (SME) mat
 - **Week 5**: Deployment, monitoring, governance
 
 ### Interactive Widgets (demos/widgets/)
-- **60+ widgets** organized by weeks (w1-*, w2-*, w3-*, w4-*, w5-*)
+- **79 widgets** in flat file structure for easy Canvas embedding
+- **Universal Pop-out Functionality**: All widgets equipped with pop-out buttons for full-window viewing
 - **Canvas-specific widgets** (canvas-*.html) for LMS embedding
 - **AI Evolution Timeline**: Historical AI development exploration
 - **AI Hierarchy Explorer**: Interactive AI → ML → Deep Learning relationships
 - **ROI Calculator**: Business value calculation for AI projects
 - **Algorithm Demonstrations**: Linear regression, logistic regression, K-means clustering
 - **Business Applications**: Customer segmentation, data frameworks, infrastructure strategy
-- **All widgets now use**: `ivey-widget-base.css` universal stylesheet
+- **All widgets use**: `ivey-widget-base.css` universal stylesheet
+- **Complete Inventory**: See `WIDGET_INVENTORY.md` for comprehensive widget catalog
 
 ## Key Technologies
 - **AMBA Template System** - Accessibility-compliant Canvas LMS structure
@@ -137,10 +139,77 @@ git push
 ## Educational Features
 - **Accordion-based Content** - Organized, accessible content panels
 - **Interactive Widgets** - Hands-on learning with real-time feedback
+- **Pop-out Functionality** - All widgets can break free from Canvas iframe constraints
 - **Canvas LMS Integration** - Seamless embedding in course modules
 - **Accessibility Compliance** - WCAG standards and screen reader support
 - **Mobile Responsive** - Optimized for all device types
 - **Progress Tracking** - Canvas LMS native progress monitoring
+
+## Pop-out Button Implementation
+
+### Universal Widget Enhancement
+Every widget now includes a pop-out button that allows users to escape Canvas iframe size limitations and view widgets in a full browser window (1200x900px).
+
+### Technical Implementation
+```html
+<!-- Pop-out button HTML -->
+<button class="widget-popout-btn" id="popoutBtn" title="Open in full window">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+    </svg>
+    <span>Pop Out</span>
+</button>
+```
+
+### JavaScript Functionality
+```javascript
+// Pop-out functionality
+document.getElementById('popoutBtn').addEventListener('click', function() {
+    const currentUrl = window.location.href;
+    const popoutUrl = currentUrl + (currentUrl.includes('?') ? '&' : '?') + 'standalone=true';
+
+    const popoutWindow = window.open(
+        popoutUrl,
+        'WidgetPopout',
+        'width=1200,height=900,resizable=yes,scrollbars=yes,status=yes'
+    );
+
+    if (popoutWindow) {
+        popoutWindow.focus();
+    }
+});
+
+// Check if in standalone mode
+if (window.location.search.includes('standalone=true')) {
+    document.body.classList.add('standalone-mode');
+}
+```
+
+### CSS Styling
+```css
+.widget-popout-btn {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background: var(--ivey-green);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 12px;
+    cursor: pointer;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.standalone-mode .widget-popout-btn {
+    display: none;
+}
+```
 
 ## Common Issues
 - **Canvas Embedding** - Use exact iframe dimensions and GitHub Pages URLs

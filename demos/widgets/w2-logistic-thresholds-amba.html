@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logistic Regression Thresholds - AMBA Template</title>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <style>
+    /* AMBA Template Widget Styling */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: white;
+      color: #333;
+      line-height: 1.5;
+      padding: 0;
+      margin: 0;
+    }
+
+    /* AMBA dp-wrapper equivalent for widgets */
+    .dp-wrapper {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 15px;
+      background: #ffffff;
+    }
+
+    /* AMBA content blocks */
+    .dp-content-block {
+      margin-bottom: 20px;
+    }
+
+    /* AMBA headings */
+    .dp-has-icon {
+      color: #034638;
+      margin-bottom: 15px;
+      font-size: 1.3em;
+      font-weight: 600;
+    }
+
+    .dp-has-icon i {
+      margin-right: 8px;
+      color: #582C83;
+    }
+
+    /* AMBA accordion panels */
+    .dp-panels-wrapper {
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .dp-panel-group {
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .dp-panel-group:last-child {
+      border-bottom: none;
+    }
+
+    .dp-panel-heading {
+      background: #f8f9fa;
+      color: #034638;
+      padding: 12px 16px;
+      cursor: pointer;
+      border: none;
+      width: 100%;
+      text-align: left;
+      font-weight: 600;
+      transition: background-color 0.2s ease;
+    }
+
+    .dp-panel-heading:hover {
+      background: #e9ecef;
+    }
+
+    .dp-panel-heading[aria-expanded="true"] {
+      background: #034638;
+      color: white;
+    }
+
+    .dp-panel-content {
+      padding: 16px;
+      background: #ffffff;
+    }
+
+    .dp-panel-content[hidden] {
+      display: none;
+    }
+
+    /* AMBA cards */
+    .dp-card {
+      border: 1px solid #dee2e6;
+      border-radius: 6px;
+      margin-bottom: 15px;
+    }
+
+    .dp-card.card {
+      background: #ffffff;
+    }
+
+    .card-body {
+      padding: 15px;
+    }
+
+    .card-title {
+      color: #034638;
+      font-size: 1.1em;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    /* Interactive controls styling */
+    .controls-section {
+      background: #f8f9fa;
+      padding: 16px;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+      margin-bottom: 15px;
+    }
+
+    .control-group {
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .control-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .control-label {
+      font-weight: 600;
+      color: #034638;
+      min-width: 140px;
+    }
+
+    input[type="range"] {
+      flex: 1;
+      max-width: 200px;
+      height: 6px;
+      border-radius: 3px;
+      background: #d1d5db;
+      outline: none;
+      -webkit-appearance: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #582C83;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .value-display {
+      background: #034638;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-weight: bold;
+      min-width: 60px;
+      text-align: center;
+    }
+
+    .widget-btn {
+      background: #034638;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 0.95em;
+    }
+
+    .widget-btn:hover {
+      background: #0a5c49;
+      transform: translateY(-1px);
+    }
+
+    .widget-btn.secondary {
+      background: #582C83;
+    }
+
+    .widget-btn.secondary:hover {
+      background: #6b3494;
+    }
+
+    /* Metrics display */
+    .metrics-display {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 12px;
+      margin: 15px 0;
+    }
+
+    .metric-card {
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .metric-value {
+      font-size: 1.3em;
+      font-weight: bold;
+      color: #034638;
+      margin-bottom: 4px;
+    }
+
+    .metric-label {
+      font-size: 0.8em;
+      color: #666;
+      font-weight: 500;
+    }
+
+    /* Plot container */
+    .plot-container {
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 16px;
+      margin: 15px 0;
+    }
+
+    /* AMBA table styling */
+    .table-responsive {
+      overflow-x: auto;
+    }
+
+    .ic-Table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0;
+    }
+
+    .ic-Table th,
+    .ic-Table td {
+      padding: 8px 12px;
+      text-align: left;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .ic-Table th {
+      background: #f8f9fa;
+      color: #034638;
+      font-weight: 600;
+    }
+
+    .ic-Table--hover-row tbody tr:hover {
+      background: #f8f9fa;
+    }
+
+    /* Classification results */
+    .classification-results {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin: 15px 0;
+    }
+
+    .prediction-box {
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .prediction-positive {
+      background: #fef3c7;
+      border: 2px solid #f59e0b;
+      color: #92400e;
+    }
+
+    .prediction-negative {
+      background: #dbeafe;
+      border: 2px solid #3b82f6;
+      color: #1e40af;
+    }
+
+    /* Confusion matrix */
+    .confusion-matrix {
+      display: grid;
+      grid-template-columns: 100px 100px 100px;
+      grid-template-rows: 50px 50px 50px;
+      gap: 2px;
+      margin: 15px auto;
+      max-width: 320px;
+      font-size: 0.9em;
+    }
+
+    .cm-cell {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #e2e8f0;
+      font-weight: 600;
+    }
+
+    .cm-header {
+      background: #f8f9fa;
+      color: #034638;
+    }
+
+    .cm-true-pos {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .cm-false-pos {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .cm-false-neg {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .cm-true-neg {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    /* Status indicators */
+    .status-indicator {
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.85em;
+      font-weight: 600;
+      display: inline-block;
+      margin: 4px 2px;
+    }
+
+    .status-excellent {
+      color: #166534;
+      background: #dcfce7;
+    }
+
+    .status-good {
+      color: #166534;
+      background: #dcfce7;
+    }
+
+    .status-fair {
+      color: #92400e;
+      background: #fef3c7;
+    }
+
+    .status-poor {
+      color: #991b1b;
+      background: #fee2e2;
+    }
+
+    /* Responsive design */
+    @media (max-width: 600px) {
+      .dp-wrapper {
+        padding: 10px;
+      }
+
+      .control-group {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 6px;
+      }
+
+      .control-label {
+        min-width: auto;
+      }
+
+      .classification-results {
+        grid-template-columns: 1fr;
+      }
+
+      .confusion-matrix {
+        grid-template-columns: 80px 80px 80px;
+        grid-template-rows: 40px 40px 40px;
+        font-size: 0.8em;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="dp-wrapper">
+  <!-- Widget Title -->
+  <div class="dp-content-block">
+    <h2 class="dp-has-icon">
+      <i class="fas fa-sliders-h" aria-hidden="true"></i>
+      Logistic Regression Threshold Explorer
+    </h2>
+  </div>
+
+  <!-- Threshold Control -->
+  <div class="dp-content-block">
+    <h3 class="dp-has-icon">
+      <i class="fas fa-adjust" aria-hidden="true"></i>
+      Decision Threshold
+    </h3>
+
+    <div class="controls-section">
+      <div class="control-group">
+        <label class="control-label" for="threshold-control">Classification Threshold:</label>
+        <input type="range" id="threshold-control" min="0.1" max="0.9" step="0.05" value="0.5">
+        <div class="value-display" id="threshold-display">0.5</div>
+      </div>
+
+      <div class="control-group">
+        <button class="widget-btn" id="reset-threshold">↩️ Reset to 0.5</button>
+        <button class="widget-btn secondary" id="optimize-f1">🎯 Optimize F1-Score</button>
+        <button class="widget-btn secondary" id="conservative-threshold">🛡️ Conservative</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Current Classification Rule -->
+  <div class="dp-content-block">
+    <h3 class="dp-has-icon">
+      <i class="fas fa-code" aria-hidden="true"></i>
+      Current Classification Rule
+    </h3>
+
+    <div class="dp-card card">
+      <div class="card-body">
+        <div style="text-align: center; font-family: 'Courier New', monospace; font-size: 1.1em; margin: 10px 0;">
+          If P(Positive) ≥ <span id="rule-threshold">0.50</span> → Predict <strong>Positive</strong><br>
+          If P(Positive) &lt; <span id="rule-threshold2">0.50</span> → Predict <strong>Negative</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="classification-results">
+      <div class="prediction-box prediction-positive">
+        <div>Predicted Positive</div>
+        <div id="positive-count" style="font-size: 1.5em; margin-top: 5px;">45</div>
+      </div>
+      <div class="prediction-box prediction-negative">
+        <div>Predicted Negative</div>
+        <div id="negative-count" style="font-size: 1.5em; margin-top: 5px;">55</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Visualization -->
+  <div class="dp-content-block">
+    <h3 class="dp-has-icon">
+      <i class="fas fa-chart-line" aria-hidden="true"></i>
+      Probability Distribution & Threshold
+    </h3>
+
+    <div class="plot-container">
+      <div id="threshold-plot" style="width: 100%; height: 350px;"></div>
+    </div>
+  </div>
+
+  <!-- Performance Metrics -->
+  <div class="dp-content-block">
+    <h3 class="dp-has-icon">
+      <i class="fas fa-tachometer-alt" aria-hidden="true"></i>
+      Performance Metrics
+    </h3>
+
+    <div class="metrics-display">
+      <div class="metric-card">
+        <div class="metric-value" id="accuracy">85%</div>
+        <div class="metric-label">Accuracy</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value" id="precision">78%</div>
+        <div class="metric-label">Precision</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value" id="recall">82%</div>
+        <div class="metric-label">Recall</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value" id="f1-score">80%</div>
+        <div class="metric-label">F1-Score</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value" id="specificity">87%</div>
+        <div class="metric-label">Specificity</div>
+      </div>
+    </div>
+
+    <!-- Confusion Matrix -->
+    <h4 style="text-align: center; color: #034638; margin: 20px 0 10px 0;">Confusion Matrix</h4>
+    <div class="confusion-matrix">
+      <div class="cm-cell cm-header"></div>
+      <div class="cm-cell cm-header">Pred +</div>
+      <div class="cm-cell cm-header">Pred -</div>
+      <div class="cm-cell cm-header">Actual +</div>
+      <div class="cm-cell cm-true-pos" id="true-pos">32</div>
+      <div class="cm-cell cm-false-neg" id="false-neg">8</div>
+      <div class="cm-cell cm-header">Actual -</div>
+      <div class="cm-cell cm-false-pos" id="false-pos">13</div>
+      <div class="cm-cell cm-true-neg" id="true-neg">47</div>
+    </div>
+  </div>
+
+  <!-- Understanding Thresholds -->
+  <div class="dp-content-block">
+    <h3 class="dp-has-icon">
+      <i class="fas fa-lightbulb" aria-hidden="true"></i>
+      Understanding Decision Thresholds
+    </h3>
+
+    <div class="dp-panels-wrapper">
+      <div class="dp-panel-group">
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="true" aria-controls="threshold-basics">
+          Threshold Basics
+        </h4>
+        <div id="threshold-basics" class="dp-panel-content">
+          <p>The decision threshold determines when to classify something as positive vs negative based on the predicted probability.</p>
+
+          <div class="table-responsive">
+            <table class="ic-Table ic-Table--hover-row">
+              <thead>
+                <tr>
+                  <th>Threshold</th>
+                  <th>Effect</th>
+                  <th>Use When</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Low (0.3)</strong></td>
+                  <td>More positive predictions</td>
+                  <td>Don't want to miss any positives</td>
+                </tr>
+                <tr>
+                  <td><strong>Standard (0.5)</strong></td>
+                  <td>Balanced predictions</td>
+                  <td>Equal cost of errors</td>
+                </tr>
+                <tr>
+                  <td><strong>High (0.7)</strong></td>
+                  <td>Fewer positive predictions</td>
+                  <td>Want to be very confident</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="metric-tradeoffs">
+          Metric Trade-offs
+        </h4>
+        <div id="metric-tradeoffs" class="dp-panel-content" hidden>
+          <p>Changing the threshold creates trade-offs between different performance metrics:</p>
+
+          <ul style="list-style: none; padding: 0;">
+            <li style="padding: 8px; margin: 4px 0; background: #f8f9fa; border-left: 4px solid #034638;">
+              <strong>Lower Threshold (0.3):</strong> Higher recall, lower precision
+            </li>
+            <li style="padding: 8px; margin: 4px 0; background: #f8f9fa; border-left: 4px solid #582C83;">
+              <strong>Higher Threshold (0.7):</strong> Higher precision, lower recall
+            </li>
+          </ul>
+
+          <div class="dp-card card">
+            <div class="card-body">
+              <h5 class="card-title">Key Insight</h5>
+              <p>There's no "perfect" threshold - choose based on the relative costs of false positives vs false negatives in your specific business context.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="business-examples">
+          Business Examples
+        </h4>
+        <div id="business-examples" class="dp-panel-content" hidden>
+          <div class="table-responsive">
+            <table class="ic-Table ic-Table--hover-row">
+              <thead>
+                <tr>
+                  <th>Application</th>
+                  <th>Threshold Strategy</th>
+                  <th>Reasoning</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Medical Screening</strong></td>
+                  <td>Low (0.2-0.3)</td>
+                  <td>Don't miss any diseases</td>
+                </tr>
+                <tr>
+                  <td><strong>Spam Detection</strong></td>
+                  <td>High (0.7-0.8)</td>
+                  <td>Don't block important emails</td>
+                </tr>
+                <tr>
+                  <td><strong>Credit Approval</strong></td>
+                  <td>Medium (0.4-0.6)</td>
+                  <td>Balance risk vs opportunity</td>
+                </tr>
+                <tr>
+                  <td><strong>Fraud Detection</strong></td>
+                  <td>Low (0.3-0.4)</td>
+                  <td>Catch all potential fraud</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Current Analysis -->
+  <div class="dp-content-block">
+    <h3 class="dp-has-icon">
+      <i class="fas fa-analytics" aria-hidden="true"></i>
+      Threshold Analysis
+    </h3>
+
+    <div class="dp-card card">
+      <div class="card-body">
+        <h5 class="card-title">Current Performance</h5>
+        <p id="analysis-text">With threshold = 0.50, the model shows balanced performance across precision and recall metrics.</p>
+        <div id="performance-indicators">
+          <span class="status-indicator status-good">Good Balance</span>
+          <span class="status-indicator status-good">Accurate</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Canvas-safe toggling script -->
+<script>
+(function () {
+  function toggleHead(h){
+    const content = document.getElementById(h.getAttribute('aria-controls'));
+    const expanded = h.getAttribute('aria-expanded') === 'true';
+    h.setAttribute('aria-expanded', String(!expanded));
+    if (content) content.hidden = expanded;
+  }
+  document.addEventListener('click', function (e) {
+    const h = e.target.closest('.dp-panel-heading[role="button"]');
+    if (h) toggleHead(h);
+  });
+  document.addEventListener('keydown', function (e) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role="button"]')) {
+      e.preventDefault(); toggleHead(e.target);
+    }
+  });
+})();
+
+// Threshold explorer implementation
+document.addEventListener('DOMContentLoaded', function() {
+  // Sample data: probabilities and true labels
+  const data = {
+    probabilities: [0.05, 0.15, 0.22, 0.28, 0.35, 0.41, 0.47, 0.52, 0.58, 0.63, 0.69, 0.74, 0.79, 0.84, 0.89, 0.93,
+                   0.12, 0.18, 0.25, 0.31, 0.38, 0.44, 0.49, 0.55, 0.61, 0.66, 0.71, 0.77, 0.82, 0.87, 0.91, 0.96,
+                   0.08, 0.19, 0.26, 0.33, 0.39, 0.45, 0.51, 0.57, 0.64, 0.70, 0.76, 0.81, 0.86, 0.90, 0.94, 0.97,
+                   0.11, 0.17, 0.24, 0.30, 0.37, 0.43, 0.48, 0.54, 0.60, 0.65, 0.72, 0.78, 0.83, 0.88, 0.92, 0.95,
+                   0.13, 0.20, 0.27, 0.34, 0.40, 0.46, 0.50, 0.56, 0.62, 0.67, 0.73, 0.80, 0.85, 0.91, 0.96, 0.98,
+                   0.09, 0.16, 0.23, 0.29, 0.36, 0.42, 0.53, 0.59, 0.68, 0.75, 0.81, 0.87, 0.93, 0.97, 0.99, 0.85],
+
+    trueLabels: [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+                 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+                 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+                 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+                 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+                 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0]
+  };
+
+  let currentThreshold = 0.5;
+
+  // Calculate confusion matrix
+  function calculateConfusionMatrix(threshold) {
+    let truePos = 0, falsePos = 0, trueNeg = 0, falseNeg = 0;
+
+    for (let i = 0; i < data.probabilities.length; i++) {
+      const predicted = data.probabilities[i] >= threshold ? 1 : 0;
+      const actual = data.trueLabels[i];
+
+      if (predicted === 1 && actual === 1) truePos++;
+      else if (predicted === 1 && actual === 0) falsePos++;
+      else if (predicted === 0 && actual === 0) trueNeg++;
+      else if (predicted === 0 && actual === 1) falseNeg++;
+    }
+
+    return { truePos, falsePos, trueNeg, falseNeg };
+  }
+
+  // Calculate metrics
+  function calculateMetrics(cm) {
+    const { truePos, falsePos, trueNeg, falseNeg } = cm;
+    const total = truePos + falsePos + trueNeg + falseNeg;
+
+    const accuracy = (truePos + trueNeg) / total;
+    const precision = truePos / (truePos + falsePos) || 0;
+    const recall = truePos / (truePos + falseNeg) || 0;
+    const specificity = trueNeg / (trueNeg + falsePos) || 0;
+    const f1Score = 2 * (precision * recall) / (precision + recall) || 0;
+
+    return { accuracy, precision, recall, specificity, f1Score };
+  }
+
+  // Find optimal F1 threshold
+  function findOptimalF1Threshold() {
+    let bestF1 = 0;
+    let bestThreshold = 0.5;
+
+    for (let threshold = 0.1; threshold <= 0.9; threshold += 0.05) {
+      const cm = calculateConfusionMatrix(threshold);
+      const metrics = calculateMetrics(cm);
+
+      if (metrics.f1Score > bestF1) {
+        bestF1 = metrics.f1Score;
+        bestThreshold = threshold;
+      }
+    }
+
+    return bestThreshold;
+  }
+
+  // Update plot
+  function updatePlot() {
+    // Create histogram of probabilities colored by true class
+    const positiveProbs = [];
+    const negativeProbs = [];
+
+    for (let i = 0; i < data.probabilities.length; i++) {
+      if (data.trueLabels[i] === 1) {
+        positiveProbs.push(data.probabilities[i]);
+      } else {
+        negativeProbs.push(data.probabilities[i]);
+      }
+    }
+
+    const trace1 = {
+      x: negativeProbs,
+      type: 'histogram',
+      name: 'Actual Negative',
+      opacity: 0.7,
+      marker: { color: '#3b82f6' },
+      nbinsx: 20
+    };
+
+    const trace2 = {
+      x: positiveProbs,
+      type: 'histogram',
+      name: 'Actual Positive',
+      opacity: 0.7,
+      marker: { color: '#f59e0b' },
+      nbinsx: 20
+    };
+
+    // Threshold line
+    const trace3 = {
+      x: [currentThreshold, currentThreshold],
+      y: [0, 25],
+      mode: 'lines',
+      type: 'scatter',
+      name: `Threshold (${currentThreshold})`,
+      line: { color: '#dc2626', width: 3, dash: 'dash' }
+    };
+
+    const layout = {
+      title: `Probability Distribution (Threshold = ${currentThreshold})`,
+      xaxis: { title: 'Predicted Probability', range: [0, 1] },
+      yaxis: { title: 'Count' },
+      barmode: 'overlay',
+      showlegend: true,
+      height: 350
+    };
+
+    Plotly.newPlot('threshold-plot', [trace1, trace2, trace3], layout);
+  }
+
+  // Update all displays
+  function updateDisplays() {
+    currentThreshold = parseFloat(document.getElementById('threshold-control').value);
+
+    // Update display values
+    document.getElementById('threshold-display').textContent = currentThreshold.toFixed(2);
+    document.getElementById('rule-threshold').textContent = currentThreshold.toFixed(2);
+    document.getElementById('rule-threshold2').textContent = currentThreshold.toFixed(2);
+
+    // Calculate confusion matrix and metrics
+    const cm = calculateConfusionMatrix(currentThreshold);
+    const metrics = calculateMetrics(cm);
+
+    // Update confusion matrix
+    document.getElementById('true-pos').textContent = cm.truePos;
+    document.getElementById('false-pos').textContent = cm.falsePos;
+    document.getElementById('true-neg').textContent = cm.trueNeg;
+    document.getElementById('false-neg').textContent = cm.falseNeg;
+
+    // Update prediction counts
+    document.getElementById('positive-count').textContent = cm.truePos + cm.falsePos;
+    document.getElementById('negative-count').textContent = cm.trueNeg + cm.falseNeg;
+
+    // Update metrics
+    document.getElementById('accuracy').textContent = (metrics.accuracy * 100).toFixed(0) + '%';
+    document.getElementById('precision').textContent = (metrics.precision * 100).toFixed(0) + '%';
+    document.getElementById('recall').textContent = (metrics.recall * 100).toFixed(0) + '%';
+    document.getElementById('specificity').textContent = (metrics.specificity * 100).toFixed(0) + '%';
+    document.getElementById('f1-score').textContent = (metrics.f1Score * 100).toFixed(0) + '%';
+
+    // Update analysis
+    updateAnalysis(metrics);
+
+    // Update plot
+    updatePlot();
+  }
+
+  // Update analysis text
+  function updateAnalysis(metrics) {
+    let analysis = `With threshold = ${currentThreshold.toFixed(2)}: `;
+    let indicators = [];
+
+    // Analyze performance
+    if (metrics.f1Score > 0.8) {
+      analysis += "Excellent overall performance with strong balance between precision and recall. ";
+      indicators.push({ text: "Excellent Balance", class: "status-excellent" });
+    } else if (metrics.f1Score > 0.7) {
+      analysis += "Good performance with reasonable balance between precision and recall. ";
+      indicators.push({ text: "Good Balance", class: "status-good" });
+    } else if (metrics.f1Score > 0.6) {
+      analysis += "Fair performance but room for improvement in precision/recall balance. ";
+      indicators.push({ text: "Fair Balance", class: "status-fair" });
+    } else {
+      analysis += "Poor performance - consider adjusting threshold or improving model. ";
+      indicators.push({ text: "Poor Balance", class: "status-poor" });
+    }
+
+    // Analyze precision vs recall
+    if (metrics.precision > metrics.recall + 0.1) {
+      analysis += "Model is conservative (high precision, lower recall). ";
+      indicators.push({ text: "Conservative", class: "status-good" });
+    } else if (metrics.recall > metrics.precision + 0.1) {
+      analysis += "Model is aggressive (high recall, lower precision). ";
+      indicators.push({ text: "Aggressive", class: "status-fair" });
+    } else {
+      analysis += "Model shows good precision/recall balance. ";
+      indicators.push({ text: "Balanced", class: "status-good" });
+    }
+
+    // Analyze accuracy
+    if (metrics.accuracy > 0.85) {
+      indicators.push({ text: "High Accuracy", class: "status-excellent" });
+    } else if (metrics.accuracy > 0.75) {
+      indicators.push({ text: "Good Accuracy", class: "status-good" });
+    } else {
+      indicators.push({ text: "Low Accuracy", class: "status-poor" });
+    }
+
+    document.getElementById('analysis-text').textContent = analysis;
+
+    // Update indicators
+    const indicatorsContainer = document.getElementById('performance-indicators');
+    indicatorsContainer.innerHTML = indicators
+      .map(ind => `<span class="status-indicator ${ind.class}">${ind.text}</span>`)
+      .join('');
+  }
+
+  // Event listeners
+  document.getElementById('threshold-control').addEventListener('input', updateDisplays);
+
+  document.getElementById('reset-threshold').addEventListener('click', () => {
+    document.getElementById('threshold-control').value = 0.5;
+    updateDisplays();
+  });
+
+  document.getElementById('optimize-f1').addEventListener('click', () => {
+    const optimalThreshold = findOptimalF1Threshold();
+    document.getElementById('threshold-control').value = optimalThreshold;
+    updateDisplays();
+  });
+
+  document.getElementById('conservative-threshold').addEventListener('click', () => {
+    document.getElementById('threshold-control').value = 0.7;
+    updateDisplays();
+  });
+
+  // Initialize
+  updateDisplays();
+});
+</script>
+
+</body>
+</html>
