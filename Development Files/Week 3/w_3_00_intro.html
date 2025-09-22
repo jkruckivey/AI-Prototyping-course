@@ -1,0 +1,104 @@
+<div id="dp-wrapper" class="dp-wrapper">
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+
+  <!-- Week 3 Intro / Orientation -->
+  <div class="dp-content-block content-block" data-title="Week 3 — Orientation">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-compass" aria-hidden="true"></i>&nbsp;Welcome to Week 3</h2>
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+      <div class="card-body">
+        <h3 class="card-title dp-ignore-theme">What this week is about</h3>
+        <p>We explore <strong>unsupervised learning</strong>: discovering patterns without labeled data. You'll master <strong>clustering</strong> (K-means, hierarchical), <strong>dimensionality reduction</strong> (PCA), advanced <strong>preprocessing techniques</strong>, and <strong>recommendation systems</strong> that drive business value across industries.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick readiness checklist with optional links back to Weeks 1-2 -->
+  <div class="dp-content-block content-block" data-title="Before you start (readiness)">
+    <h3 class="dp-has-icon"><i class="dp-icon fas fa-check-circle" aria-hidden="true"></i>&nbsp;Before you start</h3>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+      <div class="dp-panel-group">
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w3-ready">Readiness checklist</h4>
+        <div id="w3-ready" class="dp-panel-content" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">You understand the difference between <strong>supervised</strong> and <strong>unsupervised</strong> learning.</li>
+            <li class="list-group-item">You're comfortable with <strong>distance metrics</strong> (Euclidean, Manhattan) and similarity measures.</li>
+            <li class="list-group-item">You know why <strong>feature scaling</strong> matters for distance-based algorithms.</li>
+          </ul>
+          <p class="mt-2 mb-0"><em>Need a refresher?</em> Jump back to Week 1:
+            <a href="../Week 1/canvas-03-machine-learning-models.html">Model families</a> ·
+            <a href="../Week 1/canvas-04-data-preprocessing.html">Preprocessing basics</a> ·
+            Week 2: <a href="../Week 2/w_2_04_knn.html">KNN (distance metrics)</a>
+          </p>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w3-what">What you'll do this week</h4>
+        <div id="w3-what" class="dp-panel-content" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Use <strong>clustering</strong> to segment customers, products, or behaviors.</li>
+            <li class="list-group-item">Apply <strong>PCA</strong> to reduce dimensions while preserving information.</li>
+            <li class="list-group-item">Master advanced <strong>preprocessing</strong>: encoding, scaling, imputation strategies.</li>
+            <li class="list-group-item">Build <strong>recommendation engines</strong> using collaborative filtering and association rules.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Warm-up activity -->
+  <div class="dp-content-block content-block" data-title="Warm-up: Unsupervised Use Cases">
+    <h3 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Warm-up: Unsupervised Use Cases</h3>
+    <p class="mt-2">Start by matching unsupervised learning techniques to real business problems.</p>
+    <div class="dp-embed-wrapper">
+      <iframe title="Unsupervised Learning Use Cases" role="application" src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/w3-unsupervised-matcher.html" width="100%" height="900" loading="lazy" allowfullscreen aria-label="Interactive activity to match unsupervised learning techniques to business use cases"></iframe>
+    </div>
+  </div>
+
+  <!-- Tips & expectations -->
+  <div class="dp-content-block content-block" data-title="How to get the most out of Week 3">
+    <h3 class="dp-has-icon"><i class="dp-icon fas fa-lightbulb" aria-hidden="true"></i>&nbsp;How to get the most out of Week 3</h3>
+    <div class="dp-card card" style="border-left: 4px solid #f97316; padding-left: 15px;">
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><strong>No labels, no problem:</strong> Unsupervised learning finds patterns without target variables.</li>
+          <li class="list-group-item"><strong>Scale your features:</strong> Clustering and PCA are sensitive to feature magnitudes.</li>
+          <li class="list-group-item"><strong>Validate with business sense:</strong> Use domain knowledge to interpret clusters and components.</li>
+          <li class="list-group-item"><strong>Think about cold starts:</strong> Recommendation systems need strategies for new users/items.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Optional callout (admin/housekeeping) -->
+  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
+    <div class="card-body">
+      <h4 class="card-title">Heads up</h4>
+      <p class="card-text">This week features highly interactive widgets for clustering, PCA visualization, and recommendation engines. Each widget includes real-time parameter adjustments to build intuition.</p>
+    </div>
+  </div>
+
+  <hr />
+  <p>Select <strong>Next▸</strong> to begin with <strong>Unsupervised Learning Overview</strong>.</p>
+</div>
+
+<!-- Canvas-safe toggling -->
+<script>
+(function () {
+  function toggleHead(h){
+    const content = document.getElementById(h.getAttribute('aria-controls'));
+    const expanded = h.getAttribute('aria-expanded') === 'true';
+    h.setAttribute('aria-expanded', String(!expanded));
+    if (content) content.hidden = expanded;
+  }
+  document.addEventListener('click', function (e) {
+    const h = e.target.closest('.dp-panel-heading[role="button"]');
+    if (h) toggleHead(h);
+  });
+  document.addEventListener('keydown', function (e) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role="button"]')) {
+      e.preventDefault(); toggleHead(e.target);
+    }
+  });
+})();
+</script>
