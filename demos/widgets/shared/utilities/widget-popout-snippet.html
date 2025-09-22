@@ -33,9 +33,14 @@
     <p>This guide shows how to add a "Pop Out" button to any widget that allows users to open it in a full browser window, escaping Canvas iframe size constraints.</p>
 
     <h2>Step 1: Include the Base CSS</h2>
-    <p>Make sure your widget includes the updated <code>ivey-widget-base.css</code> which now contains pop-out button styles:</p>
+    <p>Make sure your widget includes the updated <code>ivey-widget-base.css</code> which now contains pop-out button styles. The path depends on your widget location:</p>
     <div class="code-block">
-        <code>&lt;link rel="stylesheet" href="ivey-widget-base.css"&gt;</code>
+        <code>
+        &lt;!-- For widgets in week1/, week2/, etc --&gt;<br>
+        &lt;link rel="stylesheet" href="../../shared/ivey-widget-base.css"&gt;<br><br>
+        &lt;!-- For widgets in shared/ --&gt;<br>
+        &lt;link rel="stylesheet" href="../ivey-widget-base.css"&gt;
+        </code>
     </div>
 
     <h2>Step 2: Add the Pop-Out Button HTML</h2>
