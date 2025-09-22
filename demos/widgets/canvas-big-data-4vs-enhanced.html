@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Big Data 4 V's - Enhanced Visual Explorer</title>
+    <link rel="stylesheet" href="ivey-widget-base.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Figtree', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            line-height: 1.6;
+            color: #2c3e50;
+            min-height: 100vh;
+        }
+
+        .widget-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #034638 0%, #026450 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: shimmer 6s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { transform: translateX(-100%) translateY(-100%) rotate(0deg); }
+            50% { transform: translateX(0%) translateY(0%) rotate(180deg); }
+        }
+
+        .header h2 {
+            font-size: 1.8em;
+            margin-bottom: 12px;
+            color: white;
+            position: relative;
+            z-index: 2;
+        }
+
+        .header p {
+            opacity: 0.95;
+            font-size: 1em;
+            color: white;
+            position: relative;
+            z-index: 2;
+        }
+
+        .progress-indicator {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            gap: 15px;
+            background: #f8f9fa;
+        }
+
+        .progress-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #e9ecef;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .progress-dot.active {
+            background: #034638;
+            transform: scale(1.3);
+            box-shadow: 0 0 15px rgba(3, 70, 56, 0.4);
+        }
+
+        .progress-dot.active::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: rgba(3, 70, 56, 0.2);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(0.8); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(2); opacity: 0; }
+        }
+
+        .vs-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            padding: 30px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+
+        @media (max-width: 768px) {
+            .vs-container {
+                grid-template-columns: 1fr;
+                padding: 20px;
+                gap: 20px;
+            }
+        }
+
+        .v-card {
+            background: white;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            min-height: 220px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            perspective: 1000px;
+            overflow: hidden;
+        }
+
+        .v-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 16px;
+            padding: 2px;
+            background: linear-gradient(45deg, transparent, transparent);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: exclude;
+            transition: all 0.3s ease;
+        }
+
+        .v-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .v-card:hover::before {
+            background: linear-gradient(45deg, #034638, #582c83, #034638);
+        }
+
+        .v-card.active {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            z-index: 10;
+        }
+
+        .v-card.active::before {
+            background: linear-gradient(45deg, #034638, #582c83, #034638);
+        }
+
+        /* Individual V colors */
+        .v-card[data-v="volume"] { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .v-card[data-v="velocity"] { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; }
+        .v-card[data-v="variety"] { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; }
+        .v-card[data-v="veracity"] { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: white; }
+
+        .card-front, .card-back {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            backface-visibility: hidden;
+            transition: transform 0.6s ease;
+            border-radius: 16px;
+        }
+
+        .card-back {
+            transform: rotateY(180deg);
+            background: rgba(0,0,0,0.9);
+            color: white;
+        }
+
+        .v-card.flipped .card-front {
+            transform: rotateY(180deg);
+        }
+
+        .v-card.flipped .card-back {
+            transform: rotateY(0deg);
+        }
+
+        .v-icon {
+            font-size: 3.5em;
+            margin-bottom: 15px;
+            transition: all 0.4s ease;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+        }
+
+        .v-card:hover .v-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .v-card.active .v-icon {
+            transform: scale(1.2) rotate(10deg);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0) scale(1.2); }
+            40% { transform: translateY(-10px) scale(1.2); }
+            60% { transform: translateY(-5px) scale(1.2); }
+        }
+
+        .v-title {
+            font-size: 1.4em;
+            font-weight: 700;
+            margin-bottom: 12px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .v-description {
+            font-size: 0.9em;
+            opacity: 0.9;
+            line-height: 1.5;
+            font-weight: 500;
+        }
+
+        .example-content {
+            text-align: left;
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 15px 0;
+            border-left: 4px solid #ffd700;
+            backdrop-filter: blur(5px);
+        }
+
+        .example-label {
+            font-weight: 700;
+            color: #ffd700;
+            margin-bottom: 10px;
+            font-size: 1em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .example-text {
+            font-size: 0.9em;
+            line-height: 1.6;
+            color: #f8f9fa;
+        }
+
+        .flip-hint {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8em;
+            opacity: 0.8;
+            font-style: italic;
+            background: rgba(255,255,255,0.2);
+            padding: 5px 12px;
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+        }
+
+        .v-card.flipped .flip-hint {
+            opacity: 0;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.1);
+        }
+
+        .summary {
+            padding: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            margin: 0;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+            text-align: center;
+        }
+
+        .summary.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .summary h4 {
+            color: white;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            font-weight: 700;
+        }
+
+        .summary p {
+            font-size: 1em;
+            line-height: 1.6;
+            opacity: 0.95;
+        }
+
+        .controls {
+            padding: 25px;
+            text-align: center;
+            background: #f8f9fa;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #034638 0%, #026450 100%);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: 'Figtree', system-ui, sans-serif;
+            font-size: 0.9em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(3, 70, 56, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(3, 70, 56, 0.4);
+        }
+
+        .celebration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #ffd700;
+            animation: confetti-fall 3s linear forwards;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 10px;
+            }
+
+            .v-card {
+                min-height: 200px;
+                padding: 20px;
+            }
+
+            .v-icon {
+                font-size: 2.8em;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Pop-out button for full window view -->
+    <button class="widget-popout-btn" id="popoutBtn" title="Open in full window">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+        </svg>
+        <span>Pop Out</span>
+    </button>
+
+    <div class="widget-container">
+        <div class="header">
+            <h2><i class="fas fa-database" aria-hidden="true"></i> Big Data's Four Dimensions</h2>
+            <p>Click each dimension to explore business examples and flip for detailed insights</p>
+        </div>
+
+        <div class="progress-indicator">
+            <div class="progress-dot" data-for="volume"></div>
+            <div class="progress-dot" data-for="velocity"></div>
+            <div class="progress-dot" data-for="variety"></div>
+            <div class="progress-dot" data-for="veracity"></div>
+        </div>
+
+        <div class="vs-container">
+            <div class="v-card" data-v="volume">
+                <div class="card-front">
+                    <div class="v-icon"><i class="fas fa-chart-line"></i></div>
+                    <div class="v-title">Volume</div>
+                    <div class="v-description">Population-scale analysis beyond traditional samples</div>
+                    <div class="flip-hint">Click to flip & explore</div>
+                </div>
+                <div class="card-back">
+                    <button class="back-btn" onclick="flipCard(this.closest('.v-card'))">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <div class="example-content">
+                        <div class="example-label">Business Example</div>
+                        <div class="example-text">Netflix analyzes viewing patterns of 200+ million subscribers globally to create personalized recommendations and decide which original content to produce, spending $15 billion annually based on comprehensive data insights.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="v-card" data-v="velocity">
+                <div class="card-front">
+                    <div class="v-icon"><i class="fas fa-bolt"></i></div>
+                    <div class="v-title">Velocity</div>
+                    <div class="v-description">Real-time processing for immediate business responses</div>
+                    <div class="flip-hint">Click to flip & explore</div>
+                </div>
+                <div class="card-back">
+                    <button class="back-btn" onclick="flipCard(this.closest('.v-card'))">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <div class="example-content">
+                        <div class="example-label">Business Example</div>
+                        <div class="example-text">Amazon adjusts prices millions of times per day based on competitor pricing, inventory levels, and demand patterns, automatically optimizing revenue while remaining competitive in real-time.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="v-card" data-v="variety">
+                <div class="card-front">
+                    <div class="v-icon"><i class="fas fa-layer-group"></i></div>
+                    <div class="v-title">Variety</div>
+                    <div class="v-description">Multiple data formats for comprehensive intelligence</div>
+                    <div class="flip-hint">Click to flip & explore</div>
+                </div>
+                <div class="card-back">
+                    <button class="back-btn" onclick="flipCard(this.closest('.v-card'))">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <div class="example-content">
+                        <div class="example-label">Business Example</div>
+                        <div class="example-text">Tesla combines sensor data, GPS locations, weather conditions, traffic patterns, and driver behavior to continuously improve autonomous driving capabilities and predict maintenance needs.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="v-card" data-v="veracity">
+                <div class="card-front">
+                    <div class="v-icon"><i class="fas fa-shield-alt"></i></div>
+                    <div class="v-title">Veracity</div>
+                    <div class="v-description">Data accuracy ensuring reliable business insights</div>
+                    <div class="flip-hint">Click to flip & explore</div>
+                </div>
+                <div class="card-back">
+                    <button class="back-btn" onclick="flipCard(this.closest('.v-card'))">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <div class="example-content">
+                        <div class="example-label">Business Example</div>
+                        <div class="example-text">Credit card companies use multiple verification layers to ensure transaction data accuracy, preventing the $24.7 billion annual losses from payment fraud while maintaining customer trust.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="summary" id="summary">
+            <h4><i class="fas fa-lightbulb"></i> Strategic Insight</h4>
+            <p>Organizations that master all four dimensions create sustainable competitive advantages. Volume provides comprehensive insights, Velocity enables rapid response, Variety reveals hidden patterns, and Veracity ensures reliable decision-making. Companies focusing on only one or two dimensions miss opportunities for integrated business intelligence.</p>
+        </div>
+
+        <div class="controls">
+            <button class="btn" id="showAllBtn">
+                <i class="fas fa-eye"></i> Explore All Dimensions
+            </button>
+            <button class="btn" id="resetBtn">
+                <i class="fas fa-undo"></i> Reset Explorer
+            </button>
+        </div>
+    </div>
+
+    <div class="celebration" id="celebration"></div>
+
+    <script>
+        const cards = document.querySelectorAll('.v-card');
+        const showAllBtn = document.getElementById('showAllBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const summary = document.getElementById('summary');
+        const progressDots = document.querySelectorAll('.progress-dot');
+        const celebration = document.getElementById('celebration');
+
+        let exploredCards = new Set();
+
+        function flipCard(card) {
+            const isFlipped = card.classList.contains('flipped');
+            card.classList.toggle('flipped');
+
+            if (!isFlipped && !exploredCards.has(card.dataset.v)) {
+                exploredCards.add(card.dataset.v);
+                updateProgress(card.dataset.v);
+
+                if (exploredCards.size === 4) {
+                    setTimeout(() => {
+                        showSummaryWithCelebration();
+                    }, 800);
+                }
+            }
+        }
+
+        function updateProgress(vType) {
+            const dot = document.querySelector(`[data-for="${vType}"]`);
+            if (dot) {
+                dot.classList.add('active');
+            }
+        }
+
+        function showSummaryWithCelebration() {
+            summary.classList.add('show');
+            summary.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+            });
+
+            // Create confetti celebration
+            createConfetti();
+        }
+
+        function createConfetti() {
+            const colors = ['#ffd700', '#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#ffeaa7'];
+
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDelay = Math.random() * 2 + 's';
+                    confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+
+                    celebration.appendChild(confetti);
+
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, 4000);
+                }, i * 50);
+            }
+        }
+
+        function showAllDimensions() {
+            cards.forEach((card, index) => {
+                if (!card.classList.contains('flipped')) {
+                    setTimeout(() => {
+                        flipCard(card);
+                    }, index * 300);
+                }
+            });
+        }
+
+        function resetAllCards() {
+            cards.forEach(card => {
+                card.classList.remove('flipped');
+            });
+
+            progressDots.forEach(dot => {
+                dot.classList.remove('active');
+            });
+
+            exploredCards.clear();
+            summary.classList.remove('show');
+        }
+
+        // Event listeners
+        cards.forEach(card => {
+            card.addEventListener('click', (e) => {
+                if (!e.target.closest('.back-btn')) {
+                    flipCard(card);
+                }
+            });
+        });
+
+        showAllBtn.addEventListener('click', showAllDimensions);
+        resetBtn.addEventListener('click', resetAllCards);
+
+        // Pop-out functionality
+        document.getElementById('popoutBtn').addEventListener('click', function() {
+            const currentUrl = window.location.href;
+            const popoutUrl = currentUrl + (currentUrl.includes('?') ? '&' : '?') + 'standalone=true';
+            const popoutWindow = window.open(popoutUrl, 'WidgetPopout', 'width=1200,height=900,resizable=yes,scrollbars=yes,status=yes');
+            if (popoutWindow) popoutWindow.focus();
+        });
+
+        if (window.location.search.includes('standalone=true')) {
+            document.body.classList.add('standalone-mode');
+        }
+    </script>
+</body>
+</html>
