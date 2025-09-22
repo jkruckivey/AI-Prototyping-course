@@ -1,5 +1,9 @@
+<!-- Skip link for keyboard users -->
+<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<main id="main-content" role="main">
 <div id="dp-wrapper" class="dp-wrapper">
-  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;" aria-hidden="true">Icon Progress Bar (browser only)</div>
 
   <!-- Week 5 Intro / Orientation -->
   <div class="dp-content-block content-block" data-title="Week 5 — Orientation">
@@ -17,8 +21,8 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-check-circle" aria-hidden="true"></i>&nbsp;Before you start</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w5-ready">Readiness checklist</h3>
-        <div id="w5-ready" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w5-ready" id="w5-ready-heading">Readiness checklist</h3>
+        <div id="w5-ready" class="dp-panel-content" role="region" aria-labelledby="w5-ready-heading" hidden>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">You can map a business problem to a supervised learning task (classification vs regression).</li>
             <li class="list-group-item">You’ve used the right <strong>metrics</strong> (precision/recall, MAE/RMSE) and understand <strong>thresholds</strong>.</li>
@@ -33,8 +37,8 @@
       </div>
 
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w5-map">What you'll do this week</h3>
-        <div id="w5-map" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w5-map" id="w5-map-heading">What you'll do this week</h3>
+        <div id="w5-map" class="dp-panel-content" role="region" aria-labelledby="w5-map-heading" hidden>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">Sketch deployment options and <strong>last‑mile</strong> integration (APIs, batch jobs, human‑in‑the‑loop).</li>
             <li class="list-group-item">Design <strong>monitoring</strong>: data & concept drift, calibration, fairness checks, business KPIs.</li>
@@ -76,9 +80,10 @@
     </div>
   </div>
 
-  <hr />
+  <hr aria-hidden="true" />
   <p>Select <strong>Next▸</strong> to begin with <strong>Deployment & Last‑Mile Integration</strong>.</p>
 </div>
+</main>
 
 <!-- Canvas‑safe toggling -->
 <script>

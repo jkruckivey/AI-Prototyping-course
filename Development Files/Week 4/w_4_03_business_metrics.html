@@ -1,5 +1,9 @@
+<!-- Skip link for keyboard users -->
+<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<main id="main-content" role="main">
 <div id="dp-wrapper" class="dp-wrapper">
-  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;" aria-hidden="true">Icon Progress Bar (browser only)</div>
 
   <!-- Business Lens on Metrics -->
   <div class="dp-content-block content-block" data-title="Business Lens on Metrics">
@@ -21,9 +25,9 @@
         <caption>Pick the metric that answers the stakeholder’s question</caption>
         <thead>
           <tr>
-            <th>Stakeholder Question</th>
-            <th>Metric(s)</th>
-            <th>Why</th>
+            <th scope="col">Stakeholder Question</th>
+            <th scope="col">Metric(s)</th>
+            <th scope="col">Why</th>
           </tr>
         </thead>
         <tbody>
@@ -57,16 +61,16 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-dollar-sign" aria-hidden="true"></i>&nbsp;Cost‑Sensitive Decisions</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="cost-matrix">Cost matrix</h3>
-        <div id="cost-matrix" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="cost-matrix" id="cost-matrix-heading">Cost matrix</h3>
+        <div id="cost-matrix" class="dp-panel-content" role="region" aria-labelledby="cost-matrix-heading" hidden>
           <div class="table-responsive">
             <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Confusion outcomes with example costs">
               <caption>Example costs per decision (set your own numbers)</caption>
               <thead>
                 <tr>
-                  <th></th>
-                  <th>Actual Positive</th>
-                  <th>Actual Negative</th>
+                  <th scope="col"></th>
+                  <th scope="col">Actual Positive</th>
+                  <th scope="col">Actual Negative</th>
                 </tr>
               </thead>
               <tbody>
@@ -87,14 +91,14 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="cost-ev">Expected value</h3>
-        <div id="cost-ev" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="cost-ev" id="cost-ev-heading">Expected value</h3>
+        <div id="cost-ev" class="dp-panel-content" role="region" aria-labelledby="cost-ev-heading" hidden>
           <p>For a candidate threshold, compute counts (TP, FP, FN, TN) and apply your cost/benefit assumptions to estimate <strong>net value</strong>. Choose the threshold with the best net.</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="cost-seg">Segmented thresholds</h3>
-        <div id="cost-seg" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="cost-seg" id="cost-seg-heading">Segmented thresholds</h3>
+        <div id="cost-seg" class="dp-panel-content" role="region" aria-labelledby="cost-seg-heading" hidden>
           <p>Costs differ by customer or transaction type. Use <strong>different thresholds</strong> per segment (e.g., high‑value vs. standard accounts) if governance allows.</p>
         </div>
       </div>
@@ -115,8 +119,8 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-chalkboard-teacher" aria-hidden="true"></i>&nbsp;Communicating Results</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="comm-story">Tell the story</h3>
-        <div id="comm-story" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="comm-story" id="comm-story-heading">Tell the story</h3>
+        <div id="comm-story" class="dp-panel-content" role="region" aria-labelledby="comm-story-heading" hidden>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">Start with the <strong>business KPI</strong> (e.g., saves, prevented fraud, incremental revenue).</li>
             <li class="list-group-item">Show the <strong>trade‑off curve</strong> and chosen threshold with rationale.</li>
@@ -125,8 +129,8 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="comm-guard">Guardrails</h3>
-        <div id="comm-guard" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="comm-guard" id="comm-guard-heading">Guardrails</h3>
+        <div id="comm-guard" class="dp-panel-content" role="region" aria-labelledby="comm-guard-heading" hidden>
           <p>Document human‑in‑the‑loop checks, fairness audits across subgroups, and operational limits (e.g., daily review capacity).</p>
         </div>
       </div>
@@ -150,9 +154,10 @@
     </div>
   </div>
 
-  <hr />
+  <hr aria-hidden="true" />
   <p>Select <strong>Next▸</strong> to continue with <strong>Mini Case: Metrics in the Wild</strong>.</p>
 </div>
+</main>
 
 <!-- Canvas-safe toggling -->
 <script>

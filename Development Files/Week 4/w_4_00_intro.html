@@ -1,5 +1,9 @@
+<!-- Skip link for keyboard users -->
+<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<main id="main-content" role="main">
 <div id="dp-wrapper" class="dp-wrapper">
-  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;" aria-hidden="true">Icon Progress Bar (browser only)</div>
 
   <!-- Week 4 Intro / Orientation -->
   <div class="dp-content-block content-block" data-title="Week 4 — Orientation">
@@ -17,8 +21,8 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-check-circle" aria-hidden="true"></i>&nbsp;Before you start</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w4-ready">Readiness checklist</h3>
-        <div id="w4-ready" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w4-ready" id="w4-ready-heading">Readiness checklist</h3>
+        <div id="w4-ready" class="dp-panel-content" role="region" aria-labelledby="w4-ready-heading" hidden>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">You can distinguish <strong>classification</strong> vs <strong>regression</strong> tasks.</li>
             <li class="list-group-item">You know the basics of <strong>train/validation/test splits</strong>.</li>
@@ -32,8 +36,8 @@
       </div>
 
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w4-what">What you'll do this week</h3>
-        <div id="w4-what" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w4-what" id="w4-what-heading">What you'll do this week</h3>
+        <div id="w4-what" class="dp-panel-content" role="region" aria-labelledby="w4-what-heading" hidden>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">Compare evaluation metrics and know when to use each (accuracy, precision/recall, ROC, etc.).</li>
             <li class="list-group-item">Understand <strong>overfitting vs underfitting</strong> and how to mitigate them.</li>
@@ -75,9 +79,10 @@
     </div>
   </div>
 
-  <hr />
+  <hr aria-hidden="true" />
   <p>Select <strong>Next▸</strong> to begin with <strong>Metrics & Model Fit</strong>.</p>
 </div>
+</main>
 
 <!-- Canvas‑safe toggling -->
 <script>

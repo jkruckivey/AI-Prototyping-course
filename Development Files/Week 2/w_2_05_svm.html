@@ -1,128 +1,99 @@
+<p><a class="sr-only sr-only-focusable" href="#main-content">Skip to main content</a></p>
 <div id="dp-wrapper" class="dp-wrapper">
-  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
-
-  <div class="dp-content-block content-block" data-title="Support Vector Machines (SVM)">
-    <h2 class="dp-has-icon"><i class="dp-icon fas fa-border-all" aria-hidden="true"></i>&nbsp;Finding Optimal Boundaries</h2>
-    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
-      <div class="card-body">
-        <h3 class="card-title dp-ignore-theme">What this page covers</h3>
-        <p>How SVMs learn <strong>maximum‑margin</strong> decision boundaries, when to use <strong>linear</strong> vs <strong>kernel</strong> SVMs, how the <strong>C</strong> parameter and <strong>feature scaling</strong> affect results, and where <strong>SVR</strong> fits for regression.</p>
-      </div>
-    </div>
-  </div>
-
-
-  <div class="dp-content-block content-block" data-title="Concepts & Intuition">
-    <h2 class="dp-has-icon"><i class="dp-icon fas fa-lightbulb" aria-hidden="true"></i>&nbsp;Concepts & Intuition</h2>
-    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
-      <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="svm-what">What is an SVM?</h4>
-        <div id="svm-what" class="dp-panel-content" hidden>
-          <p>An SVM is a supervised model that finds a <strong>decision boundary</strong> separating classes with the <strong>largest possible margin</strong>. The data points that touch the margin are the <em>support vectors</em>.</p>
-        </div>
-      </div>
-      <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="svm-margin">Maximum margin & support vectors</h4>
-        <div id="svm-margin" class="dp-panel-content" hidden>
-          <p>Among all separating boundaries, SVM prefers the one that maximizes the distance to the closest points of each class. This tends to <strong>generalize</strong> better to new data.</p>
-          <div class="dp-card card" style="background-color:#f8f9fa; border:1px solid #dee2e6; margin-top:.5rem;">
+    <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;" aria-hidden="true">Icon Progress Bar (browser only)</div>
+    <div class="dp-content-block content-block" data-title="Support Vector Machines (SVM)">
+        <h2 class="dp-has-icon"><i class="dp-icon fas fa-border-all" aria-hidden="true"></i>&nbsp;Finding Optimal Boundaries</h2>
+        <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
             <div class="card-body">
-              <p class="mb-0"><strong>Soft margin:</strong> With noisy/overlapping classes, we allow margin violations. The <strong>C</strong> parameter controls the trade‑off between wider margins and fewer violations.</p>
+                <h3 class="card-title dp-ignore-theme">What this page covers</h3>
+                <p>How SVMs learn <strong>maximum‑margin</strong> decision boundaries, when to use <strong>linear</strong> vs <strong>kernel</strong> SVMs, how the <strong>C</strong> parameter and <strong>feature scaling</strong> affect results, and where <strong>SVR</strong> fits for regression.</p>
             </div>
-          </div>
         </div>
-      </div>
-      <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="svm-linear">Linear vs non‑linear</h4>
-        <div id="svm-linear" class="dp-panel-content" hidden>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item"><strong>Linear SVM:</strong> Works well when a (nearly) straight boundary in feature space separates classes. Fast and strong baseline.</li>
-            <li class="list-group-item"><strong>Kernel SVM:</strong> Use a kernel (e.g., RBF) to implicitly map features to a higher‑dimensional space where separation is easier; boundary can curve.</li>
-          </ul>
-        </div>
-      </div>
-      <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="svm-scale">Scaling & regularization</h4>
-        <div id="svm-scale" class="dp-panel-content" hidden>
-          <p>SVMs are sensitive to feature scale. <strong>Standardize</strong> inputs and tune <strong>C</strong> (and kernel hyperparameters such as <em>gamma</em>) via validation. Fit the scaler on <em>training</em> only to avoid leakage.</p>
-        </div>
-      </div>
-      <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="svm-svr">SVM for regression (SVR)</h4>
-        <div id="svm-svr" class="dp-panel-content" hidden>
-          <p>Support Vector <strong>Regression</strong> fits a function within an <em>epsilon‑insensitive</em> tube around the data. Points outside the tube influence the fit (analogous to support vectors).</p>
-        </div>
-      </div>
     </div>
-  </div>
-
-  <div class="dp-content-block content-block" data-title="Interactive: Boundary Explorer">
-    <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive: SVM Boundary Explorer</h2>
-    <p class="mt-2"><em>Try it:</em> Switch between <strong>linear</strong> and <strong>RBF</strong> kernels, and adjust <strong>C</strong> and <strong>gamma</strong> to see how the margin and boundary change.</p>
-    <div class="dp-embed-wrapper">
-      <iframe title="SVM Decision Boundary Explorer" role="application" src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/w2-svm-boundary.html" width="100%" height="750" loading="lazy" allowfullscreen aria-label="Interactive demo to adjust SVM kernel, C, and gamma to see decision boundary changes"></iframe>
-    </div>
-  </div>
-
-  <div class="dp-content-block content-block" data-title="When to pick SVM">
-    <h2 class="dp-has-icon"><i class="dp-icon fas fa-check-circle" aria-hidden="true"></i>&nbsp;When to Pick SVM</h2>
-    <div class="dp-card card" style="border-left: 4px solid #582C83; padding-left: 15px;">
-      <div class="card-body">
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">You need a strong baseline classifier with <strong>good generalization</strong> on medium‑sized, tabular datasets.</li>
-          <li class="list-group-item">Classes are separable after reasonable scaling/feature engineering; a <strong>linear boundary</strong> might suffice.</li>
-          <li class="list-group-item">You can validate/tune <strong>C</strong> (and <em>gamma</em> for RBF) and you’re okay with slower inference than logistic regression.</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <div class="dp-content-block content-block" data-title="Quick Check">
-    <h2 class="dp-has-icon"><i class="dp-icon fas fa-clipboard-check" aria-hidden="true"></i>&nbsp;Quick Check</h2>
-    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
-      <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="qc-1">What does maximizing the margin achieve?</h4>
-        <div id="qc-1" class="dp-panel-content" hidden>
-          <p>It picks the boundary least sensitive to small perturbations in the training data, which usually <strong>improves generalization</strong>.</p>
+    <div class="dp-content-block content-block" data-title="Concepts &amp; Intuition">
+        <h2 class="dp-has-icon"><i class="dp-icon fas fa-lightbulb" aria-hidden="true"></i>&nbsp;Concepts &amp; Intuition</h2>
+        <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+            <div class="dp-panel-group">
+                <h3 id="svm-what-heading" class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="svm-what">What is an SVM?</h3>
+                <div id="svm-what" class="dp-panel-content" role="region" aria-labelledby="svm-what-heading">
+                    <p>An SVM is a supervised model that finds a <strong>decision boundary</strong> separating classes with the <strong>largest possible margin</strong>. The data points that touch the margin are the <em>support vectors</em>.</p>
+                </div>
+            </div>
+            <div class="dp-panel-group">
+                <h3 id="svm-margin-heading" class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="svm-margin">Maximum margin &amp; support vectors</h3>
+                <div id="svm-margin" class="dp-panel-content" role="region" aria-labelledby="svm-margin-heading">
+                    <p>Among all separating boundaries, SVM prefers the one that maximizes the distance to the closest points of each class. This tends to <strong>generalize</strong> better to new data.</p>
+                    <div class="dp-card card" style="background-color: #f8f9fa; border: 1px solid #dee2e6; margin-top: .5rem;">
+                        <div class="card-body">
+                            <p class="mb-0"><strong>Soft margin:</strong> With noisy/overlapping classes, we allow margin violations. The <strong>C</strong> parameter controls the trade‑off between wider margins and fewer violations.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="dp-panel-group">
+                <h3 id="svm-linear-heading" class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="svm-linear">Linear vs non‑linear</h3>
+                <div id="svm-linear" class="dp-panel-content" role="region" aria-labelledby="svm-linear-heading">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><strong>Linear SVM:</strong> Works well when a (nearly) straight boundary in feature space separates classes. Fast and strong baseline.</li>
+                        <li class="list-group-item"><strong>Kernel SVM:</strong> Use a kernel (e.g., RBF) to implicitly map features to a higher‑dimensional space where separation is easier; boundary can curve.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="dp-panel-group">
+                <h3 id="svm-scale-heading" class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="svm-scale">Scaling &amp; regularization</h3>
+                <div id="svm-scale" class="dp-panel-content" role="region" aria-labelledby="svm-scale-heading">
+                    <p>SVMs are sensitive to feature scale. <strong>Standardize</strong> inputs and tune <strong>C</strong> (and kernel hyperparameters such as <em>gamma</em>) via validation. Fit the scaler on <em>training</em> only to avoid leakage.</p>
+                </div>
+            </div>
+            <div class="dp-panel-group">
+                <h3 id="svm-svr-heading" class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="svm-svr">SVM for regression (SVR)</h3>
+                <div id="svm-svr" class="dp-panel-content" role="region" aria-labelledby="svm-svr-heading">
+                    <p>Support Vector <strong>Regression</strong> fits a function within an <em>epsilon‑insensitive</em> tube around the data. Points outside the tube influence the fit (analogous to support vectors).</p>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="qc-2">When would you try an RBF kernel?</h4>
-        <div id="qc-2" class="dp-panel-content" hidden>
-          <p>When the classes are not well separated by a straight line in the original feature space; RBF can create <strong>curved</strong> boundaries.</p>
+    </div>
+    <div class="dp-content-block content-block" data-title="Interactive: Boundary Explorer">
+        <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive: SVM Boundary Explorer</h2>
+        <p class="mt-2"><em>Try it:</em> Switch between <strong>linear</strong> and <strong>RBF</strong> kernels, and adjust <strong>C</strong> and <strong>gamma</strong> to see how the margin and boundary change.</p>
+        <div class="dp-embed-wrapper"><iframe title="SVM Decision Boundary Explorer" role="application" src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/w2-svm-boundary.html" width="100%" height="1200" loading="lazy" allowfullscreen="allowfullscreen" aria-label="Interactive demo to adjust SVM kernel, C, and gamma to see decision boundary changes"></iframe></div>
+    </div>
+    <div class="dp-content-block content-block" data-title="When to pick SVM">
+        <h2 class="dp-has-icon"><i class="dp-icon fas fa-check-circle" aria-hidden="true"></i>&nbsp;When to Pick SVM</h2>
+        <div class="dp-card card" style="border-left: 4px solid #582C83; padding-left: 15px;">
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">You need a strong baseline classifier with <strong>good generalization</strong> on medium‑sized, tabular datasets.</li>
+                    <li class="list-group-item">Classes are separable after reasonable scaling/feature engineering; a <strong>linear boundary</strong> might suffice.</li>
+                    <li class="list-group-item">You can validate/tune <strong>C</strong> (and <em>gamma</em> for RBF) and you&rsquo;re okay with slower inference than logistic regression.</li>
+                </ul>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
-
-  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
-    <div class="card-body">
-      <h3 class="card-title">Helpful Tip</h3>
-      <p class="card-text">Start with a <strong>linear SVM</strong> + scaling. If performance plateaus, explore RBF kernel with a small grid over <strong>C</strong> and <strong>gamma</strong>.</p>
+    <div class="dp-content-block content-block" data-title="Quick Check">
+        <h2 class="dp-has-icon"><i class="dp-icon fas fa-clipboard-check" aria-hidden="true"></i>&nbsp;Quick Check</h2>
+        <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+            <div class="dp-panel-group">
+                <h3 id="qc-1-heading" class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="qc-1">What does maximizing the margin achieve?</h3>
+                <div id="qc-1" class="dp-panel-content" role="region" aria-labelledby="qc-1-heading">
+                    <p>It picks the boundary least sensitive to small perturbations in the training data, which usually <strong>improves generalization</strong>.</p>
+                </div>
+            </div>
+            <div class="dp-panel-group">
+                <h3 id="qc-2-heading" class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="qc-2">When would you try an RBF kernel?</h3>
+                <div id="qc-2" class="dp-panel-content" role="region" aria-labelledby="qc-2-heading">
+                    <p>When the classes are not well separated by a straight line in the original feature space; RBF can create <strong>curved</strong> boundaries.</p>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-
-  <hr />
-  <p>Select <strong>Next▸</strong> to continue.</p>
+    <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
+        <div class="card-body">
+            <h3 class="card-title">Helpful Tip</h3>
+            <p class="card-text">Start with a <strong>linear SVM</strong> + scaling. If performance plateaus, explore RBF kernel with a small grid over <strong>C</strong> and <strong>gamma</strong>.</p>
+        </div>
+    </div>
+    <hr aria-hidden="true" />
+    <p>Select <strong>Next▸</strong> to continue.</p>
 </div>
-
-<!-- Canvas‑safe toggling -->
-<script>
-(function () {
-  function toggleHead(h){
-    const content = document.getElementById(h.getAttribute('aria-controls'));
-    const expanded = h.getAttribute('aria-expanded') === 'true';
-    h.setAttribute('aria-expanded', String(!expanded));
-    if (content) content.hidden = expanded;
-  }
-  document.addEventListener('click', function (e) {
-    const h = e.target.closest('.dp-panel-heading[role=\"button\"]');
-    if (h) toggleHead(h);
-  });
-  document.addEventListener('keydown', function (e) {
-    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role=\"button\"]')) {
-      e.preventDefault(); toggleHead(e.target);
-    }
-  });
-})();
-</script>
+<p>&nbsp;</p>

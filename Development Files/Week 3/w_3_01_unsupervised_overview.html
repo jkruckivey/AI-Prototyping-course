@@ -1,5 +1,9 @@
+<!-- Skip link for keyboard users -->
+<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<main id="main-content" role="main">
 <div id="dp-wrapper" class="dp-wrapper">
-  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;" aria-hidden="true">Icon Progress Bar (browser only)</div>
 
   <div class="dp-content-block content-block" data-title="Introduction to Unsupervised Learning">
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-search" aria-hidden="true"></i>&nbsp;Introduction to Unsupervised Learning</h2>
@@ -16,8 +20,8 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-balance-scale" aria-hidden="true"></i>&nbsp;Supervised vs Unsupervised Learning</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="supervised-recap">Supervised Learning Recap</h3>
-        <div id="supervised-recap" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="supervised-recap" id="supervised-recap-heading">Supervised Learning Recap</h3>
+        <div id="supervised-recap" class="dp-panel-content" role="region" aria-labelledby="supervised-recap-heading" hidden>
           <p>With supervised learning, we have <strong>labeled data</strong> - both input features and target outputs are known. The goal is to learn a mapping function that predicts targets for new, unseen inputs.</p>
           <ul class="list-group list-group-flush">
             <li class="list-group-item"><strong>Classification</strong>: Predict categories (spam/not spam, approve/deny)</li>
@@ -27,11 +31,12 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="unsupervised-intro">Unsupervised Learning: No Labels Required</h3>
-        <div id="unsupervised-intro" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="unsupervised-intro" id="unsupervised-intro-heading">Unsupervised Learning: No Labels Required</h3>
+        <div id="unsupervised-intro" class="dp-panel-content" role="region" aria-labelledby="unsupervised-intro-heading" hidden>
           <p>Unsupervised learning works with <strong>unlabeled data</strong> - only input features are available, no target outputs. The goal is to discover hidden patterns, structures, or relationships in the data.</p>
           <div class="table-responsive">
             <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Comparison of supervised vs unsupervised learning">
+              <caption>Supervised vs Unsupervised Learning Comparison</caption>
               <thead>
                 <tr>
                   <th>Aspect</th>
@@ -67,8 +72,8 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-sitemap" aria-hidden="true"></i>&nbsp;Categories of Unsupervised Learning</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="clustering">Clustering: Finding Groups</h3>
-        <div id="clustering" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="clustering" id="clustering-heading">Clustering: Finding Groups</h3>
+        <div id="clustering" class="dp-panel-content" role="region" aria-labelledby="clustering-heading" hidden>
           <div class="row">
             <div class="col-md-8">
               <p>Group similar data points together without knowing the groups in advance. Discover natural segments in your data.</p>
@@ -90,8 +95,8 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="dimensionality">Dimensionality Reduction: Simplifying Complexity</h3>
-        <div id="dimensionality" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="dimensionality" id="dimensionality-heading">Dimensionality Reduction: Simplifying Complexity</h3>
+        <div id="dimensionality" class="dp-panel-content" role="region" aria-labelledby="dimensionality-heading" hidden>
           <div class="row">
             <div class="col-md-8">
               <p>Reduce the number of features while preserving important information. Essential for high-dimensional data and visualization.</p>
@@ -113,8 +118,8 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="association">Association Rules: Finding Relationships</h3>
-        <div id="association" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="association" id="association-heading">Association Rules: Finding Relationships</h3>
+        <div id="association" class="dp-panel-content" role="region" aria-labelledby="association-heading" hidden>
           <div class="row">
             <div class="col-md-8">
               <p>Discover relationships between different items or events. Find patterns like "if A, then B" in transactional data.</p>
@@ -142,8 +147,8 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-compass" aria-hidden="true"></i>&nbsp;When to Use Unsupervised Learning</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="exploration">Data Exploration & Understanding</h3>
-        <div id="exploration" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="exploration" id="exploration-heading">Data Exploration & Understanding</h3>
+        <div id="exploration" class="dp-panel-content" role="region" aria-labelledby="exploration-heading" hidden>
           <p>Start with unsupervised methods when you need to understand your data structure before building predictive models.</p>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">Explore new datasets to understand patterns</li>
@@ -154,8 +159,8 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="no-labels">When Labels Are Expensive or Unavailable</h3>
-        <div id="no-labels" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="no-labels" id="no-labels-heading">When Labels Are Expensive or Unavailable</h3>
+        <div id="no-labels" class="dp-panel-content" role="region" aria-labelledby="no-labels-heading" hidden>
           <p>Many business scenarios lack labeled data or acquiring labels is too costly.</p>
           <ul class="list-group list-group-flush">
             <li class="list-group-item"><strong>Medical diagnosis</strong>: Limited expert annotations available</li>
@@ -166,8 +171,8 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="preprocessing">Preprocessing for Supervised Learning</h3>
-        <div id="preprocessing" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="preprocessing" id="preprocessing-heading">Preprocessing for Supervised Learning</h3>
+        <div id="preprocessing" class="dp-panel-content" role="region" aria-labelledby="preprocessing-heading" hidden>
           <p>Use unsupervised methods to improve supervised learning performance.</p>
           <ul class="list-group list-group-flush">
             <li class="list-group-item"><strong>Feature engineering</strong>: Create better features through PCA</li>
@@ -203,9 +208,10 @@
     </div>
   </div>
 
-  <hr />
+  <hr aria-hidden="true" />
   <p>Select <strong>Next▸</strong> to continue.</p>
 </div>
+</main>
 
 <script>
 (function () {

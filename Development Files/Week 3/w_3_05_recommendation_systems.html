@@ -1,5 +1,9 @@
+<!-- Skip link for keyboard users -->
+<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<main id="main-content" role="main">
 <div id="dp-wrapper" class="dp-wrapper">
-  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;" aria-hidden="true">Icon Progress Bar (browser only)</div>
 
   <div class="dp-content-block content-block" data-title="Introduction to Recommendation Systems">
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-thumbs-up" aria-hidden="true"></i>&nbsp;Recommendation Systems</h2>
@@ -16,8 +20,8 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-sitemap" aria-hidden="true"></i>&nbsp;Recommendation Approaches</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="collaborative-filtering">Collaborative Filtering: "Users Like You"</h3>
-        <div id="collaborative-filtering" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="collaborative-filtering" id="collaborative-filtering-heading">Collaborative Filtering: "Users Like You"</h3>
+        <div id="collaborative-filtering" class="dp-panel-content" role="region" aria-labelledby="collaborative-filtering-heading" hidden>
           <p>Recommends based on behavior patterns of similar users or similar items:</p>
           <div class="row">
             <div class="col-md-6">
@@ -44,17 +48,18 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="content-based">Content-Based: "More Like This"</h3>
-        <div id="content-based" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="content-based" id="content-based-heading">Content-Based: "More Like This"</h3>
+        <div id="content-based" class="dp-panel-content" role="region" aria-labelledby="content-based-heading" hidden>
           <p>Recommends items similar to those a user has already shown interest in:</p>
           <div class="table-responsive">
             <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Content-based recommendation features">
+              <caption>Content-Based Recommendation Feature Examples by Domain</caption>
               <thead>
                 <tr>
-                  <th>Domain</th>
-                  <th>Item Features</th>
-                  <th>User Profile</th>
-                  <th>Recommendation Logic</th>
+                  <th scope="col">Domain</th>
+                  <th scope="col">Item Features</th>
+                  <th scope="col">User Profile</th>
+                  <th scope="col">Recommendation Logic</th>
                 </tr>
               </thead>
               <tbody>
@@ -88,8 +93,8 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="hybrid-systems">Hybrid Systems: Best of Both Worlds</h3>
-        <div id="hybrid-systems" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="hybrid-systems" id="hybrid-systems-heading">Hybrid Systems: Best of Both Worlds</h3>
+        <div id="hybrid-systems" class="dp-panel-content" role="region" aria-labelledby="hybrid-systems-heading" hidden>
           <p>Combine multiple approaches to overcome individual limitations:</p>
           <ul class="list-group list-group-flush">
             <li class="list-group-item"><strong>Weighted combination</strong>: Blend collaborative and content-based scores</li>
@@ -106,8 +111,8 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-shopping-basket" aria-hidden="true"></i>&nbsp;Association Rules</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="association-basics">How Association Rules Work</h3>
-        <div id="association-basics" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="association-basics" id="association-basics-heading">How Association Rules Work</h3>
+        <div id="association-basics" class="dp-panel-content" role="region" aria-labelledby="association-basics-heading" hidden>
           <p>Find patterns in transaction data using support, confidence, and lift metrics:</p>
           <div class="dp-card card" style="background-color:#e7f3ff; border:1px solid #b3d9ff;">
             <div class="card-body">
@@ -117,12 +122,13 @@
           </div>
           <div class="table-responsive mt-3">
             <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Association rule metrics">
+              <caption>Association Rule Mining Metrics and Interpretation</caption>
               <thead>
                 <tr>
-                  <th>Metric</th>
-                  <th>Formula</th>
-                  <th>Meaning</th>
-                  <th>Typical Threshold</th>
+                  <th scope="col">Metric</th>
+                  <th scope="col">Formula</th>
+                  <th scope="col">Meaning</th>
+                  <th scope="col">Typical Threshold</th>
                 </tr>
               </thead>
               <tbody>
@@ -150,8 +156,8 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="apriori-algorithm">The Apriori Algorithm</h3>
-        <div id="apriori-algorithm" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="apriori-algorithm" id="apriori-algorithm-heading">The Apriori Algorithm</h3>
+        <div id="apriori-algorithm" class="dp-panel-content" role="region" aria-labelledby="apriori-algorithm-heading" hidden>
           <p>Efficiently finds frequent itemsets using the downward closure property:</p>
           <div class="row">
             <div class="col-md-4">
@@ -182,8 +188,8 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="business-applications">Business Applications</h3>
-        <div id="business-applications" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="business-applications" id="business-applications-heading">Business Applications</h3>
+        <div id="business-applications" class="dp-panel-content" role="region" aria-labelledby="business-applications-heading" hidden>
           <div class="row">
             <div class="col-md-6">
               <div class="dp-card card h-100">
@@ -221,16 +227,17 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-cogs" aria-hidden="true"></i>&nbsp;Implementation Considerations</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="cold-start">The Cold Start Problem</h3>
-        <div id="cold-start" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="cold-start" id="cold-start-heading">The Cold Start Problem</h3>
+        <div id="cold-start" class="dp-panel-content" role="region" aria-labelledby="cold-start-heading" hidden>
           <p>How to recommend to new users or promote new items with limited interaction data:</p>
           <div class="table-responsive">
             <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Cold start solutions">
+              <caption>Cold Start Problem Solutions in Recommendation Systems</caption>
               <thead>
                 <tr>
-                  <th>Problem</th>
-                  <th>Description</th>
-                  <th>Solutions</th>
+                  <th scope="col">Problem</th>
+                  <th scope="col">Description</th>
+                  <th scope="col">Solutions</th>
                 </tr>
               </thead>
               <tbody>
@@ -255,8 +262,8 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="evaluation-metrics">Evaluation Metrics</h3>
-        <div id="evaluation-metrics" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="evaluation-metrics" id="evaluation-metrics-heading">Evaluation Metrics</h3>
+        <div id="evaluation-metrics" class="dp-panel-content" role="region" aria-labelledby="evaluation-metrics-heading" hidden>
           <p>Measuring recommendation system performance requires both accuracy and business metrics:</p>
           <div class="row">
             <div class="col-md-6">
@@ -289,8 +296,8 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="challenges">Common Challenges</h3>
-        <div id="challenges" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="challenges" id="challenges-heading">Common Challenges</h3>
+        <div id="challenges" class="dp-panel-content" role="region" aria-labelledby="challenges-heading" hidden>
           <div class="dp-card card" style="border-left: 4px solid #dc2626; padding-left: 12px;">
             <div class="card-body">
               <h6 class="card-title">Implementation Challenges</h6>
@@ -320,8 +327,8 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-clipboard-check" aria-hidden="true"></i>&nbsp;Knowledge Check</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="quiz-scenarios">Recommendation Scenarios</h3>
-        <div id="quiz-scenarios" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="quiz-scenarios" id="quiz-scenarios-heading">Recommendation Scenarios</h3>
+        <div id="quiz-scenarios" class="dp-panel-content" role="region" aria-labelledby="quiz-scenarios-heading" hidden>
           <p><strong>Match each scenario to the best recommendation approach:</strong></p>
           <ul>
             <li><strong>Netflix movie suggestions</strong> - Hybrid system (viewing history + content features)</li>
@@ -345,14 +352,15 @@
   <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-color-dp-primary dp-callout-type-info" role="note" aria-label="Session completion reminder">
     <div class="dp-callout-side-emphasis"><i class="dp-icon fas fa-info-circle dp-default-icon" aria-hidden="true"></i></div>
     <div class="card-body">
-      <h4 class="card-title"><strong>Week 3 Complete</strong></h2>
+      <h4 class="card-title"><strong>Week 3 Complete</strong></h4>
       <p class="card-text">You've mastered unsupervised learning fundamentals: clustering, dimensionality reduction, preprocessing, and recommendations. Ready to apply these techniques to discover hidden patterns in your data.</p>
     </div>
   </div>
 
-  <hr />
+  <hr aria-hidden="true" />
   <p>Select <strong>Modules</strong> on the left-hand side to return to the session list.</p>
 </div>
+</main>
 
 <script>
 (function () {

@@ -1,5 +1,9 @@
+<!-- Skip link for keyboard users -->
+<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<main id="main-content" role="main">
 <div id="dp-wrapper" class="dp-wrapper">
-  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;" aria-hidden="true">Icon Progress Bar (browser only)</div>
 
   <!-- Metrics & Model Fit -->
   <div class="dp-content-block content-block" data-title="Metrics & Model Fit">
@@ -25,20 +29,20 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-ruler"></i>&nbsp;Regression Metrics</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w4-mse">MSE / RMSE</h3>
-        <div id="w4-mse" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w4-mse" id="w4-mse-heading">MSE / RMSE</h3>
+        <div id="w4-mse" class="dp-panel-content" role="region" aria-labelledby="w4-mse-heading" hidden>
           <p><strong>Mean Squared Error (MSE)</strong> and its square root (RMSE) measure average squared deviation. Lower = better fit.</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w4-mae">MAE</h3>
-        <div id="w4-mae" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w4-mae" id="w4-mae-heading">MAE</h3>
+        <div id="w4-mae" class="dp-panel-content" role="region" aria-labelledby="w4-mae-heading" hidden>
           <p><strong>Mean Absolute Error (MAE)</strong> measures average absolute deviation. Less sensitive to outliers than MSE.</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w4-r2">R²</h3>
-        <div id="w4-r2" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w4-r2" id="w4-r2-heading">R²</h3>
+        <div id="w4-r2" class="dp-panel-content" role="region" aria-labelledby="w4-r2-heading" hidden>
           <p><strong>R²</strong> shows how much variance is explained by the model. Closer to 1 = better.</p>
         </div>
       </div>
@@ -50,9 +54,9 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-th"></i>&nbsp;Classification Metrics</h2>
     <div class="table-responsive">
       <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Classification Metrics Summary">
-        <caption>Key Metrics</caption>
+        <caption>Classification Metrics Summary and Applications</caption>
         <thead>
-          <tr><th>Metric</th><th>What it tells you</th></tr>
+          <tr><th scope="col">Metric</th><th scope="col">What it tells you</th></tr>
         </thead>
         <tbody>
           <tr><td><strong>Accuracy</strong></td><td>Share of correct predictions. Misleading if classes are imbalanced.</td></tr>
@@ -81,9 +85,10 @@
     </div>
   </div>
 
-  <hr />
+  <hr aria-hidden="true" />
   <p>Select <strong>Next▸</strong> to continue with <strong>Cross-Validation & Training</strong>.</p>
 </div>
+</main>
 
 <!-- Canvas-safe toggling -->
 <script>

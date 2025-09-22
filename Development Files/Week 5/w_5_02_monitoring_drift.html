@@ -1,5 +1,9 @@
+<!-- Skip link for keyboard users -->
+<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<main id="main-content" role="main">
 <div id="dp-wrapper" class="dp-wrapper">
-  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;" aria-hidden="true">Icon Progress Bar (browser only)</div>
 
   <!-- Monitoring & Drift -->
   <div class="dp-content-block content-block" data-title="Monitoring & Drift">
@@ -18,8 +22,8 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-clipboard-list" aria-hidden="true"></i>&nbsp;Instrument the Model: What to Log</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="mon-inputs">Inputs</h3>
-        <div id="mon-inputs" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="mon-inputs" id="mon-inputs-heading">Inputs</h3>
+        <div id="mon-inputs" class="dp-panel-content" role="region" aria-labelledby="mon-inputs-heading" hidden>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">Feature vector (or feature hash), schema version, null counts, basic stats (min/max/mean).</li>
             <li class="list-group-item">Request metadata: timestamp, user/segment, region, channel, model version.</li>
@@ -27,8 +31,8 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="mon-scores">Scores & decisions</h3>
-        <div id="mon-scores" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="mon-scores" id="mon-scores-heading">Scores & decisions</h3>
+        <div id="mon-scores" class="dp-panel-content" role="region" aria-labelledby="mon-scores-heading" hidden>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">Raw score / probability, threshold used, decision taken (block/flag/route).</li>
             <li class="list-group-item">Latency (P50/P95/P99) and errors/timeouts.</li>
@@ -36,8 +40,8 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="mon-outcomes">Outcomes</h3>
-        <div id="mon-outcomes" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="mon-outcomes" id="mon-outcomes-heading">Outcomes</h3>
+        <div id="mon-outcomes" class="dp-panel-content" role="region" aria-labelledby="mon-outcomes-heading" hidden>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">Ground truth when available (labels), time‑to‑label, downstream KPIs (revenue saved, churn prevented).</li>
             <li class="list-group-item">Link inputs↔scores↔outcomes via a durable <strong>correlation id</strong>.</li>
@@ -52,14 +56,14 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-random" aria-hidden="true"></i>&nbsp;Data vs. Concept Drift</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="drift-data">Data drift (input shift)</h3>
-        <div id="drift-data" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="drift-data" id="drift-data-heading">Data drift (input shift)</h3>
+        <div id="drift-data" class="dp-panel-content" role="region" aria-labelledby="drift-data-heading" hidden>
           <p>Feature distributions change (e.g., new product mix). Track with <strong>PSI</strong>, <strong>KL divergence</strong>, or two‑sample tests (KS, chi‑square).</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="drift-concept">Concept drift (label/relationship shift)</h3>
-        <div id="drift-concept" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="drift-concept" id="drift-concept-heading">Concept drift (label/relationship shift)</h3>
+        <div id="drift-concept" class="dp-panel-content" role="region" aria-labelledby="drift-concept-heading" hidden>
           <p>Target behavior or mapping changes (e.g., fraudster tactics). Watch <strong>calibration</strong>, <strong>AUC/PR</strong> over time, and <strong>population stability</strong> within score bands.</p>
         </div>
       </div>
@@ -80,14 +84,14 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-balance-scale-right" aria-hidden="true"></i>&nbsp;Calibration (Are Probabilities Trustworthy?)</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="cal-what">What & why</h3>
-        <div id="cal-what" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="cal-what" id="cal-what-heading">What & why</h3>
+        <div id="cal-what" class="dp-panel-content" role="region" aria-labelledby="cal-what-heading" hidden>
           <p>A model is <strong>well‑calibrated</strong> if among cases scored at 0.7, roughly 70% are truly positive. Calibration matters for cost‑sensitive thresholds and triage.</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="cal-how">How to monitor</h3>
-        <div id="cal-how" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="cal-how" id="cal-how-heading">How to monitor</h3>
+        <div id="cal-how" class="dp-panel-content" role="region" aria-labelledby="cal-how-heading" hidden>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">Plot <strong>reliability curves</strong> / ECE (expected calibration error).</li>
             <li class="list-group-item">Track by <strong>segment</strong> (region, product, channel).</li>
@@ -103,8 +107,8 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-users" aria-hidden="true"></i>&nbsp;Fairness &amp; Subgroup Monitoring</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="fair-metrics">What to track</h3>
-        <div id="fair-metrics" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="fair-metrics" id="fair-metrics-heading">What to track</h3>
+        <div id="fair-metrics" class="dp-panel-content" role="region" aria-labelledby="fair-metrics-heading" hidden>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">Subgroup <strong>precision/recall</strong>, selection/approval rates, calibration curves.</li>
             <li class="list-group-item">Swap‑in <strong>counterfactual</strong> checks where possible (e.g., same case, different sensitive attribute).</li>
@@ -112,8 +116,8 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="fair-govern">Governance</h3>
-        <div id="fair-govern" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="fair-govern" id="fair-govern-heading">Governance</h3>
+        <div id="fair-govern" class="dp-panel-content" role="region" aria-labelledby="fair-govern-heading" hidden>
           <p>Define <strong>alert thresholds</strong> and <strong>review cadence</strong>. Document mitigations (threshold per segment, feature audit, retraining).</p>
         </div>
       </div>
@@ -134,8 +138,8 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-bell" aria-hidden="true"></i>&nbsp;Alerts &amp; Playbooks</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="alerts-what">What to alert on</h3>
-        <div id="alerts-what" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="alerts-what" id="alerts-what-heading">What to alert on</h3>
+        <div id="alerts-what" class="dp-panel-content" role="region" aria-labelledby="alerts-what-heading" hidden>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">Data drift tests over threshold (PSI &gt; 0.25, KS p-value &lt; α).</li>
             <li class="list-group-item">Metric degradation (PR‑AUC ↓, calibration ECE ↑), subgroup disparities.</li>
@@ -144,8 +148,8 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="alerts-play">Playbooks</h3>
-        <div id="alerts-play" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="alerts-play" id="alerts-play-heading">Playbooks</h3>
+        <div id="alerts-play" class="dp-panel-content" role="region" aria-labelledby="alerts-play-heading" hidden>
           <ul class="list-group list-group-flush">
             <li class="list-group-item"><strong>Verify</strong> signal (check logging, sanity stats, and dashboards).</li>
             <li class="list-group-item"><strong>Mitigate</strong> (temporary threshold tweak, traffic shift, rollout revert).</li>
@@ -164,9 +168,10 @@
     </div>
   </div>
 
-  <hr />
+  <hr aria-hidden="true" />
   <p>Select <strong>Next▸</strong> to continue with <strong>Governance & Responsible AI</strong>.</p>
 </div>
+</main>
 
 <!-- Canvas‑safe toggling -->
 <script>

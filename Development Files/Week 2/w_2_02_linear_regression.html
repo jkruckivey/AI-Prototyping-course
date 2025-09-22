@@ -1,135 +1,134 @@
+<!-- Skip link for keyboard users -->
+<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<main id="main-content" role="main">
 <div id="dp-wrapper" class="dp-wrapper">
-  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
-
-  <div class="dp-content-block content-block" data-title="Linear Regression: From Loss to Learning">
-    <h2 class="dp-has-icon"><i class="dp-icon fas fa-chart-line" aria-hidden="true"></i>&nbsp;Linear Regression: From Loss to Learning</h2>
-    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
-      <div class="card-body">
-        <h3 class="card-title dp-ignore-theme">What this page covers</h3>
-        <p>How linear regression learns a line/plane that best predicts a numeric target, what <strong>MSE loss</strong> is, and how parameters are optimized for generalization—not just fit.</p>
-      </div>
-    </div>
-  </div>
-
-
-  <div class="dp-content-block content-block" data-title="Model &amp; Loss (Intuition)">
-    <h2 class="dp-has-icon"><i class="dp-icon fas fa-brain" aria-hidden="true"></i>&nbsp;Model &amp; Loss (Intuition)</h2>
-    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dp-dark">
-      <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="lin-eq">Equation of the model</h4>
-        <div id="lin-eq" class="dp-panel-content" hidden>
-          <p>In 1‑D: <em>ŷ = βx + ε</em> (slope <em>β</em>, intercept <em>ε</em>). In higher dimensions: <em>ŷ = w·x + b</em>. Parameters (<em>w, b</em>) are learned to minimize error.</p>
+    <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;" aria-hidden="true">Icon Progress Bar (browser only)</div>
+    <div class="dp-content-block content-block" data-title="Linear Regression: From Loss to Learning">
+        <h2 class="dp-has-icon"><i class="dp-icon fas fa-chart-line" aria-hidden="true"></i>&nbsp;Linear Regression: From Loss to Learning</h2>
+        <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+            <div class="card-body">
+                <h3 class="card-title dp-ignore-theme">What this page covers</h3>
+                <p>How linear regression learns a line/plane that best predicts a numeric target, what <strong>MSE loss</strong> is, and how parameters are optimized for generalization&mdash;not just fit.</p>
+            </div>
         </div>
-      </div>
-      <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="lin-loss">Loss function</h4>
-        <div id="lin-loss" class="dp-panel-content" hidden>
-          <p>We typically minimize <strong>Mean Squared Error (MSE)</strong>: the average of squared differences between predictions and true values. Squaring treats over‑ and under‑prediction symmetrically and penalizes large misses.</p>
+    </div>
+    <div class="dp-content-block content-block" data-title="Model &amp; Loss (Intuition)">
+        <h2 class="dp-has-icon"><i class="dp-icon fas fa-brain" aria-hidden="true"></i>&nbsp;Model &amp; Loss (Intuition)</h2>
+        <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dp-dark">
+            <div class="dp-panel-group">
+                <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="lin-eq" id="lin-eq-heading">Equation of the model</h3>
+                <div id="lin-eq" class="dp-panel-content" role="region" aria-labelledby="lin-eq-heading" hidden>
+                    <p>In 1‑D: <em>ŷ = &beta;x + &epsilon;</em> (slope <em>&beta;</em>, intercept <em>&epsilon;</em>). In higher dimensions: <em>ŷ = w&middot;x + b</em>. Parameters (<em>w, b</em>) are learned to minimize error.</p>
+                </div>
+            </div>
+            <div class="dp-panel-group">
+                <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="lin-loss" id="lin-loss-heading">Loss function</h3>
+                <div id="lin-loss" class="dp-panel-content" role="region" aria-labelledby="lin-loss-heading" hidden>
+                    <p>We typically minimize <strong>Mean Squared Error (MSE)</strong>: the average of squared differences between predictions and true values. Squaring treats over‑ and under‑prediction symmetrically and penalizes large misses.</p>
+                </div>
+            </div>
+            <div class="dp-panel-group">
+                <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="lin-opt" id="lin-opt-heading">Optimization</h3>
+                <div id="lin-opt" class="dp-panel-content" role="region" aria-labelledby="lin-opt-heading" hidden>
+                    <p>Training is an <strong>optimization</strong> process: start with initial parameters and update them to reduce loss until a good fit is reached.</p>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="lin-opt">Optimization</h4>
-        <div id="lin-opt" class="dp-panel-content" hidden>
-          <p>Training is an <strong>optimization</strong> process: start with initial parameters and update them to reduce loss until a good fit is reached.</p>
+    </div>
+    <div class="dp-content-block content-block" data-title="Practice: Drag-the-Line">
+        <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive: Drag‑the‑Line (MSE)</h2>
+        <p class="mt-2"><em>Try it:</em> Adjust slope/intercept and watch the MSE update. Notice how a few large errors dominate the loss.</p>
+        <div class="dp-embed-wrapper"><iframe title="Drag the Line - MSE Explorer" role="application" src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/w2-linear-regression-mse.html" width="100%" height="1400" loading="lazy" allowfullscreen="allowfullscreen" aria-label="Interactive demo adjusting slope and intercept to see mean squared error change"></iframe></div>
+    </div>
+    <div class="dp-content-block content-block" data-title="Evaluation &amp; Leakage">
+        <h2 class="dp-has-icon"><i class="dp-icon fas fa-shield-alt" aria-hidden="true"></i>&nbsp;Evaluation &amp; Leakage</h2>
+        <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+            <div class="dp-panel-group">
+                <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="eval-splits" id="eval-splits-heading">Train/validation (time‑aware)</h3>
+                <div id="eval-splits" class="dp-panel-content" role="region" aria-labelledby="eval-splits-heading" hidden>
+                    <p>For temporal data (e.g., monthly sales), split by <strong>time</strong> so the model only trains on the past and evaluates on the future&mdash;avoiding &ldquo;peeking.&rdquo;</p>
+                </div>
+            </div>
+            <div class="dp-panel-group">
+                <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="eval-diag" id="eval-diag-heading">Diagnostics</h3>
+                <div id="eval-diag" class="dp-panel-content" role="region" aria-labelledby="eval-diag-heading" hidden>
+                    <div class="table-responsive">
+                        <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Regression diagnostics and notes">
+                            <caption>Regression Diagnostic Methods and Their Purpose</caption>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Diagnostic</th>
+                                    <th scope="col">Why it matters</th>
+                                    <th scope="col">What to look for</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">R&sup2;</th>
+                                    <td>Explained variance</td>
+                                    <td>Compare across models; beware inflated R&sup2; with leakage</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Residuals</th>
+                                    <td>Error patterns</td>
+                                    <td>Random scatter around 0; structure indicates missed features</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Holdout error</th>
+                                    <td>Generalization</td>
+                                    <td>Close to training error; big gap &rArr; overfit</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
-
-  <div class="dp-content-block content-block" data-title="Practice: Drag-the-Line">
-    <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive: Drag‑the‑Line (MSE)</h2>
-    <p class="mt-2"><em>Try it:</em> Adjust slope/intercept and watch the MSE update. Notice how a few large errors dominate the loss.</p>
-    <div class="dp-embed-wrapper">
-      <iframe title="Drag the Line - MSE Explorer" role="application" src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/w2-linear-regression-mse.html" width="100%" height="800" loading="lazy" allowfullscreen aria-label="Interactive demo adjusting slope and intercept to see mean squared error change"></iframe>
-    </div>
-  </div>
-
-  <div class="dp-content-block content-block" data-title="Evaluation &amp; Leakage">
-    <h2 class="dp-has-icon"><i class="dp-icon fas fa-shield-alt" aria-hidden="true"></i>&nbsp;Evaluation &amp; Leakage</h2>
-    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
-      <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="eval-splits">Train/validation (time‑aware)</h4>
-        <div id="eval-splits" class="dp-panel-content" hidden>
-          <p>For temporal data (e.g., monthly sales), split by <strong>time</strong> so the model only trains on the past and evaluates on the future—avoiding “peeking.”</p>
+    <div class="dp-content-block content-block" data-title="Terms in Context">
+        <h2 class="dp-has-icon"><i class="dp-icon fas fa-tags" aria-hidden="true"></i>&nbsp;Terms in Context</h2>
+        <div class="dp-card card" style="border-left: 4px solid #582C83; padding-left: 15px;">
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><strong>Parameters</strong> (learned): slope(s) and intercept.</li>
+                    <li class="list-group-item"><strong>Hyperparameters</strong> (chosen): learning rate, regularization strength, training epochs.</li>
+                    <li class="list-group-item"><strong>Dimensionality</strong>: number of input features; more features &ne; better unless validated.</li>
+                </ul>
+            </div>
         </div>
-      </div>
-      <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="eval-diag">Diagnostics</h4>
-        <div id="eval-diag" class="dp-panel-content" hidden>
-          <div class="table-responsive">
-            <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Regression diagnostics and notes">
-              <thead>
-                <tr>
-                  <th>Diagnostic</th>
-                  <th>Why it matters</th>
-                  <th>What to look for</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th scope="row">R²</th>
-                  <td>Explained variance</td>
-                  <td>Compare across models; beware inflated R² with leakage</td>
-                </tr>
-                <tr>
-                  <th scope="row">Residuals</th>
-                  <td>Error patterns</td>
-                  <td>Random scatter around 0; structure indicates missed features</td>
-                </tr>
-                <tr>
-                  <th scope="row">Holdout error</th>
-                  <td>Generalization</td>
-                  <td>Close to training error; big gap ⇒ overfit</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+    </div>
+    <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-warning dp-callout-color-dp-primary" role="note" aria-label="Common pitfall">
+        <div class="dp-callout-side-emphasis"><i class="dp-icon fas fa-exclamation-triangle dp-default-icon" aria-hidden="true"></i></div>
+        <div class="card-body">
+            <h4 class="card-title">Beware leakage</h4>
+            <p class="card-text">Don&rsquo;t use future‑aware fields (e.g., &ldquo;total cancellations this quarter&rdquo;) to predict next month. Use features available at decision time.</p>
         </div>
-      </div>
     </div>
-  </div>
-
-  <div class="dp-content-block content-block" data-title="Terms in Context">
-    <h2 class="dp-has-icon"><i class="dp-icon fas fa-tags" aria-hidden="true"></i>&nbsp;Terms in Context</h2>
-    <div class="dp-card card" style="border-left: 4px solid #582C83; padding-left: 15px;">
-      <div class="card-body">
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item"><strong>Parameters</strong> (learned): slope(s) and intercept.</li>
-          <li class="list-group-item"><strong>Hyperparameters</strong> (chosen): learning rate, regularization strength, training epochs.</li>
-          <li class="list-group-item"><strong>Dimensionality</strong>: number of input features; more features ≠ better unless validated.</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-warning dp-callout-color-dp-primary" role="note" aria-label="Common pitfall">
-    <div class="dp-callout-side-emphasis"><i class="dp-icon fas fa-exclamation-triangle dp-default-icon" aria-hidden="true"></i></div>
-    <div class="card-body">
-      <h4 class="card-title">Beware leakage</h4>
-      <p class="card-text">Don’t use future‑aware fields (e.g., “total cancellations this quarter”) to predict next month. Use features available at decision time.</p>
-    </div>
-  </div>
-
-  <hr />
-  <p>Select <strong>Next▸</strong> to continue.</p>
+    <hr aria-hidden="true" />
+    <p>Select <strong>Next▸</strong> to continue.</p>
 </div>
+</main>
 
+<!-- Minimal JS to make the custom panel accessible without relying on Canvas-blocked scripts -->
 <script>
-(function () {
-  function toggleHead(h){
-    const content = document.getElementById(h.getAttribute('aria-controls'));
-    const expanded = h.getAttribute('aria-expanded') === 'true';
-    h.setAttribute('aria-expanded', String(!expanded));
-    if (content) content.hidden = expanded;
-  }
-  document.addEventListener('click', function (e) {
-    const h = e.target.closest('.dp-panel-heading[role="button"]');
-    if (h) toggleHead(h);
-  });
-  document.addEventListener('keydown', function (e) {
-    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role="button"]')) {
-      e.preventDefault(); toggleHead(e.target);
-    }
-  });
-})();
+  (function () {
+    try {
+      var headings = document.querySelectorAll('.dp-panel-heading[role="button"]');
+      headings.forEach(function (h) {
+        var controls = h.getAttribute('aria-controls');
+        var panel = controls ? document.getElementById(controls) : null;
+        if (!panel) return;
+        function toggle(open) {
+          var isOpen = open !== undefined ? open : h.getAttribute('aria-expanded') === 'false';
+          h.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+          panel.hidden = !isOpen;
+        }
+        h.addEventListener('click', function () { toggle(); });
+        h.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+        });
+      });
+    } catch (e) { /* no-op if JS blocked */ }
+  })();
 </script>

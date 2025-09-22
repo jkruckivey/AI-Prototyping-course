@@ -1,5 +1,9 @@
+<!-- Skip link for keyboard users -->
+<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<main id="main-content" role="main">
 <div id="dp-wrapper" class="dp-wrapper">
-  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;" aria-hidden="true">Icon Progress Bar (browser only)</div>
 
   <!-- Deployment & Last‑Mile Integration -->
   <div class="dp-content-block content-block" data-title="Deployment & Last‑Mile Integration">
@@ -18,8 +22,8 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-project-diagram" aria-hidden="true"></i>&nbsp;Deployment Patterns</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="dep-batch">Batch scoring</h3>
-        <div id="dep-batch" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="dep-batch" id="dep-batch-heading">Batch scoring</h3>
+        <div id="dep-batch" class="dp-panel-content" role="region" aria-labelledby="dep-batch-heading" hidden>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">Run scores on a schedule (hourly/daily) and write to a table or CRM.</li>
             <li class="list-group-item">Great for campaigns, nightly pricing, inventory, risk repricing.</li>
@@ -28,8 +32,8 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="dep-online">Online (real‑time) scoring</h3>
-        <div id="dep-online" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="dep-online" id="dep-online-heading">Online (real‑time) scoring</h3>
+        <div id="dep-online" class="dp-panel-content" role="region" aria-labelledby="dep-online-heading" hidden>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">Synchronous API (<em>request → score → action</em>) with latency budget (e.g., &lt;100ms).</li>
             <li class="list-group-item">Use for fraud, recommendations, dynamic routing, chat assistants.</li>
@@ -38,8 +42,8 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="dep-hitl">Human‑in‑the‑loop (HITL)</h3>
-        <div id="dep-hitl" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="dep-hitl" id="dep-hitl-heading">Human‑in‑the‑loop (HITL)</h3>
+        <div id="dep-hitl" class="dp-panel-content" role="region" aria-labelledby="dep-hitl-heading" hidden>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">Model proposes; humans review/override within SLA.</li>
             <li class="list-group-item">Interfaces: review queues, triage dashboards, explanations.</li>
@@ -55,20 +59,20 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-puzzle-piece" aria-hidden="true"></i>&nbsp;Integration Plan</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="int-features">Features & data contracts</h3>
-        <div id="int-features" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="int-features" id="int-features-heading">Features & data contracts</h3>
+        <div id="int-features" class="dp-panel-content" role="region" aria-labelledby="int-features-heading" hidden>
           <p>Define a <strong>feature spec</strong> (name, type, freshness, null policy). Use a <strong>feature store</strong> or consistent ETL so training/serving are aligned. Add <strong>schema validation</strong> at ingress.</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="int-service">Scoring service</h3>
-        <div id="int-service" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="int-service" id="int-service-heading">Scoring service</h3>
+        <div id="int-service" class="dp-panel-content" role="region" aria-labelledby="int-service-heading" hidden>
           <p>Expose a <strong>versioned</strong> API (e.g., <code>POST /v1/score</code>), return score + metadata (version, timestamp, latency). Log <em>inputs, score, decision, outcome id</em> for monitoring.</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="int-events">Queues & events</h3>
-        <div id="int-events" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="int-events" id="int-events-heading">Queues & events</h3>
+        <div id="int-events" class="dp-panel-content" role="region" aria-labelledby="int-events-heading" hidden>
           <p>Publish decisions/outcomes to an <strong>event bus</strong> (Kafka, Pub/Sub) for downstream actions and analytics. Use retries + <strong>idempotency keys</strong>.</p>
         </div>
       </div>
@@ -80,20 +84,20 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-traffic-light" aria-hidden="true"></i>&nbsp;Safe Rollout</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="roll-shadow">Shadow</h3>
-        <div id="roll-shadow" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="roll-shadow" id="roll-shadow-heading">Shadow</h3>
+        <div id="roll-shadow" class="dp-panel-content" role="region" aria-labelledby="roll-shadow-heading" hidden>
           <p>Run the new model <em>in parallel</em> without affecting decisions; compare scores and outcomes to baseline.</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="roll-canary">Canary</h3>
-        <div id="roll-canary" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="roll-canary" id="roll-canary-heading">Canary</h3>
+        <div id="roll-canary" class="dp-panel-content" role="region" aria-labelledby="roll-canary-heading" hidden>
           <p>Gradually route traffic (e.g., 5% → 25% → 50% → 100%) while monitoring KPIs, latency, error rates. Automate <strong>rollback</strong> on breach.</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="roll-ab">A/B testing</h3>
-        <div id="roll-ab" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="roll-ab" id="roll-ab-heading">A/B testing</h3>
+        <div id="roll-ab" class="dp-panel-content" role="region" aria-labelledby="roll-ab-heading" hidden>
           <p>Randomly assign users to control vs. treatment. Measure <strong>business lift</strong>; ensure sample sizes and run length are adequate.</p>
         </div>
       </div>
@@ -114,20 +118,20 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-stopwatch" aria-hidden="true"></i>&nbsp;SLAs, Latency &amp; Reliability</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="sla-lat">Latency budget</h3>
-        <div id="sla-lat" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="sla-lat" id="sla-lat-heading">Latency budget</h3>
+        <div id="sla-lat" class="dp-panel-content" role="region" aria-labelledby="sla-lat-heading" hidden>
           <p>Set <strong>P95</strong> and <strong>P99</strong> latency goals. Use caching, batching, and <strong>asynchronous fallbacks</strong> when predictions are slow.</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="sla-obs">Observability</h3>
-        <div id="sla-obs" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="sla-obs" id="sla-obs-heading">Observability</h3>
+        <div id="sla-obs" class="dp-panel-content" role="region" aria-labelledby="sla-obs-heading" hidden>
           <p>Emit <strong>structured logs</strong> and <strong>metrics</strong> (requests/sec, error rate, timeouts). Trace requests end‑to‑end. Keep <strong>version tags</strong> everywhere.</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="sla-inc">Incidents & rollback</h3>
-        <div id="sla-inc" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="sla-inc" id="sla-inc-heading">Incidents & rollback</h3>
+        <div id="sla-inc" class="dp-panel-content" role="region" aria-labelledby="sla-inc-heading" hidden>
           <p>Define <strong>guardrails</strong> (precision floor, max review backlog). If breached, automatically revert to the last good version and alert owners.</p>
         </div>
       </div>
@@ -151,9 +155,10 @@
     </div>
   </div>
 
-  <hr />
+  <hr aria-hidden="true" />
   <p>Select <strong>Next▸</strong> to continue with <strong>Monitoring & Drift</strong>.</p>
 </div>
+</main>
 
 <!-- Canvas‑safe toggling -->
 <script>
