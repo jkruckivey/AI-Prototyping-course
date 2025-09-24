@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lift & Deciles Explorer - AMBA Template</title>
+  <!-- Canvas iframe sizing hint -->
+  <meta name="canvas-height" content="900">
+  <meta name="description" content="Decile analysis with lift calculations and ROI tables">
+  <link rel="stylesheet" href="../../shared/ivey-widget-base.css">
+  <script src="https://cdn.plot.ly/plotly-2.28.0.min.js"></script>
+  <style>
+    /* Widget-specific styling */
+    .scenario-tabs {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      background: var(--bg-secondary);
+      border: 1px solid var(--ivey-green);
+      color: var(--ivey-green);
+      padding: 8px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9em;
+    }
+
+    .tab-btn.active {
+      background: var(--ivey-green);
+      color: white;
+    }
+
+    .deciles-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+      font-size: 0.9em;
+    }
+
+    .deciles-table th,
+    .deciles-table td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+    }
+
+    .deciles-table th {
+      background: var(--ivey-green);
+      color: white;
+      font-size: 0.85em;
+    }
+
+    .deciles-table tr:nth-child(even) {
+      background: #f9f9f9;
+    }
+
+    .high-lift {
+      background: #d4edda !important;
+      font-weight: bold;
+    }
+
+    .medium-lift {
+      background: #fff3cd !important;
+    }
+
+    .low-lift {
+      background: #f8d7da !important;
+    }
+
+    .roi-panel {
+      background: #e8f5e8;
+      border: 2px solid var(--ivey-green);
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+    }
+
+    .roi-title {
+      color: var(--ivey-green);
+      font-weight: bold;
+      margin-bottom: 10px;
+      font-size: 1.1em;
+    }
+
+    .roi-calculation {
+      background: white;
+      border: 1px solid var(--ivey-green);
+      border-radius: 4px;
+      padding: 10px;
+      margin: 10px 0;
+      font-family: monospace;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+
+<div class="dp-wrapper">
+  <div class="widget-header">
+    <h1 class="widget-title">Lift & Deciles Explorer</h1>
+  </div>
+
+  <div class="scenario-tabs">
+    <button class="tab-btn active" onclick="loadScenario('marketing')">Marketing Campaign</button>
+    <button class="tab-btn" onclick="loadScenario('fraud')">Fraud Detection</button>
+    <button class="tab-btn" onclick="loadScenario('churn')">Churn Prevention</button>
+    <button class="tab-btn" onclick="loadScenario('credit')">Credit Risk</button>
+  </div>
+
+  <div class="control-panel">
+    <label class="control-label">Campaign Budget ($):</label>
+    <input type="number" id="budget" value="10000" min="1000" step="1000">
+
+    <label class="control-label">Cost per Contact ($):</label>
+    <input type="number" id="cost-per-contact" value="5" min="1" step="1">
+
+    <label class="control-label">Revenue per Positive ($):</label>
+    <input type="number" id="revenue-per-positive" value="100" min="10" step="10">
+
+    <button class="btn" onclick="updateCalculations()">Update ROI</button>
+  </div>
+
+  <table class="deciles-table" id="deciles-table">
+    <thead>
+      <tr>
+        <th>Decile</th>
+        <th>Score Range</th>
+        <th>Population</th>
+        <th>Positives</th>
+        <th>Positive Rate</th>
+        <th>Cumulative %</th>
+        <th>Lift</th>
+        <th>Cumulative Lift</th>
+      </tr>
+    </thead>
+    <tbody id="deciles-body">
+      <!-- Table rows will be populated by JavaScript -->
+    </tbody>
+  </table>
+
+  <div class="plot-container">
+    <div id="lift-chart" style="height: 350px;"></div>
+  </div>
+
+  <div class="plot-container">
+    <div id="cumulative-gains" style="height: 350px;"></div>
+  </div>
+
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <div class="metric-label">Top Decile Lift</div>
+      <div class="metric-value" id="top-decile-lift">-</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Top 30% Lift</div>
+      <div class="metric-value" id="top-30-lift">-</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Gini Coefficient</div>
+      <div class="metric-value" id="gini-coeff">-</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Model Quality</div>
+      <div class="metric-value" id="model-quality">-</div>
+    </div>
+  </div>
+
+  <div class="roi-panel">
+    <div class="roi-title">📊 Campaign ROI Analysis</div>
+    <div class="roi-calculation" id="roi-calculation">
+      Select targeting strategy and update parameters to see ROI calculation...
+    </div>
+    <div style="margin-top: 10px;">
+      <strong>Strategy: </strong>
+      <button class="btn" onclick="calculateROI('top10')">Target Top 10%</button>
+      <button class="btn" onclick="calculateROI('top20')">Target Top 20%</button>
+      <button class="btn" onclick="calculateROI('top30')">Target Top 30%</button>
+      <button class="btn" onclick="calculateROI('random')">Random Targeting</button>
+    </div>
+  </div>
+
+  <div id="insights" class="insight-box">
+    <h3>💡 Insights</h3>
+    <p id="insight-text">Select a scenario above to explore how lift and decile analysis helps optimize targeting strategies.</p>
+  </div>
+</div>
+
+<script>
+let currentData = null;
+let scenarios = {
+  marketing: {
+    name: "Marketing Campaign",
+    baseRate: 0.05,
+    description: "Email marketing campaign with 5% baseline response rate",
+    insight: "Focus on top deciles where response rates are 3-5x higher than average"
+  },
+  fraud: {
+    name: "Fraud Detection",
+    baseRate: 0.008,
+    description: "Fraud detection with 0.8% baseline fraud rate",
+    insight: "Top decile contains 40-60% of all fraud cases despite being only 10% of volume"
+  },
+  churn: {
+    name: "Churn Prevention",
+    baseRate: 0.12,
+    description: "Customer churn prediction with 12% baseline churn rate",
+    insight: "Intervention campaigns most effective when targeted at highest-risk segments"
+  },
+  credit: {
+    name: "Credit Risk",
+    baseRate: 0.03,
+    description: "Credit default prediction with 3% baseline default rate",
+    insight: "Risk-based pricing most profitable when applied to well-separated score ranges"
+  }
+};
+
+function generateScenarioData(scenario) {
+  const n_samples = 10000;
+  const baseRate = scenarios[scenario].baseRate;
+  const scores = [];
+  const labels = [];
+
+  // Generate realistic score distribution
+  for (let i = 0; i < n_samples; i++) {
+    const isPositive = Math.random() < baseRate;
+    labels.push(isPositive ? 1 : 0);
+
+    if (isPositive) {
+      // Positive cases: higher scores (right-skewed)
+      scores.push(Math.min(0.99, Math.max(0.01, 0.7 + Math.random() * 0.25 + (Math.random() - 0.5) * 0.1)));
+    } else {
+      // Negative cases: lower scores (left-skewed)
+      scores.push(Math.min(0.99, Math.max(0.01, 0.3 + Math.random() * 0.4 + (Math.random() - 0.5) * 0.1)));
+    }
+  }
+
+  // Sort by score descending
+  const combined = scores.map((score, i) => ({score, label: labels[i]}));
+  combined.sort((a, b) => b.score - a.score);
+
+  return combined;
+}
+
+function calculateDeciles(data) {
+  const n = data.length;
+  const decileSize = Math.floor(n / 10);
+  const deciles = [];
+  const totalPositives = data.reduce((sum, item) => sum + item.label, 0);
+  const baseRate = totalPositives / n;
+
+  let cumulativePositives = 0;
+  let cumulativePopulation = 0;
+
+  for (let i = 0; i < 10; i++) {
+    const start = i * decileSize;
+    const end = i === 9 ? n : (i + 1) * decileSize;
+    const decileData = data.slice(start, end);
+
+    const population = decileData.length;
+    const positives = decileData.reduce((sum, item) => sum + item.label, 0);
+    const positiveRate = positives / population;
+
+    cumulativePositives += positives;
+    cumulativePopulation += population;
+
+    const cumulativeRate = cumulativePositives / totalPositives;
+    const lift = positiveRate / baseRate;
+    const cumulativeLift = (cumulativePositives / cumulativePopulation) / baseRate;
+
+    const minScore = Math.min(...decileData.map(d => d.score));
+    const maxScore = Math.max(...decileData.map(d => d.score));
+
+    deciles.push({
+      decile: i + 1,
+      minScore,
+      maxScore,
+      population,
+      positives,
+      positiveRate,
+      cumulativeRate,
+      lift,
+      cumulativeLift
+    });
+  }
+
+  return deciles;
+}
+
+function loadScenario(scenario) {
+  // Update tab styling
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+
+  // Generate new data
+  currentData = generateScenarioData(scenario);
+  const deciles = calculateDeciles(currentData);
+
+  // Update table
+  updateDecilesTable(deciles);
+
+  // Update plots
+  updateLiftChart(deciles);
+  updateGainsChart(deciles);
+
+  // Update metrics
+  updateMetrics(deciles);
+
+  // Update insights
+  updateInsights(scenario, deciles);
+}
+
+function updateDecilesTable(deciles) {
+  const tbody = document.getElementById('deciles-body');
+  tbody.innerHTML = '';
+
+  deciles.forEach(d => {
+    const row = document.createElement('tr');
+
+    // Add class based on lift
+    if (d.lift >= 2.5) row.classList.add('high-lift');
+    else if (d.lift >= 1.5) row.classList.add('medium-lift');
+    else if (d.lift < 0.8) row.classList.add('low-lift');
+
+    row.innerHTML = `
+      <td>${d.decile}</td>
+      <td>${d.minScore.toFixed(2)} - ${d.maxScore.toFixed(2)}</td>
+      <td>${d.population.toLocaleString()}</td>
+      <td>${d.positives}</td>
+      <td>${(d.positiveRate * 100).toFixed(1)}%</td>
+      <td>${(d.cumulativeRate * 100).toFixed(1)}%</td>
+      <td>${d.lift.toFixed(1)}x</td>
+      <td>${d.cumulativeLift.toFixed(1)}x</td>
+    `;
+
+    tbody.appendChild(row);
+  });
+}
+
+function updateLiftChart(deciles) {
+  const trace1 = {
+    x: deciles.map(d => d.decile),
+    y: deciles.map(d => d.lift),
+    type: 'bar',
+    name: 'Decile Lift',
+    marker: { color: '#034638' }
+  };
+
+  const trace2 = {
+    x: deciles.map(d => d.decile),
+    y: deciles.map(d => 1),
+    type: 'scatter',
+    mode: 'lines',
+    name: 'Random (1.0x)',
+    line: { color: '#dc3545', dash: 'dash', width: 2 }
+  };
+
+  const layout = {
+    title: 'Lift by Decile',
+    xaxis: { title: 'Decile (1 = Highest Scores)' },
+    yaxis: { title: 'Lift Factor' },
+    showlegend: true,
+    margin: { t: 50, b: 50, l: 60, r: 20 }
+  };
+
+  Plotly.newPlot('lift-chart', [trace1, trace2], layout, {responsive: true});
+}
+
+function updateGainsChart(deciles) {
+  const cumulativeX = deciles.map(d => d.decile * 10);
+  const cumulativeY = deciles.map(d => d.cumulativeRate * 100);
+
+  const trace1 = {
+    x: cumulativeX,
+    y: cumulativeY,
+    type: 'scatter',
+    mode: 'lines+markers',
+    name: 'Model',
+    line: { color: '#034638', width: 3 }
+  };
+
+  const trace2 = {
+    x: [0, 100],
+    y: [0, 100],
+    type: 'scatter',
+    mode: 'lines',
+    name: 'Random',
+    line: { color: '#dc3545', dash: 'dash', width: 2 }
+  };
+
+  // Perfect model line
+  const trace3 = {
+    x: [0, 10, 100],
+    y: [0, 100, 100],
+    type: 'scatter',
+    mode: 'lines',
+    name: 'Perfect',
+    line: { color: '#198754', dash: 'dot', width: 2 }
+  };
+
+  const layout = {
+    title: 'Cumulative Gains Chart',
+    xaxis: { title: 'Population Targeted (%)' },
+    yaxis: { title: 'Positives Captured (%)' },
+    showlegend: true,
+    margin: { t: 50, b: 50, l: 60, r: 20 }
+  };
+
+  Plotly.newPlot('cumulative-gains', [trace1, trace2, trace3], layout, {responsive: true});
+}
+
+function updateMetrics(deciles) {
+  const topDecileLift = deciles[0].lift;
+  const top30Lift = deciles.slice(0, 3).reduce((sum, d) => sum + d.positives, 0) /
+                   deciles.slice(0, 3).reduce((sum, d) => sum + d.population, 0) /
+                   (deciles.reduce((sum, d) => sum + d.positives, 0) / deciles.reduce((sum, d) => sum + d.population, 0));
+
+  // Calculate Gini coefficient approximation
+  const cumulativeGains = deciles.map(d => d.cumulativeRate);
+  let gini = 0;
+  for (let i = 0; i < 10; i++) {
+    gini += (i + 1) * 10 - cumulativeGains[i] * 100;
+  }
+  gini = gini / 4500; // Normalize
+
+  let quality = "Excellent";
+  if (topDecileLift < 2) quality = "Poor";
+  else if (topDecileLift < 3) quality = "Fair";
+  else if (topDecileLift < 4) quality = "Good";
+
+  document.getElementById('top-decile-lift').textContent = topDecileLift.toFixed(1) + 'x';
+  document.getElementById('top-30-lift').textContent = top30Lift.toFixed(1) + 'x';
+  document.getElementById('gini-coeff').textContent = gini.toFixed(3);
+  document.getElementById('model-quality').textContent = quality;
+}
+
+function calculateROI(strategy) {
+  if (!currentData) return;
+
+  const budget = parseFloat(document.getElementById('budget').value);
+  const costPerContact = parseFloat(document.getElementById('cost-per-contact').value);
+  const revenuePerPositive = parseFloat(document.getElementById('revenue-per-positive').value);
+
+  const maxContacts = Math.floor(budget / costPerContact);
+  const deciles = calculateDeciles(currentData);
+
+  let targetPopulation, targetPositives, strategy_name;
+
+  switch(strategy) {
+    case 'top10':
+      targetPopulation = deciles[0].population;
+      targetPositives = deciles[0].positives;
+      strategy_name = "Top 10%";
+      break;
+    case 'top20':
+      targetPopulation = deciles[0].population + deciles[1].population;
+      targetPositives = deciles[0].positives + deciles[1].positives;
+      strategy_name = "Top 20%";
+      break;
+    case 'top30':
+      targetPopulation = deciles.slice(0, 3).reduce((sum, d) => sum + d.population, 0);
+      targetPositives = deciles.slice(0, 3).reduce((sum, d) => sum + d.positives, 0);
+      strategy_name = "Top 30%";
+      break;
+    case 'random':
+      targetPopulation = Math.min(maxContacts, currentData.length);
+      const baseRate = deciles.reduce((sum, d) => sum + d.positives, 0) / currentData.length;
+      targetPositives = Math.round(targetPopulation * baseRate);
+      strategy_name = "Random";
+      break;
+  }
+
+  const contactsToMake = Math.min(maxContacts, targetPopulation);
+  const scaleFactor = contactsToMake / targetPopulation;
+  const expectedPositives = Math.round(targetPositives * scaleFactor);
+
+  const totalCost = contactsToMake * costPerContact;
+  const totalRevenue = expectedPositives * revenuePerPositive;
+  const netProfit = totalRevenue - totalCost;
+  const roi = ((totalRevenue - totalCost) / totalCost) * 100;
+
+  const calculation = `
+${strategy_name} Targeting Strategy:
+────────────────────────────────
+Contacts Made:     ${contactsToMake.toLocaleString()}
+Expected Positives: ${expectedPositives}
+Response Rate:     ${((expectedPositives/contactsToMake)*100).toFixed(1)}%
+
+Costs:            $${totalCost.toLocaleString()}
+Revenue:          $${totalRevenue.toLocaleString()}
+Net Profit:       $${netProfit.toLocaleString()}
+ROI:              ${roi.toFixed(0)}%
+  `;
+
+  document.getElementById('roi-calculation').textContent = calculation;
+}
+
+function updateCalculations() {
+  // Just trigger a recalculation with current strategy
+  const calculation = document.getElementById('roi-calculation').textContent;
+  if (calculation.includes('Top 10%')) calculateROI('top10');
+  else if (calculation.includes('Top 20%')) calculateROI('top20');
+  else if (calculation.includes('Top 30%')) calculateROI('top30');
+  else if (calculation.includes('Random')) calculateROI('random');
+}
+
+function updateInsights(scenario, deciles) {
+  const scenarioInfo = scenarios[scenario];
+  const topDecileLift = deciles[0].lift;
+  const topDecileCapture = deciles[0].cumulativeRate;
+
+  let insight = `${scenarioInfo.description}. `;
+  insight += `Top decile has ${topDecileLift.toFixed(1)}x lift, capturing ${(topDecileCapture*100).toFixed(0)}% of all positives in just 10% of the population. `;
+  insight += scenarioInfo.insight;
+
+  document.getElementById('insight-text').textContent = insight;
+}
+
+// Initialize with marketing scenario
+window.onload = function() {
+  loadScenario('marketing');
+}
+</script>
+
+</body>
+</html>

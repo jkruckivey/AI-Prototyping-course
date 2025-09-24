@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ML Monitoring Dashboard - AMBA Template</title>
+  <!-- Canvas iframe sizing hint -->
+  <meta name="canvas-height" content="1200">
+  <meta name="description" content="Live ML monitoring dashboard with multiple plots and real-time metrics">
+  <link rel="stylesheet" href="../../shared/ivey-widget-base.css">
+  <script src="https://cdn.plot.ly/plotly-2.28.0.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; background: white; color: #333; line-height: 1.5; }
+    .dp-wrapper { max-width: 1000px; margin: 0 auto; padding: 15px; background: #ffffff; }
+    .widget-header { background: #034638; color: white; padding: 12px 16px; text-align: center; border-radius: 8px 8px 0 0; margin: -15px -15px 20px -15px; }
+    .widget-title { font-size: 1.2em; font-weight: bold; margin: 0; }
+    .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; margin: 20px 0; }
+    .metric-card { background: white; border: 2px solid #034638; border-radius: 8px; padding: 15px; }
+    .card-title { color: #034638; font-weight: bold; margin-bottom: 10px; font-size: 1em; }
+    .metric-value { font-size: 1.5em; font-weight: bold; margin: 10px 0; }
+    .status-ok { color: #198754; }
+    .status-warning { color: #ffc107; }
+    .status-danger { color: #dc3545; }
+    .alert-item { background: #f8d7da; border: 1px solid #dc3545; border-radius: 4px; padding: 8px; margin: 5px 0; color: #721c24; font-size: 0.9em; }
+    .plot-container { background: white; border: 1px solid #ddd; border-radius: 8px; margin: 15px 0; padding: 10px; }
+    .controls { background: #f8f9fa; border: 1px solid #ddd; border-radius: 4px; padding: 10px; margin: 15px 0; }
+    .btn { background: #034638; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; margin: 2px; }
+    .btn:hover { background: #045a42; }
+  </style>
+</head>
+<body>
+    <!-- Pop-out button for full window view -->
+    <button class="widget-popout-btn" id="popoutBtn" title="Open in full window">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+        </svg>
+        <span>Pop Out</span>
+    </button>
+
+<div class="dp-wrapper">
+  <div class="widget-header">
+    <h1 class="widget-title">ML Model Monitoring Dashboard</h1>
+  </div>
+
+  <div class="controls">
+    <strong>Time Range:</strong>
+    <button class="btn" onclick="setTimeRange(1)">Last Hour</button>
+    <button class="btn" onclick="setTimeRange(24)">Last 24h</button>
+    <button class="btn" onclick="setTimeRange(168)">Last Week</button>
+    <strong style="margin-left: 20px;">Model:</strong>
+    <select id="model-select" onchange="updateDashboard()">
+      <option value="fraud-detection">Fraud Detection v2.1</option>
+      <option value="recommendation">Recommendation Engine v1.3</option>
+      <option value="churn-prediction">Churn Prediction v3.0</option>
+    </select>
+  </div>
+
+  <div class="dashboard-grid">
+    <div class="metric-card">
+      <div class="card-title">📊 Model Performance</div>
+      <div class="metric-value status-ok" id="performance-metric">94.2%</div>
+      <div>PR-AUC (last 24h)</div>
+      <small>Threshold: > 90% (OK)</small>
+    </div>
+
+    <div class="metric-card">
+      <div class="card-title">🎯 Calibration</div>
+      <div class="metric-value status-warning" id="calibration-metric">0.08</div>
+      <div>Expected Calibration Error</div>
+      <small>Threshold: < 0.05 (WARNING)</small>
+    </div>
+
+    <div class="metric-card">
+      <div class="card-title">📈 Data Drift</div>
+      <div class="metric-value status-ok" id="drift-metric">0.12</div>
+      <div>Population Stability Index</div>
+      <small>Threshold: < 0.25 (OK)</small>
+    </div>
+
+    <div class="metric-card">
+      <div class="card-title">⚡ Service Health</div>
+      <div class="metric-value status-ok" id="latency-metric">45ms</div>
+      <div>P95 Latency</div>
+      <small>SLA: < 100ms (OK)</small>
+    </div>
+
+    <div class="metric-card">
+      <div class="card-title">⚖️ Fairness Check</div>
+      <div class="metric-value status-warning" id="fairness-metric">8.2%</div>
+      <div>Max Subgroup Gap (Precision)</div>
+      <small>Threshold: < 5% (WARNING)</small>
+    </div>
+
+    <div class="metric-card">
+      <div class="card-title">🚨 Active Alerts</div>
+      <div id="alerts-container">
+        <div class="alert-item">⚠️ Calibration drift detected in segment A</div>
+        <div class="alert-item">⚠️ Fairness gap exceeds threshold for age group 18-25</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="plot-container">
+    <div id="performance-trend" style="height: 300px;"></div>
+  </div>
+
+  <div class="plot-container">
+    <div id="drift-analysis" style="height: 300px;"></div>
+  </div>
+
+  <div class="plot-container">
+    <div id="calibration-plot" style="height: 300px;"></div>
+  </div>
+</div>
+
+<script>
+let timeRange = 24; // hours
+
+function setTimeRange(hours) {
+  timeRange = hours;
+  updateDashboard();
+}
+
+function updateDashboard() {
+  generatePerformanceTrend();
+  generateDriftAnalysis();
+  generateCalibrationPlot();
+  updateMetrics();
+}
+
+function generatePerformanceTrend() {
+  const hours = Array.from({length: timeRange}, (_, i) => i);
+  const precision = hours.map(h => 0.94 + Math.sin(h/5) * 0.02 + (Math.random()-0.5)*0.01);
+  const recall = hours.map(h => 0.91 + Math.cos(h/4) * 0.015 + (Math.random()-0.5)*0.01);
+
+  const trace1 = {
+    x: hours,
+    y: precision,
+    type: 'scatter',
+    mode: 'lines',
+    name: 'Precision',
+    line: { color: '#034638', width: 2 }
+  };
+
+  const trace2 = {
+    x: hours,
+    y: recall,
+    type: 'scatter',
+    mode: 'lines',
+    name: 'Recall',
+    line: { color: '#582C83', width: 2 }
+  };
+
+  const layout = {
+    title: 'Model Performance Over Time',
+    xaxis: { title: 'Hours Ago' },
+    yaxis: { title: 'Score', range: [0.88, 0.98] },
+    showlegend: true,
+    margin: { t: 50, b: 50, l: 60, r: 20 }
+  };
+
+  Plotly.newPlot('performance-trend', [trace1, trace2], layout, {responsive: true});
+}
+
+function generateDriftAnalysis() {
+  const features = ['age', 'income', 'location', 'device_type', 'session_duration'];
+  const psiValues = features.map(() => Math.random() * 0.3);
+
+  const trace = {
+    x: features,
+    y: psiValues,
+    type: 'bar',
+    marker: {
+      color: psiValues.map(val => val > 0.25 ? '#dc3545' : val > 0.1 ? '#ffc107' : '#198754')
+    }
+  };
+
+  const layout = {
+    title: 'Feature Drift Analysis (PSI)',
+    xaxis: { title: 'Features' },
+    yaxis: { title: 'Population Stability Index' },
+    shapes: [{
+      type: 'line',
+      x0: -0.5,
+      x1: features.length - 0.5,
+      y0: 0.25,
+      y1: 0.25,
+      line: { color: '#dc3545', dash: 'dash', width: 2 }
+    }],
+    margin: { t: 50, b: 50, l: 60, r: 20 }
+  };
+
+  Plotly.newPlot('drift-analysis', [trace], layout, {responsive: true});
+}
+
+function generateCalibrationPlot() {
+  const bins = Array.from({length: 10}, (_, i) => (i + 1) / 10);
+  const observed = bins.map(bin => bin + (Math.random() - 0.5) * 0.1);
+  const perfect = bins;
+
+  const trace1 = {
+    x: bins,
+    y: observed,
+    type: 'scatter',
+    mode: 'markers+lines',
+    name: 'Observed',
+    marker: { color: '#034638', size: 8 }
+  };
+
+  const trace2 = {
+    x: bins,
+    y: perfect,
+    type: 'scatter',
+    mode: 'lines',
+    name: 'Perfect Calibration',
+    line: { color: '#dc3545', dash: 'dash' }
+  };
+
+  const layout = {
+    title: 'Calibration Reliability Curve',
+    xaxis: { title: 'Mean Predicted Probability' },
+    yaxis: { title: 'Fraction of Positives' },
+    showlegend: true,
+    margin: { t: 50, b: 50, l: 60, r: 20 }
+  };
+
+  Plotly.newPlot('calibration-plot', [trace1, trace2], layout, {responsive: true});
+}
+
+function updateMetrics() {
+  // Simulate real-time metric updates
+  setTimeout(() => {
+    const performance = 94.2 + (Math.random() - 0.5) * 2;
+    const calibration = 0.08 + (Math.random() - 0.5) * 0.02;
+    const drift = 0.12 + (Math.random() - 0.5) * 0.1;
+    const latency = 45 + Math.random() * 10;
+    const fairness = 8.2 + (Math.random() - 0.5) * 2;
+
+    document.getElementById('performance-metric').textContent = performance.toFixed(1) + '%';
+    document.getElementById('calibration-metric').textContent = calibration.toFixed(3);
+    document.getElementById('drift-metric').textContent = drift.toFixed(2);
+    document.getElementById('latency-metric').textContent = Math.round(latency) + 'ms';
+    document.getElementById('fairness-metric').textContent = fairness.toFixed(1) + '%';
+
+    updateMetrics(); // Continue updates
+  }, 5000);
+}
+
+// Initialize dashboard
+updateDashboard();
+
+// Pop-out functionality
+document.getElementById('popoutBtn').addEventListener('click', function() {
+    const currentUrl = window.location.href;
+    const popoutUrl = currentUrl + (currentUrl.includes('?') ? '&' : '?') + 'standalone=true';
+
+    // Open in new window with specific dimensions
+    const popoutWindow = window.open(
+        popoutUrl,
+        'WidgetPopout',
+        'width=1200,height=900,resizable=yes,scrollbars=yes,status=yes'
+    );
+
+    // Focus the new window
+    if (popoutWindow) {
+        popoutWindow.focus();
+    }
+});
+
+// Check if in standalone mode
+if (window.location.search.includes('standalone=true')) {
+    document.body.classList.add('standalone-mode');
+}
+</script>
+
+</body>
+</html>

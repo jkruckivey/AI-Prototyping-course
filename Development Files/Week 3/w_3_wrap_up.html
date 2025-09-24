@@ -1,0 +1,120 @@
+<div id="dp-wrapper" class="dp-wrapper">
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+
+  <!-- Week 3 Wrap-Up -->
+  <div class="dp-content-block content-block" data-title="Week 3 — Review & Wrap-Up">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-flag-checkered" aria-hidden="true"></i>&nbsp;Week 3 — Review & Wrap-Up</h2>
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+      <div class="card-body">
+        <h3 class="card-title dp-ignore-theme">Quick Recap</h3>
+        <p>You've mastered <strong>unsupervised learning</strong> fundamentals: clustering for segmentation, PCA for dimensionality reduction, advanced preprocessing techniques, and recommendation systems that drive business value. These techniques help discover hidden patterns without labeled data.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Knowledge Check -->
+  <div class="dp-content-block content-block" data-title="Knowledge Check">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-clipboard-check" aria-hidden="true"></i>&nbsp;Knowledge Check</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w3-q1">1) When should you use K-means vs hierarchical clustering?</h3>
+        <div id="w3-q1" class="dp-panel-content" hidden>
+          <p>Use <strong>K-means</strong> for large datasets when you know the number of clusters. Use <strong>hierarchical clustering</strong> for smaller datasets when you want to explore different cluster levels via dendrograms.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w3-q2">2) What does PCA help you achieve?</h3>
+        <div id="w3-q2" class="dp-panel-content" hidden>
+          <p><strong>Dimensionality reduction</strong> while preserving maximum variance. It creates uncorrelated principal components that capture the most important patterns in your data.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w3-q3">3) How do collaborative filtering and content-based recommendations differ?</h3>
+        <div id="w3-q3" class="dp-panel-content" hidden>
+          <p><strong>Collaborative filtering</strong> uses patterns from similar users/items ("users like you"). <strong>Content-based</strong> recommends based on item features similar to what users already liked.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w3-q4">4) What is the cold start problem in recommendation systems?</h3>
+        <div id="w3-q4" class="dp-panel-content" hidden>
+          <p>Difficulty making recommendations for <strong>new users</strong> (no history) or <strong>new items</strong> (no interactions). Solutions include popularity-based defaults, onboarding surveys, or content-based approaches.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w3-q5">5) Why is feature scaling critical for clustering?</h3>
+        <div id="w3-q5" class="dp-panel-content" hidden>
+          <p>Distance-based algorithms like K-means are <strong>sensitive to scale</strong>. Without scaling, features with larger ranges dominate the distance calculations, leading to biased clusters.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive quiz widget -->
+  <div class="dp-content-block content-block" data-title="Interactive Quiz (Optional)">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive Quiz (Optional)</h2>
+    <p class="mt-2">Test your understanding with this interactive quiz covering Week 3 concepts.</p>
+    <div class="dp-embed-wrapper">
+      <iframe title="Week 3 Wrap-Up Quiz" role="application" src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/week3/w3-wrap-quiz.html" width="100%" height="900" loading="lazy" allowfullscreen aria-label="Interactive multiple-choice quiz covering Week 3 unsupervised learning concepts"></iframe>
+    </div>
+  </div>
+
+  <!-- Reflection & Next Steps -->
+  <div class="dp-content-block content-block" data-title="Reflection & Next Steps">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-pen" aria-hidden="true"></i>&nbsp;Reflection & Next Steps</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w3-reflect">Reflection</h3>
+        <div id="w3-reflect" class="dp-panel-content" hidden>
+          <p>Think about your organization's data: Where could clustering reveal customer segments? What high-dimensional data could benefit from PCA? Which products or content could use better recommendations?</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w3-next">Next steps</h3>
+        <div id="w3-next" class="dp-panel-content" hidden>
+          <p>Pick one unsupervised technique to pilot: <strong>Customer segmentation</strong> with K-means, <strong>feature reduction</strong> with PCA, or <strong>recommendation engine</strong> with collaborative filtering. Define success metrics before starting.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Business Impact Callout -->
+  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
+    <div class="card-body">
+      <h3 class="card-title">Business Impact</h3>
+      <p class="card-text">Recommendation systems drive significant revenue for digital platforms. Netflix estimates their recommender saves $1B annually by reducing churn through better content discovery. Clustering helps retailers optimize inventory by understanding customer segments.</p>
+    </div>
+  </div>
+
+  <!-- Helpful Tip / End-of-session reminder -->
+  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-color-dp-primary dp-callout-type-info" role="note" aria-label="Session completion reminder">
+    <div class="dp-callout-side-emphasis"><i class="dp-icon fas fa-info-circle dp-default-icon" aria-hidden="true"></i></div>
+    <div class="card-body">
+      <h4 class="card-title"><strong>Week 3 Complete</strong></h4>
+      <p class="card-text">You've mastered unsupervised learning fundamentals: clustering, dimensionality reduction, preprocessing, and recommendations. Ready to apply these techniques to discover hidden patterns in your data.</p>
+    </div>
+  </div>
+
+  <hr />
+  <p>Select <strong>Modules</strong> to return to the course overview, or proceed to Week 4 on Model Evaluation & Business Metrics.</p>
+</div>
+
+<!-- Canvas-safe toggling -->
+<script>
+(function () {
+  function toggleHead(h){
+    const content = document.getElementById(h.getAttribute('aria-controls'));
+    const expanded = h.getAttribute('aria-expanded') === 'true';
+    h.setAttribute('aria-expanded', String(!expanded));
+    if (content) content.hidden = expanded;
+  }
+  document.addEventListener('click', function (e) {
+    const h = e.target.closest('.dp-panel-heading[role="button"]');
+    if (h) toggleHead(h);
+  });
+  document.addEventListener('keydown', function (e) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role="button"]')) {
+      e.preventDefault(); toggleHead(e.target);
+    }
+  });
+})();
+</script>

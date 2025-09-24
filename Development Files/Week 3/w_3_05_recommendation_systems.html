@@ -1,383 +1,346 @@
-<!-- Skip link for keyboard users -->
-<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
-
-<main id="main-content" role="main">
 <div id="dp-wrapper" class="dp-wrapper">
-  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;" aria-hidden="true">Icon Progress Bar (browser only)</div>
-
-  <div class="dp-content-block content-block" data-title="Introduction to Recommendation Systems">
-    <h2 class="dp-has-icon"><i class="dp-icon fas fa-thumbs-up" aria-hidden="true"></i>&nbsp;Recommendation Systems</h2>
-    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
-      <div class="card-body">
-        <h3 class="card-title dp-ignore-theme">What this page covers</h3>
-        <p>Understand collaborative filtering, content-based recommendations, and association rules. Learn how recommendation engines drive business value across industries.</p>
-      </div>
-    </div>
-  </div>
-
-
-  <div class="dp-content-block content-block" data-title="Types of Recommendation Systems">
-    <h2 class="dp-has-icon"><i class="dp-icon fas fa-sitemap" aria-hidden="true"></i>&nbsp;Recommendation Approaches</h2>
-    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
-      <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="collaborative-filtering" id="collaborative-filtering-heading">Collaborative Filtering: "Users Like You"</h3>
-        <div id="collaborative-filtering" class="dp-panel-content" role="region" aria-labelledby="collaborative-filtering-heading" hidden>
-          <p>Recommends based on behavior patterns of similar users or similar items:</p>
-          <div class="row">
-            <div class="col-md-6">
-              <div class="dp-card card h-100" style="border-left: 4px solid #3b82f6; padding-left: 12px;">
-                <div class="card-body">
-                  <h6 class="card-title">User-Based CF</h6>
-                  <p><strong>Logic:</strong> Find users with similar preferences, recommend what they liked</p>
-                  <p><strong>Example:</strong> "Users who liked movies A, B, C also enjoyed movie D"</p>
-                  <p class="mb-0"><strong>Best for:</strong> Discovering new categories</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="dp-card card h-100" style="border-left: 4px solid #10b981; padding-left: 12px;">
-                <div class="card-body">
-                  <h6 class="card-title">Item-Based CF</h6>
-                  <p><strong>Logic:</strong> Find items frequently purchased together</p>
-                  <p><strong>Example:</strong> "Customers who bought this book also bought..."</p>
-                  <p class="mb-0"><strong>Best for:</strong> Stable, interpretable recommendations</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="content-based" id="content-based-heading">Content-Based: "More Like This"</h3>
-        <div id="content-based" class="dp-panel-content" role="region" aria-labelledby="content-based-heading" hidden>
-          <p>Recommends items similar to those a user has already shown interest in:</p>
-          <div class="table-responsive">
-            <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Content-based recommendation features">
-              <caption>Content-Based Recommendation Feature Examples by Domain</caption>
-              <thead>
-                <tr>
-                  <th scope="col">Domain</th>
-                  <th scope="col">Item Features</th>
-                  <th scope="col">User Profile</th>
-                  <th scope="col">Recommendation Logic</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th scope="row">Movies</th>
-                  <td>Genre, director, actors, year</td>
-                  <td>Weighted preferences</td>
-                  <td>Match user's genre/actor preferences</td>
-                </tr>
-                <tr>
-                  <th scope="row">News</th>
-                  <td>Topic, keywords, author, source</td>
-                  <td>Reading history analysis</td>
-                  <td>Similar topics to past articles</td>
-                </tr>
-                <tr>
-                  <th scope="row">Products</th>
-                  <td>Category, brand, price, features</td>
-                  <td>Purchase/browse patterns</td>
-                  <td>Similar specifications</td>
-                </tr>
-                <tr>
-                  <th scope="row">Music</th>
-                  <td>Artist, genre, tempo, mood</td>
-                  <td>Listening patterns</td>
-                  <td>Audio similarity, style matching</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-      <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="hybrid-systems" id="hybrid-systems-heading">Hybrid Systems: Best of Both Worlds</h3>
-        <div id="hybrid-systems" class="dp-panel-content" role="region" aria-labelledby="hybrid-systems-heading" hidden>
-          <p>Combine multiple approaches to overcome individual limitations:</p>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item"><strong>Weighted combination</strong>: Blend collaborative and content-based scores</li>
-            <li class="list-group-item"><strong>Switching</strong>: Use content-based for new users, collaborative for experienced users</li>
-            <li class="list-group-item"><strong>Mixed recommendations</strong>: Show both types side-by-side</li>
-            <li class="list-group-item"><strong>Feature combination</strong>: Use collaborative data as features in content models</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="dp-content-block content-block" data-title="Association Rules and Market Basket Analysis">
-    <h2 class="dp-has-icon"><i class="dp-icon fas fa-shopping-basket" aria-hidden="true"></i>&nbsp;Association Rules</h2>
-    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
-      <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="association-basics" id="association-basics-heading">How Association Rules Work</h3>
-        <div id="association-basics" class="dp-panel-content" role="region" aria-labelledby="association-basics-heading" hidden>
-          <p>Find patterns in transaction data using support, confidence, and lift metrics:</p>
-          <div class="dp-card card" style="background-color:#e7f3ff; border:1px solid #b3d9ff;">
+    <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+    <div class="dp-content-block content-block" data-title="Introduction to Recommendation Systems">
+        <h2 class="dp-has-icon"><i class="dp-icon fas fa-thumbs-up" aria-hidden="true"></i>&nbsp;Recommendation Systems</h2>
+        <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
             <div class="card-body">
-              <h6 class="card-title">Example Rule: {Bread, Butter} → {Milk}</h6>
-              <p class="mb-0">If someone buys bread and butter, they're likely to also buy milk</p>
+                <h3 class="card-title dp-ignore-theme">What this page covers</h3>
+                <p>Understand collaborative filtering, content-based recommendations, and association rules. Learn how recommendation engines drive business value across industries.</p>
             </div>
-          </div>
-          <div class="table-responsive mt-3">
-            <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Association rule metrics">
-              <caption>Association Rule Mining Metrics and Interpretation</caption>
-              <thead>
-                <tr>
-                  <th scope="col">Metric</th>
-                  <th scope="col">Formula</th>
-                  <th scope="col">Meaning</th>
-                  <th scope="col">Typical Threshold</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th scope="row">Support</th>
-                  <td>P(A ∩ B)</td>
-                  <td>How often items appear together</td>
-                  <td>&gt; 1-5%</td>
-                </tr>
-                <tr>
-                  <th scope="row">Confidence</th>
-                  <td>P(B|A)</td>
-                  <td>How often rule is correct</td>
-                  <td>&gt; 50-70%</td>
-                </tr>
-                <tr>
-                  <th scope="row">Lift</th>
-                  <td>Confidence / P(B)</td>
-                  <td>How much rule improves prediction</td>
-                  <td>&gt; 1.0</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
         </div>
-      </div>
-      <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="apriori-algorithm" id="apriori-algorithm-heading">The Apriori Algorithm</h3>
-        <div id="apriori-algorithm" class="dp-panel-content" role="region" aria-labelledby="apriori-algorithm-heading" hidden>
-          <p>Efficiently finds frequent itemsets using the downward closure property:</p>
-          <div class="row">
-            <div class="col-md-4">
-              <div class="dp-card card h-100" style="border-left: 4px solid #f59e0b; padding-left: 12px;">
-                <div class="card-body">
-                  <h6 class="card-title">Step 1: Find Frequent Items</h6>
-                  <p class="mb-0">Identify individual items that appear in minimum support % of transactions</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="dp-card card h-100" style="border-left: 4px solid #3b82f6; padding-left: 12px;">
-                <div class="card-body">
-                  <h6 class="card-title">Step 2: Build Pairs</h6>
-                  <p class="mb-0">Combine frequent items into pairs, keep those meeting support threshold</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="dp-card card h-100" style="border-left: 4px solid #10b981; padding-left: 12px;">
-                <div class="card-body">
-                  <h6 class="card-title">Step 3: Generate Rules</h6>
-                  <p class="mb-0">Create if-then rules from frequent itemsets, filter by confidence</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="business-applications" id="business-applications-heading">Business Applications</h3>
-        <div id="business-applications" class="dp-panel-content" role="region" aria-labelledby="business-applications-heading" hidden>
-          <div class="row">
-            <div class="col-md-6">
-              <div class="dp-card card h-100">
-                <div class="card-body">
-                  <h6 class="card-title">Retail & E-commerce</h6>
-                  <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Product placement and store layout</li>
-                    <li class="list-group-item">"Frequently bought together" recommendations</li>
-                    <li class="list-group-item">Cross-selling and upselling strategies</li>
-                    <li class="list-group-item">Promotional bundling decisions</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="dp-card card h-100">
-                <div class="card-body">
-                  <h6 class="card-title">Other Industries</h6>
-                  <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><strong>Healthcare</strong>: Drug interaction patterns</li>
-                    <li class="list-group-item"><strong>Finance</strong>: Service bundling opportunities</li>
-                    <li class="list-group-item"><strong>Web Analytics</strong>: Page visit sequences</li>
-                    <li class="list-group-item"><strong>Content</strong>: Article/video consumption patterns</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
-
-  <div class="dp-content-block content-block" data-title="Building Recommendation Systems">
-    <h2 class="dp-has-icon"><i class="dp-icon fas fa-cogs" aria-hidden="true"></i>&nbsp;Implementation Considerations</h2>
-    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
-      <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="cold-start" id="cold-start-heading">The Cold Start Problem</h3>
-        <div id="cold-start" class="dp-panel-content" role="region" aria-labelledby="cold-start-heading" hidden>
-          <p>How to recommend to new users or promote new items with limited interaction data:</p>
-          <div class="table-responsive">
-            <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Cold start solutions">
-              <caption>Cold Start Problem Solutions in Recommendation Systems</caption>
-              <thead>
-                <tr>
-                  <th scope="col">Problem</th>
-                  <th scope="col">Description</th>
-                  <th scope="col">Solutions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th scope="row">New User</th>
-                  <td>No purchase/rating history</td>
-                  <td>Popular items, demographics, onboarding quiz</td>
-                </tr>
-                <tr>
-                  <th scope="row">New Item</th>
-                  <td>No user interactions yet</td>
-                  <td>Content similarity, expert curation, promotional push</td>
-                </tr>
-                <tr>
-                  <th scope="row">New System</th>
-                  <td>Limited overall data</td>
-                  <td>Content-based start, gradual CF introduction</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-      <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="evaluation-metrics" id="evaluation-metrics-heading">Evaluation Metrics</h3>
-        <div id="evaluation-metrics" class="dp-panel-content" role="region" aria-labelledby="evaluation-metrics-heading" hidden>
-          <p>Measuring recommendation system performance requires both accuracy and business metrics:</p>
-          <div class="row">
-            <div class="col-md-6">
-              <div class="dp-card card h-100" style="border-left: 4px solid #8b5cf6; padding-left: 12px;">
-                <div class="card-body">
-                  <h6 class="card-title">Accuracy Metrics</h6>
-                  <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><strong>Precision@K</strong>: % relevant in top K recommendations</li>
-                    <li class="list-group-item"><strong>Recall@K</strong>: % of relevant items found in top K</li>
-                    <li class="list-group-item"><strong>MAP</strong>: Mean Average Precision across users</li>
-                    <li class="list-group-item"><strong>RMSE</strong>: Rating prediction error</li>
-                  </ul>
+    <div class="dp-content-block content-block" data-title="Types of Recommendation Systems">
+        <h2 class="dp-has-icon"><i class="dp-icon fas fa-sitemap" aria-hidden="true"></i>&nbsp;Recommendation Approaches</h2>
+        <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+            <div class="dp-panel-group">
+                <h3 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="collaborative-filtering">Collaborative Filtering: "Users Like You"</h3>
+                <div id="collaborative-filtering" class="dp-panel-content">
+                    <p>Recommends based on behavior patterns of similar users or similar items:</p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="dp-card card h-100" style="border-left: 4px solid #3b82f6; padding-left: 12px;">
+                                <div class="card-body">
+                                    <h4 class="card-title">User-Based CF</h4>
+                                    <p><strong>Logic:</strong> Find users with similar preferences, recommend what they liked</p>
+                                    <p><strong>Example:</strong> "Users who liked movies A, B, C also enjoyed movie D"</p>
+                                    <p class="mb-0"><strong>Best for:</strong> Discovering new categories</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="dp-card card h-100" style="border-left: 4px solid #10b981; padding-left: 12px;">
+                                <div class="card-body">
+                                    <h4 class="card-title">Item-Based CF</h4>
+                                    <p><strong>Logic:</strong> Find items frequently purchased together</p>
+                                    <p><strong>Example:</strong> "Customers who bought this book also bought..."</p>
+                                    <p class="mb-0"><strong>Best for:</strong> Stable, interpretable recommendations</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-            <div class="col-md-6">
-              <div class="dp-card card h-100" style="border-left: 4px solid #f59e0b; padding-left: 12px;">
-                <div class="card-body">
-                  <h6 class="card-title">Business Metrics</h6>
-                  <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><strong>Click-through rate</strong>: User engagement</li>
-                    <li class="list-group-item"><strong>Conversion rate</strong>: Recommendations to purchases</li>
-                    <li class="list-group-item"><strong>Revenue impact</strong>: Additional sales generated</li>
-                    <li class="list-group-item"><strong>Diversity</strong>: Variety in recommendations</li>
-                  </ul>
+            <div class="dp-panel-group">
+                <h3 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="content-based">Content-Based: "More Like This"</h3>
+                <div id="content-based" class="dp-panel-content">
+                    <p>Recommends items similar to those a user has already shown interest in:</p>
+                    <div class="table-responsive">
+                        <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Content-based recommendation features">
+                            <caption>Content-Based Recommendation Features by Domain</caption>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Domain</th>
+                                    <th scope="col">Item Features</th>
+                                    <th scope="col">User Profile</th>
+                                    <th scope="col">Recommendation Logic</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Movies</strong></td>
+                                    <td>Genre, director, actors, year</td>
+                                    <td>Weighted preferences</td>
+                                    <td>Match user's genre/actor preferences</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>News</strong></td>
+                                    <td>Topic, keywords, author, source</td>
+                                    <td>Reading history analysis</td>
+                                    <td>Similar topics to past articles</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Products</strong></td>
+                                    <td>Category, brand, price, features</td>
+                                    <td>Purchase/browse patterns</td>
+                                    <td>Similar specifications</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Music</strong></td>
+                                    <td>Artist, genre, tempo, mood</td>
+                                    <td>Listening patterns</td>
+                                    <td>Audio similarity, style matching</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
-        </div>
-      </div>
-      <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="challenges" id="challenges-heading">Common Challenges</h3>
-        <div id="challenges" class="dp-panel-content" role="region" aria-labelledby="challenges-heading" hidden>
-          <div class="dp-card card" style="border-left: 4px solid #dc2626; padding-left: 12px;">
-            <div class="card-body">
-              <h6 class="card-title">Implementation Challenges</h6>
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item"><strong>Scalability</strong>: Real-time recommendations for millions of users</li>
-                <li class="list-group-item"><strong>Data sparsity</strong>: Most user-item pairs have no interaction</li>
-                <li class="list-group-item"><strong>Filter bubbles</strong>: Over-personalization reduces discovery</li>
-                <li class="list-group-item"><strong>Temporal dynamics</strong>: User preferences change over time</li>
-                <li class="list-group-item"><strong>Bias amplification</strong>: Popular items get more popular</li>
-              </ul>
+            <div class="dp-panel-group">
+                <h3 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="hybrid-systems">Hybrid Systems: Best of Both Worlds</h3>
+                <div id="hybrid-systems" class="dp-panel-content">
+                    <p>Combine multiple approaches to overcome individual limitations:</p>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><strong>Weighted combination</strong>: Blend collaborative and content-based scores</li>
+                        <li class="list-group-item"><strong>Switching</strong>: Use content-based for new users, collaborative for experienced users</li>
+                        <li class="list-group-item"><strong>Mixed recommendations</strong>: Show both types side-by-side</li>
+                        <li class="list-group-item"><strong>Feature combination</strong>: Use collaborative data as features in content models</li>
+                    </ul>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
-
-  <div class="dp-content-block content-block" data-title="Interactive: Recommendation Engine">
-    <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive: Build a Recommender</h2>
-    <p class="mt-2"><em>Try it:</em> Compare collaborative filtering and content-based approaches. See how association rules find product relationships.</p>
-    <div class="dp-embed-wrapper">
-      <iframe title="Recommendation System Comparison" role="application" src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/w3-recommendation-engine.html" width="100%" height="650" loading="lazy" allowfullscreen aria-label="Interactive recommendation system comparing different approaches with real-time results"></iframe>
-    </div>
-  </div>
-
-  <div class="dp-content-block content-block" data-title="Quick Check">
-    <h2 class="dp-has-icon"><i class="dp-icon fas fa-clipboard-check" aria-hidden="true"></i>&nbsp;Knowledge Check</h2>
-    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
-      <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="quiz-scenarios" id="quiz-scenarios-heading">Recommendation Scenarios</h3>
-        <div id="quiz-scenarios" class="dp-panel-content" role="region" aria-labelledby="quiz-scenarios-heading" hidden>
-          <p><strong>Match each scenario to the best recommendation approach:</strong></p>
-          <ul>
-            <li><strong>Netflix movie suggestions</strong> - Hybrid system (viewing history + content features)</li>
-            <li><strong>Amazon "customers who bought X also bought Y"</strong> - Item-based collaborative filtering</li>
-            <li><strong>Spotify discovering new artists</strong> - Content-based (audio features, genre similarity)</li>
-            <li><strong>Grocery store product placement</strong> - Association rules (market basket analysis)</li>
-          </ul>
-          <p class="mb-0"><em>Consider:</em> data availability, business goals, and user experience for each choice.</p>
+    <div class="dp-content-block content-block" data-title="Association Rules and Market Basket Analysis">
+        <h2 class="dp-has-icon"><i class="dp-icon fas fa-shopping-basket" aria-hidden="true"></i>&nbsp;Association Rules</h2>
+        <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+            <div class="dp-panel-group">
+                <h3 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="association-basics">How Association Rules Work</h3>
+                <div id="association-basics" class="dp-panel-content">
+                    <p>Find patterns in transaction data using support, confidence, and lift metrics:</p>
+                    <div class="dp-card card" style="background-color: #f0f7ff; border: 2px solid #0066cc;">
+                        <div class="card-body">
+                            <h4 class="card-title" style="color: #034638;">Example Rule: {Bread, Butter} &rarr; {Milk}</h4>
+                            <p class="mb-0" style="color: #034638;">If someone buys bread and butter, they're likely to also buy milk</p>
+                        </div>
+                    </div>
+                    <div class="table-responsive mt-3">
+                        <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Association rule metrics">
+                            <caption>Key Metrics for Association Rules</caption>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Metric</th>
+                                    <th scope="col">Formula</th>
+                                    <th scope="col">Meaning</th>
+                                    <th scope="col">Typical Threshold</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Support</strong></td>
+                                    <td>P(A &cap; B)</td>
+                                    <td>How often items appear together</td>
+                                    <td>&gt; 1-5%</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Confidence</strong></td>
+                                    <td>P(B|A)</td>
+                                    <td>How often rule is correct</td>
+                                    <td>&gt; 50-70%</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Lift</strong></td>
+                                    <td>Confidence / P(B)</td>
+                                    <td>How much rule improves prediction</td>
+                                    <td>&gt; 1.0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="dp-panel-group">
+                <h3 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="apriori-algorithm">The Apriori Algorithm</h3>
+                <div id="apriori-algorithm" class="dp-panel-content">
+                    <p>Efficiently finds frequent itemsets using the downward closure property:</p>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="dp-card card h-100" style="border-left: 4px solid #f59e0b; padding-left: 12px;">
+                                <div class="card-body">
+                                    <h4 class="card-title">Step 1: Find Frequent Items</h4>
+                                    <p class="mb-0">Identify individual items that appear in minimum support % of transactions</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="dp-card card h-100" style="border-left: 4px solid #3b82f6; padding-left: 12px;">
+                                <div class="card-body">
+                                    <h4 class="card-title">Step 2: Build Pairs</h4>
+                                    <p class="mb-0">Combine frequent items into pairs, keep those meeting support threshold</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="dp-card card h-100" style="border-left: 4px solid #10b981; padding-left: 12px;">
+                                <div class="card-body">
+                                    <h4 class="card-title">Step 3: Generate Rules</h4>
+                                    <p class="mb-0">Create if-then rules from frequent itemsets, filter by confidence</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="dp-panel-group">
+                <h3 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="business-applications">Business Applications</h3>
+                <div id="business-applications" class="dp-panel-content">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="dp-card card h-100">
+                                <div class="card-body">
+                                    <h4 class="card-title">Retail &amp; E-commerce</h4>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">Product placement and store layout</li>
+                                        <li class="list-group-item">"Frequently bought together" recommendations</li>
+                                        <li class="list-group-item">Cross-selling and upselling strategies</li>
+                                        <li class="list-group-item">Promotional bundling decisions</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="dp-card card h-100">
+                                <div class="card-body">
+                                    <h4 class="card-title">Other Industries</h4>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item"><strong>Healthcare</strong>: Drug interaction patterns</li>
+                                        <li class="list-group-item"><strong>Finance</strong>: Service bundling opportunities</li>
+                                        <li class="list-group-item"><strong>Web Analytics</strong>: Page visit sequences</li>
+                                        <li class="list-group-item"><strong>Content</strong>: Article/video consumption patterns</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
-
-  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
-    <div class="card-body">
-      <h3 class="card-title">Business Impact</h3>
-      <p class="card-text">Recommendation systems drive significant revenue for digital platforms. Netflix estimates their recommender saves $1B annually by reducing churn through better content discovery.</p>
+    <div class="dp-content-block content-block" data-title="Building Recommendation Systems">
+        <h2 class="dp-has-icon"><i class="dp-icon fas fa-cogs" aria-hidden="true"></i>&nbsp;Implementation Considerations</h2>
+        <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+            <div class="dp-panel-group">
+                <h3 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="cold-start">The Cold Start Problem</h3>
+                <div id="cold-start" class="dp-panel-content">
+                    <p>How to recommend to new users or promote new items with limited interaction data:</p>
+                    <div class="table-responsive">
+                        <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Cold start solutions">
+                            <caption>Solutions for Cold Start Problems</caption>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Problem</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Solutions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>New User</strong></td>
+                                    <td>No purchase/rating history</td>
+                                    <td>Popular items, demographics, onboarding quiz</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>New Item</strong></td>
+                                    <td>No user interactions yet</td>
+                                    <td>Content similarity, expert curation, promotional push</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>New System</strong></td>
+                                    <td>Limited overall data</td>
+                                    <td>Content-based start, gradual CF introduction</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="dp-panel-group">
+                <h3 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="evaluation-metrics">Evaluation Metrics</h3>
+                <div id="evaluation-metrics" class="dp-panel-content">
+                    <p>Measuring recommendation system performance requires both accuracy and business metrics:</p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="dp-card card h-100" style="border-left: 4px solid #8b5cf6; padding-left: 12px;">
+                                <div class="card-body">
+                                    <h4 class="card-title">Accuracy Metrics</h4>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item"><strong>Precision@K</strong>: % relevant in top K recommendations</li>
+                                        <li class="list-group-item"><strong>Recall@K</strong>: % of relevant items found in top K</li>
+                                        <li class="list-group-item"><strong>MAP</strong>: Mean Average Precision across users</li>
+                                        <li class="list-group-item"><strong>RMSE</strong>: Rating prediction error</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="dp-card card h-100" style="border-left: 4px solid #f59e0b; padding-left: 12px;">
+                                <div class="card-body">
+                                    <h4 class="card-title">Business Metrics</h4>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item"><strong>Click-through rate</strong>: User engagement</li>
+                                        <li class="list-group-item"><strong>Conversion rate</strong>: Recommendations to purchases</li>
+                                        <li class="list-group-item"><strong>Revenue impact</strong>: Additional sales generated</li>
+                                        <li class="list-group-item"><strong>Diversity</strong>: Variety in recommendations</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="dp-panel-group">
+                <h3 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="challenges">Common Challenges</h3>
+                <div id="challenges" class="dp-panel-content">
+                    <div class="dp-card card" style="border-left: 4px solid #dc2626; padding-left: 12px;">
+                        <div class="card-body">
+                            <h4 class="card-title">Implementation Challenges</h4>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item"><strong>Scalability</strong>: Real-time recommendations for millions of users</li>
+                                <li class="list-group-item"><strong>Data sparsity</strong>: Most user-item pairs have no interaction</li>
+                                <li class="list-group-item"><strong>Filter bubbles</strong>: Over-personalization reduces discovery</li>
+                                <li class="list-group-item"><strong>Temporal dynamics</strong>: User preferences change over time</li>
+                                <li class="list-group-item"><strong>Bias amplification</strong>: Popular items get more popular</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-
-  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-color-dp-primary dp-callout-type-info" role="note" aria-label="Session completion reminder">
-    <div class="dp-callout-side-emphasis"><i class="dp-icon fas fa-info-circle dp-default-icon" aria-hidden="true"></i></div>
-    <div class="card-body">
-      <h4 class="card-title"><strong>Week 3 Complete</strong></h4>
-      <p class="card-text">You've mastered unsupervised learning fundamentals: clustering, dimensionality reduction, preprocessing, and recommendations. Ready to apply these techniques to discover hidden patterns in your data.</p>
+    <div class="dp-content-block content-block" data-title="Interactive: Recommendation Engine">
+        <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive: Build a Recommender</h2>
+        <p class="mt-2"><em>Try it:</em> Compare collaborative filtering and content-based approaches. See how association rules find product relationships.</p>
+        <div class="dp-embed-wrapper"><iframe title="Recommendation System Comparison" src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/week3/w3-recommendation-engine.html" width="100%" height="1200" loading="lazy" allowfullscreen="allowfullscreen" aria-label="Interactive recommendation system comparing different approaches with real-time results"></iframe></div>
     </div>
-  </div>
-
-  <hr aria-hidden="true" />
-  <p>Select <strong>Modules</strong> on the left-hand side to return to the session list.</p>
+    <div class="dp-content-block content-block" data-title="Quick Check">
+        <h2 class="dp-has-icon"><i class="dp-icon fas fa-clipboard-check" aria-hidden="true"></i>&nbsp;Knowledge Check</h2>
+        <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+            <div class="dp-panel-group">
+                <h3 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="quiz-scenarios">Recommendation Scenarios</h3>
+                <div id="quiz-scenarios" class="dp-panel-content">
+                    <p><strong>Match each scenario to the best recommendation approach:</strong></p>
+                    <ul>
+                        <li><strong>Netflix movie suggestions</strong> - Hybrid system (viewing history + content features)</li>
+                        <li><strong>Amazon "customers who bought X also bought Y"</strong> - Item-based collaborative filtering</li>
+                        <li><strong>Spotify discovering new artists</strong> - Content-based (audio features, genre similarity)</li>
+                        <li><strong>Grocery store product placement</strong> - Association rules (market basket analysis)</li>
+                    </ul>
+                    <p class="mb-0"><em>Consider:</em> data availability, business goals, and user experience for each choice.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
+        <div class="card-body">
+            <h3 class="card-title">Business Impact</h3>
+            <p class="card-text">Recommendation systems drive significant revenue for digital platforms. Netflix estimates their recommender saves $1B annually by reducing churn through better content discovery.</p>
+        </div>
+    </div>
+    <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-color-dp-primary dp-callout-type-info" role="note" aria-label="Session completion reminder">
+        <div class="dp-callout-side-emphasis"><i class="dp-icon fas fa-info-circle dp-default-icon" aria-hidden="true"></i></div>
+        <div class="card-body">
+            <h4 class="card-title"><strong>Week 3 Complete</strong></h4>
+            <p class="card-text">You've mastered unsupervised learning fundamentals: clustering, dimensionality reduction, preprocessing, and recommendations. Ready to apply these techniques to discover hidden patterns in your data.</p>
+        </div>
+    </div>
+    <hr />
+    <p>Select <strong>Modules</strong> on the left-hand side to return to the session list.</p>
 </div>
-</main>
-
-<script>
-(function () {
-  function toggleHead(h){
-    const content = document.getElementById(h.getAttribute('aria-controls'));
-    const expanded = h.getAttribute('aria-expanded') === 'true';
-    h.setAttribute('aria-expanded', String(!expanded));
-    if (content) content.hidden = expanded;
-  }
-  document.addEventListener('click', function (e) {
-    const h = e.target.closest('.dp-panel-heading[role="button"]');
-    if (h) toggleHead(h);
-  });
-  document.addEventListener('keydown', function (e) {
-    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role="button"]')) {
-      e.preventDefault(); toggleHead(e.target);
-    }
-  });
-})();
-</script>

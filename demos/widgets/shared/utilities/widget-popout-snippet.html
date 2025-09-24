@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Widget Pop-Out Implementation Guide</title>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: 'Figtree', system-ui, sans-serif;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1 { color: #034638; }
+        .code-block {
+            background: #f8f9fa;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+        code {
+            font-family: 'Consolas', monospace;
+            font-size: 14px;
+        }
+        .highlight { background: #fffbeb; padding: 2px 4px; }
+    </style>
+</head>
+<body>
+    <h1>Widget Pop-Out Button Implementation</h1>
+
+    <p>This guide shows how to add a "Pop Out" button to any widget that allows users to open it in a full browser window, escaping Canvas iframe size constraints.</p>
+
+    <h2>Step 1: Include the Base CSS</h2>
+    <p>Make sure your widget includes the updated <code>ivey-widget-base.css</code> which now contains pop-out button styles. The path depends on your widget location:</p>
+    <div class="code-block">
+        <code>
+        &lt;!-- For widgets in week1/, week2/, etc --&gt;<br>
+        &lt;link rel="stylesheet" href="../../shared/ivey-widget-base.css"&gt;<br><br>
+        &lt;!-- For widgets in shared/ --&gt;<br>
+        &lt;link rel="stylesheet" href="../ivey-widget-base.css"&gt;
+        </code>
+    </div>
+
+    <h2>Step 2: Add the Pop-Out Button HTML</h2>
+    <p>Add this HTML right after the opening <code>&lt;body&gt;</code> tag:</p>
+    <div class="code-block">
+        <code><pre>&lt;!-- Pop-out button for full window view --&gt;
+&lt;button class="widget-popout-btn" id="popoutBtn" title="Open in full window"&gt;
+    &lt;svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"&gt;
+        &lt;path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /&gt;
+    &lt;/svg&gt;
+    &lt;span&gt;Pop Out&lt;/span&gt;
+&lt;/button&gt;</pre></code>
+    </div>
+
+    <h2>Step 3: Add JavaScript Functionality</h2>
+    <p>Add this JavaScript at the end of your existing script, before the closing <code>&lt;/script&gt;</code> tag:</p>
+    <div class="code-block">
+        <code><pre>// Pop-out functionality
+document.getElementById('popoutBtn').addEventListener('click', function() {
+    const currentUrl = window.location.href;
+    const popoutUrl = currentUrl + (currentUrl.includes('?') ? '&' : '?') + 'standalone=true';
+
+    // Open in new window with specific dimensions
+    const popoutWindow = window.open(
+        popoutUrl,
+        'WidgetPopout',
+        'width=1200,height=900,resizable=yes,scrollbars=yes,status=yes'
+    );
+
+    // Focus the new window
+    if (popoutWindow) {
+        popoutWindow.focus();
+    }
+});
+
+// Check if in standalone mode
+if (window.location.search.includes('standalone=true')) {
+    document.body.classList.add('standalone-mode');
+    // Optional: Adjust container width for standalone mode
+    // document.querySelector('.your-container-class').style.maxWidth = '900px';
+}</pre></code>
+    </div>
+
+    <h2>Features</h2>
+    <ul>
+        <li><strong>Fixed position:</strong> Button stays in top-right corner</li>
+        <li><strong>Auto-hide:</strong> Button disappears when widget is already popped out</li>
+        <li><strong>Responsive:</strong> Adjusts size on mobile devices</li>
+        <li><strong>Accessible:</strong> Includes title attribute for screen readers</li>
+        <li><strong>Canvas-safe:</strong> Works within Canvas LMS iframe restrictions</li>
+    </ul>
+
+    <h2>Customization Options</h2>
+    <p>You can adjust these parameters in the JavaScript:</p>
+    <ul>
+        <li><code>width=1200</code> - Change popup window width</li>
+        <li><code>height=900</code> - Change popup window height</li>
+        <li>Window name <code>'WidgetPopout'</code> - Use unique names for multiple widgets</li>
+    </ul>
+
+    <h2>Styling in Standalone Mode</h2>
+    <p>When <code>.standalone-mode</code> class is added to body, you can apply different styles:</p>
+    <div class="code-block">
+        <code><pre>/* Example: Wider container in standalone mode */
+.standalone-mode .widget-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Example: Larger fonts in standalone mode */
+.standalone-mode {
+    font-size: 16px;
+}</pre></code>
+    </div>
+
+    <h2>Testing</h2>
+    <ol>
+        <li>Open widget in Canvas iframe</li>
+        <li>Click "Pop Out" button</li>
+        <li>Verify new window opens with widget</li>
+        <li>Verify pop-out button is hidden in new window</li>
+        <li>Test widget functionality in both modes</li>
+    </ol>
+
+    <h2>Browser Compatibility</h2>
+    <p>Works in all modern browsers. Some browsers may block popups - users will need to allow popups for the Canvas domain.</p>
+
+    <h2>Implementation Status</h2>
+    <p>Pop-out functionality has been added to:</p>
+    <ul>
+        <li>✅ w3-wrap-quiz.html</li>
+        <li>✅ w3-unsupervised-matcher.html</li>
+        <li>⏳ Other widgets can be updated as needed</li>
+    </ul>
+</body>
+</html>

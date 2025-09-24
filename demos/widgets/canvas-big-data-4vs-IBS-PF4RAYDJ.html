@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Big Data 4 V's Explorer</title>
+    <link rel="stylesheet" href="shared/ivey-widget-base.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Georgia, serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f0f9f6 0%, #e8f4f8 100%);
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+        
+        .bigdata-container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(3, 70, 56, 0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #034638 0%, #0a6b4a 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h2 {
+            margin: 0;
+            font-size: 1.5em;
+            color: white;
+        }
+
+        .header p {
+            color: white;
+        }
+        
+        .dimensions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 0;
+        }
+        
+        .dimension-card {
+            padding: 25px;
+            border-right: 1px solid #e5e7eb;
+            border-bottom: 1px solid #e5e7eb;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            background: white;
+            min-height: 180px;
+            border: none;
+            text-align: left;
+            font-family: inherit;
+            width: 100%;
+        }
+        
+        .dimension-card:focus {
+            outline: 2px solid #034638;
+            outline-offset: 2px;
+        }
+        
+        .dimension-card:hover {
+            background: #f0f9f6;
+            transform: translateY(-2px);
+        }
+        
+        .dimension-card.active {
+            background: #034638;
+            color: white;
+        }
+
+        .dimension-card.active .dimension-title,
+        .dimension-card.active .dimension-description {
+            color: white;
+        }
+        
+        .dimension-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .dimension-title {
+            font-weight: bold;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .dimension-description {
+            font-size: 0.95em;
+            opacity: 0.8;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+        
+        .dimension-impact {
+            background: #10b981;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.85em;
+            font-weight: bold;
+            display: inline-block;
+        }
+        
+        .dimension-card.active .dimension-impact {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .detail-panel {
+            padding: 30px;
+            background: #f8f9fa;
+            border-top: 3px solid #034638;
+            min-height: 300px;
+        }
+        
+        .detail-content {
+            display: none;
+        }
+        
+        .detail-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .detail-title {
+            color: #034638;
+            font-size: 1.4em;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #034638;
+            padding-bottom: 8px;
+        }
+        
+        .comparison-example {
+            background: #e0f2fe;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #0284c7;
+        }
+        
+        .business-applications {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .competitive-advantage {
+            background: #10b981;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-weight: bold;
+        }
+        
+        .data-types-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .data-type-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            text-align: center;
+        }
+        
+        .data-type-icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .critical-stat {
+            background: #fef2f2;
+            border: 2px solid #dc2626;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .critical-stat h3 {
+            color: #dc2626;
+            font-size: 2em;
+            margin: 0 0 10px 0;
+        }
+        
+        .realtime-examples {
+            background: #fef7cd;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border: 1px solid #eab308;
+        }
+        
+        .key-insight {
+            background: #f0f9f6;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border-left: 4px solid #10b981;
+        }
+        
+        @media (max-width: 768px) {
+            .dimensions-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .dimension-card {
+                border-right: none;
+            }
+            
+            .data-types-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            body {
+                padding: 10px;
+            }
+        }
+        
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="bigdata-container">
+        <div class="header">
+            <h2><i class="fas fa-database" aria-hidden="true"></i> Big Data's Four Critical Dimensions</h2>
+            <p>Click each "V" to see a clear business example of how it creates competitive advantage</p>
+        </div>
+        
+        <div class="dimensions-grid" role="tablist" aria-label="Big data dimensions explorer">
+            <button class="dimension-card active" data-dimension="volume" role="tab" aria-selected="true" aria-controls="volume-content" id="volume-tab" tabindex="0">
+                <div class="dimension-icon" aria-hidden="true"><i class="fas fa-chart-line"></i></div>
+                <div class="dimension-title">Volume</div>
+                <div class="dimension-description">From transaction records to complete behavioral intelligence across entire customer populations.</div>
+                <div class="dimension-impact">Population-based insights</div>
+            </button>
+
+            <button class="dimension-card" data-dimension="velocity" role="tab" aria-selected="false" aria-controls="velocity-content" id="velocity-tab" tabindex="-1">
+                <div class="dimension-icon" aria-hidden="true"><i class="fas fa-bolt"></i></div>
+                <div class="dimension-title">Velocity</div>
+                <div class="dimension-description">Real-time analysis enabling instant responses to opportunities and threats.</div>
+                <div class="dimension-impact">Immediate competitive advantage</div>
+            </button>
+
+            <button class="dimension-card" data-dimension="variety" role="tab" aria-selected="false" aria-controls="variety-content" id="variety-tab" tabindex="-1">
+                <div class="dimension-icon" aria-hidden="true"><i class="fas fa-layer-group"></i></div>
+                <div class="dimension-title">Variety</div>
+                <div class="dimension-description">Multiple data formats combining to reveal insights no single source could provide.</div>
+                <div class="dimension-impact">Comprehensive intelligence</div>
+            </button>
+
+            <button class="dimension-card" data-dimension="veracity" role="tab" aria-selected="false" aria-controls="veracity-content" id="veracity-tab" tabindex="-1">
+                <div class="dimension-icon" aria-hidden="true"><i class="fas fa-check-circle"></i></div>
+                <div class="dimension-title">Veracity</div>
+                <div class="dimension-description">Data quality determining whether AI creates business value or costly mistakes.</div>
+                <div class="dimension-impact">$3.1T impact annually</div>
+            </button>
+        </div>
+        
+        <div class="detail-panel">
+            <div class="detail-content active" data-dimension="volume" role="tabpanel" id="volume-content" aria-labelledby="volume-tab">
+                <div class="detail-title">Volume: From Transaction Records to Behavioral Intelligence</div>
+                
+                <div class="comparison-example">
+                    <h4>Business Impact Transformation:</h4>
+                    <p><strong>Traditional Data:</strong> "Customer bought Product A for $50 on Tuesday"</p>
+                    <p><strong>Big Data Volume:</strong> "Customer researched Product A for 3 weeks, compared 5 alternatives, was influenced by social media reviews, abandoned cart twice, then purchased during lunch break on mobile device after receiving personalized email"</p>
+                </div>
+                
+                <div class="business-applications">
+                    <strong>Strategic Applications:</strong>
+                    <ul>
+                        <li>Complete customer journey optimization from awareness to advocacy</li>
+                        <li>Real-time personalization based on comprehensive behavioral patterns</li>
+                        <li>Predictive analytics using entire population data rather than samples</li>
+                        <li>Cross-channel integration revealing hidden customer preferences</li>
+                    </ul>
+                </div>
+                
+                <div class="competitive-advantage">
+                    <strong>Competitive Advantage:</strong> Optimize every stage of the customer journey rather than just the final transaction, leading to higher conversion rates, increased customer satisfaction, and more effective marketing investments.
+                </div>
+            </div>
+            
+            <div class="detail-content" data-dimension="velocity" role="tabpanel" id="velocity-content" aria-labelledby="velocity-tab">
+                <div class="detail-title">Velocity: Real-Time Competitive Advantage</div>
+                
+                <p>The shift from periodic reporting to real-time analysis creates immediate competitive advantages across all business functions. Traditional businesses learned about problems and opportunities through monthly reports—big data enables instant responses.</p>
+                
+                <div class="realtime-examples">
+                    <h4>Real-Time Business Applications:</h4>
+                    <ul>
+                        <li><strong>Dynamic Pricing:</strong> Respond to competitor price changes within minutes rather than days</li>
+                        <li><strong>Fraud Detection:</strong> Block suspicious transactions in milliseconds, preventing losses before they occur</li>
+                        <li><strong>Inventory Optimization:</strong> Adjust stock levels continuously based on real-time demand signals</li>
+                        <li><strong>Customer Service:</strong> Resolve issues before customers become dissatisfied, turning potential complaints into loyalty opportunities</li>
+                    </ul>
+                </div>
+                
+                <div class="competitive-advantage">
+                    <strong>Strategic Impact:</strong> Being first to respond to opportunities and threats, often before competitors even know they exist. Real-time capabilities enable proactive rather than reactive business strategies.
+                </div>
+            </div>
+            
+            <div class="detail-content" data-dimension="variety" role="tabpanel" id="variety-content" aria-labelledby="variety-tab">
+                <div class="detail-title">Variety: Every Data Type Contributes to Intelligence</div>
+                
+                <p>Modern businesses generate data in multiple formats that traditional systems couldn't process effectively. When analyzed together, different data types reveal insights that no single source could provide alone.</p>
+                
+                <div class="data-types-grid">
+                    <div class="data-type-card">
+                        <div class="data-type-icon"><i class="fas fa-file-text"></i></div>
+                        <strong>Text</strong>
+                        <p>Customer sentiment from reviews and social media</p>
+                    </div>
+
+                    <div class="data-type-card">
+                        <div class="data-type-icon"><i class="fas fa-image"></i></div>
+                        <strong>Images</strong>
+                        <p>Visual quality control in manufacturing</p>
+                    </div>
+
+                    <div class="data-type-card">
+                        <div class="data-type-icon"><i class="fas fa-microphone"></i></div>
+                        <strong>Voice</strong>
+                        <p>Call center conversation analysis</p>
+                    </div>
+
+                    <div class="data-type-card">
+                        <div class="data-type-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <strong>Location</strong>
+                        <p>Store performance based on traffic patterns</p>
+                    </div>
+
+                    <div class="data-type-card">
+                        <div class="data-type-icon"><i class="fas fa-hashtag"></i></div>
+                        <strong>Social Media</strong>
+                        <p>Brand perception monitoring across platforms</p>
+                    </div>
+                </div>
+                
+                <div class="competitive-advantage">
+                    <strong>Key Insight:</strong> Customer sentiment analysis becomes more accurate when text, voice tone, and behavioral data are analyzed together. Multi-format analysis reveals comprehensive customer intelligence.
+                </div>
+            </div>
+            
+            <div class="detail-content" data-dimension="veracity" role="tabpanel" id="veracity-content" aria-labelledby="veracity-tab">
+                <div class="detail-title">Veracity: Data Quality Determines Business Value</div>
+                
+                <div class="critical-stat">
+                    <h3>$3.1 Trillion</h3>
+                    <p>Annual cost of poor data quality to US businesses (IBM Research)</p>
+                    <p style="margin-top: 10px; font-weight: normal;">In AI contexts, the stakes multiply exponentially</p>
+                </div>
+                
+                <div class="comparison-example">
+                    <h4>Critical Business Impact Chain:</h4>
+                    <p><strong>Accurate Data</strong> → <strong>Reliable AI Predictions</strong> → <strong>Smart Strategic Decisions</strong></p>
+                    <p style="color: #dc2626;"><strong>Poor Data</strong> → <strong>Unreliable AI</strong> → <strong>Costly Strategic Mistakes & Damaged Customer Relationships</strong></p>
+                </div>
+                
+                <div class="business-applications">
+                    <strong>Why Data Quality Is Business-Critical:</strong>
+                    <ul>
+                        <li>AI systems amplify whatever patterns exist in training data</li>
+                        <li>Poor data actively misleads business decisions rather than just limiting analysis</li>
+                        <li>Data quality becomes a business risk management issue, not just a technical concern</li>
+                        <li>Reliable data enables predictive capabilities that create competitive advantages</li>
+                    </ul>
+                </div>
+                
+                <div class="competitive-advantage">
+                    <strong>Executive Imperative:</strong> Data quality isn't a technical issue—it's a business risk management issue. Organizations with high data quality standards create AI systems that deliver reliable competitive intelligence.
+                </div>
+            </div>
+        </div>
+        
+        <div class="key-insight">
+            <strong>Strategic Integration:</strong> Organizations that master all four dimensions gain sustainable advantages over competitors who focus on only one or two aspects. The dimensions work together—high volume with poor veracity creates expensive mistakes, while high variety without velocity limits competitive responsiveness.
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dimensionCards = document.querySelectorAll('.dimension-card');
+            const detailContents = document.querySelectorAll('.detail-content');
+            
+            function activateDimension(dimensionType) {
+                // Remove active class from all cards and contents
+                dimensionCards.forEach(card => {
+                    card.classList.remove('active');
+                    card.setAttribute('aria-selected', 'false');
+                    card.setAttribute('tabindex', '-1');
+                });
+                detailContents.forEach(content => content.classList.remove('active'));
+                
+                // Add active class to selected card and corresponding content
+                const activeCard = document.querySelector(`.dimension-card[data-dimension="${dimensionType}"]`);
+                const targetContent = document.querySelector(`.detail-content[data-dimension="${dimensionType}"]`);
+                
+                if (activeCard && targetContent) {
+                    activeCard.classList.add('active');
+                    activeCard.setAttribute('aria-selected', 'true');
+                    activeCard.setAttribute('tabindex', '0');
+                    targetContent.classList.add('active');
+                    
+                    // Announce change to screen readers
+                    const announcement = document.createElement('div');
+                    announcement.setAttribute('aria-live', 'polite');
+                    announcement.setAttribute('aria-atomic', 'true');
+                    announcement.className = 'sr-only';
+                    announcement.textContent = `Viewing ${activeCard.querySelector('.dimension-title').textContent} dimension details`;
+                    document.body.appendChild(announcement);
+                    setTimeout(() => document.body.removeChild(announcement), 1000);
+                }
+            }
+            
+            dimensionCards.forEach(card => {
+                // Click handler
+                card.addEventListener('click', function() {
+                    const dimensionType = this.getAttribute('data-dimension');
+                    activateDimension(dimensionType);
+                });
+                
+                // Keyboard navigation
+                card.addEventListener('keydown', function(e) {
+                    const currentIndex = Array.from(dimensionCards).indexOf(this);
+                    let newIndex;
+                    
+                    switch(e.key) {
+                        case 'ArrowRight':
+                        case 'ArrowDown':
+                            e.preventDefault();
+                            newIndex = (currentIndex + 1) % dimensionCards.length;
+                            dimensionCards[newIndex].focus();
+                            activateDimension(dimensionCards[newIndex].getAttribute('data-dimension'));
+                            break;
+                        case 'ArrowLeft':
+                        case 'ArrowUp':
+                            e.preventDefault();
+                            newIndex = currentIndex === 0 ? dimensionCards.length - 1 : currentIndex - 1;
+                            dimensionCards[newIndex].focus();
+                            activateDimension(dimensionCards[newIndex].getAttribute('data-dimension'));
+                            break;
+                        case 'Home':
+                            e.preventDefault();
+                            dimensionCards[0].focus();
+                            activateDimension(dimensionCards[0].getAttribute('data-dimension'));
+                            break;
+                        case 'End':
+                            e.preventDefault();
+                            dimensionCards[dimensionCards.length - 1].focus();
+                            activateDimension(dimensionCards[dimensionCards.length - 1].getAttribute('data-dimension'));
+                            break;
+                        case 'Enter':
+                        case ' ':
+                            e.preventDefault();
+                            this.click();
+                            break;
+                    }
+                });
+            });
+            
+            // Handle URL parameters for Canvas integration
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('compact') === '1') {
+                document.body.style.padding = '10px';
+            }
+        });
+    </script>
+</body>
+</html>
