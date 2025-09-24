@@ -1,5 +1,9 @@
+<!-- Skip link for keyboard users -->
+<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<main id="main-content" role="main">
 <div id="dp-wrapper" class="dp-wrapper">
-  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;" aria-hidden="true">Icon Progress Bar (browser only)</div>
 
   <div class="dp-content-block content-block" data-title="K-means Clustering Algorithm">
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-layer-group" aria-hidden="true"></i>&nbsp;K-means Clustering</h2>
@@ -16,8 +20,8 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-cogs" aria-hidden="true"></i>&nbsp;The K-means Algorithm</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="algorithm-steps">Step-by-Step Process</h3>
-        <div id="algorithm-steps" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="algorithm-steps" id="algorithm-steps-heading">Step-by-Step Process</h3>
+        <div id="algorithm-steps" class="dp-panel-content" role="region" aria-labelledby="algorithm-steps-heading" hidden>
           <p>K-means is an iterative algorithm that partitions data into K clusters by minimizing within-cluster sum of squares.</p>
           <div class="table-responsive">
             <table class="ic-Table ic-Table--hover-row" role="table" aria-label="K-means algorithm steps">
@@ -56,8 +60,8 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="convergence">Convergence and Stopping Criteria</h3>
-        <div id="convergence" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="convergence" id="convergence-heading">Convergence and Stopping Criteria</h3>
+        <div id="convergence" class="dp-panel-content" role="region" aria-labelledby="convergence-heading" hidden>
           <p>K-means stops when clusters stabilize. Multiple stopping criteria ensure practical convergence:</p>
           <ul class="list-group list-group-flush">
             <li class="list-group-item"><strong>No reassignments</strong>: Points stay in same clusters between iterations</li>
@@ -68,8 +72,8 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="distance-measures">Distance Measures and Scaling</h3>
-        <div id="distance-measures" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="distance-measures" id="distance-measures-heading">Distance Measures and Scaling</h3>
+        <div id="distance-measures" class="dp-panel-content" role="region" aria-labelledby="distance-measures-heading" hidden>
           <div class="row">
             <div class="col-md-6">
               <div class="dp-card card" style="background-color:#f8f9fa; border:1px solid #dee2e6;">
@@ -99,8 +103,8 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-chart-line" aria-hidden="true"></i>&nbsp;Selecting Optimal K</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="elbow-method">The Elbow Method</h3>
-        <div id="elbow-method" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="elbow-method" id="elbow-method-heading">The Elbow Method</h3>
+        <div id="elbow-method" class="dp-panel-content" role="region" aria-labelledby="elbow-method-heading" hidden>
           <div class="row">
             <div class="col-md-8">
               <p>Plot within-cluster sum of squares (WCSS) vs number of clusters. Look for the "elbow" - the point where adding clusters provides diminishing returns.</p>
@@ -123,8 +127,8 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="silhouette">Silhouette Analysis</h3>
-        <div id="silhouette" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="silhouette" id="silhouette-heading">Silhouette Analysis</h3>
+        <div id="silhouette" class="dp-panel-content" role="region" aria-labelledby="silhouette-heading" hidden>
           <p>Measures how well each point fits its assigned cluster compared to other clusters. Ranges from -1 to +1.</p>
           <div class="table-responsive">
             <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Silhouette score interpretation">
@@ -163,8 +167,8 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="business-context">Business Context and Domain Knowledge</h3>
-        <div id="business-context" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="business-context" id="business-context-heading">Business Context and Domain Knowledge</h3>
+        <div id="business-context" class="dp-panel-content" role="region" aria-labelledby="business-context-heading" hidden>
           <p>Mathematical metrics are valuable, but business context should guide final decisions.</p>
           <ul class="list-group list-group-flush">
             <li class="list-group-item"><strong>Customer segments</strong>: Consider marketing team's capacity</li>
@@ -181,8 +185,8 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-balance-scale" aria-hidden="true"></i>&nbsp;When to Use K-means</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="strengths">K-means Strengths</h3>
-        <div id="strengths" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="strengths" id="strengths-heading">K-means Strengths</h3>
+        <div id="strengths" class="dp-panel-content" role="region" aria-labelledby="strengths-heading" hidden>
           <div class="row">
             <div class="col-md-6">
               <div class="dp-card card h-100" style="border-left: 4px solid #34d399; padding-left: 12px;">
@@ -212,8 +216,8 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="limitations">Important Limitations</h3>
-        <div id="limitations" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="limitations" id="limitations-heading">Important Limitations</h3>
+        <div id="limitations" class="dp-panel-content" role="region" aria-labelledby="limitations-heading" hidden>
           <div class="dp-card card" style="border-left: 4px solid #dc2626; padding-left: 12px;">
             <div class="card-body">
               <h4 class="card-title">When K-means Struggles</h4>
@@ -229,8 +233,8 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="alternatives">Alternative Clustering Methods</h3>
-        <div id="alternatives" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="alternatives" id="alternatives-heading">Alternative Clustering Methods</h3>
+        <div id="alternatives" class="dp-panel-content" role="region" aria-labelledby="alternatives-heading" hidden>
           <p>When K-means isn't suitable, consider these alternatives:</p>
           <div class="row">
             <div class="col-md-6">
@@ -278,9 +282,10 @@
     </div>
   </div>
 
-  <hr />
+  <hr aria-hidden="true" />
   <p>Select <strong>Next▸</strong> to continue.</p>
 </div>
+</main>
 
 <script>
 (function () {

@@ -1,5 +1,9 @@
+<!-- Skip link for keyboard users -->
+<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<main id="main-content" role="main">
 <div id="dp-wrapper" class="dp-wrapper">
-  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;" aria-hidden="true">Icon Progress Bar (browser only)</div>
 
   <!-- Mini Case: Metrics in the Wild -->
   <div class="dp-content-block content-block" data-title="Mini Case — Metrics in the Wild">
@@ -17,8 +21,8 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-bullseye" aria-hidden="true"></i>&nbsp;1) Frame the decision</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="mc-kpi">Business KPI & constraints</h3>
-        <div id="mc-kpi" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="mc-kpi" id="mc-kpi-heading">Business KPI & constraints</h3>
+        <div id="mc-kpi" class="dp-panel-content" role="region" aria-labelledby="mc-kpi-heading" hidden>
           <ul class="list-group list-group-flush">
             <li class="list-group-item"><strong>KPI:</strong> Net fraud dollars prevented per day.</li>
             <li class="list-group-item"><strong>Constraint:</strong> Review capacity 500/day; customer experience impact for false positives.</li>
@@ -27,8 +31,8 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="mc-metrics">Relevant metrics</h3>
-        <div id="mc-metrics" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="mc-metrics" id="mc-metrics-heading">Relevant metrics</h3>
+        <div id="mc-metrics" class="dp-panel-content" role="region" aria-labelledby="mc-metrics-heading" hidden>
           <p>Prioritize <strong>precision</strong> (to avoid false alarms) and <strong>recall</strong> (to catch fraud). Use <strong>PR curve</strong> and <strong>lift</strong> to understand concentration at the top scores.</p>
         </div>
       </div>
@@ -49,14 +53,14 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-users-cog" aria-hidden="true"></i>&nbsp;3) Align to Capacity</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="mc-capacity">Operational cutoff</h3>
-        <div id="mc-capacity" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="mc-capacity" id="mc-capacity-heading">Operational cutoff</h3>
+        <div id="mc-capacity" class="dp-panel-content" role="region" aria-labelledby="mc-capacity-heading" hidden>
           <p>Set the score cutoff so predicted positives ≈ <strong>500/day</strong>. If the ideal cost‑minimizing threshold yields more than 500, raise the cutoff or introduce a <strong>tiered workflow</strong> (auto‑approve low risk, queue medium risk, escalate high risk).</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="mc-seg">Segmented thresholds</h3>
-        <div id="mc-seg" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="mc-seg" id="mc-seg-heading">Segmented thresholds</h3>
+        <div id="mc-seg" class="dp-panel-content" role="region" aria-labelledby="mc-seg-heading" hidden>
           <p>Consider stricter thresholds for high‑value cards/merchants and looser ones for low‑risk segments, subject to governance.</p>
         </div>
       </div>
@@ -68,8 +72,8 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-chalkboard-teacher" aria-hidden="true"></i>&nbsp;4) Communicate the Trade‑off Story</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="mc-story">Narrative</h3>
-        <div id="mc-story" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="mc-story" id="mc-story-heading">Narrative</h3>
+        <div id="mc-story" class="dp-panel-content" role="region" aria-labelledby="mc-story-heading" hidden>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">Start with the KPI (net prevented fraud).</li>
             <li class="list-group-item">Show the <strong>PR curve</strong>; mark chosen threshold & expected daily counts.</li>
@@ -78,8 +82,8 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="mc-guard">Guardrails</h3>
-        <div id="mc-guard" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="mc-guard" id="mc-guard-heading">Guardrails</h3>
+        <div id="mc-guard" class="dp-panel-content" role="region" aria-labelledby="mc-guard-heading" hidden>
           <p>Track subgroup precision/recall, weekly drift in scores, and review backlog. Define escalation paths for edge cases.</p>
         </div>
       </div>
@@ -100,9 +104,10 @@
     </div>
   </div>
 
-  <hr />
+  <hr aria-hidden="true" />
   <p>Select <strong>Next▸</strong> to continue to the <strong>Week 4 Wrap-Up</strong>.</p>
 </div>
+</main>
 
 <!-- Canvas-safe toggling -->
 <script>

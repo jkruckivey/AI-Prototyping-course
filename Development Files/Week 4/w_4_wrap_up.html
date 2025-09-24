@@ -1,5 +1,9 @@
+<!-- Skip link for keyboard users -->
+<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<main id="main-content" role="main">
 <div id="dp-wrapper" class="dp-wrapper">
-  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;" aria-hidden="true">Icon Progress Bar (browser only)</div>
 
   <!-- Week 4 Wrap-Up -->
   <div class="dp-content-block content-block" data-title="Week 4 — Review & Wrap-Up">
@@ -17,26 +21,26 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-clipboard-check" aria-hidden="true"></i>&nbsp;Knowledge Check</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w4-q1">1) When should you prefer PR curves over ROC curves?</h3>
-        <div id="w4-q1" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w4-q1" id="w4-q1-heading">1) When should you prefer PR curves over ROC curves?</h3>
+        <div id="w4-q1" class="dp-panel-content" role="region" aria-labelledby="w4-q1-heading" hidden>
           <p>When the positive class is <strong>rare</strong> and you care about <strong>precision/recall</strong> trade‑offs directly.</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w4-q2">2) Why keep preprocessing inside the CV pipeline?</h3>
-        <div id="w4-q2" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w4-q2" id="w4-q2-heading">2) Why keep preprocessing inside the CV pipeline?</h3>
+        <div id="w4-q2" class="dp-panel-content" role="region" aria-labelledby="w4-q2-heading" hidden>
           <p>To avoid <strong>leakage</strong>: statistics (e.g., scalers) must be learned only on the training fold, then applied to validation.</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w4-q3">3) What does early stopping help prevent?</h3>
-        <div id="w4-q3" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w4-q3" id="w4-q3-heading">3) What does early stopping help prevent?</h3>
+        <div id="w4-q3" class="dp-panel-content" role="region" aria-labelledby="w4-q3-heading" hidden>
           <p><strong>Overfitting</strong> and wasted compute by halting training when validation scores plateau.</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w4-q4">4) How do you translate a threshold choice into business terms?</h3>
-        <div id="w4-q4" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w4-q4" id="w4-q4-heading">4) How do you translate a threshold choice into business terms?</h3>
+        <div id="w4-q4" class="dp-panel-content" role="region" aria-labelledby="w4-q4-heading" hidden>
           <p>Use a <strong>cost matrix</strong> and expected value calculation to pick the cutoff that maximizes net benefit (and fits operational capacity).</p>
         </div>
       </div>
@@ -57,14 +61,14 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-pen" aria-hidden="true"></i>&nbsp;Reflection & Next Steps</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w4-reflect">Reflection</h3>
-        <div id="w4-reflect" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w4-reflect" id="w4-reflect-heading">Reflection</h3>
+        <div id="w4-reflect" class="dp-panel-content" role="region" aria-labelledby="w4-reflect-heading" hidden>
           <p>Pick a real decision in your org and specify: the metric that matters, the cost matrix, your initial threshold, and how you would monitor drift.</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w4-next">Next steps</h3>
-        <div id="w4-next" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w4-next" id="w4-next-heading">Next steps</h3>
+        <div id="w4-next" class="dp-panel-content" role="region" aria-labelledby="w4-next-heading" hidden>
           <p>Plan a <strong>pilot</strong>: define a small population, guardrails, and success criteria. Run for two weeks and compare outcomes vs. baseline.</p>
         </div>
       </div>
@@ -80,9 +84,10 @@
     </div>
   </div>
 
-  <hr />
+  <hr aria-hidden="true" />
   <p>Select <strong>Modules</strong> to return to the course overview, or proceed to the next module.</p>
 </div>
+</main>
 
 <!-- Canvas-safe toggling -->
 <script>

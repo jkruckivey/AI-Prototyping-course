@@ -1,5 +1,9 @@
+<!-- Skip link for keyboard users -->
+<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<main id="main-content" role="main">
 <div id="dp-wrapper" class="dp-wrapper">
-  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;" aria-hidden="true">Icon Progress Bar (browser only)</div>
 
   <div class="dp-content-block content-block" data-title="K-Nearest Neighbors (KNN)">
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-users" aria-hidden="true"></i>&nbsp;Learning from Neighbors</h2>
@@ -16,8 +20,8 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-lightbulb" aria-hidden="true"></i>&nbsp;Intuition & Basics</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
       <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="knn-intuition">How KNN predicts</h4>
-        <div id="knn-intuition" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="knn-intuition" id="knn-intuition-heading">How KNN predicts</h3>
+        <div id="knn-intuition" class="dp-panel-content" role="region" aria-labelledby="knn-intuition-heading" hidden>
           <p>Given a new point, find its <strong>K nearest neighbors</strong> in the training set and:
             <ul>
               <li><strong>Classification:</strong> predict the <em>majority label</em> among the K neighbors (optionally weighted by distance).</li>
@@ -28,8 +32,8 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="knn-k">Choosing K</h4>
-        <div id="knn-k" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="knn-k" id="knn-k-heading">Choosing K</h3>
+        <div id="knn-k" class="dp-panel-content" role="region" aria-labelledby="knn-k-heading" hidden>
           <ul class="list-group list-group-flush">
             <li class="list-group-item"><strong>Small K</strong> → low bias, high variance (can overfit to noise).</li>
             <li class="list-group-item"><strong>Large K</strong> → smoother boundary, higher bias (may blur classes).</li>
@@ -38,8 +42,8 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="knn-dist">Distance & scaling</h4>
-        <div id="knn-dist" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="knn-dist" id="knn-dist-heading">Distance & scaling</h3>
+        <div id="knn-dist" class="dp-panel-content" role="region" aria-labelledby="knn-dist-heading" hidden>
           <p>Different features must be on comparable scales or one unit can dominate distance.</p>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">Scale features (standardize or normalize).</li>
@@ -49,8 +53,8 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="knn-tradeoffs">Pros, Cons & Trade‑offs</h4>
-        <div id="knn-tradeoffs" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="knn-tradeoffs" id="knn-tradeoffs-heading">Pros, Cons & Trade‑offs</h3>
+        <div id="knn-tradeoffs" class="dp-panel-content" role="region" aria-labelledby="knn-tradeoffs-heading" hidden>
           <div class="row">
             <div class="col-md-6">
               <div class="dp-card card h-100" style="border-left: 4px solid #16a34a; padding-left: 12px;">
@@ -94,14 +98,14 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-chart-area" aria-hidden="true"></i>&nbsp;KNN for Regression</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
       <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="knn-reg">Averaging neighbors</h4>
-        <div id="knn-reg" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="knn-reg" id="knn-reg-heading">Averaging neighbors</h3>
+        <div id="knn-reg" class="dp-panel-content" role="region" aria-labelledby="knn-reg-heading" hidden>
           <p>Predict a numeric target by averaging the K nearest neighbors’ target values. Use <strong>distance weighting</strong> to give closer points more influence.</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="knn-reg-metrics">Metrics & evaluation</h4>
-        <div id="knn-reg-metrics" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="knn-reg-metrics" id="knn-reg-metrics-heading">Metrics & evaluation</h3>
+        <div id="knn-reg-metrics" class="dp-panel-content" role="region" aria-labelledby="knn-reg-metrics-heading" hidden>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">Use MAE/MSE/RMSE; compare against simple baselines (mean/median).</li>
             <li class="list-group-item">For time‑series, use <strong>time‑aware splits</strong> (no future leakage).</li>
@@ -115,14 +119,14 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-tachometer-alt" aria-hidden="true"></i>&nbsp;Performance Considerations</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
       <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="knn-index">Speeding up neighbor search</h4>
-        <div id="knn-index" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="knn-index" id="knn-index-heading">Speeding up neighbor search</h3>
+        <div id="knn-index" class="dp-panel-content" role="region" aria-labelledby="knn-index-heading" hidden>
           <p>Exact search can be slow at scale. Options include indexing structures (KD‑tree/ball tree), approximate nearest neighbors, or pruning features.</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="knn-pipeline">Pipeline hygiene</h4>
-        <div id="knn-pipeline" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="knn-pipeline" id="knn-pipeline-heading">Pipeline hygiene</h3>
+        <div id="knn-pipeline" class="dp-panel-content" role="region" aria-labelledby="knn-pipeline-heading" hidden>
           <p>Fit scalers on the <strong>training</strong> set only, then apply to validation/test to avoid leakage. Keep the same scaler in production.</p>
         </div>
       </div>
@@ -136,9 +140,10 @@
     </div>
   </div>
 
-  <hr />
+  <hr aria-hidden="true" />
   <p>Select <strong>Next▸</strong> to continue.</p>
 </div>
+</main>
 
 <!-- Canvas‑safe toggling -->
 <script>

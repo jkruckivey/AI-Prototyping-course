@@ -1,5 +1,9 @@
+<!-- Skip link for keyboard users -->
+<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<main id="main-content" role="main">
 <div id="dp-wrapper" class="dp-wrapper">
-  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;" aria-hidden="true">Icon Progress Bar (browser only)</div>
 
   <div class="dp-content-block content-block" data-title="Advanced Data Preprocessing">
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-filter" aria-hidden="true"></i>&nbsp;Advanced Data Preprocessing</h2>
@@ -16,8 +20,8 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-crosshairs" aria-hidden="true"></i>&nbsp;Selecting the Right Features</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="why-select">Why Feature Selection Matters</h3>
-        <div id="why-select" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="why-select" id="why-select-heading">Why Feature Selection Matters</h3>
+        <div id="why-select" class="dp-panel-content" role="region" aria-labelledby="why-select-heading" hidden>
           <p>Not all features are created equal. Strategic feature selection improves model performance and interpretability:</p>
           <div class="row">
             <div class="col-md-6">
@@ -48,17 +52,18 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="filter-methods">Filter Methods: Statistical Significance</h3>
-        <div id="filter-methods" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="filter-methods" id="filter-methods-heading">Filter Methods: Statistical Significance</h3>
+        <div id="filter-methods" class="dp-panel-content" role="region" aria-labelledby="filter-methods-heading" hidden>
           <p>Evaluate features independently using statistical measures before any modeling:</p>
           <div class="table-responsive">
             <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Filter methods for feature selection">
+              <caption>Filter Methods for Feature Selection</caption>
               <thead>
                 <tr>
-                  <th>Method</th>
-                  <th>Data Type</th>
-                  <th>Measures</th>
-                  <th>Use Case</th>
+                  <th scope="col">Method</th>
+                  <th scope="col">Data Type</th>
+                  <th scope="col">Measures</th>
+                  <th scope="col">Use Case</th>
                 </tr>
               </thead>
               <tbody>
@@ -92,8 +97,8 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="wrapper-methods">Wrapper Methods: Model-Based Selection</h3>
-        <div id="wrapper-methods" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="wrapper-methods" id="wrapper-methods-heading">Wrapper Methods: Model-Based Selection</h3>
+        <div id="wrapper-methods" class="dp-panel-content" role="region" aria-labelledby="wrapper-methods-heading" hidden>
           <p>Use actual model performance to evaluate feature subsets:</p>
           <ul class="list-group list-group-flush">
             <li class="list-group-item"><strong>Forward Selection</strong>: Start empty, add features that improve performance most</li>
@@ -104,8 +109,8 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="embedded-methods">Embedded Methods: Built-in Selection</h3>
-        <div id="embedded-methods" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="embedded-methods" id="embedded-methods-heading">Embedded Methods: Built-in Selection</h3>
+        <div id="embedded-methods" class="dp-panel-content" role="region" aria-labelledby="embedded-methods-heading" hidden>
           <p>Algorithms that perform feature selection automatically during training:</p>
           <div class="row">
             <div class="col-md-6">
@@ -134,17 +139,18 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-question-circle" aria-hidden="true"></i>&nbsp;Missing Data Strategies</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="missing-types">Types of Missingness</h3>
-        <div id="missing-types" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="missing-types" id="missing-types-heading">Types of Missingness</h3>
+        <div id="missing-types" class="dp-panel-content" role="region" aria-labelledby="missing-types-heading" hidden>
           <p>Understanding why data is missing guides your handling strategy:</p>
           <div class="table-responsive">
             <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Types of missing data">
+              <caption>Missing Data Types and Characteristics</caption>
               <thead>
                 <tr>
-                  <th>Type</th>
-                  <th>Description</th>
-                  <th>Example</th>
-                  <th>Strategy</th>
+                  <th scope="col">Type</th>
+                  <th scope="col">Description</th>
+                  <th scope="col">Example</th>
+                  <th scope="col">Strategy</th>
                 </tr>
               </thead>
               <tbody>
@@ -172,8 +178,8 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="imputation-methods">Imputation Strategies</h3>
-        <div id="imputation-methods" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="imputation-methods" id="imputation-methods-heading">Imputation Strategies</h3>
+        <div id="imputation-methods" class="dp-panel-content" role="region" aria-labelledby="imputation-methods-heading" hidden>
           <div class="row">
             <div class="col-md-6">
               <div class="dp-card card h-100" style="border-left: 4px solid #f59e0b; padding-left: 12px;">
@@ -205,8 +211,8 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="missing-indicators">Missing Indicator Features</h3>
-        <div id="missing-indicators" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="missing-indicators" id="missing-indicators-heading">Missing Indicator Features</h3>
+        <div id="missing-indicators" class="dp-panel-content" role="region" aria-labelledby="missing-indicators-heading" hidden>
           <p>Sometimes the fact that data is missing contains valuable information:</p>
           <div class="dp-card card" style="background-color:#e7f3ff; border:1px solid #b3d9ff;">
             <div class="card-body">
@@ -224,17 +230,18 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-exclamation-circle" aria-hidden="true"></i>&nbsp;Managing Outliers</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="outlier-detection">Detection Methods</h3>
-        <div id="outlier-detection" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="outlier-detection" id="outlier-detection-heading">Detection Methods</h3>
+        <div id="outlier-detection" class="dp-panel-content" role="region" aria-labelledby="outlier-detection-heading" hidden>
           <p>Multiple approaches to identify unusual data points:</p>
           <div class="table-responsive">
             <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Outlier detection methods">
+              <caption>Outlier Detection Methods and Applications</caption>
               <thead>
                 <tr>
-                  <th>Method</th>
-                  <th>How it Works</th>
-                  <th>Best For</th>
-                  <th>Limitation</th>
+                  <th scope="col">Method</th>
+                  <th scope="col">How it Works</th>
+                  <th scope="col">Best For</th>
+                  <th scope="col">Limitation</th>
                 </tr>
               </thead>
               <tbody>
@@ -268,8 +275,8 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="outlier-treatment">Treatment Options</h3>
-        <div id="outlier-treatment" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="outlier-treatment" id="outlier-treatment-heading">Treatment Options</h3>
+        <div id="outlier-treatment" class="dp-panel-content" role="region" aria-labelledby="outlier-treatment-heading" hidden>
           <p>Once identified, you have several options for handling outliers:</p>
           <div class="row">
             <div class="col-md-4">
@@ -303,8 +310,8 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="outlier-context">Business Context Matters</h3>
-        <div id="outlier-context" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="outlier-context" id="outlier-context-heading">Business Context Matters</h3>
+        <div id="outlier-context" class="dp-panel-content" role="region" aria-labelledby="outlier-context-heading" hidden>
           <p>Statistical outliers aren't always problematic. Consider business significance:</p>
           <ul class="list-group list-group-flush">
             <li class="list-group-item"><strong>Valuable customers</strong>: High-value transactions might be your most important data</li>
@@ -321,16 +328,17 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-tags" aria-hidden="true"></i>&nbsp;Categorical Encoding Strategies</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="encoding-types">Common Encoding Methods</h3>
-        <div id="encoding-types" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="encoding-types" id="encoding-types-heading">Common Encoding Methods</h3>
+        <div id="encoding-types" class="dp-panel-content" role="region" aria-labelledby="encoding-types-heading" hidden>
           <div class="table-responsive">
             <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Categorical encoding methods">
+              <caption>Categorical Encoding Methods Comparison</caption>
               <thead>
                 <tr>
-                  <th>Method</th>
-                  <th>How it Works</th>
-                  <th>Best For</th>
-                  <th>Drawback</th>
+                  <th scope="col">Method</th>
+                  <th scope="col">How it Works</th>
+                  <th scope="col">Best For</th>
+                  <th scope="col">Drawback</th>
                 </tr>
               </thead>
               <tbody>
@@ -364,8 +372,8 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="high-cardinality">High Cardinality Categories</h3>
-        <div id="high-cardinality" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="high-cardinality" id="high-cardinality-heading">High Cardinality Categories</h3>
+        <div id="high-cardinality" class="dp-panel-content" role="region" aria-labelledby="high-cardinality-heading" hidden>
           <p>Special techniques for categories with many unique values (e.g., city names, product IDs):</p>
           <div class="row">
             <div class="col-md-6">
@@ -396,8 +404,8 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="encoding-best-practices">Best Practices</h3>
-        <div id="encoding-best-practices" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="encoding-best-practices" id="encoding-best-practices-heading">Best Practices</h3>
+        <div id="encoding-best-practices" class="dp-panel-content" role="region" aria-labelledby="encoding-best-practices-heading" hidden>
           <div class="dp-card card" style="border-left: 4px solid #10b981; padding-left: 12px;">
             <div class="card-body">
               <h6 class="card-title">Encoding Guidelines</h6>
@@ -432,14 +440,15 @@
   <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-color-dp-primary dp-callout-type-warning">
     <div class="dp-callout-side-emphasis"><i class="dp-icon fas fa-exclamation-triangle dp-default-icon" aria-hidden="true"></i></div>
     <div class="card-body">
-      <h4 class="card-title">Data Leakage Risk</h3>
+      <h4 class="card-title">Data Leakage Risk</h4>
       <p class="card-text">Never use statistics from test data for preprocessing training data. Calculate means, medians, and encodings only from training set, then apply to test set.</p>
     </div>
   </div>
 
-  <hr />
+  <hr aria-hidden="true" />
   <p>Select <strong>Next▸</strong> to continue.</p>
 </div>
+</main>
 
 <script>
 (function () {

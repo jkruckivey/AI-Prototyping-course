@@ -1,5 +1,9 @@
+<!-- Skip link for keyboard users -->
+<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<main id="main-content" role="main">
 <div id="dp-wrapper" class="dp-wrapper">
-  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;" aria-hidden="true">Icon Progress Bar (browser only)</div>
 
   <!-- Cross-Validation & Training -->
   <div class="dp-content-block content-block" data-title="Cross-Validation & Training">
@@ -18,20 +22,20 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-project-diagram" aria-hidden="true"></i>&nbsp;Cross‑Validation Patterns</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="cv-holdout">Simple holdout</h3>
-        <div id="cv-holdout" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="cv-holdout" id="cv-holdout-heading">Simple holdout</h3>
+        <div id="cv-holdout" class="dp-panel-content" role="region" aria-labelledby="cv-holdout-heading" hidden>
           <p>Split into <strong>train</strong> / <strong>validation</strong> / <strong>test</strong> once (e.g., 60/20/20). Fast and easy for large IID datasets.</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="cv-kfold">k‑fold (and stratified)</h3>
-        <div id="cv-kfold" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="cv-kfold" id="cv-kfold-heading">k‑fold (and stratified)</h3>
+        <div id="cv-kfold" class="dp-panel-content" role="region" aria-labelledby="cv-kfold-heading" hidden>
           <p>Split into <strong>k</strong> folds; train on k‑1, validate on the remaining fold; repeat and average. Use <strong>stratified</strong> folds to preserve class ratios for classification.</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="cv-time">Time‑series CV</h3>
-        <div id="cv-time" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="cv-time" id="cv-time-heading">Time‑series CV</h3>
+        <div id="cv-time" class="dp-panel-content" role="region" aria-labelledby="cv-time-heading" hidden>
           <p>Use <strong>rolling‑origin</strong> (walk‑forward) splits: always train on the past and validate on the future windows. Never shuffle time.</p>
         </div>
       </div>
@@ -43,14 +47,14 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-sliders-h" aria-hidden="true"></i>&nbsp;Hyperparameter Search (Leak‑Safe)</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="hp-why">Why tune?</h3>
-        <div id="hp-why" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="hp-why" id="hp-why-heading">Why tune?</h3>
+        <div id="hp-why" class="dp-panel-content" role="region" aria-labelledby="hp-why-heading" hidden>
           <p>Hyperparameters (e.g., <em>C</em> for SVM, <em>K</em> for KNN) strongly influence performance. Tune them with CV to estimate generalization while avoiding overfitting to one split.</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="hp-how">How to search</h3>
-        <div id="hp-how" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="hp-how" id="hp-how-heading">How to search</h3>
+        <div id="hp-how" class="dp-panel-content" role="region" aria-labelledby="hp-how-heading" hidden>
           <ul class="list-group list-group-flush">
             <li class="list-group-item"><strong>Grid</strong> search: systematic combos over a small grid.</li>
             <li class="list-group-item"><strong>Random</strong> search: broader coverage for the same budget.</li>
@@ -59,8 +63,8 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="hp-pipeline">Pipelines prevent leakage</h3>
-        <div id="hp-pipeline" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="hp-pipeline" id="hp-pipeline-heading">Pipelines prevent leakage</h3>
+        <div id="hp-pipeline" class="dp-panel-content" role="region" aria-labelledby="hp-pipeline-heading" hidden>
           <p>Put <strong>preprocessing inside the CV loop</strong> (e.g., scaling, encoding, imputation) so it is learned <em>only from the training folds</em>, then applied to the validation fold.</p>
         </div>
       </div>
@@ -81,14 +85,14 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-chart-area" aria-hidden="true"></i>&nbsp;Learning Curves &amp; Early Stopping</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="lc-curves">Reading learning curves</h3>
-        <div id="lc-curves" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="lc-curves" id="lc-curves-heading">Reading learning curves</h3>
+        <div id="lc-curves" class="dp-panel-content" role="region" aria-labelledby="lc-curves-heading" hidden>
           <p>Plot <strong>train</strong> and <strong>validation</strong> scores as a function of training set size or epochs. <em>Large gap</em> ⇒ high variance; <em>both low</em> ⇒ high bias.</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="lc-early">Early stopping</h3>
-        <div id="lc-early" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="lc-early" id="lc-early-heading">Early stopping</h3>
+        <div id="lc-early" class="dp-panel-content" role="region" aria-labelledby="lc-early-heading" hidden>
           <p>Stop training when validation score stops improving (with patience). Saves compute and prevents overfitting—especially for neural nets and boosted trees.</p>
         </div>
       </div>
@@ -112,9 +116,10 @@
     </div>
   </div>
 
-  <hr />
+  <hr aria-hidden="true" />
   <p>Select <strong>Next▸</strong> to continue with <strong>Business Lens on Metrics</strong>.</p>
 </div>
+</main>
 
 <!-- Canvas‑safe toggling -->
 <script>

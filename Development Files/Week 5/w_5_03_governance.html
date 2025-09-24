@@ -1,5 +1,9 @@
+<!-- Skip link for keyboard users -->
+<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<main id="main-content" role="main">
 <div id="dp-wrapper" class="dp-wrapper">
-  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;" aria-hidden="true">Icon Progress Bar (browser only)</div>
 
   <!-- Governance & Responsible AI -->
   <div class="dp-content-block content-block" data-title="Governance & Responsible AI">
@@ -17,8 +21,8 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-layer-group" aria-hidden="true"></i>&nbsp;Risk Tiers &amp; Approvals</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="gov-tiers">Define tiers</h3>
-        <div id="gov-tiers" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="gov-tiers" id="gov-tiers-heading">Define tiers</h3>
+        <div id="gov-tiers" class="dp-panel-content" role="region" aria-labelledby="gov-tiers-heading" hidden>
           <ul class="list-group list-group-flush">
             <li class="list-group-item"><strong>T1 — Low:</strong> internal analytics, no automated actions, low impact.</li>
             <li class="list-group-item"><strong>T2 — Medium:</strong> customer‑facing recommendations, human‑in‑the‑loop, moderate impact.</li>
@@ -28,8 +32,8 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="gov-raci">Ownership (RACI)</h3>
-        <div id="gov-raci" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="gov-raci" id="gov-raci-heading">Ownership (RACI)</h3>
+        <div id="gov-raci" class="dp-panel-content" role="region" aria-labelledby="gov-raci-heading" hidden>
           <p>Clarify who is <strong>Responsible</strong> (build/monitor), <strong>Accountable</strong> (business owner), <strong>Consulted</strong> (legal, risk, privacy), and <strong>Informed</strong> (ops, exec sponsors).</p>
         </div>
       </div>
@@ -41,8 +45,8 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-file-alt" aria-hidden="true"></i>&nbsp;Documentation &amp; Transparency</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="gov-model-card">Model card essentials</h3>
-        <div id="gov-model-card" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="gov-model-card" id="gov-model-card-heading">Model card essentials</h3>
+        <div id="gov-model-card" class="dp-panel-content" role="region" aria-labelledby="gov-model-card-heading" hidden>
           <ul class="list-group list-group-flush">
             <li class="list-group-item"><strong>Purpose &amp; scope</strong> (in/out of scope use).</li>
             <li class="list-group-item"><strong>Data</strong> (sources, time span, sampling, known gaps).</li>
@@ -54,8 +58,8 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="gov-explain">Explainability</h3>
-        <div id="gov-explain" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="gov-explain" id="gov-explain-heading">Explainability</h3>
+        <div id="gov-explain" class="dp-panel-content" role="region" aria-labelledby="gov-explain-heading" hidden>
           <p>Use <strong>global</strong> feature importance for trends and <strong>local</strong> explanations for case decisions (e.g., top contributing factors). Avoid exposing sensitive attributes or inferring them.</p>
         </div>
       </div>
@@ -67,8 +71,8 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-user-shield" aria-hidden="true"></i>&nbsp;Privacy &amp; Data Protection</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="gov-privacy">Core controls</h3>
-        <div id="gov-privacy" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="gov-privacy" id="gov-privacy-heading">Core controls</h3>
+        <div id="gov-privacy" class="dp-panel-content" role="region" aria-labelledby="gov-privacy-heading" hidden>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">Minimize data; collect only what’s necessary for the stated purpose.</li>
             <li class="list-group-item">Identify <strong>PII</strong>/sensitive attributes; apply protection (encryption at rest/in transit, access controls).</li>
@@ -77,8 +81,8 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="gov-consent">Consent & disclosure</h3>
-        <div id="gov-consent" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="gov-consent" id="gov-consent-heading">Consent & disclosure</h3>
+        <div id="gov-consent" class="dp-panel-content" role="region" aria-labelledby="gov-consent-heading" hidden>
           <p>State what is automated, how data is used, and how to seek human review or appeal, consistent with local regulations and company policy.</p>
         </div>
       </div>
@@ -90,14 +94,14 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-balance-scale" aria-hidden="true"></i>&nbsp;Fairness Reviews</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="gov-fair-metrics">Subgroup metrics</h3>
-        <div id="gov-fair-metrics" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="gov-fair-metrics" id="gov-fair-metrics-heading">Subgroup metrics</h3>
+        <div id="gov-fair-metrics" class="dp-panel-content" role="region" aria-labelledby="gov-fair-metrics-heading" hidden>
           <p>Report precision/recall, approval rates, and calibration by subgroup. Investigate large gaps; document mitigations (thresholds by segment, features review, additional oversight).</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="gov-impact">Impact assessment</h3>
-        <div id="gov-impact" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="gov-impact" id="gov-impact-heading">Impact assessment</h3>
+        <div id="gov-impact" class="dp-panel-content" role="region" aria-labelledby="gov-impact-heading" hidden>
           <p>Conduct a lightweight <strong>impact assessment</strong>: populations affected, failure modes, reversibility, compensation/appeal process, and communication plan.</p>
         </div>
       </div>
@@ -109,8 +113,8 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-history" aria-hidden="true"></i>&nbsp;Change Control &amp; Auditability</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="gov-change">Versioning & approvals</h3>
-        <div id="gov-change" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="gov-change" id="gov-change-heading">Versioning & approvals</h3>
+        <div id="gov-change" class="dp-panel-content" role="region" aria-labelledby="gov-change-heading" hidden>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">Version data, code, and models; tag deployments with model + config.</li>
             <li class="list-group-item">Require approvals for T2/T3 changes; document rationale and expected impact.</li>
@@ -119,8 +123,8 @@
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="gov-incident">Incidents & post‑mortems</h3>
-        <div id="gov-incident" class="dp-panel-content" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="gov-incident" id="gov-incident-heading">Incidents & post‑mortems</h3>
+        <div id="gov-incident" class="dp-panel-content" role="region" aria-labelledby="gov-incident-heading" hidden>
           <p>Define severity levels, on‑call rotation, rollback triggers, and post‑mortem templates with action items and owners.</p>
         </div>
       </div>
@@ -143,7 +147,7 @@
       <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Governance checklist for AI models">
         <caption>Use this checklist before launch and at major updates</caption>
         <thead>
-          <tr><th>Item</th><th>Owner</th><th>Status</th></tr>
+          <tr><th scope="col">Item</th><th scope="col">Owner</th><th scope="col">Status</th></tr>
         </thead>
         <tbody>
           <tr><td>Risk tier assigned (T1/T2/T3)</td><td>Business owner</td><td>☐</td></tr>
@@ -166,9 +170,10 @@
     </div>
   </div>
 
-  <hr />
-  <p>Select <strong>Next▸</strong> to continue with <strong>Mini Case: Governance in Practice</strong>.</p>
+  <hr aria-hidden="true" />
+  <p>Select <strong>Next▸</strong> to continue with <strong>Week 5 Wrap-Up</strong>.</p>
 </div>
+</main>
 
 <!-- Canvas‑safe toggling -->
 <script>

@@ -1,5 +1,9 @@
+<!-- Skip link for keyboard users -->
+<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<main id="main-content" role="main">
 <div id="dp-wrapper" class="dp-wrapper">
-  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;" aria-hidden="true">Icon Progress Bar (browser only)</div>
 
   <div class="dp-content-block content-block" data-title="Naive Bayes (Probabilistic Classifiers)">
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-calculator" aria-hidden="true"></i>&nbsp;Probabilistic Classification</h2>
@@ -16,13 +20,13 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-lightbulb" aria-hidden="true"></i>&nbsp;Bayes’ Rule, the Naive Assumption</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
       <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="nb-bayes">Bayes’ theorem (intuition)</h4>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="nb-bayes" id="nb-bayes-heading">Bayes' theorem (intuition)</h3>
         <div id="nb-bayes" class="dp-panel-content" hidden>
           <p>Update our belief in a class using evidence: <em>Posterior ∝ Likelihood × Prior</em>. For each class <em>y</em>, we compute <em>P(y) × P(x|y)</em> and pick the largest.</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="nb-naive">The “naive” independence assumption</h4>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="nb-naive" id="nb-naive-heading">The "naive" independence assumption</h3>
         <div id="nb-naive" class="dp-panel-content" hidden>
           <p>Features are assumed conditionally independent given the class: <em aria-label="Probability of x given y equals approximately the product of probability of x-sub-i given y for all i">P(x|y) ≈ ∏<sub>i</sub> P(x<sub>i</sub>|y)</em>. It's often wrong—but works shockingly well on sparse, high‑dimensional data.</p>
         </div>
@@ -109,9 +113,10 @@
     </div>
   </div>
 
-  <hr />
+  <hr aria-hidden="true" />
   <p>Select <strong>Next▸</strong> to continue.</p>
 </div>
+</main>
 
 <!-- Canvas‑safe toggling -->
 <script>

@@ -1,5 +1,9 @@
+<!-- Skip link for keyboard users -->
+<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<main id="main-content" role="main">
 <div id="dp-wrapper" class="dp-wrapper">
-  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;" aria-hidden="true">Icon Progress Bar (browser only)</div>
 
   <div class="dp-content-block content-block" data-title="Decision Trees & Random Forests">
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-tree" aria-hidden="true"></i>&nbsp;Tree-Based Learning</h2>
@@ -16,7 +20,7 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-sitemap" aria-hidden="true"></i>&nbsp;Trees: Concepts & Intuition</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
       <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="tree-splits">Choosing splits (purity)</h4>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="tree-splits" id="tree-splits-heading">Choosing splits (purity)</h3>
         <div id="tree-splits" class="dp-panel-content" hidden>
           <p>At each node the algorithm tries different <strong>feature thresholds</strong> and picks the split that best increases <em>purity</em> of the child nodes (e.g., <strong>Gini</strong> or <strong>entropy</strong> for classification; <strong>MSE</strong> for regression).</p>
           <p class="mb-0">Leaves hold a final prediction: a class majority (classification) or mean value (regression).</p>
@@ -98,9 +102,10 @@
     </div>
   </div>
 
-  <hr />
+  <hr aria-hidden="true" />
   <p>Select <strong>Next▸</strong> to continue.</p>
 </div>
+</main>
 
 <!-- Canvas‑safe toggling -->
 <script>

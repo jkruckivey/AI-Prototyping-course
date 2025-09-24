@@ -1,5 +1,9 @@
+<!-- Skip link for keyboard users -->
+<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<main id="main-content" role="main">
 <div id="dp-wrapper" class="dp-wrapper">
-  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;" aria-hidden="true">Icon Progress Bar (browser only)</div>
 
   <!-- Week 2 Intro / Orientation -->
   <div class="dp-content-block content-block" data-title="Week 2 — Orientation">
@@ -17,8 +21,8 @@
     <h3 class="dp-has-icon"><i class="dp-icon fas fa-check-circle" aria-hidden="true"></i>&nbsp;Before you start</h3>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
       <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w2-ready">Readiness checklist</h4>
-        <div id="w2-ready" class="dp-panel-content" hidden>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w2-ready" id="w2-ready-heading">Readiness checklist</h4>
+        <div id="w2-ready" class="dp-panel-content" role="region" aria-labelledby="w2-ready-heading" hidden>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">You can tell <strong>classification</strong> (categorical target) from <strong>regression</strong> (numeric target).</li>
             <li class="list-group-item">You know what <strong>parameters</strong> (learned) and <strong>hyperparameters</strong> (set before training) are.</li>
@@ -33,8 +37,8 @@
       </div>
 
       <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w2-what">What you'll do this week</h4>
-        <div id="w2-what" class="dp-panel-content" hidden>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w2-what" id="w2-what-heading">What you'll do this week</h4>
+        <div id="w2-what" class="dp-panel-content" role="region" aria-labelledby="w2-what-heading" hidden>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">Explore the <strong>intuition</strong> behind each algorithm.</li>
             <li class="list-group-item">Use <strong>interactive widgets</strong> to see how metrics and boundaries change.</li>
@@ -76,9 +80,10 @@
     </div>
   </div>
 
-  <hr />
+  <hr aria-hidden="true" />
   <p>Select <strong>Next▸</strong> to begin with <strong>Linear Regression</strong>.</p>
 </div>
+</main>
 
 <!-- Canvas‑safe toggling -->
 <script>
