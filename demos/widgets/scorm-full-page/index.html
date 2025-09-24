@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 5: Deployment & Governance - Full Lesson</title>
+  <script src="scormfunctions.js"></script>
+  <style>
+    /* Canvas-style base styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: #f5f5f5;
+    }
+
+    /* Main wrapper - Canvas dp-wrapper style */
+    .dp-wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      background: white;
+    }
+
+    /* SCORM status bar */
+    .scorm-status {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: #034638;
+      color: white;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .scorm-status .status-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .scorm-indicator {
+      width: 10px;
+      height: 10px;
+      background: #4CAF50;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+
+    /* Adjust for fixed header */
+    .content-container {
+      margin-top: 60px;
+    }
+
+    /* Canvas-style content blocks */
+    .dp-content-block {
+      margin: 30px 0;
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      color: #034638;
+      font-size: 2em;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 3px solid #034638;
+    }
+
+    h2 {
+      color: #034638;
+      font-size: 1.5em;
+      margin: 20px 0 15px 0;
+      padding-left: 30px;
+      position: relative;
+    }
+
+    h2::before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      color: #582C83;
+    }
+
+    h3 {
+      color: #582C83;
+      font-size: 1.2em;
+      margin: 15px 0 10px 0;
+    }
+
+    /* Canvas-style cards */
+    .dp-card {
+      background: #f8f9fa;
+      border-left: 4px solid #034638;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .dp-card.warning {
+      border-left-color: #ffc107;
+      background: #fff3cd;
+    }
+
+    .dp-card.success {
+      border-left-color: #28a745;
+      background: #d4edda;
+    }
+
+    /* Learning objectives list */
+    .learning-objectives {
+      background: #e8f5e8;
+      border: 2px solid #034638;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+
+    .learning-objectives h3 {
+      color: #034638;
+      margin-bottom: 15px;
+    }
+
+    .learning-objectives ol {
+      margin-left: 20px;
+    }
+
+    .learning-objectives li {
+      margin: 10px 0;
+    }
+
+    /* Interactive elements */
+    .accordion {
+      margin: 20px 0;
+    }
+
+    .accordion-item {
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      margin: 10px 0;
+    }
+
+    .accordion-header {
+      background: #f8f9fa;
+      padding: 15px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.3s;
+    }
+
+    .accordion-header:hover {
+      background: #e9ecef;
+    }
+
+    .accordion-header.active {
+      background: #034638;
+      color: white;
+    }
+
+    .accordion-content {
+      padding: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .accordion-content.show {
+      padding: 15px;
+      max-height: 1000px;
+    }
+
+    /* Embedded widget styles */
+    .widget-container {
+      background: white;
+      border: 2px solid #034638;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 30px 0;
+    }
+
+    .widget-header {
+      background: #034638;
+      color: white;
+      padding: 15px;
+      margin: -20px -20px 20px -20px;
+      border-radius: 6px 6px 0 0;
+      text-align: center;
+    }
+
+    /* Simple quiz widget embedded */
+    .quiz-question {
+      background: #f8f9fa;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 15px;
+      margin: 15px 0;
+    }
+
+    .quiz-options {
+      margin: 15px 0;
+    }
+
+    .quiz-option {
+      background: white;
+      border: 2px solid #e9ecef;
+      border-radius: 4px;
+      padding: 10px 15px;
+      margin: 8px 0;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .quiz-option:hover {
+      border-color: #034638;
+      background: #e8f5e8;
+    }
+
+    .quiz-option.selected {
+      border-color: #034638;
+      background: #e8f5e8;
+    }
+
+    .quiz-option.correct {
+      border-color: #28a745;
+      background: #d4edda;
+    }
+
+    .quiz-option.incorrect {
+      border-color: #dc3545;
+      background: #f8d7da;
+    }
+
+    /* Interactive diagram */
+    .deployment-diagram {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+      text-align: center;
+    }
+
+    .deployment-stages {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      margin: 20px 0;
+    }
+
+    .stage {
+      background: #f8f9fa;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      padding: 15px;
+      width: 150px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .stage:hover {
+      border-color: #034638;
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .stage.active {
+      background: #034638;
+      color: white;
+      border-color: #034638;
+    }
+
+    .stage-arrow {
+      color: #582C83;
+      font-size: 24px;
+    }
+
+    .stage-details {
+      background: #f8f9fa;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 15px;
+      margin: 15px 0;
+      display: none;
+    }
+
+    .stage-details.show {
+      display: block;
+    }
+
+    /* Progress tracking */
+    .progress-bar {
+      background: #e9ecef;
+      border-radius: 10px;
+      height: 30px;
+      margin: 20px 0;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      background: linear-gradient(90deg, #034638, #582C83);
+      height: 100%;
+      width: 0%;
+      transition: width 0.5s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+    }
+
+    /* Action buttons */
+    .btn {
+      background: #034638;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 5px;
+      transition: background 0.2s;
+    }
+
+    .btn:hover {
+      background: #045a42;
+    }
+
+    .btn.secondary {
+      background: #582C83;
+    }
+
+    .btn.secondary:hover {
+      background: #6d3499;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .dp-wrapper {
+        padding: 10px;
+      }
+
+      .deployment-stages {
+        flex-direction: column;
+      }
+
+      .stage-arrow {
+        transform: rotate(90deg);
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- SCORM Status Bar -->
+<div class="scorm-status">
+  <div class="status-item">
+    <span class="scorm-indicator"></span>
+    <span>SCORM Connected - Progress Tracked</span>
+  </div>
+  <div class="status-item">
+    <span id="time-spent">Time: 0:00</span>
+  </div>
+  <div class="status-item">
+    <span id="progress-percent">Progress: 0%</span>
+  </div>
+</div>
+
+<div class="content-container">
+  <div class="dp-wrapper">
+
+    <!-- Page Header -->
+    <div class="dp-content-block">
+      <h1>Week 5: Deployment & Governance</h1>
+      <p class="lead">Moving from successful models to production systems that deliver real business value while maintaining governance and compliance.</p>
+    </div>
+
+    <!-- Learning Objectives -->
+    <div class="learning-objectives">
+      <h3>🎯 Learning Objectives</h3>
+      <ol>
+        <li>Understand different deployment strategies (shadow, canary, A/B testing)</li>
+        <li>Identify and monitor for model drift in production systems</li>
+        <li>Implement governance frameworks for responsible AI</li>
+        <li>Bridge the "last-mile gap" from model to business value</li>
+      </ol>
+    </div>
+
+    <!-- Content Section 1 -->
+    <div class="dp-content-block">
+      <h2>Understanding Deployment Strategies</h2>
+
+      <p>When moving ML models from development to production, choosing the right deployment strategy is critical for minimizing risk while maximizing learning.</p>
+
+      <div class="dp-card">
+        <h3>The Three Main Approaches</h3>
+        <p>Each deployment strategy serves a different purpose in the model rollout process. Understanding when to use each approach can mean the difference between a successful deployment and a costly failure.</p>
+      </div>
+
+      <!-- Interactive Deployment Diagram -->
+      <div class="deployment-diagram">
+        <h3>Click to Explore Deployment Strategies</h3>
+        <div class="deployment-stages">
+          <div class="stage" onclick="showStage('shadow')">
+            <strong>Shadow Mode</strong>
+            <br>
+            <small>Run in parallel</small>
+          </div>
+          <span class="stage-arrow">→</span>
+          <div class="stage" onclick="showStage('canary')">
+            <strong>Canary Release</strong>
+            <br>
+            <small>5-10% traffic</small>
+          </div>
+          <span class="stage-arrow">→</span>
+          <div class="stage" onclick="showStage('ab')">
+            <strong>A/B Testing</strong>
+            <br>
+            <small>50/50 split</small>
+          </div>
+        </div>
+
+        <div id="shadow-details" class="stage-details">
+          <h4>Shadow Mode Deployment</h4>
+          <p><strong>How it works:</strong> New model runs alongside production model, but predictions aren't shown to users.</p>
+          <p><strong>Best for:</strong> Risk-free testing of model performance on live data.</p>
+          <p><strong>Duration:</strong> Typically 1-2 weeks to gather sufficient data.</p>
+        </div>
+
+        <div id="canary-details" class="stage-details">
+          <h4>Canary Release</h4>
+          <p><strong>How it works:</strong> Gradually route 5-10% of traffic to new model while monitoring metrics.</p>
+          <p><strong>Best for:</strong> Early detection of issues with minimal user impact.</p>
+          <p><strong>Duration:</strong> 3-7 days, expanding traffic if metrics are good.</p>
+        </div>
+
+        <div id="ab-details" class="stage-details">
+          <h4>A/B Testing</h4>
+          <p><strong>How it works:</strong> Split traffic 50/50 between models to measure performance differences.</p>
+          <p><strong>Best for:</strong> Statistical validation of model improvements.</p>
+          <p><strong>Duration:</strong> Until statistical significance is reached.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content Section 2 -->
+    <div class="dp-content-block">
+      <h2>Monitoring for Model Drift</h2>
+
+      <p>Models degrade over time as data distributions change. Effective monitoring catches drift before it impacts business outcomes.</p>
+
+      <!-- Accordion Content -->
+      <div class="accordion">
+        <div class="accordion-item">
+          <div class="accordion-header" onclick="toggleAccordion(this)">
+            <span>Data Drift: When Input Distributions Change</span>
+            <span>▼</span>
+          </div>
+          <div class="accordion-content">
+            <p><strong>What it is:</strong> The statistical properties of input features change over time.</p>
+            <p><strong>Example:</strong> Customer age distribution shifts younger as marketing targets change.</p>
+            <p><strong>Detection:</strong> Use Population Stability Index (PSI) - values > 0.25 indicate significant drift.</p>
+            <p><strong>Action:</strong> Retrain model on recent data or adjust feature engineering.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header" onclick="toggleAccordion(this)">
+            <span>Concept Drift: When Relationships Change</span>
+            <span>▼</span>
+          </div>
+          <div class="accordion-content">
+            <p><strong>What it is:</strong> The relationship between features and target variable changes.</p>
+            <p><strong>Example:</strong> COVID-19 changed shopping patterns, breaking historical purchase models.</p>
+            <p><strong>Detection:</strong> Monitor model performance metrics on recent labeled data.</p>
+            <p><strong>Action:</strong> Fundamental model redesign may be needed.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header" onclick="toggleAccordion(this)">
+            <span>Upstream Drift: When Data Pipeline Changes</span>
+            <span>▼</span>
+          </div>
+          <div class="accordion-content">
+            <p><strong>What it is:</strong> Changes in data collection or preprocessing affect model inputs.</p>
+            <p><strong>Example:</strong> Sensor recalibration changes measurement scales.</p>
+            <p><strong>Detection:</strong> Data validation rules and schema monitoring.</p>
+            <p><strong>Action:</strong> Fix pipeline issues or retrain with new data format.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Embedded Interactive Widget -->
+    <div class="widget-container">
+      <div class="widget-header">
+        <h3>📊 Interactive Knowledge Check</h3>
+      </div>
+
+      <div class="quiz-question">
+        <h4>Question 1: Deployment Strategy Selection</h4>
+        <p>Your fraud detection model shows 15% better performance in testing. You need to deploy it but can't afford any false positives blocking legitimate transactions. Which deployment strategy should you choose first?</p>
+
+        <div class="quiz-options">
+          <div class="quiz-option" onclick="checkAnswer(this, false)">
+            A) Immediate full rollout to capture maximum value
+          </div>
+          <div class="quiz-option" onclick="checkAnswer(this, true)">
+            B) Shadow mode to validate performance on live data
+          </div>
+          <div class="quiz-option" onclick="checkAnswer(this, false)">
+            C) A/B test with 50% of traffic
+          </div>
+          <div class="quiz-option" onclick="checkAnswer(this, false)">
+            D) Skip testing and monitor closely after deployment
+          </div>
+        </div>
+
+        <div id="feedback1" style="display:none; margin-top:15px; padding:10px; background:#e8f5e8; border-radius:4px;">
+          <strong>Correct!</strong> Shadow mode lets you validate the model's performance on real production data without any risk to customers. You can verify the 15% improvement holds true in production before exposing any users to the new model.
+        </div>
+      </div>
+
+      <div class="quiz-question">
+        <h4>Question 2: Drift Detection</h4>
+        <p>Your customer churn model's accuracy dropped from 92% to 78% over 3 months, but the input feature distributions look nearly identical. What type of drift is this?</p>
+
+        <div class="quiz-options">
+          <div class="quiz-option" onclick="checkAnswer2(this, false)">
+            A) Data drift
+          </div>
+          <div class="quiz-option" onclick="checkAnswer2(this, true)">
+            B) Concept drift
+          </div>
+          <div class="quiz-option" onclick="checkAnswer2(this, false)">
+            C) Upstream drift
+          </div>
+          <div class="quiz-option" onclick="checkAnswer2(this, false)">
+            D) Model drift
+          </div>
+        </div>
+
+        <div id="feedback2" style="display:none; margin-top:15px; padding:10px; background:#e8f5e8; border-radius:4px;">
+          <strong>Correct!</strong> Concept drift occurs when the relationship between features and target changes, even if feature distributions remain stable. Something fundamental about customer behavior has changed, requiring model retraining or redesign.
+        </div>
+      </div>
+
+      <button class="btn secondary" onclick="submitQuiz()">Submit Quiz</button>
+      <span id="quiz-score" style="margin-left: 15px; font-weight: bold;"></span>
+    </div>
+
+    <!-- Governance Section -->
+    <div class="dp-content-block">
+      <h2>Governance & Responsible AI</h2>
+
+      <div class="dp-card warning">
+        <h3>⚠️ Critical Governance Requirements</h3>
+        <ul>
+          <li><strong>Model Cards:</strong> Document model behavior, limitations, and intended use cases</li>
+          <li><strong>Bias Testing:</strong> Regular audits across protected demographic groups</li>
+          <li><strong>Explainability:</strong> Ability to explain decisions for regulated industries</li>
+          <li><strong>Version Control:</strong> Track model versions, training data, and deployment history</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Progress Summary -->
+    <div class="dp-content-block">
+      <h2>Your Progress</h2>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress-bar">0%</div>
+      </div>
+      <p>Complete all sections and quiz questions to finish this lesson.</p>
+      <button class="btn" onclick="completeLesson()">Mark Lesson Complete</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// Track time spent
+var startTime = Date.now();
+var quizScore = 0;
+var quizAnswered = 0;
+
+setInterval(function() {
+  var elapsed = Math.floor((Date.now() - startTime) / 1000);
+  var minutes = Math.floor(elapsed / 60);
+  var seconds = elapsed % 60;
+  document.getElementById('time-spent').textContent = 'Time: ' + minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+}, 1000);
+
+// Deployment strategy diagram
+function showStage(stage) {
+  // Hide all details
+  document.querySelectorAll('.stage-details').forEach(function(el) {
+    el.classList.remove('show');
+  });
+
+  // Remove active from all stages
+  document.querySelectorAll('.stage').forEach(function(el) {
+    el.classList.remove('active');
+  });
+
+  // Show selected
+  document.getElementById(stage + '-details').classList.add('show');
+  event.target.closest('.stage').classList.add('active');
+
+  // Track interaction
+  if (typeof trackWidgetInteraction !== 'undefined') {
+    trackWidgetInteraction('deployment-diagram', stage);
+  }
+
+  updateProgress();
+}
+
+// Accordion functionality
+function toggleAccordion(header) {
+  header.classList.toggle('active');
+  var content = header.nextElementSibling;
+  content.classList.toggle('show');
+
+  // Track interaction
+  if (typeof trackWidgetInteraction !== 'undefined') {
+    trackWidgetInteraction('accordion', header.textContent);
+  }
+
+  updateProgress();
+}
+
+// Quiz functionality
+function checkAnswer(option, isCorrect) {
+  // Clear previous selections
+  option.parentElement.querySelectorAll('.quiz-option').forEach(function(opt) {
+    opt.classList.remove('selected', 'correct', 'incorrect');
+  });
+
+  // Mark selection
+  option.classList.add('selected');
+  if (isCorrect) {
+    option.classList.add('correct');
+    document.getElementById('feedback1').style.display = 'block';
+    if (!option.dataset.answered) {
+      quizScore++;
+      quizAnswered++;
+      option.dataset.answered = 'true';
+    }
+  } else {
+    option.classList.add('incorrect');
+  }
+
+  updateProgress();
+}
+
+function checkAnswer2(option, isCorrect) {
+  // Clear previous selections
+  option.parentElement.querySelectorAll('.quiz-option').forEach(function(opt) {
+    opt.classList.remove('selected', 'correct', 'incorrect');
+  });
+
+  // Mark selection
+  option.classList.add('selected');
+  if (isCorrect) {
+    option.classList.add('correct');
+    document.getElementById('feedback2').style.display = 'block';
+    if (!option.dataset.answered) {
+      quizScore++;
+      quizAnswered++;
+      option.dataset.answered = 'true';
+    }
+  } else {
+    option.classList.add('incorrect');
+  }
+
+  updateProgress();
+}
+
+function submitQuiz() {
+  var score = (quizScore / 2) * 100;
+  document.getElementById('quiz-score').textContent = 'Score: ' + score + '%';
+
+  // Report to SCORM
+  if (typeof SCORM_SetQuizScore !== 'undefined') {
+    SCORM_SetQuizScore(quizScore, 2);
+  }
+
+  updateProgress();
+}
+
+// Progress tracking
+var progress = 0;
+function updateProgress() {
+  var totalElements = 8; // 3 deployment stages + 3 accordions + 2 quiz questions
+  var completed = 0;
+
+  // Check deployment stages
+  if (document.querySelectorAll('.stage.active').length > 0) completed++;
+
+  // Check accordions
+  completed += document.querySelectorAll('.accordion-header.active').length;
+
+  // Check quiz
+  completed += quizAnswered;
+
+  progress = Math.round((completed / totalElements) * 100);
+
+  document.getElementById('progress-bar').style.width = progress + '%';
+  document.getElementById('progress-bar').textContent = progress + '%';
+  document.getElementById('progress-percent').textContent = 'Progress: ' + progress + '%';
+
+  // Auto-complete at 80%
+  if (progress >= 80 && typeof SCORM_SetComplete !== 'undefined') {
+    SCORM_SetComplete();
+  }
+}
+
+function completeLesson() {
+  if (typeof SCORM_SetComplete !== 'undefined') {
+    SCORM_SetComplete();
+  }
+  alert('Lesson marked as complete! Your progress has been saved.');
+}
+
+// Initialize
+updateProgress();
+</script>
+
+</body>
+</html>

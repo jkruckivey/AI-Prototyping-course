@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas to SCORM Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        h1 {
+            color: #034638;
+            border-bottom: 3px solid #034638;
+            padding-bottom: 10px;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .panel {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+        }
+        .panel h2 {
+            margin-top: 0;
+            color: #034638;
+        }
+        textarea {
+            width: 100%;
+            height: 500px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .controls {
+            background: #e8f5e8;
+            border: 2px solid #034638;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        button {
+            background: #034638;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        button:hover {
+            background: #045a42;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        .status.success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        .status.warning {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            color: #856404;
+        }
+        .status.error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        .instructions {
+            background: #e8f5e8;
+            border: 2px solid #034638;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .instructions h3 {
+            color: #034638;
+            margin-bottom: 15px;
+        }
+        .example {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 10px 0;
+            font-family: monospace;
+            font-size: 12px;
+            white-space: pre;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔄 Canvas to SCORM Converter</h1>
+    <p>Convert Canvas LMS page fragments into complete, self-contained HTML files for SCORM packages.</p>
+
+    <div class="instructions">
+        <h3>📋 How to Use</h3>
+        <ol>
+            <li>Copy your Canvas page HTML content (starting with &lt;div id="dp-wrapper"&gt;)</li>
+            <li>Paste it into the "Input" area below</li>
+            <li>Click "Convert to SCORM" to generate a complete HTML document</li>
+            <li>Download the result for use in SCORM packages</li>
+        </ol>
+        <p><strong>What this tool adds:</strong></p>
+        <ul>
+            <li>Complete HTML document structure (&lt;html&gt;, &lt;head&gt;, &lt;body&gt;)</li>
+            <li>Canvas LMS styling (dp-framework, Bootstrap, etc.)</li>
+            <li>FontAwesome icons</li>
+            <li>Responsive design</li>
+            <li>All necessary CSS embedded</li>
+        </ul>
+    </div>
+
+    <div class="controls">
+        <button onclick="convertToSCORM()">🔄 Convert to SCORM</button>
+        <button onclick="loadSamplePage()">📝 Load Sample Canvas Page</button>
+        <button onclick="copyResult()">📋 Copy Result</button>
+        <button onclick="downloadResult()">💾 Download SCORM File</button>
+        <button onclick="clearAll()">🗑️ Clear All</button>
+    </div>
+
+    <div class="container">
+        <div class="panel">
+            <h2>Input: Canvas Page Fragment</h2>
+            <textarea id="input" placeholder="Paste your Canvas page HTML here (starting with <div id='dp-wrapper'>...)"></textarea>
+        </div>
+
+        <div class="panel">
+            <h2>Output: Complete SCORM HTML</h2>
+            <textarea id="output" placeholder="Complete HTML document will appear here..."></textarea>
+        </div>
+    </div>
+
+    <div id="status"></div>
+
+    <script>
+        // Complete Canvas LMS + Bootstrap CSS for SCORM
+        const CANVAS_CSS = `/* Canvas LMS + AMBA Template CSS for SCORM */
+
+/* ========================================
+   BASE STYLES & RESET
+======================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    line-height: 1.4;
+}
+
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.428571429;
+    color: #333333;
+    background-color: #ffffff;
+}
+
+/* ========================================
+   IVEY BRAND COLORS
+======================================== */
+:root {
+    --ivey-green: #034638;
+    --ivey-purple: #582C83;
+    --ivey-orange: #f97316;
+    --apple-red: #dc2626;
+    --male-blue: #3b82f6;
+    --female-pink: #ec4899;
+}
+
+/* ========================================
+   DP-WRAPPER & CANVAS STRUCTURE
+======================================== */
+.dp-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #ffffff;
+}
+
+.dp-content-block {
+    margin: 30px 0;
+    padding: 20px 0;
+}
+
+.content-block {
+    clear: both;
+    margin: 1rem 0;
+}
+
+.dp-has-icon {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.dp-icon {
+    color: var(--ivey-green);
+}
+
+/* ========================================
+   TYPOGRAPHY
+======================================== */
+h1, h2, h3, h4, h5, h6 {
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.1;
+    color: inherit;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+h1 { font-size: 36px; }
+h2 {
+    font-size: 30px;
+    color: var(--ivey-green);
+    margin-bottom: 20px;
+}
+h3 {
+    font-size: 24px;
+    color: var(--ivey-purple);
+    margin-bottom: 15px;
+}
+h4 { font-size: 18px; }
+h5 { font-size: 14px; }
+h6 { font-size: 12px; }
+
+p {
+    margin: 0 0 10px;
+    line-height: 1.6;
+}
+
+em {
+    font-style: italic;
+}
+
+strong {
+    font-weight: bold;
+}
+
+/* ========================================
+   CARDS
+======================================== */
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: 0.25rem;
+    margin-bottom: 1rem;
+}
+
+.card-body {
+    flex: 1 1 auto;
+    min-height: 1px;
+    padding: 1.25rem;
+}
+
+.card-title {
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+    color: var(--ivey-green);
+}
+
+.card-text:last-child {
+    margin-bottom: 0;
+}
+
+.dp-card {
+    background: #f8f9fa;
+    border-left: 4px solid var(--ivey-green);
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 0 4px 4px 0;
+}
+
+.dp-ignore-theme {
+    color: inherit !important;
+}
+
+/* ========================================
+   BOOTSTRAP GRID SYSTEM
+======================================== */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+.col-md-4 {
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+}
+
+.col-md-6 {
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    flex: 0 0 50%;
+    max-width: 50%;
+}
+
+.h-100 {
+    height: 100% !important;
+}
+
+.w-100 {
+    width: 100% !important;
+}
+
+/* ========================================
+   LIST GROUPS
+======================================== */
+.list-group {
+    display: flex;
+    flex-direction: column;
+    padding-left: 0;
+    margin-bottom: 0;
+}
+
+.list-group-item {
+    position: relative;
+    display: block;
+    padding: 0.75rem 1.25rem;
+    margin-bottom: -1px;
+    background-color: #fff;
+    border: 1px solid rgba(0,0,0,.125);
+}
+
+.list-group-flush .list-group-item {
+    border-right: 0;
+    border-left: 0;
+    border-radius: 0;
+}
+
+.list-group-flush .list-group-item:first-child {
+    border-top: 0;
+}
+
+.list-group-flush .list-group-item:last-child {
+    border-bottom: 0;
+}
+
+/* ========================================
+   TABLES
+======================================== */
+.table-responsive {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.ic-Table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529;
+    background-color: transparent;
+    border-collapse: collapse;
+}
+
+.ic-Table th,
+.ic-Table td {
+    padding: 0.75rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+    text-align: left;
+}
+
+.ic-Table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #dee2e6;
+    font-weight: 600;
+    color: var(--ivey-green);
+    background-color: #f8f9fa;
+}
+
+.ic-Table--hover-row tbody tr:hover {
+    background-color: rgba(0,0,0,.075);
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ========================================
+   COLLAPSIBLES (CANVAS STYLE)
+======================================== */
+.canvas-collapsible {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin: 10px 0;
+    overflow: hidden;
+}
+
+.canvas-collapsible summary {
+    background: #f5f5f5;
+    padding: 15px 20px;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--ivey-green);
+    border-bottom: 1px solid #ddd;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background 0.2s ease;
+}
+
+.canvas-collapsible summary:hover {
+    background: #e9ecef;
+}
+
+.canvas-collapsible summary::-webkit-details-marker {
+    display: none;
+}
+
+.canvas-collapsible summary::after {
+    content: '+';
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--ivey-green);
+}
+
+.canvas-collapsible[open] summary::after {
+    content: '−';
+}
+
+.canvas-collapsible[open] summary {
+    border-bottom: 1px solid #ddd;
+}
+
+.collapsible-content {
+    padding: 20px;
+    background: #ffffff;
+}
+
+/* ========================================
+   EMBED WRAPPERS
+======================================== */
+.dp-embed-wrapper {
+    margin: 20px 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.dp-embed-wrapper iframe {
+    width: 100%;
+    border: none;
+    display: block;
+}
+
+/* ========================================
+   CALLOUTS
+======================================== */
+.dp-callout {
+    margin: 20px 0;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border-left: 4px solid var(--ivey-green);
+}
+
+.dp-callout-color-dp-primary {
+    background: #e8f5e8;
+    border-left-color: var(--ivey-green);
+}
+
+.dp-callout .card-title {
+    color: var(--ivey-green);
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.dp-callout .card-text {
+    margin-bottom: 0;
+}
+
+/* ========================================
+   UTILITY CLASSES
+======================================== */
+.mt-2 { margin-top: 0.5rem; }
+.mb-2 { margin-bottom: 0.5rem; }
+.text-center { text-align: center; }
+
+/* ========================================
+   RESPONSIVE DESIGN
+======================================== */
+@media (max-width: 991.98px) {
+    .col-md-4, .col-md-6 {
+        flex: 0 0 100%;
+        max-width: 100%;
+        margin-bottom: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .dp-wrapper {
+        padding: 10px;
+    }
+
+    .dp-content-block {
+        padding: 10px 0;
+    }
+
+    .card-body {
+        padding: 1rem;
+    }
+
+    .canvas-collapsible summary {
+        padding: 12px 15px;
+        font-size: 14px;
+    }
+
+    .collapsible-content {
+        padding: 15px;
+    }
+}
+
+/* ========================================
+   FONTAWESOME ICONS (ESSENTIAL ONES)
+======================================== */
+.fas {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+}
+
+.fa-database::before { content: "🗃️"; }
+.fa-route::before { content: "🛤️"; }
+.fa-play-circle::before { content: "▶️"; }
+.fa-pen::before { content: "✏️"; }
+.fa-bullseye::before { content: "🎯"; }
+.fa-robot::before { content: "🤖"; }
+.fa-lightbulb::before { content: "💡"; }
+.fa-expand-arrows-alt::before { content: "↔️"; }
+
+/* ========================================
+   PRINT STYLES
+======================================== */
+@media print {
+    .dp-embed-wrapper {
+        display: none;
+    }
+
+    .canvas-collapsible[open] .collapsible-content {
+        display: block !important;
+    }
+
+    .canvas-collapsible summary::after {
+        display: none;
+    }
+}`;
+
+        function showStatus(message, type = 'info') {
+            const statusDiv = document.getElementById('status');
+            statusDiv.className = 'status ' + type;
+            statusDiv.textContent = message;
+        }
+
+        function convertToSCORM() {
+            const input = document.getElementById('input').value.trim();
+
+            if (!input) {
+                showStatus('Please paste your Canvas page HTML first.', 'error');
+                return;
+            }
+
+            if (!input.includes('dp-wrapper')) {
+                showStatus('HTML does not appear to be a Canvas page (missing dp-wrapper).', 'warning');
+            }
+
+            try {
+                // Extract title from first h2 or use default
+                let title = 'Canvas Page';
+                const titleMatch = input.match(/<h2[^>]*>.*?<\/h2>/i);
+                if (titleMatch) {
+                    const titleText = titleMatch[0].replace(/<[^>]*>/g, '').replace(/&[^;]+;/g, '').trim();
+                    if (titleText) {
+                        title = titleText;
+                    }
+                }
+
+                // Create complete HTML document
+                const completeHTML = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${title}</title>
+    <style>
+${CANVAS_CSS}
+    </style>
+</head>
+<body>
+    ${input}
+
+    <!-- SCORM JavaScript can be added here if needed -->
+    <script>
+        // Auto-expand all collapsibles for better SCORM experience
+        document.addEventListener('DOMContentLoaded', function() {
+            const collapsibles = document.querySelectorAll('.canvas-collapsible');
+            // Option: Auto-expand all for SCORM
+            // collapsibles.forEach(function(details) {
+            //     details.open = true;
+            // });
+        });
+    </script>
+</body>
+</html>`;
+
+                document.getElementById('output').value = completeHTML;
+                showStatus('✅ Successfully converted to complete HTML document!', 'success');
+
+            } catch (error) {
+                showStatus('Error converting HTML: ' + error.message, 'error');
+            }
+        }
+
+        function loadSamplePage() {
+            const sample = `<div id="dp-wrapper" class="dp-wrapper">
+    <div class="dp-content-block content-block" data-title="Sample Canvas Page">
+        <h2 class="dp-has-icon"><i class="dp-icon fas fa-lightbulb" aria-hidden="true"></i> Sample Canvas Page</h2>
+        <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+            <div class="card-body">
+                <h5 class="card-title dp-ignore-theme">Introduction</h5>
+                <p>This is a sample Canvas page fragment that demonstrates the typical structure.</p>
+            </div>
+        </div>
+
+        <details class="canvas-collapsible">
+            <summary>Click to expand this section</summary>
+            <div class="collapsible-content">
+                <p>This content is inside a collapsible section.</p>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">List item 1</li>
+                    <li class="list-group-item">List item 2</li>
+                    <li class="list-group-item">List item 3</li>
+                </ul>
+            </div>
+        </details>
+
+        <div class="dp-callout card dp-callout-color-dp-primary">
+            <div class="card-body">
+                <h3 class="card-title">Helpful Tip</h3>
+                <p class="card-text">This is how callouts appear in Canvas pages.</p>
+            </div>
+        </div>
+    </div>
+</div>`;
+
+            document.getElementById('input').value = sample;
+            showStatus('Sample Canvas page loaded. Click "Convert to SCORM" to see the result.', 'info');
+        }
+
+        function copyResult() {
+            const output = document.getElementById('output');
+            if (!output.value) {
+                showStatus('No output to copy. Convert a page first.', 'warning');
+                return;
+            }
+
+            output.select();
+            document.execCommand('copy');
+            showStatus('✅ Complete HTML copied to clipboard!', 'success');
+        }
+
+        function downloadResult() {
+            const output = document.getElementById('output').value;
+            if (!output) {
+                showStatus('No output to download. Convert a page first.', 'warning');
+                return;
+            }
+
+            const blob = new Blob([output], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'canvas-page-scorm-ready.html';
+            a.click();
+            URL.revokeObjectURL(url);
+            showStatus('✅ SCORM-ready HTML file downloaded!', 'success');
+        }
+
+        function clearAll() {
+            document.getElementById('input').value = '';
+            document.getElementById('output').value = '';
+            document.getElementById('status').textContent = '';
+        }
+    </script>
+</body>
+</html>

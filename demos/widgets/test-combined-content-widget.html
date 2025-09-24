@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding Data - Combined with Widget</title>
+    <link rel="stylesheet" href="ivey-widget-base.css">
+    <style>
+        /* Canvas LMS + AMBA Template CSS */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.4;
+            color: #2D3B45;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        /* Canvas LMS dp-wrapper Framework */
+        .dp-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .dp-content-block, .content-block {
+            padding: 30px;
+            border-bottom: 1px solid #e1e8ed;
+        }
+
+        .dp-content-block:last-child {
+            border-bottom: none;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: bold;
+            line-height: 1.2;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            color: #2D3B45;
+        }
+
+        h2:first-child, h3:first-child {
+            margin-top: 0;
+        }
+
+        h1 { font-size: 2.5rem; }
+        h2 { font-size: 2rem; color: #034638; }
+        h3 { font-size: 1.75rem; }
+
+        p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        /* Canvas LMS Card Components */
+        .dp-card, .card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            word-wrap: break-word;
+            background-color: #fff;
+            background-clip: border-box;
+            border: 1px solid rgba(0,0,0,.125);
+            border-radius: 0.375rem;
+            margin-bottom: 15px;
+            margin-top: 15px;
+        }
+
+        .card-body {
+            flex: 1 1 auto;
+            padding: 1.25rem;
+        }
+
+        .card-title {
+            margin-bottom: 0.75rem;
+            font-size: 1.25rem;
+            font-weight: 500;
+        }
+
+        .dp-ignore-theme {
+            color: inherit !important;
+        }
+
+        /* Canvas Collapsible/Accordion */
+        .canvas-collapsible {
+            border: 1px solid #c7cdd1;
+            border-radius: 0;
+            margin-bottom: 15px;
+            background: #f5f5f5;
+        }
+
+        .canvas-collapsible summary {
+            padding: 12px 16px;
+            background: #f5f5f5;
+            color: #2d3b45 !important;
+            cursor: pointer;
+            font-weight: normal;
+            font-size: 14px;
+            border-radius: 0;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #c7cdd1;
+            position: relative;
+        }
+
+        .canvas-collapsible summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .canvas-collapsible summary::after {
+            content: "▼";
+            position: absolute;
+            right: 16px;
+            transition: transform 0.2s ease;
+            font-size: 12px;
+            color: #2d3b45;
+        }
+
+        .canvas-collapsible[open] summary::after {
+            transform: rotate(180deg);
+        }
+
+        .canvas-collapsible summary:hover {
+            background: #e8e9ea;
+        }
+
+        .canvas-collapsible[open] summary {
+            background: #e8e9ea;
+        }
+
+        .canvas-collapsible .collapsible-content {
+            padding: 16px;
+            background: white;
+            border-radius: 0;
+            border-top: none;
+        }
+
+        /* Canvas Tables */
+        .ic-Table {
+            width: 100%;
+            margin-bottom: 1rem;
+            color: #212529;
+            border-collapse: collapse;
+        }
+
+        .ic-Table th,
+        .ic-Table td {
+            padding: 0.75rem;
+            vertical-align: top;
+            border-top: 1px solid #dee2e6;
+        }
+
+        .ic-Table thead th {
+            vertical-align: bottom;
+            border-bottom: 2px solid #dee2e6;
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+
+        .ic-Table--hover-row tbody tr:hover {
+            color: #212529;
+            background-color: rgba(0,0,0,.075);
+        }
+
+        /* List Groups */
+        .list-group {
+            display: flex;
+            flex-direction: column;
+            padding-left: 0;
+            margin-bottom: 0;
+            border-radius: 0.375rem;
+        }
+
+        .list-group-flush {
+            border-radius: 0;
+        }
+
+        .list-group-flush .list-group-item {
+            border-width: 0 0 1px;
+            border-radius: 0;
+        }
+
+        .list-group-item {
+            position: relative;
+            display: block;
+            padding: 0.75rem 1.25rem;
+            background-color: #fff;
+            border: 1px solid rgba(0,0,0,.125);
+            border-top-width: 0;
+        }
+
+        .list-group-item:first-child {
+            border-top-width: 1px;
+            border-top-left-radius: inherit;
+            border-top-right-radius: inherit;
+        }
+
+        .list-group-item:last-child {
+            border-bottom-right-radius: inherit;
+            border-bottom-left-radius: inherit;
+        }
+
+        /* FontAwesome Icons */
+        .fas, .far, .fab, .fa {
+            color: #034638 !important;
+        }
+
+        .dp-has-icon {
+            display: flex;
+            align-items: center;
+        }
+
+        .dp-icon {
+            margin-right: 10px;
+            color: #034638 !important;
+        }
+
+        blockquote {
+            margin: 0 0 1rem;
+            padding: 0.5rem 1rem;
+            border-left: 4px solid #dee2e6;
+            background-color: #f8f9fa;
+        }
+
+        blockquote p {
+            margin-bottom: 0.5rem;
+        }
+
+        blockquote p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Widget Styles */
+        .widget-section {
+            margin: 30px 0;
+            padding: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .widget-container {
+            max-width: 100%;
+            margin: 0;
+            background: white;
+            border-radius: 0;
+            box-shadow: none;
+            overflow: hidden;
+        }
+
+        .widget-header {
+            background: #034638;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .widget-header h2,
+        .widget-header p {
+            color: white;
+        }
+
+        .widget-header h2 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .widget-header p {
+            opacity: 0.9;
+            font-size: 0.95em;
+        }
+
+        .segments-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 30px 20px;
+        }
+
+        .segment-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            min-height: 280px;
+        }
+
+        .segment-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .segment-card.active {
+            border-color: #034638;
+            box-shadow: 0 4px 20px rgba(3, 70, 56, 0.2);
+        }
+
+        .card-front, .card-back {
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .card-front {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+
+        .card-back {
+            background: #034638;
+            color: white;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transform: scale(0.8);
+            z-index: 10;
+        }
+
+        .segment-card.flipped .card-front {
+            opacity: 0;
+            transform: scale(0.8);
+        }
+
+        .segment-card.flipped .card-back {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .segment-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            color: #034638;
+        }
+
+        .card-back .segment-icon {
+            color: white;
+        }
+
+        .segment-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #034638;
+        }
+
+        .card-back .segment-title {
+            color: white;
+        }
+
+        .segment-description {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .card-back .segment-description {
+            color: rgba(255,255,255,0.9);
+        }
+
+        .strategy-label {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #ffd700;
+        }
+
+        .strategy-text {
+            margin-bottom: 15px;
+        }
+
+        .result-label {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #90ee90;
+        }
+
+        .result-text {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .click-hint {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8em;
+            color: #666;
+            opacity: 0.7;
+        }
+
+        .card-back .click-hint {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .controls {
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #e9ecef;
+            background: #f8f9fa;
+        }
+
+        .btn {
+            background: #034638;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: Georgia, serif;
+            font-size: 1em;
+            transition: background 0.3s ease;
+            margin: 0 5px;
+        }
+
+        .btn:hover {
+            background: #025a44;
+        }
+
+        .summary {
+            padding: 15px 20px;
+            background: #e8f5e8;
+            border-left: 4px solid #034638;
+            margin: 20px;
+            border-radius: 0 6px 6px 0;
+            display: none;
+        }
+
+        .summary.show {
+            display: block;
+        }
+
+        .summary h4 {
+            color: #034638;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 480px) {
+            .segments-container {
+                grid-template-columns: 1fr;
+                padding: 20px 15px;
+            }
+
+            .segment-card {
+                min-height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="dp-wrapper" class="dp-wrapper">
+        <div class="dp-content-block content-block" data-category="" data-title="Understanding Data - From Raw Data to Actionable Insights">
+            <h2 class="dp-has-icon"><i class="dp-icon fas fa-database" aria-hidden="true"></i>&nbsp;Understanding Data</h2>
+            <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+                <div class="card-body">
+                    <h5 class="card-title dp-ignore-theme">The Foundation of AI</h5>
+                    <p>Data is the fuel that powers AI. This page walks the journey from <em>raw data → information → predictions → actions</em> and introduces "big data" as the scale shift that enables modern AI.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="dp-content-block content-block" data-title="From Raw Data to Actionable Insights: The Data Science Process">
+            <h2 class="dp-has-icon"><i class="dp-icon fas fa-route" aria-hidden="true"></i>&nbsp;From Raw Data to Actionable Insights</h2>
+            <div class="dp-card card" style="border-left: 4px solid #582C83; padding-left: 15px;">
+                <div class="card-body">
+                    <h5 class="card-title dp-ignore-theme">Real-World Success Story</h5>
+                    <p>A supermarket chain moved from generic promos to data-driven, personalized offers. Below, explore how raw data → segments → targeted actions → measurable lift.</p>
+                </div>
+            </div>
+
+            <h3>The Business Challenge</h3>
+            <p>Generic promotions underperformed and retention slipped. The team reframed the problem: <em>Which customers respond to what, and when?</em> They inventoried data sources and redesigned offers accordingly.</p>
+
+            <details class="canvas-collapsible">
+                <summary>Raw Data Sources Identified</summary>
+                <div class="collapsible-content">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Purchase history across all store locations and periods</li>
+                        <li class="list-group-item">Demographic information from loyalty programs</li>
+                        <li class="list-group-item">Seasonality patterns by product and customer type</li>
+                        <li class="list-group-item">Time-of-day transaction data (shopping preferences)</li>
+                    </ul>
+                </div>
+            </details>
+
+            <div class="dp-card card h-100 w-100">
+                <h5 class="card-header dp-ignore-theme">Interactive Customer Segmentation Explorer</h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Explore three distinct segments discovered through analysis</li>
+                    <li class="list-group-item">See how behavioural patterns differ from demographics</li>
+                    <li class="list-group-item">Understand the strategy levers for each segment</li>
+                </ul>
+            </div>
+
+            <!-- EMBEDDED WIDGET - No iframe needed -->
+            <div class="widget-section">
+                <div class="widget-container">
+                    <div class="widget-header">
+                        <h2>Supermarket Customer Segmentation Results</h2>
+                        <p>Click each customer segment to see their personalized strategy and business results</p>
+                    </div>
+
+                    <div class="segments-container">
+                        <div class="segment-card" data-segment="professionals">
+                            <div class="card-front">
+                                <div class="segment-icon">💼</div>
+                                <div class="segment-title">Professionals</div>
+                                <div class="segment-description">Busy working professionals who value convenience and efficiency in their shopping experience.</div>
+                                <div class="click-hint">Click to see strategy →</div>
+                            </div>
+                            <div class="card-back">
+                                <div class="segment-icon">💼</div>
+                                <div class="segment-title">Professionals</div>
+                                <div class="strategy-label">Personalized Strategy:</div>
+                                <div class="strategy-text">Time-saving product bundles and express checkout</div>
+                                <div class="result-label">Business Result:</div>
+                                <div class="result-text">35% increase in basket size</div>
+                                <div class="click-hint">Click to flip back</div>
+                            </div>
+                        </div>
+
+                        <div class="segment-card" data-segment="families">
+                            <div class="card-front">
+                                <div class="segment-icon">👨‍👩‍👧‍👦</div>
+                                <div class="segment-title">Families</div>
+                                <div class="segment-description">Multi-person households focused on value, variety, and meal planning for the week.</div>
+                                <div class="click-hint">Click to see strategy →</div>
+                            </div>
+                            <div class="card-back">
+                                <div class="segment-icon">👨‍👩‍👧‍👦</div>
+                                <div class="segment-title">Families</div>
+                                <div class="strategy-label">Personalized Strategy:</div>
+                                <div class="strategy-text">Weekly bulk discount offers and meal planning tools</div>
+                                <div class="result-label">Business Result:</div>
+                                <div class="result-text">28% increase in visit frequency</div>
+                                <div class="click-hint">Click to flip back</div>
+                            </div>
+                        </div>
+
+                        <div class="segment-card" data-segment="seniors">
+                            <div class="card-front">
+                                <div class="segment-icon">👵</div>
+                                <div class="segment-title">Seniors</div>
+                                <div class="segment-description">Older customers who appreciate personal service and familiar, trusted products.</div>
+                                <div class="click-hint">Click to see strategy →</div>
+                            </div>
+                            <div class="card-back">
+                                <div class="segment-icon">👵</div>
+                                <div class="segment-title">Seniors</div>
+                                <div class="strategy-label">Personalized Strategy:</div>
+                                <div class="strategy-text">Service-focused promotions and familiar product emphasis</div>
+                                <div class="result-label">Business Result:</div>
+                                <div class="result-text">42% improvement in satisfaction</div>
+                                <div class="click-hint">Click to flip back</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="summary" id="summary">
+                        <h4>Key Learning:</h4>
+                        <p>Data analysis revealed these three distinct customer segments that weren't obvious from traditional demographic analysis. By personalizing strategies to each segment's specific needs, the supermarket achieved a <strong>23% overall sales increase</strong> while improving customer satisfaction across all segments.</p>
+                    </div>
+
+                    <div class="controls">
+                        <button class="btn" id="showAllBtn">Show All Results</button>
+                        <button class="btn" id="resetBtn">Reset Cards</button>
+                    </div>
+                </div>
+            </div>
+
+            <blockquote>
+                <p><strong>Key Discovery:</strong> <em>Three behaviour-based segments emerged that weren't obvious from traditional demographics.</em></p>
+                <p><strong>Time Estimate:</strong> 3–4 minutes of exploration</p>
+            </blockquote>
+
+            <h3>Targeted Actions &amp; Business Results</h3>
+            <details class="canvas-collapsible">
+                <summary>Customer Segmentation Results</summary>
+                <div class="collapsible-content">
+                    <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Customer segmentation results showing strategy and business outcomes for each segment">
+                        <caption>Supermarket Customer Segmentation — Strategies and Business Results</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Customer Segment</th>
+                                <th scope="col">Personalized Strategy</th>
+                                <th scope="col">Business Result</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row"><strong>Professionals</strong></th>
+                                <td>Time-saving bundles; express checkout</td>
+                                <td>35% increase in basket size</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><strong>Families</strong></th>
+                                <td>Weekly bulk offers; meal-planning tools</td>
+                                <td>28% increase in visit frequency</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><strong>Seniors</strong></th>
+                                <td>Service-focused promos; familiar product emphasis</td>
+                                <td>42% improvement in satisfaction</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </details>
+
+            <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+                <div class="card-body">
+                    <h5 class="card-title dp-ignore-theme">Overall Business Impact</h5>
+                    <p><strong>Quantified Results:</strong> Personalization delivered a <em>23% overall sales increase</em> while improving customer satisfaction across all segments.</p>
+                    <p><strong>Strategic Learning:</strong> Data science can create a win-win: more relevant experiences for customers and higher profitability for the firm.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const cards = document.querySelectorAll('.segment-card');
+        const showAllBtn = document.getElementById('showAllBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const summary = document.getElementById('summary');
+
+        let flippedCount = 0;
+
+        function flipCard(card) {
+            if (!card.classList.contains('flipped')) {
+                card.classList.add('flipped');
+                card.classList.add('active');
+                flippedCount++;
+
+                if (flippedCount === 3) {
+                    setTimeout(() => {
+                        summary.classList.add('show');
+                        summary.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'center'
+                        });
+                    }, 500);
+                }
+            } else {
+                card.classList.remove('flipped');
+                card.classList.remove('active');
+                if (flippedCount > 0) flippedCount--;
+
+                if (flippedCount < 3) {
+                    summary.classList.remove('show');
+                }
+            }
+        }
+
+        function showAllResults() {
+            cards.forEach(card => {
+                if (!card.classList.contains('flipped')) {
+                    setTimeout(() => flipCard(card), Math.random() * 500);
+                }
+            });
+        }
+
+        function resetAllCards() {
+            cards.forEach(card => {
+                card.classList.remove('flipped');
+                card.classList.remove('active');
+            });
+            flippedCount = 0;
+            summary.classList.remove('show');
+        }
+
+        // Event listeners
+        cards.forEach(card => {
+            card.addEventListener('click', () => flipCard(card));
+        });
+
+        showAllBtn.addEventListener('click', showAllResults);
+        resetBtn.addEventListener('click', resetAllCards);
+    </script>
+</body>
+</html>

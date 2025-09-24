@@ -1,11 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(find:*)",
-      "Bash(for:*)",
-      "Bash(do echo \"=== $file ===\")",
-      "Bash(grep:*)",
-      "Bash(done)"
+      "Bash(git remote get-url:*)",
+      "Bash(start canvas-to-scorm-converter-fixed.html)",
+      "Bash(start \"C:\\Users\\jkruck\\Ivey Business School\\EdTech Lab - Documents\\Github\\AI Prototyping Learn\\demos\\widgets\\canvas-to-scorm-converter-fixed.html\")",
+      "Bash(copy:*)",
+      "Bash(start \"C:\\Users\\jkruck\\Ivey Business School\\EdTech Lab - Documents\\Github\\AI Prototyping Learn\\demos\\widgets\\create-test-scorm-package.html\")"
     ],
     "deny": [],
     "ask": []
