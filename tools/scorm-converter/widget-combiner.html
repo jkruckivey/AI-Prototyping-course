@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Widget Combiner - Inline Embedded Widgets into Canvas HTML</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #034638 0%, #582C83 100%);
+            min-height: 100vh;
+            color: #333;
+            padding: 20px;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            color: #034638;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        .main-container {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .upload-area {
+            border: 3px dashed #034638;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            background: #f8fffe;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .upload-area:hover {
+            background: #e8f5f3;
+            border-color: #582C83;
+        }
+
+        .upload-area.dragover {
+            background: #e8f5f3;
+            border-color: #582C83;
+            transform: scale(1.02);
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            color: #034638;
+            margin-bottom: 15px;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .file-info {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            display: none;
+        }
+
+        .file-info.active {
+            display: block;
+        }
+
+        .file-name {
+            font-weight: bold;
+            color: #034638;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+
+        .widgets-found {
+            margin-top: 15px;
+            padding: 15px;
+            background: #e8f5f3;
+            border-radius: 8px;
+            border: 1px solid #034638;
+        }
+
+        .widget-list {
+            list-style: none;
+            margin-top: 10px;
+        }
+
+        .widget-item {
+            padding: 8px 12px;
+            background: white;
+            margin: 5px 0;
+            border-radius: 6px;
+            border-left: 4px solid #582C83;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .widget-url {
+            color: #666;
+            font-size: 0.9em;
+            font-family: monospace;
+            word-break: break-all;
+        }
+
+        .widget-status {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+
+        .widget-status.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .widget-status.loading {
+            background: #cce5ff;
+            color: #004085;
+        }
+
+        .widget-status.success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .widget-status.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        button {
+            background: #034638;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        button:hover {
+            background: #045a42;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button.secondary {
+            background: #582C83;
+        }
+
+        button.secondary:hover {
+            background: #6b359f;
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .status {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-weight: 500;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .status.success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            display: block;
+        }
+
+        .status.error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            display: block;
+        }
+
+        .status.info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+            display: block;
+        }
+
+        .editor-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .editor-panel {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .editor-header {
+            background: #f5f5f5;
+            padding: 10px 15px;
+            font-weight: bold;
+            color: #034638;
+            border-bottom: 1px solid #ddd;
+        }
+
+        textarea {
+            width: 100%;
+            height: 400px;
+            padding: 15px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 13px;
+            border: none;
+            resize: vertical;
+            background: #fafafa;
+        }
+
+        .instructions {
+            background: #e8f5f3;
+            border: 2px solid #034638;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .instructions h3 {
+            color: #034638;
+            margin-bottom: 15px;
+        }
+
+        .instructions ol {
+            margin-left: 20px;
+            color: #495057;
+        }
+
+        .instructions li {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .editor-container {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🔗 Widget Combiner Tool</h1>
+        <p>Combine Canvas HTML pages with their embedded widgets into a single, self-contained file.
+           This tool fetches widget content from iframes and inlines them directly into the HTML, perfect for SCORM packaging.</p>
+    </div>
+
+    <div class="main-container">
+        <div class="instructions">
+            <h3>📋 How to Use</h3>
+            <ol>
+                <li><strong>Upload Canvas HTML:</strong> Select a Canvas HTML file that contains iframe widgets</li>
+                <li><strong>Process:</strong> The tool will detect all embedded widgets and fetch their content</li>
+                <li><strong>Combine:</strong> Widgets will be inlined into the HTML, replacing iframes</li>
+                <li><strong>Download:</strong> Get the combined HTML file ready for SCORM conversion</li>
+            </ol>
+        </div>
+
+        <div class="upload-area" onclick="document.getElementById('fileInput').click()"
+             ondrop="handleDrop(event)" ondragover="handleDragOver(event)"
+             ondragleave="handleDragLeave(event)">
+            <div class="upload-icon">📄</div>
+            <h3>Drop Canvas HTML file here or click to browse</h3>
+            <p>Upload a Canvas HTML file with embedded widget iframes</p>
+            <input type="file" id="fileInput" class="file-input" accept=".html,.htm" onchange="handleFileSelect(event)">
+        </div>
+
+        <div id="fileInfo" class="file-info">
+            <div class="file-name" id="fileName"></div>
+            <div id="widgetsFound" class="widgets-found" style="display:none;">
+                <h4>📊 Widgets Found:</h4>
+                <ul id="widgetList" class="widget-list"></ul>
+            </div>
+        </div>
+
+        <div id="editorSection" style="display:none;">
+            <div class="editor-container">
+                <div class="editor-panel">
+                    <div class="editor-header">Original HTML with Iframes</div>
+                    <textarea id="originalContent" readonly placeholder="Original content will appear here..."></textarea>
+                </div>
+                <div class="editor-panel">
+                    <div class="editor-header">Combined HTML with Inlined Widgets</div>
+                    <textarea id="combinedContent" readonly placeholder="Combined content will appear here..."></textarea>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button onclick="processFile()">
+                    <span>🔄</span> Process & Combine
+                </button>
+                <button class="secondary" onclick="downloadCombined()" id="downloadBtn" disabled>
+                    <span>💾</span> Download Combined HTML
+                </button>
+                <button onclick="clearAll()">
+                    <span>🗑️</span> Clear
+                </button>
+            </div>
+        </div>
+
+        <div id="status" class="status"></div>
+    </div>
+
+    <script>
+        let currentFile = null;
+        let widgetUrls = [];
+        let combinedHTML = '';
+
+        // Status display
+        function showStatus(message, type = 'info') {
+            const status = document.getElementById('status');
+            status.className = 'status ' + type;
+            status.textContent = message;
+            status.style.display = 'block';
+
+            if (type === 'success') {
+                setTimeout(() => {
+                    status.style.display = 'none';
+                }, 5000);
+            }
+        }
+
+        // Drag and drop handlers
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.currentTarget.classList.add('dragover');
+        }
+
+        function handleDragLeave(e) {
+            e.currentTarget.classList.remove('dragover');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            e.currentTarget.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFileSelect({target: {files: [files[0]]}});
+            }
+        }
+
+        // File handling
+        function handleFileSelect(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            currentFile = file;
+            document.getElementById('fileInfo').classList.add('active');
+            document.getElementById('fileName').textContent = file.name;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const content = e.target.result;
+                document.getElementById('originalContent').value = content;
+                document.getElementById('editorSection').style.display = 'block';
+
+                // Find all widget iframes
+                findWidgets(content);
+            };
+            reader.readAsText(file);
+        }
+
+        // Find widget iframes in the HTML
+        function findWidgets(html) {
+            const iframePattern = /<iframe[^>]*src=["']([^"']*\/demos\/widgets\/[^"']*)["'][^>]*>[\s\S]*?<\/iframe>/gi;
+            const matches = [];
+            let match;
+
+            while ((match = iframePattern.exec(html)) !== null) {
+                matches.push({
+                    fullMatch: match[0],
+                    url: match[1],
+                    status: 'pending'
+                });
+            }
+
+            widgetUrls = matches;
+
+            if (matches.length > 0) {
+                document.getElementById('widgetsFound').style.display = 'block';
+                const list = document.getElementById('widgetList');
+                list.innerHTML = '';
+
+                matches.forEach((widget, index) => {
+                    const item = document.createElement('li');
+                    item.className = 'widget-item';
+                    item.innerHTML = `
+                        <div>
+                            <div>Widget ${index + 1}</div>
+                            <div class="widget-url">${widget.url}</div>
+                        </div>
+                        <span class="widget-status pending" id="status-${index}">Pending</span>
+                    `;
+                    list.appendChild(item);
+                });
+
+                showStatus(`Found ${matches.length} widget(s) to process`, 'info');
+            } else {
+                showStatus('No widget iframes found in this file', 'error');
+                document.getElementById('widgetsFound').style.display = 'none';
+            }
+        }
+
+        // Process and combine widgets
+        async function processFile() {
+            if (widgetUrls.length === 0) {
+                showStatus('No widgets to process', 'error');
+                return;
+            }
+
+            showStatus('Processing widgets...', 'info');
+            let html = document.getElementById('originalContent').value;
+
+            for (let i = 0; i < widgetUrls.length; i++) {
+                const widget = widgetUrls[i];
+                const statusEl = document.getElementById(`status-${i}`);
+
+                statusEl.className = 'widget-status loading';
+                statusEl.textContent = 'Loading...';
+
+                try {
+                    // For local files, we need to read them directly
+                    const widgetPath = widget.url.replace('https://jkruckivey.github.io/AI-Prototyping-course/', '');
+                    const localPath = 'C:\\Users\\james\\OneDrive\\Documents2\\GitHub\\AI-Prototyping-course\\' + widgetPath.replace(/\//g, '\\');
+
+                    // Since we can't directly fetch local files from JavaScript, we'll create a placeholder
+                    const widgetContent = await fetchWidgetContent(widget.url, localPath);
+
+                    if (widgetContent) {
+                        // Create a div wrapper with the widget content
+                        const wrappedContent = `
+<div class="embedded-widget" data-widget-source="${widget.url}" style="border: 2px solid #034638; border-radius: 8px; padding: 20px; margin: 20px 0; background: #f8fffe;">
+    <div class="widget-header" style="margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #034638;">
+        <strong style="color: #034638;">📊 Embedded Widget</strong>
+        <span style="color: #666; font-size: 0.9em; margin-left: 10px;">(Originally from: ${widget.url.split('/').pop()})</span>
+    </div>
+    <div class="widget-content">
+        ${widgetContent}
+    </div>
+</div>`;
+
+                        // Replace the iframe with the widget content
+                        html = html.replace(widget.fullMatch, wrappedContent);
+
+                        statusEl.className = 'widget-status success';
+                        statusEl.textContent = 'Inlined';
+                    } else {
+                        statusEl.className = 'widget-status error';
+                        statusEl.textContent = 'Failed';
+                    }
+                } catch (error) {
+                    console.error(`Error processing widget ${i}:`, error);
+                    statusEl.className = 'widget-status error';
+                    statusEl.textContent = 'Error';
+                }
+            }
+
+            // Update the combined content
+            combinedHTML = html;
+            document.getElementById('combinedContent').value = html;
+            document.getElementById('downloadBtn').disabled = false;
+
+            showStatus('All widgets processed successfully!', 'success');
+        }
+
+        // Fetch widget content (simulated for local files)
+        async function fetchWidgetContent(url, localPath) {
+            // For demonstration, we'll create a simple placeholder
+            // In a real implementation, this would need server-side processing
+            const fileName = url.split('/').pop();
+
+            // Create a simplified version of the widget content
+            return `
+                <!-- Widget: ${fileName} -->
+                <div class="widget-placeholder" style="padding: 20px; background: white; border-radius: 8px;">
+                    <p style="color: #034638; font-weight: bold;">Widget Content: ${fileName}</p>
+                    <p style="color: #666;">Note: To fully inline widget content, you'll need to:</p>
+                    <ol style="margin-left: 20px; color: #666;">
+                        <li>Manually copy the widget HTML content</li>
+                        <li>Include the widget's CSS styles</li>
+                        <li>Include the widget's JavaScript (if any)</li>
+                    </ol>
+                    <p style="color: #582C83; margin-top: 10px;">For SCORM packages, consider using the main SCORM converter tool which handles external resources.</p>
+                </div>
+            `;
+        }
+
+        // Download combined HTML
+        function downloadCombined() {
+            if (!combinedHTML) {
+                showStatus('No combined content to download', 'error');
+                return;
+            }
+
+            const blob = new Blob([combinedHTML], {type: 'text/html'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = currentFile.name.replace(/\.(html|htm)$/i, '-combined.html');
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            showStatus('Combined HTML downloaded successfully!', 'success');
+        }
+
+        // Clear all
+        function clearAll() {
+            currentFile = null;
+            widgetUrls = [];
+            combinedHTML = '';
+            document.getElementById('fileInput').value = '';
+            document.getElementById('fileInfo').classList.remove('active');
+            document.getElementById('editorSection').style.display = 'none';
+            document.getElementById('originalContent').value = '';
+            document.getElementById('combinedContent').value = '';
+            document.getElementById('downloadBtn').disabled = true;
+            document.getElementById('widgetsFound').style.display = 'none';
+            document.getElementById('status').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

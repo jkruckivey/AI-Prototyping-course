@@ -1,0 +1,698 @@
+<!-- Skip link for keyboard users -->
+<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<main id="main-content" role="main">
+<div id="dp-wrapper" class="dp-wrapper">
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;" aria-hidden="true">Icon Progress Bar (browser only)</div>
+
+  <div class="dp-content-block content-block" data-title="Logistic Regression & Decision Thresholds">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-adjust" aria-hidden="true"></i>&nbsp;From Probabilities to Decisions</h2>
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+      <div class="card-body">
+        <h3 class="card-title dp-ignore-theme">What this page covers</h3>
+        <p>How logistic regression turns features into <strong>probabilities</strong>, why the <strong>decision threshold</strong> matters, and how to tune it to business costs under <strong>class imbalance</strong>.</p>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="dp-content-block content-block" data-title="From Linear Score to Probability">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-signal" aria-hidden="true"></i>&nbsp;From Linear Score to Probability</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="lg-sigmoid" id="lg-sigmoid-heading">Sigmoid intuition</h3>
+        <div id="lg-sigmoid" class="dp-panel-content" role="region" aria-labelledby="lg-sigmoid-heading" hidden>
+          <p>Logistic regression fits an <em>S‑shaped</em> curve that maps input combinations to a value between <strong>0 and 1</strong>. Interpret this as the model's estimated probability of the positive class.</p>
+          <p class="mb-0">A final class label requires a <em>threshold</em> (e.g., 0.5 by default).</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="lg-loss" id="lg-loss-heading">Training signal (loss)</h3>
+        <div id="lg-loss" class="dp-panel-content" role="region" aria-labelledby="lg-loss-heading" hidden>
+          <p>During training the model adjusts parameters to reduce classification error according to a chosen <em>loss function</em> (e.g., squared error in our recap). The key output for practice is the calibrated probability and the ability to set a threshold.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="Thresholds & Business Trade‑offs">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-sliders-h" aria-hidden="true"></i>&nbsp;Thresholds &amp; Business Trade‑offs</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="thresh-why" id="thresh-why-heading">Why thresholds matter</h3>
+        <div id="thresh-why" class="dp-panel-content" role="region" aria-labelledby="thresh-why-heading" hidden>
+          <p>Moving the threshold changes how many positives you predict. Lowering it usually <strong>catches more positives</strong> (higher recall) but increases false alarms (lower precision). Raising it does the opposite.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="thresh-cost" id="thresh-cost-heading">Tie to business cost</h3>
+        <div id="thresh-cost" class="dp-panel-content" role="region" aria-labelledby="thresh-cost-heading" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>False Positive cost</strong> (e.g., contacting a non‑churner): staff time, customer annoyance.</li>
+            <li class="list-group-item"><strong>False Negative cost</strong> (missed churner): lost revenue, retention spend later.</li>
+            <li class="list-group-item">Pick the threshold that minimizes <em>expected cost</em> for your context.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="thresh-imbalance" id="thresh-imbalance-heading">Class imbalance</h3>
+        <div id="thresh-imbalance" class="dp-panel-content" role="region" aria-labelledby="thresh-imbalance-heading" hidden>
+          <p>When the positive class is rare, accuracy can be misleading. Focus on <strong>precision/recall</strong> (and PR curves) and consider resampling or class‑weighted training.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="Interactive: Threshold Tuner">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive: Threshold Tuner</h2>
+    <p class="mt-2"><em>Try it:</em> Slide the threshold to see how precision, recall, and total cost change under different class balances.</p>
+
+    <!-- Embedded Threshold Tuner Widget -->
+    <div class="embedded-widget" style="background: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin: 20px 0;">
+      <style>
+        .embedded-widget body {
+            background: var(--bg-light);
+            padding: 20px;
+        }
+
+        .embedded-widget .widget-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .embedded-widget .header {
+            background: #034638;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .embedded-widget .header h2 {
+            font-size: 1.4em;
+            margin-bottom: 8px;
+            color: white;
+        }
+
+        .embedded-widget .header p {
+            opacity: 0.9;
+            font-size: 0.9em;
+            color: white;
+        }
+
+        .embedded-widget .threshold-control {
+            padding: 25px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .embedded-widget .threshold-label {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .embedded-widget .threshold-slider-container {
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .embedded-widget .threshold-slider {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: linear-gradient(to right, #ef4444 0%, #f97316 50%, #10b981 100%);
+            outline: none;
+            -webkit-appearance: none;
+            position: relative;
+        }
+
+        .embedded-widget .threshold-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            border: 3px solid #034638;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
+
+        .embedded-widget .threshold-slider::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            border: 3px solid #034638;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
+
+        .embedded-widget .threshold-value {
+            background: white;
+            border: 2px solid #034638;
+            color: #034638;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 1.1em;
+            text-align: center;
+            margin-top: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .embedded-widget .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            font-size: 0.8em;
+            color: #6b7280;
+        }
+
+        .embedded-widget .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            padding: 20px;
+            background: white;
+        }
+
+        .embedded-widget .metric-card {
+            background: #f8f9fa;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .embedded-widget .metric-card.precision {
+            border-left: 4px solid #582C83;
+        }
+
+        .embedded-widget .metric-card.recall {
+            border-left: 4px solid #f97316;
+        }
+
+        .embedded-widget .metric-value {
+            font-size: 2em;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .embedded-widget .metric-card.precision .metric-value {
+            color: #582C83;
+        }
+
+        .embedded-widget .metric-card.recall .metric-value {
+            color: #f97316;
+        }
+
+        .embedded-widget .metric-label {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .embedded-widget .metric-description {
+            font-size: 0.8em;
+            color: #6b7280;
+            line-height: 1.3;
+        }
+
+        .embedded-widget .confusion-matrix-section {
+            padding: 20px;
+            background: #f8f9fa;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .embedded-widget .confusion-matrix-title {
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: 600;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .embedded-widget .confusion-matrix {
+            display: grid;
+            grid-template-columns: 80px 1fr 1fr;
+            gap: 2px;
+            background: #d1d5db;
+            border-radius: 8px;
+            overflow: hidden;
+            max-width: 300px;
+            margin: 0 auto;
+            font-size: 0.9em;
+        }
+
+        .embedded-widget .cm-cell {
+            background: white;
+            padding: 12px 8px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .embedded-widget .cm-header {
+            background: #034638;
+            color: white;
+            font-weight: 600;
+            font-size: 0.8em;
+        }
+
+        .embedded-widget .cm-label {
+            background: #e5e7eb;
+            font-weight: 600;
+            font-size: 0.8em;
+            color: #2c3e50;
+        }
+
+        .embedded-widget .cm-tp {
+            background: rgba(16, 185, 129, 0.1);
+            color: #059669;
+            font-weight: 700;
+        }
+
+        .embedded-widget .cm-fp {
+            background: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+            font-weight: 700;
+        }
+
+        .embedded-widget .cm-fn {
+            background: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+            font-weight: 700;
+        }
+
+        .embedded-widget .cm-tn {
+            background: rgba(16, 185, 129, 0.1);
+            color: #059669;
+            font-weight: 700;
+        }
+
+        .embedded-widget .interpretation {
+            background: linear-gradient(135deg, #e0f2fe, #f0f9f6);
+            border-left: 4px solid #034638;
+            padding: 15px;
+            margin: 20px;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .embedded-widget .interpretation h4 {
+            color: #034638;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .embedded-widget .interpretation-text {
+            font-size: 0.9em;
+            color: #6b7280;
+            line-height: 1.4;
+        }
+
+        .embedded-widget .threshold-presets {
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .embedded-widget .presets-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .embedded-widget .preset-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .embedded-widget .preset-btn {
+            padding: 8px 12px;
+            border: 2px solid #d1d5db;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8em;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            color: #2c3e50;
+        }
+
+        .embedded-widget .preset-btn:hover {
+            border-color: #034638;
+            background: #f8f9fa;
+        }
+
+        .embedded-widget .preset-btn.conservative {
+            border-color: #582C83;
+            color: #582C83;
+        }
+
+        .embedded-widget .preset-btn.balanced {
+            border-color: #034638;
+            color: #034638;
+        }
+
+        .embedded-widget .preset-btn.aggressive {
+            border-color: #f97316;
+            color: #f97316;
+        }
+
+        .embedded-widget .trade-off-indicator {
+            margin: 15px 0;
+            padding: 12px;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        .embedded-widget .trade-off-indicator.high-precision {
+            background: rgba(88, 44, 131, 0.1);
+            border: 1px solid #582C83;
+            color: #582C83;
+        }
+
+        .embedded-widget .trade-off-indicator.balanced {
+            background: rgba(3, 70, 56, 0.1);
+            border: 1px solid #034638;
+            color: #034638;
+        }
+
+        .embedded-widget .trade-off-indicator.high-recall {
+            background: rgba(249, 115, 22, 0.1);
+            border: 1px solid #f97316;
+            color: #f97316;
+        }
+
+        @media (max-width: 480px) {
+            .embedded-widget .metrics-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .embedded-widget .confusion-matrix {
+                font-size: 0.8em;
+            }
+
+            .embedded-widget .preset-buttons {
+                flex-direction: column;
+            }
+        }
+      </style>
+
+      <div class="widget-container">
+        <div class="header">
+            <h2><i class="fas fa-sliders-h" aria-hidden="true"></i> Threshold Tuner</h2>
+            <p>Explore the precision vs recall trade-off</p>
+        </div>
+
+        <div class="threshold-control">
+            <div class="threshold-label">
+                <i class="fas fa-balance-scale"></i>
+                <span>Classification Threshold</span>
+            </div>
+            <div class="threshold-slider-container">
+                <input type="range" class="threshold-slider" id="threshold-slider"
+                       min="0.1" max="0.9" value="0.5" step="0.05">
+                <div class="slider-labels">
+                    <span>Conservative (0.1)</span>
+                    <span>Aggressive (0.9)</span>
+                </div>
+            </div>
+            <div class="threshold-value" id="threshold-value">0.50</div>
+            <div class="trade-off-indicator balanced" id="trade-off-indicator">
+                <i class="fas fa-balance-scale"></i> Balanced Approach
+            </div>
+        </div>
+
+        <div class="metrics-grid">
+            <div class="metric-card precision">
+                <div class="metric-value" id="precision-value">0.75</div>
+                <div class="metric-label">Precision</div>
+                <div class="metric-description">
+                    Of predicted positives, how many were actually positive?
+                </div>
+            </div>
+            <div class="metric-card recall">
+                <div class="metric-value" id="recall-value">0.80</div>
+                <div class="metric-label">Recall</div>
+                <div class="metric-description">
+                    Of actual positives, how many did we correctly identify?
+                </div>
+            </div>
+        </div>
+
+        <div class="confusion-matrix-section">
+            <div class="confusion-matrix-title">
+                <i class="fas fa-table"></i>
+                <span>Confusion Matrix</span>
+            </div>
+            <div class="confusion-matrix">
+                <div class="cm-cell cm-header"></div>
+                <div class="cm-cell cm-header">Pred Positive</div>
+                <div class="cm-cell cm-header">Pred Negative</div>
+
+                <div class="cm-cell cm-label">Actual Positive</div>
+                <div class="cm-cell cm-tp" id="tp-cell">60</div>
+                <div class="cm-cell cm-fn" id="fn-cell">15</div>
+
+                <div class="cm-cell cm-label">Actual Negative</div>
+                <div class="cm-cell cm-fp" id="fp-cell">20</div>
+                <div class="cm-cell cm-tn" id="tn-cell">105</div>
+            </div>
+        </div>
+
+        <div class="interpretation">
+            <h4>
+                <i class="fas fa-lightbulb"></i>
+                <span id="interpretation-title">Balanced Trade-off</span>
+            </h4>
+            <div class="interpretation-text" id="interpretation-text">
+                This threshold provides a good balance between precision and recall.
+                You're catching most positive cases while keeping false positives manageable.
+            </div>
+        </div>
+
+        <div class="threshold-presets">
+            <div class="presets-title">
+                <i class="fas fa-magic"></i>
+                <span>Quick Presets</span>
+            </div>
+            <div class="preset-buttons">
+                <button class="preset-btn conservative" onclick="setThreshold(0.7)">
+                    High Precision (0.7)
+                </button>
+                <button class="preset-btn balanced" onclick="setThreshold(0.5)">
+                    Balanced (0.5)
+                </button>
+                <button class="preset-btn aggressive" onclick="setThreshold(0.3)">
+                    High Recall (0.3)
+                </button>
+            </div>
+        </div>
+      </div>
+
+      <script>
+        class ThresholdTuner {
+            constructor() {
+                // Simulated model scores for 200 samples
+                this.totalSamples = 200;
+                this.actualPositives = 75;  // True condition
+                this.actualNegatives = 125;
+
+                this.threshold = 0.5;
+
+                this.init();
+            }
+
+            init() {
+                this.bindEvents();
+                this.updateDisplay();
+            }
+
+            bindEvents() {
+                const slider = document.getElementById('threshold-slider');
+                slider.addEventListener('input', (e) => {
+                    this.threshold = parseFloat(e.target.value);
+                    this.updateDisplay();
+                });
+            }
+
+            // Simulate confusion matrix values based on threshold
+            calculateMetrics() {
+                // Simulate realistic behavior where lower threshold = higher recall, lower precision
+                const recallRate = Math.min(0.95, 0.4 + (0.9 - this.threshold) * 0.6);
+                const precisionRate = Math.min(0.95, 0.5 + (this.threshold - 0.1) * 0.5);
+
+                // Calculate confusion matrix
+                const tp = Math.round(this.actualPositives * recallRate);
+                const fn = this.actualPositives - tp;
+
+                // False positives depend on threshold and precision
+                const fp = Math.round(tp * (1 - precisionRate) / precisionRate);
+                const tn = this.actualNegatives - fp;
+
+                const precision = tp / (tp + fp);
+                const recall = tp / (tp + fn);
+
+                return { tp, fp, fn, tn, precision, recall };
+            }
+
+            updateDisplay() {
+                const metrics = this.calculateMetrics();
+
+                // Update threshold display
+                document.getElementById('threshold-value').textContent = this.threshold.toFixed(2);
+                document.getElementById('threshold-slider').value = this.threshold;
+
+                // Update metrics
+                document.getElementById('precision-value').textContent = metrics.precision.toFixed(2);
+                document.getElementById('recall-value').textContent = metrics.recall.toFixed(2);
+
+                // Update confusion matrix
+                document.getElementById('tp-cell').textContent = metrics.tp;
+                document.getElementById('fp-cell').textContent = metrics.fp;
+                document.getElementById('fn-cell').textContent = metrics.fn;
+                document.getElementById('tn-cell').textContent = metrics.tn;
+
+                // Update trade-off indicator
+                this.updateTradeOffIndicator(metrics);
+
+                // Update interpretation
+                this.updateInterpretation(metrics);
+            }
+
+            updateTradeOffIndicator(metrics) {
+                const indicator = document.getElementById('trade-off-indicator');
+
+                if (this.threshold >= 0.7) {
+                    indicator.className = 'trade-off-indicator high-precision';
+                    indicator.innerHTML = '<i class="fas fa-bullseye"></i> High Precision Mode';
+                } else if (this.threshold <= 0.3) {
+                    indicator.className = 'trade-off-indicator high-recall';
+                    indicator.innerHTML = '<i class="fas fa-search"></i> High Recall Mode';
+                } else {
+                    indicator.className = 'trade-off-indicator balanced';
+                    indicator.innerHTML = '<i class="fas fa-balance-scale"></i> Balanced Approach';
+                }
+            }
+
+            updateInterpretation(metrics) {
+                const title = document.getElementById('interpretation-title');
+                const text = document.getElementById('interpretation-text');
+
+                if (this.threshold >= 0.7) {
+                    title.textContent = 'Conservative Strategy';
+                    text.textContent = `High precision (${metrics.precision.toFixed(2)}) means you're very confident in positive predictions, but you might miss some cases (recall: ${metrics.recall.toFixed(2)}). Good for avoiding false alarms.`;
+                } else if (this.threshold <= 0.3) {
+                    title.textContent = 'Aggressive Strategy';
+                    text.textContent = `High recall (${metrics.recall.toFixed(2)}) means you're catching most positive cases, but with more false positives (precision: ${metrics.precision.toFixed(2)}). Good for not missing important cases.`;
+                } else {
+                    title.textContent = 'Balanced Strategy';
+                    text.textContent = `This threshold provides a good balance between precision (${metrics.precision.toFixed(2)}) and recall (${metrics.recall.toFixed(2)}). You're catching most positive cases while keeping false positives manageable.`;
+                }
+            }
+        }
+
+        // Global function for preset buttons
+        function setThreshold(value) {
+            const tuner = window.thresholdTuner;
+            tuner.threshold = value;
+            tuner.updateDisplay();
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            window.thresholdTuner = new ThresholdTuner();
+        });
+      </script>
+    </div>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="Evaluate Decisions (Confusion Matrix)">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-th-large" aria-hidden="true"></i>&nbsp;Evaluate Decisions (Confusion Matrix)</h2>
+    <div class="table-responsive">
+      <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Confusion matrix and definitions">
+        <caption>Binary classification outcomes at a chosen threshold</caption>
+        <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">Actual Positive</th>
+            <th scope="col">Actual Negative</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Predicted Positive</th>
+            <td>True Positive (TP)</td>
+            <td>False Positive (FP)</td>
+          </tr>
+          <tr>
+            <th scope="row">Predicted Negative</th>
+            <td>False Negative (FN)</td>
+            <td>True Negative (TN)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <ul class="mt-2">
+      <li><strong>Precision</strong> = TP / (TP + FP) — When we say "yes", how often are we right?</li>
+      <li><strong>Recall</strong> = TP / (TP + FN) — Of all the real positives, how many did we catch?</li>
+    </ul>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="Calibration (Optional)">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-thermometer-half" aria-hidden="true"></i>&nbsp;Probability Calibration (Optional)</h2>
+    <p>Well‑calibrated models have probabilities that match observed rates (e.g., predictions around 0.7 occur ~70% of the time). When probabilities are miscalibrated, threshold choices become unreliable—recalibrate or re‑train.</p>
+  </div>
+
+  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
+    <div class="card-body">
+      <h3 class="card-title">Helpful Tip</h3>
+      <p class="card-text">Set different thresholds for different segments if their costs differ (e.g., high‑value accounts vs. everyone else).</p>
+    </div>
+  </div>
+
+  <hr aria-hidden="true" />
+  <p>Select <strong>Next▸</strong> to continue.</p>
+</div>
+</main>
+
+<!-- Canvas‑safe toggling -->
+<script>
+(function () {
+  function toggleHead(h){
+    const content = document.getElementById(h.getAttribute('aria-controls'));
+    const expanded = h.getAttribute('aria-expanded') === 'true';
+    h.setAttribute('aria-expanded', String(!expanded));
+    if (content) content.hidden = expanded;
+  }
+  document.addEventListener('click', function (e) {
+    const h = e.target.closest('.dp-panel-heading[role="button"]');
+    if (h) toggleHead(h);
+  });
+  document.addEventListener('keydown', function (e) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role="button"]')) {
+      e.preventDefault(); toggleHead(e.target);
+    }
+  });
+})();
+</script>

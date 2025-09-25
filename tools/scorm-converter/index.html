@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Canvas → SCORM Converter (AMBA-Compatible) + Preview</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+  <!-- Tools for packaging -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+  <style>
+    :root { --brand:#034638; --muted:#f5f5f5; --ink:#2D3B45; --border:#e6e6e6; }
+    body { font-family:system-ui,Arial,sans-serif; background:var(--muted); color:var(--ink); margin:0; }
+    .wrap { max-width:1320px; margin:32px auto; padding:16px; }
+    header { display:flex; align-items:center; gap:12px; margin-bottom:16px; }
+    header h1 { margin:0; font-size:1.5rem; color:#1f2937; }
+    .grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    .card { background:#fff; border:1px solid var(--border); border-radius:10px; box-shadow:0 2px 6px rgba(0,0,0,.05); }
+    .card h2 { margin:0; padding:14px 16px; border-bottom:1px solid #eee; font-size:1.05rem; color:#1f2937; background:#fafafa; }
+    .card .body { padding:14px 16px; }
+    textarea { width:100%; min-height:260px; border:1px solid #ddd; border-radius:6px; padding:10px; font-family:ui-monospace,Consolas,monospace; }
+    .row { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0; align-items:center; }
+    .btn { background:#1f2937; color:#fff; border:0; border-radius:6px; padding:8px 12px; cursor:pointer; font-weight:600; }
+    .btn.secondary { background:#475569; }
+    .btn.ghost { background:#fff; color:#1f2937; border:1px solid #1f2937; }
+    .status { margin-top:10px; padding:10px; border-radius:6px; font-weight:600; }
+    .status.success { background:#E9F8F0; color:#1B5E20; border:1px solid #C6EED6; }
+    .status.error { background:#FDECEE; color:#7A1E1E; border:1px solid #F8C8CF; }
+    .status.warn { background:#FFF7E6; color:#7A5A00; border:1px solid #FFE4A3; }
+
+    /* Preview area */
+    .preview-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .preview-head { display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:8px; }
+    .preview-head h3 { margin:0; font-size:1rem; color:#1f2937; }
+    .preview-pane { border:1px solid #ddd; border-radius:8px; overflow:hidden; background:#fff; }
+    .preview-pane iframe { width:100%; height:520px; border:0; display:block; }
+    @media(max-width:980px){ .grid{grid-template-columns:1fr} .preview-grid{grid-template-columns:1fr} }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Canvas → SCORM Converter</h1>
+  </header>
+
+  <div class="grid">
+    <div class="card">
+      <h2>1) Paste Canvas HTML or load a file</h2>
+      <div class="body">
+        <div class="row">
+          <input id="fileInput" type="file" accept=".html,.htm,.txt"/>
+          <button id="loadSample" class="btn ghost" type="button">Load sample</button>
+        </div>
+        <textarea id="input" placeholder="Paste your Canvas HTML…"></textarea>
+        <div class="row">
+          <button id="convertBtn" class="btn" type="button">Convert to AMBA-compatible HTML</button>
+          <label style="display:flex;align-items:center;gap:6px;margin-left:auto">
+            <input type="checkbox" id="autoPreview" checked/> Auto-preview
+          </label>
+        </div>
+        <div id="status" class="status" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>2) Result</h2>
+      <div class="body">
+        <textarea id="output" readonly placeholder="Converted HTML will appear here…"></textarea>
+        <div class="row">
+          <button id="copyBtn" class="btn ghost" type="button">Copy</button>
+          <button id="downloadBtn" class="btn secondary" type="button">Download HTML</button>
+          <button id="zipBtn" class="btn" type="button">Build SCORM ZIP</button>
+          <button id="refreshPreview" class="btn ghost" type="button" title="Rebuild previews">Refresh previews</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h2>3) Preview</h2>
+    <div class="body">
+      <div class="preview-grid">
+        <div>
+          <div class="preview-head"><h3>Before (raw fragment)</h3></div>
+          <div class="preview-pane"><iframe id="beforeFrame" sandbox="allow-scripts allow-same-origin"></iframe></div>
+        </div>
+        <div>
+          <div class="preview-head"><h3>After (converted SCORM page)</h3></div>
+          <div class="preview-pane"><iframe id="afterFrame" sandbox="allow-scripts allow-same-origin"></iframe></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ---------- Status ----------
+function setStatus(msg,cls){const el=document.getElementById('status');el.className='status '+(cls||'');el.textContent=msg||'';}
+
+// ---------- Emoji map ----------
+const EMOJI_MAP=[
+  ['🗄️','database'],['🗄','database'],['🧠','brain'],['🚀','rocket'],['🎯','bullseye'],
+  ['✅','check-circle'],['⚠️','exclamation-triangle'],['⚠','exclamation-triangle']
+];
+function replaceEmoji(html){
+  for(const[e,fa]of EMOJI_MAP){
+    const rx=new RegExp(e.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'g');
+    html=html.replace(rx,`<i class="dp-icon fas fa-${fa}" aria-hidden="true"></i>`);
+  }
+  return html;
+}
+
+// ---------- AMBA-compatible stylesheet for exported pages (Canvas-like, neutral colors) ----------
+function getAmbaCompatStyles(){return `
+/* Base layout */
+html,body{margin:0;padding:10px;font-family:Lato,Arial,sans-serif;background:#f5f5f5;color:#2D3B45;line-height:1.6}
+#dp-wrapper,.dp-wrapper{max-width:1200px;margin:0 auto;background:#fff;padding:20px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+
+/* Headings (neutral) */
+h1,h2,h3,h4,h5,h6{font-weight:700;line-height:1.25;margin:20px 0 10px;color:#1f2937}
+h2{font-size:1.9rem} h3{font-size:1.45rem} h4{font-size:1.25rem}
+
+/* Content blocks — no LMS-unlike dividers */
+.dp-content-block,.content-block{padding:20px 0;border-bottom:0}
+.dp-content-block + .dp-content-block,.content-block + .content-block{margin-top:8px}
+#dp-wrapper hr{border:none;height:0;margin:16px 0}
+
+/* Icons (black) */
+.dp-has-icon{display:flex;align-items:center;gap:8px}
+.dp-icon{color:#111!important;font-size:1.2em}
+
+/* Cards */
+.dp-card,.card{background:#fff;border:1px solid rgba(0,0,0,.12);border-radius:.25rem;margin-bottom:1rem}
+.card-body{padding:1.25rem}
+.card-title{margin:0 0 .75rem;font-weight:600;color:#1f2937}
+
+/* ACCORDIONS (match LMS) */
+.dp-panels-wrapper{margin:12px 0}
+.dp-panel-group{border:1px solid #ccc;border-radius:4px;margin:0 0 10px;overflow:hidden}
+.dp-panel-heading{
+  background:#f0f0f0;border:1px solid #ccc;padding:8px 12px;margin:0;font-weight:600;
+  font-size:1rem;line-height:1.3;color:#1f2937;cursor:pointer;position:relative
+}
+.dp-panel-heading::after{content:"▾";position:absolute;right:12px;top:50%;transform:translateY(-50%);transition:transform .2s;color:#111}
+.dp-panel-heading[aria-expanded="true"]{background:#2e2e2e;color:#fff;border-color:#2e2e2e}
+.dp-panel-heading[aria-expanded="true"]::after{transform:translateY(-50%) rotate(180deg);color:#fff}
+.dp-panel-heading:focus-visible{outline:2px solid #2684ff;outline-offset:2px}
+.dp-panel-content{padding:14px;background:#fff}
+.dp-panel-content[hidden]{display:none!important}
+
+/* List rows (no bullets) */
+.list-group{display:flex;flex-direction:column;padding-left:0;margin:0;list-style:none}
+.list-group-item{list-style:none;padding:.75rem 1.25rem;background:#fff;border:1px solid rgba(0,0,0,.125);border-bottom:0}
+.list-group-item:last-child{border-bottom:1px solid rgba(0,0,0,.125)}
+
+/* Tables */
+.table-responsive{width:100%;overflow-x:auto}
+.ic-Table{width:100%;border-collapse:collapse;margin:12px 0}
+.ic-Table th,.ic-Table td{padding:.75rem;border-top:1px solid #dee2e6;text-align:left;vertical-align:top}
+.ic-Table thead th{background:#f8f9fa;border-bottom:2px solid #dee2e6}
+
+/* Callouts (neutral) */
+.dp-callout{
+  padding:15px;border-left:4px solid #111;background:#f9f9f9;border-radius:4px;margin:16px 0;
+  border:1px solid #e6e6e6;border-left-width:4px
+}
+.dp-callout h3{margin-top:0;color:#1f2937}
+
+/* Badges */
+.badge-chip{display:inline-block;padding:.25rem .5rem;border-radius:999px;background:#eff6ff;border:1px solid #dbeafe;margin-right:.25rem;color:#1f2937}
+
+/* SR-only */
+.sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+
+/* Responsive */
+@media(max-width:768px){#dp-wrapper,.dp-wrapper{padding:16px} h2{font-size:1.6rem} h3{font-size:1.25rem}}
+`;}
+
+// ---------- Normalize a fragment ----------
+function normalizeFragment(fragmentHTML){
+  const safe = replaceEmoji(fragmentHTML);
+  const doc = new DOMParser().parseFromString(`<div id="root">${safe}</div>`, 'text/html');
+  const root = doc.getElementById('root');
+
+  // Ensure wrapper
+  if (!root.querySelector('#dp-wrapper')) {
+    const w = doc.createElement('div'); w.id = 'dp-wrapper'; w.className='dp-wrapper';
+    w.innerHTML = root.innerHTML; root.innerHTML = ''; root.appendChild(w);
+  }
+
+  // Panels: enforce H3 headings + a11y
+  root.querySelectorAll('.dp-panel-group').forEach((group,i)=>{
+    let head = group.querySelector('.dp-panel-heading');
+    if (!head) {
+      head = Array.from(group.children).find(el=>!el.classList.contains('dp-panel-content'));
+      if (head) head.classList.add('dp-panel-heading');
+    }
+    if (!head) return;
+    if (head.tagName !== 'H3') {
+      const h3 = doc.createElement('H3'); h3.className = head.className;
+      for (const a of head.attributes) h3.setAttribute(a.name, a.value);
+      h3.innerHTML = head.innerHTML; head.replaceWith(h3); head = h3;
+    }
+    head.setAttribute('role','button'); head.setAttribute('tabindex','0');
+    if (!head.hasAttribute('aria-expanded')) head.setAttribute('aria-expanded','false');
+
+    let content = group.querySelector('.dp-panel-content');
+    if (!content) { content = doc.createElement('div'); content.className='dp-panel-content'; group.appendChild(content); }
+    if (!content.id) content.id = `panel-${i+1}`;
+    head.setAttribute('aria-controls', content.id);
+    content.setAttribute('role','region');
+    content.setAttribute('aria-labelledby', content.id);
+    if (!content.hasAttribute('hidden')) content.hidden = true;
+  });
+
+  // Card titles: H3 outside panels, H4 inside panels
+  root.querySelectorAll('.card-title').forEach(el=>{
+    const inPanel = el.closest('.dp-panel-content');
+    const want = inPanel ? 'H4' : 'H3';
+    if (el.tagName !== want) { const h = doc.createElement(want); h.className=el.className; h.innerHTML=el.innerHTML; el.replaceWith(h); }
+  });
+
+  return root.innerHTML;
+}
+
+// ---------- Build full HTML ----------
+function extractTitleFrom(contentHTML){
+  try{ const d=new DOMParser().parseFromString(`<div>${contentHTML}</div>`,'text/html');
+       const h2=d.querySelector('h2'); const t=(h2?.textContent||'').trim(); return t||'SCORM Content'; }
+  catch{ return 'SCORM Content'; }
+}
+function buildHTML(inner,title){
+  return `<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>${title}</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<style>${getAmbaCompatStyles()}</style></head>
+<body>
+${inner}
+<script>(function(){
+  function cleanNextLabel(head){
+    var n = head.nextSibling;
+    while(n && n.nodeType===3 && !/\\S/.test(n.nodeValue)) n = n.nextSibling;
+    if(n && n.nodeType===3 && /\\S/.test(n.nodeValue)){
+      head.insertAdjacentText('beforeend', (head.textContent.trim()? ' ' : '') + n.nodeValue.trim());
+      n.parentNode.removeChild(n); return;
+    }
+    if(n && n.nodeType===1 && n.textContent && /\\S/.test(n.textContent) && n.children.length===0){
+      head.insertAdjacentText('beforeend', (head.textContent.trim()? ' ' : '') + n.textContent.trim());
+      n.parentNode.removeChild(n);
+    }
+  }
+  function ensurePanels(){
+    var i = 0;
+    document.querySelectorAll('.dp-panel-group').forEach(function(group){
+      var head = group.querySelector('.dp-panel-heading');
+      if(!head) return;
+      if(head.classList.contains('sr-only')){ head.classList.remove('sr-only'); cleanNextLabel(head); }
+      var content = group.querySelector('.dp-panel-content');
+      if(!content){
+        var sib = head.nextElementSibling;
+        if(sib && sib.classList && sib.classList.contains('dp-panel-content')) content = sib;
+      }
+      if(!content){ content = document.createElement('div'); content.className='dp-panel-content'; group.appendChild(content); }
+      if(!content.id) content.id = 'panel-' + (++i);
+      head.setAttribute('role','button'); head.setAttribute('tabindex','0');
+      if(!head.hasAttribute('aria-controls')) head.setAttribute('aria-controls', content.id);
+      var expanded = head.getAttribute('aria-expanded') === 'true';
+      content.hidden = !expanded;
+    });
+  }
+  function toggle(h){
+    var id = h.getAttribute('aria-controls');
+    var c  = id ? document.getElementById(id) : null;
+    var ex = h.getAttribute('aria-expanded') === 'true';
+    h.setAttribute('aria-expanded', String(!ex));
+    if(c) c.hidden = ex;
+  }
+  document.addEventListener('click', function(e){
+    var h = e.target.closest('.dp-panel-heading');
+    if(!h){
+      var g = e.target.closest('.dp-panel-group'); if(g) h = g.querySelector('.dp-panel-heading');
+    }
+    if(h){ if(!h.hasAttribute('role')) ensurePanels(); toggle(h); }
+  });
+  document.addEventListener('keydown', function(e){
+    if((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('dp-panel-heading')){
+      e.preventDefault(); toggle(e.target);
+    }
+  });
+  if(document.readyState === 'loading'){ document.addEventListener('DOMContentLoaded', ensurePanels); }
+  else { ensurePanels(); }
+})();<\/script>
+</body></html>`;
+}
+
+// ---------- Convert core ----------
+function processHTML(html){
+  let frag = html;
+  if (/<\s*html/i.test(html)) {
+    const m = html.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
+    if (m) frag = m[1];
+  }
+  const inner = normalizeFragment(frag);
+  return buildHTML(inner, extractTitleFrom(inner));
+}
+
+// ---------- SCORM runtime (string) ----------
+function getSCORMFunctions(){return`var SCORM_API=null,SCORM_initialized=false,pageStartTime=new Date();
+function findAPI(w){while((!w.API)&&(w.parent)&&(w.parent!=w)){w=w.parent;}return w.API;}
+function getAPI(){try{return findAPI(window)||findAPI(window.opener);}catch(e){return null;}}
+function SCORM_Initialize(){SCORM_API=getAPI();if(SCORM_API){var ok=SCORM_API.LMSInitialize("");SCORM_initialized=(ok==="true");if(SCORM_initialized){SCORM_API.LMSSetValue("cmi.core.lesson_status","incomplete");SCORM_API.LMSCommit("");}}}
+function SCORM_SetSessionTime(){if(SCORM_API&&SCORM_initialized){var sec=Math.round((new Date()-pageStartTime)/1000);var h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60),s=sec%60;var t=(h<10?"0":"")+h+":"+(m<10?"0":"")+m+":"+(s<10?"0":"")+s;SCORM_API.LMSSetValue("cmi.core.session_time",t);SCORM_API.LMSCommit("");}}
+function SCORM_SetComplete(){if(SCORM_API&&SCORM_initialized){SCORM_API.LMSSetValue("cmi.core.lesson_status","completed");SCORM_SetSessionTime();SCORM_API.LMSCommit("");}}
+var maxScroll=0;function track(){var d=document.documentElement;var p=(window.pageYOffset/(d.scrollHeight-window.innerHeight))*100;if(p>maxScroll){maxScroll=p;if(maxScroll>90){SCORM_SetComplete();window.removeEventListener('scroll',track);}}}
+window.addEventListener('load',function(){SCORM_Initialize();window.addEventListener('scroll',track);});
+setInterval(function(){try{SCORM_SetSessionTime();}catch(e){}},60000);
+window.addEventListener('beforeunload',function(){try{if(SCORM_API&&SCORM_initialized){SCORM_SetSessionTime();SCORM_API.LMSCommit("");SCORM_API.LMSFinish("");}}catch(e){}});`}
+
+// ---------- Manifest ----------
+function getManifest(title){return`<?xml version="1.0" encoding="UTF-8"?>
+<manifest identifier="scorm${Date.now()}" version="1"
+ xmlns="http://www.imsproject.org/xsd/imscp_rootv1p1p2"
+ xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_rootv1p2">
+  <organizations default="org1">
+    <organization identifier="org1">
+      <title>${title.replace(/&/g,'&amp;')}</title>
+      <item identifier="i1" identifierref="res1"><title>${title.replace(/&/g,'&amp;')}</title></item>
+    </organization>
+  </organizations>
+  <resources>
+    <resource identifier="res1" type="webcontent" adlcp:scormtype="sco" href="index.html">
+      <file href="index.html"/><file href="scormfunctions.js"/>
+    </resource>
+  </resources>
+</manifest>`}
+
+// ---------- Preview helpers ----------
+function buildBeforePreviewHTML(raw){
+  // Lightweight shell to render raw fragment without our AMBA styles
+  let frag = raw;
+  if (/<\s*html/i.test(raw)) {
+    const m = raw.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
+    if (m) frag = m[1];
+  }
+  return `<!doctype html><html lang="en"><head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+      html,body{margin:0;padding:12px;font-family:system-ui,Arial,sans-serif;background:#fff;color:#1f2937;line-height:1.6}
+      .wrap{max-width:1200px;margin:0 auto}
+      img{max-width:100%;height:auto}
+    </style>
+  </head><body><div class="wrap">${frag}</div></body></html>`;
+}
+function updatePreviews(){
+  const raw = document.getElementById('input').value;
+  const out = document.getElementById('output').value;
+  const before = document.getElementById('beforeFrame');
+  const after  = document.getElementById('afterFrame');
+  before.srcdoc = buildBeforePreviewHTML(raw || '<p><em>Paste HTML on the left to preview.</em></p>');
+  after.srcdoc  = out || '<!doctype html><html><body style="font-family:system-ui;padding:12px"><em>Convert to see preview.</em></body></html>';
+}
+
+// ---------- UI actions ----------
+document.getElementById('convertBtn').addEventListener('click', ()=>{
+  const raw=document.getElementById('input').value.trim();
+  if(!raw){ setStatus('Paste HTML first','error'); return; }
+  const html=processHTML(raw);
+  document.getElementById('output').value=html;
+  setStatus('✅ Converted','success');
+  updatePreviews();
+});
+
+document.getElementById('copyBtn').addEventListener('click', async ()=>{
+  const out=document.getElementById('output').value; if(!out){return;}
+  try{ await navigator.clipboard.writeText(out); setStatus('✅ Copied','success'); }
+  catch{ const ta=document.getElementById('output'); ta.select(); document.execCommand('copy'); setStatus('✅ Copied','success'); }
+});
+
+document.getElementById('downloadBtn').addEventListener('click', ()=>{
+  const out=document.getElementById('output').value; if(!out){return;}
+  saveAs(new Blob([out],{type:'text/html'}),'canvas-page-amba.html');
+});
+
+document.getElementById('zipBtn').addEventListener('click', async ()=>{
+  const out=document.getElementById('output').value; if(!out){return;}
+  const scormHTML = out.replace(/<\/body>/i, '<script src="scormfunctions.js"></scr'+'ipt>\n</body>');
+  const titleMatch = scormHTML.match(/<title>(.*?)<\/title>/i);
+  const title = titleMatch ? titleMatch[1] : 'SCORM Content';
+  const zip=new JSZip();
+  zip.file('index.html', scormHTML);
+  zip.file('scormfunctions.js', getSCORMFunctions());
+  zip.file('imsmanifest.xml', getManifest(title));
+  const blob = await zip.generateAsync({type:'blob'});
+  saveAs(blob, 'canvas-amba-scorm.zip');
+  setStatus('✅ SCORM ZIP built','success');
+});
+
+document.getElementById('refreshPreview').addEventListener('click', updatePreviews);
+
+document.getElementById('loadSample').addEventListener('click', ()=>{
+  document.getElementById('input').value = `
+<div id="dp-wrapper" class="dp-wrapper">
+  <div class="dp-content-block content-block" data-title="Diagnostics">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-stethoscope" aria-hidden="true"></i>&nbsp;Diagnostics</h2>
+    <div class="dp-panels-wrapper dp-accordion-default">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" aria-expanded="true" aria-controls="diag">Diagnostics</h3>
+        <div id="diag" class="dp-panel-content">
+          <div class="table-responsive">
+            <table class="ic-Table" role="table" aria-label="Regression diagnostics">
+              <thead><tr><th>Diagnostic</th><th>Why it matters</th><th>What to look for</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">R²</th><td>Explained variance</td><td>Compare across models; beware inflated R² with leakage</td></tr>
+                <tr><th scope="row">Residuals</th><td>Error patterns</td><td>Random scatter around 0; structure indicates missed features</td></tr>
+                <tr><th scope="row">Holdout error</th><td>Generalization</td><td>Close to training error; big gap ⇒ overfit</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="notes">Notes</h3>
+        <div id="notes" class="dp-panel-content" hidden><p>Secondary panel content.</p></div>
+      </div>
+    </div>
+  </div>
+</div>`;
+  setStatus('Sample loaded — click “Convert”.','success');
+  if(document.getElementById('autoPreview').checked) updatePreviews();
+});
+
+document.getElementById('fileInput').addEventListener('change', async (e)=>{
+  const f=e.target.files?.[0]; if(!f) return;
+  const text = await f.text();
+  document.getElementById('input').value = text;
+  setStatus(`Loaded ${f.name}. Click “Convert to AMBA-compatible HTML”.`,'success');
+  if(document.getElementById('autoPreview').checked) updatePreviews();
+});
+
+// Auto-preview as you type (debounced)
+(function(){
+  const ta = document.getElementById('input');
+  let t; ta.addEventListener('input', ()=>{
+    if(!document.getElementById('autoPreview').checked) return;
+    clearTimeout(t); t = setTimeout(updatePreviews, 300);
+  });
+})();
+
+// Initial previews
+updatePreviews();
+</script>
+</body>
+</html>

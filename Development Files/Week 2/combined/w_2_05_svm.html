@@ -1,0 +1,523 @@
+<div id="dp-wrapper" class="dp-wrapper">
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+
+  <div class="dp-content-block content-block" data-title="Support Vector Machines (SVM)">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-border-all" aria-hidden="true"></i>&nbsp;Finding Optimal Boundaries</h2>
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+      <div class="card-body">
+        <h3 class="card-title dp-ignore-theme">What this page covers</h3>
+        <p>How SVMs learn <strong>maximum‑margin</strong> decision boundaries, when to use <strong>linear</strong> vs <strong>kernel</strong> SVMs, how the <strong>C</strong> parameter and <strong>feature scaling</strong> affect results, and where <strong>SVR</strong> fits for regression.</p>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="dp-content-block content-block" data-title="Concepts & Intuition">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-lightbulb" aria-hidden="true"></i>&nbsp;Concepts & Intuition</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+      <div class="dp-panel-group">
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="svm-what">What is an SVM?</h4>
+        <div id="svm-what" class="dp-panel-content" hidden>
+          <p>An SVM is a supervised model that finds a <strong>decision boundary</strong> separating classes with the <strong>largest possible margin</strong>. The data points that touch the margin are the <em>support vectors</em>.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="svm-margin">Maximum margin & support vectors</h4>
+        <div id="svm-margin" class="dp-panel-content" hidden>
+          <p>Among all separating boundaries, SVM prefers the one that maximizes the distance to the closest points of each class. This tends to <strong>generalize</strong> better to new data.</p>
+          <div class="dp-card card" style="background-color:#f8f9fa; border:1px solid #dee2e6; margin-top:.5rem;">
+            <div class="card-body">
+              <p class="mb-0"><strong>Soft margin:</strong> With noisy/overlapping classes, we allow margin violations. The <strong>C</strong> parameter controls the trade‑off between wider margins and fewer violations.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="svm-linear">Linear vs non‑linear</h4>
+        <div id="svm-linear" class="dp-panel-content" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Linear SVM:</strong> Works well when a (nearly) straight boundary in feature space separates classes. Fast and strong baseline.</li>
+            <li class="list-group-item"><strong>Kernel SVM:</strong> Use a kernel (e.g., RBF) to implicitly map features to a higher‑dimensional space where separation is easier; boundary can curve.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="svm-scale">Scaling & regularization</h4>
+        <div id="svm-scale" class="dp-panel-content" hidden>
+          <p>SVMs are sensitive to feature scale. <strong>Standardize</strong> inputs and tune <strong>C</strong> (and kernel hyperparameters such as <em>gamma</em>) via validation. Fit the scaler on <em>training</em> only to avoid leakage.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="svm-svr">SVM for regression (SVR)</h4>
+        <div id="svm-svr" class="dp-panel-content" hidden>
+          <p>Support Vector <strong>Regression</strong> fits a function within an <em>epsilon‑insensitive</em> tube around the data. Points outside the tube influence the fit (analogous to support vectors).</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="Interactive: Boundary Explorer">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive: SVM Boundary Explorer</h2>
+    <p class="mt-2"><em>Try it:</em> Switch between <strong>linear</strong> and <strong>RBF</strong> kernels, and adjust <strong>C</strong> and <strong>gamma</strong> to see how the margin and boundary change.</p>
+
+    <!-- Embedded SVM Boundary Widget -->
+    <div class="embedded-widget" style="background: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin: 20px 0;">
+      <style>
+        .embedded-widget .svm-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .embedded-widget .header {
+            background: #034638;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .embedded-widget .header h2 {
+            font-size: 1.4em;
+            margin-bottom: 8px;
+            color: white;
+        }
+
+        .embedded-widget .controls-section {
+            padding: 20px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .embedded-widget .control-group {
+            margin-bottom: 20px;
+        }
+
+        .embedded-widget .control-label {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .embedded-widget .kernel-selector {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .embedded-widget .kernel-btn {
+            padding: 10px 16px;
+            border: 2px solid #d1d5db;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: #2c3e50;
+        }
+
+        .embedded-widget .kernel-btn.active {
+            background: #034638;
+            color: white;
+            border-color: #034638;
+        }
+
+        .embedded-widget .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 10px 0;
+        }
+
+        .embedded-widget .slider {
+            flex: 1;
+            height: 6px;
+            border-radius: 3px;
+            background: linear-gradient(to right, #ef4444, #f97316, #10b981);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .embedded-widget .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            border: 3px solid #034638;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .embedded-widget .value-display {
+            background: white;
+            border: 2px solid #034638;
+            color: #034638;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.9em;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .embedded-widget .visualization-area {
+            padding: 20px;
+            background: white;
+        }
+
+        .embedded-widget .decision-canvas {
+            width: 100%;
+            height: 300px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            background: #f8f9fa;
+            position: relative;
+        }
+
+        .embedded-widget .info-panel {
+            background: linear-gradient(135deg, #e0f2fe, #f0f9f6);
+            border-left: 4px solid #034638;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .embedded-widget .info-panel h4 {
+            color: #034638;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .embedded-widget .interpretation-text {
+            font-size: 0.9em;
+            color: #6b7280;
+            line-height: 1.4;
+        }
+      </style>
+
+      <div class="svm-container">
+        <div class="header">
+            <h2><i class="fas fa-vector-square" aria-hidden="true"></i> SVM Decision Boundary</h2>
+            <p>Explore how kernel choice and parameters affect the decision boundary</p>
+        </div>
+
+        <div class="controls-section">
+            <div class="control-group">
+                <div class="control-label">
+                    <i class="fas fa-cogs"></i>
+                    <span>Kernel Type</span>
+                </div>
+                <div class="kernel-selector">
+                    <button class="kernel-btn active" data-kernel="linear">Linear</button>
+                    <button class="kernel-btn" data-kernel="rbf">RBF (Radial)</button>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="control-label">
+                    <i class="fas fa-balance-scale"></i>
+                    <span>C Parameter (Regularization)</span>
+                </div>
+                <div class="slider-container">
+                    <input type="range" class="slider" id="c-slider" min="0.1" max="10" value="1" step="0.1">
+                    <div class="value-display" id="c-value">1.0</div>
+                </div>
+                <p style="font-size: 0.8em; color: #6b7280; margin: 5px 0 0 0;">Lower C = wider margin, more tolerance for errors</p>
+            </div>
+
+            <div class="control-group" id="gamma-control" style="display: none;">
+                <div class="control-label">
+                    <i class="fas fa-expand"></i>
+                    <span>Gamma (RBF Width)</span>
+                </div>
+                <div class="slider-container">
+                    <input type="range" class="slider" id="gamma-slider" min="0.1" max="5" value="1" step="0.1">
+                    <div class="value-display" id="gamma-value">1.0</div>
+                </div>
+                <p style="font-size: 0.8em; color: #6b7280; margin: 5px 0 0 0;">Higher gamma = more complex, tighter boundaries</p>
+            </div>
+        </div>
+
+        <div class="visualization-area">
+            <canvas class="decision-canvas" id="svm-canvas" width="600" height="300"></canvas>
+        </div>
+
+        <div class="info-panel">
+            <h4>
+                <i class="fas fa-info-circle"></i>
+                <span id="interpretation-title">Linear SVM with C=1.0</span>
+            </h4>
+            <div class="interpretation-text" id="interpretation-text">
+                Linear kernel creates straight decision boundaries. The C parameter balances margin width with classification accuracy.
+            </div>
+        </div>
+      </div>
+
+      <script>
+        class SVMExplorer {
+            constructor() {
+                this.kernel = 'linear';
+                this.C = 1.0;
+                this.gamma = 1.0;
+
+                // Sample data points
+                this.data = [
+                    // Class A (purple) - left cluster
+                    {x: 150, y: 100, class: 'A'}, {x: 120, y: 120, class: 'A'},
+                    {x: 180, y: 150, class: 'A'}, {x: 140, y: 180, class: 'A'},
+                    {x: 160, y: 140, class: 'A'}, {x: 200, y: 120, class: 'A'},
+
+                    // Class B (orange) - right cluster
+                    {x: 450, y: 100, class: 'B'}, {x: 420, y: 140, class: 'B'},
+                    {x: 480, y: 120, class: 'B'}, {x: 460, y: 180, class: 'B'},
+                    {x: 500, y: 160, class: 'B'}, {x: 440, y: 200, class: 'B'}
+                ];
+
+                this.init();
+            }
+
+            init() {
+                this.canvas = document.getElementById('svm-canvas');
+                this.ctx = this.canvas.getContext('2d');
+                this.bindEvents();
+                this.draw();
+            }
+
+            bindEvents() {
+                // Kernel selector
+                document.querySelectorAll('.kernel-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        document.querySelectorAll('.kernel-btn').forEach(b => b.classList.remove('active'));
+                        e.target.classList.add('active');
+                        this.kernel = e.target.dataset.kernel;
+                        this.toggleGammaControl();
+                        this.draw();
+                        this.updateInterpretation();
+                    });
+                });
+
+                // C parameter slider
+                document.getElementById('c-slider').addEventListener('input', (e) => {
+                    this.C = parseFloat(e.target.value);
+                    document.getElementById('c-value').textContent = this.C.toFixed(1);
+                    this.draw();
+                    this.updateInterpretation();
+                });
+
+                // Gamma parameter slider
+                document.getElementById('gamma-slider').addEventListener('input', (e) => {
+                    this.gamma = parseFloat(e.target.value);
+                    document.getElementById('gamma-value').textContent = this.gamma.toFixed(1);
+                    this.draw();
+                    this.updateInterpretation();
+                });
+            }
+
+            toggleGammaControl() {
+                const gammaControl = document.getElementById('gamma-control');
+                gammaControl.style.display = this.kernel === 'rbf' ? 'block' : 'none';
+            }
+
+            draw() {
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+                // Draw decision boundary background
+                this.drawDecisionBoundary();
+
+                // Draw data points
+                this.drawDataPoints();
+
+                // Draw decision boundary line
+                this.drawBoundaryLine();
+            }
+
+            drawDecisionBoundary() {
+                const imageData = this.ctx.createImageData(this.canvas.width, this.canvas.height);
+                const data = imageData.data;
+
+                for (let x = 0; x < this.canvas.width; x += 2) {
+                    for (let y = 0; y < this.canvas.height; y += 2) {
+                        const prediction = this.classifyPoint(x, y);
+                        const color = prediction === 'A'
+                            ? [88, 44, 131, 30]  // Purple with low alpha
+                            : [249, 115, 22, 30]; // Orange with low alpha
+
+                        // Fill 2x2 pixel block
+                        for (let dx = 0; dx < 2; dx++) {
+                            for (let dy = 0; dy < 2; dy++) {
+                                const idx = ((y + dy) * this.canvas.width + (x + dx)) * 4;
+                                if (idx < data.length - 3) {
+                                    data[idx] = color[0];     // R
+                                    data[idx + 1] = color[1]; // G
+                                    data[idx + 2] = color[2]; // B
+                                    data[idx + 3] = color[3]; // A
+                                }
+                            }
+                        }
+                    }
+                }
+
+                this.ctx.putImageData(imageData, 0, 0);
+            }
+
+            classifyPoint(x, y) {
+                if (this.kernel === 'linear') {
+                    // Simple linear classifier - adjust based on C
+                    const boundary = 300 + (this.C - 1) * 20; // C affects boundary position slightly
+                    return x < boundary ? 'A' : 'B';
+                } else {
+                    // RBF kernel simulation
+                    let scoreA = 0, scoreB = 0;
+
+                    this.data.forEach(point => {
+                        const dist = Math.sqrt((x - point.x) ** 2 + (y - point.y) ** 2);
+                        const influence = Math.exp(-this.gamma * (dist / 100) ** 2);
+
+                        if (point.class === 'A') {
+                            scoreA += influence;
+                        } else {
+                            scoreB += influence;
+                        }
+                    });
+
+                    return scoreA > scoreB ? 'A' : 'B';
+                }
+            }
+
+            drawDataPoints() {
+                this.data.forEach(point => {
+                    this.ctx.beginPath();
+                    this.ctx.arc(point.x, point.y, 8, 0, 2 * Math.PI);
+                    this.ctx.fillStyle = point.class === 'A' ? '#582C83' : '#f97316';
+                    this.ctx.fill();
+                    this.ctx.strokeStyle = 'white';
+                    this.ctx.lineWidth = 2;
+                    this.ctx.stroke();
+                });
+            }
+
+            drawBoundaryLine() {
+                this.ctx.beginPath();
+                this.ctx.strokeStyle = '#034638';
+                this.ctx.lineWidth = 3;
+
+                if (this.kernel === 'linear') {
+                    const boundary = 300 + (this.C - 1) * 20;
+                    this.ctx.moveTo(boundary, 0);
+                    this.ctx.lineTo(boundary, this.canvas.height);
+                } else {
+                    // RBF boundary is more complex, draw approximate curve
+                    this.ctx.moveTo(250, 0);
+                    for (let y = 0; y < this.canvas.height; y += 10) {
+                        let x = 300 + 50 * Math.sin(y / 50) * (this.gamma / 2);
+                        this.ctx.lineTo(x, y);
+                    }
+                }
+
+                this.ctx.stroke();
+            }
+
+            updateInterpretation() {
+                const title = document.getElementById('interpretation-title');
+                const text = document.getElementById('interpretation-text');
+
+                if (this.kernel === 'linear') {
+                    title.textContent = `Linear SVM with C=${this.C.toFixed(1)}`;
+                    if (this.C < 0.5) {
+                        text.textContent = 'Low C creates a wide margin, prioritizing generalization over training accuracy. Some points may be misclassified.';
+                    } else if (this.C > 2) {
+                        text.textContent = 'High C creates a narrow margin, prioritizing training accuracy. May overfit to training data.';
+                    } else {
+                        text.textContent = 'Moderate C balances margin width with classification accuracy. Good starting point for most problems.';
+                    }
+                } else {
+                    title.textContent = `RBF SVM with C=${this.C.toFixed(1)}, γ=${this.gamma.toFixed(1)}`;
+                    if (this.gamma < 1) {
+                        text.textContent = 'Low gamma creates smooth, wide decision boundaries. Each support vector has broad influence.';
+                    } else if (this.gamma > 2) {
+                        text.textContent = 'High gamma creates tight, complex boundaries. Each support vector has narrow influence - may overfit.';
+                    } else {
+                        text.textContent = 'Moderate gamma creates moderately complex boundaries. Good balance between flexibility and generalization.';
+                    }
+                }
+            }
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new SVMExplorer();
+        });
+      </script>
+    </div>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="When to pick SVM">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-check-circle" aria-hidden="true"></i>&nbsp;When to Pick SVM</h2>
+    <div class="dp-card card" style="border-left: 4px solid #582C83; padding-left: 15px;">
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">You need a strong baseline classifier with <strong>good generalization</strong> on medium‑sized, tabular datasets.</li>
+          <li class="list-group-item">Classes are separable after reasonable scaling/feature engineering; a <strong>linear boundary</strong> might suffice.</li>
+          <li class="list-group-item">You can validate/tune <strong>C</strong> (and <em>gamma</em> for RBF) and you're okay with slower inference than logistic regression.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="Quick Check">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-clipboard-check" aria-hidden="true"></i>&nbsp;Quick Check</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="qc-1">What does maximizing the margin achieve?</h4>
+        <div id="qc-1" class="dp-panel-content" hidden>
+          <p>It picks the boundary least sensitive to small perturbations in the training data, which usually <strong>improves generalization</strong>.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="qc-2">When would you try an RBF kernel?</h4>
+        <div id="qc-2" class="dp-panel-content" hidden>
+          <p>When the classes are not well separated by a straight line in the original feature space; RBF can create <strong>curved</strong> boundaries.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
+    <div class="card-body">
+      <h3 class="card-title">Helpful Tip</h3>
+      <p class="card-text">Start with a <strong>linear SVM</strong> + scaling. If performance plateaus, explore RBF kernel with a small grid over <strong>C</strong> and <strong>gamma</strong>.</p>
+    </div>
+  </div>
+
+  <hr />
+  <p>Select <strong>Next▸</strong> to continue.</p>
+</div>
+
+<!-- Canvas‑safe toggling -->
+<script>
+(function () {
+  function toggleHead(h){
+    const content = document.getElementById(h.getAttribute('aria-controls'));
+    const expanded = h.getAttribute('aria-expanded') === 'true';
+    h.setAttribute('aria-expanded', String(!expanded));
+    if (content) content.hidden = expanded;
+  }
+  document.addEventListener('click', function (e) {
+    const h = e.target.closest('.dp-panel-heading[role="button"]');
+    if (h) toggleHead(h);
+  });
+  document.addEventListener('keydown', function (e) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role="button"]')) {
+      e.preventDefault(); toggleHead(e.target);
+    }
+  });
+})();
+</script>

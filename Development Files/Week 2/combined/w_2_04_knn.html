@@ -1,0 +1,811 @@
+<!-- Skip link for keyboard users -->
+<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<main id="main-content" role="main">
+<div id="dp-wrapper" class="dp-wrapper">
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;" aria-hidden="true">Icon Progress Bar (browser only)</div>
+
+  <div class="dp-content-block content-block" data-title="K-Nearest Neighbors (KNN)">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-users" aria-hidden="true"></i>&nbsp;Learning from Neighbors</h2>
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+      <div class="card-body">
+        <h3 class="card-title dp-ignore-theme">What this page covers</h3>
+        <p>Intuition and practice of a simple, surprisingly strong baseline for <strong>classification</strong> and <strong>regression</strong> that makes predictions by looking at the <em>K closest examples</em> in your training data.</p>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="dp-content-block content-block" data-title="Intuition & Basics">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-lightbulb" aria-hidden="true"></i>&nbsp;Intuition & Basics</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="knn-intuition" id="knn-intuition-heading">How KNN predicts</h3>
+        <div id="knn-intuition" class="dp-panel-content" role="region" aria-labelledby="knn-intuition-heading" hidden>
+          <p>Given a new point, find its <strong>K nearest neighbors</strong> in the training set and:
+            <ul>
+              <li><strong>Classification:</strong> predict the <em>majority label</em> among the K neighbors (optionally weighted by distance).</li>
+              <li><strong>Regression:</strong> predict the <em>average</em> of the neighbors' target values (optionally distance‑weighted).</li>
+            </ul>
+          </p>
+          <p class="mb-0"><em>Note:</em> KNN is <strong>non‑parametric</strong>—there's no explicit training step beyond storing the data.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="knn-k" id="knn-k-heading">Choosing K</h3>
+        <div id="knn-k" class="dp-panel-content" role="region" aria-labelledby="knn-k-heading" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Small K</strong> → low bias, high variance (can overfit to noise).</li>
+            <li class="list-group-item"><strong>Large K</strong> → smoother boundary, higher bias (may blur classes).</li>
+            <li class="list-group-item">Common starting points: 3, 5, 7; pick K via validation (and keep K odd for binary classes to reduce ties).</li>
+          </ul>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="knn-dist" id="knn-dist-heading">Distance & scaling</h3>
+        <div id="knn-dist" class="dp-panel-content" role="region" aria-labelledby="knn-dist-heading" hidden>
+          <p>Different features must be on comparable scales or one unit can dominate distance.</p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Scale features (standardize or normalize).</li>
+            <li class="list-group-item">Try <strong>Euclidean</strong> (default), <strong>Manhattan</strong> (robust to outliers), or custom metrics.</li>
+            <li class="list-group-item">Optional: <em>distance‑weighted</em> voting/averaging (closer neighbors count more).</li>
+          </ul>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="knn-tradeoffs" id="knn-tradeoffs-heading">Pros, Cons & Trade‑offs</h3>
+        <div id="knn-tradeoffs" class="dp-panel-content" role="region" aria-labelledby="knn-tradeoffs-heading" hidden>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="dp-card card h-100" style="border-left: 4px solid #16a34a; padding-left: 12px;">
+                <div class="card-body">
+                  <h6 class="card-title">✅ Strengths</h6>
+                  <ul class="mb-0">
+                    <li>Simple, strong baseline.</li>
+                    <li>Adapts to complex boundaries with enough data.</li>
+                    <li>No model assumptions.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="dp-card card h-100" style="border-left: 4px solid #dc2626; padding-left: 12px;">
+                <div class="card-body">
+                  <h6 class="card-title">⚠️ Cautions</h6>
+                  <ul class="mb-0">
+                    <li>Slow at prediction (must search neighbors).</li>
+                    <li>Memory‑heavy (stores training data).</li>
+                    <li>Sensitive to irrelevant features & scale.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="Interactive: Play with K">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive: Play with K</h2>
+    <p class="mt-2"><em>Try it:</em> Move the K slider and watch the decision boundary change. Then toggle feature scaling and see how distances—and predictions—shift.</p>
+
+    <!-- Embedded KNN Boundary Widget -->
+    <div class="embedded-widget" style="background: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin: 20px 0;">
+      <style>
+        .embedded-widget .widget-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .embedded-widget .header {
+            background: #034638;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .embedded-widget .header h2 {
+            font-size: 1.4em;
+            margin-bottom: 8px;
+            color: white;
+        }
+
+        .embedded-widget .header p {
+            opacity: 0.9;
+            font-size: 0.9em;
+            color: white;
+        }
+
+        .embedded-widget .controls-section {
+            padding: 20px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .embedded-widget .control-group {
+            margin-bottom: 20px;
+        }
+
+        .embedded-widget .control-label {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .embedded-widget .k-selector {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .embedded-widget .k-option {
+            padding: 10px 16px;
+            border: 2px solid #d1d5db;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: #2c3e50;
+        }
+
+        .embedded-widget .k-option:hover {
+            border-color: #034638;
+            background: #f8f9fa;
+        }
+
+        .embedded-widget .k-option.active {
+            background: #034638;
+            color: white;
+            border-color: #034638;
+        }
+
+        .embedded-widget .canvas-container {
+            padding: 20px;
+            background: white;
+        }
+
+        .embedded-widget .decision-canvas {
+            width: 100%;
+            height: 300px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            cursor: crosshair;
+            position: relative;
+            background: #f8f9fa;
+        }
+
+        .embedded-widget .point {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid white;
+            transform: translate(-50%, -50%);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .embedded-widget .point.class-a {
+            background: #582C83;
+        }
+
+        .embedded-widget .point.class-b {
+            background: #f97316;
+        }
+
+        .embedded-widget .point.test {
+            background: #10b981;
+            width: 16px;
+            height: 16px;
+            border: 3px solid white;
+            box-shadow: 0 0 0 2px #10b981;
+            z-index: 20;
+        }
+
+        .embedded-widget .point:hover {
+            transform: translate(-50%, -50%) scale(1.3);
+        }
+
+        .embedded-widget .boundary-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .embedded-widget .prediction-display {
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa, #f0f9f6);
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .embedded-widget .prediction-result {
+            background: white;
+            border: 2px solid #034638;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .embedded-widget .prediction-label {
+            font-weight: 600;
+            color: #6b7280;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+
+        .embedded-widget .prediction-value {
+            font-size: 1.8em;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .embedded-widget .prediction-value.class-a {
+            color: #582C83;
+        }
+
+        .embedded-widget .prediction-value.class-b {
+            color: #f97316;
+        }
+
+        .embedded-widget .neighbors-info {
+            font-size: 0.9em;
+            color: #6b7280;
+            margin-top: 10px;
+        }
+
+        .embedded-widget .instructions {
+            background: linear-gradient(135deg, #e0f2fe, #f0f9f6);
+            border-left: 4px solid #034638;
+            padding: 15px;
+            margin: 20px;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .embedded-widget .instructions h4 {
+            color: #034638;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .embedded-widget .instructions p {
+            font-size: 0.9em;
+            color: #6b7280;
+            line-height: 1.4;
+        }
+
+        .embedded-widget .legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 15px;
+            font-size: 0.9em;
+        }
+
+        .embedded-widget .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .embedded-widget .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .embedded-widget .action-buttons {
+            padding: 20px;
+            background: #f8f9fa;
+            display: flex;
+            gap: 10px;
+        }
+
+        .embedded-widget .btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .embedded-widget .btn-primary {
+            background: #034638;
+            color: white;
+        }
+
+        .embedded-widget .btn-primary:hover {
+            background: #025a44;
+            transform: translateY(-1px);
+        }
+
+        .embedded-widget .btn-secondary {
+            background: white;
+            color: #2c3e50;
+            border: 2px solid #d1d5db;
+        }
+
+        .embedded-widget .btn-secondary:hover {
+            background: #f8f9fa;
+            border-color: #034638;
+        }
+
+        .embedded-widget .connection-line {
+            position: absolute;
+            background: rgba(3, 70, 56, 0.3);
+            transform-origin: left center;
+            height: 2px;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        @media (max-width: 480px) {
+            .embedded-widget .decision-canvas {
+                height: 250px;
+            }
+
+            .embedded-widget .k-selector {
+                justify-content: space-between;
+            }
+
+            .embedded-widget .action-buttons {
+                flex-direction: column;
+            }
+        }
+      </style>
+
+      <div class="widget-container">
+        <div class="header">
+            <h2><i class="fas fa-project-diagram" aria-hidden="true"></i> K-Nearest Neighbors</h2>
+            <p>See how K value affects classification decisions</p>
+        </div>
+
+        <div class="instructions">
+            <h4><i class="fas fa-lightbulb"></i> How It Works</h4>
+            <p><strong>Click anywhere</strong> on the canvas to place a test point. The algorithm finds the K nearest training points and classifies based on the majority vote.</p>
+        </div>
+
+        <div class="controls-section">
+            <div class="control-group">
+                <div class="control-label">
+                    <i class="fas fa-users"></i>
+                    <span>Choose K (Number of Neighbors)</span>
+                </div>
+                <div class="k-selector">
+                    <button class="k-option active" data-k="1">K = 1</button>
+                    <button class="k-option" data-k="3">K = 3</button>
+                    <button class="k-option" data-k="5">K = 5</button>
+                    <button class="k-option" data-k="7">K = 7</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="canvas-container">
+            <div class="decision-canvas" id="canvas">
+                <canvas class="boundary-overlay" id="boundary-canvas"></canvas>
+                <div id="connections"></div>
+                <div id="points"></div>
+            </div>
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-dot" style="background: #582C83;"></div>
+                    <span>Class A</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot" style="background: #f97316;"></div>
+                    <span>Class B</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot" style="background: #10b981;"></div>
+                    <span>Test Point</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="prediction-display">
+            <div class="prediction-result">
+                <div class="prediction-label">Predicted Class</div>
+                <div class="prediction-value" id="prediction">-</div>
+                <div class="neighbors-info" id="neighbors-info">
+                    Click on the canvas to classify a point
+                </div>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn btn-primary" id="add-data-btn">
+                <i class="fas fa-plus-circle"></i>
+                <span>Add Training Data</span>
+            </button>
+            <button class="btn btn-secondary" id="reset-btn">
+                <i class="fas fa-undo"></i>
+                <span>Reset</span>
+            </button>
+        </div>
+      </div>
+
+      <script>
+        class KNNExplorer {
+            constructor() {
+                this.k = 1; // Start with K=1 (active button)
+                this.testPoint = null;
+                this.addingData = false;
+                this.nextClass = 'A';
+
+                // Initialize with sample training data
+                this.trainingData = [
+                    {x: 0.2, y: 0.3, class: 'A'},
+                    {x: 0.3, y: 0.2, class: 'A'},
+                    {x: 0.25, y: 0.5, class: 'A'},
+                    {x: 0.15, y: 0.6, class: 'A'},
+                    {x: 0.7, y: 0.7, class: 'B'},
+                    {x: 0.8, y: 0.6, class: 'B'},
+                    {x: 0.75, y: 0.4, class: 'B'},
+                    {x: 0.6, y: 0.8, class: 'B'},
+                    {x: 0.5, y: 0.2, class: 'A'},
+                    {x: 0.85, y: 0.3, class: 'B'}
+                ];
+
+                this.init();
+            }
+
+            init() {
+                this.setupCanvas();
+                this.bindEvents();
+                this.renderPoints();
+                this.drawDecisionBoundary();
+            }
+
+            setupCanvas() {
+                this.canvas = document.getElementById('canvas');
+                this.boundaryCanvas = document.getElementById('boundary-canvas');
+                this.ctx = this.boundaryCanvas.getContext('2d');
+
+                // Set canvas size
+                const rect = this.canvas.getBoundingClientRect();
+                this.canvasWidth = rect.width;
+                this.canvasHeight = rect.height;
+
+                this.boundaryCanvas.width = this.canvasWidth;
+                this.boundaryCanvas.height = this.canvasHeight;
+            }
+
+            bindEvents() {
+                // K selector
+                document.querySelectorAll('.k-option').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        document.querySelectorAll('.k-option').forEach(b => b.classList.remove('active'));
+                        e.target.classList.add('active');
+                        this.k = parseInt(e.target.dataset.k);
+                        this.updatePrediction();
+                        this.drawDecisionBoundary();
+                    });
+                });
+
+                // Canvas click
+                this.canvas.addEventListener('click', (e) => {
+                    const rect = this.canvas.getBoundingClientRect();
+                    const x = (e.clientX - rect.left) / rect.width;
+                    const y = (e.clientY - rect.top) / rect.height;
+
+                    if (this.addingData) {
+                        this.addTrainingPoint(x, y);
+                    } else {
+                        this.setTestPoint(x, y);
+                    }
+                });
+
+                // Buttons
+                document.getElementById('add-data-btn').addEventListener('click', () => {
+                    this.addingData = !this.addingData;
+                    const btn = document.getElementById('add-data-btn');
+                    if (this.addingData) {
+                        btn.innerHTML = '<i class="fas fa-stop"></i><span>Stop Adding (Class ' + this.nextClass + ')</span>';
+                        btn.style.background = this.nextClass === 'A' ? '#582C83' : '#f97316';
+                    } else {
+                        btn.innerHTML = '<i class="fas fa-plus-circle"></i><span>Add Training Data</span>';
+                        btn.style.background = '';
+                    }
+                });
+
+                document.getElementById('reset-btn').addEventListener('click', () => {
+                    this.reset();
+                });
+            }
+
+            renderPoints() {
+                const pointsContainer = document.getElementById('points');
+                pointsContainer.innerHTML = '';
+
+                // Render training points
+                this.trainingData.forEach((point, index) => {
+                    const div = document.createElement('div');
+                    div.className = `point class-${point.class.toLowerCase()}`;
+                    div.style.left = `${point.x * 100}%`;
+                    div.style.top = `${point.y * 100}%`;
+                    div.dataset.index = index;
+                    pointsContainer.appendChild(div);
+                });
+
+                // Render test point
+                if (this.testPoint) {
+                    const div = document.createElement('div');
+                    div.className = 'point test';
+                    div.style.left = `${this.testPoint.x * 100}%`;
+                    div.style.top = `${this.testPoint.y * 100}%`;
+                    pointsContainer.appendChild(div);
+                }
+            }
+
+            setTestPoint(x, y) {
+                this.testPoint = {x, y};
+                this.renderPoints();
+                this.updatePrediction();
+                this.drawConnections();
+            }
+
+            addTrainingPoint(x, y) {
+                this.trainingData.push({
+                    x: x,
+                    y: y,
+                    class: this.nextClass
+                });
+
+                // Toggle class for next point
+                this.nextClass = this.nextClass === 'A' ? 'B' : 'A';
+
+                // Update button text
+                const btn = document.getElementById('add-data-btn');
+                if (this.addingData) {
+                    btn.innerHTML = '<i class="fas fa-stop"></i><span>Stop Adding (Class ' + this.nextClass + ')</span>';
+                    btn.style.background = this.nextClass === 'A' ? '#582C83' : '#f97316';
+                }
+
+                this.renderPoints();
+                this.drawDecisionBoundary();
+                if (this.testPoint) {
+                    this.updatePrediction();
+                }
+            }
+
+            calculateDistance(p1, p2) {
+                return Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2));
+            }
+
+            updatePrediction() {
+                if (!this.testPoint) return;
+
+                // Calculate distances to all training points
+                const distances = this.trainingData.map((point, index) => ({
+                    index,
+                    distance: this.calculateDistance(this.testPoint, point),
+                    class: point.class
+                }));
+
+                // Sort by distance and get K nearest
+                distances.sort((a, b) => a.distance - b.distance);
+                const kNearest = distances.slice(0, this.k);
+
+                // Count votes
+                const votes = {A: 0, B: 0};
+                kNearest.forEach(n => votes[n.class]++);
+
+                // Make prediction
+                const prediction = votes.A > votes.B ? 'A' : 'B';
+
+                // Update display
+                const predDiv = document.getElementById('prediction');
+                predDiv.textContent = `Class ${prediction}`;
+                predDiv.className = `prediction-value class-${prediction.toLowerCase()}`;
+
+                const infoDiv = document.getElementById('neighbors-info');
+                infoDiv.innerHTML = `Based on ${this.k} nearest neighbors:<br>
+                                     Class A: ${votes.A} votes | Class B: ${votes.B} votes`;
+
+                // Store nearest for drawing connections
+                this.nearestNeighbors = kNearest;
+            }
+
+            drawConnections() {
+                const connectionsDiv = document.getElementById('connections');
+                connectionsDiv.innerHTML = '';
+
+                if (!this.testPoint || !this.nearestNeighbors) return;
+
+                const rect = this.canvas.getBoundingClientRect();
+
+                this.nearestNeighbors.forEach(neighbor => {
+                    const point = this.trainingData[neighbor.index];
+
+                    // Create line element
+                    const line = document.createElement('div');
+                    line.className = 'connection-line';
+
+                    // Calculate line position and angle
+                    const x1 = this.testPoint.x * rect.width;
+                    const y1 = this.testPoint.y * rect.height;
+                    const x2 = point.x * rect.width;
+                    const y2 = point.y * rect.height;
+
+                    const length = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+                    const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+
+                    line.style.width = `${length}px`;
+                    line.style.left = `${x1}px`;
+                    line.style.top = `${y1}px`;
+                    line.style.transform = `rotate(${angle}deg)`;
+
+                    connectionsDiv.appendChild(line);
+                });
+            }
+
+            drawDecisionBoundary() {
+                const ctx = this.ctx;
+                const resolution = 30; // Grid resolution for boundary
+
+                ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+
+                const cellWidth = this.canvasWidth / resolution;
+                const cellHeight = this.canvasHeight / resolution;
+
+                for (let i = 0; i < resolution; i++) {
+                    for (let j = 0; j < resolution; j++) {
+                        const x = (i + 0.5) / resolution;
+                        const y = (j + 0.5) / resolution;
+
+                        // Classify this point
+                        const distances = this.trainingData.map(point => ({
+                            distance: this.calculateDistance({x, y}, point),
+                            class: point.class
+                        }));
+
+                        distances.sort((a, b) => a.distance - b.distance);
+                        const kNearest = distances.slice(0, this.k);
+
+                        const votes = {A: 0, B: 0};
+                        kNearest.forEach(n => votes[n.class]++);
+
+                        const prediction = votes.A > votes.B ? 'A' : 'B';
+
+                        // Draw cell
+                        ctx.fillStyle = prediction === 'A'
+                            ? 'rgba(88, 44, 131, 0.1)'
+                            : 'rgba(249, 115, 22, 0.1)';
+                        ctx.fillRect(i * cellWidth, j * cellHeight, cellWidth, cellHeight);
+                    }
+                }
+            }
+
+            reset() {
+                // Reset to initial state
+                this.trainingData = [
+                    {x: 0.2, y: 0.3, class: 'A'},
+                    {x: 0.3, y: 0.2, class: 'A'},
+                    {x: 0.25, y: 0.5, class: 'A'},
+                    {x: 0.15, y: 0.6, class: 'A'},
+                    {x: 0.7, y: 0.7, class: 'B'},
+                    {x: 0.8, y: 0.6, class: 'B'},
+                    {x: 0.75, y: 0.4, class: 'B'},
+                    {x: 0.6, y: 0.8, class: 'B'},
+                    {x: 0.5, y: 0.2, class: 'A'},
+                    {x: 0.85, y: 0.3, class: 'B'}
+                ];
+
+                this.testPoint = null;
+                this.addingData = false;
+                this.nextClass = 'A';
+
+                const btn = document.getElementById('add-data-btn');
+                btn.innerHTML = '<i class="fas fa-plus-circle"></i><span>Add Training Data</span>';
+                btn.style.background = '';
+
+                document.getElementById('prediction').textContent = '-';
+                document.getElementById('neighbors-info').textContent = 'Click on the canvas to classify a point';
+
+                this.renderPoints();
+                this.drawDecisionBoundary();
+                document.getElementById('connections').innerHTML = '';
+            }
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new KNNExplorer();
+        });
+      </script>
+    </div>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="KNN for Regression">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-chart-area" aria-hidden="true"></i>&nbsp;KNN for Regression</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="knn-reg" id="knn-reg-heading">Averaging neighbors</h3>
+        <div id="knn-reg" class="dp-panel-content" role="region" aria-labelledby="knn-reg-heading" hidden>
+          <p>Predict a numeric target by averaging the K nearest neighbors' target values. Use <strong>distance weighting</strong> to give closer points more influence.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="knn-reg-metrics" id="knn-reg-metrics-heading">Metrics & evaluation</h3>
+        <div id="knn-reg-metrics" class="dp-panel-content" role="region" aria-labelledby="knn-reg-metrics-heading" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Use MAE/MSE/RMSE; compare against simple baselines (mean/median).</li>
+            <li class="list-group-item">For time‑series, use <strong>time‑aware splits</strong> (no future leakage).</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="Performance Considerations">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-tachometer-alt" aria-hidden="true"></i>&nbsp;Performance Considerations</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="knn-index" id="knn-index-heading">Speeding up neighbor search</h3>
+        <div id="knn-index" class="dp-panel-content" role="region" aria-labelledby="knn-index-heading" hidden>
+          <p>Exact search can be slow at scale. Options include indexing structures (KD‑tree/ball tree), approximate nearest neighbors, or pruning features.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="knn-pipeline" id="knn-pipeline-heading">Pipeline hygiene</h3>
+        <div id="knn-pipeline" class="dp-panel-content" role="region" aria-labelledby="knn-pipeline-heading" hidden>
+          <p>Fit scalers on the <strong>training</strong> set only, then apply to validation/test to avoid leakage. Keep the same scaler in production.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
+    <div class="card-body">
+      <h3 class="card-title">Helpful Tip</h3>
+      <p class="card-text">Start with a small grid of K values (3–15) and choose via validation. Always scale features first.</p>
+    </div>
+  </div>
+
+  <hr aria-hidden="true" />
+  <p>Select <strong>Next▸</strong> to continue.</p>
+</div>
+</main>
+
+<!-- Canvas‑safe toggling -->
+<script>
+(function () {
+  function toggleHead(h){
+    const content = document.getElementById(h.getAttribute('aria-controls'));
+    const expanded = h.getAttribute('aria-expanded') === 'true';
+    h.setAttribute('aria-expanded', String(!expanded));
+    if (content) content.hidden = expanded;
+  }
+  document.addEventListener('click', function (e) {
+    const h = e.target.closest('.dp-panel-heading[role="button"]');
+    if (h) toggleHead(h);
+  });
+  document.addEventListener('keydown', function (e) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role="button"]')) {
+      e.preventDefault(); toggleHead(e.target);
+    }
+  });
+})();
+</script>

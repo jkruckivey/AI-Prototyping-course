@@ -1,0 +1,465 @@
+<!-- Skip link for keyboard users -->
+<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<main id="main-content" role="main">
+<div id="dp-wrapper" class="dp-wrapper">
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;" aria-hidden="true">Icon Progress Bar (browser only)</div>
+
+  <div class="dp-content-block content-block" data-title="Naive Bayes (Probabilistic Classifiers)">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-calculator" aria-hidden="true"></i>&nbsp;Probabilistic Classification</h2>
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+      <div class="card-body">
+        <h3 class="card-title dp-ignore-theme">What this page covers</h3>
+        <p>How Naive Bayes applies <strong>Bayes' rule</strong> with a simplifying <strong>independence assumption</strong> to make fast, effective classifiers—especially for <strong>text</strong> and high‑dimensional data.</p>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="dp-content-block content-block" data-title="Bayes' Rule, the Naive Assumption">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-lightbulb" aria-hidden="true"></i>&nbsp;Bayes' Rule, the Naive Assumption</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="nb-bayes" id="nb-bayes-heading">Bayes' theorem (intuition)</h3>
+        <div id="nb-bayes" class="dp-panel-content" hidden>
+          <p>Update our belief in a class using evidence: <em>Posterior ∝ Likelihood × Prior</em>. For each class <em>y</em>, we compute <em>P(y) × P(x|y)</em> and pick the largest.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="nb-naive" id="nb-naive-heading">The "naive" independence assumption</h3>
+        <div id="nb-naive" class="dp-panel-content" hidden>
+          <p>Features are assumed conditionally independent given the class: <em aria-label="Probability of x given y equals approximately the product of probability of x-sub-i given y for all i">P(x|y) ≈ ∏<sub>i</sub> P(x<sub>i</sub>|y)</em>. It's often wrong—but works shockingly well on sparse, high‑dimensional data.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="nb-variants">Common variants</h4>
+        <div id="nb-variants" class="dp-panel-content" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Gaussian NB</strong>: continuous features (assume normal distribution per class/feature).</li>
+            <li class="list-group-item"><strong>Multinomial NB</strong>: word counts/TF‑IDF for documents; great for text.</li>
+            <li class="list-group-item"><strong>Bernoulli NB</strong>: binary features (word present/absent) or flags.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="Text Classification Workflow">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-file-alt" aria-hidden="true"></i>&nbsp;Text Classification Workflow</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="nb-prep">Prep: tokens → features</h4>
+        <div id="nb-prep" class="dp-panel-content" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Clean & tokenize text; build vocabulary.</li>
+            <li class="list-group-item">Represent docs as <strong>counts</strong> (bag‑of‑words) or <strong>TF‑IDF</strong>.</li>
+            <li class="list-group-item"><strong>Smoothing</strong> (e.g., Laplace/add‑one) to handle unseen tokens.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="nb-train">Train & predict</h4>
+        <div id="nb-train" class="dp-panel-content" hidden>
+          <p>Estimate priors <em>P(y)</em> from label frequencies and likelihoods <em>P(token|y)</em> from token counts per class (with smoothing). For a new doc, multiply likelihoods × prior and normalize for probabilities.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="nb-eval">Evaluate</h4>
+        <div id="nb-eval" class="dp-panel-content" hidden>
+          <p>Use precision/recall/F1 and a confusion matrix. With imbalanced classes, prefer PR curves to accuracy.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="Interactive: Tiny Posterior Calculator">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive: Tiny Posterior Calculator</h2>
+    <p class="mt-2"><em>Try it:</em> Adjust token counts and smoothing to see class posteriors change.</p>
+
+    <!-- Embedded Naive Bayes Calculator Widget -->
+    <div class="embedded-widget" style="background: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin: 20px 0;">
+      <style>
+        .embedded-widget .nb-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .embedded-widget .header {
+            background: #034638;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .embedded-widget .header h2 {
+            font-size: 1.4em;
+            margin-bottom: 8px;
+            color: white;
+        }
+
+        .embedded-widget .input-section {
+            padding: 20px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .embedded-widget .token-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .embedded-widget .token-group {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 15px;
+        }
+
+        .embedded-widget .token-label {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .embedded-widget .count-input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .embedded-widget .class-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .embedded-widget .class-group {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .embedded-widget .class-group.positive {
+            border-color: #582C83;
+        }
+
+        .embedded-widget .class-group.negative {
+            border-color: #f97316;
+        }
+
+        .embedded-widget .class-title {
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 12px;
+            text-align: center;
+            font-size: 1.1em;
+        }
+
+        .embedded-widget .class-group.positive .class-title {
+            color: #582C83;
+        }
+
+        .embedded-widget .class-group.negative .class-title {
+            color: #f97316;
+        }
+
+        .embedded-widget .results-section {
+            padding: 20px;
+            background: white;
+        }
+
+        .embedded-widget .probability-display {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .embedded-widget .prob-card {
+            background: #f8f9fa;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .embedded-widget .prob-card.positive {
+            border-color: #582C83;
+            background: rgba(88, 44, 131, 0.05);
+        }
+
+        .embedded-widget .prob-card.negative {
+            border-color: #f97316;
+            background: rgba(249, 115, 22, 0.05);
+        }
+
+        .embedded-widget .prob-value {
+            font-size: 2em;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .embedded-widget .prob-card.positive .prob-value {
+            color: #582C83;
+        }
+
+        .embedded-widget .prob-card.negative .prob-value {
+            color: #f97316;
+        }
+
+        .embedded-widget .prob-label {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .embedded-widget .calculation-display {
+            background: linear-gradient(135deg, #e0f2fe, #f0f9f6);
+            border-left: 4px solid #034638;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .embedded-widget .calculation-display h4 {
+            color: #034638;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .embedded-widget .formula {
+            font-family: 'Courier New', monospace;
+            background: white;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 480px) {
+            .embedded-widget .token-inputs {
+                grid-template-columns: 1fr;
+            }
+
+            .embedded-widget .class-inputs {
+                grid-template-columns: 1fr;
+            }
+
+            .embedded-widget .probability-display {
+                grid-template-columns: 1fr;
+            }
+        }
+      </style>
+
+      <div class="nb-container">
+        <div class="header">
+            <h2><i class="fas fa-calculator" aria-hidden="true"></i> Naive Bayes Calculator</h2>
+            <p>See how token counts affect posterior probabilities</p>
+        </div>
+
+        <div class="input-section">
+            <div class="token-inputs">
+                <div class="token-group">
+                    <div class="token-label">Word: "great"</div>
+                    <input type="number" class="count-input" id="great-pos" value="8" min="0">
+                    <small>Count in positive docs</small>
+                    <input type="number" class="count-input" id="great-neg" value="2" min="0">
+                    <small>Count in negative docs</small>
+                </div>
+                <div class="token-group">
+                    <div class="token-label">Word: "terrible"</div>
+                    <input type="number" class="count-input" id="terrible-pos" value="1" min="0">
+                    <small>Count in positive docs</small>
+                    <input type="number" class="count-input" id="terrible-neg" value="9" min="0">
+                    <small>Count in negative docs</small>
+                </div>
+                <div class="token-group">
+                    <div class="token-label">Smoothing (α)</div>
+                    <input type="number" class="count-input" id="smoothing" value="1" min="0" step="0.1">
+                    <small>Laplace smoothing parameter</small>
+                </div>
+            </div>
+
+            <div class="class-inputs">
+                <div class="class-group positive">
+                    <div class="class-title">Positive Class</div>
+                    <label>Total docs: <input type="number" id="pos-docs" value="50" min="1"></label><br>
+                    <label>Total words: <input type="number" id="pos-words" value="1000" min="1"></label>
+                </div>
+                <div class="class-group negative">
+                    <div class="class-title">Negative Class</div>
+                    <label>Total docs: <input type="number" id="neg-docs" value="50" min="1"></label><br>
+                    <label>Total words: <input type="number" id="neg-words" value="1000" min="1"></label>
+                </div>
+            </div>
+        </div>
+
+        <div class="results-section">
+            <div class="probability-display">
+                <div class="prob-card positive">
+                    <div class="prob-value" id="pos-prob">0.75</div>
+                    <div class="prob-label">P(Positive | Text)</div>
+                </div>
+                <div class="prob-card negative">
+                    <div class="prob-value" id="neg-prob">0.25</div>
+                    <div class="prob-label">P(Negative | Text)</div>
+                </div>
+            </div>
+
+            <div class="calculation-display">
+                <h4><i class="fas fa-calculator"></i> Calculation</h4>
+                <p>For text containing "great" and "terrible":</p>
+                <div class="formula" id="calculation-steps">
+                    P(pos|text) ∝ P(pos) × P("great"|pos) × P("terrible"|pos)<br>
+                    P(neg|text) ∝ P(neg) × P("great"|neg) × P("terrible"|neg)
+                </div>
+                <p><small>Probabilities are normalized so they sum to 1.0</small></p>
+            </div>
+        </div>
+      </div>
+
+      <script>
+        class NaiveBayesCalculator {
+            constructor() {
+                this.bindEvents();
+                this.calculate();
+            }
+
+            bindEvents() {
+                const inputs = document.querySelectorAll('input');
+                inputs.forEach(input => {
+                    input.addEventListener('input', () => this.calculate());
+                });
+            }
+
+            calculate() {
+                // Get input values
+                const greatPos = parseInt(document.getElementById('great-pos').value) || 0;
+                const greatNeg = parseInt(document.getElementById('great-neg').value) || 0;
+                const terriblePos = parseInt(document.getElementById('terrible-pos').value) || 0;
+                const terribleNeg = parseInt(document.getElementById('terrible-neg').value) || 0;
+                const smoothing = parseFloat(document.getElementById('smoothing').value) || 0;
+
+                const posDocs = parseInt(document.getElementById('pos-docs').value) || 1;
+                const negDocs = parseInt(document.getElementById('neg-docs').value) || 1;
+                const posWords = parseInt(document.getElementById('pos-words').value) || 1;
+                const negWords = parseInt(document.getElementById('neg-words').value) || 1;
+
+                // Calculate priors
+                const totalDocs = posDocs + negDocs;
+                const priorPos = posDocs / totalDocs;
+                const priorNeg = negDocs / totalDocs;
+
+                // Vocabulary size (simplified)
+                const vocabSize = 2; // just "great" and "terrible"
+
+                // Calculate likelihoods with smoothing
+                const pGreatGivenPos = (greatPos + smoothing) / (posWords + smoothing * vocabSize);
+                const pGreatGivenNeg = (greatNeg + smoothing) / (negWords + smoothing * vocabSize);
+                const pTerribleGivenPos = (terriblePos + smoothing) / (posWords + smoothing * vocabSize);
+                const pTerribleGivenNeg = (terribleNeg + smoothing) / (negWords + smoothing * vocabSize);
+
+                // Calculate unnormalized posteriors
+                const scorePos = priorPos * pGreatGivenPos * pTerribleGivenPos;
+                const scoreNeg = priorNeg * pGreatGivenNeg * pTerribleGivenNeg;
+
+                // Normalize
+                const total = scorePos + scoreNeg;
+                const probPos = scorePos / total;
+                const probNeg = scoreNeg / total;
+
+                // Update display
+                document.getElementById('pos-prob').textContent = probPos.toFixed(3);
+                document.getElementById('neg-prob').textContent = probNeg.toFixed(3);
+
+                // Update calculation steps
+                const steps = document.getElementById('calculation-steps');
+                steps.innerHTML = `
+                    <strong>Prior:</strong> P(pos) = ${priorPos.toFixed(3)}, P(neg) = ${priorNeg.toFixed(3)}<br>
+                    <strong>Likelihoods:</strong><br>
+                    P("great"|pos) = ${pGreatGivenPos.toFixed(4)}, P("great"|neg) = ${pGreatGivenNeg.toFixed(4)}<br>
+                    P("terrible"|pos) = ${pTerribleGivenPos.toFixed(4)}, P("terrible"|neg) = ${pTerribleGivenNeg.toFixed(4)}<br>
+                    <strong>Scores:</strong> pos = ${scorePos.toFixed(6)}, neg = ${scoreNeg.toFixed(6)}
+                `;
+            }
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new NaiveBayesCalculator();
+        });
+      </script>
+    </div>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="Pros, Cons & Use Cases">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-balance-scale" aria-hidden="true"></i>&nbsp;Pros, Cons & Use Cases</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="nb-pros">Why it's great</h4>
+        <div id="nb-pros" class="dp-panel-content" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Extremely fast to train and predict.</li>
+            <li class="list-group-item">Strong baseline for <strong>text</strong> and other sparse features.</li>
+            <li class="list-group-item">Robust when features are numerous and weakly informative.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="nb-cons">Cautions</h4>
+        <div id="nb-cons" class="dp-panel-content" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Independence assumption can misestimate probabilities.</li>
+            <li class="list-group-item">Correlated features may overweight evidence.</li>
+            <li class="list-group-item">Calibrate probabilities if decisions depend on exact values.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
+    <div class="card-body">
+      <h3 class="card-title">Helpful Tip</h3>
+      <p class="card-text">For text, try <strong>Multinomial NB</strong> with <strong>TF‑IDF</strong> + Laplace smoothing as a baseline. It's hard to beat on small/medium datasets.</p>
+    </div>
+  </div>
+
+  <hr aria-hidden="true" />
+  <p>Select <strong>Next▸</strong> to continue.</p>
+</div>
+</main>
+
+<!-- Canvas‑safe toggling -->
+<script>
+(function () {
+  function toggleHead(h){
+    const content = document.getElementById(h.getAttribute('aria-controls'));
+    const expanded = h.getAttribute('aria-expanded') === 'true';
+    h.setAttribute('aria-expanded', String(!expanded));
+    if (content) content.hidden = expanded;
+  }
+  document.addEventListener('click', function (e) {
+    const h = e.target.closest('.dp-panel-heading[role="button"]');
+    if (h) toggleHead(h);
+  });
+  document.addEventListener('keydown', function (e) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role="button"]')) {
+      e.preventDefault(); toggleHead(e.target);
+    }
+  });
+})();
+</script>

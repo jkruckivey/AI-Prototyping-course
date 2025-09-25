@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Evaluation Warm-up - AMBA Template</title>
+  <!-- Canvas iframe sizing hint -->
+  <meta name="canvas-height" content="800">
+  <meta name="description" content="Interactive reflection on evaluation metrics for ML models">
+  <link rel="stylesheet" href="ivey-widget-base.css">
+  <style>
+    /* AMBA Template Widget Styling */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: white;
+      color: #333;
+      line-height: 1.5;
+      padding: 0;
+      margin: 0;
+    }
+
+    /* AMBA dp-wrapper equivalent for widgets */
+    .dp-wrapper {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 15px;
+      background: #ffffff;
+      border-radius: 8px;
+    }
+
+    /* Header styling */
+    .widget-header {
+      background: #034638;
+      color: white;
+      padding: 12px 16px;
+      text-align: center;
+      border-radius: 8px 8px 0 0;
+      margin: -15px -15px 20px -15px;
+    }
+
+    .widget-title {
+      font-size: 1.2em;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    /* Content blocks */
+    .content-section {
+      margin-bottom: 20px;
+      padding: 15px;
+      background: #f8f9fa;
+      border-left: 4px solid #034638;
+      border-radius: 4px;
+    }
+
+    .scenario-box {
+      background: #fff;
+      border: 2px solid #034638;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 15px 0;
+    }
+
+    .scenario-title {
+      color: #034638;
+      font-size: 1.1em;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    /* Interactive elements */
+    .reflection-area {
+      background: #ffffff;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+    }
+
+    .reflection-prompt {
+      font-weight: bold;
+      color: #034638;
+      margin-bottom: 10px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 100px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-family: Arial, sans-serif;
+      resize: vertical;
+    }
+
+    /* Button styling */
+    .btn {
+      background: #034638;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      margin: 5px;
+    }
+
+    .btn:hover {
+      background: #045a42;
+    }
+
+    .btn-secondary {
+      background: #582C83;
+    }
+
+    .btn-secondary:hover {
+      background: #6d3695;
+    }
+
+    /* Reveal sections */
+    .reveal-section {
+      background: #e8f5e8;
+      border: 1px solid #034638;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+      display: none;
+    }
+
+    .reveal-section.show {
+      display: block;
+    }
+
+    .reveal-title {
+      color: #034638;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    /* Lists */
+    ul {
+      padding-left: 20px;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+
+    /* Emphasis */
+    .highlight {
+      background: #fff3cd;
+      padding: 2px 4px;
+      border-radius: 3px;
+    }
+
+    .warning {
+      color: #d63384;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+    <!-- Pop-out button for full window view -->
+    <button class="widget-popout-btn" id="popoutBtn" title="Open in full window">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+        </svg>
+        <span>Pop Out</span>
+    </button>
+
+<div class="dp-wrapper">
+  <div class="widget-header">
+    <h1 class="widget-title">Evaluation Warm-up: Why Metrics Matter</h1>
+  </div>
+
+  <div class="scenario-box">
+    <div class="scenario-title">🚨 Fraud Detection Scenario</div>
+    <p><strong>Your bank's fraud detection model has 99% accuracy!</strong></p>
+    <p>Sounds impressive, right? But here's the context:</p>
+    <ul>
+      <li>Only <span class="highlight">0.1% of transactions are actually fraudulent</span></li>
+      <li>Your model flags 1% of transactions for manual review</li>
+      <li>Each false alarm costs $5 in staff time</li>
+      <li>Each missed fraud costs $500 on average</li>
+    </ul>
+  </div>
+
+  <div class="reflection-area">
+    <div class="reflection-prompt">🤔 Reflection Question:</div>
+    <p><strong>What could go wrong if we only looked at accuracy when judging this fraud detection model?</strong></p>
+    <textarea id="reflection-text" placeholder="Type your thoughts here... Consider: What if the model just predicted 'no fraud' for everything?"></textarea>
+    <button class="btn" onclick="showInsights()">Show Key Insights</button>
+    <button class="btn btn-secondary" onclick="clearReflection()">Clear</button>
+  </div>
+
+  <div id="insights" class="reveal-section">
+    <div class="reveal-title">🎯 Key Insights:</div>
+    <div class="content-section">
+      <h3>The Accuracy Trap</h3>
+      <p>A model that predicts "no fraud" for <em>every transaction</em> would have 99.9% accuracy! Here's why:</p>
+      <ul>
+        <li><strong>99.9% of transactions are legitimate</strong> → Always predicting "no fraud" gets 99.9% right</li>
+        <li>But this model catches <span class="warning">0% of actual fraud</span></li>
+        <li>All fraudulent transactions slip through undetected</li>
+      </ul>
+    </div>
+
+    <div class="content-section">
+      <h3>Better Metrics for This Context</h3>
+      <ul>
+        <li><strong>Precision:</strong> Of flagged transactions, how many are actually fraud?</li>
+        <li><strong>Recall:</strong> Of actual fraud, how much did we catch?</li>
+        <li><strong>Cost-based evaluation:</strong> Expected savings vs. review costs</li>
+        <li><strong>Lift:</strong> How much better than random selection?</li>
+      </ul>
+    </div>
+
+    <div class="content-section">
+      <h3>Business Impact</h3>
+      <p>The right metric depends on business priorities:</p>
+      <ul>
+        <li><strong>High precision:</strong> Minimize false alarms (staff efficiency)</li>
+        <li><strong>High recall:</strong> Catch more fraud (reduce losses)</li>
+        <li><strong>Balanced approach:</strong> Optimize total expected value</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <h3>💡 Key Takeaway</h3>
+    <p><strong>Accuracy can be misleading with imbalanced data.</strong> Always consider the business context and costs of different types of errors when choosing evaluation metrics.</p>
+  </div>
+</div>
+
+<script>
+function showInsights() {
+  const insights = document.getElementById('insights');
+  insights.classList.add('show');
+
+  // Scroll to insights section
+  insights.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function clearReflection() {
+  document.getElementById('reflection-text').value = '';
+  const insights = document.getElementById('insights');
+  insights.classList.remove('show');
+}
+
+// Auto-expand textarea as user types
+document.getElementById('reflection-text').addEventListener('input', function() {
+  this.style.height = 'auto';
+  this.style.height = (this.scrollHeight) + 'px';
+});
+
+// Pop-out functionality
+document.getElementById('popoutBtn').addEventListener('click', function() {
+    const currentUrl = window.location.href;
+    const popoutUrl = currentUrl + (currentUrl.includes('?') ? '&' : '?') + 'standalone=true';
+
+    // Open in new window with specific dimensions
+    const popoutWindow = window.open(
+        popoutUrl,
+        'WidgetPopout',
+        'width=1200,height=900,resizable=yes,scrollbars=yes,status=yes'
+    );
+
+    // Focus the new window
+    if (popoutWindow) {
+        popoutWindow.focus();
+    }
+});
+
+// Check if in standalone mode
+if (window.location.search.includes('standalone=true')) {
+    document.body.classList.add('standalone-mode');
+}
+</script>
+
+</body>
+</html>

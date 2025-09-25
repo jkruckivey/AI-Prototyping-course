@@ -1,11 +1,19 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git remote get-url:*)",
-      "Bash(start canvas-to-scorm-converter-fixed.html)",
-      "Bash(start \"C:\\Users\\jkruck\\Ivey Business School\\EdTech Lab - Documents\\Github\\AI Prototyping Learn\\demos\\widgets\\canvas-to-scorm-converter-fixed.html\")",
-      "Bash(copy:*)",
-      "Bash(start \"C:\\Users\\jkruck\\Ivey Business School\\EdTech Lab - Documents\\Github\\AI Prototyping Learn\\demos\\widgets\\create-test-scorm-package.html\")"
+      "Bash(start \"C:\\Users\\james\\OneDrive\\Documents2\\GitHub\\AI-Prototyping-course\\tools\\scorm-converter\\index.html\")",
+      "Bash(python:*)",
+      "Bash(start \"C:\\Users\\james\\OneDrive\\Documents2\\GitHub\\AI-Prototyping-course\\Development Files\\Week 1\\canvas-01-ai-importance-combined.html\")",
+      "Read(//c/Users/james/Downloads/**)",
+      "Bash(mkdir:*)",
+      "Bash(cp:*)",
+      "Bash(for i in 1 2 3 4 5)",
+      "Bash(do cp demos/widgets/ivey-widget-base.css \"Development Files/Week $i/widgets/\")",
+      "Bash(done)",
+      "Bash(do echo \"=== Week $i widgets ===\")",
+      "Bash(ls:*)",
+      "Read(//tmp/Rar$DRa21176.5407/**)",
+      "Read(//tmp/Rar$DRa21176.7150/**)"
     ],
     "deny": [],
     "ask": []

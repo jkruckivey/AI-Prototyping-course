@@ -1,0 +1,1098 @@
+﻿<div id="dp-wrapper" class="dp-wrapper">
+    <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+    <div class="dp-content-block content-block" data-title="Machine Learning Models (Business Overview)">
+        <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+            <div class="card-body">
+                <h5 class="card-title dp-ignore-theme">What this page covers</h5>
+                <p>Four core approaches&mdash;<strong>Supervised</strong>, <strong>Unsupervised</strong>, <strong>Reinforcement</strong>, and <strong>Self‑Supervised</strong>&mdash;and how to match them to business problems and data.</p>
+            </div>
+        </div>
+    </div>
+    <div class="dp-content-block content-block" data-title="AI ⊃ ML ⊃ DL (Optional Visual)">
+        <h2 class="dp-has-icon"><i class="dp-icon fas fa-sitemap" aria-hidden="true"></i>&nbsp;AI ⊃ ML ⊃ DL&nbsp;</h2>
+        <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px; margin-bottom: .75rem;">
+            <div class="card-body">
+                <h5 class="card-title dp-ignore-theme">Understanding the AI Hierarchy</h5>
+                <p>To navigate AI strategically, it helps to see how <strong>AI</strong> contains <strong>Machine Learning</strong>, which in turn contains <strong>Deep Learning</strong>. Use this as a map to match technology level to the problem.</p>
+            </div>
+        </div>
+        <!-- Embedded AI Hierarchy Explorer Widget -->
+        <div class="embedded-widget" style="background: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin: 20px 0;">
+            <style>
+                /* AI Hierarchy Explorer specific styles */
+                .hierarchy-container {
+                    background: white;
+                    border-radius: 8px;
+                    padding: 20px;
+                    border: 1px solid #e2e8f0;
+                    position: relative;
+                    height: 300px;
+                    margin-bottom: 16px;
+                }
+
+                .hierarchy-diagram {
+                    position: relative;
+                    width: 280px;
+                    height: 280px;
+                    margin: 0 auto;
+                }
+
+                .ai-circle, .ml-circle, .dl-circle {
+                    position: absolute;
+                    border-radius: 50%;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    text-align: center;
+                    color: white;
+                    font-weight: 600;
+                    user-select: none;
+                }
+
+                .ai-circle {
+                    width: 280px;
+                    height: 280px;
+                    background: rgba(3, 70, 56, 0.7);
+                    border: 4px solid #034638;
+                    top: 0;
+                    left: 0;
+                }
+
+                .ml-circle {
+                    width: 200px;
+                    height: 200px;
+                    background: rgba(88, 44, 131, 0.8);
+                    border: 3px solid #582C83;
+                    top: 40px;
+                    left: 40px;
+                }
+
+                .dl-circle {
+                    width: 120px;
+                    height: 120px;
+                    background: rgba(220, 38, 38, 0.9);
+                    border: 3px solid #dc2626;
+                    top: 80px;
+                    left: 80px;
+                }
+
+                .circle-label {
+                    font-family: Georgia, serif;
+                    font-size: 1.1em;
+                    font-weight: 700;
+                    margin-bottom: 4px;
+                    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+                }
+
+                .circle-subtitle {
+                    font-size: 0.75em;
+                    opacity: 0.95;
+                    max-width: 100px;
+                    line-height: 1.2;
+                }
+
+                .ai-circle .circle-label {
+                    font-size: 0.95em;
+                    margin-bottom: 2px;
+                }
+
+                .ai-circle .circle-subtitle {
+                    font-size: 0.65em;
+                    max-width: 120px;
+                    line-height: 1.1;
+                }
+
+                .ml-circle .circle-label {
+                    font-size: 0.85em;
+                    margin-bottom: 2px;
+                }
+
+                .dl-circle .circle-label {
+                    font-size: 0.75em;
+                    margin-bottom: 1px;
+                }
+
+                .dl-circle .circle-subtitle {
+                    font-size: 0.6em;
+                    max-width: 70px;
+                    line-height: 1.1;
+                }
+
+                .circle-active {
+                    transform: scale(1.05);
+                    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+                    z-index: 10;
+                }
+
+                .info-panel {
+                    background: white;
+                    border-radius: 6px;
+                    padding: 12px;
+                    border: 1px solid #e2e8f0;
+                    min-height: 120px;
+                }
+
+                .info-content {
+                    display: none;
+                }
+
+                .info-content.active {
+                    display: block;
+                    animation: fadeIn 0.3s ease-in;
+                }
+
+                .info-title {
+                    font-family: Georgia, serif;
+                    font-size: 1em;
+                    color: #034638;
+                    margin: 0 0 8px 0;
+                    font-weight: 600;
+                }
+
+                .info-description {
+                    font-size: 0.85em;
+                    color: #374151;
+                    line-height: 1.4;
+                    margin-bottom: 8px;
+                }
+
+                .info-examples {
+                    font-size: 0.8em;
+                    color: #6b7280;
+                }
+
+                .info-examples strong {
+                    color: #374151;
+                }
+
+                .default-info {
+                    text-align: center;
+                    color: #6b7280;
+                    font-style: italic;
+                    padding: 20px 0;
+                }
+
+                @keyframes fadeIn {
+                    from { opacity: 0; transform: translateY(10px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+
+                @media (max-width: 400px) {
+                    .hierarchy-diagram {
+                        width: 240px;
+                        height: 240px;
+                    }
+
+                    .ai-circle {
+                        width: 240px;
+                        height: 240px;
+                    }
+
+                    .ml-circle {
+                        width: 170px;
+                        height: 170px;
+                        top: 35px;
+                        left: 35px;
+                    }
+
+                    .dl-circle {
+                        width: 100px;
+                        height: 100px;
+                        top: 70px;
+                        left: 70px;
+                    }
+
+                    .hierarchy-container {
+                        height: 260px;
+                    }
+                }
+            </style>
+
+            <div class="text-center mb-3">
+                <h5><strong>Interactive: AI Hierarchy Explorer</strong></h5>
+                <p class="text-muted">Click each layer to explore AI concepts</p>
+            </div>
+
+            <div class="hierarchy-container">
+                <div class="hierarchy-diagram">
+                    <div class="ai-circle" id="ai-circle" onclick="showHierarchyInfo('ai')">
+                        <div class="circle-label">Artificial<br>Intelligence</div>
+                        <div class="circle-subtitle">Making machines smart</div>
+                    </div>
+
+                    <div class="ml-circle" id="ml-circle" onclick="showHierarchyInfo('ml')">
+                        <div class="circle-label">Machine<br>Learning</div>
+                        <div class="circle-subtitle">Learn from data</div>
+                    </div>
+
+                    <div class="dl-circle" id="dl-circle" onclick="showHierarchyInfo('dl')">
+                        <div class="circle-label">Deep<br>Learning</div>
+                        <div class="circle-subtitle">Neural networks</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-panel">
+                <div class="default-info" id="default-hierarchy-info">
+                    Click on any circle above to learn more about that AI concept
+                </div>
+
+                <div class="info-content" id="ai-hierarchy-info">
+                    <h4 class="info-title">🤖 Artificial Intelligence (AI)</h4>
+                    <p class="info-description">
+                        The broadest field focused on creating intelligent machines that can perform tasks typically requiring human intelligence.
+                    </p>
+                    <div class="info-examples">
+                        <strong>Examples:</strong> Chess programs, recommendation systems, virtual assistants, autonomous vehicles
+                    </div>
+                </div>
+
+                <div class="info-content" id="ml-hierarchy-info">
+                    <h4 class="info-title">🧠 Machine Learning (ML)</h4>
+                    <p class="info-description">
+                        A subset of AI where algorithms improve performance through experience and data, without being explicitly programmed for every scenario.
+                    </p>
+                    <div class="info-examples">
+                        <strong>Examples:</strong> Email spam detection, fraud detection, price prediction, customer segmentation
+                    </div>
+                </div>
+
+                <div class="info-content" id="dl-hierarchy-info">
+                    <h4 class="info-title">🔗 Deep Learning (DL)</h4>
+                    <p class="info-description">
+                        A subset of ML using neural networks with multiple hidden layers to model complex patterns in large datasets.
+                    </p>
+                    <div class="info-examples">
+                        <strong>Examples:</strong> Image recognition, natural language processing, voice assistants, medical diagnosis
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="dp-content-block content-block" data-title="Interactive: Model Families Overview">
+        <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive: Model Families Overview</h2>
+        <p class="mt-1"><em>Tip:</em> As you explore, note where <strong>your team</strong> owns steps vs. where partner teams must be involved.</p>
+        <!-- Embedded Task Model Matcher Widget -->
+        <div class="embedded-widget" style="background: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin: 20px 0;">
+            <style>
+                /* Task Model Matcher specific styles */
+                .matcher-section {
+                    margin: 2rem 0;
+                }
+
+                .tasks-column {
+                    background: #f8fffe;
+                    border-radius: 8px;
+                    padding: 1.5rem;
+                    margin: 1.5rem 0;
+                    border-left: 4px solid #034638;
+                }
+
+                .tasks-column h3 {
+                    color: #034638;
+                    margin: 0 0 1rem 0;
+                    font-weight: 600;
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                }
+
+                .targets-grid {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 1rem;
+                    margin: 1.5rem 0;
+                }
+
+                .target-section {
+                    background: white;
+                    border: 1px solid #e5e7eb;
+                    border-radius: 8px;
+                    padding: 1rem;
+                }
+
+                .target-section h4 {
+                    color: #374151;
+                    margin: 0 0 1rem 0;
+                    font-weight: 600;
+                    text-align: center;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 0.5rem;
+                    font-size: 0.9rem;
+                }
+
+                .task-card {
+                    background: white;
+                    border: 2px solid #e5e7eb;
+                    border-radius: 8px;
+                    padding: 1rem;
+                    margin: 0.75rem 0;
+                    cursor: grab;
+                    transition: all 0.3s ease;
+                    user-select: none;
+                }
+
+                .task-card:hover {
+                    border-color: #034638;
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                }
+
+                .task-card.dragging {
+                    opacity: 0.5;
+                    transform: rotate(5deg);
+                }
+
+                .task-title {
+                    font-weight: 600;
+                    color: #2c3e50;
+                    margin-bottom: 0.5rem;
+                    font-size: 0.9rem;
+                }
+
+                .task-description {
+                    font-size: 0.8rem;
+                    color: #666;
+                    line-height: 1.4;
+                }
+
+                .target-card {
+                    background: #f9fafb;
+                    border: 2px dashed #d1d5db;
+                    border-radius: 6px;
+                    padding: 1rem;
+                    margin: 0.5rem 0;
+                    text-align: center;
+                    min-height: 60px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    transition: all 0.3s ease;
+                }
+
+                .target-card.drop-zone {
+                    border-color: #034638;
+                    background: #f0f9f4;
+                }
+
+                .target-card.filled {
+                    background: #f0f9f4;
+                    border: 2px solid #10b981;
+                }
+
+                .target-card.correct {
+                    background: #ecfdf5;
+                    border-color: #10b981;
+                }
+
+                .target-card.incorrect {
+                    background: #fef2f2;
+                    border-color: #ef4444;
+                }
+
+                .target-label {
+                    font-size: 0.8rem;
+                    color: #4a5568;
+                    font-weight: 500;
+                    text-align: center;
+                }
+
+                .placed-task {
+                    background: white;
+                    border: 1px solid #10b981;
+                    border-radius: 6px;
+                    padding: 0.75rem;
+                    font-size: 0.8rem;
+                    color: #047857;
+                    font-weight: 500;
+                    text-align: center;
+                }
+
+                .progress-display {
+                    background: #eff6ff;
+                    border: 2px solid #3b82f6;
+                    border-radius: 6px;
+                    padding: 1rem;
+                    text-align: center;
+                    margin: 1rem 0;
+                    font-weight: 600;
+                    color: #1e40af;
+                }
+
+                .feedback-section {
+                    background: #fffbeb;
+                    border: 2px solid #f59e0b;
+                    border-radius: 8px;
+                    padding: 1.5rem;
+                    margin: 2rem 0;
+                    display: none;
+                }
+
+                .feedback-section.show {
+                    display: block;
+                }
+
+                .feedback-title {
+                    font-weight: 600;
+                    color: #92400e;
+                    margin-bottom: 1rem;
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                }
+
+                .feedback-message {
+                    color: #78350f;
+                    font-weight: 500;
+                    margin-bottom: 0.75rem;
+                }
+
+                .feedback-explanation {
+                    color: #78350f;
+                    font-size: 0.9rem;
+                    line-height: 1.5;
+                }
+
+                .completion-celebration {
+                    background: #ecfdf5;
+                    border: 2px solid #10b981;
+                    border-radius: 8px;
+                    padding: 1.5rem;
+                    margin: 1.5rem 0;
+                    text-align: center;
+                    display: none;
+                }
+
+                .completion-celebration.show {
+                    display: block;
+                }
+
+                .celebration-title {
+                    color: #047857;
+                    font-weight: 600;
+                    margin-bottom: 0.5rem;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 0.5rem;
+                }
+
+                .celebration-text {
+                    color: #065f46;
+                    font-size: 0.9rem;
+                }
+
+                .reset-button {
+                    background: #034638;
+                    color: white;
+                    border: none;
+                    border-radius: 6px;
+                    padding: 0.75rem 1.5rem;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    margin: 1.5rem auto 0;
+                    font-size: 0.9rem;
+                }
+
+                .reset-button:hover {
+                    background: #0a5c4a;
+                    transform: translateY(-1px);
+                }
+
+                @media (max-width: 480px) {
+                    .targets-grid {
+                        grid-template-columns: 1fr;
+                    }
+
+                    .task-title {
+                        font-size: 0.85rem;
+                    }
+
+                    .task-description {
+                        font-size: 0.75rem;
+                    }
+
+                    .target-label {
+                        font-size: 0.75rem;
+                    }
+                }
+            </style>
+
+            <div class="text-center mb-3">
+                <h5><strong>Match Business Tasks to Model Types</strong></h5>
+                <p class="text-muted">Drag each business task to the correct model type and baseline approach</p>
+            </div>
+
+            <div class="progress-display" id="progress">
+                <i class="fas fa-chart-line" aria-hidden="true"></i>
+                Progress: <span id="progress-count">0/4</span> Complete
+            </div>
+
+            <div class="matcher-section">
+                <div class="tasks-column">
+                    <h3><i class="fas fa-briefcase" aria-hidden="true"></i> Business Tasks</h3>
+                    <div id="tasks-container">
+                        <div class="task-card" data-task="spam" draggable="true">
+                            <div class="task-title">Email Spam Detection</div>
+                            <div class="task-description">Classify emails as spam or legitimate</div>
+                        </div>
+                        <div class="task-card" data-task="price" draggable="true">
+                            <div class="task-title">House Price Prediction</div>
+                            <div class="task-description">Predict house prices from property features</div>
+                        </div>
+                        <div class="task-card" data-task="churn" draggable="true">
+                            <div class="task-title">Customer Churn Prediction</div>
+                            <div class="task-description">Predict customer churn probability</div>
+                        </div>
+                        <div class="task-card" data-task="sales" draggable="true">
+                            <div class="task-title">Monthly Sales Forecasting</div>
+                            <div class="task-description">Forecast monthly sales revenue</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="targets-grid">
+                    <div class="target-section">
+                        <h4><i class="fas fa-tags" aria-hidden="true"></i> Model Type</h4>
+                        <div class="target-card" data-type="classification" data-task-slot="spam">
+                            <div class="target-label">Classification<br><small>Predict categories</small></div>
+                        </div>
+                        <div class="target-card" data-type="regression" data-task-slot="price">
+                            <div class="target-label">Regression<br><small>Predict numbers</small></div>
+                        </div>
+                        <div class="target-card" data-type="classification" data-task-slot="churn">
+                            <div class="target-label">Classification<br><small>Predict categories</small></div>
+                        </div>
+                        <div class="target-card" data-type="regression" data-task-slot="sales">
+                            <div class="target-label">Regression<br><small>Predict numbers</small></div>
+                        </div>
+                    </div>
+
+                    <div class="target-section">
+                        <h4><i class="fas fa-bullseye" aria-hidden="true"></i> Baseline Approach</h4>
+                        <div class="target-card" data-baseline="majority" data-task-slot="spam">
+                            <div class="target-label">Majority Class<br><small>Most common outcome</small></div>
+                        </div>
+                        <div class="target-card" data-baseline="average" data-task-slot="price">
+                            <div class="target-label">Historical Average<br><small>Mean of past values</small></div>
+                        </div>
+                        <div class="target-card" data-baseline="majority" data-task-slot="churn">
+                            <div class="target-label">Majority Class<br><small>Most common outcome</small></div>
+                        </div>
+                        <div class="target-card" data-baseline="seasonal" data-task-slot="sales">
+                            <div class="target-label">Seasonal Naïve<br><small>Last period's value</small></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feedback-section" id="feedback">
+                <div class="feedback-title">
+                    <i class="fas fa-lightbulb" aria-hidden="true"></i>
+                    Learning Insight
+                </div>
+                <div class="feedback-message" id="feedback-message"></div>
+                <div class="feedback-explanation" id="feedback-explanation"></div>
+            </div>
+
+            <div class="completion-celebration" id="completion">
+                <div class="celebration-title">
+                    <i class="fas fa-trophy" aria-hidden="true"></i>
+                    Excellent Work!
+                </div>
+                <div class="celebration-text">
+                    You've successfully matched all business tasks to their correct model types and baseline approaches. This understanding is crucial for choosing the right ML techniques in practice.
+                </div>
+            </div>
+
+            <button class="reset-button" onclick="resetTaskMatcher()">
+                <i class="fas fa-redo-alt" aria-hidden="true"></i> Reset Activity
+            </button>
+
+            <script>
+                class TaskModelMatcher {
+                    constructor() {
+                        this.correctMappings = {
+                            spam: { type: 'classification', baseline: 'majority' },
+                            price: { type: 'regression', baseline: 'average' },
+                            churn: { type: 'classification', baseline: 'majority' },
+                            sales: { type: 'regression', baseline: 'seasonal' }
+                        };
+
+                        this.completed = 0;
+                        this.placedTasks = {};
+                        this.feedback = {
+                            spam: 'Spam detection is classification (spam vs. not spam). Majority class baseline assumes most emails are legitimate.',
+                            price: 'House prices are continuous numbers (regression). Historical average provides a simple baseline.',
+                            churn: 'Churn is binary classification (will churn vs. won\'t churn). Majority class assumes most customers stay.',
+                            sales: 'Sales forecasting predicts numbers (regression). Seasonal naïve accounts for recurring patterns.'
+                        };
+
+                        this.init();
+                    }
+
+                    init() {
+                        this.setupDragAndDrop();
+                        this.updateProgress();
+                    }
+
+                    setupDragAndDrop() {
+                        // Setup drag for task cards
+                        document.querySelectorAll('.task-card').forEach(card => {
+                            card.addEventListener('dragstart', (e) => {
+                                e.dataTransfer.setData('text/plain', card.dataset.task);
+                                card.classList.add('dragging');
+                            });
+
+                            card.addEventListener('dragend', (e) => {
+                                card.classList.remove('dragging');
+                            });
+                        });
+
+                        // Setup drop zones
+                        document.querySelectorAll('.target-card').forEach(card => {
+                            card.addEventListener('dragover', (e) => {
+                                e.preventDefault();
+                                card.classList.add('drop-zone');
+                            });
+
+                            card.addEventListener('dragleave', (e) => {
+                                card.classList.remove('drop-zone');
+                            });
+
+                            card.addEventListener('drop', (e) => {
+                                e.preventDefault();
+                                card.classList.remove('drop-zone');
+
+                                const taskId = e.dataTransfer.getData('text/plain');
+                                const taskSlot = card.dataset.taskSlot;
+
+                                // Only allow dropping on the correct slot
+                                if (taskId === taskSlot) {
+                                    this.handleDrop(taskId, card);
+                                }
+                            });
+                        });
+                    }
+
+                    handleDrop(taskId, targetCard) {
+                        // Check if task already placed elsewhere
+                        if (this.placedTasks[taskId]) {
+                            this.placedTasks[taskId].innerHTML = this.placedTasks[taskId].originalContent;
+                            this.placedTasks[taskId].classList.remove('filled', 'correct', 'incorrect');
+                        }
+
+                        // Store original content if not already stored
+                        if (!targetCard.originalContent) {
+                            targetCard.originalContent = targetCard.innerHTML;
+                        }
+
+                        // Place task in target
+                        const taskElement = document.querySelector(`[data-task="${taskId}"]`);
+                        const taskTitle = taskElement.querySelector('.task-title').textContent;
+
+                        targetCard.innerHTML = `<div class="placed-task">${taskTitle}</div>`;
+                        targetCard.classList.add('filled');
+
+                        this.placedTasks[taskId] = targetCard;
+
+                        // Hide the original task card
+                        taskElement.style.display = 'none';
+
+                        // Check if this placement is correct
+                        this.checkPlacement(taskId, targetCard);
+                    }
+
+                    checkPlacement(taskId, targetCard) {
+                        const correct = this.correctMappings[taskId];
+                        const type = targetCard.dataset.type;
+                        const baseline = targetCard.dataset.baseline;
+
+                        let isCorrect = false;
+                        if (type && correct.type === type) {
+                            isCorrect = true;
+                            targetCard.classList.add('correct');
+                        } else if (baseline && correct.baseline === baseline) {
+                            isCorrect = true;
+                            targetCard.classList.add('correct');
+                        } else {
+                            targetCard.classList.add('incorrect');
+                        }
+
+                        // Check if both placements for this task are correct
+                        const typeCard = document.querySelector(`[data-type="${correct.type}"][data-task-slot="${taskId}"]`);
+                        const baselineCard = document.querySelector(`[data-baseline="${correct.baseline}"][data-task-slot="${taskId}"]`);
+
+                        if (typeCard.classList.contains('filled') && baselineCard.classList.contains('filled') &&
+                            typeCard.classList.contains('correct') && baselineCard.classList.contains('correct')) {
+                            this.completed++;
+                            this.showFeedback(taskId);
+                            this.updateProgress();
+
+                            if (this.completed === 4) {
+                                this.showCompletion();
+                            }
+                        }
+                    }
+
+                    showFeedback(taskId) {
+                        const feedbackSection = document.getElementById('feedback');
+                        const messageEl = document.getElementById('feedback-message');
+                        const explanationEl = document.getElementById('feedback-explanation');
+
+                        messageEl.textContent = `Great job with ${this.getTaskName(taskId)}!`;
+                        explanationEl.textContent = this.feedback[taskId];
+
+                        feedbackSection.classList.add('show');
+
+                        // Hide feedback after 4 seconds
+                        setTimeout(() => {
+                            feedbackSection.classList.remove('show');
+                        }, 4000);
+                    }
+
+                    getTaskName(taskId) {
+                        const names = {
+                            spam: 'Email Spam Detection',
+                            price: 'House Price Prediction',
+                            churn: 'Customer Churn Prediction',
+                            sales: 'Monthly Sales Forecasting'
+                        };
+                        return names[taskId];
+                    }
+
+                    showCompletion() {
+                        document.getElementById('completion').classList.add('show');
+                    }
+
+                    updateProgress() {
+                        document.getElementById('progress-count').textContent = `${this.completed}/4`;
+                    }
+
+                    reset() {
+                        this.completed = 0;
+                        this.placedTasks = {};
+
+                        // Reset task cards
+                        document.querySelectorAll('.task-card').forEach(card => {
+                            card.style.display = 'block';
+                        });
+
+                        // Reset target cards
+                        document.querySelectorAll('.target-card').forEach(card => {
+                            if (card.originalContent) {
+                                card.innerHTML = card.originalContent;
+                            }
+                            card.classList.remove('filled', 'correct', 'incorrect', 'drop-zone');
+                        });
+
+                        // Hide feedback and completion
+                        document.getElementById('feedback').classList.remove('show');
+                        document.getElementById('completion').classList.remove('show');
+
+                        this.updateProgress();
+                    }
+                }
+
+                // Initialize the matcher
+                let matcher;
+                let hierarchyActiveCircle = null;
+
+                function resetTaskMatcher() {
+                    if (matcher) {
+                        matcher.reset();
+                    }
+                }
+
+                function showHierarchyInfo(type) {
+                    // Hide all info panels
+                    document.querySelectorAll('.info-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    document.getElementById('default-hierarchy-info').style.display = 'none';
+
+                    // Remove active class from all circles
+                    document.querySelectorAll('.ai-circle, .ml-circle, .dl-circle').forEach(circle => {
+                        circle.classList.remove('circle-active');
+                    });
+
+                    // Show selected info and highlight circle
+                    document.getElementById(type + '-hierarchy-info').classList.add('active');
+                    document.getElementById(type + '-circle').classList.add('circle-active');
+
+                    hierarchyActiveCircle = type;
+                }
+
+                // Initialize when page loads
+                window.addEventListener('load', () => {
+                    matcher = new TaskModelMatcher();
+                });
+            </script>
+        </div>
+    </div>
+    <div class="dp-content-block content-block" data-title="ML Approaches">
+        <h2 class="dp-has-icon"><i class="dp-icon fas fa-layer-group" aria-hidden="true"></i>&nbsp;The Four Model Families</h2>
+        <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+            <div class="dp-panel-group">
+                <h3 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="ml-supervised">3.1 Supervised Learning</h3>
+                <div id="ml-supervised" class="dp-panel-content">
+                    <p>Learn from labeled examples to predict outcomes&mdash;approvals, churn, demand.</p>
+                    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+                        <div class="dp-panel-group">
+                            <h4 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="sup-classification">Classification: Predicting Categories</h4>
+                            <div id="sup-classification" class="dp-panel-content">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item"><strong>Use for:</strong> spam vs not spam, fraud vs legit, image label</li>
+                                    <li class="list-group-item"><strong>Business fit:</strong> consistent decisions at scale; auditable criteria</li>
+                                </ul>
+                                <div class="dp-card card" style="background-color: #f8f9fa; border: 1px solid #dee2e6; margin-top: .5rem;">
+                                    <div class="card-body">
+                                        <p><strong>Bank approvals:</strong> Train on past applications (approved/denied). Model learns signals (income, credit score, employment) &rarr; faster, more consistent decisions.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dp-panel-group">
+                            <h4 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="sup-regression">Regression: Predicting Numbers</h4>
+                            <div id="sup-regression" class="dp-panel-content">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item"><strong>Use for:</strong> sales forecasting, pricing, capacity/demand</li>
+                                    <li class="list-group-item"><strong>Business fit:</strong> financial planning, inventory, staffing</li>
+                                </ul>
+                                <div class="dp-card card" style="background-color: #f8f9fa; border: 1px solid #dee2e6; margin-top: .5rem;">
+                                    <div class="card-body">
+                                        <p><strong>Real estate valuations:</strong> Train on historical sales and property features to estimate price &rarr; competitive pricing, faster analysis.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dp-panel-group">
+                            <h4 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="sup-forecasting">Forecasting: Predicting Future Trends</h4>
+                            <div id="sup-forecasting" class="dp-panel-content">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item"><strong>Use for:</strong> demand planning, cash‑flow projections, capacity needs</li>
+                                    <li class="list-group-item"><strong>Business fit:</strong> inventory optimization, staffing, financial planning</li>
+                                </ul>
+                                <div class="dp-card card" style="background-color: #f8f9fa; border: 1px solid #dee2e6; margin-top: .5rem;">
+                                    <div class="card-body">
+                                        <p><strong>Retail demand:</strong> Multi‑year sales with seasonality/holiday features &rarr; fewer stockouts, lower carrying costs.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="dp-panel-group">
+                <h3 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="ml-unsupervised">3.2 Unsupervised Learning</h3>
+                <div id="ml-unsupervised" class="dp-panel-content">
+                    <p>Find structure without labels&mdash;discover segments/patterns before deciding what to predict.</p>
+                    <div class="dp-panel-group">
+                        <h4 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="unsup-cluster">Clustering &amp; Anomaly Detection</h4>
+                        <div id="unsup-cluster" class="dp-panel-content">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item"><strong>Use for:</strong> customer segments, product groupings, outlier detection</li>
+                                <li class="list-group-item"><strong>Business fit:</strong> personalization, merchandising, risk reduction</li>
+                            </ul>
+                            <div class="dp-card card" style="background-color: #f8f9fa; border: 1px solid #dee2e6; margin-top: .5rem;">
+                                <div class="card-body">
+                                    <p><strong>Example:</strong> E‑commerce clusters customers into natural groups (bargain hunters, premium buyers, researchers) &rarr; targeted offers and navigation.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="dp-panel-group">
+                <h3 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="ml-rl">3.3 Reinforcement Learning</h3>
+                <div id="ml-rl" class="dp-panel-content">
+                    <p>Optimize sequential actions via trial‑and‑error feedback to maximize long‑run reward.</p>
+                    <div class="dp-panel-group">
+                        <h4 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="rl-opt">Optimization &amp; Control</h4>
+                        <div id="rl-opt" class="dp-panel-content">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Dynamic pricing, routing, ad bidding, resource allocation</li>
+                                <li class="list-group-item">Needs safe exploration + guardrails</li>
+                            </ul>
+                            <div class="dp-card card" style="background-color: #f8f9fa; border: 1px solid #dee2e6; margin-top: .5rem;">
+                                <div class="card-body">
+                                    <p><strong>Example:</strong> Ride‑sharing optimizes driver positioning with feedback from pickup times &amp; satisfaction &rarr; shorter waits, higher utilization.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="dp-panel-group">
+                <h3 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="ml-selfsup">3.4 Self‑Supervised Learning</h3>
+                <div id="ml-selfsup" class="dp-panel-content">
+                    <p>Create your own labels from the data structure&mdash;powerful for language, vision, and audio.</p>
+                    <div class="dp-panel-group">
+                        <h4 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="selfsup-nlp">NLP &amp; Representation Learning</h4>
+                        <div id="selfsup-nlp" class="dp-panel-content">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Document understanding, summarization, search/retrieval</li>
+                            </ul>
+                            <div class="dp-card card" style="background-color: #f8f9fa; border: 1px solid #dee2e6; margin-top: .5rem;">
+                                <div class="card-body">
+                                    <p><strong>Example:</strong> Legal team triages contracts with a model pretrained on legal text to surface risk clauses for review &rarr; faster, more consistent screening.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="dp-content-block content-block" data-title="Selecting the Right Approach">
+        <h2 class="dp-has-icon"><i class="dp-icon fas fa-sliders-h" aria-hidden="true"></i>&nbsp;Selecting the Right Approach</h2>
+        <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+            <div class="dp-panel-group">
+                <h3 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="ml-decision-guide">Quick Decision Guide</h3>
+                <div id="ml-decision-guide" class="dp-panel-content">
+                    <div class="table-responsive">
+                        <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Decision framework for choosing ML types">
+                            <caption>Machine Learning Selection Framework</caption>
+                            <thead>
+                                <tr>
+                                    <th scope="col">ML Type</th>
+                                    <th scope="col">Have&hellip;</th>
+                                    <th scope="col">Want&hellip;</th>
+                                    <th scope="col">Example</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">Supervised</th>
+                                    <td>Labeled history (X &rarr; y)</td>
+                                    <td>Predict approvals/churn/demand</td>
+                                    <td>Credit decisions; forecast</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Unsupervised</th>
+                                    <td>Unlabeled data</td>
+                                    <td>Discover segments/patterns</td>
+                                    <td>Customer clustering</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Reinforcement</th>
+                                    <td>Safe environment</td>
+                                    <td>Optimize sequential decisions</td>
+                                    <td>Routing; pricing</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Self‑Supervised</th>
+                                    <td>Lots of text/images/audio</td>
+                                    <td>Understand/generate content</td>
+                                    <td>Contract triage</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px; margin-top: .75rem;">
+        <div class="card-body">
+            <h5 class="card-title dp-ignore-theme">Learning Objective</h5>
+            <p><strong>Students can match supervised, unsupervised, reinforcement, and self‑supervised approaches to specific business problems based on available data and desired outcomes.</strong></p>
+        </div>
+    </div>
+    <div class="dp-card card" style="border-left: 4px solid #582C83; padding-left: 15px; margin-top: .75rem;">
+        <div class="card-body">
+            <h5 class="card-title dp-ignore-theme">Strategic Guidance</h5>
+            <p><strong>Match sophistication to need:</strong> automation &amp; tabular predictions may need classic ML; complex language/vision/audio often benefits from deep learning. Optimize for <em>business impact</em>, not only model metrics.</p>
+        </div>
+    </div>
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-project-diagram" aria-hidden="true"></i>&nbsp;Machine Learning Building Blocks and Workflow</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+        <div class="dp-panel-group">
+            <h3 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="phase-1">Phase 1: Data Collection &amp; Understanding</h3>
+            <div id="phase-1" class="dp-panel-content">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Inventory sources, assess quality/governance, feasibility</li>
+                    <li class="list-group-item"><strong>Critical:</strong> poor data quality is the #1 failure point</li>
+                </ul>
+            </div>
+        </div>
+        <div class="dp-panel-group">
+            <h3 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="phase-2">Phase 2: Preprocessing &amp; Feature Engineering</h3>
+            <div id="phase-2" class="dp-panel-content">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Clean/encode/scale; engineer domain‑relevant features</li>
+                    <li class="list-group-item"><strong>Plan time:</strong> often 60&ndash;80% of effort</li>
+                </ul>
+            </div>
+        </div>
+        <div class="dp-panel-group">
+            <h3 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="phase-3">Phase 3: Model Training &amp; Tuning</h3>
+            <div id="phase-3" class="dp-panel-content">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Try candidates; tune; validate</li>
+                    <li class="list-group-item"><strong>Need:</strong> DS expertise + business context</li>
+                </ul>
+            </div>
+        </div>
+        <div class="dp-panel-group">
+            <h3 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="phase-4">Phase 4: Evaluation &amp; Selection</h3>
+            <div id="phase-4" class="dp-panel-content">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Compare on a common metric and baseline</li>
+                    <li class="list-group-item"><strong>Balance:</strong> accuracy, interpretability, cost, maintenance</li>
+                </ul>
+            </div>
+        </div>
+        <div class="dp-panel-group">
+            <h3 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="phase-5">Phase 5: Deployment &amp; Integration</h3>
+            <div id="phase-5" class="dp-panel-content">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Deliver scores where work happens (app/CRM/dashboard)</li>
+                    <li class="list-group-item"><strong>Change mgmt:</strong> adoption &gt; model metrics</li>
+                </ul>
+            </div>
+        </div>
+        <div class="dp-panel-group">
+            <h3 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="phase-6">Phase 6: Monitoring, Drift &amp; Iteration</h3>
+            <div id="phase-6" class="dp-panel-content">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Track data/label drift; retrain cadence; incident playbook</li>
+                    <li class="list-group-item"><strong>Mindset:</strong> AI is a continuous‑improvement loop</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <h2>The Iterative Nature of AI Success</h2>
+    <div class="dp-card card" style="border-left: 4px solid #f97316; padding-left: 15px;">
+        <div class="card-body">
+            <p>Value compounds as data improves, features mature, and processes integrate predictions into decisions.</p>
+        </div>
+    </div>
+    <h2>Key Takeaways for Business Leaders</h2>
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+        <div class="card-body">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>Systematic workflow</strong> beats ad‑hoc experiments</li>
+                <li class="list-group-item"><strong>Preprocessing</strong> largely determines success</li>
+                <li class="list-group-item"><strong>Integration &amp; adoption</strong> drive ROI</li>
+            </ul>
+        </div>
+    </div>
+    <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
+        <div class="card-body">
+            <h3 class="card-title">Helpful Tip</h3>
+            <p class="card-text">Pair model type with decision cadence: real‑time personalization &ne; quarterly batch scoring.</p>
+        </div>
+    </div>
+    <hr />
+    <p>Select <strong>Next▸</strong> to continue.</p>
+</div>

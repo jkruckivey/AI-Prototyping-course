@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perceptron Playground</title>
+    <link rel="stylesheet" href="ivey-widget-base.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .dp-wrapper {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 20px;
+            font-family: 'Figtree', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: #fff;
+        }
+
+        .dp-content-block {
+            margin-bottom: 2rem;
+        }
+
+        .dp-has-icon {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #034638;
+            margin: 0 0 1rem 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .dp-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin: 1rem 0;
+        }
+
+        .dp-card.intro-card {
+            border-left: 4px solid #034638;
+            background: #f8fffe;
+        }
+
+        .controls-section {
+            background: #f8fffe;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid #034638;
+        }
+
+        .controls-section h3 {
+            color: #034638;
+            margin: 0 0 1rem 0;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .control-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .control-item {
+            background: white;
+            padding: 1rem;
+            border-radius: 6px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .control-item label {
+            display: block;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .slider-container input[type="range"] {
+            flex: 1;
+            height: 4px;
+            background: #e5e7eb;
+            border-radius: 2px;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .slider-container input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            background: #034638;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .value-display {
+            background: #034638;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.75rem;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: #034638;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0a5c4a;
+        }
+
+        .btn-secondary {
+            background: #582C83;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #4c1d75;
+        }
+
+        .btn-reset {
+            background: #dc2626;
+            color: white;
+        }
+
+        .btn-reset:hover {
+            background: #b91c1c;
+        }
+
+        .visualization-section {
+            margin: 2rem 0;
+        }
+
+        .chart-container {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .chart-title {
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 1rem;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .perceptron-canvas {
+            width: 100%;
+            height: 280px;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            background: #f9fafb;
+        }
+
+        .loss-chart {
+            width: 100%;
+            height: 200px;
+            margin: 1rem 0;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .metric-card {
+            background: #f8fffe;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 1rem;
+            text-align: center;
+            border-left: 4px solid #034638;
+        }
+
+        .metric-title {
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .metric-value {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #034638;
+        }
+
+        .epoch-display {
+            background: #eff6ff;
+            border: 2px solid #3b82f6;
+            border-radius: 6px;
+            padding: 0.75rem;
+            text-align: center;
+            margin: 1rem 0;
+            font-weight: 600;
+            color: #1e40af;
+        }
+
+        .network-diagram {
+            background: #faf5ff;
+            border: 2px solid #582C83;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .network-title {
+            font-weight: 600;
+            color: #582C83;
+            margin-bottom: 1rem;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .network-canvas {
+            width: 100%;
+            height: 150px;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .explanation-section {
+            background: #f0f9ff;
+            border: 2px solid #3b82f6;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .explanation-title {
+            font-weight: 600;
+            color: #1e40af;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .explanation-text {
+            color: #1e3a8a;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 480px) {
+            .control-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Pop-out button for full window view -->
+    <button class="widget-popout-btn" id="popoutBtn" title="Open in full window">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+        </svg>
+        <span>Pop Out</span>
+    </button>
+    <div class="dp-wrapper">
+        <div class="dp-content-block">
+            <h2 class="dp-has-icon">
+                <i class="dp-icon fas fa-brain" aria-hidden="true"></i>
+                Perceptron Playground
+            </h2>
+            <div class="dp-card intro-card">
+                <p><strong>Interactive Learning:</strong> Explore how neural networks learn through interactive training. Adjust parameters and watch the perceptron adapt its decision boundary in real-time.</p>
+            </div>
+        </div>
+
+        <div class="controls-section">
+            <h3><i class="fas fa-sliders-h" aria-hidden="true"></i> Neural Network Configuration</h3>
+
+            <div class="control-grid">
+                <div class="control-item">
+                    <label for="learningRate">Learning Rate</label>
+                    <div class="slider-container">
+                        <input type="range" id="learningRate" min="0.01" max="1.0" value="0.1" step="0.01">
+                        <div class="value-display" id="learningRateValue">0.10</div>
+                    </div>
+                </div>
+
+                <div class="control-item">
+                    <label for="dataPoints">Training Points</label>
+                    <div class="slider-container">
+                        <input type="range" id="dataPoints" min="50" max="200" value="100" step="25">
+                        <div class="value-display" id="dataPointsValue">100</div>
+                    </div>
+                </div>
+
+                <div class="control-item">
+                    <label for="noiseLevel">Noise Level</label>
+                    <div class="slider-container">
+                        <input type="range" id="noiseLevel" min="0" max="0.3" value="0.1" step="0.05">
+                        <div class="value-display" id="noiseLevelValue">0.10</div>
+                    </div>
+                </div>
+
+                <div class="control-item">
+                    <label for="batchSize">Batch Size</label>
+                    <div class="slider-container">
+                        <input type="range" id="batchSize" min="1" max="20" value="5" step="1">
+                        <div class="value-display" id="batchSizeValue">5</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-primary" id="startTraining">
+                    <i class="fas fa-play" aria-hidden="true"></i> Start Training
+                </button>
+                <button class="btn btn-secondary" id="stepTraining">
+                    <i class="fas fa-step-forward" aria-hidden="true"></i> Single Step
+                </button>
+                <button class="btn btn-reset" id="resetNetwork">
+                    <i class="fas fa-redo-alt" aria-hidden="true"></i> Reset
+                </button>
+            </div>
+        </div>
+
+        <div class="epoch-display">
+            <i class="fas fa-stopwatch" aria-hidden="true"></i>
+            Epoch: <span id="epochCount">0</span>
+        </div>
+
+        <div class="visualization-section">
+            <div class="chart-container">
+                <div class="chart-title">
+                    <i class="fas fa-chart-scatter" aria-hidden="true"></i>
+                    Training Data & Decision Boundary
+                </div>
+                <canvas id="dataCanvas" class="perceptron-canvas"></canvas>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">
+                    <i class="fas fa-chart-line" aria-hidden="true"></i>
+                    Loss Over Time
+                </div>
+                <canvas id="lossCanvas" class="loss-chart"></canvas>
+            </div>
+        </div>
+
+        <div class="network-diagram">
+            <div class="network-title">
+                <i class="fas fa-project-diagram" aria-hidden="true"></i>
+                Neural Network Structure
+            </div>
+            <canvas id="networkCanvas" class="network-canvas"></canvas>
+        </div>
+
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-title">Current Accuracy</div>
+                <div class="metric-value" id="currentAccuracy">50.0%</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">Current Loss</div>
+                <div class="metric-value" id="currentLoss">0.693</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">Weight W1</div>
+                <div class="metric-value" id="weight1">0.00</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">Weight W2</div>
+                <div class="metric-value" id="weight2">0.00</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">Bias</div>
+                <div class="metric-value" id="bias">0.00</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">Convergence</div>
+                <div class="metric-value" id="convergence">Training</div>
+            </div>
+        </div>
+
+        <div class="explanation-section">
+            <div class="explanation-title">
+                <i class="fas fa-lightbulb" aria-hidden="true"></i>
+                How the Perceptron Learns
+            </div>
+            <div class="explanation-text" id="explanationText">
+                The perceptron is the building block of neural networks. It takes two inputs (x1, x2), multiplies them by weights (w1, w2), adds a bias term, and passes the result through a sigmoid activation function. During training, the weights are adjusted using gradient descent to minimize prediction errors.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class Perceptron {
+            constructor() {
+                this.weights = [Math.random() * 0.2 - 0.1, Math.random() * 0.2 - 0.1];
+                this.bias = Math.random() * 0.2 - 0.1;
+                this.learningRate = 0.1;
+                this.epoch = 0;
+                this.lossHistory = [];
+                this.accuracyHistory = [];
+            }
+
+            sigmoid(x) {
+                return 1 / (1 + Math.exp(-Math.max(-500, Math.min(500, x))));
+            }
+
+            forward(x1, x2) {
+                const z = this.weights[0] * x1 + this.weights[1] * x2 + this.bias;
+                return this.sigmoid(z);
+            }
+
+            predict(x1, x2) {
+                return this.forward(x1, x2) > 0.5 ? 1 : 0;
+            }
+
+            train(data, batchSize) {
+                const shuffled = [...data].sort(() => Math.random() - 0.5);
+                let totalLoss = 0;
+                let correct = 0;
+
+                for (let i = 0; i < shuffled.length; i += batchSize) {
+                    const batch = shuffled.slice(i, i + batchSize);
+                    let batchGradW1 = 0, batchGradW2 = 0, batchGradB = 0;
+
+                    for (let point of batch) {
+                        const prediction = this.forward(point.x, point.y);
+                        const error = point.label - prediction;
+
+                        batchGradW1 += error * prediction * (1 - prediction) * point.x;
+                        batchGradW2 += error * prediction * (1 - prediction) * point.y;
+                        batchGradB += error * prediction * (1 - prediction);
+
+                        totalLoss += -point.label * Math.log(prediction + 1e-15) - (1 - point.label) * Math.log(1 - prediction + 1e-15);
+                        if (this.predict(point.x, point.y) === point.label) correct++;
+                    }
+
+                    this.weights[0] += this.learningRate * batchGradW1 / batch.length;
+                    this.weights[1] += this.learningRate * batchGradW2 / batch.length;
+                    this.bias += this.learningRate * batchGradB / batch.length;
+                }
+
+                this.epoch++;
+                const avgLoss = totalLoss / data.length;
+                const accuracy = correct / data.length;
+
+                this.lossHistory.push(avgLoss);
+                this.accuracyHistory.push(accuracy);
+
+                return { loss: avgLoss, accuracy: accuracy };
+            }
+
+            reset() {
+                this.weights = [Math.random() * 0.2 - 0.1, Math.random() * 0.2 - 0.1];
+                this.bias = Math.random() * 0.2 - 0.1;
+                this.epoch = 0;
+                this.lossHistory = [];
+                this.accuracyHistory = [];
+            }
+        }
+
+        // Global variables
+        let perceptron = new Perceptron();
+        let trainingData = [];
+        let isTraining = false;
+        let trainingInterval = null;
+
+        // Canvas setup
+        let dataCanvas, dataCtx, lossCanvas, lossCtx, networkCanvas, networkCtx;
+
+        function initializeCanvases() {
+            dataCanvas = document.getElementById('dataCanvas');
+            dataCtx = dataCanvas.getContext('2d');
+            lossCanvas = document.getElementById('lossCanvas');
+            lossCtx = lossCanvas.getContext('2d');
+            networkCanvas = document.getElementById('networkCanvas');
+            networkCtx = networkCanvas.getContext('2d');
+
+            // Set canvas sizes
+            const rect = dataCanvas.getBoundingClientRect();
+            dataCanvas.width = rect.width * 2;
+            dataCanvas.height = rect.height * 2;
+            dataCtx.scale(2, 2);
+
+            const lossRect = lossCanvas.getBoundingClientRect();
+            lossCanvas.width = lossRect.width * 2;
+            lossCanvas.height = lossRect.height * 2;
+            lossCtx.scale(2, 2);
+
+            const netRect = networkCanvas.getBoundingClientRect();
+            networkCanvas.width = netRect.width * 2;
+            networkCanvas.height = netRect.height * 2;
+            networkCtx.scale(2, 2);
+        }
+
+        function generateData(numPoints, noiseLevel) {
+            const data = [];
+            for (let i = 0; i < numPoints; i++) {
+                const x = Math.random() * 4 - 2;
+                const y = Math.random() * 4 - 2;
+
+                // Circular pattern
+                let label = (x * x + y * y) < 1.5 ? 1 : 0;
+
+                // Add noise
+                if (Math.random() < noiseLevel) {
+                    label = 1 - label;
+                }
+
+                data.push({ x, y, label });
+            }
+            return data;
+        }
+
+        function drawDataPlot() {
+            const width = dataCanvas.width / 2;
+            const height = dataCanvas.height / 2;
+            dataCtx.clearRect(0, 0, width, height);
+
+            // Draw decision boundary
+            const resolution = 40;
+            for (let i = 0; i < resolution; i++) {
+                for (let j = 0; j < resolution; j++) {
+                    const x = (i / resolution) * 4 - 2;
+                    const y = (j / resolution) * 4 - 2;
+                    const prediction = perceptron.forward(x, y);
+
+                    const alpha = Math.abs(prediction - 0.5) * 0.6;
+                    const color = prediction > 0.5 ?
+                        `rgba(34, 197, 94, ${alpha})` :
+                        `rgba(220, 38, 38, ${alpha})`;
+
+                    dataCtx.fillStyle = color;
+                    dataCtx.fillRect(
+                        (x + 2) / 4 * width,
+                        (2 - y) / 4 * height,
+                        width / resolution,
+                        height / resolution
+                    );
+                }
+            }
+
+            // Draw data points
+            trainingData.forEach(point => {
+                const px = (point.x + 2) / 4 * width;
+                const py = (2 - point.y) / 4 * height;
+
+                dataCtx.beginPath();
+                dataCtx.arc(px, py, 4, 0, Math.PI * 2);
+                dataCtx.fillStyle = point.label === 1 ? '#16a34a' : '#dc2626';
+                dataCtx.fill();
+                dataCtx.strokeStyle = 'white';
+                dataCtx.lineWidth = 1;
+                dataCtx.stroke();
+            });
+
+            // Draw axes
+            dataCtx.strokeStyle = '#666';
+            dataCtx.lineWidth = 1;
+            dataCtx.beginPath();
+            dataCtx.moveTo(width / 2, 0);
+            dataCtx.lineTo(width / 2, height);
+            dataCtx.moveTo(0, height / 2);
+            dataCtx.lineTo(width, height / 2);
+            dataCtx.stroke();
+
+            // Labels
+            dataCtx.fillStyle = '#333';
+            dataCtx.font = '12px Figtree';
+            dataCtx.fillText('X1', width - 20, height / 2 - 5);
+            dataCtx.fillText('X2', width / 2 + 5, 15);
+        }
+
+        function drawLossChart() {
+            const width = lossCanvas.width / 2;
+            const height = lossCanvas.height / 2;
+            lossCtx.clearRect(0, 0, width, height);
+
+            if (perceptron.lossHistory.length === 0) return;
+
+            const maxLoss = Math.max(...perceptron.lossHistory);
+            const minLoss = Math.min(...perceptron.lossHistory);
+            const range = Math.max(maxLoss - minLoss, 0.1);
+
+            // Draw grid
+            lossCtx.strokeStyle = '#e5e7eb';
+            lossCtx.lineWidth = 1;
+            for (let i = 0; i <= 5; i++) {
+                const y = (i / 5) * height;
+                lossCtx.beginPath();
+                lossCtx.moveTo(0, y);
+                lossCtx.lineTo(width, y);
+                lossCtx.stroke();
+            }
+
+            // Draw loss line
+            lossCtx.strokeStyle = '#582C83';
+            lossCtx.lineWidth = 2;
+            lossCtx.beginPath();
+
+            perceptron.lossHistory.forEach((loss, i) => {
+                const x = (i / (perceptron.lossHistory.length - 1)) * width;
+                const y = height - ((loss - minLoss) / range) * height;
+
+                if (i === 0) {
+                    lossCtx.moveTo(x, y);
+                } else {
+                    lossCtx.lineTo(x, y);
+                }
+            });
+            lossCtx.stroke();
+
+            // Labels
+            lossCtx.fillStyle = '#333';
+            lossCtx.font = '10px Figtree';
+            lossCtx.fillText(`${maxLoss.toFixed(3)}`, 5, 12);
+            lossCtx.fillText(`${minLoss.toFixed(3)}`, 5, height - 5);
+            lossCtx.fillText('Epoch', width - 35, height - 5);
+        }
+
+        function drawNetworkDiagram() {
+            const width = networkCanvas.width / 2;
+            const height = networkCanvas.height / 2;
+            networkCtx.clearRect(0, 0, width, height);
+
+            // Node positions
+            const inputNodes = [
+                { x: 50, y: 30, label: 'X1' },
+                { x: 50, y: 70, label: 'X2' }
+            ];
+            const outputNode = { x: 200, y: 50, label: 'Output' };
+
+            // Draw connections
+            networkCtx.strokeStyle = '#6b7280';
+            networkCtx.lineWidth = 2;
+            inputNodes.forEach((input, i) => {
+                networkCtx.beginPath();
+                networkCtx.moveTo(input.x + 15, input.y);
+                networkCtx.lineTo(outputNode.x - 15, outputNode.y);
+                networkCtx.stroke();
+
+                // Weight labels
+                networkCtx.fillStyle = '#374151';
+                networkCtx.font = '10px Figtree';
+                const midX = (input.x + outputNode.x) / 2;
+                const midY = (input.y + outputNode.y) / 2 + (i - 0.5) * 10;
+                networkCtx.fillText(`w${i + 1}=${perceptron.weights[i].toFixed(2)}`, midX - 25, midY);
+            });
+
+            // Draw nodes
+            inputNodes.forEach(node => {
+                networkCtx.beginPath();
+                networkCtx.arc(node.x, node.y, 15, 0, Math.PI * 2);
+                networkCtx.fillStyle = '#3b82f6';
+                networkCtx.fill();
+                networkCtx.fillStyle = 'white';
+                networkCtx.font = '12px Figtree';
+                networkCtx.textAlign = 'center';
+                networkCtx.fillText(node.label, node.x, node.y + 4);
+            });
+
+            networkCtx.beginPath();
+            networkCtx.arc(outputNode.x, outputNode.y, 15, 0, Math.PI * 2);
+            networkCtx.fillStyle = '#16a34a';
+            networkCtx.fill();
+            networkCtx.fillStyle = 'white';
+            networkCtx.font = '10px Figtree';
+            networkCtx.textAlign = 'center';
+            networkCtx.fillText('Out', outputNode.x, outputNode.y + 3);
+
+            // Bias label
+            networkCtx.fillStyle = '#374151';
+            networkCtx.font = '12px Figtree';
+            networkCtx.textAlign = 'left';
+            networkCtx.fillText(`bias = ${perceptron.bias.toFixed(2)}`, 80, 120);
+        }
+
+        function updateMetrics() {
+            const accuracy = perceptron.accuracyHistory.length > 0 ?
+                perceptron.accuracyHistory[perceptron.accuracyHistory.length - 1] : 0.5;
+            const loss = perceptron.lossHistory.length > 0 ?
+                perceptron.lossHistory[perceptron.lossHistory.length - 1] : 0.693;
+
+            document.getElementById('currentAccuracy').textContent = `${(accuracy * 100).toFixed(1)}%`;
+            document.getElementById('currentLoss').textContent = loss.toFixed(3);
+            document.getElementById('weight1').textContent = perceptron.weights[0].toFixed(2);
+            document.getElementById('weight2').textContent = perceptron.weights[1].toFixed(2);
+            document.getElementById('bias').textContent = perceptron.bias.toFixed(2);
+            document.getElementById('epochCount').textContent = perceptron.epoch;
+
+            // Convergence status
+            const convergenceStatus = loss < 0.1 ? 'Converged' :
+                                    perceptron.epoch > 10 ? 'Learning' : 'Starting';
+            document.getElementById('convergence').textContent = convergenceStatus;
+        }
+
+        function updateExplanation() {
+            const accuracy = perceptron.accuracyHistory.length > 0 ?
+                perceptron.accuracyHistory[perceptron.accuracyHistory.length - 1] : 0.5;
+
+            let phase = "initialization";
+            if (perceptron.epoch > 50) phase = "convergence";
+            else if (perceptron.epoch > 10) phase = "learning";
+            else if (perceptron.epoch > 0) phase = "early training";
+
+            const explanations = {
+                initialization: "The perceptron starts with random weights. It will learn by adjusting these weights based on prediction errors.",
+                "early training": "The network is making initial weight adjustments. Large changes in loss are normal as it explores the solution space.",
+                learning: "The perceptron is actively learning patterns in the data. Watch how the decision boundary evolves with each epoch.",
+                convergence: "The network is converging to a stable solution. Weight changes become smaller as learning stabilizes."
+            };
+
+            document.getElementById('explanationText').textContent =
+                `${explanations[phase]} Current accuracy: ${(accuracy * 100).toFixed(1)}%. ` +
+                `The sigmoid activation function ensures outputs stay between 0 and 1, representing probabilities.`;
+        }
+
+        function updateVisualization() {
+            drawDataPlot();
+            drawLossChart();
+            drawNetworkDiagram();
+            updateMetrics();
+            updateExplanation();
+        }
+
+        function initializeData() {
+            const numPoints = parseInt(document.getElementById('dataPoints').value);
+            const noiseLevel = parseFloat(document.getElementById('noiseLevel').value);
+            trainingData = generateData(numPoints, noiseLevel);
+        }
+
+        function trainStep() {
+            const batchSize = parseInt(document.getElementById('batchSize').value);
+            perceptron.learningRate = parseFloat(document.getElementById('learningRate').value);
+
+            const result = perceptron.train(trainingData, batchSize);
+            updateVisualization();
+            return result;
+        }
+
+        // Event listeners
+        document.getElementById('startTraining').addEventListener('click', () => {
+            if (!isTraining) {
+                isTraining = true;
+                const button = document.getElementById('startTraining');
+                button.innerHTML = '<i class="fas fa-stop" aria-hidden="true"></i> Stop Training';
+
+                trainingInterval = setInterval(() => {
+                    const result = trainStep();
+                    if (perceptron.epoch > 100 && result.loss < 0.01) {
+                        document.getElementById('startTraining').click();
+                    }
+                }, 150);
+            } else {
+                isTraining = false;
+                const button = document.getElementById('startTraining');
+                button.innerHTML = '<i class="fas fa-play" aria-hidden="true"></i> Start Training';
+                clearInterval(trainingInterval);
+            }
+        });
+
+        document.getElementById('stepTraining').addEventListener('click', trainStep);
+
+        document.getElementById('resetNetwork').addEventListener('click', () => {
+            if (isTraining) {
+                document.getElementById('startTraining').click();
+            }
+            perceptron.reset();
+            initializeData();
+            updateVisualization();
+        });
+
+        // Parameter change listeners
+        document.getElementById('learningRate').addEventListener('input', (e) => {
+            document.getElementById('learningRateValue').textContent = parseFloat(e.target.value).toFixed(2);
+        });
+
+        document.getElementById('dataPoints').addEventListener('input', (e) => {
+            document.getElementById('dataPointsValue').textContent = e.target.value;
+            if (!isTraining) {
+                initializeData();
+                updateVisualization();
+            }
+        });
+
+        document.getElementById('noiseLevel').addEventListener('input', (e) => {
+            document.getElementById('noiseLevelValue').textContent = parseFloat(e.target.value).toFixed(2);
+            if (!isTraining) {
+                initializeData();
+                updateVisualization();
+            }
+        });
+
+        document.getElementById('batchSize').addEventListener('input', (e) => {
+            document.getElementById('batchSizeValue').textContent = e.target.value;
+        });
+
+        // Initialize when page loads
+        window.addEventListener('load', () => {
+            initializeCanvases();
+            initializeData();
+            updateVisualization();
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            setTimeout(() => {
+                initializeCanvases();
+                updateVisualization();
+            }, 100);
+        });
+
+        // Pop-out functionality
+        document.getElementById('popoutBtn').addEventListener('click', function() {
+            const currentUrl = window.location.href;
+            const popoutUrl = currentUrl + (currentUrl.includes('?') ? '&' : '?') + 'standalone=true';
+
+            // Open in new window with specific dimensions
+            const popoutWindow = window.open(
+                popoutUrl,
+                'WidgetPopout',
+                'width=1200,height=900,resizable=yes,scrollbars=yes,status=yes'
+            );
+
+            // Focus the new window
+            if (popoutWindow) {
+                popoutWindow.focus();
+            }
+        });
+
+        // Check if in standalone mode
+        if (window.location.search.includes('standalone=true')) {
+            document.body.classList.add('standalone-mode');
+        }
+    </script>
+</body>
+</html>

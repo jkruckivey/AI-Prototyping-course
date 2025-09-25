@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rollout Simulator - AMBA Template</title>
+  <!-- Canvas iframe sizing hint -->
+  <meta name="canvas-height" content="1000">
+  <meta name="description" content="Real-time rollout simulation with guardrails and metrics">
+  <link rel="stylesheet" href="ivey-widget-base.css">
+  <script src="https://cdn.plot.ly/plotly-2.28.0.min.js"></script>
+  <style>
+    /* AMBA Template Widget Styling */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: white;
+      color: #333;
+      line-height: 1.5;
+      padding: 0;
+      margin: 0;
+    }
+
+    .dp-wrapper {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 15px;
+      background: #ffffff;
+      border-radius: 8px;
+    }
+
+    .widget-header {
+      background: #034638;
+      color: white;
+      padding: 12px 16px;
+      text-align: center;
+      border-radius: 8px 8px 0 0;
+      margin: -15px -15px 20px -15px;
+    }
+
+    .widget-title {
+      font-size: 1.2em;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    .controls-panel {
+      background: #f8f9fa;
+      border: 2px solid #034638;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+
+    .controls-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .control-group {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 10px;
+    }
+
+    .control-label {
+      font-weight: bold;
+      color: #034638;
+      margin-bottom: 6px;
+      display: block;
+      font-size: 0.9em;
+    }
+
+    select, input[type="number"], input[type="range"] {
+      width: 100%;
+      padding: 6px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .btn {
+      background: #034638;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      margin: 5px;
+    }
+
+    .btn:hover {
+      background: #045a42;
+    }
+
+    .btn-danger {
+      background: #dc3545;
+    }
+
+    .btn-danger:hover {
+      background: #c82333;
+    }
+
+    .status-panel {
+      background: #e8f5e8;
+      border: 2px solid #034638;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+    }
+
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 10px;
+    }
+
+    .status-item {
+      background: white;
+      border: 1px solid #034638;
+      border-radius: 4px;
+      padding: 8px;
+      text-align: center;
+    }
+
+    .status-label {
+      font-size: 0.8em;
+      color: #666;
+      margin-bottom: 4px;
+    }
+
+    .status-value {
+      font-weight: bold;
+      color: #034638;
+      font-size: 1.1em;
+    }
+
+    .guardrails-panel {
+      background: #fff3cd;
+      border: 2px solid #ffc107;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+    }
+
+    .guardrail-item {
+      background: white;
+      border: 1px solid #ffc107;
+      border-radius: 4px;
+      padding: 8px;
+      margin: 5px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .guardrail-status {
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.8em;
+      font-weight: bold;
+    }
+
+    .status-ok {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    .status-warning {
+      background: #fff3cd;
+      color: #856404;
+    }
+
+    .status-danger {
+      background: #f8d7da;
+      color: #721c24;
+    }
+
+    .plot-container {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      margin: 20px 0;
+      padding: 10px;
+    }
+
+    .simulation-log {
+      background: #f8f9fa;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 10px;
+      margin: 10px 0;
+      max-height: 200px;
+      overflow-y: auto;
+      font-family: monospace;
+      font-size: 0.8em;
+    }
+
+    .log-entry {
+      margin: 2px 0;
+      padding: 2px 4px;
+      border-radius: 2px;
+    }
+
+    .log-info {
+      background: #d1ecf1;
+      color: #0c5460;
+    }
+
+    .log-warning {
+      background: #fff3cd;
+      color: #856404;
+    }
+
+    .log-danger {
+      background: #f8d7da;
+      color: #721c24;
+    }
+
+    .rollout-progress {
+      background: white;
+      border: 2px solid #034638;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+    }
+
+    .progress-bar {
+      background: #e9ecef;
+      border-radius: 4px;
+      height: 20px;
+      margin: 10px 0;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      background: #034638;
+      height: 100%;
+      transition: width 0.3s ease;
+    }
+
+    .traffic-split {
+      display: flex;
+      justify-content: space-between;
+      margin: 10px 0;
+    }
+
+    .traffic-item {
+      text-align: center;
+      flex: 1;
+      padding: 8px;
+      border-radius: 4px;
+      margin: 0 2px;
+    }
+
+    .traffic-control {
+      background: #e9ecef;
+      color: #495057;
+    }
+
+    .traffic-treatment {
+      background: #034638;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <!-- Pop-out button -->
+  <button class="widget-popout-btn" id="popoutBtn" title="Open in full window">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+    </svg>
+    <span>Pop Out</span>
+  </button>
+
+<div class="dp-wrapper">
+  <div class="widget-header">
+    <h1 class="widget-title">Rollout Simulator: Shadow, Canary & A/B Testing</h1>
+  </div>
+
+  <div class="controls-panel">
+    <h3 style="color: #034638; margin-bottom: 15px;">Rollout Configuration</h3>
+    <div class="controls-grid">
+      <div class="control-group">
+        <label class="control-label">Rollout Strategy</label>
+        <select id="strategy" onchange="updateSimulation()">
+          <option value="shadow">Shadow Mode</option>
+          <option value="canary">Canary Release</option>
+          <option value="ab">A/B Testing</option>
+        </select>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label">Traffic Split (%)</label>
+        <input type="range" id="traffic-split" min="0" max="100" value="10" onchange="updateSimulation()">
+        <div style="text-align: center; font-size: 0.9em; margin-top: 4px;">
+          <span id="traffic-value">10%</span> Treatment
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label">Model Performance Delta</label>
+        <select id="performance-delta" onchange="updateSimulation()">
+          <option value="0.05">+5% (Improvement)</option>
+          <option value="0.02">+2% (Slight Better)</option>
+          <option value="0">No Change</option>
+          <option value="-0.02">-2% (Slight Worse)</option>
+          <option value="-0.05">-5% (Degradation)</option>
+        </select>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label">Latency Impact (ms)</label>
+        <input type="number" id="latency-impact" value="5" min="0" max="100" onchange="updateSimulation()">
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 15px;">
+      <button class="btn" onclick="startSimulation()">Start Rollout</button>
+      <button class="btn btn-danger" onclick="triggerRollback()">Emergency Rollback</button>
+    </div>
+  </div>
+
+  <div class="status-panel">
+    <h3 style="color: #034638; margin-bottom: 10px;">📊 Real-time Metrics</h3>
+    <div class="status-grid">
+      <div class="status-item">
+        <div class="status-label">Success Rate</div>
+        <div class="status-value" id="success-rate">99.2%</div>
+      </div>
+      <div class="status-item">
+        <div class="status-label">Avg Latency</div>
+        <div class="status-value" id="avg-latency">45ms</div>
+      </div>
+      <div class="status-item">
+        <div class="status-label">Error Rate</div>
+        <div class="status-value" id="error-rate">0.1%</div>
+      </div>
+      <div class="status-item">
+        <div class="status-label">Traffic Split</div>
+        <div class="status-value" id="current-split">10/90</div>
+      </div>
+      <div class="status-item">
+        <div class="status-label">Total Requests</div>
+        <div class="status-value" id="total-requests">1,247</div>
+      </div>
+      <div class="status-item">
+        <div class="status-label">Rollout Status</div>
+        <div class="status-value" id="rollout-status">Running</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="guardrails-panel">
+    <h3 style="color: #856404; margin-bottom: 10px;">🛡️ Guardrails Status</h3>
+    <div class="guardrail-item">
+      <span>Success Rate > 95%</span>
+      <span class="guardrail-status status-ok" id="guardrail-success">OK</span>
+    </div>
+    <div class="guardrail-item">
+      <span>Latency P95 < 100ms</span>
+      <span class="guardrail-status status-ok" id="guardrail-latency">OK</span>
+    </div>
+    <div class="guardrail-item">
+      <span>Error Rate < 1%</span>
+      <span class="guardrail-status status-ok" id="guardrail-error">OK</span>
+    </div>
+    <div class="guardrail-item">
+      <span>Performance Delta > -3%</span>
+      <span class="guardrail-status status-ok" id="guardrail-performance">OK</span>
+    </div>
+  </div>
+
+  <div class="rollout-progress">
+    <h3 style="color: #034638; margin-bottom: 10px;">🚀 Rollout Progress</h3>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress-fill" style="width: 10%;"></div>
+    </div>
+    <div class="traffic-split">
+      <div class="traffic-item traffic-control">
+        Control: <span id="control-percentage">90%</span>
+      </div>
+      <div class="traffic-item traffic-treatment">
+        Treatment: <span id="treatment-percentage">10%</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="plot-container">
+    <div id="metrics-plot" style="height: 350px;"></div>
+  </div>
+
+  <div class="simulation-log" id="simulation-log">
+    <div class="log-entry log-info">[00:00] Rollout simulation initialized</div>
+  </div>
+</div>
+
+<script>
+let simulationData = {
+  time: [],
+  successRate: [],
+  latency: [],
+  errorRate: [],
+  isRunning: false,
+  currentStep: 0
+};
+
+let simulationInterval;
+let totalRequests = 0;
+
+function updateSimulation() {
+  const strategy = document.getElementById('strategy').value;
+  const split = parseInt(document.getElementById('traffic-split').value);
+  const delta = parseFloat(document.getElementById('performance-delta').value);
+  const latencyImpact = parseInt(document.getElementById('latency-impact').value);
+
+  // Update traffic value display
+  document.getElementById('traffic-value').textContent = split + '%';
+
+  // Update current split display
+  document.getElementById('current-split').textContent = `${split}/${100-split}`;
+
+  // Update progress bar
+  document.getElementById('progress-fill').style.width = split + '%';
+  document.getElementById('control-percentage').textContent = (100-split) + '%';
+  document.getElementById('treatment-percentage').textContent = split + '%';
+
+  // Simulate real-time metrics based on configuration
+  updateRealTimeMetrics(delta, latencyImpact, split);
+}
+
+function updateRealTimeMetrics(delta, latencyImpact, split) {
+  // Base metrics
+  const baseSuccessRate = 99.5;
+  const baseLatency = 40;
+  const baseErrorRate = 0.1;
+
+  // Apply treatment effects
+  const treatmentImpact = split / 100;
+  const successRate = baseSuccessRate + (delta * 100 * treatmentImpact);
+  const latency = baseLatency + (latencyImpact * treatmentImpact);
+  const errorRate = Math.max(0, baseErrorRate - (delta * 10 * treatmentImpact));
+
+  // Update displays
+  document.getElementById('success-rate').textContent = successRate.toFixed(1) + '%';
+  document.getElementById('avg-latency').textContent = Math.round(latency) + 'ms';
+  document.getElementById('error-rate').textContent = errorRate.toFixed(1) + '%';
+
+  // Update guardrails
+  updateGuardrails(successRate, latency, errorRate, delta);
+}
+
+function updateGuardrails(successRate, latency, errorRate, delta) {
+  // Success rate guardrail
+  const successGuard = document.getElementById('guardrail-success');
+  if (successRate >= 95) {
+    successGuard.textContent = 'OK';
+    successGuard.className = 'guardrail-status status-ok';
+  } else if (successRate >= 90) {
+    successGuard.textContent = 'WARNING';
+    successGuard.className = 'guardrail-status status-warning';
+  } else {
+    successGuard.textContent = 'BREACH';
+    successGuard.className = 'guardrail-status status-danger';
+  }
+
+  // Latency guardrail
+  const latencyGuard = document.getElementById('guardrail-latency');
+  if (latency <= 100) {
+    latencyGuard.textContent = 'OK';
+    latencyGuard.className = 'guardrail-status status-ok';
+  } else if (latency <= 150) {
+    latencyGuard.textContent = 'WARNING';
+    latencyGuard.className = 'guardrail-status status-warning';
+  } else {
+    latencyGuard.textContent = 'BREACH';
+    latencyGuard.className = 'guardrail-status status-danger';
+  }
+
+  // Error rate guardrail
+  const errorGuard = document.getElementById('guardrail-error');
+  if (errorRate <= 1) {
+    errorGuard.textContent = 'OK';
+    errorGuard.className = 'guardrail-status status-ok';
+  } else if (errorRate <= 2) {
+    errorGuard.textContent = 'WARNING';
+    errorGuard.className = 'guardrail-status status-warning';
+  } else {
+    errorGuard.textContent = 'BREACH';
+    errorGuard.className = 'guardrail-status status-danger';
+  }
+
+  // Performance delta guardrail
+  const perfGuard = document.getElementById('guardrail-performance');
+  if (delta >= -0.03) {
+    perfGuard.textContent = 'OK';
+    perfGuard.className = 'guardrail-status status-ok';
+  } else if (delta >= -0.05) {
+    perfGuard.textContent = 'WARNING';
+    perfGuard.className = 'guardrail-status status-warning';
+  } else {
+    perfGuard.textContent = 'BREACH';
+    perfGuard.className = 'guardrail-status status-danger';
+  }
+}
+
+function startSimulation() {
+  if (simulationData.isRunning) return;
+
+  simulationData.isRunning = true;
+  document.getElementById('rollout-status').textContent = 'Running';
+
+  logEvent('Rollout started', 'info');
+
+  simulationInterval = setInterval(() => {
+    const currentTime = simulationData.time.length;
+    const split = parseInt(document.getElementById('traffic-split').value);
+    const delta = parseFloat(document.getElementById('performance-delta').value);
+    const latencyImpact = parseInt(document.getElementById('latency-impact').value);
+
+    // Generate realistic metrics with some noise
+    const noise = () => (Math.random() - 0.5) * 0.02;
+    const baseSuccess = 99.5 + (delta * 100 * split / 100);
+    const baseLatency = 40 + (latencyImpact * split / 100);
+    const baseError = Math.max(0, 0.1 - (delta * 10 * split / 100));
+
+    simulationData.time.push(currentTime);
+    simulationData.successRate.push(baseSuccess + noise() * 100);
+    simulationData.latency.push(baseLatency + noise() * 50);
+    simulationData.errorRate.push(Math.max(0, baseError + noise() * 10));
+
+    // Update total requests
+    totalRequests += Math.floor(Math.random() * 50) + 20;
+    document.getElementById('total-requests').textContent = totalRequests.toLocaleString();
+
+    // Update plot
+    updatePlot();
+
+    // Check for auto-rollback conditions
+    if (baseSuccess < 95 || baseLatency > 100 || baseError > 1) {
+      logEvent('Guardrail breach detected - triggering rollback', 'danger');
+      triggerRollback();
+    }
+
+    // Log periodic updates
+    if (currentTime % 10 === 0) {
+      logEvent(`Metrics update: ${baseSuccess.toFixed(1)}% success, ${baseLatency.toFixed(0)}ms latency`, 'info');
+    }
+
+  }, 1000);
+}
+
+function triggerRollback() {
+  if (simulationInterval) {
+    clearInterval(simulationInterval);
+  }
+
+  simulationData.isRunning = false;
+  document.getElementById('rollout-status').textContent = 'Rolled Back';
+  document.getElementById('traffic-split').value = 0;
+  updateSimulation();
+
+  logEvent('Emergency rollback executed - traffic reverted to 0%', 'danger');
+}
+
+function updatePlot() {
+  const trace1 = {
+    x: simulationData.time,
+    y: simulationData.successRate,
+    type: 'scatter',
+    mode: 'lines',
+    name: 'Success Rate (%)',
+    line: { color: '#034638' }
+  };
+
+  const trace2 = {
+    x: simulationData.time,
+    y: simulationData.latency,
+    type: 'scatter',
+    mode: 'lines',
+    name: 'Latency (ms)',
+    yaxis: 'y2',
+    line: { color: '#582C83' }
+  };
+
+  const layout = {
+    title: 'Real-time Rollout Metrics',
+    xaxis: { title: 'Time (seconds)' },
+    yaxis: {
+      title: 'Success Rate (%)',
+      range: [95, 100]
+    },
+    yaxis2: {
+      title: 'Latency (ms)',
+      overlaying: 'y',
+      side: 'right',
+      range: [0, 150]
+    },
+    showlegend: true,
+    margin: { t: 50, b: 50, l: 60, r: 60 }
+  };
+
+  Plotly.newPlot('metrics-plot', [trace1, trace2], layout, {responsive: true});
+}
+
+function logEvent(message, type = 'info') {
+  const logContainer = document.getElementById('simulation-log');
+  const timestamp = new Date().toLocaleTimeString();
+  const logEntry = document.createElement('div');
+  logEntry.className = `log-entry log-${type}`;
+  logEntry.textContent = `[${timestamp}] ${message}`;
+
+  logContainer.appendChild(logEntry);
+  logContainer.scrollTop = logContainer.scrollHeight;
+
+  // Keep only last 50 entries
+  const entries = logContainer.querySelectorAll('.log-entry');
+  if (entries.length > 50) {
+    entries[0].remove();
+  }
+}
+
+// Initialize
+updateSimulation();
+updatePlot();
+
+// Pop-out functionality
+if (typeof window !== 'undefined' && window.self === window.top) {
+  // Running standalone, hide the pop-out button
+  document.addEventListener('DOMContentLoaded', function() {
+    const popoutBtn = document.getElementById('popoutBtn');
+    if (popoutBtn) {
+      popoutBtn.style.display = 'none';
+    }
+  });
+} else {
+  // Running in iframe, show the pop-out button
+  document.addEventListener('DOMContentLoaded', function() {
+    const popoutBtn = document.getElementById('popoutBtn');
+    if (popoutBtn) {
+      popoutBtn.addEventListener('click', function() {
+        window.open(window.location.href, '_blank');
+      });
+    }
+  });
+}
+</script>
+
+</body>
+</html>
