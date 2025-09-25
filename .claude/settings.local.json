@@ -1,19 +1,21 @@
 {
   "permissions": {
     "allow": [
-      "Bash(start \"C:\\Users\\james\\OneDrive\\Documents2\\GitHub\\AI-Prototyping-course\\tools\\scorm-converter\\index.html\")",
-      "Bash(python:*)",
-      "Bash(start \"C:\\Users\\james\\OneDrive\\Documents2\\GitHub\\AI-Prototyping-course\\Development Files\\Week 1\\canvas-01-ai-importance-combined.html\")",
-      "Read(//c/Users/james/Downloads/**)",
-      "Bash(mkdir:*)",
-      "Bash(cp:*)",
-      "Bash(for i in 1 2 3 4 5)",
-      "Bash(do cp demos/widgets/ivey-widget-base.css \"Development Files/Week $i/widgets/\")",
-      "Bash(done)",
-      "Bash(do echo \"=== Week $i widgets ===\")",
-      "Bash(ls:*)",
-      "Read(//tmp/Rar$DRa21176.5407/**)",
-      "Read(//tmp/Rar$DRa21176.7150/**)"
+      "Bash(for:*)",
+      "Bash(if [ -f \"$dir/ivey-widget-base.css\" ])",
+      "Bash(then echo \"  ✓ CSS file present\")",
+      "Bash(else echo \"  ✗ CSS file missing\")",
+      "Bash(if grep -q \"ivey-widget-base.css\" \"$dir/imsmanifest.xml\")",
+      "Bash(then echo \"  ✓ CSS in manifest\")",
+      "Bash(else echo \"  ✗ CSS not in manifest\")",
+      "Bash(bash:*)",
+      "Bash(tar:*)",
+      "Bash(start \"C:\\Users\\jkruck\\Ivey Business School\\EdTech Lab - Documents\\Github\\AI Prototyping Learn\\demos\\widgets\\canvas-big-data-4vs-enhanced.html\")",
+      "Bash(find:*)",
+      "Bash(do echo \"=== $file ===\")",
+      "Bash(do echo \"Creating SCORM package for $widget\")",
+      "Bash(do cp \"w2-00-intro-matcher-scorm/scormfunctions.js\" \"$widget-scorm/\")",
+      "Bash(do echo \"Creating ZIP for $widget\")"
     ],
     "deny": [],
     "ask": []

@@ -1,0 +1,1223 @@
+<!-- Skip link for keyboard users -->
+<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<main id="main-content" role="main">
+<div id="dp-wrapper" class="dp-wrapper">
+    <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+    <div class="dp-content-block content-block" data-title="Introduction to Recommendation Systems">
+        <h2 class="dp-has-icon"><i class="dp-icon fas fa-thumbs-up" aria-hidden="true"></i>&nbsp;Recommendation Systems</h2>
+        <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+            <div class="card-body">
+                <h3 class="card-title dp-ignore-theme">What this page covers</h3>
+                <p>Understand collaborative filtering, content-based recommendations, and association rules. Learn how recommendation engines drive business value across industries.</p>
+            </div>
+        </div>
+    </div>
+    <div class="dp-content-block content-block" data-title="Types of Recommendation Systems">
+        <h2 class="dp-has-icon"><i class="dp-icon fas fa-sitemap" aria-hidden="true"></i>&nbsp;Recommendation Approaches</h2>
+        <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+            <div class="dp-panel-group">
+                <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="collaborative-filtering" id="collaborative-filtering-heading">Collaborative Filtering: "Users Like You"</h3>
+                <div id="collaborative-filtering" class="dp-panel-content" role="region" aria-labelledby="collaborative-filtering-heading" hidden>
+                    <p>Recommends based on behavior patterns of similar users or similar items:</p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="dp-card card h-100" style="border-left: 4px solid #3b82f6; padding-left: 12px;">
+                                <div class="card-body">
+                                    <h4 class="card-title">User-Based CF</h4>
+                                    <p><strong>Logic:</strong> Find users with similar preferences, recommend what they liked</p>
+                                    <p><strong>Example:</strong> "Users who liked movies A, B, C also enjoyed movie D"</p>
+                                    <p class="mb-0"><strong>Best for:</strong> Discovering new categories</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="dp-card card h-100" style="border-left: 4px solid #10b981; padding-left: 12px;">
+                                <div class="card-body">
+                                    <h4 class="card-title">Item-Based CF</h4>
+                                    <p><strong>Logic:</strong> Find items frequently purchased together</p>
+                                    <p><strong>Example:</strong> "Customers who bought this book also bought..."</p>
+                                    <p class="mb-0"><strong>Best for:</strong> Stable, interpretable recommendations</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="dp-panel-group">
+                <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="content-based" id="content-based-heading">Content-Based: "More Like This"</h3>
+                <div id="content-based" class="dp-panel-content" role="region" aria-labelledby="content-based-heading" hidden>
+                    <p>Recommends items similar to those a user has already shown interest in:</p>
+                    <div class="table-responsive">
+                        <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Content-based recommendation features">
+                            <caption>Content-Based Recommendation Features by Domain</caption>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Domain</th>
+                                    <th scope="col">Item Features</th>
+                                    <th scope="col">User Profile</th>
+                                    <th scope="col">Recommendation Logic</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Movies</strong></td>
+                                    <td>Genre, director, actors, year</td>
+                                    <td>Weighted preferences</td>
+                                    <td>Match user's genre/actor preferences</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>News</strong></td>
+                                    <td>Topic, keywords, author, source</td>
+                                    <td>Reading history analysis</td>
+                                    <td>Similar topics to past articles</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Products</strong></td>
+                                    <td>Category, brand, price, features</td>
+                                    <td>Purchase/browse patterns</td>
+                                    <td>Similar specifications</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Music</strong></td>
+                                    <td>Artist, genre, tempo, mood</td>
+                                    <td>Listening patterns</td>
+                                    <td>Audio similarity, style matching</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="dp-panel-group">
+                <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="hybrid-systems" id="hybrid-systems-heading">Hybrid Systems: Best of Both Worlds</h3>
+                <div id="hybrid-systems" class="dp-panel-content" role="region" aria-labelledby="hybrid-systems-heading" hidden>
+                    <p>Combine multiple approaches to overcome individual limitations:</p>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><strong>Weighted combination</strong>: Blend collaborative and content-based scores</li>
+                        <li class="list-group-item"><strong>Switching</strong>: Use content-based for new users, collaborative for experienced users</li>
+                        <li class="list-group-item"><strong>Mixed recommendations</strong>: Show both types side-by-side</li>
+                        <li class="list-group-item"><strong>Feature combination</strong>: Use collaborative data as features in content models</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="dp-content-block content-block" data-title="Association Rules and Market Basket Analysis">
+        <h2 class="dp-has-icon"><i class="dp-icon fas fa-shopping-basket" aria-hidden="true"></i>&nbsp;Association Rules</h2>
+        <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+            <div class="dp-panel-group">
+                <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="association-basics" id="association-basics-heading">How Association Rules Work</h3>
+                <div id="association-basics" class="dp-panel-content" role="region" aria-labelledby="association-basics-heading" hidden>
+                    <p>Find patterns in transaction data using support, confidence, and lift metrics:</p>
+                    <div class="dp-card card" style="background-color: #f0f7ff; border: 2px solid #0066cc;">
+                        <div class="card-body">
+                            <h4 class="card-title" style="color: #034638;">Example Rule: {Bread, Butter} &rarr; {Milk}</h4>
+                            <p class="mb-0" style="color: #034638;">If someone buys bread and butter, they're likely to also buy milk</p>
+                        </div>
+                    </div>
+                    <div class="table-responsive mt-3">
+                        <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Association rule metrics">
+                            <caption>Key Metrics for Association Rules</caption>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Metric</th>
+                                    <th scope="col">Formula</th>
+                                    <th scope="col">Meaning</th>
+                                    <th scope="col">Typical Threshold</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Support</strong></td>
+                                    <td>P(A &cap; B)</td>
+                                    <td>How often items appear together</td>
+                                    <td>&gt; 1-5%</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Confidence</strong></td>
+                                    <td>P(B|A)</td>
+                                    <td>How often rule is correct</td>
+                                    <td>&gt; 50-70%</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Lift</strong></td>
+                                    <td>Confidence / P(B)</td>
+                                    <td>How much rule improves prediction</td>
+                                    <td>&gt; 1.0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="dp-panel-group">
+                <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="apriori-algorithm" id="apriori-algorithm-heading">The Apriori Algorithm</h3>
+                <div id="apriori-algorithm" class="dp-panel-content" role="region" aria-labelledby="apriori-algorithm-heading" hidden>
+                    <p>Efficiently finds frequent itemsets using the downward closure property:</p>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="dp-card card h-100" style="border-left: 4px solid #f59e0b; padding-left: 12px;">
+                                <div class="card-body">
+                                    <h4 class="card-title">Step 1: Find Frequent Items</h4>
+                                    <p class="mb-0">Identify individual items that appear in minimum support % of transactions</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="dp-card card h-100" style="border-left: 4px solid #3b82f6; padding-left: 12px;">
+                                <div class="card-body">
+                                    <h4 class="card-title">Step 2: Build Pairs</h4>
+                                    <p class="mb-0">Combine frequent items into pairs, keep those meeting support threshold</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="dp-card card h-100" style="border-left: 4px solid #10b981; padding-left: 12px;">
+                                <div class="card-body">
+                                    <h4 class="card-title">Step 3: Generate Rules</h4>
+                                    <p class="mb-0">Create if-then rules from frequent itemsets, filter by confidence</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="dp-panel-group">
+                <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="business-applications" id="business-applications-heading">Business Applications</h3>
+                <div id="business-applications" class="dp-panel-content" role="region" aria-labelledby="business-applications-heading" hidden>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="dp-card card h-100">
+                                <div class="card-body">
+                                    <h4 class="card-title">Retail &amp; E-commerce</h4>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">Product placement and store layout</li>
+                                        <li class="list-group-item">"Frequently bought together" recommendations</li>
+                                        <li class="list-group-item">Cross-selling and upselling strategies</li>
+                                        <li class="list-group-item">Promotional bundling decisions</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="dp-card card h-100">
+                                <div class="card-body">
+                                    <h4 class="card-title">Other Industries</h4>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item"><strong>Healthcare</strong>: Drug interaction patterns</li>
+                                        <li class="list-group-item"><strong>Finance</strong>: Service bundling opportunities</li>
+                                        <li class="list-group-item"><strong>Web Analytics</strong>: Page visit sequences</li>
+                                        <li class="list-group-item"><strong>Content</strong>: Article/video consumption patterns</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="dp-content-block content-block" data-title="Building Recommendation Systems">
+        <h2 class="dp-has-icon"><i class="dp-icon fas fa-cogs" aria-hidden="true"></i>&nbsp;Implementation Considerations</h2>
+        <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+            <div class="dp-panel-group">
+                <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="cold-start" id="cold-start-heading">The Cold Start Problem</h3>
+                <div id="cold-start" class="dp-panel-content" role="region" aria-labelledby="cold-start-heading" hidden>
+                    <p>How to recommend to new users or promote new items with limited interaction data:</p>
+                    <div class="table-responsive">
+                        <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Cold start solutions">
+                            <caption>Solutions for Cold Start Problems</caption>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Problem</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Solutions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>New User</strong></td>
+                                    <td>No purchase/rating history</td>
+                                    <td>Popular items, demographics, onboarding quiz</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>New Item</strong></td>
+                                    <td>No user interactions yet</td>
+                                    <td>Content similarity, expert curation, promotional push</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>New System</strong></td>
+                                    <td>Limited overall data</td>
+                                    <td>Content-based start, gradual CF introduction</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="dp-panel-group">
+                <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="evaluation-metrics" id="evaluation-metrics-heading">Evaluation Metrics</h3>
+                <div id="evaluation-metrics" class="dp-panel-content" role="region" aria-labelledby="evaluation-metrics-heading" hidden>
+                    <p>Measuring recommendation system performance requires both accuracy and business metrics:</p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="dp-card card h-100" style="border-left: 4px solid #8b5cf6; padding-left: 12px;">
+                                <div class="card-body">
+                                    <h4 class="card-title">Accuracy Metrics</h4>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item"><strong>Precision@K</strong>: % relevant in top K recommendations</li>
+                                        <li class="list-group-item"><strong>Recall@K</strong>: % of relevant items found in top K</li>
+                                        <li class="list-group-item"><strong>MAP</strong>: Mean Average Precision across users</li>
+                                        <li class="list-group-item"><strong>RMSE</strong>: Rating prediction error</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="dp-card card h-100" style="border-left: 4px solid #f59e0b; padding-left: 12px;">
+                                <div class="card-body">
+                                    <h4 class="card-title">Business Metrics</h4>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item"><strong>Click-through rate</strong>: User engagement</li>
+                                        <li class="list-group-item"><strong>Conversion rate</strong>: Recommendations to purchases</li>
+                                        <li class="list-group-item"><strong>Revenue impact</strong>: Additional sales generated</li>
+                                        <li class="list-group-item"><strong>Diversity</strong>: Variety in recommendations</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="dp-panel-group">
+                <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="challenges" id="challenges-heading">Common Challenges</h3>
+                <div id="challenges" class="dp-panel-content" role="region" aria-labelledby="challenges-heading" hidden>
+                    <div class="dp-card card" style="border-left: 4px solid #dc2626; padding-left: 12px;">
+                        <div class="card-body">
+                            <h4 class="card-title">Implementation Challenges</h4>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item"><strong>Scalability</strong>: Real-time recommendations for millions of users</li>
+                                <li class="list-group-item"><strong>Data sparsity</strong>: Most user-item pairs have no interaction</li>
+                                <li class="list-group-item"><strong>Filter bubbles</strong>: Over-personalization reduces discovery</li>
+                                <li class="list-group-item"><strong>Temporal dynamics</strong>: User preferences change over time</li>
+                                <li class="list-group-item"><strong>Bias amplification</strong>: Popular items get more popular</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="dp-content-block content-block" data-title="Interactive: Recommendation Engine">
+        <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive: Build a Recommender</h2>
+        <p class="mt-2"><em>Try it:</em> Compare collaborative filtering and content-based approaches. See how association rules find product relationships.</p>
+
+        <div class="embedded-widget">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+            <style>
+                .embedded-widget {
+                    margin: 20px 0;
+                    border: 1px solid #e5e7eb;
+                    border-radius: 8px;
+                    overflow: hidden;
+                }
+
+                .embedded-widget .dp-wrapper {
+                    max-width: 900px;
+                    margin: 0 auto;
+                    padding: 20px;
+                    font-family: 'Figtree', system-ui, -apple-system, sans-serif;
+                    line-height: 1.6;
+                    color: #2c3e50;
+                    background: #fff;
+                }
+
+                .embedded-widget .dp-content-block {
+                    margin-bottom: 2rem;
+                }
+
+                .embedded-widget .dp-has-icon {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    color: #034638;
+                    margin: 0 0 1rem 0;
+                    font-size: 1.5rem;
+                    font-weight: 600;
+                }
+
+                .embedded-widget .dp-card {
+                    background: white;
+                    border-radius: 8px;
+                    padding: 1.5rem;
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                    margin: 1rem 0;
+                }
+
+                .embedded-widget .dp-card.intro-card {
+                    border-left: 4px solid #034638;
+                    background: #f8fffe;
+                }
+
+                .embedded-widget .recommendation-container {
+                    display: grid;
+                    grid-template-columns: 300px 1fr;
+                    gap: 2rem;
+                    margin: 1rem 0;
+                }
+
+                @media (max-width: 768px) {
+                    .embedded-widget .recommendation-container {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 1rem;
+                    }
+                }
+
+                .embedded-widget .user-profile-section {
+                    background: white;
+                    border-radius: 8px;
+                    padding: 1rem;
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                    height: fit-content;
+                }
+
+                .embedded-widget .user-selector {
+                    margin-bottom: 1rem;
+                }
+
+                .embedded-widget .user-btn {
+                    display: block;
+                    width: 100%;
+                    background: #f3f4f6;
+                    border: 2px solid #e5e7eb;
+                    padding: 1rem;
+                    margin: 0.5rem 0;
+                    border-radius: 6px;
+                    cursor: pointer;
+                    text-align: left;
+                    transition: all 0.3s ease;
+                }
+
+                .embedded-widget .user-btn.active {
+                    background: #034638;
+                    color: white;
+                    border-color: #034638;
+                }
+
+                .embedded-widget .user-btn:hover:not(.active) {
+                    background: #e5e7eb;
+                }
+
+                .embedded-widget .user-preferences {
+                    margin-top: 1rem;
+                }
+
+                .embedded-widget .preference-item {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 0.5rem 0;
+                    border-bottom: 1px solid #e5e7eb;
+                }
+
+                .embedded-widget .preference-item:last-child {
+                    border-bottom: none;
+                }
+
+                .embedded-widget .rating-stars {
+                    color: #f59e0b;
+                }
+
+                .embedded-widget .results-section {
+                    background: white;
+                    border-radius: 8px;
+                    padding: 1rem;
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                }
+
+                .embedded-widget .method-tabs {
+                    display: flex;
+                    gap: 0.5rem;
+                    margin-bottom: 1rem;
+                    border-bottom: 2px solid #e5e7eb;
+                }
+
+                .embedded-widget .method-tab {
+                    background: none;
+                    border: none;
+                    padding: 1rem 1.5rem;
+                    cursor: pointer;
+                    border-bottom: 3px solid transparent;
+                    font-weight: 600;
+                    transition: all 0.3s ease;
+                }
+
+                .embedded-widget .method-tab.active {
+                    border-bottom-color: #034638;
+                    color: #034638;
+                }
+
+                .embedded-widget .method-tab:hover:not(.active) {
+                    background: #f3f4f6;
+                }
+
+                .embedded-widget .recommendation-grid {
+                    display: grid;
+                    grid-template-columns: 1fr;
+                    gap: 1rem;
+                    margin: 1rem 0;
+                }
+
+                .embedded-widget .recommendation-card {
+                    background: #f8f9fa;
+                    border: 1px solid #e5e7eb;
+                    border-radius: 8px;
+                    padding: 1rem;
+                    position: relative;
+                    transition: all 0.3s ease;
+                }
+
+                .embedded-widget .recommendation-card:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                }
+
+                .embedded-widget .rec-score {
+                    position: absolute;
+                    top: 0.5rem;
+                    right: 0.5rem;
+                    background: #034638;
+                    color: white;
+                    padding: 0.25rem 0.5rem;
+                    border-radius: 4px;
+                    font-size: 0.8rem;
+                    font-weight: bold;
+                }
+
+                .embedded-widget .rec-title {
+                    font-weight: 600;
+                    margin-bottom: 0.5rem;
+                    padding-right: 3rem;
+                }
+
+                .embedded-widget .rec-description {
+                    font-size: 0.9rem;
+                    color: #666;
+                    line-height: 1.4;
+                }
+
+                .embedded-widget .rec-reason {
+                    font-size: 0.8rem;
+                    color: #034638;
+                    margin-top: 0.5rem;
+                    padding: 0.5rem;
+                    background: #e7f3ff;
+                    border-radius: 4px;
+                    font-style: italic;
+                }
+
+                .embedded-widget .method-explanation {
+                    background: #f0f9f4;
+                    border: 1px solid #10b981;
+                    border-radius: 6px;
+                    padding: 1rem;
+                    margin: 1rem 0;
+                }
+
+                .embedded-widget .method-explanation h4 {
+                    color: #047857;
+                    margin: 0 0 0.5rem 0;
+                }
+
+                .embedded-widget .comparison-metrics {
+                    display: grid;
+                    grid-template-columns: repeat(4, 1fr);
+                    gap: 0.75rem;
+                    margin: 1rem 0;
+                    padding: 1rem;
+                    background: #f8f9fa;
+                    border-radius: 8px;
+                }
+
+                @media (max-width: 768px) {
+                    .embedded-widget .comparison-metrics {
+                        grid-template-columns: repeat(2, 1fr);
+                    }
+                }
+
+                .embedded-widget .metric-item {
+                    text-align: center;
+                }
+
+                .embedded-widget .metric-value {
+                    font-size: 1rem;
+                    font-weight: bold;
+                    color: #034638;
+                }
+
+                .embedded-widget .metric-label {
+                    font-size: 0.7rem;
+                    color: #666;
+                    margin-top: 0.25rem;
+                }
+
+                .embedded-widget .association-rules {
+                    background: #fff3cd;
+                    border: 1px solid #ffeaa7;
+                    border-radius: 8px;
+                    padding: 1rem;
+                    margin: 1rem 0;
+                }
+
+                .embedded-widget .rule-item {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    padding: 0.5rem 0;
+                    border-bottom: 1px solid #ffeaa7;
+                }
+
+                .embedded-widget .rule-item:last-child {
+                    border-bottom: none;
+                }
+
+                .embedded-widget .rule-text {
+                    flex: 1;
+                }
+
+                .embedded-widget .rule-metrics {
+                    display: flex;
+                    gap: 1rem;
+                    font-size: 0.8rem;
+                }
+
+                .embedded-widget .rule-metric {
+                    background: #f59e0b;
+                    color: white;
+                    padding: 0.2rem 0.5rem;
+                    border-radius: 3px;
+                }
+
+                .embedded-widget .generate-btn {
+                    background: #034638;
+                    color: white;
+                    border: none;
+                    padding: 1rem 2rem;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    font-size: 1rem;
+                    font-weight: 600;
+                    width: 100%;
+                    margin: 1rem 0;
+                    transition: background 0.3s ease;
+                }
+
+                .embedded-widget .generate-btn:hover {
+                    background: #022c24;
+                }
+
+                @media (max-width: 768px) {
+                    .embedded-widget .method-tabs {
+                        flex-direction: column;
+                    }
+                    .embedded-widget .method-tab {
+                        text-align: center;
+                    }
+                }
+            </style>
+
+            <div class="dp-wrapper">
+                <div class="dp-content-block">
+                    <h2 class="dp-has-icon">
+                        <i class="dp-icon fas fa-thumbs-up" aria-hidden="true"></i>
+                        Recommendation Systems Comparison
+                    </h2>
+                    <div class="dp-card intro-card">
+                        <p><strong>Interactive Learning:</strong> Compare different recommendation approaches for various user profiles. See how collaborative filtering, content-based, and association rules work differently.</p>
+                    </div>
+                </div>
+
+                <div class="recommendation-container">
+                    <div class="user-profile-section">
+                        <h3><i class="fas fa-user" aria-hidden="true"></i> Select User Profile</h3>
+                        <div class="user-selector">
+                            <button class="user-btn active" onclick="selectUser('alice')" data-user="alice">
+                                <strong>Alice (Movie Buff)</strong><br>
+                                <small>Loves sci-fi and action movies</small>
+                            </button>
+                            <button class="user-btn" onclick="selectUser('bob')" data-user="bob">
+                                <strong>Bob (Comedy Fan)</strong><br>
+                                <small>Prefers comedies and documentaries</small>
+                            </button>
+                            <button class="user-btn" onclick="selectUser('carol')" data-user="carol">
+                                <strong>Carol (New User)</strong><br>
+                                <small>Just signed up, limited history</small>
+                            </button>
+                        </div>
+
+                        <div class="user-preferences" id="user-preferences">
+                            <h4>Recent Ratings</h4>
+                            <div id="preferences-list"></div>
+                        </div>
+
+                        <button class="generate-btn" onclick="generateRecommendations()">
+                            <i class="fas fa-magic" aria-hidden="true"></i> Generate Recommendations
+                        </button>
+                    </div>
+
+                    <div class="results-section">
+                        <div class="method-tabs">
+                            <button class="method-tab active" onclick="showMethod('collaborative')">Collaborative Filtering</button>
+                            <button class="method-tab" onclick="showMethod('content')">Content-Based</button>
+                            <button class="method-tab" onclick="showMethod('association')">Association Rules</button>
+                        </div>
+
+                        <div class="method-explanation" id="method-explanation">
+                            <h4>🤝 Collaborative Filtering</h4>
+                            <p>Recommends items based on users with similar preferences. "Users like you also enjoyed..."</p>
+                        </div>
+
+                        <div class="comparison-metrics" id="comparison-metrics">
+                            <div class="metric-item">
+                                <div class="metric-value" id="precision-value">-</div>
+                                <div class="metric-label">Precision</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value" id="diversity-value">-</div>
+                                <div class="metric-label">Diversity</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value" id="novelty-value">-</div>
+                                <div class="metric-label">Novelty</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value" id="coverage-value">-</div>
+                                <div class="metric-label">Coverage</div>
+                            </div>
+                        </div>
+
+                        <div class="recommendation-grid" id="recommendations-grid">
+                            <div style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: #666; font-style: italic;">
+                                Click "Generate Recommendations" to see personalized suggestions
+                            </div>
+                        </div>
+
+                        <div class="association-rules" id="association-rules" style="display: none;">
+                            <h4><i class="fas fa-chart-bar" aria-hidden="true"></i> Association Rules Found</h4>
+                            <div id="rules-list"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                let currentUser = 'alice';
+                let currentMethod = 'collaborative';
+                let recommendations = {};
+
+                const userData = {
+                    alice: {
+                        name: 'Alice (Movie Buff)',
+                        description: 'Loves sci-fi and action movies',
+                        ratings: {
+                            'Star Wars': 5,
+                            'Blade Runner': 5,
+                            'The Matrix': 5,
+                            'Alien': 4,
+                            'Terminator 2': 4,
+                            'Avengers': 4,
+                            'Interstellar': 5,
+                            'Mad Max': 3
+                        },
+                        demographics: { age: 28, genre_preference: 'sci-fi' }
+                    },
+                    bob: {
+                        name: 'Bob (Comedy Fan)',
+                        description: 'Prefers comedies and documentaries',
+                        ratings: {
+                            'The Office': 5,
+                            'Parks and Rec': 5,
+                            'Brooklyn Nine-Nine': 4,
+                            'Planet Earth': 5,
+                            'Our Planet': 4,
+                            'Cosmos': 4,
+                            'The Hangover': 3,
+                            'Superbad': 4
+                        },
+                        demographics: { age: 35, genre_preference: 'comedy' }
+                    },
+                    carol: {
+                        name: 'Carol (New User)',
+                        description: 'Just signed up, limited history',
+                        ratings: {
+                            'Friends': 4,
+                            'The Lion King': 5,
+                            'Titanic': 3
+                        },
+                        demographics: { age: 22, genre_preference: 'unknown' }
+                    }
+                };
+
+                const movieDatabase = {
+                    'Dune': { genre: 'sci-fi', director: 'Denis Villeneuve', year: 2021, rating: 8.0 },
+                    'Arrival': { genre: 'sci-fi', director: 'Denis Villeneuve', year: 2016, rating: 7.9 },
+                    'Ex Machina': { genre: 'sci-fi', director: 'Alex Garland', year: 2014, rating: 7.7 },
+                    'The Good Place': { genre: 'comedy', director: 'Michael Schur', year: 2016, rating: 8.2 },
+                    'Schitts Creek': { genre: 'comedy', director: 'Dan Levy', year: 2015, rating: 8.5 },
+                    'Ted Lasso': { genre: 'comedy', director: 'Bill Lawrence', year: 2020, rating: 8.8 },
+                    'Blue Planet II': { genre: 'documentary', director: 'James Honeyborne', year: 2017, rating: 9.3 },
+                    'Free Solo': { genre: 'documentary', director: 'Jimmy Chin', year: 2018, rating: 8.2 },
+                    'The Social Dilemma': { genre: 'documentary', director: 'Jeff Orlowski', year: 2020, rating: 7.6 },
+                    'Toy Story 4': { genre: 'animation', director: 'Josh Cooley', year: 2019, rating: 7.7 },
+                    'Frozen II': { genre: 'animation', director: 'Chris Buck', year: 2019, rating: 6.8 },
+                    'Spider-Verse': { genre: 'animation', director: 'Peter Ramsey', year: 2018, rating: 8.4 }
+                };
+
+                const explanations = {
+                    collaborative: {
+                        title: '<i class="fas fa-users" aria-hidden="true"></i> Collaborative Filtering',
+                        description: 'Recommends items based on users with similar preferences. "Users like you also enjoyed..."'
+                    },
+                    content: {
+                        title: '<i class="fas fa-film" aria-hidden="true"></i> Content-Based Filtering',
+                        description: 'Recommends items similar to those you\'ve liked based on content features like genre, director, or keywords.'
+                    },
+                    association: {
+                        title: '<i class="fas fa-chart-line" aria-hidden="true"></i> Association Rules',
+                        description: 'Finds patterns like "Users who watched X also watched Y" using market basket analysis.'
+                    }
+                };
+
+                function selectUser(userId) {
+                    currentUser = userId;
+
+                    // Update button states
+                    document.querySelectorAll('.user-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    document.querySelector(`[data-user="${userId}"]`).classList.add('active');
+
+                    updateUserPreferences();
+                }
+
+                function updateUserPreferences() {
+                    const user = userData[currentUser];
+                    const container = document.getElementById('preferences-list');
+                    container.innerHTML = '';
+
+                    Object.entries(user.ratings).forEach(([item, rating]) => {
+                        const preferenceItem = document.createElement('div');
+                        preferenceItem.className = 'preference-item';
+                        preferenceItem.innerHTML = `
+                            <span>${item}</span>
+                            <span class="rating-stars">${'★'.repeat(rating)}${'☆'.repeat(5-rating)}</span>
+                        `;
+                        container.appendChild(preferenceItem);
+                    });
+                }
+
+                function showMethod(method) {
+                    currentMethod = method;
+
+                    // Update tab states
+                    document.querySelectorAll('.method-tab').forEach(tab => {
+                        tab.classList.remove('active');
+                    });
+                    event.target.classList.add('active');
+
+                    // Update explanation
+                    const explanation = document.getElementById('method-explanation');
+                    explanation.innerHTML = `
+                        <h4>${explanations[method].title}</h4>
+                        <p>${explanations[method].description}</p>
+                    `;
+
+                    // Show/hide association rules
+                    const associationRules = document.getElementById('association-rules');
+                    if(method === 'association') {
+                        associationRules.style.display = 'block';
+                        updateAssociationRules();
+                    } else {
+                        associationRules.style.display = 'none';
+                    }
+
+                    // Update recommendations display
+                    if(recommendations[currentUser] && recommendations[currentUser][method]) {
+                        displayRecommendations(recommendations[currentUser][method]);
+                        updateMetrics(recommendations[currentUser][method]);
+                    }
+                }
+
+                function generateCollaborativeRecommendations(user) {
+                    const userRatings = userData[user].ratings;
+                    const recs = [];
+
+                    // Simulate finding similar users and their preferences
+                    if(user === 'alice') {
+                        recs.push({
+                            title: 'Dune',
+                            score: 0.92,
+                            reason: 'Users who loved Star Wars and Blade Runner also rated this highly',
+                            description: movieDatabase['Dune'].genre + ' • ' + movieDatabase['Dune'].year
+                        });
+                        recs.push({
+                            title: 'Arrival',
+                            score: 0.88,
+                            reason: 'Similar users who enjoyed Interstellar found this compelling',
+                            description: movieDatabase['Arrival'].genre + ' • ' + movieDatabase['Arrival'].year
+                        });
+                        recs.push({
+                            title: 'Ex Machina',
+                            score: 0.84,
+                            reason: 'Highly rated by users with similar sci-fi preferences',
+                            description: movieDatabase['Ex Machina'].genre + ' • ' + movieDatabase['Ex Machina'].year
+                        });
+                    } else if(user === 'bob') {
+                        recs.push({
+                            title: 'The Good Place',
+                            score: 0.94,
+                            reason: 'Users who loved The Office and Parks & Rec also binged this',
+                            description: movieDatabase['The Good Place'].genre + ' • ' + movieDatabase['The Good Place'].year
+                        });
+                        recs.push({
+                            title: 'Blue Planet II',
+                            score: 0.90,
+                            reason: 'Documentary lovers similar to you gave this top ratings',
+                            description: movieDatabase['Blue Planet II'].genre + ' • ' + movieDatabase['Blue Planet II'].year
+                        });
+                        recs.push({
+                            title: 'Ted Lasso',
+                            score: 0.87,
+                            reason: 'Comedy fans with similar taste highly recommend this',
+                            description: movieDatabase['Ted Lasso'].genre + ' • ' + movieDatabase['Ted Lasso'].year
+                        });
+                    } else {
+                        recs.push({
+                            title: 'Toy Story 4',
+                            score: 0.78,
+                            reason: 'Popular among new users with similar demographics',
+                            description: movieDatabase['Toy Story 4'].genre + ' • ' + movieDatabase['Toy Story 4'].year
+                        });
+                        recs.push({
+                            title: 'Spider-Verse',
+                            score: 0.82,
+                            reason: 'Trending among users in your age group',
+                            description: movieDatabase['Spider-Verse'].genre + ' • ' + movieDatabase['Spider-Verse'].year
+                        });
+                        recs.push({
+                            title: 'The Good Place',
+                            score: 0.75,
+                            reason: 'Highly rated across all user segments',
+                            description: movieDatabase['The Good Place'].genre + ' • ' + movieDatabase['The Good Place'].year
+                        });
+                    }
+
+                    return recs;
+                }
+
+                function generateContentBasedRecommendations(user) {
+                    const userRatings = userData[user].ratings;
+                    const recs = [];
+
+                    if(user === 'alice') {
+                        recs.push({
+                            title: 'Arrival',
+                            score: 0.95,
+                            reason: 'Same director as Blade Runner 2049, sci-fi genre match',
+                            description: movieDatabase['Arrival'].genre + ' • ' + movieDatabase['Arrival'].director
+                        });
+                        recs.push({
+                            title: 'Dune',
+                            score: 0.91,
+                            reason: 'Sci-fi epic with similar themes to your favorite films',
+                            description: movieDatabase['Dune'].genre + ' • ' + movieDatabase['Dune'].director
+                        });
+                        recs.push({
+                            title: 'Ex Machina',
+                            score: 0.87,
+                            reason: 'Cerebral sci-fi matching your preference pattern',
+                            description: movieDatabase['Ex Machina'].genre + ' • ' + movieDatabase['Ex Machina'].director
+                        });
+                    } else if(user === 'bob') {
+                        recs.push({
+                            title: 'Schitts Creek',
+                            score: 0.93,
+                            reason: 'Comedy series similar to your highly-rated shows',
+                            description: movieDatabase['Schitts Creek'].genre + ' • ' + movieDatabase['Schitts Creek'].director
+                        });
+                        recs.push({
+                            title: 'Free Solo',
+                            score: 0.89,
+                            reason: 'Documentary matching your nature/adventure preferences',
+                            description: movieDatabase['Free Solo'].genre + ' • ' + movieDatabase['Free Solo'].director
+                        });
+                        recs.push({
+                            title: 'The Social Dilemma',
+                            score: 0.85,
+                            reason: 'Documentary with educational focus like your favorites',
+                            description: movieDatabase['The Social Dilemma'].genre + ' • ' + movieDatabase['The Social Dilemma'].director
+                        });
+                    } else {
+                        recs.push({
+                            title: 'Frozen II',
+                            score: 0.79,
+                            reason: 'Similar feel-good animated content to The Lion King',
+                            description: movieDatabase['Frozen II'].genre + ' • ' + movieDatabase['Frozen II'].director
+                        });
+                        recs.push({
+                            title: 'Toy Story 4',
+                            score: 0.76,
+                            reason: 'Family-friendly content matching your ratings',
+                            description: movieDatabase['Toy Story 4'].genre + ' • ' + movieDatabase['Toy Story 4'].director
+                        });
+                        recs.push({
+                            title: 'The Good Place',
+                            score: 0.74,
+                            reason: 'Popular content similar to Friends in tone',
+                            description: movieDatabase['The Good Place'].genre + ' • ' + movieDatabase['The Good Place'].director
+                        });
+                    }
+
+                    return recs;
+                }
+
+                function generateAssociationRecommendations(user) {
+                    const recs = [];
+
+                    if(user === 'alice') {
+                        recs.push({
+                            title: 'Dune',
+                            score: 0.89,
+                            reason: 'Strong association: Star Wars → Dune (support: 0.23, confidence: 0.78)',
+                            description: movieDatabase['Dune'].genre + ' • Epic sci-fi'
+                        });
+                        recs.push({
+                            title: 'Ex Machina',
+                            score: 0.85,
+                            reason: 'Rule: {Blade Runner, Matrix} → Ex Machina (lift: 2.4)',
+                            description: movieDatabase['Ex Machina'].genre + ' • AI thriller'
+                        });
+                        recs.push({
+                            title: 'Arrival',
+                            score: 0.81,
+                            reason: 'Pattern: Interstellar viewers often watch Arrival (confidence: 0.72)',
+                            description: movieDatabase['Arrival'].genre + ' • Linguistic sci-fi'
+                        });
+                    } else if(user === 'bob') {
+                        recs.push({
+                            title: 'Ted Lasso',
+                            score: 0.91,
+                            reason: 'Strong rule: {The Office, Parks & Rec} → Ted Lasso (support: 0.31)',
+                            description: movieDatabase['Ted Lasso'].genre + ' • Feel-good comedy'
+                        });
+                        recs.push({
+                            title: 'Blue Planet II',
+                            score: 0.87,
+                            reason: 'Association: Planet Earth → Blue Planet II (confidence: 0.83)',
+                            description: movieDatabase['Blue Planet II'].genre + ' • Nature documentary'
+                        });
+                        recs.push({
+                            title: 'Schitts Creek',
+                            score: 0.84,
+                            reason: 'Pattern: Comedy show watchers discover this (lift: 2.1)',
+                            description: movieDatabase['Schitts Creek'].genre + ' • Character comedy'
+                        });
+                    } else {
+                        recs.push({
+                            title: 'Spider-Verse',
+                            score: 0.77,
+                            reason: 'New user pattern: Family content → Spider-Verse (support: 0.18)',
+                            description: movieDatabase['Spider-Verse'].genre + ' • Animated superhero'
+                        });
+                        recs.push({
+                            title: 'Toy Story 4',
+                            score: 0.74,
+                            reason: 'Association: The Lion King → Toy Story franchise (confidence: 0.65)',
+                            description: movieDatabase['Toy Story 4'].genre + ' • Animated family'
+                        });
+                        recs.push({
+                            title: 'Frozen II',
+                            score: 0.71,
+                            reason: 'Rule: New users often progress to popular animations (lift: 1.8)',
+                            description: movieDatabase['Frozen II'].genre + ' • Musical animation'
+                        });
+                    }
+
+                    return recs;
+                }
+
+                function generateRecommendations() {
+                    recommendations[currentUser] = {
+                        collaborative: generateCollaborativeRecommendations(currentUser),
+                        content: generateContentBasedRecommendations(currentUser),
+                        association: generateAssociationRecommendations(currentUser)
+                    };
+
+                    displayRecommendations(recommendations[currentUser][currentMethod]);
+                    updateMetrics(recommendations[currentUser][currentMethod]);
+
+                    if(currentMethod === 'association') {
+                        updateAssociationRules();
+                    }
+                }
+
+                function displayRecommendations(recs) {
+                    const grid = document.getElementById('recommendations-grid');
+                    grid.innerHTML = '';
+
+                    recs.forEach(rec => {
+                        const card = document.createElement('div');
+                        card.className = 'recommendation-card';
+                        card.innerHTML = `
+                            <div class="rec-score">${(rec.score * 100).toFixed(0)}%</div>
+                            <div class="rec-title">${rec.title}</div>
+                            <div class="rec-description">${rec.description}</div>
+                            <div class="rec-reason">${rec.reason}</div>
+                        `;
+                        grid.appendChild(card);
+                    });
+                }
+
+                function updateMetrics(recs) {
+                    // Simulate metrics based on method and user
+                    let precision, diversity, novelty, coverage;
+
+                    if(currentMethod === 'collaborative') {
+                        precision = currentUser === 'carol' ? 0.72 : 0.84;
+                        diversity = 0.68;
+                        novelty = 0.73;
+                        coverage = 0.85;
+                    } else if(currentMethod === 'content') {
+                        precision = 0.78;
+                        diversity = currentUser === 'alice' ? 0.45 : 0.62;
+                        novelty = 0.58;
+                        coverage = 0.71;
+                    } else { // association
+                        precision = 0.81;
+                        diversity = 0.76;
+                        novelty = 0.65;
+                        coverage = 0.79;
+                    }
+
+                    // Add some variation based on user
+                    const userMultiplier = currentUser === 'carol' ? 0.9 : 1.0;
+                    precision *= userMultiplier;
+                    diversity *= (1 + (Math.random() - 0.5) * 0.1);
+
+                    document.getElementById('precision-value').textContent = (precision * 100).toFixed(0) + '%';
+                    document.getElementById('diversity-value').textContent = (diversity * 100).toFixed(0) + '%';
+                    document.getElementById('novelty-value').textContent = (novelty * 100).toFixed(0) + '%';
+                    document.getElementById('coverage-value').textContent = (coverage * 100).toFixed(0) + '%';
+                }
+
+                function updateAssociationRules() {
+                    const rulesList = document.getElementById('rules-list');
+                    rulesList.innerHTML = '';
+
+                    const rules = [
+                        {
+                            rule: 'Star Wars, Blade Runner → Dune',
+                            support: '23%',
+                            confidence: '78%',
+                            lift: '2.4'
+                        },
+                        {
+                            rule: 'The Office, Parks & Rec → Ted Lasso',
+                            support: '31%',
+                            confidence: '85%',
+                            lift: '2.8'
+                        },
+                        {
+                            rule: 'Planet Earth → Blue Planet II',
+                            support: '18%',
+                            confidence: '83%',
+                            lift: '3.1'
+                        },
+                        {
+                            rule: 'Comedy Shows → Schitt\'s Creek',
+                            support: '14%',
+                            confidence: '72%',
+                            lift: '2.1'
+                        }
+                    ];
+
+                    rules.forEach(rule => {
+                        const ruleItem = document.createElement('div');
+                        ruleItem.className = 'rule-item';
+                        ruleItem.innerHTML = `
+                            <div class="rule-text">${rule.rule}</div>
+                            <div class="rule-metrics">
+                                <div class="rule-metric">S: ${rule.support}</div>
+                                <div class="rule-metric">C: ${rule.confidence}</div>
+                                <div class="rule-metric">L: ${rule.lift}</div>
+                            </div>
+                        `;
+                        rulesList.appendChild(ruleItem);
+                    });
+                }
+
+                // Initialize
+                updateUserPreferences();
+            </script>
+        </div>
+    </div>
+
+    <div class="dp-content-block content-block" data-title="Quick Check">
+        <h2 class="dp-has-icon"><i class="dp-icon fas fa-clipboard-check" aria-hidden="true"></i>&nbsp;Knowledge Check</h2>
+        <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+            <div class="dp-panel-group">
+                <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="quiz-scenarios" id="quiz-scenarios-heading">Recommendation Scenarios</h3>
+                <div id="quiz-scenarios" class="dp-panel-content" role="region" aria-labelledby="quiz-scenarios-heading" hidden>
+                    <p><strong>Match each scenario to the best recommendation approach:</strong></p>
+                    <ul>
+                        <li><strong>Netflix movie suggestions</strong> - Hybrid system (viewing history + content features)</li>
+                        <li><strong>Amazon "customers who bought X also bought Y"</strong> - Item-based collaborative filtering</li>
+                        <li><strong>Spotify discovering new artists</strong> - Content-based (audio features, genre similarity)</li>
+                        <li><strong>Grocery store product placement</strong> - Association rules (market basket analysis)</li>
+                    </ul>
+                    <p class="mb-0"><em>Consider:</em> data availability, business goals, and user experience for each choice.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
+        <div class="card-body">
+            <h3 class="card-title">Business Impact</h3>
+            <p class="card-text">Recommendation systems drive significant revenue for digital platforms. Netflix estimates their recommender saves $1B annually by reducing churn through better content discovery.</p>
+        </div>
+    </div>
+    <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-color-dp-primary dp-callout-type-info" role="note" aria-label="Session completion reminder">
+        <div class="dp-callout-side-emphasis"><i class="dp-icon fas fa-info-circle dp-default-icon" aria-hidden="true"></i></div>
+        <div class="card-body">
+            <h4 class="card-title"><strong>Week 3 Complete</strong></h4>
+            <p class="card-text">You've mastered unsupervised learning fundamentals: clustering, dimensionality reduction, preprocessing, and recommendations. Ready to apply these techniques to discover hidden patterns in your data.</p>
+        </div>
+    </div>
+    <hr />
+    <p>Select <strong>Modules</strong> on the left-hand side to return to the session list.</p>
+</div>
+</main>
+
+<script>
+(function () {
+  function toggleHead(h){
+    const content = document.getElementById(h.getAttribute('aria-controls'));
+    const expanded = h.getAttribute('aria-expanded') === 'true';
+    h.setAttribute('aria-expanded', String(!expanded));
+    if (content) content.hidden = expanded;
+  }
+  document.addEventListener('click', function (e) {
+    const h = e.target.closest('.dp-panel-heading[role="button"]');
+    if (h) toggleHead(h);
+  });
+  document.addEventListener('keydown', function (e) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role="button"]')) {
+      e.preventDefault(); toggleHead(e.target);
+    }
+  });
+})();
+</script>

@@ -8,7 +8,7 @@
         <h2 class="dp-has-icon"><i class="dp-icon fas fa-route" aria-hidden="true"></i>&nbsp;Workflow: Steps &rarr; Roles &rarr; Artifacts</h2>
         <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
             <div class="dp-panel-group">
-                <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="wf-1">1) Problem Framing &amp; Success Criteria</h4>
+                <h4 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="wf-1">1) Problem Framing &amp; Success Criteria</h4>
                 <div id="wf-1" class="dp-panel-content">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item"><strong>Goal:</strong> Define the decision to be improved and the KPIs that matter.</li>
@@ -19,7 +19,7 @@
                 </div>
             </div>
             <div class="dp-panel-group">
-                <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="wf-2">2) Data Audit &amp; Access</h4>
+                <h4 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="wf-2">2) Data Audit &amp; Access</h4>
                 <div id="wf-2" class="dp-panel-content">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item"><strong>Goal:</strong> Inventory sources (events, transactions, text, images), data rights, refresh cadence.</li>
@@ -30,7 +30,7 @@
                 </div>
             </div>
             <div class="dp-panel-group">
-                <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="wf-3">3) Preparation &amp; Feature Engineering</h4>
+                <h4 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="wf-3">3) Preparation &amp; Feature Engineering</h4>
                 <div id="wf-3" class="dp-panel-content">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item"><strong>Goal:</strong> Clean, join, transform; craft features that express behavior (e.g., recency, frequency, amounts).</li>
@@ -40,7 +40,7 @@
                 </div>
             </div>
             <div class="dp-panel-group">
-                <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="wf-4">4) Modeling &amp; Evaluation</h4>
+                <h4 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="wf-4">4) Modeling &amp; Evaluation</h4>
                 <div id="wf-4" class="dp-panel-content">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item"><strong>Goal:</strong> Train candidate models; compare with a common metric and baseline.</li>
@@ -50,7 +50,7 @@
                 </div>
             </div>
             <div class="dp-panel-group">
-                <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="wf-5">5) Deployment &amp; Decision Design</h4>
+                <h4 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="wf-5">5) Deployment &amp; Decision Design</h4>
                 <div id="wf-5" class="dp-panel-content">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item"><strong>Goal:</strong> Deliver scores where decisions happen (app, CRM, ops dashboard).</li>
@@ -60,7 +60,7 @@
                 </div>
             </div>
             <div class="dp-panel-group">
-                <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="wf-6">6) Monitoring, Drift &amp; Iteration</h4>
+                <h4 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="wf-6">6) Monitoring, Drift &amp; Iteration</h4>
                 <div id="wf-6" class="dp-panel-content">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item"><strong>Goal:</strong> Track data/label drift, business KPIs, and equity/access impacts.</li>
@@ -74,426 +74,13 @@
     <div class="dp-content-block content-block" data-title="Interactive: Data Science Framework">
         <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive: Data Science Framework</h2>
         <p class="mt-2"><em>Tip:</em> As you explore, note where <strong>your team</strong> owns steps vs. where partner teams must be involved.</p>
-
-        <!-- Embedded Data Science Framework Widget -->
-        <div class="embedded-widget" style="background: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin: 20px 0;">
-            <style>
-                /* Framework widget specific styles */
-                .framework-header {
-                    text-align: center;
-                    margin-bottom: 30px;
-                }
-
-                .framework-title {
-                    font-size: 24px;
-                    font-weight: 700;
-                    color: #034638;
-                    margin-bottom: 10px;
-                }
-
-                .framework-subtitle {
-                    font-size: 16px;
-                    color: #4a5568;
-                    max-width: 600px;
-                    margin: 0 auto;
-                }
-
-                .steps-container {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 15px;
-                    max-width: 800px;
-                    margin: 0 auto;
-                }
-
-                .framework-step {
-                    background: white;
-                    border: 2px solid #e2e8f0;
-                    border-radius: 12px;
-                    padding: 20px;
-                    cursor: pointer;
-                    transition: all 0.3s ease;
-                    position: relative;
-                }
-
-                .framework-step:hover {
-                    border-color: #034638;
-                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-                }
-
-                .framework-step.active {
-                    border-color: #034638;
-                    background: rgba(3, 70, 56, 0.05);
-                    box-shadow: 0 4px 16px rgba(3, 70, 56, 0.2);
-                }
-
-                .step-header {
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;
-                }
-
-                .step-number {
-                    background: #034638;
-                    color: white;
-                    font-size: 14px;
-                    font-weight: 600;
-                    padding: 8px 12px;
-                    border-radius: 20px;
-                    min-width: 35px;
-                    text-align: center;
-                }
-
-                .step-title {
-                    font-size: 18px;
-                    font-weight: 600;
-                    color: #1a202c;
-                    flex-grow: 1;
-                    margin-left: 15px;
-                }
-
-                .step-expand {
-                    color: #4a5568;
-                    font-size: 20px;
-                    transition: transform 0.3s ease;
-                }
-
-                .framework-step.active .step-expand {
-                    transform: rotate(90deg);
-                }
-
-                .step-description {
-                    font-size: 14px;
-                    color: #4a5568;
-                    margin-top: 8px;
-                    margin-left: 50px;
-                }
-
-                .step-details {
-                    margin-top: 20px;
-                    margin-left: 50px;
-                    display: none;
-                    border-top: 1px solid #e2e8f0;
-                    padding-top: 15px;
-                }
-
-                .framework-step.active .step-details {
-                    display: block;
-                }
-
-                .step-key-points {
-                    display: grid;
-                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-                    gap: 15px;
-                    margin-top: 15px;
-                }
-
-                .key-point {
-                    background: #f8fafc;
-                    padding: 15px;
-                    border-radius: 8px;
-                    border-left: 3px solid #034638;
-                }
-
-                .key-point-title {
-                    font-weight: 600;
-                    color: #1a202c;
-                    margin-bottom: 5px;
-                    font-size: 14px;
-                }
-
-                .key-point-text {
-                    font-size: 13px;
-                    color: #4a5568;
-                    line-height: 1.5;
-                }
-
-                .flow-arrow {
-                    text-align: center;
-                    color: #034638;
-                    font-size: 24px;
-                    margin: 5px 0;
-                    opacity: 0.6;
-                }
-
-                .framework-summary {
-                    background: rgba(3, 70, 56, 0.1);
-                    border: 1px solid rgba(3, 70, 56, 0.3);
-                    border-radius: 12px;
-                    padding: 20px;
-                    margin-top: 30px;
-                    text-align: center;
-                }
-
-                .summary-title {
-                    font-weight: 600;
-                    color: #034638;
-                    margin-bottom: 10px;
-                }
-
-                .summary-text {
-                    font-size: 14px;
-                    color: #4a5568;
-                }
-
-                @media (max-width: 768px) {
-                    .framework-title {
-                        font-size: 20px;
-                    }
-
-                    .framework-subtitle {
-                        font-size: 14px;
-                    }
-
-                    .framework-step {
-                        padding: 15px;
-                    }
-
-                    .step-title {
-                        font-size: 16px;
-                    }
-
-                    .step-description {
-                        margin-left: 40px;
-                    }
-
-                    .step-details {
-                        margin-left: 40px;
-                    }
-
-                    .step-key-points {
-                        grid-template-columns: 1fr;
-                        gap: 10px;
-                    }
-                }
-            </style>
-
-            <div class="framework-header">
-                <h3 class="framework-title">Data Science Framework</h3>
-                <p class="framework-subtitle">A simplified 6-step workflow for business-driven data science projects</p>
-            </div>
-
-            <div class="steps-container">
-                <div class="framework-step" data-step="1">
-                    <div class="step-header">
-                        <div class="step-number">1</div>
-                        <div class="step-title">Problem Framing</div>
-                        <div class="step-expand">▶</div>
-                    </div>
-                    <div class="step-description">Define the business problem and success criteria</div>
-                    <div class="step-details">
-                        <div class="step-key-points">
-                            <div class="key-point">
-                                <div class="key-point-title">Business Question</div>
-                                <div class="key-point-text">What specific decision needs to be made?</div>
-                            </div>
-                            <div class="key-point">
-                                <div class="key-point-title">Success Metrics</div>
-                                <div class="key-point-text">How will you measure project success?</div>
-                            </div>
-                            <div class="key-point">
-                                <div class="key-point-title">Constraints</div>
-                                <div class="key-point-text">Timeline, budget, and resource limitations</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flow-arrow">↓</div>
-
-                <div class="framework-step" data-step="2">
-                    <div class="step-header">
-                        <div class="step-number">2</div>
-                        <div class="step-title">Data Collection</div>
-                        <div class="step-expand">▶</div>
-                    </div>
-                    <div class="step-description">Gather and assess available data sources</div>
-                    <div class="step-details">
-                        <div class="step-key-points">
-                            <div class="key-point">
-                                <div class="key-point-title">Data Sources</div>
-                                <div class="key-point-text">Internal systems, external APIs, third-party data</div>
-                            </div>
-                            <div class="key-point">
-                                <div class="key-point-title">Data Quality</div>
-                                <div class="key-point-text">Completeness, accuracy, and consistency checks</div>
-                            </div>
-                            <div class="key-point">
-                                <div class="key-point-title">Data Volume</div>
-                                <div class="key-point-text">Sufficient data for reliable model training</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flow-arrow">↓</div>
-
-                <div class="framework-step" data-step="3">
-                    <div class="step-header">
-                        <div class="step-number">3</div>
-                        <div class="step-title">Data Processing</div>
-                        <div class="step-expand">▶</div>
-                    </div>
-                    <div class="step-description">Clean, transform, and prepare data for analysis</div>
-                    <div class="step-details">
-                        <div class="step-key-points">
-                            <div class="key-point">
-                                <div class="key-point-title">Data Cleaning</div>
-                                <div class="key-point-text">Handle missing values, outliers, and inconsistencies</div>
-                            </div>
-                            <div class="key-point">
-                                <div class="key-point-title">Feature Engineering</div>
-                                <div class="key-point-text">Create meaningful variables from raw data</div>
-                            </div>
-                            <div class="key-point">
-                                <div class="key-point-title">Data Splitting</div>
-                                <div class="key-point-text">Separate training, validation, and test sets</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flow-arrow">↓</div>
-
-                <div class="framework-step" data-step="4">
-                    <div class="step-header">
-                        <div class="step-number">4</div>
-                        <div class="step-title">Model Building</div>
-                        <div class="step-expand">▶</div>
-                    </div>
-                    <div class="step-description">Develop and train predictive models</div>
-                    <div class="step-details">
-                        <div class="step-key-points">
-                            <div class="key-point">
-                                <div class="key-point-title">Algorithm Selection</div>
-                                <div class="key-point-text">Choose appropriate methods for your problem type</div>
-                            </div>
-                            <div class="key-point">
-                                <div class="key-point-title">Model Training</div>
-                                <div class="key-point-text">Fit models using training data</div>
-                            </div>
-                            <div class="key-point">
-                                <div class="key-point-title">Hyperparameter Tuning</div>
-                                <div class="key-point-text">Optimize model settings for best performance</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flow-arrow">↓</div>
-
-                <div class="framework-step" data-step="5">
-                    <div class="step-header">
-                        <div class="step-number">5</div>
-                        <div class="step-title">Model Evaluation</div>
-                        <div class="step-expand">▶</div>
-                    </div>
-                    <div class="step-description">Test model performance and validate results</div>
-                    <div class="step-details">
-                        <div class="step-key-points">
-                            <div class="key-point">
-                                <div class="key-point-title">Performance Metrics</div>
-                                <div class="key-point-text">Accuracy, precision, recall based on problem type</div>
-                            </div>
-                            <div class="key-point">
-                                <div class="key-point-title">Model Comparison</div>
-                                <div class="key-point-text">Compare different approaches and select the best</div>
-                            </div>
-                            <div class="key-point">
-                                <div class="key-point-title">Business Validation</div>
-                                <div class="key-point-text">Ensure results align with business objectives</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flow-arrow">↓</div>
-
-                <div class="framework-step" data-step="6">
-                    <div class="step-header">
-                        <div class="step-number">6</div>
-                        <div class="step-title">Deployment & Monitoring</div>
-                        <div class="step-expand">▶</div>
-                    </div>
-                    <div class="step-description">Implement model in production and track performance</div>
-                    <div class="step-details">
-                        <div class="step-key-points">
-                            <div class="key-point">
-                                <div class="key-point-title">Model Deployment</div>
-                                <div class="key-point-text">Integrate model into business processes</div>
-                            </div>
-                            <div class="key-point">
-                                <div class="key-point-title">Performance Monitoring</div>
-                                <div class="key-point-text">Track model accuracy over time</div>
-                            </div>
-                            <div class="key-point">
-                                <div class="key-point-title">Model Maintenance</div>
-                                <div class="key-point-text">Update and retrain as needed</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="framework-summary">
-                <div class="summary-title">Key Insight</div>
-                <div class="summary-text">
-                    This framework is iterative – you'll often cycle back to earlier steps as you learn more about your data and problem.
-                    The goal is systematic progress toward business value.
-                </div>
-            </div>
-
-            <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                let currentFrameworkStep = null;
-
-                function toggleFrameworkStep(step) {
-                    const stepNumber = step.dataset.step;
-
-                    if (currentFrameworkStep === stepNumber) {
-                        // Collapse current step
-                        step.classList.remove('active');
-                        currentFrameworkStep = null;
-                    } else {
-                        // Collapse all steps
-                        document.querySelectorAll('.framework-step').forEach(s => {
-                            s.classList.remove('active');
-                        });
-
-                        // Expand clicked step
-                        step.classList.add('active');
-                        currentFrameworkStep = stepNumber;
-
-                        // Smooth scroll to step
-                        step.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'center'
-                        });
-                    }
-                }
-
-                // Add click handlers for framework steps
-                document.querySelectorAll('.framework-step').forEach(step => {
-                    step.addEventListener('click', (e) => {
-                        toggleFrameworkStep(step);
-                    });
-
-                    step.addEventListener('keydown', (e) => {
-                        if (e.key === 'Enter' || e.key === ' ') {
-                            e.preventDefault();
-                            toggleFrameworkStep(step);
-                        }
-                    });
-                });
-            });
-            </script>
-        </div>
+        <p><iframe style="overflow: hidden;" src="https://learn.ivey.ca/courses/6194/external_tools/retrieve?borderless=true&amp;url=https://scone-prod.ca-central-1.inscloudgate.net/packages/49233/launch" width="1000" height="1000" loading="lazy"></iframe></p>
     </div>
     <div class="dp-content-block content-block" data-title="Check Your Understanding">
         <h2 class="dp-has-icon"><i class="dp-icon fas fa-clipboard-check" aria-hidden="true"></i>&nbsp;Quick Check</h2>
         <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
             <div class="dp-panel-group">
-                <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="quiz-1">Match the step to the artifact</h4>
+                <h4 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="quiz-1">Match the step to the artifact</h4>
                 <div id="quiz-1" class="dp-panel-content">
                     <ul>
                         <li><strong>Problem Framing</strong> &rarr; Problem brief with KPIs</li>
@@ -515,32 +102,3 @@
     <hr />
     <p>Select <strong>Next▸</strong> to continue.</p>
 </div>
-
-<!-- Canvas-safe accordion functionality -->
-<script>
-(function () {
-  function toggleAccordionPanel(heading) {
-    const content = document.getElementById(heading.getAttribute('aria-controls'));
-    const expanded = heading.getAttribute('aria-expanded') === 'true';
-
-    heading.setAttribute('aria-expanded', String(!expanded));
-    if (content) {
-      content.hidden = expanded;
-    }
-  }
-
-  document.addEventListener('click', function (e) {
-    const heading = e.target.closest('.dp-panel-heading[role="button"]');
-    if (heading) {
-      toggleAccordionPanel(heading);
-    }
-  });
-
-  document.addEventListener('keydown', function (e) {
-    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role="button"]')) {
-      e.preventDefault();
-      toggleAccordionPanel(e.target);
-    }
-  });
-})();
-</script>

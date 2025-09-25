@@ -1,10 +1,9 @@
 ﻿<div id="dp-wrapper" class="dp-wrapper">
     <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
     <div class="dp-content-block content-block" data-category="" data-title="Understanding Data - From Raw Data to Actionable Insights">
-        <h2 class="dp-has-icon"><i class="dp-icon fas fa-database" aria-hidden="true"></i>&nbsp;Understanding Data</h2>
+        <h2 class="dp-has-icon"><i class="dp-icon fas fa-database" aria-hidden="true"></i>&nbsp;The Foundation of AI</h2>
         <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
             <div class="card-body">
-                <h5 class="card-title dp-ignore-theme">The Foundation of AI</h5>
                 <p>Data is the fuel that powers AI. This page walks the journey from <em>raw data &rarr; information &rarr; predictions &rarr; actions</em> and introduces &ldquo;big data&rdquo; as the scale shift that enables modern AI.</p>
             </div>
         </div>
@@ -13,369 +12,88 @@
         <h2 class="dp-has-icon"><i class="dp-icon fas fa-route" aria-hidden="true"></i>&nbsp;From Raw Data to Actionable Insights</h2>
         <div class="dp-card card" style="border-left: 4px solid #582C83; padding-left: 15px;">
             <div class="card-body">
-                <h5 class="card-title dp-ignore-theme">Example: Supermarket Loyalty Programs</h5>
-                <p>Consider how supermarkets use loyalty cards at checkout. They collect purchase data and demographic information to create personalized coupons—a win-win where customers get relevant bargains and stores increase sales.</p>
+                <h5 class="card-title dp-ignore-theme">Real-World Success Story</h5>
+                <p>A supermarket chain moved from generic promos to data-driven, personalized offers. Below, explore how raw data &rarr; segments &rarr; targeted actions &rarr; measurable lift.</p>
             </div>
         </div>
-        <h3>How It Works</h3>
-        <p>When you checkout with a loyalty card, the supermarket analyzes your purchase history alongside demographic data from thousands of similar customers. They experiment to find which coupons will be most relevant to send you next.</p>
-        <details class="canvas-collapsible">
-            <summary>Types of Data Collected</summary>
-            <div class="collapsible-content">
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Purchase history - what you've bought before</li>
-                    <li class="list-group-item">Demographic information from loyalty program signup</li>
-                    <li class="list-group-item">Shopping patterns - frequency, time of day, basket size</li>
-                    <li class="list-group-item">Response to previous promotions and coupons</li>
-                </ul>
-            </div>
-        </details>
-        <!-- Embedded Customer Segmentation Widget -->
-        <div class="embedded-widget" style="background: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin: 20px 0;">
-            <style>
-                /* Customer segments flipper specific styles */
-                .segments-container {
-                    display: grid;
-                    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-                    gap: 20px;
-                    padding: 20px 0;
-                    max-width: 700px;
-                    margin: 0 auto;
-                }
-
-                .segment-card {
-                    background: white;
-                    border: 2px solid #e9ecef;
-                    border-radius: 8px;
-                    overflow: hidden;
-                    cursor: pointer;
-                    transition: all 0.3s ease;
-                    position: relative;
-                    min-height: 280px;
-                }
-
-                .segment-card:hover {
-                    transform: translateY(-2px);
-                    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-                }
-
-                .segment-card.active {
-                    border-color: #034638;
-                    box-shadow: 0 4px 20px rgba(3, 70, 56, 0.2);
-                }
-
-                .card-front, .card-back {
-                    padding: 20px;
-                    text-align: center;
-                    transition: all 0.3s ease;
-                }
-
-                .card-front {
-                    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-                }
-
-                .card-back {
-                    background: #034638;
-                    color: white;
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    opacity: 0;
-                    transform: scale(0.8);
-                    z-index: 10;
-                }
-
-                .segment-card.flipped .card-front {
-                    opacity: 0;
-                    transform: scale(0.8);
-                }
-
-                .segment-card.flipped .card-back {
-                    opacity: 1;
-                    transform: scale(1);
-                }
-
-                .segment-icon {
-                    font-size: 2.5em;
-                    margin-bottom: 15px;
-                    color: #034638;
-                }
-
-                .card-back .segment-icon {
-                    color: white;
-                }
-
-                .segment-title {
-                    font-size: 1.3em;
-                    font-weight: bold;
-                    margin-bottom: 10px;
-                    color: #034638;
-                }
-
-                .card-back .segment-title {
-                    color: white;
-                }
-
-                .segment-description {
-                    font-size: 0.9em;
-                    color: #666;
-                    margin-bottom: 15px;
-                }
-
-                .card-back .segment-description {
-                    color: rgba(255,255,255,0.9);
-                }
-
-                .strategy-label {
-                    font-weight: bold;
-                    margin-bottom: 8px;
-                    color: #ffd700;
-                }
-
-                .strategy-text {
-                    margin-bottom: 15px;
-                }
-
-                .result-label {
-                    font-weight: bold;
-                    margin-bottom: 8px;
-                    color: #90ee90;
-                }
-
-                .result-text {
-                    font-weight: bold;
-                    font-size: 1.1em;
-                }
-
-                .click-hint {
-                    position: absolute;
-                    bottom: 10px;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    font-size: 0.8em;
-                    color: #666;
-                    opacity: 0.7;
-                }
-
-                .card-back .click-hint {
-                    color: rgba(255,255,255,0.7);
-                }
-
-                .widget-controls {
-                    padding: 20px;
-                    text-align: center;
-                    border-top: 1px solid #e9ecef;
-                    background: #f8f9fa;
-                    margin-top: 20px;
-                    border-radius: 0 0 8px 8px;
-                }
-
-                .widget-btn {
-                    background: #034638;
-                    color: white;
-                    border: none;
-                    padding: 12px 24px;
-                    border-radius: 6px;
-                    cursor: pointer;
-                    font-size: 1em;
-                    transition: background 0.3s ease;
-                    margin: 0 5px;
-                }
-
-                .widget-btn:hover {
-                    background: #025a44;
-                }
-
-                .widget-summary {
-                    padding: 15px 20px;
-                    background: #e8f5e8;
-                    border-left: 4px solid #034638;
-                    margin: 20px 0;
-                    border-radius: 0 6px 6px 0;
-                    display: none;
-                }
-
-                .widget-summary.show {
-                    display: block;
-                }
-
-                .widget-summary h4 {
-                    color: #034638;
-                    margin-bottom: 10px;
-                }
-
-                @media (max-width: 768px) {
-                    .segments-container {
-                        grid-template-columns: 1fr;
-                        padding: 15px 10px;
-                    }
-
-                    .segment-card {
-                        min-height: 250px;
-                    }
-                }
-            </style>
-
-            <div class="text-center mb-3">
-                <h5><strong>Interactive: Customer Segmentation Results</strong></h5>
-                <p class="text-muted">Click each customer segment to see their personalized strategy and business results</p>
-            </div>
-
-            <div class="segments-container">
-                <div class="segment-card" data-segment="professionals">
-                    <div class="card-front">
-                        <div class="segment-icon">💼</div>
-                        <div class="segment-title">Professionals</div>
-                        <div class="segment-description">Busy working professionals who value convenience and efficiency in their shopping experience.</div>
-                        <div class="click-hint">Click to see strategy →</div>
-                    </div>
-                    <div class="card-back">
-                        <div class="segment-icon">💼</div>
-                        <div class="segment-title">Professionals</div>
-                        <div class="strategy-label">Personalized Strategy:</div>
-                        <div class="strategy-text">Time-saving product bundles and express checkout</div>
-                        <div class="result-label">Business Result:</div>
-                        <div class="result-text">35% increase in basket size</div>
-                        <div class="click-hint">Click to flip back</div>
-                    </div>
-                </div>
-
-                <div class="segment-card" data-segment="families">
-                    <div class="card-front">
-                        <div class="segment-icon">👨‍👩‍👧‍👦</div>
-                        <div class="segment-title">Families</div>
-                        <div class="segment-description">Multi-person households focused on value, variety, and meal planning for the week.</div>
-                        <div class="click-hint">Click to see strategy →</div>
-                    </div>
-                    <div class="card-back">
-                        <div class="segment-icon">👨‍👩‍👧‍👦</div>
-                        <div class="segment-title">Families</div>
-                        <div class="strategy-label">Personalized Strategy:</div>
-                        <div class="strategy-text">Weekly bulk discount offers and meal planning tools</div>
-                        <div class="result-label">Business Result:</div>
-                        <div class="result-text">28% increase in visit frequency</div>
-                        <div class="click-hint">Click to flip back</div>
-                    </div>
-                </div>
-
-                <div class="segment-card" data-segment="seniors">
-                    <div class="card-front">
-                        <div class="segment-icon">👵</div>
-                        <div class="segment-title">Seniors</div>
-                        <div class="segment-description">Older customers who appreciate personal service and familiar, trusted products.</div>
-                        <div class="click-hint">Click to see strategy →</div>
-                    </div>
-                    <div class="card-back">
-                        <div class="segment-icon">👵</div>
-                        <div class="segment-title">Seniors</div>
-                        <div class="strategy-label">Personalized Strategy:</div>
-                        <div class="strategy-text">Service-focused promotions and familiar product emphasis</div>
-                        <div class="result-label">Business Result:</div>
-                        <div class="result-text">42% improvement in satisfaction</div>
-                        <div class="click-hint">Click to flip back</div>
-                    </div>
+        <h3>The Business Challenge</h3>
+        <p>Generic promotions underperformed and retention slipped. The team reframed the problem: <em>Which customers respond to what, and when?</em> They inventoried data sources and redesigned offers accordingly.</p>
+        <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+            <div class="dp-panel-group">
+                <h4 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="data-sources">Raw Data Sources Identified</h4>
+                <div id="data-sources" class="dp-panel-content">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Purchase history across all store locations and periods</li>
+                        <li class="list-group-item">Demographic information from loyalty programs</li>
+                        <li class="list-group-item">Seasonality patterns by product and customer type</li>
+                        <li class="list-group-item">Time-of-day transaction data (shopping preferences)</li>
+                    </ul>
                 </div>
             </div>
-
-            <div class="widget-summary" id="segmentSummary">
-                <h4>Key Learning:</h4>
-                <p>Data analysis revealed these three distinct customer segments that weren't obvious from traditional demographic analysis. By personalizing strategies to each segment's specific needs, the supermarket achieved a <strong>23% overall sales increase</strong> while improving customer satisfaction across all segments.</p>
-            </div>
-
-            <div class="widget-controls">
-                <button class="widget-btn" id="showAllSegments">Show All Results</button>
-                <button class="widget-btn" id="resetSegments">Reset Cards</button>
-            </div>
-
-            <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const segmentCards = document.querySelectorAll('.segment-card');
-                const showAllBtn = document.getElementById('showAllSegments');
-                const resetBtn = document.getElementById('resetSegments');
-                const summary = document.getElementById('segmentSummary');
-
-                let flippedSegmentCount = 0;
-
-                function flipSegmentCard(card) {
-                    if (!card.classList.contains('flipped')) {
-                        card.classList.add('flipped');
-                        card.classList.add('active');
-                        flippedSegmentCount++;
-
-                        if (flippedSegmentCount === 3) {
-                            setTimeout(() => {
-                                summary.classList.add('show');
-                                summary.scrollIntoView({
-                                    behavior: 'smooth',
-                                    block: 'center'
-                                });
-                            }, 500);
-                        }
-                    } else {
-                        card.classList.remove('flipped');
-                        card.classList.remove('active');
-                        if (flippedSegmentCount > 0) flippedSegmentCount--;
-
-                        if (flippedSegmentCount < 3) {
-                            summary.classList.remove('show');
-                        }
-                    }
-                }
-
-                function showAllSegmentResults() {
-                    segmentCards.forEach(card => {
-                        if (!card.classList.contains('flipped')) {
-                            setTimeout(() => flipSegmentCard(card), Math.random() * 500);
-                        }
-                    });
-                }
-
-                function resetAllSegmentCards() {
-                    segmentCards.forEach(card => {
-                        card.classList.remove('flipped');
-                        card.classList.remove('active');
-                    });
-                    flippedSegmentCount = 0;
-                    summary.classList.remove('show');
-                }
-
-                // Event listeners
-                segmentCards.forEach(card => {
-                    card.addEventListener('click', () => flipSegmentCard(card));
-                    card.addEventListener('keydown', (e) => {
-                        if (e.key === 'Enter' || e.key === ' ') {
-                            e.preventDefault();
-                            flipSegmentCard(card);
-                        }
-                    });
-                });
-
-                if (showAllBtn) showAllBtn.addEventListener('click', showAllSegmentResults);
-                if (resetBtn) resetBtn.addEventListener('click', resetAllSegmentCards);
-            });
-            </script>
         </div>
+        <div class="dp-card card h-100 w-100">
+            <h5 class="card-header dp-ignore-theme">Interactive Customer Segmentation Explorer</h5>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Explore three distinct segments discovered through analysis</li>
+                <li class="list-group-item">See how behavioural patterns differ from demographics</li>
+                <li class="list-group-item">Understand the strategy levers for each segment</li>
+            </ul>
+        </div>
+        <p><iframe style="overflow: hidden;" src="https://learn.ivey.ca/courses/6194/external_tools/retrieve?borderless=true&amp;url=https://scone-prod.ca-central-1.inscloudgate.net/packages/49232/launch" width="1000" height="1000" loading="lazy"></iframe></p>
         <blockquote>
-            <p><strong>Key Concept:</strong> <em>By analyzing patterns in customer data, businesses can move from one-size-fits-all promotions to personalized offers that benefit both customers and the business.</em></p>
+            <p><strong>Key Discovery:</strong> <em>Three behaviour-based segments emerged that weren&rsquo;t obvious from traditional demographics.</em></p>
+            <p><strong>Time Estimate:</strong> 3&ndash;4 minutes of exploration</p>
         </blockquote>
-        <h3>The Value of Data-Driven Decisions</h3>
+        <h3>Targeted Actions &amp; Business Results</h3>
+        <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+            <div class="dp-panel-group">
+                <h4 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="segmentation-results">Customer Segmentation Results</h4>
+                <div id="segmentation-results" class="dp-panel-content">
+                    <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Customer segmentation results showing strategy and business outcomes for each segment">
+                        <caption>Supermarket Customer Segmentation &mdash; Strategies and Business Results</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Customer Segment</th>
+                                <th scope="col">Personalized Strategy</th>
+                                <th scope="col">Business Result</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row"><strong>Professionals</strong></th>
+                                <td>Time-saving bundles; express checkout</td>
+                                <td>35% increase in basket size</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><strong>Families</strong></th>
+                                <td>Weekly bulk offers; meal-planning tools</td>
+                                <td>28% increase in visit frequency</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><strong>Seniors</strong></th>
+                                <td>Service-focused promos; familiar product emphasis</td>
+                                <td>42% improvement in satisfaction</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
         <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
             <div class="card-body">
-                <h5 class="card-title dp-ignore-theme">From Data to Action</h5>
-                <p>This supermarket example illustrates the data science process: collecting data, finding patterns, and taking actions that create value. The same principles apply across industries—from Netflix recommendations to healthcare diagnostics.</p>
+                <h5 class="card-title dp-ignore-theme">Overall Business Impact</h5>
+                <p><strong>Quantified Results:</strong> Personalization delivered a <em>23% overall sales increase</em> while improving customer satisfaction across all segments.</p>
+                <p><strong>Strategic Learning:</strong> Data science can create a win-win: more relevant experiences for customers and higher profitability for the firm.</p>
             </div>
         </div>
     </div>
     <div class="dp-content-block content-block" data-title="The Scale Shift: From Small Data to Big Data">
         <h2 class="dp-has-icon"><i class="dp-icon fas fa-expand-arrows-alt" aria-hidden="true"></i>&nbsp;The Scale Shift: From Small Data to Big Data</h2>
         <p>The customer segmentation example above shows how traditional data analysis creates value. But <strong>big data</strong> represents a fundamental scale shift that enables modern AI capabilities.</p>
-
         <div class="dp-card card" style="border-left: 4px solid #582C83; padding-left: 15px;">
             <div class="card-body">
                 <h5 class="card-title dp-ignore-theme">What Makes Data "Big"?</h5>
-                <p>Big data isn't just about size—it's characterized by four critical dimensions that work together to create new possibilities for AI:</p>
+                <p>Big data isn't just about size&mdash;it's characterized by four critical dimensions that work together to create new possibilities for AI:</p>
                 <ul>
                     <li><strong>Volume:</strong> Population-scale datasets instead of samples</li>
                     <li><strong>Velocity:</strong> Real-time processing and immediate responses</li>
@@ -384,7 +102,6 @@
                 </ul>
             </div>
         </div>
-
         <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
             <div class="card-body">
                 <h5 class="card-title dp-ignore-theme">The AI Connection</h5>
@@ -392,19 +109,20 @@
                 <p><strong>Next:</strong> We'll explore each of these four dimensions in detail with interactive business examples.</p>
             </div>
         </div>
-
-        <details class="canvas-collapsible">
-            <summary>Why Scale Matters for AI Success</summary>
-            <div class="collapsible-content">
-                <div class="dp-card card" style="border: none; background-color: #f8f9fa;">
-                    <div class="card-body">
-                        <p><strong>Traditional Analytics</strong> &rarr; <strong>Sample-based insights</strong> &rarr; <strong>General trends</strong></p>
-                        <p><strong>Big Data + AI</strong> &rarr; <strong>Population-scale patterns</strong> &rarr; <strong>Personalized predictions</strong></p>
-                        <p><em>Example:</em> Netflix's recommendation engine analyzes viewing patterns from 200M+ users to suggest content you'll actually want to watch, not just popular shows.</p>
+        <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+            <div class="dp-panel-group">
+                <h4 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="scale-matters">Why Scale Matters for AI Success</h4>
+                <div id="scale-matters" class="dp-panel-content">
+                    <div class="dp-card card" style="border: none; background-color: #f8f9fa;">
+                        <div class="card-body">
+                            <p><strong>Traditional Analytics</strong> &rarr; <strong>Sample-based insights</strong> &rarr; <strong>General trends</strong></p>
+                            <p><strong>Big Data + AI</strong> &rarr; <strong>Population-scale patterns</strong> &rarr; <strong>Personalized predictions</strong></p>
+                            <p><em>Example:</em> Netflix's recommendation engine analyzes viewing patterns from 200M+ users to suggest content you'll actually want to watch, not just popular shows.</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </details>
+        </div>
     </div>
     <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
         <div class="card-body">

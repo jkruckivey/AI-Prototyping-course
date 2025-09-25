@@ -5,25 +5,25 @@
   <title>Canvas → SCORM Converter (AMBA-Compatible) + Preview</title>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-  <!-- Tools for packaging -->
+  <!-- Tools -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 
   <style>
-    :root { --brand:#034638; --muted:#f5f5f5; --ink:#2D3B45; --border:#e6e6e6; }
+    :root { --ink:#1f2937; --muted:#f5f5f5; --border:#e6e6e6; }
     body { font-family:system-ui,Arial,sans-serif; background:var(--muted); color:var(--ink); margin:0; }
     .wrap { max-width:1320px; margin:32px auto; padding:16px; }
     header { display:flex; align-items:center; gap:12px; margin-bottom:16px; }
-    header h1 { margin:0; font-size:1.5rem; color:#1f2937; }
+    header h1 { margin:0; font-size:1.5rem; color:var(--ink); }
     .grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
     .card { background:#fff; border:1px solid var(--border); border-radius:10px; box-shadow:0 2px 6px rgba(0,0,0,.05); }
-    .card h2 { margin:0; padding:14px 16px; border-bottom:1px solid #eee; font-size:1.05rem; color:#1f2937; background:#fafafa; }
+    .card h2 { margin:0; padding:14px 16px; border-bottom:1px solid #eee; font-size:1.05rem; color:var(--ink); background:#fafafa; }
     .card .body { padding:14px 16px; }
     textarea { width:100%; min-height:260px; border:1px solid #ddd; border-radius:6px; padding:10px; font-family:ui-monospace,Consolas,monospace; }
     .row { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0; align-items:center; }
-    .btn { background:#1f2937; color:#fff; border:0; border-radius:6px; padding:8px 12px; cursor:pointer; font-weight:600; }
+    .btn { background:var(--ink); color:#fff; border:0; border-radius:6px; padding:8px 12px; cursor:pointer; font-weight:600; }
     .btn.secondary { background:#475569; }
-    .btn.ghost { background:#fff; color:#1f2937; border:1px solid #1f2937; }
+    .btn.ghost { background:#fff; color:var(--ink); border:1px solid #1f2937; }
     .status { margin-top:10px; padding:10px; border-radius:6px; font-weight:600; }
     .status.success { background:#E9F8F0; color:#1B5E20; border:1px solid #C6EED6; }
     .status.error { background:#FDECEE; color:#7A1E1E; border:1px solid #F8C8CF; }
@@ -32,7 +32,7 @@
     /* Preview area */
     .preview-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
     .preview-head { display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:8px; }
-    .preview-head h3 { margin:0; font-size:1rem; color:#1f2937; }
+    .preview-head h3 { margin:0; font-size:1rem; color:var(--ink); }
     .preview-pane { border:1px solid #ddd; border-radius:8px; overflow:hidden; background:#fff; }
     .preview-pane iframe { width:100%; height:520px; border:0; display:block; }
     @media(max-width:980px){ .grid{grid-template-columns:1fr} .preview-grid{grid-template-columns:1fr} }
@@ -59,6 +59,24 @@
             <input type="checkbox" id="autoPreview" checked/> Auto-preview
           </label>
         </div>
+
+        <!-- Progress controls -->
+        <div class="row" style="gap:12px; align-items:flex-end">
+          <div>
+            <label for="progSteps" style="font-size:.9rem;display:block;margin-bottom:4px">Progress – Total steps</label>
+            <input id="progSteps" type="number" min="1" step="1" placeholder="auto"
+                   style="width:120px;padding:6px 8px;border:1px solid #ddd;border-radius:6px">
+          </div>
+          <div>
+            <label for="progCurrent" style="font-size:.9rem;display:block;margin-bottom:4px">Current step</label>
+            <input id="progCurrent" type="number" min="1" step="1" placeholder="1"
+                   style="width:120px;padding:6px 8px;border:1px solid #ddd;border-radius:6px">
+          </div>
+          <div style="font-size:.85rem;color:#6b7280">
+            Leave blank to auto-infer total from sections; current defaults to 1.
+          </div>
+        </div>
+
         <div id="status" class="status" aria-live="polite"></div>
       </div>
     </div>
@@ -95,13 +113,13 @@
 </div>
 
 <script>
-// ---------- Status ----------
+/* ---------- Status ---------- */
 function setStatus(msg,cls){const el=document.getElementById('status');el.className='status '+(cls||'');el.textContent=msg||'';}
 
-// ---------- Emoji map ----------
+/* ---------- Emoji map ---------- */
 const EMOJI_MAP=[
-  ['🗄️','database'],['🗄','database'],['🧠','brain'],['🚀','rocket'],['🎯','bullseye'],
-  ['✅','check-circle'],['⚠️','exclamation-triangle'],['⚠','exclamation-triangle']
+  ['🗄️','database'],['🗄','database'],['🧠','brain'],['🚀','rocket'],
+  ['🎯','bullseye'],['✅','check-circle'],['⚠️','exclamation-triangle'],['⚠','exclamation-triangle']
 ];
 function replaceEmoji(html){
   for(const[e,fa]of EMOJI_MAP){
@@ -111,31 +129,33 @@ function replaceEmoji(html){
   return html;
 }
 
-// ---------- AMBA-compatible stylesheet for exported pages (Canvas-like, neutral colors) ----------
+/* ---------- Strip legacy/duplicate accordion scripts (ALWAYS) ---------- */
+function stripConflictingScripts(html){
+  html = html.replace(
+    /<script[^>]*>\s*\(function\s*\(\)\s*\{\s*function\s+toggleHead[\s\S]*?\}\)\(\);\s*<\/script>/gi,
+    ''
+  );
+  html = html.replace(
+    /<script[^>]*>[\s\S]*?(?:\.closest\(\s*['"]\.dp-panel-heading\[role=["']button["']\]['"]\s*\)|toggleHead\s*\()[\s\S]*?<\/script>/gi,
+    ''
+  );
+  return html;
+}
+
+/* ---------- AMBA-compatible stylesheet (neutral LMS-like) ---------- */
 function getAmbaCompatStyles(){return `
-/* Base layout */
 html,body{margin:0;padding:10px;font-family:Lato,Arial,sans-serif;background:#f5f5f5;color:#2D3B45;line-height:1.6}
 #dp-wrapper,.dp-wrapper{max-width:1200px;margin:0 auto;background:#fff;padding:20px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
-
-/* Headings (neutral) */
 h1,h2,h3,h4,h5,h6{font-weight:700;line-height:1.25;margin:20px 0 10px;color:#1f2937}
 h2{font-size:1.9rem} h3{font-size:1.45rem} h4{font-size:1.25rem}
-
-/* Content blocks — no LMS-unlike dividers */
 .dp-content-block,.content-block{padding:20px 0;border-bottom:0}
 .dp-content-block + .dp-content-block,.content-block + .content-block{margin-top:8px}
 #dp-wrapper hr{border:none;height:0;margin:16px 0}
-
-/* Icons (black) */
 .dp-has-icon{display:flex;align-items:center;gap:8px}
 .dp-icon{color:#111!important;font-size:1.2em}
-
-/* Cards */
 .dp-card,.card{background:#fff;border:1px solid rgba(0,0,0,.12);border-radius:.25rem;margin-bottom:1rem}
 .card-body{padding:1.25rem}
 .card-title{margin:0 0 .75rem;font-weight:600;color:#1f2937}
-
-/* ACCORDIONS (match LMS) */
 .dp-panels-wrapper{margin:12px 0}
 .dp-panel-group{border:1px solid #ccc;border-radius:4px;margin:0 0 10px;overflow:hidden}
 .dp-panel-heading{
@@ -148,36 +168,24 @@ h2{font-size:1.9rem} h3{font-size:1.45rem} h4{font-size:1.25rem}
 .dp-panel-heading:focus-visible{outline:2px solid #2684ff;outline-offset:2px}
 .dp-panel-content{padding:14px;background:#fff}
 .dp-panel-content[hidden]{display:none!important}
-
-/* List rows (no bullets) */
 .list-group{display:flex;flex-direction:column;padding-left:0;margin:0;list-style:none}
 .list-group-item{list-style:none;padding:.75rem 1.25rem;background:#fff;border:1px solid rgba(0,0,0,.125);border-bottom:0}
 .list-group-item:last-child{border-bottom:1px solid rgba(0,0,0,.125)}
-
-/* Tables */
 .table-responsive{width:100%;overflow-x:auto}
 .ic-Table{width:100%;border-collapse:collapse;margin:12px 0}
 .ic-Table th,.ic-Table td{padding:.75rem;border-top:1px solid #dee2e6;text-align:left;vertical-align:top}
 .ic-Table thead th{background:#f8f9fa;border-bottom:2px solid #dee2e6}
-
-/* Callouts (neutral) */
 .dp-callout{
   padding:15px;border-left:4px solid #111;background:#f9f9f9;border-radius:4px;margin:16px 0;
   border:1px solid #e6e6e6;border-left-width:4px
 }
 .dp-callout h3{margin-top:0;color:#1f2937}
-
-/* Badges */
 .badge-chip{display:inline-block;padding:.25rem .5rem;border-radius:999px;background:#eff6ff;border:1px solid #dbeafe;margin-right:.25rem;color:#1f2937}
-
-/* SR-only */
 .sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
-
-/* Responsive */
 @media(max-width:768px){#dp-wrapper,.dp-wrapper{padding:16px} h2{font-size:1.6rem} h3{font-size:1.25rem}}
 `;}
 
-// ---------- Normalize a fragment ----------
+/* ---------- Normalize a fragment ---------- */
 function normalizeFragment(fragmentHTML){
   const safe = replaceEmoji(fragmentHTML);
   const doc = new DOMParser().parseFromString(`<div id="root">${safe}</div>`, 'text/html');
@@ -189,7 +197,7 @@ function normalizeFragment(fragmentHTML){
     w.innerHTML = root.innerHTML; root.innerHTML = ''; root.appendChild(w);
   }
 
-  // Panels: enforce H3 headings + a11y
+  // Panels: enforce H3 + ARIA (header owns the label)
   root.querySelectorAll('.dp-panel-group').forEach((group,i)=>{
     let head = group.querySelector('.dp-panel-heading');
     if (!head) {
@@ -197,20 +205,26 @@ function normalizeFragment(fragmentHTML){
       if (head) head.classList.add('dp-panel-heading');
     }
     if (!head) return;
+
     if (head.tagName !== 'H3') {
       const h3 = doc.createElement('H3'); h3.className = head.className;
       for (const a of head.attributes) h3.setAttribute(a.name, a.value);
       h3.innerHTML = head.innerHTML; head.replaceWith(h3); head = h3;
     }
+
+    if (!head.id) head.id = `accordion-header-${i+1}`;
+
     head.setAttribute('role','button'); head.setAttribute('tabindex','0');
     if (!head.hasAttribute('aria-expanded')) head.setAttribute('aria-expanded','false');
 
     let content = group.querySelector('.dp-panel-content');
     if (!content) { content = doc.createElement('div'); content.className='dp-panel-content'; group.appendChild(content); }
-    if (!content.id) content.id = `panel-${i+1}`;
+
+    if (!content.id) content.id = `accordion-panel-${i+1}`;
     head.setAttribute('aria-controls', content.id);
+
     content.setAttribute('role','region');
-    content.setAttribute('aria-labelledby', content.id);
+    content.setAttribute('aria-labelledby', head.id);
     if (!content.hasAttribute('hidden')) content.hidden = true;
   });
 
@@ -224,12 +238,7 @@ function normalizeFragment(fragmentHTML){
   return root.innerHTML;
 }
 
-// ---------- Build full HTML ----------
-function extractTitleFrom(contentHTML){
-  try{ const d=new DOMParser().parseFromString(`<div>${contentHTML}</div>`,'text/html');
-       const h2=d.querySelector('h2'); const t=(h2?.textContent||'').trim(); return t||'SCORM Content'; }
-  catch{ return 'SCORM Content'; }
-}
+/* ---------- Build full HTML (inject ONE accordion script + progress bar) ---------- */
 function buildHTML(inner,title){
   return `<!DOCTYPE html>
 <html lang="en">
@@ -255,18 +264,25 @@ ${inner}
   function ensurePanels(){
     var i = 0;
     document.querySelectorAll('.dp-panel-group').forEach(function(group){
-      var head = group.querySelector('.dp-panel-heading');
-      if(!head) return;
+      var head = group.querySelector('.dp-panel-heading'); if(!head) return;
       if(head.classList.contains('sr-only')){ head.classList.remove('sr-only'); cleanNextLabel(head); }
+
       var content = group.querySelector('.dp-panel-content');
       if(!content){
         var sib = head.nextElementSibling;
         if(sib && sib.classList && sib.classList.contains('dp-panel-content')) content = sib;
       }
       if(!content){ content = document.createElement('div'); content.className='dp-panel-content'; group.appendChild(content); }
-      if(!content.id) content.id = 'panel-' + (++i);
+
+      if(!head.id) head.id = 'accordion-header-' + (++i);
+      if(!content.id) content.id = 'accordion-panel-' + i;
+
       head.setAttribute('role','button'); head.setAttribute('tabindex','0');
       if(!head.hasAttribute('aria-controls')) head.setAttribute('aria-controls', content.id);
+
+      content.setAttribute('role','region');
+      content.setAttribute('aria-labelledby', head.id);
+
       var expanded = head.getAttribute('aria-expanded') === 'true';
       content.hidden = !expanded;
     });
@@ -293,21 +309,99 @@ ${inner}
   if(document.readyState === 'loading'){ document.addEventListener('DOMContentLoaded', ensurePanels); }
   else { ensurePanels(); }
 })();<\/script>
+
+<!-- Canvas-like progress bar (auto renders any .dp-module-progress-icons placeholders) -->
+<style>
+.dp-progress{position:relative;height:36px;margin:12px 0 24px}
+.dp-progress__track{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);height:22px;border-radius:12px;background:#f1f3f5;border:1px solid #e1e4e8}
+.dp-progress__fill{position:absolute;left:0;top:0;bottom:0;width:0;background:#0e4a3a;border-radius:12px}
+.dp-progress__list{position:relative;display:flex;justify-content:space-between;align-items:center;height:36px;margin:0;padding:0 6px;list-style:none}
+.dp-progress__dot{position:relative;z-index:1;width:34px;height:34px;border-radius:50%;border:2px solid #d0d7de;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 2px rgba(255,255,255,.9)}
+.dp-progress__dot .fa{font-size:14px;color:#0e4a3a}
+.dp-progress__dot--active{background:#0e4a3a;border-color:#0e4a3a;color:#fff}
+.dp-progress__dot--active .fa{color:#fff}
+.dp-progress__track:before,.dp-progress__track:after{content:"";position:absolute;top:0;bottom:0;width:6px;background:#f1f3f5}
+.dp-progress__track:before{left:-6px;border-top-left-radius:12px;border-bottom-left-radius:12px}
+.dp-progress__track:after{right:-6px;border-top-right-radius:12px;border-bottom-right-radius:12px}
+@media(max-width:720px){.dp-progress__dot{width:28px;height:28px}.dp-progress__dot .fa{font-size:12px}}
+</style>
+<script>(function(){
+  function getMeta(name){
+    var m=document.querySelector('meta[name="'+name+'"]');
+    return m? m.getAttribute('content') : null;
+  }
+  function clamp(n,min,max){ return Math.max(min, Math.min(max, n)); }
+
+  function renderProgress(el){
+    var stepsAttr   = parseInt(el.getAttribute('data-steps')||'',10);
+    var currentAttr = parseInt(el.getAttribute('data-current')||'',10);
+    var stepsMeta   = parseInt(getMeta('dp-progress-steps')||'',10);
+    var currentMeta = parseInt(getMeta('dp-progress-current')||'',10);
+    var blocksCount = document.querySelectorAll('.dp-content-block, .content-block').length;
+
+    var steps   = Number.isFinite(stepsAttr) && stepsAttr>0 ? stepsAttr
+               : Number.isFinite(stepsMeta) && stepsMeta>0 ? stepsMeta
+               : Math.max(1, blocksCount || 1);
+
+    var current = Number.isFinite(currentAttr) && currentAttr>0 ? currentAttr
+               : Number.isFinite(currentMeta) && currentMeta>0 ? currentMeta
+               : 1;
+
+    current = clamp(current,1,steps);
+
+    var wrap  = document.createElement('div'); wrap.className='dp-progress';
+    var track = document.createElement('div'); track.className='dp-progress__track';
+    var fill  = document.createElement('div'); fill.className='dp-progress__fill';
+    track.appendChild(fill);
+
+    var list  = document.createElement('ul'); list.className='dp-progress__list';
+    for(var i=1;i<=steps;i++){
+      var li  = document.createElement('li');
+      var dot = document.createElement('div');
+      var classes = 'dp-progress__dot';
+      if(i <= current) classes += ' dp-progress__dot--active';
+      dot.className = classes;
+      if(i === current) dot.setAttribute('aria-current','step');
+      dot.setAttribute('role','img');
+      dot.setAttribute('aria-label','Step '+i+' of '+steps+(i===current?' (current)':''));
+      dot.innerHTML = '<i class="fa fa-file-alt" aria-hidden="true"></i>';
+      li.appendChild(dot); list.appendChild(li);
+    }
+    wrap.appendChild(track); wrap.appendChild(list);
+
+    var stepCount = Math.max(1, steps-1);
+    var centerPct = ((current-1) / stepCount) * 100;
+    var overshoot = (steps > 1) ? (0.08 / stepCount) * 100 : 0; /* slight tail past the current dot */
+    var pct = clamp(centerPct + overshoot, 0, 100);
+    fill.style.width = pct + '%';
+
+    el.replaceWith(wrap);
+  }
+
+  function init(){ document.querySelectorAll('.dp-module-progress-icons').forEach(renderProgress); }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);} else {init();}
+})();<\/script>
 </body></html>`;
 }
 
-// ---------- Convert core ----------
+/* ---------- Convert core ---------- */
+function extractTitleFrom(contentHTML){
+  try{ const d=new DOMParser().parseFromString(`<div>${contentHTML}</div>`,'text/html');
+       const h2=d.querySelector('h2'); const t=(h2?.textContent||'').trim(); return t||'SCORM Content'; }
+  catch{ return 'SCORM Content'; }
+}
 function processHTML(html){
   let frag = html;
   if (/<\s*html/i.test(html)) {
     const m = html.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
     if (m) frag = m[1];
   }
+  frag = stripConflictingScripts(frag);
   const inner = normalizeFragment(frag);
   return buildHTML(inner, extractTitleFrom(inner));
 }
 
-// ---------- SCORM runtime (string) ----------
+/* ---------- SCORM runtime (string) ---------- */
 function getSCORMFunctions(){return`var SCORM_API=null,SCORM_initialized=false,pageStartTime=new Date();
 function findAPI(w){while((!w.API)&&(w.parent)&&(w.parent!=w)){w=w.parent;}return w.API;}
 function getAPI(){try{return findAPI(window)||findAPI(window.opener);}catch(e){return null;}}
@@ -319,7 +413,7 @@ window.addEventListener('load',function(){SCORM_Initialize();window.addEventList
 setInterval(function(){try{SCORM_SetSessionTime();}catch(e){}},60000);
 window.addEventListener('beforeunload',function(){try{if(SCORM_API&&SCORM_initialized){SCORM_SetSessionTime();SCORM_API.LMSCommit("");SCORM_API.LMSFinish("");}}catch(e){}});`}
 
-// ---------- Manifest ----------
+/* ---------- Manifest ---------- */
 function getManifest(title){return`<?xml version="1.0" encoding="UTF-8"?>
 <manifest identifier="scorm${Date.now()}" version="1"
  xmlns="http://www.imsproject.org/xsd/imscp_rootv1p1p2"
@@ -337,9 +431,8 @@ function getManifest(title){return`<?xml version="1.0" encoding="UTF-8"?>
   </resources>
 </manifest>`}
 
-// ---------- Preview helpers ----------
+/* ---------- Preview helpers ---------- */
 function buildBeforePreviewHTML(raw){
-  // Lightweight shell to render raw fragment without our AMBA styles
   let frag = raw;
   if (/<\s*html/i.test(raw)) {
     const m = raw.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
@@ -348,43 +441,62 @@ function buildBeforePreviewHTML(raw){
   return `<!doctype html><html lang="en"><head>
     <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <style>
-      html,body{margin:0;padding:12px;font-family:system-ui,Arial,sans-serif;background:#fff;color:#1f2937;line-height:1.6}
-      .wrap{max-width:1200px;margin:0 auto}
-      img{max-width:100%;height:auto}
-    </style>
+    <style>html,body{margin:0;padding:12px;font-family:system-ui,Arial,sans-serif;background:#fff;color:#1f2937;line-height:1.6}.wrap{max-width:1200px;margin:0 auto}img{max-width:100%;height:auto}</style>
   </head><body><div class="wrap">${frag}</div></body></html>`;
 }
 function updatePreviews(){
   const raw = document.getElementById('input').value;
   const out = document.getElementById('output').value;
-  const before = document.getElementById('beforeFrame');
-  const after  = document.getElementById('afterFrame');
-  before.srcdoc = buildBeforePreviewHTML(raw || '<p><em>Paste HTML on the left to preview.</em></p>');
-  after.srcdoc  = out || '<!doctype html><html><body style="font-family:system-ui;padding:12px"><em>Convert to see preview.</em></body></html>';
+  document.getElementById('beforeFrame').srcdoc = buildBeforePreviewHTML(raw || '<p><em>Paste HTML on the left to preview.</em></p>');
+  document.getElementById('afterFrame').srcdoc  = out || '<!doctype html><html><body style="font-family:system-ui;padding:12px"><em>Convert to see preview.</em></body></html>';
 }
 
-// ---------- UI actions ----------
+/* ---------- Meta injection for progress ---------- */
+function injectProgressMeta(docHtml, steps, current){
+  const parts = [];
+  if (Number.isFinite(steps) && steps > 0) parts.push(`<meta name="dp-progress-steps" content="${steps}">`);
+  if (Number.isFinite(current) && current > 0) parts.push(`<meta name="dp-progress-current" content="${current}">`);
+  if (!parts.length) return docHtml;
+  return docHtml.replace(/<\/head>/i, parts.join("\n") + "\n</head>");
+}
+function parseIntField(id){
+  const v = document.getElementById(id)?.value.trim();
+  if (!v) return NaN;
+  const n = parseInt(v, 10);
+  return Number.isFinite(n) ? n : NaN;
+}
+
+/* ---------- UI actions ---------- */
 document.getElementById('convertBtn').addEventListener('click', ()=>{
   const raw=document.getElementById('input').value.trim();
   if(!raw){ setStatus('Paste HTML first','error'); return; }
-  const html=processHTML(raw);
+
+  let html=processHTML(raw);
+
+  const steps   = parseIntField('progSteps');
+  const current = parseIntField('progCurrent');
+
+  let clampedCurrent = current;
+  if (Number.isFinite(steps) && Number.isFinite(current) && current > steps) {
+    clampedCurrent = steps;
+    setStatus('Current step was greater than total — clamped to total.','warn');
+  }
+
+  html = injectProgressMeta(html, steps, clampedCurrent);
+
   document.getElementById('output').value=html;
   setStatus('✅ Converted','success');
   updatePreviews();
 });
-
 document.getElementById('copyBtn').addEventListener('click', async ()=>{
   const out=document.getElementById('output').value; if(!out){return;}
   try{ await navigator.clipboard.writeText(out); setStatus('✅ Copied','success'); }
   catch{ const ta=document.getElementById('output'); ta.select(); document.execCommand('copy'); setStatus('✅ Copied','success'); }
 });
-
 document.getElementById('downloadBtn').addEventListener('click', ()=>{
   const out=document.getElementById('output').value; if(!out){return;}
   saveAs(new Blob([out],{type:'text/html'}),'canvas-page-amba.html');
 });
-
 document.getElementById('zipBtn').addEventListener('click', async ()=>{
   const out=document.getElementById('output').value; if(!out){return;}
   const scormHTML = out.replace(/<\/body>/i, '<script src="scormfunctions.js"></scr'+'ipt>\n</body>');
@@ -398,38 +510,39 @@ document.getElementById('zipBtn').addEventListener('click', async ()=>{
   saveAs(blob, 'canvas-amba-scorm.zip');
   setStatus('✅ SCORM ZIP built','success');
 });
-
 document.getElementById('refreshPreview').addEventListener('click', updatePreviews);
 
 document.getElementById('loadSample').addEventListener('click', ()=>{
   document.getElementById('input').value = `
 <div id="dp-wrapper" class="dp-wrapper">
-  <div class="dp-content-block content-block" data-title="Diagnostics">
-    <h2 class="dp-has-icon"><i class="dp-icon fas fa-stethoscope" aria-hidden="true"></i>&nbsp;Diagnostics</h2>
+  <div class="dp-progress-placeholder dp-module-progress-icons" data-steps="10" data-current="3" aria-label="Module progress"></div>
+
+  <div class="dp-content-block content-block" data-title="Module 1 — Review & Wrap-Up">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-flag-checkered" aria-hidden="true"></i>&nbsp;Module 1 — Review & Wrap-Up</h2>
     <div class="dp-panels-wrapper dp-accordion-default">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" aria-expanded="true" aria-controls="diag">Diagnostics</h3>
-        <div id="diag" class="dp-panel-content">
-          <div class="table-responsive">
-            <table class="ic-Table" role="table" aria-label="Regression diagnostics">
-              <thead><tr><th>Diagnostic</th><th>Why it matters</th><th>What to look for</th></tr></thead>
-              <tbody>
-                <tr><th scope="row">R²</th><td>Explained variance</td><td>Compare across models; beware inflated R² with leakage</td></tr>
-                <tr><th scope="row">Residuals</th><td>Error patterns</td><td>Random scatter around 0; structure indicates missed features</td></tr>
-                <tr><th scope="row">Holdout error</th><td>Generalization</td><td>Close to training error; big gap ⇒ overfit</td></tr>
-              </tbody>
-            </table>
-          </div>
+        <h3 class="dp-panel-heading sr-only" aria-expanded="false" aria-controls="m1-q1">1) Which ML type fits discovering customer segments?</h3>
+        1) Which ML type fits discovering customer segments?
+        <div id="m1-q1" class="dp-panel-content" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">A. Supervised</li>
+            <li class="list-group-item"><strong>B. Unsupervised</strong> ✓</li>
+            <li class="list-group-item">C. Reinforcement</li>
+            <li class="list-group-item">D. Self-Supervised</li>
+          </ul>
+          <p class="mb-0"><em>Why:</em> You don’t have labels; you’re discovering structure.</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" aria-expanded="false" aria-controls="notes">Notes</h3>
-        <div id="notes" class="dp-panel-content" hidden><p>Secondary panel content.</p></div>
+        <h3 class="dp-panel-heading" aria-expanded="false" aria-controls="m1-q2">2) First step in the data science framework?</h3>
+        <div id="m1-q2" class="dp-panel-content" hidden>
+          <p><strong>Problem framing</strong> ✓ — Clarify the decision, KPI, constraints, and success criteria.</p>
+        </div>
       </div>
     </div>
   </div>
 </div>`;
-  setStatus('Sample loaded — click “Convert”.','success');
+  setStatus('Sample loaded — set progress (optional) and click “Convert”.','success');
   if(document.getElementById('autoPreview').checked) updatePreviews();
 });
 
@@ -437,11 +550,11 @@ document.getElementById('fileInput').addEventListener('change', async (e)=>{
   const f=e.target.files?.[0]; if(!f) return;
   const text = await f.text();
   document.getElementById('input').value = text;
-  setStatus(`Loaded ${f.name}. Click “Convert to AMBA-compatible HTML”.`,'success');
+  setStatus(`Loaded ${f.name}. Set progress (optional) and click “Convert”.`,'success');
   if(document.getElementById('autoPreview').checked) updatePreviews();
 });
 
-// Auto-preview as you type (debounced)
+/* Auto-preview typing (debounced) */
 (function(){
   const ta = document.getElementById('input');
   let t; ta.addEventListener('input', ()=>{
@@ -449,8 +562,6 @@ document.getElementById('fileInput').addEventListener('change', async (e)=>{
     clearTimeout(t); t = setTimeout(updatePreviews, 300);
   });
 })();
-
-// Initial previews
 updatePreviews();
 </script>
 </body>
