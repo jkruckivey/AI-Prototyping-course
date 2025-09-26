@@ -3,11 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Evaluation Warmup - ML Metrics Lab</title>
+  <title>Evaluation Warm-up - AMBA Template</title>
+  <!-- Canvas iframe sizing hint -->
+  <meta name="canvas-height" content="800">
   <meta name="description" content="Interactive reflection on evaluation metrics for ML models">
   <link rel="stylesheet" href="ivey-widget-base.css">
   <style>
-    /* SCORM-specific widget styling */
+    /* AMBA Template Widget Styling */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -23,7 +25,7 @@
       margin: 0;
     }
 
-    /* Main wrapper for SCORM */
+    /* AMBA dp-wrapper equivalent for widgets */
     .dp-wrapper {
       max-width: 800px;
       margin: 0 auto;
@@ -161,28 +163,17 @@
       color: #d63384;
       font-weight: bold;
     }
-
-    /* SCORM completion indicator */
-    .scorm-status {
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      background: #034638;
-      color: white;
-      padding: 8px 12px;
-      border-radius: 4px;
-      font-size: 12px;
-      z-index: 1000;
-    }
-
-    .scorm-status.completed {
-      background: #28a745;
-    }
   </style>
 </head>
 <body>
-    <!-- SCORM Status Indicator -->
-    <div class="scorm-status" id="scormStatus">SCORM Ready</div>
+    <!-- Pop-out button for full window view -->
+    <button class="widget-popout-btn" id="popoutBtn" title="Open in full window">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+        </svg>
+        <span>Pop Out</span>
+    </button>
 
 <div class="dp-wrapper">
   <div class="widget-header">
@@ -248,95 +239,49 @@
   </div>
 </div>
 
-<script src="scormfunctions.js"></script>
 <script>
-// Track completion state
-let hasViewedInsights = false;
-let hasReflected = false;
-
 function showInsights() {
   const insights = document.getElementById('insights');
   insights.classList.add('show');
-  hasViewedInsights = true;
 
   // Scroll to insights section
   insights.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-  // Update SCORM tracking
-  updateSCORMProgress();
-
-  // Track interaction with SCORM
-  if (window.SCORM_SetInteraction) {
-    window.SCORM_SetInteraction(
-      'insights_viewed',
-      'other',
-      'correct',
-      'viewed_insights',
-      'correct'
-    );
-  }
 }
 
 function clearReflection() {
   document.getElementById('reflection-text').value = '';
   const insights = document.getElementById('insights');
   insights.classList.remove('show');
-  hasViewedInsights = false;
-  updateSCORMProgress();
-}
-
-function updateSCORMProgress() {
-  const statusDiv = document.getElementById('scormStatus');
-
-  // Check if both activities completed
-  if (hasViewedInsights && hasReflected) {
-    // Mark as complete in SCORM
-    if (window.SCORM_SetComplete) {
-      window.SCORM_SetComplete();
-    }
-    statusDiv.textContent = 'Complete';
-    statusDiv.classList.add('completed');
-  } else {
-    statusDiv.textContent = 'In Progress';
-    statusDiv.classList.remove('completed');
-  }
 }
 
 // Auto-expand textarea as user types
 document.getElementById('reflection-text').addEventListener('input', function() {
   this.style.height = 'auto';
   this.style.height = (this.scrollHeight) + 'px';
-
-  // Track that user has reflected
-  if (this.value.length > 20) { // Minimum reflection length
-    hasReflected = true;
-    updateSCORMProgress();
-
-    // Track interaction with SCORM
-    if (window.SCORM_SetInteraction) {
-      window.SCORM_SetInteraction(
-        'reflection_entered',
-        'fill-in',
-        'correct',
-        'user_reflection',
-        'correct'
-      );
-    }
-  }
 });
 
-// Initialize SCORM status on load
-document.addEventListener('DOMContentLoaded', function() {
-  // Give SCORM a moment to initialize
-  setTimeout(function() {
-    const statusDiv = document.getElementById('scormStatus');
-    if (window.SCORM_API && window.SCORM_initialized) {
-      statusDiv.textContent = 'SCORM Connected';
-    } else {
-      statusDiv.textContent = 'Standalone Mode';
+// Pop-out functionality
+document.getElementById('popoutBtn').addEventListener('click', function() {
+    const currentUrl = window.location.href;
+    const popoutUrl = currentUrl + (currentUrl.includes('?') ? '&' : '?') + 'standalone=true';
+
+    // Open in new window with specific dimensions
+    const popoutWindow = window.open(
+        popoutUrl,
+        'WidgetPopout',
+        'width=1200,height=900,resizable=yes,scrollbars=yes,status=yes'
+    );
+
+    // Focus the new window
+    if (popoutWindow) {
+        popoutWindow.focus();
     }
-  }, 1000);
 });
+
+// Check if in standalone mode
+if (window.location.search.includes('standalone=true')) {
+    document.body.classList.add('standalone-mode');
+}
 </script>
 
 </body>

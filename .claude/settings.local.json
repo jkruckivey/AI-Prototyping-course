@@ -15,7 +15,8 @@
       "Bash(do echo \"=== $file ===\")",
       "Bash(do echo \"Creating SCORM package for $widget\")",
       "Bash(do cp \"w2-00-intro-matcher-scorm/scormfunctions.js\" \"$widget-scorm/\")",
-      "Bash(do echo \"Creating ZIP for $widget\")"
+      "Bash(do echo \"Creating ZIP for $widget\")",
+      "Bash(do cp \"../../Week 2/SCORM files/w2-00-intro-matcher-scorm/scormfunctions.js\" \"$widget-scorm/\")"
     ],
     "deny": [],
     "ask": []

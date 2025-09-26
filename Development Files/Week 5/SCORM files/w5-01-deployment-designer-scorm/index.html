@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deployment Flow Designer - AMBA Template</title>
+  <!-- Canvas iframe sizing hint -->
+  <meta name="canvas-height" content="1100">
+  <meta name="description" content="Complex flow-based deployment pattern configuration tool">
+  <link rel="stylesheet" href="ivey-widget-base.css">
+  <style>
+    /* AMBA Template Widget Styling */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: white;
+      color: #333;
+      line-height: 1.5;
+      padding: 0;
+      margin: 0;
+    }
+
+    .dp-wrapper {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 15px;
+      background: #ffffff;
+      border-radius: 8px;
+    }
+
+    .widget-header {
+      background: #034638;
+      color: white;
+      padding: 12px 16px;
+      text-align: center;
+      border-radius: 8px 8px 0 0;
+      margin: -15px -15px 20px -15px;
+    }
+
+    .widget-title {
+      font-size: 1.2em;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    .controls-panel {
+      background: #f8f9fa;
+      border: 2px solid #034638;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+
+    .controls-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .control-group {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 12px;
+    }
+
+    .control-label {
+      font-weight: bold;
+      color: #034638;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .control-options {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .radio-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px;
+      cursor: pointer;
+    }
+
+    .radio-option input[type="radio"] {
+      margin: 0;
+    }
+
+    .radio-option:hover {
+      background: #f8f9fa;
+      border-radius: 4px;
+    }
+
+    select, input[type="number"] {
+      width: 100%;
+      padding: 6px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .diagram-container {
+      background: white;
+      border: 2px solid #034638;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+      min-height: 400px;
+      position: relative;
+    }
+
+    .flow-step {
+      background: #f8f9fa;
+      border: 2px solid #034638;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 10px;
+      position: relative;
+      min-height: 80px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .step-title {
+      font-weight: bold;
+      color: #034638;
+      margin-bottom: 5px;
+    }
+
+    .step-details {
+      font-size: 0.9em;
+      color: #666;
+    }
+
+    .flow-arrow {
+      text-align: center;
+      font-size: 1.5em;
+      color: #034638;
+      margin: 5px 0;
+    }
+
+    .deployment-pattern {
+      display: none;
+    }
+
+    .deployment-pattern.active {
+      display: block;
+    }
+
+    .pattern-batch {
+      border-left: 4px solid #28a745;
+    }
+
+    .pattern-online {
+      border-left: 4px solid #007bff;
+    }
+
+    .pattern-hitl {
+      border-left: 4px solid #ffc107;
+    }
+
+    .specs-panel {
+      background: #e8f5e8;
+      border: 1px solid #034638;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+    }
+
+    .specs-title {
+      font-weight: bold;
+      color: #034638;
+      margin-bottom: 10px;
+    }
+
+    .specs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
+    }
+
+    .spec-item {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 8px;
+      text-align: center;
+    }
+
+    .spec-label {
+      font-size: 0.8em;
+      color: #666;
+      margin-bottom: 4px;
+    }
+
+    .spec-value {
+      font-weight: bold;
+      color: #034638;
+    }
+
+    .rollout-strategy {
+      background: #fff3cd;
+      border: 1px solid #ffc107;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+    }
+
+    .rollout-title {
+      font-weight: bold;
+      color: #856404;
+      margin-bottom: 10px;
+    }
+
+    .rollout-steps {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .rollout-step {
+      background: white;
+      border: 1px solid #ffc107;
+      border-radius: 4px;
+      padding: 8px 12px;
+      text-align: center;
+      flex: 1;
+      min-width: 80px;
+    }
+
+    .rollout-percentage {
+      font-weight: bold;
+      color: #856404;
+    }
+
+    .warning-box {
+      background: #f8d7da;
+      border: 1px solid #dc3545;
+      border-radius: 4px;
+      padding: 10px;
+      margin: 10px 0;
+      color: #721c24;
+    }
+
+    .success-box {
+      background: #d4edda;
+      border: 1px solid #198754;
+      border-radius: 4px;
+      padding: 10px;
+      margin: 10px 0;
+      color: #155724;
+    }
+  </style>
+</head>
+<body>
+  <!-- Pop-out button for full window view -->
+  <button class="widget-popout-btn" id="popoutBtn" title="Open in full window">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+    </svg>
+    <span>Pop Out</span>
+  </button>
+
+<div class="dp-wrapper">
+  <div class="widget-header">
+    <h1 class="widget-title">Deployment Flow Designer</h1>
+  </div>
+
+  <div class="controls-panel">
+    <h3 style="color: #034638; margin-bottom: 15px;">Configure Your Deployment</h3>
+    <div class="controls-grid">
+      <div class="control-group">
+        <label class="control-label">Deployment Pattern</label>
+        <div class="control-options">
+          <label class="radio-option">
+            <input type="radio" name="pattern" value="batch" checked onchange="updateDiagram()">
+            <span>Batch Scoring</span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="pattern" value="online" onchange="updateDiagram()">
+            <span>Real-time (Online)</span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="pattern" value="hitl" onchange="updateDiagram()">
+            <span>Human-in-the-Loop</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label">Latency Budget</label>
+        <select id="latency-budget" onchange="updateDiagram()">
+          <option value="async">Asynchronous (hours/days)</option>
+          <option value="near-realtime">Near Real-time (seconds)</option>
+          <option value="realtime">Real-time (<100ms)</option>
+          <option value="ultra-low">Ultra-low (<10ms)</option>
+        </select>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label">Rollout Strategy</label>
+        <select id="rollout-strategy" onchange="updateDiagram()">
+          <option value="shadow">Shadow Mode</option>
+          <option value="canary">Canary Release</option>
+          <option value="ab">A/B Testing</option>
+          <option value="blue-green">Blue-Green Deployment</option>
+        </select>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label">Expected Volume (req/day)</label>
+        <input type="number" id="volume" value="10000" min="100" max="10000000" onchange="updateDiagram()">
+      </div>
+    </div>
+  </div>
+
+  <div class="diagram-container">
+    <!-- Batch Pattern -->
+    <div id="batch-pattern" class="deployment-pattern active">
+      <div class="flow-step pattern-batch">
+        <div class="step-title">📊 Data Ingestion</div>
+        <div class="step-details">Scheduled ETL pulls new data (hourly/daily)</div>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step pattern-batch">
+        <div class="step-title">🔄 Batch Scoring</div>
+        <div class="step-details">Model processes entire dataset, outputs scores to database/file</div>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step pattern-batch">
+        <div class="step-title">📤 Distribution</div>
+        <div class="step-details">Scores sent to CRM, marketing platform, or decision system</div>
+      </div>
+    </div>
+
+    <!-- Online Pattern -->
+    <div id="online-pattern" class="deployment-pattern">
+      <div class="flow-step pattern-online">
+        <div class="step-title">📥 Request Ingress</div>
+        <div class="step-details">API Gateway receives scoring request with features</div>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step pattern-online">
+        <div class="step-title">⚡ Feature Serving</div>
+        <div class="step-details">Real-time feature lookup from cache/database</div>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step pattern-online">
+        <div class="step-title">🧠 Model Inference</div>
+        <div class="step-details">Synchronous model prediction with latency SLA</div>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step pattern-online">
+        <div class="step-title">📤 Response</div>
+        <div class="step-details">Return score/decision with metadata (version, timestamp)</div>
+      </div>
+    </div>
+
+    <!-- HITL Pattern -->
+    <div id="hitl-pattern" class="deployment-pattern">
+      <div class="flow-step pattern-hitl">
+        <div class="step-title">🧠 Model Prediction</div>
+        <div class="step-details">Automated scoring generates initial recommendation</div>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step pattern-hitl">
+        <div class="step-title">🎯 Triage</div>
+        <div class="step-details">Route high-confidence to auto-approve, uncertain cases to human review</div>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step pattern-hitl">
+        <div class="step-title">👤 Human Review</div>
+        <div class="step-details">Expert validates, overrides, or approves with explanations</div>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-step pattern-hitl">
+        <div class="step-title">📝 Decision & Learning</div>
+        <div class="step-details">Final decision logged; feedback improves future model performance</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="specs-panel">
+    <div class="specs-title">📋 Deployment Specifications</div>
+    <div class="specs-grid">
+      <div class="spec-item">
+        <div class="spec-label">Pattern</div>
+        <div class="spec-value" id="spec-pattern">Batch</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-label">Latency SLA</div>
+        <div class="spec-value" id="spec-latency">Hours/Days</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-label">Volume</div>
+        <div class="spec-value" id="spec-volume">10K/day</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-label">Infrastructure</div>
+        <div class="spec-value" id="spec-infra">Scheduled Jobs</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rollout-strategy" id="rollout-display">
+    <div class="rollout-title">🚀 Shadow Mode Rollout</div>
+    <div class="rollout-steps">
+      <div class="rollout-step">
+        <div>Week 1</div>
+        <div class="rollout-percentage">Shadow</div>
+      </div>
+      <div class="rollout-step">
+        <div>Week 2</div>
+        <div class="rollout-percentage">Validation</div>
+      </div>
+      <div class="rollout-step">
+        <div>Week 3</div>
+        <div class="rollout-percentage">Comparison</div>
+      </div>
+      <div class="rollout-step">
+        <div>Week 4</div>
+        <div class="rollout-percentage">Go Live</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="warnings-container"></div>
+</div>
+
+<script>
+const patterns = {
+  batch: {
+    name: 'Batch Scoring',
+    latencies: ['async'],
+    infrastructure: 'Scheduled Jobs',
+    description: 'Process data in scheduled batches'
+  },
+  online: {
+    name: 'Real-time API',
+    latencies: ['near-realtime', 'realtime', 'ultra-low'],
+    infrastructure: 'API Service + Cache',
+    description: 'Synchronous request-response'
+  },
+  hitl: {
+    name: 'Human-in-the-Loop',
+    latencies: ['async', 'near-realtime'],
+    infrastructure: 'Review Queue + Dashboard',
+    description: 'Human validation workflow'
+  }
+};
+
+const rolloutStrategies = {
+  shadow: {
+    name: 'Shadow Mode',
+    steps: ['Shadow', 'Validation', 'Comparison', 'Go Live']
+  },
+  canary: {
+    name: 'Canary Release',
+    steps: ['5%', '25%', '50%', '100%']
+  },
+  ab: {
+    name: 'A/B Testing',
+    steps: ['Control', 'Treatment', 'Analysis', 'Winner']
+  },
+  'blue-green': {
+    name: 'Blue-Green',
+    steps: ['Blue Live', 'Green Stage', 'Switch', 'Cleanup']
+  }
+};
+
+function updateDiagram() {
+  const pattern = document.querySelector('input[name="pattern"]:checked').value;
+  const latency = document.getElementById('latency-budget').value;
+  const rollout = document.getElementById('rollout-strategy').value;
+  const volume = parseInt(document.getElementById('volume').value);
+
+  // Hide all patterns
+  document.querySelectorAll('.deployment-pattern').forEach(p => {
+    p.classList.remove('active');
+  });
+
+  // Show selected pattern
+  document.getElementById(`${pattern}-pattern`).classList.add('active');
+
+  // Update specifications
+  updateSpecs(pattern, latency, volume);
+
+  // Update rollout display
+  updateRolloutDisplay(rollout);
+
+  // Show warnings if needed
+  updateWarnings(pattern, latency, volume);
+}
+
+function updateSpecs(pattern, latency, volume) {
+  document.getElementById('spec-pattern').textContent = patterns[pattern].name;
+  document.getElementById('spec-latency').textContent = getLatencyText(latency);
+  document.getElementById('spec-volume').textContent = formatVolume(volume);
+  document.getElementById('spec-infra').textContent = patterns[pattern].infrastructure;
+}
+
+function updateRolloutDisplay(rollout) {
+  const strategy = rolloutStrategies[rollout];
+  const container = document.getElementById('rollout-display');
+
+  container.innerHTML = `
+    <div class="rollout-title">🚀 ${strategy.name} Rollout</div>
+    <div class="rollout-steps">
+      ${strategy.steps.map((step, i) => `
+        <div class="rollout-step">
+          <div>Stage ${i + 1}</div>
+          <div class="rollout-percentage">${step}</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function updateWarnings(pattern, latency, volume) {
+  const container = document.getElementById('warnings-container');
+  const warnings = [];
+  const successes = [];
+
+  // Pattern-specific warnings
+  if (pattern === 'online' && latency === 'async') {
+    warnings.push('Real-time pattern requires synchronous latency budget');
+  }
+
+  if (pattern === 'batch' && (latency === 'realtime' || latency === 'ultra-low')) {
+    warnings.push('Batch processing cannot meet real-time latency requirements');
+  }
+
+  // Volume warnings
+  if (pattern === 'online' && volume > 1000000) {
+    warnings.push('High volume real-time serving requires auto-scaling and caching');
+  }
+
+  if (pattern === 'hitl' && volume > 10000) {
+    warnings.push('Human review capacity may be overwhelmed at this volume');
+  }
+
+  // Success messages
+  if (pattern === 'batch' && volume < 100000) {
+    successes.push('Good fit: Batch processing is cost-effective for this volume');
+  }
+
+  if (pattern === 'online' && latency === 'realtime' && volume < 100000) {
+    successes.push('Optimal configuration for real-time serving');
+  }
+
+  if (pattern === 'hitl' && volume < 1000) {
+    successes.push('Manageable volume for human review workflow');
+  }
+
+  // Render warnings and successes
+  container.innerHTML = '';
+
+  warnings.forEach(warning => {
+    const warningDiv = document.createElement('div');
+    warningDiv.className = 'warning-box';
+    warningDiv.innerHTML = `⚠️ <strong>Warning:</strong> ${warning}`;
+    container.appendChild(warningDiv);
+  });
+
+  successes.forEach(success => {
+    const successDiv = document.createElement('div');
+    successDiv.className = 'success-box';
+    successDiv.innerHTML = `✅ <strong>Good:</strong> ${success}`;
+    container.appendChild(successDiv);
+  });
+}
+
+function getLatencyText(latency) {
+  const latencyMap = {
+    'async': 'Hours/Days',
+    'near-realtime': 'Seconds',
+    'realtime': '<100ms',
+    'ultra-low': '<10ms'
+  };
+  return latencyMap[latency] || latency;
+}
+
+function formatVolume(volume) {
+  if (volume >= 1000000) {
+    return (volume / 1000000).toFixed(1) + 'M/day';
+  } else if (volume >= 1000) {
+    return (volume / 1000).toFixed(0) + 'K/day';
+  }
+  return volume + '/day';
+}
+
+// Initialize
+updateDiagram();
+
+// Pop-out functionality
+document.getElementById('popoutBtn').addEventListener('click', function() {
+    const currentUrl = window.location.href;
+    const popoutUrl = currentUrl + (currentUrl.includes('?') ? '&' : '?') + 'standalone=true';
+
+    // Open in new window with specific dimensions
+    const popoutWindow = window.open(
+        popoutUrl,
+        'WidgetPopout',
+        'width=1200,height=900,resizable=yes,scrollbars=yes,status=yes'
+    );
+
+    // Focus the new window
+    if (popoutWindow) {
+        popoutWindow.focus();
+    }
+});
+
+// Check if in standalone mode
+if (window.location.search.includes('standalone=true')) {
+    document.body.classList.add('standalone-mode');
+}
+</script>
+
+</body>
+</html>

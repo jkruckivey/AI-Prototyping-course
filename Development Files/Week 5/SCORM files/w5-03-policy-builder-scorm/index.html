@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ML Governance Policy Builder - AMBA Template</title>
+  <!-- Canvas iframe sizing hint -->
+  <meta name="canvas-height" content="1100">
+  <meta name="description" content="Comprehensive governance policy generator with tabbed interface">
+  <link rel="stylesheet" href="ivey-widget-base.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; background: white; color: #333; line-height: 1.5; }
+    .dp-wrapper { max-width: 800px; margin: 0 auto; padding: 15px; background: #ffffff; }
+    .widget-header { background: #034638; color: white; padding: 12px 16px; text-align: center; border-radius: 8px 8px 0 0; margin: -15px -15px 20px -15px; }
+    .widget-title { font-size: 1.2em; font-weight: bold; margin: 0; }
+    .policy-section { background: #f8f9fa; border: 2px solid #034638; border-radius: 8px; padding: 15px; margin: 15px 0; }
+    .section-title { color: #034638; font-weight: bold; margin-bottom: 10px; font-size: 1.1em; }
+    .checklist-item { background: white; border: 1px solid #ddd; border-radius: 4px; padding: 12px; margin: 8px 0; display: flex; align-items: flex-start; gap: 10px; transition: all 0.2s ease; }
+    .checklist-item:hover { border-color: #034638; }
+    .checklist-item.checked { background: #e8f5e8; border-color: #198754; }
+    .checkbox { width: 18px; height: 18px; border: 2px solid #ccc; border-radius: 3px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .checkbox.checked { background: #198754; border-color: #198754; color: white; }
+    .item-content { flex: 1; }
+    .item-title { font-weight: bold; margin-bottom: 4px; }
+    .item-description { font-size: 0.9em; color: #666; }
+    .progress-panel { background: #e8f5e8; border: 1px solid #198754; border-radius: 8px; padding: 15px; margin: 20px 0; text-align: center; }
+    .progress-bar { background: #e9ecef; border-radius: 10px; height: 20px; margin: 10px 0; overflow: hidden; }
+    .progress-fill { background: linear-gradient(90deg, #034638, #198754); height: 100%; transition: width 0.3s ease; border-radius: 10px; }
+    .policy-output { background: white; border: 2px solid #034638; border-radius: 8px; padding: 15px; margin: 20px 0; min-height: 100px; }
+    .output-title { color: #034638; font-weight: bold; margin-bottom: 10px; }
+    .policy-text { line-height: 1.6; white-space: pre-line; }
+    .btn { background: #034638; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 14px; margin: 5px; }
+    .btn:hover { background: #045a42; }
+    .btn-secondary { background: #582C83; }
+    .btn-secondary:hover { background: #6d3499; }
+    .category-tabs { display: flex; gap: 5px; margin-bottom: 15px; }
+    .tab-btn { background: #e9ecef; border: 1px solid #ddd; padding: 8px 16px; border-radius: 4px 4px 0 0; cursor: pointer; font-size: 14px; }
+    .tab-btn.active { background: #034638; color: white; border-color: #034638; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin: 10px 0; }
+    .stat-item { text-align: center; background: white; border: 1px solid #ddd; border-radius: 4px; padding: 8px; }
+    .stat-value { font-size: 1.2em; font-weight: bold; color: #034638; }
+    .stat-label { font-size: 0.8em; color: #666; }
+  </style>
+</head>
+<body>
+  <!-- Pop-out button for full window view -->
+  <button class="widget-popout-btn" id="popoutBtn" title="Open in full window">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+    </svg>
+    <span>Pop Out</span>
+  </button>
+
+<div class="dp-wrapper">
+  <div class="widget-header">
+    <h1 class="widget-title">ML Governance Policy Builder</h1>
+  </div>
+
+  <div class="policy-section">
+    <div class="section-title">🎯 Build Your ML Governance Framework</div>
+    <p>Create a comprehensive governance policy by selecting applicable requirements for your ML system. Click items to include them in your policy document.</p>
+  </div>
+
+  <div class="progress-panel">
+    <div>Policy Completion Progress</div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-value" id="checked-count">0</div>
+        <div class="stat-label">Selected</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="total-count">0</div>
+        <div class="stat-label">Total Items</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="coverage-percent">0%</div>
+        <div class="stat-label">Coverage</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="category-tabs">
+    <div class="tab-btn active" onclick="showTab('data')">Data Governance</div>
+    <div class="tab-btn" onclick="showTab('model')">Model Development</div>
+    <div class="tab-btn" onclick="showTab('deployment')">Deployment</div>
+    <div class="tab-btn" onclick="showTab('monitoring')">Monitoring</div>
+    <div class="tab-btn" onclick="showTab('ethics')">Ethics & Fairness</div>
+  </div>
+
+  <div id="data-tab" class="tab-content active">
+    <div class="policy-section">
+      <div class="section-title">📊 Data Governance Requirements</div>
+      <div class="checklist-item" onclick="toggleItem(this)" data-category="data">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-title">Data Quality Standards</div>
+          <div class="item-description">Establish minimum data quality thresholds, validation rules, and cleansing procedures</div>
+        </div>
+      </div>
+      <div class="checklist-item" onclick="toggleItem(this)" data-category="data">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-title">Data Lineage Tracking</div>
+          <div class="item-description">Maintain complete audit trail of data sources, transformations, and usage</div>
+        </div>
+      </div>
+      <div class="checklist-item" onclick="toggleItem(this)" data-category="data">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-title">Privacy Protection</div>
+          <div class="item-description">Implement data anonymization, encryption, and access controls for sensitive information</div>
+        </div>
+      </div>
+      <div class="checklist-item" onclick="toggleItem(this)" data-category="data">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-title">Data Retention Policies</div>
+          <div class="item-description">Define data lifecycle management and deletion schedules</div>
+        </div>
+      </div>
+      <div class="checklist-item" onclick="toggleItem(this)" data-category="data">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-title">Third-Party Data Compliance</div>
+          <div class="item-description">Ensure external data sources meet legal and contractual requirements</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="model-tab" class="tab-content">
+    <div class="policy-section">
+      <div class="section-title">🤖 Model Development Standards</div>
+      <div class="checklist-item" onclick="toggleItem(this)" data-category="model">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-title">Model Documentation</div>
+          <div class="item-description">Require comprehensive model cards with performance metrics, limitations, and intended use</div>
+        </div>
+      </div>
+      <div class="checklist-item" onclick="toggleItem(this)" data-category="model">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-title">Version Control</div>
+          <div class="item-description">Implement model versioning, experiment tracking, and reproducible training pipelines</div>
+        </div>
+      </div>
+      <div class="checklist-item" onclick="toggleItem(this)" data-category="model">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-title">Validation Framework</div>
+          <div class="item-description">Establish independent validation processes and holdout test sets</div>
+        </div>
+      </div>
+      <div class="checklist-item" onclick="toggleItem(this)" data-category="model">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-title">Performance Thresholds</div>
+          <div class="item-description">Define minimum acceptable performance criteria for production deployment</div>
+        </div>
+      </div>
+      <div class="checklist-item" onclick="toggleItem(this)" data-category="model">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-title">Code Review Process</div>
+          <div class="item-description">Mandate peer review for all model code and training scripts</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="deployment-tab" class="tab-content">
+    <div class="policy-section">
+      <div class="section-title">🚀 Deployment Governance</div>
+      <div class="checklist-item" onclick="toggleItem(this)" data-category="deployment">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-title">Staged Rollout Requirements</div>
+          <div class="item-description">Mandate gradual deployment through development, staging, and production environments</div>
+        </div>
+      </div>
+      <div class="checklist-item" onclick="toggleItem(this)" data-category="deployment">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-title">Rollback Procedures</div>
+          <div class="item-description">Define automated rollback triggers and manual intervention protocols</div>
+        </div>
+      </div>
+      <div class="checklist-item" onclick="toggleItem(this)" data-category="deployment">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-title">Change Management</div>
+          <div class="item-description">Require stakeholder approval and impact assessment for model updates</div>
+        </div>
+      </div>
+      <div class="checklist-item" onclick="toggleItem(this)" data-category="deployment">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-title">Infrastructure Security</div>
+          <div class="item-description">Implement secure deployment pipelines and access controls</div>
+        </div>
+      </div>
+      <div class="checklist-item" onclick="toggleItem(this)" data-category="deployment">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-title">Performance SLAs</div>
+          <div class="item-description">Define latency, throughput, and availability requirements for production systems</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="monitoring-tab" class="tab-content">
+    <div class="policy-section">
+      <div class="section-title">📈 Monitoring & Maintenance</div>
+      <div class="checklist-item" onclick="toggleItem(this)" data-category="monitoring">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-title">Performance Monitoring</div>
+          <div class="item-description">Continuously track model accuracy, precision, recall, and business metrics</div>
+        </div>
+      </div>
+      <div class="checklist-item" onclick="toggleItem(this)" data-category="monitoring">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-title">Data Drift Detection</div>
+          <div class="item-description">Monitor input distributions and trigger alerts for significant changes</div>
+        </div>
+      </div>
+      <div class="checklist-item" onclick="toggleItem(this)" data-category="monitoring">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-title">Model Drift Monitoring</div>
+          <div class="item-description">Track prediction drift and performance degradation over time</div>
+        </div>
+      </div>
+      <div class="checklist-item" onclick="toggleItem(this)" data-category="monitoring">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-title">Incident Response</div>
+          <div class="item-description">Define escalation procedures for model failures and performance issues</div>
+        </div>
+      </div>
+      <div class="checklist-item" onclick="toggleItem(this)" data-category="monitoring">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-title">Regular Retraining</div>
+          <div class="item-description">Establish schedules and triggers for model retraining and updates</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="ethics-tab" class="tab-content">
+    <div class="policy-section">
+      <div class="section-title">⚖️ Ethics & Fairness</div>
+      <div class="checklist-item" onclick="toggleItem(this)" data-category="ethics">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-title">Bias Testing</div>
+          <div class="item-description">Require fairness assessments across protected demographic groups</div>
+        </div>
+      </div>
+      <div class="checklist-item" onclick="toggleItem(this)" data-category="ethics">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-title">Explainability Requirements</div>
+          <div class="item-description">Mandate interpretable models or explanation systems for high-stakes decisions</div>
+        </div>
+      </div>
+      <div class="checklist-item" onclick="toggleItem(this)" data-category="ethics">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-title">Human Oversight</div>
+          <div class="item-description">Define when human review is required for automated decisions</div>
+        </div>
+      </div>
+      <div class="checklist-item" onclick="toggleItem(this)" data-category="ethics">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-title">Consent Management</div>
+          <div class="item-description">Ensure proper user consent for data collection and algorithmic processing</div>
+        </div>
+      </div>
+      <div class="checklist-item" onclick="toggleItem(this)" data-category="ethics">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-title">Algorithmic Transparency</div>
+          <div class="item-description">Provide clear disclosure about automated decision-making to affected parties</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align: center; margin: 20px 0;">
+    <button class="btn" onclick="generatePolicy()">Generate Policy Document</button>
+    <button class="btn btn-secondary" onclick="resetAll()">Reset All</button>
+  </div>
+
+  <div class="policy-output" id="policy-output" style="display: none;">
+    <div class="output-title">📋 Generated ML Governance Policy</div>
+    <div class="policy-text" id="policy-text"></div>
+    <div style="text-align: center; margin-top: 15px;">
+      <button class="btn" onclick="downloadPolicy()">Download Policy</button>
+      <button class="btn" onclick="copyPolicy()">Copy to Clipboard</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let checkedItems = new Set();
+let totalItems = 0;
+
+function showTab(tabName) {
+  // Hide all tabs
+  document.querySelectorAll('.tab-content').forEach(tab => {
+    tab.classList.remove('active');
+  });
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.classList.remove('active');
+  });
+
+  // Show selected tab
+  document.getElementById(tabName + '-tab').classList.add('active');
+  event.target.classList.add('active');
+}
+
+function toggleItem(item) {
+  const checkbox = item.querySelector('.checkbox');
+  const isChecked = checkbox.classList.contains('checked');
+
+  if (isChecked) {
+    checkbox.classList.remove('checked');
+    checkbox.textContent = '';
+    item.classList.remove('checked');
+    checkedItems.delete(item);
+  } else {
+    checkbox.classList.add('checked');
+    checkbox.textContent = '✓';
+    item.classList.add('checked');
+    checkedItems.add(item);
+  }
+
+  updateProgress();
+}
+
+function updateProgress() {
+  const checkedCount = checkedItems.size;
+  const coverage = totalItems > 0 ? Math.round((checkedCount / totalItems) * 100) : 0;
+
+  document.getElementById('checked-count').textContent = checkedCount;
+  document.getElementById('total-count').textContent = totalItems;
+  document.getElementById('coverage-percent').textContent = coverage + '%';
+  document.getElementById('progress-fill').style.width = coverage + '%';
+}
+
+function generatePolicy() {
+  if (checkedItems.size === 0) {
+    alert('Please select at least one governance requirement.');
+    return;
+  }
+
+  let policyText = `ML GOVERNANCE POLICY DOCUMENT
+Generated on: ${new Date().toLocaleDateString()}
+
+OVERVIEW
+This policy establishes governance requirements for machine learning systems within our organization. It covers ${checkedItems.size} key areas selected based on our specific operational needs and risk profile.
+
+GOVERNANCE REQUIREMENTS
+
+`;
+
+  // Group items by category
+  const categories = {
+    'data': 'DATA GOVERNANCE',
+    'model': 'MODEL DEVELOPMENT',
+    'deployment': 'DEPLOYMENT',
+    'monitoring': 'MONITORING & MAINTENANCE',
+    'ethics': 'ETHICS & FAIRNESS'
+  };
+
+  Object.entries(categories).forEach(([category, title]) => {
+    const categoryItems = Array.from(checkedItems).filter(item =>
+      item.getAttribute('data-category') === category
+    );
+
+    if (categoryItems.length > 0) {
+      policyText += `${title}\n${'='.repeat(title.length)}\n\n`;
+
+      categoryItems.forEach((item, index) => {
+        const itemTitle = item.querySelector('.item-title').textContent;
+        const itemDesc = item.querySelector('.item-description').textContent;
+        policyText += `${index + 1}. ${itemTitle}\n   ${itemDesc}\n\n`;
+      });
+
+      policyText += '\n';
+    }
+  });
+
+  policyText += `IMPLEMENTATION
+This policy should be reviewed quarterly and updated as needed. All ML teams must acknowledge and comply with these requirements before deploying models to production.
+
+COMPLIANCE
+Regular audits will be conducted to ensure adherence to these governance standards. Non-compliance may result in immediate model suspension pending remediation.`;
+
+  document.getElementById('policy-text').textContent = policyText;
+  document.getElementById('policy-output').style.display = 'block';
+  document.getElementById('policy-output').scrollIntoView({ behavior: 'smooth' });
+}
+
+function downloadPolicy() {
+  const policyText = document.getElementById('policy-text').textContent;
+  const blob = new Blob([policyText], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'ml-governance-policy.txt';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function copyPolicy() {
+  const policyText = document.getElementById('policy-text').textContent;
+  navigator.clipboard.writeText(policyText).then(() => {
+    alert('Policy copied to clipboard!');
+  });
+}
+
+function resetAll() {
+  checkedItems.clear();
+  document.querySelectorAll('.checklist-item').forEach(item => {
+    const checkbox = item.querySelector('.checkbox');
+    checkbox.classList.remove('checked');
+    checkbox.textContent = '';
+    item.classList.remove('checked');
+  });
+
+  document.getElementById('policy-output').style.display = 'none';
+  updateProgress();
+}
+
+// Initialize
+document.addEventListener('DOMContentLoaded', function() {
+  totalItems = document.querySelectorAll('.checklist-item').length;
+  updateProgress();
+});
+
+// Pop-out functionality
+document.getElementById('popoutBtn').addEventListener('click', function() {
+    const currentUrl = window.location.href;
+    const popoutUrl = currentUrl + (currentUrl.includes('?') ? '&' : '?') + 'standalone=true';
+
+    // Open in new window with specific dimensions
+    const popoutWindow = window.open(
+        popoutUrl,
+        'WidgetPopout',
+        'width=1200,height=900,resizable=yes,scrollbars=yes,status=yes'
+    );
+
+    // Focus the new window
+    if (popoutWindow) {
+        popoutWindow.focus();
+    }
+});
+
+// Check if in standalone mode
+if (window.location.search.includes('standalone=true')) {
+    document.body.classList.add('standalone-mode');
+}
+</script>
+
+</body>
+</html>
