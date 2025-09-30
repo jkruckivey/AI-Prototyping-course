@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest identifier="w1-understanding-data-segments" version="1.0"
+          xmlns="http://www.imsproject.org/xsd/imscp_rootv1p1p2"
+          xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_rootv1p2"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://www.imsproject.org/xsd/imscp_rootv1p1p2 imscp_rootv1p1p2.xsd
+                              http://www.adlnet.org/xsd/adlcp_rootv1p2 adlcp_rootv1p2.xsd">
+  <metadata>
+    <schema>ADL SCORM</schema>
+    <schemaversion>1.2</schemaversion>
+  </metadata>
+  <organizations default="w1-understanding-data-segments-org">
+    <organization identifier="w1-understanding-data-segments-org">
+      <title>Understanding Data Segments - Customer Segmentation</title>
+      <item identifier="w1-understanding-data-segments-item" identifierref="w1-understanding-data-segments-resource">
+        <title>Customer Segmentation Results</title>
+      </item>
+    </organization>
+  </organizations>
+  <resources>
+    <resource identifier="w1-understanding-data-segments-resource" type="webcontent" adlcp:scormtype="sco" href="index.html">
+      <file href="index.html"/>
+      <file href="ivey-widget-base.css"/>
+      <file href="scormfunctions.js"/>
+    </resource>
+  </resources>
+</manifest>

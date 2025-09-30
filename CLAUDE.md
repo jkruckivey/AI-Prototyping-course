@@ -418,7 +418,34 @@ if (window.location.search.includes('standalone=true')) {
   - Created comprehensive widget inventory documentation (`WIDGET_INVENTORY.md`)
   - Ensured all CSS references work correctly in flat structure
 
-## Session Continuation Instructions (January 22, 2025)
+### 2025-09-30: Widget Bug Fixes and SCORM Package Updates
+- **Objective**: Fix critical widget display issues and ensure consistent functionality across all versions
+- **Status**: ✅ COMPLETED - Multiple widget fixes and SCORM packages updated
+- **Key Accomplishments**:
+  - **Fixed customer segmentation flip card text overlap**: Added `visibility: hidden` to prevent "Click to see strategy" text bleeding through flipped cards
+  - **Fixed customer segmentation text alignment**: Added explicit `text-align: center` and improved line spacing for all back card content
+  - **Redesigned AI hierarchy widget**: Replaced problematic concentric circles with side-by-side card layout to eliminate click accessibility issues
+  - **Fixed broken evaluation widget iframe**: Replaced non-functional external SCORM reference (package 49236) with working threshold explorer widget
+  - **Corrected funky hierarchy notation**: Changed confusing `AI &sup; ML &sup; DL` to clear `AI → ML → DL Hierarchy`
+  - **Fixed SCORM Connected button issue**: Created updated SCORM package for evaluation warmup widget to use standard pop-out button
+  - **Applied fixes to all widget variants**: Ensured consistency across main widgets, Week folders, SCORM versions, and IBS variants
+
+### SCORM Packages Created/Updated
+- `w1-understanding-data-segments-scorm-FIXED.zip` - Text overlap fix
+- `w1-understanding-data-segments-scorm-FINAL-FIX.zip` - Comprehensive fix
+- `w1-understanding-data-segments-scorm-ALIGNMENT-FIXED.zip` - Text alignment fix
+- `ai-hierarchy-scorm-FIXED.zip` - Initial hierarchy fix attempt
+- `ai-hierarchy-scorm-FIXED-v2.zip` - Click accessibility improvements
+- `ai-hierarchy-scorm-REDESIGNED.zip` - Complete card-based redesign
+- `w4-eval-warmup-FIXED.zip` - Evaluation warmup with standard pop-out button
+
+### Files Updated
+- **Customer Segmentation Widgets**: 5 files updated with text overlap and alignment fixes
+- **AI Hierarchy Widget**: Complete redesign from concentric circles to card layout
+- **Canvas Pages**: Fixed broken iframe references and corrected notation
+- **SCORM Packages**: Multiple packages updated for Canvas deployment
+
+## Session Continuation Instructions (September 30, 2025)
 
 ### Current State
 - **All 79 widgets equipped with pop-out functionality** - Users can escape Canvas iframe constraints
@@ -426,13 +453,15 @@ if (window.location.search.includes('standalone=true')) {
 - **Flat file structure maintained** - All widgets in `demos/widgets/` for Canvas embedding compatibility
 - **Comprehensive documentation created** - `WIDGET_INVENTORY.md` catalogs all widgets by type and week
 - **Accessibility compliance achieved** - WCAG AA contrast standards met across all widgets
+- **Widget display issues resolved** - Text overlap, alignment, and click accessibility problems fixed
+- **SCORM packages updated** - Multiple packages available for Canvas deployment with latest fixes
 
-### Recent Work Completed
-1. **Universal Pop-out Implementation**: Added pop-out buttons to all 79 widgets with JavaScript functionality
-2. **File Structure Optimization**: Moved widgets back to flat structure to preserve Canvas iframe URLs
-3. **CSS Path Updates**: Corrected all stylesheet references to work with flat structure
-4. **Widget Inventory Documentation**: Created comprehensive catalog of all widgets with technical details
-5. **CLAUDE.md Updates**: Added pop-out functionality documentation and updated project status
+### Recent Work Completed (September 30, 2025)
+1. **Customer Segmentation Widget Fixes**: Resolved text overlap and alignment issues across all 5 versions
+2. **AI Hierarchy Widget Redesign**: Complete overhaul from problematic concentric circles to accessible card layout
+3. **Canvas Page Corrections**: Fixed broken iframe references and improved notation clarity
+4. **SCORM Package Updates**: Created 7 new/updated SCORM packages ready for Canvas deployment
+5. **Cross-Version Consistency**: Ensured fixes applied to main widgets, Week folders, SCORM versions, and IBS variants
 
 ### Widget Inventory Summary
 - **79 Total Widgets**: Algorithm demos, quizzes, business tools, evaluation widgets

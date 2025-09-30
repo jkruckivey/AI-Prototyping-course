@@ -91,26 +91,37 @@
       color: white;
       font-weight: 600;
       user-select: none;
+      pointer-events: auto;
     }
     
     .ai-circle {
       width: 280px;
       height: 280px;
-      background: rgba(3, 70, 56, 0.7);
+      background: none;
       border: 4px solid #034638;
       top: 0;
       left: 0;
+      z-index: 1;
     }
-    
+
+    .ai-circle.circle-active {
+      background: rgba(3, 70, 56, 0.2);
+    }
+
     .ml-circle {
       width: 200px;
       height: 200px;
-      background: rgba(88, 44, 131, 0.8);
+      background: none;
       border: 3px solid #582C83;
       top: 40px;
       left: 40px;
+      z-index: 2;
     }
-    
+
+    .ml-circle.circle-active {
+      background: rgba(88, 44, 131, 0.2);
+    }
+
     .dl-circle {
       width: 120px;
       height: 120px;
@@ -118,6 +129,7 @@
       border: 3px solid #dc2626;
       top: 80px;
       left: 80px;
+      z-index: 3;
     }
     
     .circle-label {

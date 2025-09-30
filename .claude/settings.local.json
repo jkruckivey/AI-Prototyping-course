@@ -16,7 +16,10 @@
       "Bash(do echo \"Creating SCORM package for $widget\")",
       "Bash(do cp \"w2-00-intro-matcher-scorm/scormfunctions.js\" \"$widget-scorm/\")",
       "Bash(do echo \"Creating ZIP for $widget\")",
-      "Bash(do cp \"../../Week 2/SCORM files/w2-00-intro-matcher-scorm/scormfunctions.js\" \"$widget-scorm/\")"
+      "Bash(do cp \"../../Week 2/SCORM files/w2-00-intro-matcher-scorm/scormfunctions.js\" \"$widget-scorm/\")",
+      "Bash(dir \"C:\\Users\\jkruck\\Ivey Business School\\EdTech Lab - Documents\\Github\\AI Prototyping Learn\\Development Files\\Week 1\\SCORM files\")",
+      "Bash(findstr:*)",
+      "Bash(dir:*)"
     ],
     "deny": [],
     "ask": []

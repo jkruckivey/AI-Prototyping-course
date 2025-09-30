@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/jkruck/Ivey Business School/EdTech Lab - Documents/Github/AI Prototyping Learn/**)",
+      "Bash(cat:*)",
+      "Bash(for week in \"Week 1\" \"Week 2\" \"Week 3\" \"Week 4\" \"Week 5\")",
+      "Bash(do echo \"=== $week ===\")",
+      "Bash(ls:*)",
+      "Bash(done)",
+      "Bash(for week in {1..5})",
+      "Bash(do echo \"=== Week $week ===\")",
+      "Bash(for:*)",
+      "Bash(do echo \"=== Week $week SCORM packages ===\")",
+      "Bash(find:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
