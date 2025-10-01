@@ -21,38 +21,38 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-clipboard-check" aria-hidden="true"></i>&nbsp;Knowledge Check</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
       <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="m2-q1">1) Which algorithm directly minimizes MSE to fit numeric targets?</h4>
-        <div id="m2-q1" class="dp-panel-content" hidden>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="m2-q1" id="m2-q1-heading">1) Which algorithm directly minimizes MSE to fit numeric targets?</h4>
+        <div id="m2-q1" class="dp-panel-content" role="region" aria-labelledby="m2-q1-heading" hidden>
           <p><strong>Linear Regression</strong> ✓ — fits a line/plane by minimizing mean squared error.</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="m2-q2">2) In logistic regression, what does the decision <em>threshold</em> control?</h4>
-        <div id="m2-q2" class="dp-panel-content" hidden>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="m2-q2" id="m2-q2-heading">2) In logistic regression, what does the decision <em>threshold</em> control?</h4>
+        <div id="m2-q2" class="dp-panel-content" role="region" aria-labelledby="m2-q2-heading" hidden>
           <p>It converts predicted <strong>probabilities</strong> into <strong>class labels</strong>, trading precision vs. recall based on business cost.</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="m2-q3">3) Why is feature <em>scaling</em> important for KNN and SVM?</h4>
-        <div id="m2-q3" class="dp-panel-content" hidden>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="m2-q3" id="m2-q3-heading">3) Why is feature <em>scaling</em> important for KNN and SVM?</h4>
+        <div id="m2-q3" class="dp-panel-content" role="region" aria-labelledby="m2-q3-heading" hidden>
           <p>Because both depend on <strong>distances</strong>; unscaled features can dominate and distort neighborhoods/margins.</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="m2-q4">4) Random Forests vs. a single Decision Tree — what’s the typical advantage?</h4>
-        <div id="m2-q4" class="dp-panel-content" hidden>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="m2-q4" id="m2-q4-heading">4) Random Forests vs. a single Decision Tree — what's the typical advantage?</h4>
+        <div id="m2-q4" class="dp-panel-content" role="region" aria-labelledby="m2-q4-heading" hidden>
           <p><strong>Lower variance</strong> and <strong>better generalization</strong> via bagging and feature subsampling; often stronger accuracy.</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="m2-q5">5) Naive Bayes works well for text mainly because…</h4>
-        <div id="m2-q5" class="dp-panel-content" hidden>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="m2-q5" id="m2-q5-heading">5) Naive Bayes works well for text mainly because…</h4>
+        <div id="m2-q5" class="dp-panel-content" role="region" aria-labelledby="m2-q5-heading" hidden>
           <p>With sparse, high‑dimensional features, the <strong>independence assumption</strong> is a decent approximation and the model is <strong>fast</strong> and effective.</p>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="m2-q6">6) Neural networks add value when…</h4>
-        <div id="m2-q6" class="dp-panel-content" hidden>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="m2-q6" id="m2-q6-heading">6) Neural networks add value when…</h4>
+        <div id="m2-q6" class="dp-panel-content" role="region" aria-labelledby="m2-q6-heading" hidden>
           <p>Data is large/complex, patterns are non‑linear, and simple baselines plateau; NNs can learn <strong>feature representations</strong> (e.g., images, audio).</p>
         </div>
       </div>
@@ -71,8 +71,8 @@
     <h2 class="dp-has-icon"><i class="dp-icon fas fa-briefcase" aria-hidden="true"></i>&nbsp;Mini Case: Rare‑Event Churn</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
       <div class="dp-panel-group">
-        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="m2-case">Scenario</h4>
-        <div id="m2-case" class="dp-panel-content" hidden>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="m2-case" id="m2-case-heading">Scenario</h4>
+        <div id="m2-case" class="dp-panel-content" role="region" aria-labelledby="m2-case-heading" hidden>
           <p>Your dataset has <strong>1% churners</strong>. Sketch your first experiments: which models will you try, how will you handle <strong>imbalance</strong>, and which <strong>metrics</strong> will you track?</p>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">Start baselines: <em>logistic regression</em>, <em>tree</em>, maybe <em>Naive Bayes</em> (text‑ish features).</li>

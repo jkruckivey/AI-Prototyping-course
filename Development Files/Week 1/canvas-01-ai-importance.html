@@ -1,5 +1,9 @@
-﻿<div id="dp-wrapper" class="dp-wrapper">
-    <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;">Icon Progress Bar (browser only)</div>
+<!-- Skip link for keyboard users -->
+<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<main id="main-content" role="main">
+<div id="dp-wrapper" class="dp-wrapper">
+    <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;" aria-hidden="true">Icon Progress Bar (browser only)</div>
     <section class="dp-content-block content-block" data-title="Why AI Matters for Business" aria-labelledby="sec-importance-title">
         <h2 id="sec-importance-title" class="dp-has-icon"><i class="dp-icon fas fa-robot" aria-hidden="true"></i> The Importance of AI</h2>
         <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
@@ -14,9 +18,8 @@
         <h2 id="sec-concepts-title" class="dp-has-icon"><i class="dp-icon fas fa-lightbulb" aria-hidden="true"></i> AI: Concepts, Context, and Fit</h2>
         <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
             <div class="dp-panel-group">
-                <h3 id="hdr-ai-what" class="sr-only">What is AI (vs. traditional automation)?</h3>
-                What is AI (vs. traditional automation)?
-                <div id="ai-what" class="dp-panel-content" role="region" aria-labelledby="hdr-ai-what">
+                <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="ai-what" id="hdr-ai-what">What is AI (vs. traditional automation)?</h4>
+                <div id="ai-what" class="dp-panel-content" role="region" aria-labelledby="hdr-ai-what" hidden>
                     <div class="dp-card card">
                         <div class="card-body">
                             <p><strong>AI</strong> refers to systems that learn patterns from data and improve with experience. Traditional automation follows explicit, hand-written rules.</p>
@@ -54,9 +57,8 @@
                 </div>
             </div>
             <div class="dp-panel-group">
-                <h3 id="hdr-ai-whynow" class="sr-only">Why AI, why now? (data, compute, algorithms)</h3>
-                Why AI, why now? (data, compute, algorithms)
-                <div id="ai-whynow" class="dp-panel-content" role="region" aria-labelledby="hdr-ai-whynow">
+                <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="ai-whynow" id="hdr-ai-whynow">Why AI, why now? (data, compute, algorithms)</h4>
+                <div id="ai-whynow" class="dp-panel-content" role="region" aria-labelledby="hdr-ai-whynow" hidden>
                     <div class="row">
                         <div class="col-md-4">
                             <div class="dp-card card h-100" style="border-left: 4px solid #034638; padding-left: 12px;">
@@ -86,9 +88,8 @@
                 </div>
             </div>
             <div class="dp-panel-group">
-                <h3 id="hdr-ai-fit" class="sr-only">Where AI fits in work (automation, assistance, augmentation)</h3>
-                Where AI fits in work (automation, assistance, augmentation)
-                <div id="ai-fit" class="dp-panel-content" role="region" aria-labelledby="hdr-ai-fit">
+                <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="ai-fit" id="hdr-ai-fit">Where AI fits in work (automation, assistance, augmentation)</h4>
+                <div id="ai-fit" class="dp-panel-content" role="region" aria-labelledby="hdr-ai-fit" hidden>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item"><strong>Automation</strong> &mdash; routine tasks (routing, classification) executed consistently at scale.</li>
                         <li class="list-group-item"><strong>Assistance</strong> &mdash; copilots for drafting, summarizing, and retrieval.</li>
@@ -97,9 +98,8 @@
                 </div>
             </div>
             <div class="dp-panel-group">
-                <h3 id="hdr-ai-value" class="sr-only">Business value &amp; constraints</h3>
-                Business value &amp; constraints
-                <div id="ai-value" class="dp-panel-content" role="region" aria-labelledby="hdr-ai-value">
+                <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="ai-value" id="hdr-ai-value">Business value &amp; constraints</h4>
+                <div id="ai-value" class="dp-panel-content" role="region" aria-labelledby="hdr-ai-value" hidden>
                     <div class="dp-card card h-100 w-100" style="border-left: 4px solid #034638; padding-left: 12px;">
                         <div class="card-body">
                             <h4 class="card-title">Value levers</h4>
@@ -123,9 +123,8 @@
                 </div>
             </div>
             <div class="dp-panel-group">
-                <h3 id="hdr-ai-examples" class="sr-only">Quick examples by function</h3>
-                Quick examples by function
-                <div id="ai-examples" class="dp-panel-content" role="region" aria-labelledby="hdr-ai-examples">
+                <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="ai-examples" id="hdr-ai-examples">Quick examples by function</h4>
+                <div id="ai-examples" class="dp-panel-content" role="region" aria-labelledby="hdr-ai-examples" hidden>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="dp-card card h-100">
@@ -193,6 +192,28 @@
             <p class="card-text">Start with a small, high-leverage use case where data already exists and impact can be measured in weeks, not months.</p>
         </div>
     </aside>
-    <hr />
+    <hr aria-hidden="true" />
     <p>Select <strong>Next▸</strong> to continue.</p>
 </div>
+</main>
+
+<!-- Canvas-safe toggling -->
+<script>
+(function () {
+  function toggleHead(h){
+    const content = document.getElementById(h.getAttribute('aria-controls'));
+    const expanded = h.getAttribute('aria-expanded') === 'true';
+    h.setAttribute('aria-expanded', String(!expanded));
+    if (content) content.hidden = expanded;
+  }
+  document.addEventListener('click', function (e) {
+    const h = e.target.closest('.dp-panel-heading[role="button"]');
+    if (h) toggleHead(h);
+  });
+  document.addEventListener('keydown', function (e) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role="button"]')) {
+      e.preventDefault(); toggleHead(e.target);
+    }
+  });
+})();
+</script>
