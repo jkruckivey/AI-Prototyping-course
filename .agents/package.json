@@ -1,0 +1,35 @@
+{
+  "name": "ivey-ai-agents",
+  "version": "1.0.0",
+  "description": "Custom Claude AI agents for Ivey EdTech Lab development",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "audit:accessibility": "node accessibility-auditor.js",
+    "audit:branding": "node branding-checker.js",
+    "test:widget": "node widget-tester.js",
+    "validate:plotly": "node plotly-validator.js",
+    "review:pedagogy": "node ml-pedagogy-checker.js",
+    "audit:all-widgets": "for file in ../demos/widgets/*.html; do echo \"\\n=== Auditing $file ===\" && node widget-tester.js \"$file\"; done",
+    "validate:all-plotly": "for file in ../demos/widgets/*.html; do echo \"\\n=== Validating $file ===\" && node plotly-validator.js \"$file\"; done",
+    "audit:week": "node accessibility-auditor.js ../Week-$WEEK && node branding-checker.js ../Week-$WEEK && node ml-pedagogy-checker.js ../Week-$WEEK",
+    "watch": "node watch.js",
+    "watch:widgets": "node watch.js --widgets-only",
+    "watch:pedagogy": "node watch.js --pedagogy-only"
+  },
+  "keywords": [
+    "claude",
+    "ai",
+    "agents",
+    "accessibility",
+    "wcag",
+    "educational-technology"
+  ],
+  "author": "Ivey EdTech Lab",
+  "license": "MIT",
+  "dependencies": {
+    "@anthropic-ai/claude-agent-sdk": "^0.1.1",
+    "chokidar": "^4.0.3",
+    "dotenv": "^17.2.3"
+  }
+}

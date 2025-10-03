@@ -1,0 +1,394 @@
+<!-- Skip link for keyboard users -->
+<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<main id="main-content" role="main">
+<div id="dp-wrapper" class="dp-wrapper">
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;" aria-hidden="true">Icon Progress Bar (browser only)</div>
+
+  <!-- Generative AI & LLMs -->
+  <div class="dp-content-block content-block" data-title="Generative AI & Large Language Models">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-brain" aria-hidden="true"></i>&nbsp;Generative AI & Large Language Models</h2>
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+      <div class="card-body">
+        <h3 class="card-title dp-ignore-theme">What this page covers</h3>
+        <p>Understanding what <strong>Generative AI</strong> is and how <strong>Large Language Models (LLMs)</strong> work. You'll learn what makes LLMs different from traditional machine learning, explore major foundation models like GPT, Claude, and Gemini, and understand the computational requirements behind these powerful systems.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- What is Generative AI? -->
+  <div class="dp-content-block content-block" data-title="What is Generative AI?">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-magic" aria-hidden="true"></i>&nbsp;What is Generative AI?</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="genai-definition" id="genai-definition-heading">Core definition</h3>
+        <div id="genai-definition" class="dp-panel-content" role="region" aria-labelledby="genai-definition-heading" hidden>
+          <p><strong>Generative AI</strong> is a category of artificial intelligence that can <em>create new content</em>—text, images, audio, video, code, or other media—based on patterns it has learned from training data.</p>
+          <p>Unlike traditional AI systems that analyze or classify existing data, generative AI <strong>produces original outputs</strong> that didn't exist before.</p>
+          <p class="mb-0"><strong>Key characteristics:</strong></p>
+          <ul>
+            <li>Creates content rather than just analyzing it</li>
+            <li>Learns patterns from massive datasets</li>
+            <li>Generates outputs based on prompts or instructions</li>
+            <li>Can produce multiple valid responses to the same input</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="genai-examples" id="genai-examples-heading">Real-world examples</h3>
+        <div id="genai-examples" class="dp-panel-content" role="region" aria-labelledby="genai-examples-heading" hidden>
+          <div class="table-responsive">
+            <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Examples of Generative AI applications">
+              <caption>Generative AI across different content types</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Content Type</th>
+                  <th scope="col">Examples</th>
+                  <th scope="col">Use Cases</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Text</th>
+                  <td>ChatGPT, Claude, Gemini, Llama</td>
+                  <td>Writing assistance, code generation, customer service, translation</td>
+                </tr>
+                <tr>
+                  <th scope="row">Images</th>
+                  <td>DALL-E, Midjourney, Stable Diffusion</td>
+                  <td>Marketing visuals, product design, concept art</td>
+                </tr>
+                <tr>
+                  <th scope="row">Code</th>
+                  <td>GitHub Copilot, Amazon CodeWhisperer</td>
+                  <td>Software development, debugging, documentation</td>
+                </tr>
+                <tr>
+                  <th scope="row">Audio</th>
+                  <td>ElevenLabs, Descript, MusicLM</td>
+                  <td>Voiceovers, music composition, podcast editing</td>
+                </tr>
+                <tr>
+                  <th scope="row">Video</th>
+                  <td>Runway, Synthesia, Pika</td>
+                  <td>Video editing, training materials, marketing content</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- What are Large Language Models? -->
+  <div class="dp-content-block content-block" data-title="What are Large Language Models?">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-book-open" aria-hidden="true"></i>&nbsp;What are Large Language Models?</h2>
+    <p><strong>Large Language Models (LLMs)</strong> are a specific type of generative AI trained on massive amounts of text data to understand and generate human language.</p>
+
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="llm-key-features" id="llm-key-features-heading">Key features of LLMs</h3>
+        <div id="llm-key-features" class="dp-panel-content" role="region" aria-labelledby="llm-key-features-heading" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Scale:</strong> Billions to trillions of parameters (compared to millions in traditional models)</li>
+            <li class="list-group-item"><strong>Pre-training:</strong> Trained on diverse text from books, websites, code repositories, and more</li>
+            <li class="list-group-item"><strong>Context understanding:</strong> Can process and maintain context across long conversations or documents</li>
+            <li class="list-group-item"><strong>Multi-task capability:</strong> One model can handle many different tasks without retraining</li>
+            <li class="list-group-item"><strong>Few-shot learning:</strong> Can learn new tasks from just a few examples in the prompt</li>
+            <li class="list-group-item"><strong>Natural language interface:</strong> Responds to plain language instructions, no special syntax needed</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="llm-foundation-models" id="llm-foundation-models-heading">Foundation models</h3>
+        <div id="llm-foundation-models" class="dp-panel-content" role="region" aria-labelledby="llm-foundation-models-heading" hidden>
+          <p><strong>Foundation models</strong> are large-scale models trained on broad data that can be adapted to many different tasks. They serve as the "foundation" for various applications.</p>
+          <p class="mb-0"><strong>Major foundation models:</strong></p>
+          <ul>
+            <li><strong>GPT (OpenAI):</strong> GPT-3.5, GPT-4, GPT-4o - Powers ChatGPT and many business applications</li>
+            <li><strong>Claude (Anthropic):</strong> Claude 3 (Opus, Sonnet, Haiku) - Designed for safety and helpfulness</li>
+            <li><strong>Gemini (Google):</strong> Gemini Pro, Gemini Ultra - Multimodal capabilities (text, images, code)</li>
+            <li><strong>Llama (Meta):</strong> Llama 2, Llama 3 - Open-source models available for commercial use</li>
+            <li><strong>PaLM (Google):</strong> Powers Google's Bard and other services</li>
+            <li><strong>Command (Cohere):</strong> Enterprise-focused with specialized business capabilities</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LLMs vs Traditional ML -->
+  <div class="dp-content-block content-block" data-title="How LLMs Differ from Traditional ML">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-exchange-alt" aria-hidden="true"></i>&nbsp;How LLMs Differ from Traditional ML</h2>
+    <p>Understanding the fundamental differences between traditional machine learning approaches and large language models:</p>
+
+    <div class="table-responsive">
+      <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Detailed comparison of traditional ML and LLMs">
+        <caption>Traditional ML vs. Large Language Models</caption>
+        <thead>
+          <tr>
+            <th scope="col">Dimension</th>
+            <th scope="col">Traditional ML</th>
+            <th scope="col">Large Language Models</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Training Approach</th>
+            <td>Task-specific training on labeled datasets</td>
+            <td>Pre-training on massive text corpora, then fine-tuning</td>
+          </tr>
+          <tr>
+            <th scope="row">Data Requirements</th>
+            <td>Thousands to millions of labeled examples</td>
+            <td>Billions of text tokens (often unlabeled)</td>
+          </tr>
+          <tr>
+            <th scope="row">Model Size</th>
+            <td>Thousands to millions of parameters</td>
+            <td>Billions to trillions of parameters</td>
+          </tr>
+          <tr>
+            <th scope="row">Task Flexibility</th>
+            <td>One model = one task (fraud detection, spam filtering, etc.)</td>
+            <td>One model = many tasks (summarization, translation, code, Q&A, etc.)</td>
+          </tr>
+          <tr>
+            <th scope="row">Adaptation</th>
+            <td>Requires retraining for new tasks or domains</td>
+            <td>Can adapt to new tasks via prompting or light fine-tuning</td>
+          </tr>
+          <tr>
+            <th scope="row">User Interface</th>
+            <td>Structured input (features, columns, numeric data)</td>
+            <td>Natural language prompts (plain English instructions)</td>
+          </tr>
+          <tr>
+            <th scope="row">Output Type</th>
+            <td>Labels, categories, scores, predictions</td>
+            <td>Generated text, code, structured data, reasoning steps</td>
+          </tr>
+          <tr>
+            <th scope="row">Computational Cost</th>
+            <td>Moderate training, fast inference</td>
+            <td>Extremely high training cost, moderate inference cost</td>
+          </tr>
+          <tr>
+            <th scope="row">Explainability</th>
+            <td>Often interpretable (feature importance, decision trees)</td>
+            <td>More opaque (difficult to trace reasoning)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- LLM Capabilities -->
+  <div class="dp-content-block content-block" data-title="What LLMs Can Do">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-tasks" aria-hidden="true"></i>&nbsp;What LLMs Can Do</h2>
+    <p>LLMs excel at a wide range of natural language processing tasks. Understanding these capabilities helps you identify where LLMs can add value in your organization.</p>
+
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="llm-nlp-tasks" id="llm-nlp-tasks-heading">Core NLP tasks</h3>
+        <div id="llm-nlp-tasks" class="dp-panel-content" role="region" aria-labelledby="llm-nlp-tasks-heading" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Text Generation:</strong> Creating original content from scratch or expanding ideas</li>
+            <li class="list-group-item"><strong>Summarization:</strong> Condensing long documents into key points (extractive or abstractive)</li>
+            <li class="list-group-item"><strong>Translation:</strong> Converting text between languages with context awareness</li>
+            <li class="list-group-item"><strong>Question Answering:</strong> Responding to queries based on provided context or training knowledge</li>
+            <li class="list-group-item"><strong>Sentiment Analysis:</strong> Determining emotional tone (positive, negative, neutral) and nuance</li>
+            <li class="list-group-item"><strong>Named Entity Recognition (NER):</strong> Identifying and categorizing people, places, organizations, dates</li>
+            <li class="list-group-item"><strong>Text Classification:</strong> Categorizing documents by topic, intent, or other criteria</li>
+            <li class="list-group-item"><strong>Information Extraction:</strong> Pulling structured data from unstructured text</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="llm-advanced-tasks" id="llm-advanced-tasks-heading">Advanced capabilities</h3>
+        <div id="llm-advanced-tasks" class="dp-panel-content" role="region" aria-labelledby="llm-advanced-tasks-heading" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Code Generation:</strong> Writing, debugging, and explaining programming code</li>
+            <li class="list-group-item"><strong>Reasoning:</strong> Multi-step logical problem-solving and chain-of-thought analysis</li>
+            <li class="list-group-item"><strong>Instruction Following:</strong> Executing complex, multi-step instructions accurately</li>
+            <li class="list-group-item"><strong>Conversational AI:</strong> Maintaining context across long dialogues</li>
+            <li class="list-group-item"><strong>Role-Playing:</strong> Adopting personas or perspectives for specialized responses</li>
+            <li class="list-group-item"><strong>Data Analysis:</strong> Interpreting structured data and generating insights</li>
+            <li class="list-group-item"><strong>Creative Writing:</strong> Poetry, stories, marketing copy, and other creative content</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="llm-business-apps" id="llm-business-apps-heading">Business applications</h3>
+        <div id="llm-business-apps" class="dp-panel-content" role="region" aria-labelledby="llm-business-apps-heading" hidden>
+          <div class="table-responsive">
+            <table class="ic-Table ic-Table--hover-row" role="table" aria-label="LLM business applications by department">
+              <caption>How different business functions use LLMs</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Function</th>
+                  <th scope="col">Use Cases</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Customer Service</th>
+                  <td>Chatbots, email response automation, FAQ generation, sentiment tracking</td>
+                </tr>
+                <tr>
+                  <th scope="row">Marketing</th>
+                  <td>Content creation, ad copy, social media posts, campaign personalization</td>
+                </tr>
+                <tr>
+                  <th scope="row">Sales</th>
+                  <td>Email outreach, proposal writing, lead qualification, CRM data enrichment</td>
+                </tr>
+                <tr>
+                  <th scope="row">Legal</th>
+                  <td>Contract review, legal research, document summarization, compliance checks</td>
+                </tr>
+                <tr>
+                  <th scope="row">HR</th>
+                  <td>Job descriptions, resume screening, employee communications, training materials</td>
+                </tr>
+                <tr>
+                  <th scope="row">IT/Engineering</th>
+                  <td>Code generation, debugging, documentation, infrastructure as code</td>
+                </tr>
+                <tr>
+                  <th scope="row">Finance</th>
+                  <td>Report generation, data analysis, risk assessment, regulatory filings</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Computational Requirements -->
+  <div class="dp-content-block content-block" data-title="Computational Requirements">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-server" aria-hidden="true"></i>&nbsp;Computational Requirements</h2>
+    <p>Training and running LLMs requires significant computational resources. Understanding these requirements helps explain why LLMs are often accessed via APIs rather than trained from scratch.</p>
+
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="llm-scale" id="llm-scale-heading">Scale of LLMs</h3>
+        <div id="llm-scale" class="dp-panel-content" role="region" aria-labelledby="llm-scale-heading" hidden>
+          <div class="table-responsive">
+            <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Scale comparison of major LLMs">
+              <caption>Parameter counts and training details for major LLMs</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Model</th>
+                  <th scope="col">Parameters</th>
+                  <th scope="col">Training Cost (est.)</th>
+                  <th scope="col">Training Time</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">GPT-3</th>
+                  <td>175 billion</td>
+                  <td>$4-12 million</td>
+                  <td>Months</td>
+                </tr>
+                <tr>
+                  <th scope="row">GPT-4</th>
+                  <td>~1.76 trillion (est.)</td>
+                  <td>$100+ million (est.)</td>
+                  <td>Months</td>
+                </tr>
+                <tr>
+                  <th scope="row">Claude 3 Opus</th>
+                  <td>Undisclosed (hundreds of billions)</td>
+                  <td>Tens of millions</td>
+                  <td>Months</td>
+                </tr>
+                <tr>
+                  <th scope="row">Llama 2 (70B)</th>
+                  <td>70 billion</td>
+                  <td>~$2-5 million</td>
+                  <td>Weeks to months</td>
+                </tr>
+                <tr>
+                  <th scope="row">Gemini Ultra</th>
+                  <td>Undisclosed (hundreds of billions)</td>
+                  <td>Tens of millions</td>
+                  <td>Months</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="mt-2 mb-0"><strong>Note:</strong> These figures are estimates based on publicly available information and industry analysis. Actual costs and parameters may vary.</p>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="llm-hardware" id="llm-hardware-heading">Hardware requirements</h3>
+        <div id="llm-hardware" class="dp-panel-content" role="region" aria-labelledby="llm-hardware-heading" hidden>
+          <p><strong>GPUs (Graphics Processing Units)</strong> are essential for training and running LLMs because they can perform many calculations in parallel, which is critical for processing massive amounts of data.</p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Training:</strong> Thousands of GPUs (often NVIDIA A100s or H100s) running for weeks to months</li>
+            <li class="list-group-item"><strong>Inference (running the model):</strong> Multiple GPUs or specialized hardware like TPUs for faster response times</li>
+            <li class="list-group-item"><strong>Memory requirements:</strong> Modern LLMs need hundreds of GB to several TB of RAM during training</li>
+            <li class="list-group-item"><strong>Storage:</strong> Training datasets can be terabytes in size; model checkpoints add more storage needs</li>
+          </ul>
+          <p class="mt-2 mb-0"><strong>Why GPUs?</strong> Unlike CPUs that process tasks sequentially, GPUs can perform thousands of operations simultaneously—perfect for the matrix multiplications that dominate neural network computations.</p>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="llm-access-models" id="llm-access-models-heading">Access models</h3>
+        <div id="llm-access-models" class="dp-panel-content" role="region" aria-labelledby="llm-access-models-heading" hidden>
+          <p>Due to the high cost and complexity of training LLMs from scratch, most organizations use one of these approaches:</p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>API access:</strong> Use models via API (OpenAI, Anthropic, Google) - pay per token, no infrastructure needed</li>
+            <li class="list-group-item"><strong>Hosted platforms:</strong> Cloud providers (AWS Bedrock, Azure OpenAI, Google Vertex AI) manage infrastructure</li>
+            <li class="list-group-item"><strong>Self-hosted open-source:</strong> Deploy Llama, Mistral, or other open models on your own infrastructure</li>
+            <li class="list-group-item"><strong>Fine-tuning services:</strong> Customize existing models for your specific use case (cheaper than training from scratch)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Helpful Tip -->
+  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
+    <div class="card-body">
+      <h3 class="card-title">Helpful Tip</h3>
+      <p class="card-text">For most business use cases, start with API access to established models (OpenAI, Anthropic, Google) rather than training your own. Focus your resources on <strong>prompt engineering</strong>, <strong>fine-tuning</strong>, and <strong>RAG</strong> to customize behavior—topics we'll cover in upcoming sections.</p>
+    </div>
+  </div>
+
+  <hr aria-hidden="true" />
+  <p>Select <strong>Next▸</strong> to continue with <strong>Transformer Architecture & How LLMs Work</strong>.</p>
+</div>
+</main>
+
+<!-- Canvas-safe toggling -->
+<script>
+(function () {
+  function toggleHead(h){
+    const content = document.getElementById(h.getAttribute('aria-controls'));
+    const expanded = h.getAttribute('aria-expanded') === 'true';
+    h.setAttribute('aria-expanded', String(!expanded));
+    if (content) content.hidden = expanded;
+  }
+  document.addEventListener('click', function (e) {
+    const h = e.target.closest('.dp-panel-heading[role="button"]');
+    if (h) toggleHead(h);
+  });
+  document.addEventListener('keydown', function (e) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role="button"]')) {
+      e.preventDefault(); toggleHead(e.target);
+    }
+  });
+})();
+</script>

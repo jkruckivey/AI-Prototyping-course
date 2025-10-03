@@ -11,37 +11,36 @@
     <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
       <div class="card-body">
         <h3 class="card-title dp-ignore-theme">What this week is about</h3>
-        <p>In this module, we shift focus from <em>choosing models</em> to <strong>evaluating and training them effectively</strong>. You’ll learn how to measure fit, prevent overfitting, and connect evaluation metrics directly to business outcomes.</p>
+        <p>In this module, we explore <strong>Generative AI</strong> and <strong>Large Language Models (LLMs)</strong>—the technology powering systems like ChatGPT, Claude, and Gemini. You'll learn how these models work, how to engineer effective prompts, and how to customize models for your specific needs through fine-tuning and retrieval augmented generation (RAG).</p>
       </div>
     </div>
   </div>
 
   <!-- Readiness checklist -->
   <div class="dp-content-block content-block" data-title="Before you start (readiness)">
-    <h2 class="dp-has-icon"><i class="dp-icon fas fa-check-circle" aria-hidden="true"></i>&nbsp;Before you start</h2>
+    <h3 class="dp-has-icon"><i class="dp-icon fas fa-check-circle" aria-hidden="true"></i>&nbsp;Before you start</h3>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w4-ready" id="w4-ready-heading">Readiness checklist</h3>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w4-ready" id="w4-ready-heading">Readiness checklist</h4>
         <div id="w4-ready" class="dp-panel-content" role="region" aria-labelledby="w4-ready-heading" hidden>
           <ul class="list-group list-group-flush">
-            <li class="list-group-item">You can distinguish <strong>classification</strong> vs <strong>regression</strong> tasks.</li>
-            <li class="list-group-item">You know the basics of <strong>train/validation/test splits</strong>.</li>
-            <li class="list-group-item">You are familiar with core supervised algorithms (linear/logistic regression, trees, SVM, etc.).</li>
+            <li class="list-group-item">You understand the difference between <strong>supervised</strong> and <strong>unsupervised</strong> learning from previous weeks.</li>
+            <li class="list-group-item">You're familiar with basic <strong>neural network</strong> concepts (layers, weights, training).</li>
+            <li class="list-group-item">You have experience using an LLM tool like ChatGPT, Claude, or Gemini.</li>
           </ul>
-          <p class="mt-2 mb-0"><em>Need a refresher?</em> Jump back to: 
-            <a href="../canvas-05-evaluation-training.html">Evaluation Basics (Module 1)</a> · 
-            <a href="../M2-wrap-up.html">Module 2 Wrap-Up</a>
-          </p>
+          <p class="mt-2 mb-0"><em>Need a refresher?</em> Week 1: <a href="../Week 1/canvas-03-machine-learning-models.html">ML model families</a> · Week 2: <a href="../Week 2/w_2_08_neural_networks.html">Neural networks basics</a></p>
         </div>
       </div>
 
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w4-what" id="w4-what-heading">What you'll do this week</h3>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w4-what" id="w4-what-heading">What you'll do this week</h4>
         <div id="w4-what" class="dp-panel-content" role="region" aria-labelledby="w4-what-heading" hidden>
           <ul class="list-group list-group-flush">
-            <li class="list-group-item">Compare evaluation metrics and know when to use each (accuracy, precision/recall, ROC, etc.).</li>
-            <li class="list-group-item">Understand <strong>overfitting vs underfitting</strong> and how to mitigate them.</li>
-            <li class="list-group-item">Practice cross-validation techniques and align metrics with <strong>business KPIs</strong>.</li>
+            <li class="list-group-item">Explore what makes Generative AI different from traditional machine learning</li>
+            <li class="list-group-item">Understand the <strong>transformer architecture</strong> that powers modern LLMs</li>
+            <li class="list-group-item">Practice <strong>prompt engineering</strong> patterns for zero-shot, one-shot, and few-shot learning</li>
+            <li class="list-group-item">Learn about <strong>fine-tuning</strong> techniques and when to use RAG instead</li>
+            <li class="list-group-item">Discover how <strong>AI agents</strong> use LLMs to perform complex, multi-step tasks</li>
           </ul>
         </div>
       </div>
@@ -49,40 +48,134 @@
   </div>
 
   <!-- Warm-up activity -->
-  <div class="dp-content-block content-block" data-title="Warm‑up: Why Evaluation Matters">
-    <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Warm‑up: Why Evaluation Matters</h2>
-    <p class="mt-2">Think about the following question: <em>What could go wrong if we only looked at accuracy when judging a fraud detection model?</em> Jot down your thoughts before moving on.</p>
-<p><iframe style="overflow: hidden;" src="https://learn.ivey.ca/courses/6194/external_tools/retrieve?borderless=true&amp;url=https://scone-prod.ca-central-1.inscloudgate.net/packages/49315/launch" width="1000" height="1000" loading="lazy"></iframe></p>
+  <div class="dp-content-block content-block" data-title="Warm‑up: GenAI Capabilities">
+    <h3 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Warm‑up: GenAI Capabilities</h3>
+    <p class="mt-2">Before diving into the technical details, reflect on your experience with generative AI tools:</p>
+    <div class="dp-card card" style="border-left: 4px solid #f97316; padding-left: 15px;">
+      <div class="card-body">
+        <h4 class="card-title dp-ignore-theme">Reflection Questions</h4>
+        <ul>
+          <li>What tasks have you used ChatGPT, Claude, or similar tools for?</li>
+          <li>What surprises you most about what these models can do?</li>
+          <li>What limitations have you noticed?</li>
+          <li>How might you use generative AI in your work or business context?</li>
+        </ul>
+        <p class="mb-0"><em>Jot down your thoughts before moving on—we'll connect these observations to the technical concepts throughout the week.</em></p>
+      </div>
+    </div>
   </div>
 
   <!-- Tips & expectations -->
   <div class="dp-content-block content-block" data-title="How to get the most out of Week 4">
-    <h2 class="dp-has-icon"><i class="dp-icon fas fa-lightbulb" aria-hidden="true"></i>&nbsp;How to get the most out of Week 4</h2>
+    <h3 class="dp-has-icon"><i class="dp-icon fas fa-lightbulb" aria-hidden="true"></i>&nbsp;How to get the most out of Week 4</h3>
     <div class="dp-card card" style="border-left: 4px solid #f97316; padding-left: 15px;">
       <div class="card-body">
         <ul class="list-group list-group-flush">
-          <li class="list-group-item"><strong>Look beyond accuracy:</strong> Match metrics to business costs (false positives vs false negatives).</li>
-          <li class="list-group-item"><strong>Think in curves:</strong> ROC and PR curves help visualize tradeoffs.</li>
-          <li class="list-group-item"><strong>Validate properly:</strong> Use cross-validation or time-based splits to avoid leakage.</li>
+          <li class="list-group-item"><strong>Experiment actively:</strong> Try the prompt engineering techniques with real LLMs as you learn them.</li>
+          <li class="list-group-item"><strong>Think architecturally:</strong> Focus on understanding the "why" behind transformer design choices.</li>
+          <li class="list-group-item"><strong>Connect to business:</strong> For each concept, ask "When would I use this in my organization?"</li>
+          <li class="list-group-item"><strong>Don't get lost in parameters:</strong> You don't need to memorize billions of parameters—focus on the patterns and principles.</li>
         </ul>
       </div>
     </div>
   </div>
 
-  <!-- Callout -->
+  <!-- Optional callout (admin/housekeeping) -->
   <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
     <div class="card-body">
-      <h3 class="card-title">Heads up</h3>
-      <p class="card-text">This week includes several interactive widgets (e.g., ROC slider, threshold explorer). Refresh if one doesn’t load immediately.</p>
+      <h4 class="card-title">Heads up</h4>
+      <p class="card-text">This week includes interactive widgets for exploring inference parameters, prompt patterns, and fine-tuning vs. RAG decision-making. Each widget has a pop-out button for full-screen viewing.</p>
     </div>
   </div>
 
   <hr aria-hidden="true" />
-  <p>Select <strong>Next▸</strong> to begin with <strong>Metrics & Model Fit</strong>.</p>
+
+  <!-- What is Generative AI? -->
+  <div class="dp-content-block content-block" data-title="What is Generative AI?">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-magic" aria-hidden="true"></i>&nbsp;What is Generative AI?</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w4-genai-def" id="w4-genai-def-heading">Definition</h3>
+        <div id="w4-genai-def" class="dp-panel-content" role="region" aria-labelledby="w4-genai-def-heading" hidden>
+          <p><strong>Generative AI</strong> is a subset of AI focused on creating new content—text, images, audio, video, or code—based on patterns learned from training data. Unlike traditional ML that classifies or predicts, generative AI <em>creates</em>.</p>
+          <p class="mb-0">Examples include:</p>
+          <ul>
+            <li>Text generation (ChatGPT, Claude, Gemini)</li>
+            <li>Image creation (DALL-E, Midjourney, Stable Diffusion)</li>
+            <li>Code generation (GitHub Copilot, Amazon CodeWhisperer)</li>
+            <li>Music and audio synthesis</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w4-genai-vs-ml" id="w4-genai-vs-ml-heading">How is it different from traditional ML?</h3>
+        <div id="w4-genai-vs-ml" class="dp-panel-content" role="region" aria-labelledby="w4-genai-vs-ml-heading" hidden>
+          <div class="table-responsive">
+            <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Comparison of traditional ML and Generative AI">
+              <caption>Traditional ML vs. Generative AI</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Aspect</th>
+                  <th scope="col">Traditional ML</th>
+                  <th scope="col">Generative AI</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Primary Task</th>
+                  <td>Classification, prediction, clustering</td>
+                  <td>Content creation, generation</td>
+                </tr>
+                <tr>
+                  <th scope="row">Output</th>
+                  <td>Labels, categories, numeric predictions</td>
+                  <td>New text, images, code, audio</td>
+                </tr>
+                <tr>
+                  <th scope="row">Training Data</th>
+                  <td>Task-specific labeled datasets</td>
+                  <td>Massive diverse datasets (often unlabeled)</td>
+                </tr>
+                <tr>
+                  <th scope="row">Model Size</th>
+                  <td>Thousands to millions of parameters</td>
+                  <td>Billions to trillions of parameters</td>
+                </tr>
+                <tr>
+                  <th scope="row">Adaptability</th>
+                  <td>Single task, needs retraining for new tasks</td>
+                  <td>Multi-task, can adapt via prompting</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w4-nlp-tasks" id="w4-nlp-tasks-heading">Common NLP tasks</h3>
+        <div id="w4-nlp-tasks" class="dp-panel-content" role="region" aria-labelledby="w4-nlp-tasks-heading" hidden>
+          <p>Natural Language Processing (NLP) tasks that Generative AI excels at:</p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Text summarization</strong>: Condensing long documents into key points</li>
+            <li class="list-group-item"><strong>Translation</strong>: Converting text between languages</li>
+            <li class="list-group-item"><strong>Question answering</strong>: Responding to queries based on context</li>
+            <li class="list-group-item"><strong>Sentiment analysis</strong>: Determining emotional tone of text</li>
+            <li class="list-group-item"><strong>Named entity recognition</strong>: Identifying people, places, organizations</li>
+            <li class="list-group-item"><strong>Text generation</strong>: Creating original content from prompts</li>
+            <li class="list-group-item"><strong>Code generation</strong>: Writing programming code from descriptions</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p><strong>Ready to begin?</strong> Select <strong>Next▸</strong> to continue with <strong>Generative AI & Large Language Models</strong>.</p>
 </div>
 </main>
 
-<!-- Canvas‑safe toggling -->
+<!-- Canvas-safe toggling -->
 <script>
 (function () {
   function toggleHead(h){
@@ -92,11 +185,11 @@
     if (content) content.hidden = expanded;
   }
   document.addEventListener('click', function (e) {
-    const h = e.target.closest('.dp-panel-heading[role=\"button\"]');
+    const h = e.target.closest('.dp-panel-heading[role="button"]');
     if (h) toggleHead(h);
   });
   document.addEventListener('keydown', function (e) {
-    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role=\"button\"]')) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role="button"]')) {
       e.preventDefault(); toggleHead(e.target);
     }
   });

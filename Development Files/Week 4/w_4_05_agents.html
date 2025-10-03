@@ -1,0 +1,575 @@
+<!-- Skip link for keyboard users -->
+<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<main id="main-content" role="main">
+<div id="dp-wrapper" class="dp-wrapper">
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;" aria-hidden="true">Icon Progress Bar (browser only)</div>
+
+  <!-- AI Agents & Agentic AI -->
+  <div class="dp-content-block content-block" data-title="AI Agents & Agentic AI">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-robot" aria-hidden="true"></i>&nbsp;AI Agents & Agentic AI</h2>
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+      <div class="card-body">
+        <h3 class="card-title dp-ignore-theme">What this page covers</h3>
+        <p><strong>AI agents</strong> represent the next evolution of LLM applications—systems that can reason, plan, use tools, and take actions to accomplish complex goals. You'll learn what makes an AI agent, explore their capabilities, and understand how they're transforming business workflows.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- What are AI Agents? -->
+  <div class="dp-content-block content-block" data-title="What are AI Agents?">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-question-circle" aria-hidden="true"></i>&nbsp;What are AI Agents?</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="agent-definition" id="agent-definition-heading">Core definition</h3>
+        <div id="agent-definition" class="dp-panel-content" role="region" aria-labelledby="agent-definition-heading" hidden>
+          <p><strong>AI Agent:</strong> An LLM-powered system that can autonomously reason, plan, take actions, and use tools to achieve goals—without requiring step-by-step human instructions.</p>
+          <p class="mb-0"><strong>Key characteristics:</strong></p>
+          <ul>
+            <li><strong>Autonomy:</strong> Can break down goals into steps and execute them</li>
+            <li><strong>Tool use:</strong> Can interact with external systems (APIs, databases, search engines)</li>
+            <li><strong>Reasoning:</strong> Can think through problems and adapt strategies</li>
+            <li><strong>Memory:</strong> Can maintain context across multiple interactions</li>
+            <li><strong>Goal-oriented:</strong> Works toward objectives, not just responding to prompts</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="agent-vs-llm" id="agent-vs-llm-heading">AI Agents vs. Standard LLMs</h3>
+        <div id="agent-vs-llm" class="dp-panel-content" role="region" aria-labelledby="agent-vs-llm-heading" hidden>
+          <div class="table-responsive">
+            <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Comparison of standard LLMs and AI agents">
+              <caption>Standard LLMs vs. AI Agents</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Aspect</th>
+                  <th scope="col">Standard LLM</th>
+                  <th scope="col">AI Agent</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Interaction</th>
+                  <td>Single prompt → single response</td>
+                  <td>Multi-step planning and execution</td>
+                </tr>
+                <tr>
+                  <th scope="row">Actions</th>
+                  <td>Generates text only</td>
+                  <td>Can use tools, APIs, databases, search</td>
+                </tr>
+                <tr>
+                  <th scope="row">Reasoning</th>
+                  <td>Reasons within a response</td>
+                  <td>Reasons, plans, then acts iteratively</td>
+                </tr>
+                <tr>
+                  <th scope="row">Memory</th>
+                  <td>Limited to conversation context window</td>
+                  <td>Can maintain long-term memory and state</td>
+                </tr>
+                <tr>
+                  <th scope="row">Autonomy</th>
+                  <td>Requires explicit instructions for each step</td>
+                  <td>Breaks down goals and self-directs</td>
+                </tr>
+                <tr>
+                  <th scope="row">Verification</th>
+                  <td>No built-in verification</td>
+                  <td>Can verify results and retry/adjust</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="agent-example" id="agent-example-heading">Example: Standard LLM vs. Agent</h3>
+        <div id="agent-example" class="dp-panel-content" role="region" aria-labelledby="agent-example-heading" hidden>
+          <p><strong>Task:</strong> "Plan a team offsite in Chicago next month."</p>
+
+          <div class="dp-card card" style="border-left: 4px solid #f97316; padding-left: 15px; margin-bottom: 10px;">
+            <div class="card-body">
+              <h4 class="card-title dp-ignore-theme">Standard LLM Response</h4>
+              <p class="mb-0">Generates a text list of suggestions: "You should book a venue, arrange catering, plan activities..." (helpful but requires you to do all the work)</p>
+            </div>
+          </div>
+
+          <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+            <div class="card-body">
+              <h4 class="card-title dp-ignore-theme">AI Agent Process</h4>
+              <ol class="mb-0">
+                <li><strong>Plans:</strong> "I need to: (1) check team availability, (2) research venues, (3) compare costs, (4) book venue, (5) arrange logistics"</li>
+                <li><strong>Acts:</strong> Queries calendar API to find team availability</li>
+                <li><strong>Acts:</strong> Searches venue databases for options matching budget/size</li>
+                <li><strong>Reasons:</strong> "These 3 venues fit criteria, let me compare reviews"</li>
+                <li><strong>Acts:</strong> Fetches reviews and pricing details</li>
+                <li><strong>Presents:</strong> "Here are my top 3 recommendations with pros/cons. Would you like me to proceed with booking option A?"</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Core Agent Capabilities -->
+  <div class="dp-content-block content-block" data-title="Core Agent Capabilities">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-cogs" aria-hidden="true"></i>&nbsp;Core Agent Capabilities</h2>
+    <p>AI agents combine several key capabilities to accomplish complex tasks:</p>
+
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="planning" id="planning-heading">Planning & reasoning</h3>
+        <div id="planning" class="dp-panel-content" role="region" aria-labelledby="planning-heading" hidden>
+          <p><strong>Planning:</strong> Breaking down complex goals into actionable steps.</p>
+          <p><strong>Techniques:</strong></p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Chain of Thought (CoT):</strong> Explicit reasoning steps before acting</li>
+            <li class="list-group-item"><strong>Tree of Thoughts:</strong> Explore multiple reasoning paths, evaluate and backtrack</li>
+            <li class="list-group-item"><strong>ReAct pattern:</strong> Interleave reasoning and actions (Reason → Act → Observe → Reason → Act...)</li>
+            <li class="list-group-item"><strong>Task decomposition:</strong> Break complex tasks into manageable subtasks</li>
+          </ul>
+          <p class="mt-2 mb-0"><strong>Example:</strong> "To book a flight, I need to: (1) determine travel dates, (2) search flights, (3) compare prices, (4) check baggage policies, (5) complete booking"</p>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="tool-use" id="tool-use-heading">Tool use</h3>
+        <div id="tool-use" class="dp-panel-content" role="region" aria-labelledby="tool-use-heading" hidden>
+          <p><strong>Tool use:</strong> Ability to interact with external systems and APIs to gather information or take actions.</p>
+          <p><strong>Common tools agents use:</strong></p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Search engines:</strong> Web search, document search, knowledge bases</li>
+            <li class="list-group-item"><strong>Calculators:</strong> Precise math computations</li>
+            <li class="list-group-item"><strong>APIs:</strong> Weather, stock prices, CRM systems, databases</li>
+            <li class="list-group-item"><strong>Code interpreters:</strong> Execute Python, SQL, or other code</li>
+            <li class="list-group-item"><strong>File systems:</strong> Read/write files, process documents</li>
+            <li class="list-group-item"><strong>Specialized tools:</strong> Image generation, email sending, calendar management</li>
+          </ul>
+          <p class="mt-2"><strong>How it works:</strong></p>
+          <ol>
+            <li>Agent decides which tool to use based on the task</li>
+            <li>Calls the tool with appropriate parameters</li>
+            <li>Receives tool output</li>
+            <li>Incorporates results into reasoning process</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="memory" id="memory-heading">Memory & state management</h3>
+        <div id="memory" class="dp-panel-content" role="region" aria-labelledby="memory-heading" hidden>
+          <p><strong>Memory types:</strong></p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Short-term memory:</strong> Current conversation context (within token limit)</li>
+            <li class="list-group-item"><strong>Working memory:</strong> Intermediate results and state during task execution</li>
+            <li class="list-group-item"><strong>Long-term memory:</strong> Persistent storage of facts, preferences, past interactions
+              <ul class="mt-1">
+                <li>Stored in vector databases or traditional databases</li>
+                <li>Retrieved via semantic search when relevant</li>
+              </ul>
+            </li>
+          </ul>
+          <p class="mt-2 mb-0"><strong>Example:</strong> Customer support agent remembers previous issues, preferences, and account details across multiple conversations.</p>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="reflection" id="reflection-heading">Reflection & error correction</h3>
+        <div id="reflection" class="dp-panel-content" role="region" aria-labelledby="reflection-heading" hidden>
+          <p><strong>Reflection:</strong> Agents can evaluate their own outputs and adjust strategies.</p>
+          <p><strong>Capabilities:</strong></p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Self-verification:</strong> Check if results make sense</li>
+            <li class="list-group-item"><strong>Error detection:</strong> Identify when tools return errors or unexpected results</li>
+            <li class="list-group-item"><strong>Strategy adjustment:</strong> Try alternative approaches if initial plan fails</li>
+            <li class="list-group-item"><strong>Quality control:</strong> Ensure outputs meet specified criteria</li>
+          </ul>
+          <p class="mt-2 mb-0"><strong>Example:</strong> Agent searches for "Ivey Business School ranking" → gets no results → reflects: "Search too specific" → tries "Ivey Business School" → succeeds</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Agent Architectures -->
+  <div class="dp-content-block content-block" data-title="Agent Architectures & Patterns">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-sitemap" aria-hidden="true"></i>&nbsp;Agent Architectures & Patterns</h2>
+    <p>Different agent architectures suit different use cases:</p>
+
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="react-agent" id="react-agent-heading">ReAct agents</h3>
+        <div id="react-agent" class="dp-panel-content" role="region" aria-labelledby="react-agent-heading" hidden>
+          <p><strong>ReAct (Reasoning + Acting):</strong> Most common agent pattern—alternates between reasoning about what to do and taking actions.</p>
+          <p><strong>Loop structure:</strong></p>
+          <ol>
+            <li><strong>Thought:</strong> "What should I do next?"</li>
+            <li><strong>Action:</strong> Use a tool or API</li>
+            <li><strong>Observation:</strong> Receive result from action</li>
+            <li><strong>Repeat</strong> until goal is achieved</li>
+          </ol>
+          <p><strong>Use for:</strong> Research tasks, data analysis, multi-step workflows</p>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="plan-execute" id="plan-execute-heading">Plan-and-Execute agents</h3>
+        <div id="plan-execute" class="dp-panel-content" role="region" aria-labelledby="plan-execute-heading" hidden>
+          <p><strong>Plan-and-Execute:</strong> Create complete plan upfront, then execute steps sequentially.</p>
+          <p><strong>Process:</strong></p>
+          <ol>
+            <li><strong>Planning phase:</strong> Generate detailed step-by-step plan</li>
+            <li><strong>Execution phase:</strong> Execute each step in sequence</li>
+            <li><strong>Replanning:</strong> Adjust plan if steps fail or new information emerges</li>
+          </ol>
+          <p><strong>Pros:</strong> More predictable, easier to debug, better for well-defined tasks</p>
+          <p class="mb-0"><strong>Use for:</strong> Structured workflows, compliance-heavy processes</p>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="multi-agent" id="multi-agent-heading">Multi-agent systems</h3>
+        <div id="multi-agent" class="dp-panel-content" role="region" aria-labelledby="multi-agent-heading" hidden>
+          <p><strong>Multi-agent systems:</strong> Multiple specialized agents collaborating to accomplish complex tasks.</p>
+          <p><strong>Patterns:</strong></p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Hierarchical:</strong> Manager agent delegates to specialist agents
+              <ul class="mt-1">
+                <li>Example: Research manager → delegates to search agent, summarization agent, citation agent</li>
+              </ul>
+            </li>
+            <li class="list-group-item"><strong>Collaborative:</strong> Agents work together as peers
+              <ul class="mt-1">
+                <li>Example: Writer agent drafts → Editor agent reviews → Writer revises</li>
+              </ul>
+            </li>
+            <li class="list-group-item"><strong>Sequential:</strong> Pass work through pipeline of agents
+              <ul class="mt-1">
+                <li>Example: Data extraction → Data validation → Data storage → Report generation</li>
+              </ul>
+            </li>
+          </ul>
+          <p class="mt-2 mb-0"><strong>Use for:</strong> Complex workflows requiring specialized expertise</p>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="autonomous-agent" id="autonomous-agent-heading">Autonomous agents</h3>
+        <div id="autonomous-agent" class="dp-panel-content" role="region" aria-labelledby="autonomous-agent-heading" hidden>
+          <p><strong>Autonomous agents:</strong> Continuously run in background, monitoring for triggers and taking actions.</p>
+          <p><strong>Characteristics:</strong></p>
+          <ul>
+            <li>Event-driven (trigger-based activation)</li>
+            <li>Long-running (not just single interactions)</li>
+            <li>Proactive (initiate actions without prompting)</li>
+          </ul>
+          <p><strong>Examples:</strong></p>
+          <ul>
+            <li>Monitor news for competitive intelligence, summarize and alert team</li>
+            <li>Watch code repositories for new PRs, auto-review and comment</li>
+            <li>Track inventory levels, automatically reorder when low</li>
+          </ul>
+          <p class="mb-0"><strong>Caution:</strong> Requires robust safety measures and human oversight</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Business Use Cases -->
+  <div class="dp-content-block content-block" data-title="AI Agent Business Use Cases">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-briefcase" aria-hidden="true"></i>&nbsp;AI Agent Business Use Cases</h2>
+    <div class="table-responsive">
+      <table class="ic-Table ic-Table--hover-row" role="table" aria-label="AI agent business applications by function">
+        <caption>How different business functions use AI agents</caption>
+        <thead>
+          <tr>
+            <th scope="col">Function</th>
+            <th scope="col">Use Case</th>
+            <th scope="col">Agent Capabilities</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Customer Support</th>
+            <td>Autonomous ticket resolution</td>
+            <td>Search knowledge base, query CRM, update tickets, escalate to human when needed</td>
+          </tr>
+          <tr>
+            <th scope="row">Sales</th>
+            <td>Lead research and qualification</td>
+            <td>Research prospects, enrich CRM data, draft personalized outreach, schedule meetings</td>
+          </tr>
+          <tr>
+            <th scope="row">Finance</th>
+            <td>Financial analysis and reporting</td>
+            <td>Query databases, perform calculations, generate reports, identify anomalies</td>
+          </tr>
+          <tr>
+            <th scope="row">HR</th>
+            <td>Candidate screening</td>
+            <td>Parse resumes, search LinkedIn, compare to job requirements, schedule interviews</td>
+          </tr>
+          <tr>
+            <th scope="row">Legal</th>
+            <td>Contract review</td>
+            <td>Read contracts, identify risky clauses, check against templates, suggest edits</td>
+          </tr>
+          <tr>
+            <th scope="row">IT/DevOps</th>
+            <td>Incident response</td>
+            <td>Diagnose issues, search logs, run diagnostic scripts, apply fixes, document resolution</td>
+          </tr>
+          <tr>
+            <th scope="row">Marketing</th>
+            <td>Competitive intelligence</td>
+            <td>Monitor competitor sites, track mentions, analyze campaigns, generate insights</td>
+          </tr>
+          <tr>
+            <th scope="row">Product</th>
+            <td>User research synthesis</td>
+            <td>Aggregate feedback, identify themes, prioritize features, generate reports</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Agent Frameworks & Tools -->
+  <div class="dp-content-block content-block" data-title="Agent Frameworks & Tools">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-tools" aria-hidden="true"></i>&nbsp;Agent Frameworks & Tools</h2>
+    <p>Building AI agents is easier with frameworks that handle orchestration, tool management, and memory:</p>
+
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="frameworks" id="frameworks-heading">Popular agent frameworks</h3>
+        <div id="frameworks" class="dp-panel-content" role="region" aria-labelledby="frameworks-heading" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>LangChain:</strong> Most popular framework for building LLM applications and agents (Python, JavaScript)
+              <ul class="mt-1">
+                <li>Rich ecosystem of tools, memory systems, and agent templates</li>
+                <li>Good for prototyping and experimentation</li>
+              </ul>
+            </li>
+            <li class="list-group-item"><strong>LlamaIndex:</strong> Specialized in data ingestion and RAG, now includes agent capabilities
+              <ul class="mt-1">
+                <li>Strong for building agents that work with large document sets</li>
+              </ul>
+            </li>
+            <li class="list-group-item"><strong>AutoGen (Microsoft):</strong> Multi-agent conversation framework
+              <ul class="mt-1">
+                <li>Excels at building collaborative multi-agent systems</li>
+              </ul>
+            </li>
+            <li class="list-group-item"><strong>CrewAI:</strong> Role-based multi-agent framework
+              <ul class="mt-1">
+                <li>Agents have roles, goals, and backstories for specialized behaviors</li>
+              </ul>
+            </li>
+            <li class="list-group-item"><strong>Semantic Kernel (Microsoft):</strong> Enterprise-grade agent framework
+              <ul class="mt-1">
+                <li>Strong integration with Azure services</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="commercial" id="commercial-heading">Commercial agent platforms</h3>
+        <div id="commercial" class="dp-panel-content" role="region" aria-labelledby="commercial-heading" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>OpenAI Assistants API:</strong> Hosted agents with code interpreter, retrieval, and function calling</li>
+            <li class="list-group-item"><strong>Anthropic Claude with tools:</strong> Function calling and tool use built into Claude API</li>
+            <li class="list-group-item"><strong>Google Vertex AI Agents:</strong> Enterprise agent platform on GCP</li>
+            <li class="list-group-item"><strong>AWS Bedrock Agents:</strong> Managed agent service on AWS</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Challenges & Considerations -->
+  <div class="dp-content-block content-block" data-title="Challenges & Considerations">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;Challenges & Considerations</h2>
+    <p>AI agents are powerful but come with important challenges to address:</p>
+
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="reliability" id="reliability-heading">Reliability & error handling</h3>
+        <div id="reliability" class="dp-panel-content" role="region" aria-labelledby="reliability-heading" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Challenge:</strong> Agents can make mistakes, use wrong tools, or get stuck in loops</li>
+            <li class="list-group-item"><strong>Solutions:</strong>
+              <ul class="mt-1">
+                <li>Set maximum iteration limits to prevent infinite loops</li>
+                <li>Implement human-in-the-loop for critical decisions</li>
+                <li>Add verification steps and error detection</li>
+                <li>Comprehensive logging for debugging</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="cost-latency" id="cost-latency-heading">Cost & latency</h3>
+        <div id="cost-latency" class="dp-panel-content" role="region" aria-labelledby="cost-latency-heading" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Challenge:</strong> Agents make many LLM calls (reasoning + tool selection for each step)</li>
+            <li class="list-group-item"><strong>Impact:</strong> Higher costs and slower response times than single LLM calls</li>
+            <li class="list-group-item"><strong>Solutions:</strong>
+              <ul class="mt-1">
+                <li>Use smaller models for simple reasoning steps</li>
+                <li>Cache tool results when appropriate</li>
+                <li>Implement early stopping when goal is achieved</li>
+                <li>Set cost budgets and monitoring</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="safety" id="safety-heading">Safety & control</h3>
+        <div id="safety" class="dp-panel-content" role="region" aria-labelledby="safety-heading" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Challenge:</strong> Autonomous agents can take unintended actions with real consequences</li>
+            <li class="list-group-item"><strong>Solutions:</strong>
+              <ul class="mt-1">
+                <li>Sandbox environments for testing</li>
+                <li>Approval workflows for high-risk actions (payments, deletions, external communications)</li>
+                <li>Action allowlists/blocklists</li>
+                <li>Comprehensive audit logs</li>
+                <li>Rate limiting and quotas</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="observability" id="observability-heading">Observability & debugging</h3>
+        <div id="observability" class="dp-panel-content" role="region" aria-labelledby="observability-heading" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Challenge:</strong> Hard to understand why agents made specific decisions or took certain actions</li>
+            <li class="list-group-item"><strong>Solutions:</strong>
+              <ul class="mt-1">
+                <li>Detailed logging of reasoning steps</li>
+                <li>Trace visualization tools</li>
+                <li>Structured output formats for easier parsing</li>
+                <li>Performance metrics (success rate, average steps, cost per task)</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="trust" id="trust-heading">Trust & adoption</h3>
+        <div id="trust" class="dp-panel-content" role="region" aria-labelledby="trust-heading" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Challenge:</strong> Users may not trust agent decisions without understanding the process</li>
+            <li class="list-group-item"><strong>Solutions:</strong>
+              <ul class="mt-1">
+                <li>Explainable reasoning (show thought process)</li>
+                <li>Confidence scores for recommendations</li>
+                <li>Easy override mechanisms</li>
+                <li>Gradual rollout starting with low-risk tasks</li>
+                <li>Transparency about agent capabilities and limitations</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Best Practices -->
+  <div class="dp-content-block content-block" data-title="Agent Development Best Practices">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-check-double" aria-hidden="true"></i>&nbsp;Agent Development Best Practices</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="bp-start-simple" id="bp-start-simple-heading">Start simple, add complexity gradually</h3>
+        <div id="bp-start-simple" class="dp-panel-content" role="region" aria-labelledby="bp-start-simple-heading" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Begin with single-agent, well-defined tasks</li>
+            <li class="list-group-item">Add tools one at a time, testing thoroughly</li>
+            <li class="list-group-item">Progress to multi-agent systems only when single agents are reliable</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="bp-tools" id="bp-tools-heading">Design tools carefully</h3>
+        <div id="bp-tools" class="dp-panel-content" role="region" aria-labelledby="bp-tools-heading" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Clear, detailed tool descriptions (agent needs to understand when/how to use each tool)</li>
+            <li class="list-group-item">Well-defined input parameters with validation</li>
+            <li class="list-group-item">Structured, parseable tool outputs</li>
+            <li class="list-group-item">Meaningful error messages</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="bp-eval" id="bp-eval-heading">Rigorous evaluation</h3>
+        <div id="bp-eval" class="dp-panel-content" role="region" aria-labelledby="bp-eval-heading" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Build test suites with diverse scenarios</li>
+            <li class="list-group-item">Track success rates, not just anecdotal examples</li>
+            <li class="list-group-item">Test edge cases and failure modes</li>
+            <li class="list-group-item">Monitor performance in production</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="bp-human" id="bp-human-heading">Design for human collaboration</h3>
+        <div id="bp-human" class="dp-panel-content" role="region" aria-labelledby="bp-human-heading" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Agents should augment humans, not fully replace them (especially initially)</li>
+            <li class="list-group-item">Make it easy for humans to intervene and override</li>
+            <li class="list-group-item">Present options and recommendations, not just final decisions</li>
+            <li class="list-group-item">Clear escalation paths for complex cases</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Future of AI Agents -->
+  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
+    <div class="card-body">
+      <h3 class="card-title">The Future of AI Agents</h3>
+      <p class="card-text">AI agents represent a shift from "AI as assistant" to "AI as coworker." As models improve, agents will handle increasingly complex tasks with greater reliability. The organizations that succeed will be those that thoughtfully integrate agents into workflows while maintaining appropriate human oversight and control.</p>
+    </div>
+  </div>
+
+  <hr aria-hidden="true" />
+  <p>Select <strong>Next▸</strong> to continue with <strong>Week 4 Wrap-up</strong>.</p>
+</div>
+</main>
+
+<!-- Canvas-safe toggling -->
+<script>
+(function () {
+  function toggleHead(h){
+    const content = document.getElementById(h.getAttribute('aria-controls'));
+    const expanded = h.getAttribute('aria-expanded') === 'true';
+    h.setAttribute('aria-expanded', String(!expanded));
+    if (content) content.hidden = expanded;
+  }
+  document.addEventListener('click', function (e) {
+    const h = e.target.closest('.dp-panel-heading[role="button"]');
+    if (h) toggleHead(h);
+  });
+  document.addEventListener('keydown', function (e) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role="button"]')) {
+      e.preventDefault(); toggleHead(e.target);
+    }
+  });
+})();
+</script>

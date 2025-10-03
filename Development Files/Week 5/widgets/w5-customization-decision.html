@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM Customization Decision Tool</title>
+    <link rel="stylesheet" href="ivey-widget-base.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Figtree', system-ui, -apple-system, sans-serif;
+            background: white;
+            color: #2c3e50;
+            line-height: 1.6;
+            padding: 0;
+            margin: 0;
+        }
+
+        .dp-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #ffffff;
+        }
+
+        .dp-has-icon {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #034638;
+            margin: 0 0 1rem 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .dp-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin: 1rem 0;
+        }
+
+        .dp-card.intro-card {
+            border-left: 4px solid #034638;
+            background: #f8fffe;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: #034638;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0a5c4a;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: #582C83;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #4c1d75;
+            transform: translateY(-1px);
+        }
+
+        .decision-flow {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .question-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .question-card h3 {
+            color: #034638;
+            margin-top: 0;
+            font-size: 1.2em;
+        }
+
+        .answer-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .answer-btn {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 15px 20px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1em;
+        }
+
+        .answer-btn:hover {
+            background: #e8f5e9;
+            border-color: #034638;
+        }
+
+        .answer-btn.selected {
+            background: #034638;
+            color: white;
+            border-color: #034638;
+        }
+
+        .answer-btn strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .recommendation-panel {
+            background: linear-gradient(135deg, #034638 0%, #045a49 100%);
+            color: white;
+            border-radius: 8px;
+            padding: 30px;
+            margin: 30px 0;
+            display: none;
+            box-shadow: 0 4px 8px rgba(3, 70, 56, 0.3);
+        }
+
+        .recommendation-panel.show {
+            display: block;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .recommendation-panel h3 {
+            color: white;
+            margin-top: 0;
+            font-size: 1.5em;
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+            padding-bottom: 10px;
+        }
+
+        .approach-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            margin: 5px;
+            font-weight: 600;
+        }
+
+        .implementation-steps {
+            background: rgba(255,255,255,0.15);
+            border-radius: 6px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .implementation-steps ol {
+            margin: 10px 0;
+            padding-left: 25px;
+        }
+
+        .implementation-steps li {
+            margin: 8px 0;
+        }
+
+        .reset-btn {
+            background: white;
+            color: #034638;
+            border: 2px solid white;
+            padding: 10px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+
+        .reset-btn:hover {
+            background: #e8f5e9;
+        }
+
+        .progress-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .progress-dot {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s;
+        }
+
+        .progress-dot.active {
+            background: #034638;
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .progress-dot.completed {
+            background: #4caf50;
+            color: white;
+        }
+
+        .comparison-table {
+            margin: 20px 0;
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .comparison-table th {
+            background: rgba(255,255,255,0.2);
+            font-weight: 600;
+        }
+
+        .example-box {
+            background: rgba(255,255,255,0.15);
+            border-left: 4px solid rgba(255,255,255,0.5);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .question-card {
+                padding: 15px;
+            }
+
+            .answer-btn {
+                padding: 12px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Pop-out button -->
+    <button class="widget-popout-btn" id="popoutBtn" title="Open in full window">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+        </svg>
+        <span>Pop Out</span>
+    </button>
+
+    <div class="dp-wrapper">
+        <h2 class="dp-has-icon">
+            <i class="fas fa-layer-group" aria-hidden="true"></i> LLM Customization Stack
+        </h2>
+
+        <div class="dp-card intro-card">
+            <p style="margin: 0;">Find the right customization approach for your needs. Start simple with prompt engineering, progress to RAG for knowledge, explore Custom GPTs, or go deep with fine-tuning.</p>
+        </div>
+
+        <div class="widget-content decision-flow">
+            <!-- Question 1: Primary Goal -->
+            <div class="question-card" id="q1-card">
+                <h3>Question 1 of 4: What's your primary goal?</h3>
+                <div class="answer-options">
+                    <button class="answer-btn" data-question="1" data-value="general">
+                        <strong>General task improvement</strong>
+                        <span>I want better results on common tasks (summarization, Q&A, etc.)</span>
+                    </button>
+                    <button class="answer-btn" data-question="1" data-value="knowledge">
+                        <strong>Add specific knowledge</strong>
+                        <span>I need the model to access my documents, policies, or proprietary data</span>
+                    </button>
+                    <button class="answer-btn" data-question="1" data-value="behavior">
+                        <strong>Change behavior or style</strong>
+                        <span>I need consistent tone, format, or specialized reasoning patterns</span>
+                    </button>
+                    <button class="answer-btn" data-question="1" data-value="specialized">
+                        <strong>Create specialized assistant</strong>
+                        <span>I need a complete AI assistant with specific persona and capabilities</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Question 2: Knowledge Update Frequency -->
+            <div class="question-card" id="q2-card" style="display: none;">
+                <h3>Question 2 of 4: How often does your knowledge change?</h3>
+                <div class="answer-options">
+                    <button class="answer-btn" data-question="2" data-value="static">
+                        <strong>Rarely or never</strong>
+                        <span>My knowledge is stable; updates are infrequent</span>
+                    </button>
+                    <button class="answer-btn" data-question="2" data-value="occasional">
+                        <strong>Occasionally (monthly/quarterly)</strong>
+                        <span>Knowledge updates happen but not frequently</span>
+                    </button>
+                    <button class="answer-btn" data-question="2" data-value="frequent">
+                        <strong>Frequently (weekly or more)</strong>
+                        <span>Knowledge changes regularly; real-time updates needed</span>
+                    </button>
+                    <button class="answer-btn" data-question="2" data-value="realtime">
+                        <strong>Real-time</strong>
+                        <span>Knowledge must be up-to-the-minute (news, prices, inventory)</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Question 3: Data Volume -->
+            <div class="question-card" id="q3-card" style="display: none;">
+                <h3>Question 3 of 4: How much data are you working with?</h3>
+                <div class="answer-options">
+                    <button class="answer-btn" data-question="3" data-value="examples">
+                        <strong>Just a few examples</strong>
+                        <span>I have 1-10 examples to guide the model</span>
+                    </button>
+                    <button class="answer-btn" data-question="3" data-value="documents">
+                        <strong>Collection of documents</strong>
+                        <span>I have PDFs, policies, manuals, or knowledge base articles</span>
+                    </button>
+                    <button class="answer-btn" data-question="3" data-value="hundreds">
+                        <strong>Hundreds of examples</strong>
+                        <span>I have 100-1000+ labeled examples of desired behavior</span>
+                    </button>
+                    <button class="answer-btn" data-question="3" data-value="large">
+                        <strong>Large dataset</strong>
+                        <span>I have 1000+ examples with consistent patterns</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Question 4: Technical Constraints -->
+            <div class="question-card" id="q4-card" style="display: none;">
+                <h3>Question 4 of 4: What are your technical constraints?</h3>
+                <div class="answer-options">
+                    <button class="answer-btn" data-question="4" data-value="nocoding">
+                        <strong>No coding preferred</strong>
+                        <span>I want a no-code or low-code solution</span>
+                    </button>
+                    <button class="answer-btn" data-question="4" data-value="lightcoding">
+                        <strong>Light coding acceptable</strong>
+                        <span>I can handle API calls and basic scripting</span>
+                    </button>
+                    <button class="answer-btn" data-question="4" data-value="fulldev">
+                        <strong>Full development team</strong>
+                        <span>We have engineering resources and ML expertise</span>
+                    </button>
+                    <button class="answer-btn" data-question="4" data-value="citations">
+                        <strong>Need source citations</strong>
+                        <span>I must trace answers back to specific source documents</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Recommendation Panel -->
+            <div class="recommendation-panel" id="recommendation">
+                <h3>📊 Your Customization Recommendation</h3>
+                <div id="recommendation-content"></div>
+                <button class="reset-btn" onclick="resetTool()">Start Over</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Pop-out functionality
+        document.getElementById('popoutBtn').addEventListener('click', function() {
+            const currentUrl = window.location.href;
+            const popoutUrl = currentUrl + (currentUrl.includes('?') ? '&' : '?') + 'standalone=true';
+            const popoutWindow = window.open(popoutUrl, 'WidgetPopout', 'width=1200,height=900,resizable=yes,scrollbars=yes,status=yes');
+            if (popoutWindow) popoutWindow.focus();
+        });
+
+        // Hide pop-out button in standalone mode
+        if (window.location.search.includes('standalone=true')) {
+            document.body.classList.add('standalone-mode');
+        }
+
+        // Answer tracking
+        const answers = {};
+        let currentQuestion = 1;
+
+        // Answer button click handlers
+        document.querySelectorAll('.answer-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const question = this.dataset.question;
+                const value = this.dataset.value;
+
+                // Deselect other buttons in same question
+                document.querySelectorAll(`.answer-btn[data-question="${question}"]`).forEach(b => {
+                    b.classList.remove('selected');
+                });
+
+                // Select this button
+                this.classList.add('selected');
+
+                // Store answer
+                answers[`q${question}`] = value;
+
+                // Move to next question or show recommendation
+                setTimeout(() => {
+                    if (question === '4') {
+                        showRecommendation();
+                    } else {
+                        currentQuestion = parseInt(question) + 1;
+                        document.getElementById(`q${question}-card`).style.display = 'none';
+                        document.getElementById(`q${currentQuestion}-card`).style.display = 'block';
+                    }
+                }, 300);
+            });
+        });
+
+        function showRecommendation() {
+            const recommendation = calculateRecommendation();
+            const panel = document.getElementById('recommendation');
+            const content = document.getElementById('recommendation-content');
+
+            content.innerHTML = recommendation;
+
+            // Hide all question cards
+            document.querySelectorAll('.question-card').forEach(card => {
+                card.style.display = 'none';
+            });
+
+            // Show recommendation
+            panel.classList.add('show');
+            panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function calculateRecommendation() {
+            const { q1, q2, q3, q4 } = answers;
+
+            // Prompt Engineering
+            if (q1 === 'general' && q3 === 'examples') {
+                return generatePromptEngineeringRec();
+            }
+
+            // RAG
+            if (q1 === 'knowledge' || q2 === 'frequent' || q2 === 'realtime' || q3 === 'documents' || q4 === 'citations') {
+                return generateRAGRec();
+            }
+
+            // Custom GPT
+            if (q1 === 'specialized' && q4 === 'nocoding') {
+                return generateCustomGPTRec();
+            }
+
+            // Fine-tuning
+            if (q1 === 'behavior' && q3 === 'hundreds' || q3 === 'large') {
+                return generateFineTuningRec();
+            }
+
+            // Combined approach
+            if (q3 === 'large' && (q2 === 'frequent' || q4 === 'citations')) {
+                return generateCombinedRec();
+            }
+
+            // Default to prompt engineering
+            return generatePromptEngineeringRec();
+        }
+
+        function generatePromptEngineeringRec() {
+            return `
+                <div class="approach-badge">🎯 Recommended: Prompt Engineering</div>
+                <div class="approach-badge">📚 Alternative: Few-Shot Learning</div>
+
+                <div class="implementation-steps">
+                    <h4>Why Prompt Engineering?</h4>
+                    <p>Your use case is perfect for prompt engineering because you need quick results with minimal setup. No additional infrastructure required.</p>
+
+                    <h4>Implementation Approach:</h4>
+                    <ol>
+                        <li><strong>Start with zero-shot:</strong> Craft a clear, specific prompt describing the task</li>
+                        <li><strong>Add few-shot examples:</strong> Provide 2-5 examples of input-output pairs in your prompt</li>
+                        <li><strong>Use prompt patterns:</strong> Apply persona, structure, or chain-of-thought patterns</li>
+                        <li><strong>Iterate and refine:</strong> Test with real inputs and adjust wording</li>
+                    </ol>
+
+                    <div class="example-box">
+                        <strong>Example:</strong> Customer support email classification
+                        <br><br>
+                        <em>Prompt:</em> "Classify the following customer email into one of these categories: Billing, Technical Support, Feature Request, Complaint. Provide only the category name.
+
+Email: [customer email text]
+
+Category:"
+                    </div>
+                </div>
+
+                <table class="comparison-table">
+                    <tr>
+                        <th>Pros</th>
+                        <th>Cons</th>
+                    </tr>
+                    <tr>
+                        <td>• No training required<br>• Instant results<br>• Easy to iterate<br>• No cost beyond API calls</td>
+                        <td>• Limited consistency<br>• No persistent memory<br>• Prompt length limits<br>• May need refinement</td>
+                    </tr>
+                </table>
+            `;
+        }
+
+        function generateRAGRec() {
+            return `
+                <div class="approach-badge">📚 Recommended: RAG (Retrieval Augmented Generation)</div>
+                <div class="approach-badge">🔧 Tool: Custom GPT with Knowledge Base</div>
+
+                <div class="implementation-steps">
+                    <h4>Why RAG?</h4>
+                    <p>Your scenario requires accessing specific documents or frequently-updated knowledge. RAG retrieves relevant information and includes it in the prompt dynamically.</p>
+
+                    <h4>Implementation Approach:</h4>
+                    <ol>
+                        <li><strong>Upload documents:</strong> PDFs, policies, manuals to a vector database or knowledge base</li>
+                        <li><strong>Semantic search:</strong> When user asks a question, retrieve relevant chunks</li>
+                        <li><strong>Augment prompt:</strong> Include retrieved context in the prompt to the LLM</li>
+                        <li><strong>Generate response:</strong> LLM answers based on provided context</li>
+                        <li><strong>Cite sources:</strong> Return references to specific documents/pages</li>
+                    </ol>
+
+                    <div class="example-box">
+                        <strong>Example:</strong> Company policy assistant
+                        <br><br>
+                        <em>User:</em> "What's our remote work policy?"
+                        <br><br>
+                        <em>System:</em> Retrieves relevant sections from HR policy PDF → Augments prompt → LLM generates answer with citations
+                    </div>
+                </div>
+
+                <table class="comparison-table">
+                    <tr>
+                        <th>Pros</th>
+                        <th>Cons</th>
+                    </tr>
+                    <tr>
+                        <td>• Real-time knowledge updates<br>• Source attribution<br>• No model retraining<br>• Works with large docs</td>
+                        <td>• Requires vector DB setup<br>• Retrieval accuracy matters<br>• Context window limits<br>• Some latency</td>
+                    </tr>
+                </table>
+            `;
+        }
+
+        function generateCustomGPTRec() {
+            return `
+                <div class="approach-badge">🤖 Recommended: Custom GPT</div>
+                <div class="approach-badge">🎯 Platform: OpenAI GPT Builder</div>
+
+                <div class="implementation-steps">
+                    <h4>Why Custom GPT?</h4>
+                    <p>You need a complete AI assistant with specific persona, capabilities, and knowledge—all without coding. Perfect for team assistants or specialized helpers.</p>
+
+                    <h4>Implementation Approach:</h4>
+                    <ol>
+                        <li><strong>Define persona:</strong> Describe role, tone, expertise level in instructions</li>
+                        <li><strong>Upload knowledge base:</strong> Add PDFs, policies, guides (automatic RAG)</li>
+                        <li><strong>Enable capabilities:</strong> Code interpreter, web browsing, DALL-E</li>
+                        <li><strong>Add guardrails:</strong> Specify what NOT to do, safety boundaries</li>
+                        <li><strong>Test and share:</strong> Iterate with test users, share with team or publish</li>
+                    </ol>
+
+                    <div class="example-box">
+                        <strong>Example:</strong> Math Teaching Assistant (Math TAI)
+                        <br><br>
+                        <em>Instructions:</em> "You are a friendly university math professor helping first-year psychology students. Explain concepts informally, look up past exam exercises from your knowledge base, and always ask if students want step-by-step solutions."
+                    </div>
+                </div>
+
+                <table class="comparison-table">
+                    <tr>
+                        <th>Pros</th>
+                        <th>Cons</th>
+                    </tr>
+                    <tr>
+                        <td>• No coding required<br>• Built-in RAG<br>• Easy sharing<br>• Integrated tools</td>
+                        <td>• Platform-specific (OpenAI)<br>• Limited customization<br>• No fine-tuning control<br>• ChatGPT Plus required</td>
+                    </tr>
+                </table>
+            `;
+        }
+
+        function generateFineTuningRec() {
+            return `
+                <div class="approach-badge">🔧 Recommended: Fine-tuning</div>
+                <div class="approach-badge">📊 Format: JSONL training data</div>
+
+                <div class="implementation-steps">
+                    <h4>Why Fine-tuning?</h4>
+                    <p>You need consistent behavior, specialized tone, or domain-specific reasoning patterns. With hundreds of examples, you can retrain the model's weights for your specific use case.</p>
+
+                    <h4>Implementation Approach:</h4>
+                    <ol>
+                        <li><strong>Collect training data:</strong> Gather 100-1000+ examples of input-output pairs</li>
+                        <li><strong>Format as JSONL:</strong> Create prompt-completion pairs or conversational examples</li>
+                        <li><strong>Upload and train:</strong> Use OpenAI Dashboard to create fine-tuning job</li>
+                        <li><strong>Evaluate model:</strong> Test custom model in Playground with validation set</li>
+                        <li><strong>Deploy:</strong> Use custom model ID in API calls</li>
+                    </ol>
+
+                    <div class="example-box">
+                        <strong>Example:</strong> Legal contract summarization
+                        <br><br>
+                        <em>Training data:</em> 500 contract summaries in your firm's specific format and terminology → Fine-tune GPT-3.5 → Model consistently produces summaries matching your style
+                    </div>
+                </div>
+
+                <table class="comparison-table">
+                    <tr>
+                        <th>Pros</th>
+                        <th>Cons</th>
+                    </tr>
+                    <tr>
+                        <td>• Consistent style/format<br>• Reduced prompt length<br>• Domain specialization<br>• Lower latency</td>
+                        <td>• Requires training data<br>• Retraining for updates<br>• Risk of overfitting<br>• Higher initial cost</td>
+                    </tr>
+                </table>
+            `;
+        }
+
+        function generateCombinedRec() {
+            return `
+                <div class="approach-badge">🎯 Recommended: Combined Approach</div>
+                <div class="approach-badge">🔧 Fine-tuning + RAG</div>
+
+                <div class="implementation-steps">
+                    <h4>Why Combined Approach?</h4>
+                    <p>Your use case benefits from both fine-tuning (for consistent behavior) and RAG (for up-to-date knowledge). This is the production-grade approach for sophisticated AI applications.</p>
+
+                    <h4>Implementation Approach:</h4>
+                    <ol>
+                        <li><strong>Fine-tune base model:</strong> Train on examples of desired reasoning patterns and output format</li>
+                        <li><strong>Build RAG pipeline:</strong> Set up vector database with your knowledge base</li>
+                        <li><strong>Combine at inference:</strong> Retrieve relevant context + use fine-tuned model to generate response</li>
+                        <li><strong>Monitor and iterate:</strong> Track performance, update knowledge base, retrain model periodically</li>
+                    </ol>
+
+                    <div class="example-box">
+                        <strong>Example:</strong> Enterprise customer support assistant
+                        <br><br>
+                        <em>Setup:</em> Fine-tune on 1000+ examples of your support team's responses (tone, structure) + RAG retrieves latest product docs → Consistent, accurate, up-to-date answers
+                    </div>
+                </div>
+
+                <table class="comparison-table">
+                    <tr>
+                        <th>Pros</th>
+                        <th>Cons</th>
+                    </tr>
+                    <tr>
+                        <td>• Best of both worlds<br>• Consistent + current<br>• Production-grade quality<br>• Scalable</td>
+                        <td>• Complex setup<br>• Higher maintenance<br>• Engineering resources needed<br>• Higher costs</td>
+                    </tr>
+                </table>
+            `;
+        }
+
+        function resetTool() {
+            // Clear answers
+            Object.keys(answers).forEach(key => delete answers[key]);
+            currentQuestion = 1;
+
+            // Deselect all buttons
+            document.querySelectorAll('.answer-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+
+            // Hide recommendation
+            document.getElementById('recommendation').classList.remove('show');
+
+            // Show first question
+            document.querySelectorAll('.question-card').forEach((card, index) => {
+                card.style.display = index === 0 ? 'block' : 'none';
+            });
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

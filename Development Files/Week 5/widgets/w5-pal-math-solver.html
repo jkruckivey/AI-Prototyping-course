@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PAL Math Solver - One-Shot Prompting Demo</title>
+    <link rel="stylesheet" href="ivey-widget-base.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Figtree', system-ui, -apple-system, sans-serif;
+            background: white;
+            color: #2c3e50;
+            line-height: 1.6;
+            padding: 0;
+            margin: 0;
+        }
+
+        .dp-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #ffffff;
+        }
+
+        .dp-has-icon {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #034638;
+            margin: 0 0 1rem 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .dp-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin: 1rem 0;
+        }
+
+        .dp-card.intro-card {
+            border-left: 4px solid #034638;
+            background: #f8fffe;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: #034638;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0a5c4a;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: #582C83;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #4c1d75;
+            transform: translateY(-1px);
+        }
+
+        .prompt-section {
+            background: #f8f9fa;
+            border-left: 4px solid #034638;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .prompt-label {
+            font-weight: 600;
+            color: #034638;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.6;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+
+        .comment {
+            color: #6a9955;
+        }
+
+        .variable {
+            color: #9cdcfe;
+        }
+
+        .number {
+            color: #b5cea8;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0 10px 0;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            color: #666;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab.active {
+            color: #034638;
+            border-bottom: 3px solid #034638;
+        }
+
+        .tab:hover {
+            background: #f5f5f5;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .example-problem {
+            background: white;
+            border: 1px solid #e0e0e0;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 10px 0;
+        }
+
+        .result-box {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .failed-box {
+            background: #ffebee;
+            border-left: 4px solid #f44336;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        @media (max-width: 768px) {
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .method-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 15px;
+        }
+
+        .method-card h4 {
+            margin-top: 0;
+            color: #034638;
+        }
+
+        .success-badge {
+            background: #4caf50;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .fail-badge {
+            background: #f44336;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <!-- Pop-out button -->
+    <button class="widget-popout-btn" id="popoutBtn" title="Open in full window">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+        </svg>
+        <span>Pop Out</span>
+    </button>
+
+    <div class="dp-wrapper">
+        <h2 class="dp-has-icon">
+            <i class="fas fa-calculator" aria-hidden="true"></i> PAL: One-Shot Prompting for Math
+        </h2>
+
+        <div class="dp-card intro-card">
+            <p style="margin: 0;">See how Program-Aided Language models solve math problems with Python code generation. Learn how one-shot prompting teaches LLMs to break down word problems into executable code.</p>
+        </div>
+
+        <div class="widget-content">
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('problem')">The Problem</button>
+                <button class="tab" onclick="switchTab('oneshot')">One-Shot Solution</button>
+                <button class="tab" onclick="switchTab('comparison')">Why It Works</button>
+            </div>
+
+            <!-- Tab 1: The Problem -->
+            <div id="problem-tab" class="tab-content active">
+                <h3>The Math Problem LLMs Struggle With</h3>
+
+                <div class="example-problem">
+                    <p><strong>Question:</strong></p>
+                    <p>Roger has 5 tennis balls. He buys 2 more cans of tennis balls. Each can has 3 tennis balls. How many tennis balls does he have now?</p>
+                </div>
+
+                <div class="comparison">
+                    <div class="method-card">
+                        <h4>❌ Without PAL <span class="fail-badge">Often Wrong</span></h4>
+                        <p><strong>Prompt:</strong> "Roger has 5 tennis balls. He buys 2 more cans of tennis balls. Each can has 3 tennis balls. How many tennis balls does he have now?"</p>
+                        <div class="failed-box">
+                            <strong>LLM Response:</strong> "Roger has 10 tennis balls."<br>
+                            <em>(Incorrect - the LLM is just predicting tokens, not calculating)</em>
+                        </div>
+                        <p><strong>Why it fails:</strong> The LLM predicts the next token based on patterns, but isn't actually computing: 5 + (2 × 3) = 11</p>
+                    </div>
+
+                    <div class="method-card">
+                        <h4>✅ With PAL <span class="success-badge">Correct</span></h4>
+                        <p><strong>What PAL does:</strong></p>
+                        <ol style="font-size: 0.9em; margin: 10px 0;">
+                            <li>LLM understands the problem</li>
+                            <li>Generates Python code to solve it</li>
+                            <li>Code executes via interpreter</li>
+                            <li>Returns correct answer</li>
+                        </ol>
+                        <div class="result-box">
+                            <strong>Result:</strong> 11 tennis balls<br>
+                            <em>(Correct - Python calculated: 5 + 6 = 11)</em>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 2: One-Shot Solution -->
+            <div id="oneshot-tab" class="tab-content">
+                <h3>One-Shot Prompting: Teaching the LLM</h3>
+
+                <div class="prompt-section">
+                    <span class="prompt-label">Step 1: Provide One Example</span>
+                    <div class="example-problem">
+                        <p><strong>Q:</strong> Roger has 5 tennis balls. He buys 2 cans of tennis balls. Each can has 3 balls. How many does he have now?</p>
+                    </div>
+
+                    <div class="code-block">
+<span class="comment"># Roger started with 5 tennis balls</span>
+<span class="variable">tennis_balls</span> = <span class="number">5</span>
+
+<span class="comment"># Two cans of tennis balls are bought, each can has 3 balls</span>
+<span class="variable">bought_balls</span> = <span class="number">2</span> * <span class="number">3</span>
+
+<span class="comment"># The answer is tennis_balls + bought_balls</span>
+<span class="variable">answer</span> = <span class="variable">tennis_balls</span> + <span class="variable">bought_balls</span>
+<span class="comment"># answer = 5 + 6 = 11</span>
+                    </div>
+                </div>
+
+                <div class="prompt-section">
+                    <span class="prompt-label">Step 2: Ask Your Question</span>
+                    <div class="example-problem">
+                        <p><strong>Q:</strong> The bakers at Beverly Hills Bakery baked 200 loaves of bread on Monday morning. They sold 93 loaves in the morning and 39 loaves in the afternoon. A grocery store returned 6 unsold loaves. How many loaves did they have left?</p>
+                    </div>
+                </div>
+
+                <div class="prompt-section">
+                    <span class="prompt-label">Step 3: LLM Follows the Pattern</span>
+                    <div class="code-block">
+<span class="comment"># The bakers baked 200 loaves</span>
+<span class="variable">loaves_baked</span> = <span class="number">200</span>
+
+<span class="comment"># They sold 93 in the morning</span>
+<span class="variable">sold_morning</span> = <span class="number">93</span>
+
+<span class="comment"># They sold 39 in the afternoon</span>
+<span class="variable">sold_afternoon</span> = <span class="number">39</span>
+
+<span class="comment"># A grocery store returned 6 loaves</span>
+<span class="variable">returned</span> = <span class="number">6</span>
+
+<span class="comment"># The answer is loaves_baked - sold_morning - sold_afternoon + returned</span>
+<span class="variable">answer</span> = <span class="variable">loaves_baked</span> - <span class="variable">sold_morning</span> - <span class="variable">sold_afternoon</span> + <span class="variable">returned</span>
+<span class="comment"># answer = 200 - 93 - 39 + 6 = 74</span>
+                    </div>
+
+                    <div class="result-box">
+                        <strong>✅ Correct Answer: 74 loaves</strong><br>
+                        The LLM followed the one-shot pattern and generated correct Python code!
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 3: Why It Works -->
+            <div id="comparison-tab" class="tab-content">
+                <h3>Why One-Shot Prompting Works</h3>
+
+                <div class="prompt-section">
+                    <h4>🧠 The Key Insight</h4>
+                    <p>LLMs are <strong>pattern matchers</strong>, not calculators. By showing them ONE example of the desired reasoning pattern in Python-style comments and variables, they can replicate that pattern for similar problems.</p>
+                </div>
+
+                <div class="example-problem">
+                    <h4>What the One-Shot Example Teaches:</h4>
+                    <ol>
+                        <li><strong>Structure:</strong> Break problem into steps with comments</li>
+                        <li><strong>Variables:</strong> Create variables for each piece of information</li>
+                        <li><strong>Operations:</strong> Show how to combine variables mathematically</li>
+                        <li><strong>Format:</strong> Use Python syntax that the code interpreter can execute</li>
+                    </ol>
+                </div>
+
+                <div class="prompt-section">
+                    <h4>Modern LLMs: No Prompt Engineering Needed</h4>
+                    <p>Today's LLMs (ChatGPT, Claude, Gemini) are <strong>pre-trained to use code interpreters</strong>. You can simply ask the question—the LLM will:</p>
+                    <ul>
+                        <li>Detect that computation is needed</li>
+                        <li>Automatically generate Python code</li>
+                        <li>Execute it via built-in interpreter</li>
+                        <li>Return the correct answer</li>
+                    </ul>
+                    <p><strong>Pro tip:</strong> If the LLM isn't using code when it should, explicitly request: <em>"Please use Python code interpreter to solve this."</em></p>
+                </div>
+
+                <div class="result-box">
+                    <strong>🎯 Bottom Line:</strong> PAL transforms LLMs from "next token predictors" to "computational agents" by enabling Python execution. One-shot prompting guides this process by showing the LLM the desired reasoning pattern.
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Pop-out functionality
+        document.getElementById('popoutBtn').addEventListener('click', function() {
+            const currentUrl = window.location.href;
+            const popoutUrl = currentUrl + (currentUrl.includes('?') ? '&' : '?') + 'standalone=true';
+            const popoutWindow = window.open(popoutUrl, 'WidgetPopout', 'width=1200,height=900,resizable=yes,scrollbars=yes,status=yes');
+            if (popoutWindow) popoutWindow.focus();
+        });
+
+        // Hide pop-out button in standalone mode
+        if (window.location.search.includes('standalone=true')) {
+            document.body.classList.add('standalone-mode');
+        }
+
+        // Tab switching
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.add('active');
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>

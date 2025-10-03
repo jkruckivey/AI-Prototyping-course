@@ -1,0 +1,521 @@
+<!-- Skip link for keyboard users -->
+<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<main id="main-content" role="main">
+<div id="dp-wrapper" class="dp-wrapper">
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;" aria-hidden="true">Icon Progress Bar (browser only)</div>
+
+  <!-- Fine-tuning & RAG -->
+  <div class="dp-content-block content-block" data-title="Fine-tuning & Retrieval Augmented Generation">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-wrench" aria-hidden="true"></i>&nbsp;Fine-tuning & Retrieval Augmented Generation</h2>
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+      <div class="card-body">
+        <h3 class="card-title dp-ignore-theme">What this page covers</h3>
+        <p>Two powerful techniques for customizing LLMs: <strong>fine-tuning</strong> (adapting the model's weights for specific tasks) and <strong>RAG</strong> (giving models access to external knowledge). You'll learn when to use each approach, understand different fine-tuning methods, and explore how RAG overcomes LLM limitations.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Customization Landscape -->
+  <div class="dp-content-block content-block" data-title="The Customization Landscape">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-map-marked-alt" aria-hidden="true"></i>&nbsp;The Customization Landscape</h2>
+    <p>When LLM performance isn't sufficient with prompt engineering alone, you have options for customization. Understanding the trade-offs helps you choose the right approach.</p>
+
+    <div class="table-responsive">
+      <table class="ic-Table ic-Table--hover-row" role="table" aria-label="LLM customization approaches comparison">
+        <caption>Comparing customization approaches</caption>
+        <thead>
+          <tr>
+            <th scope="col">Approach</th>
+            <th scope="col">What Changes</th>
+            <th scope="col">Cost</th>
+            <th scope="col">Use When</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Prompt Engineering</th>
+            <td>Instructions only (model unchanged)</td>
+            <td>Very low (tokens only)</td>
+            <td>First step for any task</td>
+          </tr>
+          <tr>
+            <th scope="row">RAG</th>
+            <td>Add external knowledge (model unchanged)</td>
+            <td>Low to moderate</td>
+            <td>Need current/private information</td>
+          </tr>
+          <tr>
+            <th scope="row">Fine-tuning</th>
+            <td>Model weights (create custom version)</td>
+            <td>Moderate to high</td>
+            <td>Need specific style/format/domain expertise</td>
+          </tr>
+          <tr>
+            <th scope="row">Pre-training</th>
+            <td>Train from scratch</td>
+            <td>Very high ($millions)</td>
+            <td>Building proprietary foundation model (rare)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="dp-card card" style="border-left: 4px solid #f97316; padding-left: 15px; margin-top: 15px;">
+      <div class="card-body">
+        <h3 class="card-title dp-ignore-theme">Decision Framework</h3>
+        <ol class="mb-0">
+          <li><strong>Start with prompt engineering</strong> - Often solves 70-80% of use cases</li>
+          <li><strong>Add RAG</strong> if you need knowledge beyond the model's training data</li>
+          <li><strong>Consider fine-tuning</strong> if you need consistent style, format, or specialized behavior</li>
+          <li><strong>Combine approaches</strong> - Fine-tuning + RAG often works best for production systems</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- What is Fine-tuning? -->
+  <div class="dp-content-block content-block" data-title="What is Fine-tuning?">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-cog" aria-hidden="true"></i>&nbsp;What is Fine-tuning?</h2>
+    <p><strong>Fine-tuning</strong> is the process of taking a pre-trained LLM and continuing training on a smaller, task-specific dataset to adapt its behavior.</p>
+
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="ft-how-works" id="ft-how-works-heading">How fine-tuning works</h3>
+        <div id="ft-how-works" class="dp-panel-content" role="region" aria-labelledby="ft-how-works-heading" hidden>
+          <ol class="list-group list-group-flush list-group-numbered">
+            <li class="list-group-item"><strong>Start with pre-trained model:</strong> Use a foundation model (GPT, Llama, etc.) as the base</li>
+            <li class="list-group-item"><strong>Prepare training data:</strong> Create dataset of input-output pairs specific to your task</li>
+            <li class="list-group-item"><strong>Continue training:</strong> Update model weights using your dataset (typically with lower learning rate)</li>
+            <li class="list-group-item"><strong>Validate:</strong> Test on held-out examples to ensure good performance</li>
+            <li class="list-group-item"><strong>Deploy:</strong> Use your custom fine-tuned version for inference</li>
+          </ol>
+          <p class="mt-2 mb-0"><strong>Key insight:</strong> Fine-tuning adapts the model's "knowledge" and behavior—it changes how the model responds, not just what information it has access to.</p>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="ft-when-use" id="ft-when-use-heading">When to use fine-tuning</h3>
+        <div id="ft-when-use" class="dp-panel-content" role="region" aria-labelledby="ft-when-use-heading" hidden>
+          <p><strong>Good candidates for fine-tuning:</strong></p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Consistent formatting:</strong> Need structured outputs (JSON, specific templates) on every request</li>
+            <li class="list-group-item"><strong>Domain-specific language:</strong> Legal, medical, technical domains with specialized terminology</li>
+            <li class="list-group-item"><strong>Style/tone requirements:</strong> Brand voice, formal/informal style, specific communication patterns</li>
+            <li class="list-group-item"><strong>Efficiency needs:</strong> Reduce prompt length (bake instructions into weights)</li>
+            <li class="list-group-item"><strong>Smaller model performance:</strong> Make a smaller, cheaper model perform like a larger one on your specific task</li>
+          </ul>
+          <p class="mt-2"><strong>Not ideal for:</strong></p>
+          <ul>
+            <li>Adding new factual knowledge (use RAG instead)</li>
+            <li>Frequently changing information (fine-tuning is static)</li>
+            <li>Tasks where prompt engineering already works well</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="ft-data-req" id="ft-data-req-heading">Data requirements</h3>
+        <div id="ft-data-req" class="dp-panel-content" role="region" aria-labelledby="ft-data-req-heading" hidden>
+          <p><strong>How much data do you need?</strong></p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Minimum:</strong> 50-100 high-quality examples (for simple tasks)</li>
+            <li class="list-group-item"><strong>Typical:</strong> 500-5,000 examples for good performance</li>
+            <li class="list-group-item"><strong>Ideal:</strong> 10,000+ examples for complex tasks</li>
+          </ul>
+          <p class="mt-2"><strong>Quality over quantity:</strong></p>
+          <ul>
+            <li>Clean, consistent formatting</li>
+            <li>Representative of production use cases</li>
+            <li>Diverse enough to cover edge cases</li>
+            <li>Properly formatted input-output pairs</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Types of Fine-tuning -->
+  <div class="dp-content-block content-block" data-title="Types of Fine-tuning">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-layer-group" aria-hidden="true"></i>&nbsp;Types of Fine-tuning</h2>
+    <p>Different fine-tuning approaches offer trade-offs between performance, cost, and flexibility.</p>
+
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="full-ft" id="full-ft-heading">Full fine-tuning</h3>
+        <div id="full-ft" class="dp-panel-content" role="region" aria-labelledby="full-ft-heading" hidden>
+          <p><strong>Full fine-tuning:</strong> Update all model parameters during training.</p>
+          <p><strong>Pros:</strong></p>
+          <ul>
+            <li>Maximum performance—can fully adapt model to your task</li>
+            <li>Most flexible approach</li>
+          </ul>
+          <p><strong>Cons:</strong></p>
+          <ul>
+            <li>Very expensive (requires updating billions of parameters)</li>
+            <li>Requires significant compute resources</li>
+            <li>Risk of catastrophic forgetting (losing general capabilities)</li>
+            <li>Creates full model copy (storage intensive)</li>
+          </ul>
+          <p class="mb-0"><strong>Use when:</strong> Maximum performance is critical and you have the budget.</p>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="peft" id="peft-heading">PEFT (Parameter-Efficient Fine-Tuning)</h3>
+        <div id="peft" class="dp-panel-content" role="region" aria-labelledby="peft-heading" hidden>
+          <p><strong>PEFT:</strong> Update only a small subset of parameters, keeping most of the model frozen.</p>
+          <p><strong>Common PEFT methods:</strong></p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>LoRA (Low-Rank Adaptation):</strong> Add small trainable matrices alongside frozen weights
+              <ul class="mt-1">
+                <li>Most popular PEFT method</li>
+                <li>Updates 0.1-1% of parameters (vs. 100% in full fine-tuning)</li>
+                <li>10-100x cheaper than full fine-tuning</li>
+              </ul>
+            </li>
+            <li class="list-group-item"><strong>Adapter layers:</strong> Insert small trainable modules between model layers</li>
+            <li class="list-group-item"><strong>Prefix tuning:</strong> Add trainable tokens to the input</li>
+          </ul>
+          <p class="mt-2"><strong>Pros:</strong></p>
+          <ul>
+            <li>Much cheaper than full fine-tuning (10-100x cost reduction)</li>
+            <li>Faster training</li>
+            <li>Less risk of catastrophic forgetting</li>
+            <li>Smaller storage (only save the adapter weights)</li>
+            <li>Can swap adapters for different tasks on same base model</li>
+          </ul>
+          <p><strong>Cons:</strong></p>
+          <ul>
+            <li>Slightly lower performance than full fine-tuning (usually minor)</li>
+          </ul>
+          <p class="mb-0"><strong>Use when:</strong> You want fine-tuning benefits at lower cost (most common choice).</p>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="instruction-ft" id="instruction-ft-heading">Instruction fine-tuning</h3>
+        <div id="instruction-ft" class="dp-panel-content" role="region" aria-labelledby="instruction-ft-heading" hidden>
+          <p><strong>Instruction fine-tuning:</strong> Train the model on instruction-following tasks to improve its ability to follow diverse instructions.</p>
+          <p><strong>Training data format:</strong></p>
+          <ul>
+            <li>Instruction: "Translate this to French"</li>
+            <li>Input: "Hello world"</li>
+            <li>Output: "Bonjour le monde"</li>
+          </ul>
+          <p><strong>Why it matters:</strong></p>
+          <ul>
+            <li>Base LLMs (pre-training only) are good at completion but poor at following instructions</li>
+            <li>Instruction fine-tuning teaches them to be helpful assistants</li>
+            <li>Most commercial LLMs (ChatGPT, Claude, etc.) are instruction fine-tuned versions of base models</li>
+          </ul>
+          <p class="mb-0"><strong>Example:</strong> GPT-3 (base) → GPT-3.5 or GPT-4 (instruction fine-tuned) = InstructGPT / ChatGPT</p>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="rlhf" id="rlhf-heading">RLHF (Reinforcement Learning from Human Feedback)</h3>
+        <div id="rlhf" class="dp-panel-content" role="region" aria-labelledby="rlhf-heading" hidden>
+          <p><strong>RLHF:</strong> Use human preferences to fine-tune models to be more helpful, harmless, and honest.</p>
+          <p><strong>How it works:</strong></p>
+          <ol>
+            <li>Generate multiple outputs for the same prompt</li>
+            <li>Humans rank the outputs by quality/preference</li>
+            <li>Train a "reward model" to predict human preferences</li>
+            <li>Use reinforcement learning to optimize the LLM based on the reward model</li>
+          </ol>
+          <p><strong>Why it's important:</strong></p>
+          <ul>
+            <li>Makes models more aligned with human values</li>
+            <li>Reduces harmful, biased, or low-quality outputs</li>
+            <li>Improves subjective qualities hard to capture in supervised learning</li>
+          </ul>
+          <p class="mb-0"><strong>Used by:</strong> ChatGPT, Claude, Gemini, and most consumer-facing LLMs</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Catastrophic Forgetting -->
+  <div class="dp-content-block content-block" data-title="Catastrophic Forgetting">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;Catastrophic Forgetting</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="cf-what" id="cf-what-heading">What is catastrophic forgetting?</h3>
+        <div id="cf-what" class="dp-panel-content" role="region" aria-labelledby="cf-what-heading" hidden>
+          <p><strong>Catastrophic forgetting:</strong> When fine-tuning on a specific task causes the model to lose its general capabilities.</p>
+          <p><strong>Example:</strong></p>
+          <ul>
+            <li>You fine-tune GPT-4 on medical terminology</li>
+            <li>It becomes excellent at medical language</li>
+            <li>But now it struggles with general tasks it used to handle well (coding, math, creative writing)</li>
+          </ul>
+          <p class="mb-0"><strong>Why it happens:</strong> Neural networks optimize for the training data they see. If you only show medical examples, the model "forgets" how to handle non-medical tasks.</p>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="cf-prevent" id="cf-prevent-heading">How to prevent catastrophic forgetting</h3>
+        <div id="cf-prevent" class="dp-panel-content" role="region" aria-labelledby="cf-prevent-heading" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Use PEFT methods (LoRA):</strong> Keeping most weights frozen reduces forgetting</li>
+            <li class="list-group-item"><strong>Mix in diverse examples:</strong> Include general task examples alongside specialized data</li>
+            <li class="list-group-item"><strong>Lower learning rate:</strong> Make smaller updates to weights</li>
+            <li class="list-group-item"><strong>Monitor general performance:</strong> Test on diverse benchmarks, not just your specific task</li>
+            <li class="list-group-item"><strong>Use regularization:</strong> Techniques that prevent drastic weight changes</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Retrieval Augmented Generation (RAG) -->
+  <div class="dp-content-block content-block" data-title="Retrieval Augmented Generation (RAG)">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-search-plus" aria-hidden="true"></i>&nbsp;Retrieval Augmented Generation (RAG)</h2>
+    <p><strong>RAG</strong> addresses a key LLM limitation: they can't access information beyond their training data. RAG gives models access to external knowledge sources in real-time.</p>
+
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="rag-how-works" id="rag-how-works-heading">How RAG works</h3>
+        <div id="rag-how-works" class="dp-panel-content" role="region" aria-labelledby="rag-how-works-heading" hidden>
+          <p><strong>Basic RAG pipeline:</strong></p>
+          <ol class="list-group list-group-flush list-group-numbered">
+            <li class="list-group-item"><strong>User asks a question</strong></li>
+            <li class="list-group-item"><strong>Retrieval:</strong> Search your knowledge base (documents, databases, etc.) for relevant information</li>
+            <li class="list-group-item"><strong>Augmentation:</strong> Add the retrieved information to the prompt as context</li>
+            <li class="list-group-item"><strong>Generation:</strong> LLM generates answer based on the question + retrieved context</li>
+          </ol>
+          <div class="dp-card card" style="border-left: 4px solid #f97316; padding-left: 15px; margin-top: 10px;">
+            <div class="card-body">
+              <h4 class="card-title dp-ignore-theme">Example RAG Flow</h4>
+              <p><strong>Question:</strong> "What is our company's return policy?"</p>
+              <p><strong>Retrieval:</strong> Search company docs, find relevant sections from policy manual</p>
+              <p><strong>Augmented prompt:</strong></p>
+              <code style="display: block; white-space: pre-wrap; background: #f5f5f5; padding: 10px; margin: 5px 0;">Answer the question based on the following context:
+
+Context: [Retrieved policy text from company manual]
+
+Question: What is our company's return policy?
+
+Answer:</code>
+              <p class="mb-0"><strong>Generation:</strong> LLM generates accurate answer based on current company policy</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="rag-components" id="rag-components-heading">RAG system components</h3>
+        <div id="rag-components" class="dp-panel-content" role="region" aria-labelledby="rag-components-heading" hidden>
+          <p><strong>1. Knowledge Base:</strong></p>
+          <ul>
+            <li>Documents, PDFs, web pages, databases</li>
+            <li>Your proprietary data, current information</li>
+            <li>Pre-processed and indexed for fast retrieval</li>
+          </ul>
+          <p class="mt-2"><strong>2. Embedding Model:</strong></p>
+          <ul>
+            <li>Converts text into vector embeddings</li>
+            <li>Both documents and queries are embedded</li>
+            <li>Enables semantic search (meaning-based, not just keyword matching)</li>
+          </ul>
+          <p class="mt-2"><strong>3. Vector Database:</strong></p>
+          <ul>
+            <li>Stores document embeddings for fast similarity search</li>
+            <li>Examples: Pinecone, Weaviate, ChromaDB, FAISS</li>
+            <li>Returns most relevant documents based on query embedding</li>
+          </ul>
+          <p class="mt-2"><strong>4. LLM:</strong></p>
+          <ul>
+            <li>Receives question + retrieved context</li>
+            <li>Generates answer grounded in the provided information</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="rag-benefits" id="rag-benefits-heading">Benefits of RAG</h3>
+        <div id="rag-benefits" class="dp-panel-content" role="region" aria-labelledby="rag-benefits-heading" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Access to current information:</strong> Pull real-time data, recent news, up-to-date documents</li>
+            <li class="list-group-item"><strong>Private/proprietary knowledge:</strong> Use your internal docs, databases without exposing to model training</li>
+            <li class="list-group-item"><strong>Reduces hallucination:</strong> Grounds responses in actual retrieved facts</li>
+            <li class="list-group-item"><strong>Source attribution:</strong> Can cite which documents were used for the answer</li>
+            <li class="list-group-item"><strong>Easier updates:</strong> Change knowledge base without retraining model</li>
+            <li class="list-group-item"><strong>Lower cost than fine-tuning:</strong> No model training required</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="rag-challenges" id="rag-challenges-heading">RAG challenges & solutions</h3>
+        <div id="rag-challenges" class="dp-panel-content" role="region" aria-labelledby="rag-challenges-heading" hidden>
+          <div class="table-responsive">
+            <table class="ic-Table ic-Table--hover-row" role="table" aria-label="RAG challenges and solutions">
+              <caption>Common RAG challenges and how to address them</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Challenge</th>
+                  <th scope="col">Impact</th>
+                  <th scope="col">Solution</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Poor retrieval</th>
+                  <td>LLM gets wrong context, produces bad answers</td>
+                  <td>Better embeddings, hybrid search (semantic + keyword), query expansion</td>
+                </tr>
+                <tr>
+                  <th scope="row">Too much context</th>
+                  <td>Exceeds token limits, high API costs</td>
+                  <td>Re-ranking retrieved docs, summarization, chunking strategies</td>
+                </tr>
+                <tr>
+                  <th scope="row">Contradictory sources</th>
+                  <td>Retrieved docs contain conflicting information</td>
+                  <td>Source quality scoring, recency weighting, ask LLM to reconcile</td>
+                </tr>
+                <tr>
+                  <th scope="row">No relevant docs</th>
+                  <td>Knowledge base doesn't have the answer</td>
+                  <td>Confidence thresholds, fallback responses, expand knowledge base</td>
+                </tr>
+                <tr>
+                  <th scope="row">Context ignored</th>
+                  <td>LLM generates answer without using retrieved context</td>
+                  <td>Better prompting ("Answer ONLY based on context"), fine-tuning</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="rag-use-cases" id="rag-use-cases-heading">RAG use cases</h3>
+        <div id="rag-use-cases" class="dp-panel-content" role="region" aria-labelledby="rag-use-cases-heading" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Customer support:</strong> Answer questions from product docs, FAQs, knowledge bases</li>
+            <li class="list-group-item"><strong>Internal Q&A:</strong> Search company wikis, policies, procedures</li>
+            <li class="list-group-item"><strong>Research assistants:</strong> Query scientific papers, reports, publications</li>
+            <li class="list-group-item"><strong>Code assistants:</strong> Reference internal codebases, API docs, style guides</li>
+            <li class="list-group-item"><strong>Legal/compliance:</strong> Search contracts, regulations, case law</li>
+            <li class="list-group-item"><strong>News/market analysis:</strong> Analyze real-time news, financial reports</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive: Fine-tuning vs RAG Decision Tool -->
+  <div class="dp-content-block content-block" data-title="Interactive: Fine-tuning vs RAG Decision Tool">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive: Fine-tuning vs RAG Decision Tool</h2>
+    <p class="mt-2"><em>Try it:</em> Answer a few questions about your use case to get personalized recommendations on whether to use fine-tuning, RAG, or both.</p>
+    <p><iframe style="overflow: hidden;" src="https://learn.ivey.ca/courses/6194/external_tools/retrieve?borderless=true&amp;url=https://scone-prod.ca-central-1.inscloudgate.net/packages/49417/launch" width="1000" height="1000" loading="lazy"></iframe></p>
+  </div>
+
+  <!-- Fine-tuning vs RAG -->
+  <div class="dp-content-block content-block" data-title="Fine-tuning vs RAG: Which to Choose?">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-balance-scale" aria-hidden="true"></i>&nbsp;Fine-tuning vs RAG: Which to Choose?</h2>
+    <div class="table-responsive">
+      <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Detailed comparison of fine-tuning and RAG">
+        <caption>Choosing between fine-tuning and RAG</caption>
+        <thead>
+          <tr>
+            <th scope="col">Dimension</th>
+            <th scope="col">Fine-tuning</th>
+            <th scope="col">RAG</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Best For</th>
+            <td>Behavior, style, format, specialized language</td>
+            <td>Knowledge, facts, current information</td>
+          </tr>
+          <tr>
+            <th scope="row">Knowledge Updates</th>
+            <td>Requires retraining (static)</td>
+            <td>Update knowledge base anytime (dynamic)</td>
+          </tr>
+          <tr>
+            <th scope="row">Initial Cost</th>
+            <td>Moderate to high (training compute)</td>
+            <td>Low to moderate (indexing, vector DB)</td>
+          </tr>
+          <tr>
+            <th scope="row">Ongoing Cost</th>
+            <td>Lower inference cost (no retrieval)</td>
+            <td>Higher (embedding + retrieval + generation)</td>
+          </tr>
+          <tr>
+            <th scope="row">Latency</th>
+            <td>Lower (direct generation)</td>
+            <td>Higher (retrieval step adds time)</td>
+          </tr>
+          <tr>
+            <th scope="row">Explainability</th>
+            <td>Lower (behavior baked into weights)</td>
+            <td>Higher (can show retrieved sources)</td>
+          </tr>
+          <tr>
+            <th scope="row">Data Requirements</th>
+            <td>Hundreds to thousands of examples</td>
+            <td>Any amount of documents/data</td>
+          </tr>
+          <tr>
+            <th scope="row">Hallucination Risk</th>
+            <td>Moderate (can still hallucinate)</td>
+            <td>Lower (grounded in retrieved facts)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px; margin-top: 15px;">
+      <div class="card-body">
+        <h3 class="card-title dp-ignore-theme">Combining Fine-tuning + RAG</h3>
+        <p>Many production systems use <strong>both</strong> approaches:</p>
+        <ul class="mb-0">
+          <li><strong>Fine-tune</strong> to teach the model your desired style, format, and how to use retrieved context effectively</li>
+          <li><strong>RAG</strong> to provide current, accurate information at inference time</li>
+          <li><strong>Result:</strong> Model that knows <em>how</em> to answer (fine-tuning) and has access to <em>what</em> to answer (RAG)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Helpful Tip -->
+  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
+    <div class="card-body">
+      <h3 class="card-title">Helpful Tip</h3>
+      <p class="card-text">Start with prompt engineering, add RAG for knowledge needs, and fine-tune only when necessary. Most organizations find that <strong>prompt engineering + RAG</strong> handles 90% of their use cases without the complexity and cost of fine-tuning.</p>
+    </div>
+  </div>
+
+  <hr aria-hidden="true" />
+  <p>Select <strong>Next▸</strong> to continue with <strong>AI Agents & Agentic AI</strong>.</p>
+</div>
+</main>
+
+<!-- Canvas-safe toggling -->
+<script>
+(function () {
+  function toggleHead(h){
+    const content = document.getElementById(h.getAttribute('aria-controls'));
+    const expanded = h.getAttribute('aria-expanded') === 'true';
+    h.setAttribute('aria-expanded', String(!expanded));
+    if (content) content.hidden = expanded;
+  }
+  document.addEventListener('click', function (e) {
+    const h = e.target.closest('.dp-panel-heading[role="button"]');
+    if (h) toggleHead(h);
+  });
+  document.addEventListener('keydown', function (e) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role="button"]')) {
+      e.preventDefault(); toggleHead(e.target);
+    }
+  });
+})();
+</script>

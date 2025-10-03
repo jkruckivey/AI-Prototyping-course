@@ -5,95 +5,210 @@
 <div id="dp-wrapper" class="dp-wrapper">
   <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;" aria-hidden="true">Icon Progress Bar (browser only)</div>
 
-  <!-- Week 5 Wrap-Up -->
-  <div class="dp-content-block content-block" data-title="Week 5 — Review & Wrap-Up">
-    <h2 class="dp-has-icon"><i class="dp-icon fas fa-flag-checkered" aria-hidden="true"></i>&nbsp;Week 5 — Review & Wrap-Up</h2>
+  <!-- Week 5 Wrap-up -->
+  <div class="dp-content-block content-block" data-title="Week 5 Wrap-up">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-flag-checkered" aria-hidden="true"></i>&nbsp;Week 5 Wrap-up</h2>
     <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
       <div class="card-body">
-        <h3 class="card-title dp-ignore-theme">Quick Recap</h3>
-        <p>You translated models into <strong>deployed systems</strong>, instrumented <strong>monitoring</strong> for drift and calibration, and built <strong>governance</strong> that stands up to audits and real‑world change.</p>
+        <h3 class="card-title dp-ignore-theme">Congratulations!</h3>
+        <p>You've completed Week 5 and mastered <strong>Data Science with Generative AI</strong>. You now understand how to use LLMs as powerful computational agents, create custom AI assistants, and build practical AI applications—from code interpreters to fine-tuned models.</p>
       </div>
     </div>
   </div>
 
-  <!-- Knowledge Check -->
-  <div class="dp-content-block content-block" data-title="Knowledge Check">
-    <h2 class="dp-has-icon"><i class="dp-icon fas fa-clipboard-check" aria-hidden="true"></i>&nbsp;Knowledge Check</h2>
+  <!-- Quick Recap -->
+  <div class="dp-content-block content-block" data-title="Quick Recap">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-redo" aria-hidden="true"></i>&nbsp;Quick Recap</h2>
+    <p>This week you learned:</p>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item"><strong>PAL (Program-Aided Language):</strong> How LLMs execute Python code to solve math, analyze data, and overcome token prediction limitations</li>
+      <li class="list-group-item"><strong>Code Interpreter Workflows:</strong> File analysis (Excel, PDF, CSV), statistical analysis, visualization generation, ML model training</li>
+      <li class="list-group-item"><strong>Data Science with LLMs:</strong> Complete end-to-end workflows from data upload to model deployment—all in natural language</li>
+      <li class="list-group-item"><strong>Custom GPTs:</strong> Creating specialized AI assistants with personas, knowledge bases (RAG), capabilities, and custom actions</li>
+      <li class="list-group-item"><strong>OpenAI Platform:</strong> Playground for parameter tuning, Dashboard for evaluation, API assistants for production</li>
+      <li class="list-group-item"><strong>Fine-tuning:</strong> Task and conversational fine-tuning with JSONL format to create specialized models</li>
+    </ul>
+  </div>
+
+  <!-- Key Takeaways -->
+  <div class="dp-content-block content-block" data-title="Key Takeaways">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-lightbulb" aria-hidden="true"></i>&nbsp;Key Takeaways</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w5-q1" id="w5-q1-heading">1) Match the phase to the artifact</h3>
-        <div id="w5-q1" class="dp-panel-content" role="region" aria-labelledby="w5-q1-heading" hidden>
-          <ul>
-            <li><strong>Deployment</strong> → API contract, idempotency keys</li>
-            <li><strong>Monitoring</strong> → drift dashboard, calibration curve</li>
-            <li><strong>Governance</strong> → model card, change log, approvals</li>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w5-llm-evolution" id="w5-llm-evolution-heading">LLMs Have Evolved Beyond Text</h3>
+        <div id="w5-llm-evolution" class="dp-panel-content" role="region" aria-labelledby="w5-llm-evolution-heading" hidden>
+          <ol class="list-group list-group-flush list-group-numbered">
+            <li class="list-group-item"><strong>From predictors to agents:</strong> LLMs now execute code, access tools, and perform actions</li>
+            <li class="list-group-item"><strong>Orchestration libraries:</strong> Enable seamless integration between natural language and Python execution</li>
+            <li class="list-group-item"><strong>Natural language as programming:</strong> English (or any language) becomes a valid programming interface</li>
+            <li class="list-group-item"><strong>Democratized data science:</strong> Anyone with domain knowledge can now build ML models</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w5-customization" id="w5-customization-heading">The Customization Stack</h3>
+        <div id="w5-customization" class="dp-panel-content" role="region" aria-labelledby="w5-customization-heading" hidden>
+          <ol class="list-group list-group-flush list-group-numbered">
+            <li class="list-group-item"><strong>Prompt engineering:</strong> Zero/one/few-shot learning, prompt patterns (Week 4)</li>
+            <li class="list-group-item"><strong>RAG (Knowledge bases):</strong> Upload documents, automatic retrieval and augmentation</li>
+            <li class="list-group-item"><strong>Custom GPTs:</strong> Personas, guardrails, capabilities, actions—no code required</li>
+            <li class="list-group-item"><strong>Fine-tuning:</strong> Retrain weights for consistent style, format, or specialized behavior</li>
+            <li class="list-group-item"><strong>Combine approaches:</strong> Production systems often use all four layers</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w5-trust" id="w5-trust-heading">Trust, but Verify</h3>
+        <div id="w5-trust" class="dp-panel-content" role="region" aria-labelledby="w5-trust-heading" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>LLMs are powerful assistants, not infallible experts</strong></li>
+            <li class="list-group-item"><strong>Hallucinations happen:</strong> Always validate critical outputs</li>
+            <li class="list-group-item"><strong>Domain knowledge essential:</strong> Your expertise guides and validates the AI</li>
+            <li class="list-group-item"><strong>Think "AI intern":</strong> Knows how to code, needs clear instructions and supervision</li>
+            <li class="list-group-item"><strong>Break tasks into steps:</strong> Incremental progress reduces errors</li>
+            <li class="list-group-item"><strong>Review generated code:</strong> Understand what the AI is doing before trusting results</li>
           </ul>
         </div>
       </div>
-      <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w5-q2" id="w5-q2-heading">2) Spot the missing guardrail</h3>
-        <div id="w5-q2" class="dp-panel-content" role="region" aria-labelledby="w5-q2-heading" hidden>
-          <p>Team launches a new model via canary but has no <strong>rollback trigger</strong> defined. What’s missing? <strong>Guardrail & incident playbook</strong> with automatic revert criteria.</p>
-        </div>
-      </div>
-      <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w5-q3" id="w5-q3-heading">3) Which drift test compares distributions over time for a numeric feature?</h3>
-        <div id="w5-q3" class="dp-panel-content" role="region" aria-labelledby="w5-q3-heading" hidden>
-          <p><strong>Population Stability Index (PSI)</strong> or a two‑sample test like <strong>KS</strong>.</p>
-        </div>
-      </div>
-      <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w5-q4" id="w5-q4-heading">4) What belongs in a model card?</h3>
-        <div id="w5-q4" class="dp-panel-content" role="region" aria-labelledby="w5-q4-heading" hidden>
-          <p>Purpose/scope, data sources & span, metrics (overall & by subgroup), limitations/risks, operational guardrails, monitoring plan.</p>
-        </div>
-      </div>
     </div>
   </div>
 
-  <!-- Interactive quiz widget -->
-  <div class="dp-content-block content-block" data-title="Interactive Quiz (Optional)">
-    <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive Quiz (Optional)</h2>
-    <p class="mt-2">Prefer an interactive check? Use the short quiz below.</p>
-    <div class="dp-embed-wrapper">
-      <iframe title="Week 5 Wrap-Up Quiz" role="application" src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/week5/w5-wrap-quiz.html" width="100%" height="900" loading="lazy" allowfullscreen aria-label="Interactive multiple-choice quiz covering Week 5"></iframe>
-    </div>
-  </div>
-
-  <!-- Reflection & Action Plan -->
-  <div class="dp-content-block content-block" data-title="Reflection & Action Plan">
-    <h2 class="dp-has-icon"><i class="dp-icon fas fa-pen" aria-hidden="true"></i>&nbsp;Reflection & Action Plan</h2>
+  <!-- Practical Next Steps -->
+  <div class="dp-content-block content-block" data-title="Practical Next Steps">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-forward" aria-hidden="true"></i>&nbsp;Practical Next Steps</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w5-reflect" id="w5-reflect-heading">Reflection</h3>
-        <div id="w5-reflect" class="dp-panel-content" role="region" aria-labelledby="w5-reflect-heading" hidden>
-          <p>Where in your org would stronger <strong>monitoring</strong> or <strong>governance</strong> make the biggest difference? Outline 2 quick wins you can implement this quarter.</p>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w5-practice" id="w5-practice-heading">Practice data science with code interpreter</h3>
+        <div id="w5-practice" class="dp-panel-content" role="region" aria-labelledby="w5-practice-heading" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Upload your own datasets to ChatGPT's code interpreter</li>
+            <li class="list-group-item">Recreate past data science projects using natural language</li>
+            <li class="list-group-item">Build ML models (regression, classification) without writing code</li>
+            <li class="list-group-item">Generate visualizations and export to PowerPoint/Excel</li>
+            <li class="list-group-item">Save models as PKL files for reuse</li>
+          </ul>
         </div>
       </div>
+
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w5-action" id="w5-action-heading">Action plan</h3>
-        <div id="w5-action" class="dp-panel-content" role="region" aria-labelledby="w5-action-heading" hidden>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w5-build" id="w5-build-heading">Build a custom GPT</h3>
+        <div id="w5-build" class="dp-panel-content" role="region" aria-labelledby="w5-build-heading" hidden>
           <ul class="list-group list-group-flush">
-            <li class="list-group-item">Pick one model → draft a one‑page <strong>model card</strong>.</li>
-            <li class="list-group-item">Add a <strong>calibration</strong> + <strong>drift</strong> chart to your dashboard.</li>
-            <li class="list-group-item">Define a <strong>rollback</strong> trigger and owner for canary rollouts.</li>
+            <li class="list-group-item">Identify a repetitive task in your work that could be automated</li>
+            <li class="list-group-item">Create a custom GPT with clear instructions and persona</li>
+            <li class="list-group-item">Upload relevant knowledge base documents (PDFs, policies, guides)</li>
+            <li class="list-group-item">Test with colleagues, gather feedback, iterate</li>
+            <li class="list-group-item">Share with your team or publish to GPT store</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w5-experiment" id="w5-experiment-heading">Experiment with fine-tuning</h3>
+        <div id="w5-experiment" class="dp-panel-content" role="region" aria-labelledby="w5-experiment-heading" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Identify a task where consistent format or style is critical</li>
+            <li class="list-group-item">Collect 100+ examples (or use ChatGPT to generate training data)</li>
+            <li class="list-group-item">Format as JSONL (task or conversational)</li>
+            <li class="list-group-item">Create fine-tuning job in OpenAI Dashboard</li>
+            <li class="list-group-item">Test your custom model in Playground</li>
+            <li class="list-group-item">Compare performance to prompt-engineered baseline</li>
           </ul>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- End-of-session reminder -->
-  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-color-dp-primary dp-callout-type-info" role="note" aria-label="Session completion reminder">
-    <div class="dp-callout-side-emphasis"><i class="dp-icon fas fa-info-circle dp-default-icon" aria-hidden="true"></i></div>
+  <!-- Reflection -->
+  <div class="dp-content-block content-block" data-title="Reflection Questions">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-comments" aria-hidden="true"></i>&nbsp;Reflection Questions</h2>
+    <div class="dp-card card" style="border-left: 4px solid #f97316; padding-left: 15px;">
+      <div class="card-body">
+        <h3 class="card-title dp-ignore-theme">Think About:</h3>
+        <ul class="mb-0">
+          <li>What data analysis tasks in your organization could be democratized with code interpreters?</li>
+          <li>Which business process would benefit most from a custom GPT assistant?</li>
+          <li>What specialized AI model could you create through fine-tuning?</li>
+          <li>How will natural language programming change who can build AI applications?</li>
+          <li>What safeguards do you need when deploying AI assistants in your organization?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Course Conclusion -->
+  <div class="dp-content-block content-block" data-title="Course Conclusion">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-graduation-cap" aria-hidden="true"></i>&nbsp;Course Conclusion</h2>
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+      <div class="card-body">
+        <h3 class="card-title dp-ignore-theme">Your AI Journey: From Fundamentals to Generative AI</h3>
+        <p><strong>Week 1:</strong> AI fundamentals, data understanding, ML model families</p>
+        <p><strong>Week 2:</strong> Supervised learning algorithms (regression, classification, KNN, SVM, neural networks)</p>
+        <p><strong>Week 3:</strong> Unsupervised learning (clustering, PCA, preprocessing, recommendations)</p>
+        <p><strong>Week 4:</strong> Generative AI, LLMs, transformers, prompt engineering, fine-tuning, RAG, AI agents</p>
+        <p><strong>Week 5:</strong> Data science with GenAI, code interpreters, custom GPTs, OpenAI Platform, practical fine-tuning</p>
+        <p class="mb-0"><strong>You've built a comprehensive foundation</strong> in both traditional machine learning and cutting-edge generative AI. You understand the theory, can apply the techniques, and know when to use which approach.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- What's Next? -->
+  <div class="dp-content-block content-block" data-title="What's Next?">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-rocket" aria-hidden="true"></i>&nbsp;What's Next?</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="next-apply" id="next-apply-heading">Apply your knowledge</h3>
+        <div id="next-apply" class="dp-panel-content" role="region" aria-labelledby="next-apply-heading" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Identify AI opportunities in your organization</li>
+            <li class="list-group-item">Build proof-of-concept projects using techniques from this course</li>
+            <li class="list-group-item">Create custom GPTs for team productivity</li>
+            <li class="list-group-item">Automate data analysis workflows with code interpreters</li>
+            <li class="list-group-item">Propose AI pilots with clear business value</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="next-learn" id="next-learn-heading">Continue learning</h3>
+        <div id="next-learn" class="dp-panel-content" role="region" aria-labelledby="next-learn-heading" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Advanced ML:</strong> Deep learning, computer vision, NLP specialization</li>
+            <li class="list-group-item"><strong>MLOps:</strong> Production deployment, monitoring, CI/CD for ML</li>
+            <li class="list-group-item"><strong>AI Ethics:</strong> Bias mitigation, fairness, responsible AI</li>
+            <li class="list-group-item"><strong>LLM Frameworks:</strong> LangChain, LlamaIndex, AutoGen for agent development</li>
+            <li class="list-group-item"><strong>Cloud AI:</strong> AWS SageMaker, Azure ML, Google Vertex AI</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="next-community" id="next-community-heading">Join the AI community</h3>
+        <div id="next-community" class="dp-panel-content" role="region" aria-labelledby="next-community-heading" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Follow AI research (arXiv.org, Papers with Code)</li>
+            <li class="list-group-item">Participate in Kaggle competitions</li>
+            <li class="list-group-item">Contribute to open-source AI projects</li>
+            <li class="list-group-item">Attend AI conferences and meetups</li>
+            <li class="list-group-item">Share your learnings and projects</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Final Message -->
+  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
     <div class="card-body">
-      <h4 class="card-title"><strong>Reminder</strong></h4>
-      <p class="card-text">This is the last page in Week 5. Ensure you’ve completed the quiz and reflection prompts before moving on.</p>
+      <h3 class="card-title">You're Ready</h3>
+      <p class="card-text">You've mastered both traditional machine learning and generative AI. You understand when to use supervised vs. unsupervised learning, how to engineer effective prompts, when to fine-tune vs. use RAG, and how to build practical AI applications. The field is evolving rapidly—keep experimenting, learning, and building. The future of AI is yours to shape.</p>
     </div>
   </div>
 
   <hr aria-hidden="true" />
-  <p>Select <strong>Modules</strong> to return to the course overview, or continue to the next week.</p>
+  <p><strong>Congratulations on completing the AI Prototyping Course!</strong> Thank you for your dedication and curiosity. Now go build something amazing.</p>
 </div>
 </main>
 
@@ -107,11 +222,11 @@
     if (content) content.hidden = expanded;
   }
   document.addEventListener('click', function (e) {
-    const h = e.target.closest('.dp-panel-heading[role=\"button\"]');
+    const h = e.target.closest('.dp-panel-heading[role="button"]');
     if (h) toggleHead(h);
   });
   document.addEventListener('keydown', function (e) {
-    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role=\"button\"]')) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role="button"]')) {
       e.preventDefault(); toggleHead(e.target);
     }
   });

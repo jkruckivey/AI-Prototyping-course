@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompt Pattern Showcase</title>
+    <link rel="stylesheet" href="ivey-widget-base.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: white;
+            color: #333;
+            line-height: 1.5;
+            padding: 0;
+            margin: 0;
+        }
+
+        .dp-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 15px;
+            background: #ffffff;
+        }
+
+        .widget-header {
+            background: #034638;
+            color: white;
+            padding: 12px 16px;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+            margin: -15px -15px 20px -15px;
+            
+        }
+
+        .widget-title {
+            
+            font-size: 1.2em;
+            font-weight: bold;
+            margin: 0;
+        }
+
+
+        .pattern-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .pattern-btn {
+            background: white;
+            border: 2px solid var(--ivey-green);
+            color: var(--ivey-green);
+            padding: 15px 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .pattern-btn:hover {
+            background: #e8f5e9;
+            transform: translateY(-2px);
+        }
+
+        .pattern-btn.active {
+            background: var(--ivey-green);
+            color: white;
+        }
+
+        .pattern-display {
+            background: white;
+            border: 2px solid var(--ivey-green);
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .pattern-title {
+            color: var(--ivey-purple);
+            font-size: 1.5em;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .pattern-description {
+            background: #f8f9fa;
+            padding: 15px;
+            border-left: 4px solid var(--ivey-purple);
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        .prompt-box {
+            background: #f5f5f5;
+            border-left: 4px solid var(--ivey-green);
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            font-size: 0.95em;
+        }
+
+        .prompt-label {
+            font-weight: 700;
+            color: var(--ivey-green);
+            font-family: 'Figtree', sans-serif;
+            margin-bottom: 10px;
+        }
+
+        .response-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 20px;
+            border-radius: 6px;
+            margin-top: 15px;
+        }
+
+        .response-label {
+            font-weight: 700;
+            color: #1976d2;
+            margin-bottom: 10px;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .before-box {
+            background: #ffebee;
+            border-left: 4px solid #f44336;
+            padding: 15px;
+            border-radius: 6px;
+        }
+
+        .after-box {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            border-radius: 6px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #f8f9fa;
+            color: #034638;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .key-point {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 4px;
+        }
+
+        .key-point strong {
+            color: #f57c00;
+        }
+    </style>
+</head>
+<body>
+    <!-- Pop-out button -->
+    <button class="widget-popout-btn" id="popoutBtn" title="Open in full window" aria-label="Open widget in new window">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+        </svg>
+        <span>Pop Out</span>
+    </button>
+
+    <div class="dp-wrapper">
+        <div class="widget-header">
+            <h1 class="widget-title">Prompt Pattern Showcase</h1>
+        </div>
+
+            <!-- Pattern Selector -->
+            <div class="pattern-selector">
+                <button class="pattern-btn active" onclick="showPattern('persona')">Persona Pattern</button>
+                <button class="pattern-btn" onclick="showPattern('audience')">Audience Pattern</button>
+                <button class="pattern-btn" onclick="showPattern('structure')">Structure Pattern</button>
+                <button class="pattern-btn" onclick="showPattern('cog-verifier')">Cognitive Verifier</button>
+                <button class="pattern-btn" onclick="showPattern('constraint')">Constraint Pattern</button>
+                <button class="pattern-btn" onclick="showPattern('cot')">Chain of Thought</button>
+            </div>
+
+            <!-- Pattern Display Area -->
+            <div id="patternDisplay" class="pattern-display"></div>
+        </div>
+    </div>
+
+    <script>
+        const patterns = {
+            persona: {
+                title: "Persona Pattern",
+                description: "Tell the model to act as a specific role or expert to activate relevant knowledge and appropriate tone.",
+                template: 'You are [ROLE]. [Task instructions]',
+                before: `Summarize this investment proposal.`,
+                after: `You are a senior financial analyst with 15 years of experience in venture capital.
+
+Analyze this investment proposal and provide a summary that focuses on:
+1. Market opportunity and competitive landscape
+2. Financial projections and key assumptions
+3. Risk factors and mitigation strategies
+4. Recommendation (invest/pass) with clear rationale`,
+                response: `The persona pattern transformed a vague request into a focused analysis with appropriate expertise level and structure. The "senior financial analyst" role activates domain-specific knowledge and professional communication style.`,
+                keyPoint: `The persona sets the expertise level, tone, and perspective. Choose personas that match your needs: "technical writer," "compassionate customer service rep," "Python optimization expert," etc.`
+            },
+            audience: {
+                title: "Audience Pattern",
+                description: "Specify the intended audience to adjust complexity, terminology, and examples.",
+                template: 'Explain [TOPIC] for [AUDIENCE]',
+                before: `Explain machine learning.`,
+                after: `Explain machine learning for a CEO with no technical background who needs to make strategic decisions about AI investments.
+
+Focus on:
+- Business value and ROI potential
+- Real-world use cases in their industry
+- Resource requirements (time, budget, team)
+- Risks and limitations
+- Competitive implications
+
+Avoid technical jargon. Use analogies and business examples.`,
+                response: `The audience-specific prompt produces an explanation focused on strategic decision-making rather than technical details. It uses business language, focuses on ROI, and provides actionable insights for executive-level decisions.`,
+                keyPoint: `Audience targeting adjusts technical depth automatically. "For junior developers" yields tutorial-style explanations. "For experienced engineers" assumes foundational knowledge and goes deeper.`
+            },
+            structure: {
+                title: "Structure/Format Pattern",
+                description: "Explicitly define the output structure or format for consistent, parseable results.",
+                template: 'Provide your response in the following format: [STRUCTURE]',
+                before: `Analyze this customer feedback.`,
+                after: `Analyze this customer feedback and structure your response as follows:
+
+**Summary** (2-3 sentences)
+- Overall sentiment
+
+**Key Themes** (bullet list)
+- Theme 1: [description]
+- Theme 2: [description]
+- Theme 3: [description]
+
+**Actionable Recommendations** (numbered list)
+1. Immediate action (within 1 week)
+2. Short-term improvement (1-4 weeks)
+3. Long-term strategic change (1-3 months)
+
+**Metrics to Track**
+- [Metric 1]: [Why it matters]
+- [Metric 2]: [Why it matters]`,
+                response: `The structured format ensures consistency across multiple analyses, makes results scannable, and enables easy extraction of specific sections. Critical for production systems and automated workflows.`,
+                keyPoint: `Structure patterns are essential for: JSON output, API integrations, automated processing, and ensuring consistency across multiple LLM calls. The more specific your format, the more reliable the output.`
+            },
+            'cog-verifier': {
+                title: "Cognitive Verifier Pattern",
+                description: "Ask the model to break down complex questions into sub-questions, answer each, then synthesize.",
+                template: 'When answering [QUESTION], generate sub-questions that help answer it. Answer each sub-question. Then provide the final answer.',
+                before: `Should we launch this product in Q2?`,
+                after: `When answering "Should we launch our AI-powered scheduling assistant in Q2?", first generate 3-5 sub-questions that help answer this decision. Answer each sub-question thoroughly. Then provide your final recommendation.
+
+Product context:
+- AI-powered meeting scheduler
+- Target: Small business owners
+- Beta tested with 50 users (NPS: 62)
+- 3 competitors in market
+- Development: 95% complete`,
+                response: `**Sub-questions generated:**
+1. Is the product ready for market (feature completeness, stability)?
+2. What is the competitive landscape in Q2?
+3. Do we have adequate resources for Q2 launch (marketing, support)?
+4. What are market conditions and timing factors?
+5. What are the risks of launching vs. delaying?
+
+**Answers:**
+[Detailed analysis of each sub-question...]
+
+**Final Recommendation:** Yes, launch in Q2 because the product is market-ready (95% complete, positive NPS), Q2 timing aligns with SMB budget cycles, competitive intensity is moderate, and delay risks losing first-mover advantage in the AI scheduler space.`,
+                keyPoint: `Cognitive verifier reduces errors on complex decisions by forcing systematic thinking. Particularly valuable for multi-factor decisions, strategic questions, and situations where you need to show your reasoning.`
+            },
+            constraint: {
+                title: "Constraint Pattern",
+                description: "Define explicit constraints or limitations on the output to prevent unwanted behaviors.",
+                template: '[Task]. Constraints: [LIST OF CONSTRAINTS]',
+                before: `Write a product description for our software.`,
+                after: `Write a product description for our AI-powered CRM software.
+
+Constraints:
+- Maximum 150 words
+- Write at 8th-grade reading level
+- Focus on benefits, not features
+- No technical jargon or acronyms
+- Include a clear call-to-action
+- Tone: Friendly and conversational, not salesy
+- Do NOT make claims about "revolutionary" or "world's best"
+- Avoid buzzwords like "leverage," "synergy," "disruptive"`,
+                response: `Managing customer relationships shouldn't feel like work. Our CRM helps you keep track of every customer conversation, remember important details, and know exactly when to follow up—all without endless spreadsheets or sticky notes.
+
+Spend less time organizing and more time building relationships. Get automatic reminders, see your customer history at a glance, and never miss an opportunity to connect.
+
+Try it free for 14 days. No credit card required.`,
+                keyPoint: `Constraints prevent common LLM failures: verbosity, inappropriate tone, hallucinated claims, and off-brand language. Stack multiple constraints for precise control. Especially important for customer-facing content.`
+            },
+            cot: {
+                title: "Chain of Thought (CoT)",
+                description: "Encourage the model to show reasoning steps before giving a final answer.",
+                template: '[Question]. Let\'s think step by step.',
+                before: `A store has 23 apples. They sell 17 and receive a shipment of 45. How many apples do they have?`,
+                after: `A store has 23 apples. They sell 17 and receive a shipment of 45. How many apples do they have?
+
+Let's think step by step.`,
+                response: `Let's think step by step:
+
+Step 1: Start with initial inventory
+- The store begins with 23 apples
+
+Step 2: Account for sales
+- They sell 17 apples
+- 23 - 17 = 6 apples remaining
+
+Step 3: Add new shipment
+- They receive 45 apples
+- 6 + 45 = 51 apples
+
+Final answer: The store has 51 apples.
+
+This step-by-step approach ensures we don't skip any operations and makes the math easy to verify.`,
+                keyPoint: `Chain of thought dramatically improves accuracy on reasoning tasks: math problems, multi-step logic, complex decisions, and debugging. The simple phrase "Let's think step by step" can reduce errors by 50%+ on certain tasks.`
+            }
+        };
+
+        function showPattern(patternKey) {
+            const pattern = patterns[patternKey];
+            const display = document.getElementById('patternDisplay');
+
+            // Update button states
+            document.querySelectorAll('.pattern-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Build display HTML
+            display.innerHTML = `
+                <div class="pattern-title">${pattern.title}</div>
+
+                <div class="pattern-description">
+                    <strong>Pattern:</strong> ${pattern.description}
+                    <div style="margin-top: 10px;">
+                        <span class="badge">Template</span>
+                        <code style="background: white; padding: 5px 10px; display: inline-block; margin-top: 5px; border-radius: 4px;">${pattern.template}</code>
+                    </div>
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="before-box">
+                        <div style="font-weight: 700; color: #c62828; margin-bottom: 10px;">❌ Before (Weak Prompt)</div>
+                        <div class="prompt-box" style="background: white; border-left-color: #f44336;">${pattern.before}</div>
+                    </div>
+                    <div class="after-box">
+                        <div style="font-weight: 700; color: #2e7d32; margin-bottom: 10px;">✅ After (Strong Prompt)</div>
+                        <div class="prompt-box" style="background: white; border-left-color: #4caf50;">${pattern.after}</div>
+                    </div>
+                </div>
+
+                <div class="response-box">
+                    <div class="response-label">📤 Example Response (with pattern applied)</div>
+                    <div style="white-space: pre-wrap;">${pattern.response}</div>
+                </div>
+
+                <div class="key-point">
+                    <strong>💡 Key Insight:</strong> ${pattern.keyPoint}
+                </div>
+            `;
+        }
+
+        // Pop-out functionality
+        document.getElementById('popoutBtn').addEventListener('click', function() {
+            const currentUrl = window.location.href;
+            const popoutUrl = currentUrl + (currentUrl.includes('?') ? '&' : '?') + 'standalone=true';
+            const popoutWindow = window.open(popoutUrl, 'WidgetPopout',
+                'width=1200,height=900,resizable=yes,scrollbars=yes,status=yes');
+            if (popoutWindow) popoutWindow.focus();
+        });
+
+        // Hide pop-out button if in standalone mode
+        if (window.location.search.includes('standalone=true')) {
+            document.body.classList.add('standalone-mode');
+        }
+
+        // Initialize with persona pattern
+        showPattern('persona');
+    </script>
+</body>
+</html>

@@ -1,0 +1,390 @@
+<!-- Skip link for keyboard users -->
+<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<main id="main-content" role="main">
+<div id="dp-wrapper" class="dp-wrapper">
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;" aria-hidden="true">Icon Progress Bar (browser only)</div>
+
+  <!-- Custom GPTs & AI Assistants -->
+  <div class="dp-content-block content-block" data-title="Custom GPTs & AI Assistants">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-user-cog" aria-hidden="true"></i>&nbsp;Custom GPTs &amp; AI Assistants</h2>
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+      <div class="card-body">
+        <h3 class="card-title dp-ignore-theme">What this page covers</h3>
+        <p>How to create <strong>custom GPT assistants</strong> tailored to specific tasks and audiences. You'll learn to configure personas, add knowledge bases (RAG), enable capabilities, and build specialized AI tools without coding—from teaching assistants to business chatbots.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Why Custom GPTs? -->
+  <div class="dp-content-block content-block" data-title="Why Create Custom GPTs?">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-question-circle" aria-hidden="true"></i>&nbsp;Why Create Custom GPTs?</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="custom-limits" id="custom-limits-heading">Limitations of standard ChatGPT</h3>
+        <div id="custom-limits" class="dp-panel-content" role="region" aria-labelledby="custom-limits-heading" hidden>
+          <p><strong>Standard GPT-4 or other foundation models have inherent limitations:</strong></p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Training cutoff:</strong> Knowledge ends at a specific date (e.g., end of 2023)</li>
+            <li class="list-group-item"><strong>Generic responses:</strong> Not fine-tuned for your specific domain or audience</li>
+            <li class="list-group-item"><strong>No specialized behavior:</strong> Lacks guardrails, tone, or workflow you need</li>
+            <li class="list-group-item"><strong>No private knowledge:</strong> Can't access your documents, policies, or proprietary information</li>
+            <li class="list-group-item"><strong>Limited actions:</strong> Can't integrate with your specific tools or systems</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="custom-benefits" id="custom-benefits-heading">Benefits of custom GPTs</h3>
+        <div id="custom-benefits" class="dp-panel-content" role="region" aria-labelledby="custom-benefits-heading" hidden>
+          <p><strong>Custom GPTs solve these problems by enabling:</strong></p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Persona customization:</strong> Define exact tone, expertise level, and communication style</li>
+            <li class="list-group-item"><strong>Knowledge integration:</strong> Upload PDFs, documents, policies—instant RAG system</li>
+            <li class="list-group-item"><strong>Guardrails:</strong> Specify what the AI should and shouldn't do</li>
+            <li class="list-group-item"><strong>Workflow design:</strong> Create step-by-step processes the AI follows automatically</li>
+            <li class="list-group-item"><strong>Capabilities:</strong> Enable web search, code interpreter, image generation, custom actions</li>
+            <li class="list-group-item"><strong>Shareability:</strong> Publish for your team or publicly in the GPT store</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="custom-examples" id="custom-examples-heading">Use cases</h3>
+        <div id="custom-examples" class="dp-panel-content" role="region" aria-labelledby="custom-examples-heading" hidden>
+          <div class="table-responsive">
+            <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Custom GPT use cases">
+              <caption>Real-World Custom GPT Applications</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Domain</th>
+                  <th scope="col">Custom GPT Example</th>
+                  <th scope="col">Key Features</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Education</th>
+                  <td>Math Teaching Assistant (TAI)</td>
+                  <td>Student-friendly tone, past exam knowledge, video timestamps</td>
+                </tr>
+                <tr>
+                  <th scope="row">Customer Service</th>
+                  <td>Product Support Chatbot</td>
+                  <td>Product manuals, troubleshooting guides, ticket creation</td>
+                </tr>
+                <tr>
+                  <th scope="row">HR</th>
+                  <td>Policy Assistant</td>
+                  <td>Company policies, leave rules, benefits information</td>
+                </tr>
+                <tr>
+                  <th scope="row">Legal</th>
+                  <td>Contract Reviewer</td>
+                  <td>Legal templates, clause analysis, risk flagging</td>
+                </tr>
+                <tr>
+                  <th scope="row">Marketing</th>
+                  <td>Brand Voice Writer</td>
+                  <td>Brand guidelines, content examples, tone consistency</td>
+                </tr>
+                <tr>
+                  <th scope="row">Sales</th>
+                  <td>Proposal Generator</td>
+                  <td>Product catalog, pricing, past proposals, ROI calculators</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Creating a Custom GPT -->
+  <div class="dp-content-block content-block" data-title="Creating a Custom GPT">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-wrench" aria-hidden="true"></i>&nbsp;Creating a Custom GPT</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="create-access" id="create-access-heading">Access and setup</h3>
+        <div id="create-access" class="dp-panel-content" role="region" aria-labelledby="create-access-heading" hidden>
+          <p><strong>Requirements:</strong></p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">ChatGPT Plus subscription (or similar for other platforms)</li>
+            <li class="list-group-item">Access to GPT builder interface</li>
+            <li class="list-group-item">Documents/knowledge to upload (optional but recommended)</li>
+          </ul>
+          <p><strong>Getting started:</strong></p>
+          <ol class="list-group list-group-flush list-group-numbered">
+            <li class="list-group-item">Click "Explore" → "Create a GPT" in ChatGPT</li>
+            <li class="list-group-item">Choose between guided builder or manual configuration</li>
+            <li class="list-group-item">Start with basic settings: name, description, instructions</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="create-name" id="create-name-heading">Name and description</h3>
+        <div id="create-name" class="dp-panel-content" role="region" aria-labelledby="create-name-heading" hidden>
+          <p><strong>Name:</strong> Choose a clear, descriptive name</p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Example: "Math TAI" (Teaching Assistant with AI)</li>
+            <li class="list-group-item">Example: "HR Policy Assistant"</li>
+            <li class="list-group-item">Example: "Marketing Content Generator"</li>
+          </ul>
+          <p><strong>Description:</strong> Short summary (appears in GPT library)</p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">1-2 sentences explaining what the GPT does</li>
+            <li class="list-group-item">Who it's designed for</li>
+            <li class="list-group-item">Key capabilities</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="create-instructions" id="create-instructions-heading">Instructions (the persona prompt)</h3>
+        <div id="create-instructions" class="dp-panel-content" role="region" aria-labelledby="create-instructions-heading" hidden>
+          <p><strong>This is your system prompt—the foundation of your custom GPT's behavior.</strong></p>
+          <p><strong>Math TAI example (abbreviated):</strong></p>
+          <pre style="background-color: #f5f5f5; padding: 10px; border-radius: 4px; overflow-x: auto; font-size: 0.9em;"><code>You are a friendly, approachable university-level mathematics professor who explains concepts in a conversational and empathetic tone. You help first-year psychology students, many of whom have limited backgrounds in mathematics, to understand course material effectively.
+
+When a student asks about course content:
+1. Explain concepts clearly and informally, like a relaxed but thorough chat
+2. Look up relevant exercises from past exams in your knowledge base
+3. Always ask if they want to go through the solution step-by-step
+4. After explanation, run "search transcript" to find related lecture video timestamps
+5. Share clickable video links with timestamps if found
+
+When a student asks about course structure:
+- Answer only based on the course outline in your knowledge base
+- Include direct quotations to support your answer
+
+When providing numerical solutions:
+- Automatically use Python to verify accuracy before finalizing
+
+At the end of every conversation:
+- Ask "Is there anything else I can help with?"
+- List available commands: Search transcript, Email help, Grade scheme</code></pre>
+          <p class="mb-0"><strong>Key elements:</strong> Persona, audience, behavior rules, workflow steps, guardrails, helpful reminders</p>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="create-starters" id="create-starters-heading">Conversation starters</h3>
+        <div id="create-starters" class="dp-panel-content" role="region" aria-labelledby="create-starters-heading" hidden>
+          <p><strong>Provide example prompts to guide users:</strong></p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">"I don't understand circular permutations. Can you explain?"</li>
+            <li class="list-group-item">"I missed an online quiz. What should I do?"</li>
+            <li class="list-group-item">"Show me a past exam question about probability trees."</li>
+            <li class="list-group-item">"What's the grading scheme for this course?"</li>
+          </ul>
+          <p class="mb-0">These appear as clickable buttons when users start a conversation with your GPT.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Knowledge Base (RAG) -->
+  <div class="dp-content-block content-block" data-title="Knowledge Base (RAG Integration)">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-database" aria-hidden="true"></i>&nbsp;Knowledge Base (RAG Integration)</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="kb-what" id="kb-what-heading">What is the knowledge base?</h3>
+        <div id="kb-what" class="dp-panel-content" role="region" aria-labelledby="kb-what-heading" hidden>
+          <p><strong>The Knowledge section implements RAG (Retrieval Augmented Generation) automatically:</strong></p>
+          <ol class="list-group list-group-flush list-group-numbered">
+            <li class="list-group-item">You upload documents (PDFs, text files, spreadsheets)</li>
+            <li class="list-group-item">OpenAI creates a vector database from your documents</li>
+            <li class="list-group-item">When users ask questions, the orchestrator searches this database</li>
+            <li class="list-group-item">Relevant chunks are retrieved and added to the prompt</li>
+            <li class="list-group-item">The LLM responds using both its training and your documents</li>
+          </ol>
+          <p class="mb-0"><strong>You don't see it happening</strong>, but every query triggers retrieval → augmentation → generation.</p>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="kb-upload" id="kb-upload-heading">What to upload</h3>
+        <div id="kb-upload" class="dp-panel-content" role="region" aria-labelledby="kb-upload-heading" hidden>
+          <p><strong>Math TAI example knowledge base:</strong></p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Course content map:</strong> Week-by-week topic guide</li>
+            <li class="list-group-item"><strong>Past final exams:</strong> Solutions to 5+ different exams (PDFs)</li>
+            <li class="list-group-item"><strong>Exercise solutions:</strong> PDFs with worked examples</li>
+            <li class="list-group-item"><strong>Course outline:</strong> Grading scheme, deadlines, policies</li>
+          </ul>
+          <p><strong>Business use cases:</strong></p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Product manuals and troubleshooting guides</li>
+            <li class="list-group-item">Company policies and HR documents</li>
+            <li class="list-group-item">Legal templates and contract examples</li>
+            <li class="list-group-item">Brand guidelines and content examples</li>
+            <li class="list-group-item">Historical data, reports, and analyses</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="kb-citation" id="kb-citation-heading">Citing sources</h3>
+        <div id="kb-citation" class="dp-panel-content" role="region" aria-labelledby="kb-citation-heading" hidden>
+          <p><strong>Instruct your GPT to cite knowledge base sources:</strong></p>
+          <blockquote class="dp-card card" style="border-left: 4px solid #f97316; padding-left: 15px;">
+            <p>"When answering questions about course structure, include direct quotations from the outline in your knowledge base to support your answer."</p>
+          </blockquote>
+          <p><strong>Example response:</strong></p>
+          <blockquote class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+            <p>"Since only the best five out of six quizzes count towards your final grade, you don't need to do anything for your first missed quiz. According to the course outline: <em>'Students do not need to request academic consideration for the first missed quiz.'</em>"</p>
+          </blockquote>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Capabilities and Actions -->
+  <div class="dp-content-block content-block" data-title="Capabilities and Actions">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-cogs" aria-hidden="true"></i>&nbsp;Capabilities and Actions</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="cap-standard" id="cap-standard-heading">Standard capabilities (built-in)</h3>
+        <div id="cap-standard" class="dp-panel-content" role="region" aria-labelledby="cap-standard-heading" hidden>
+          <p><strong>Enable these with a single click:</strong></p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Web search:</strong> Access current information beyond training cutoff</li>
+            <li class="list-group-item"><strong>Code interpreter:</strong> Execute Python for calculations, data analysis, visualizations</li>
+            <li class="list-group-item"><strong>Canvas:</strong> Generate and edit documents in a side panel</li>
+            <li class="list-group-item"><strong>Image generation (DALL-E):</strong> Create images, diagrams, visualizations</li>
+          </ul>
+          <p><strong>Math TAI enabled capabilities:</strong></p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">✅ Web search (for current information if needed)</li>
+            <li class="list-group-item">✅ Canvas (for generating educational materials)</li>
+            <li class="list-group-item">✅ Image generation (for probability trees, diagrams)</li>
+            <li class="list-group-item">✅ Code interpreter (for verifying numerical answers)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="cap-custom" id="cap-custom-heading">Custom actions (advanced)</h3>
+        <div id="cap-custom" class="dp-panel-content" role="region" aria-labelledby="cap-custom-heading" hidden>
+          <p><strong>Create custom integrations with external systems:</strong></p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>REST APIs:</strong> Connect to your own web services</li>
+            <li class="list-group-item"><strong>Databases:</strong> Query and update data stores</li>
+            <li class="list-group-item"><strong>Email:</strong> Send drafts, notifications, or automated messages</li>
+            <li class="list-group-item"><strong>Zapier:</strong> Integrate with thousands of apps</li>
+            <li class="list-group-item"><strong>Custom endpoints:</strong> Any service with an API</li>
+          </ul>
+          <p><strong>Math TAI custom action example:</strong></p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Search Transcript:</strong> Queries a custom website with course video transcripts</li>
+            <li class="list-group-item">Returns: Matching timestamps and video links</li>
+            <li class="list-group-item">User sees: "Here's the lecture where we discussed this [video link with timestamp]"</li>
+          </ul>
+          <p class="mb-0"><em>Note:</em> Custom actions require JSON schema and API knowledge, but ChatGPT can help you create them.</p>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="cap-example" id="cap-example-heading">Action workflow example</h3>
+        <div id="cap-example" class="dp-panel-content" role="region" aria-labelledby="cap-example-heading" hidden>
+          <pre style="background-color: #f5f5f5; padding: 10px; border-radius: 4px; overflow-x: auto;"><code>Student: "I'm not getting circular permutations. Can you explain?"
+
+Math TAI:
+1. Explains concept in friendly tone (persona)
+2. Retrieves past exam question from knowledge base (RAG)
+3. Walks through solution step-by-step
+4. Triggers "search transcript" custom action
+5. Receives video timestamps from external API
+6. Shares clickable link: "Here's the lecture at 12:35 where we covered this"
+7. Uses code interpreter to verify numerical example
+8. Asks: "Would you like to try a similar problem?"</code></pre>
+          <p class="mb-0"><strong>All of this happens automatically</strong> based on your instructions and enabled capabilities.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Guardrails and Safety -->
+  <div class="dp-content-block content-block" data-title="Guardrails and Safety">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-shield-alt" aria-hidden="true"></i>&nbsp;Guardrails and Safety</h2>
+    <div class="dp-card card" style="border-left: 4px solid #dc2626; padding-left: 15px;">
+      <div class="card-body">
+        <h3 class="card-title dp-ignore-theme">Critical: Prevent Hallucinations and Errors</h3>
+        <p><strong>Always include explicit guardrails in your instructions:</strong></p>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><strong>Scope limits:</strong> "Only answer questions about mathematics. Politely decline other topics."</li>
+          <li class="list-group-item"><strong>Action limits:</strong> "You cannot send emails directly. Draft them for user review only."</li>
+          <li class="list-group-item"><strong>Citation requirements:</strong> "Always cite your source when using knowledge base documents."</li>
+          <li class="list-group-item"><strong>Uncertainty handling:</strong> "If you're not sure, say 'I don't have enough information' instead of guessing."</li>
+          <li class="list-group-item"><strong>Sensitive data:</strong> "Never share student grades or personal information."</li>
+        </ul>
+        <p class="mb-0"><strong>Hallucination example:</strong> Math TAI said "email sent" when it couldn't actually send emails—the guardrail "You don't send emails" would have prevented this false claim.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Publishing and Sharing -->
+  <div class="dp-content-block content-block" data-title="Publishing and Sharing">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-share-alt" aria-hidden="true"></i>&nbsp;Publishing and Sharing</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="pub-options" id="pub-options-heading">Sharing options</h3>
+        <div id="pub-options" class="dp-panel-content" role="region" aria-labelledby="pub-options-heading" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Only me:</strong> Private, for personal use</li>
+            <li class="list-group-item"><strong>Anyone with a link:</strong> Share URL with specific people/teams</li>
+            <li class="list-group-item"><strong>Public (GPT Store):</strong> Listed in OpenAI's GPT directory for everyone</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="pub-tips" id="pub-tips-heading">Publishing tips</h3>
+        <div id="pub-tips" class="dp-panel-content" role="region" aria-labelledby="pub-tips-heading" hidden>
+          <ol class="list-group list-group-flush list-group-numbered">
+            <li class="list-group-item"><strong>Test thoroughly:</strong> Use your GPT extensively before sharing</li>
+            <li class="list-group-item"><strong>Gather feedback:</strong> Share with a small group first, iterate based on feedback</li>
+            <li class="list-group-item"><strong>Monitor usage:</strong> Check analytics to see how people use your GPT</li>
+            <li class="list-group-item"><strong>Update regularly:</strong> Add new knowledge, refine instructions, fix issues</li>
+            <li class="list-group-item"><strong>Clear documentation:</strong> Provide a description and conversation starters</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Helpful Tip -->
+  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
+    <div class="card-body">
+      <h3 class="card-title">Helpful Tip</h3>
+      <p class="card-text">Start simple, then expand. Begin with clear instructions and a small knowledge base. Test with real users. Add capabilities and actions incrementally. Even basic custom GPTs deliver immense value when properly scoped.</p>
+    </div>
+  </div>
+
+  <hr aria-hidden="true" />
+  <p>Select <strong>Next▸</strong> to continue with <strong>OpenAI Platform & Fine-tuning</strong>.</p>
+</div>
+</main>
+
+<!-- Canvas-safe toggling -->
+<script>
+(function () {
+  function toggleHead(h){
+    const content = document.getElementById(h.getAttribute('aria-controls'));
+    const expanded = h.getAttribute('aria-expanded') === 'true';
+    h.setAttribute('aria-expanded', String(!expanded));
+    if (content) content.hidden = expanded;
+  }
+  document.addEventListener('click', function (e) {
+    const h = e.target.closest('.dp-panel-heading[role="button"]');
+    if (h) toggleHead(h);
+  });
+  document.addEventListener('keydown', function (e) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role="button"]')) {
+      e.preventDefault(); toggleHead(e.target);
+    }
+  });
+})();
+</script>

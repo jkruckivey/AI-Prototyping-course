@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSONL Formatter for Fine-tuning</title>
+    <link rel="stylesheet" href="ivey-widget-base.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Figtree', system-ui, -apple-system, sans-serif;
+            background: white;
+            color: #2c3e50;
+            line-height: 1.6;
+            padding: 0;
+            margin: 0;
+        }
+
+        .dp-wrapper {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #ffffff;
+        }
+
+        .dp-has-icon {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #034638;
+            margin: 0 0 1rem 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .dp-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin: 1rem 0;
+        }
+
+        .dp-card.intro-card {
+            border-left: 4px solid #034638;
+            background: #f8fffe;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: #034638;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0a5c4a;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: #582C83;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #4c1d75;
+            transform: translateY(-1px);
+        }
+
+        .formatter-container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .format-selector {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+            justify-content: center;
+        }
+
+        .format-btn {
+            background: white;
+            border: 2px solid #e0e0e0;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex: 1;
+            max-width: 300px;
+        }
+
+        .format-btn:hover {
+            border-color: #034638;
+            background: #e8f5e9;
+        }
+
+        .format-btn.active {
+            background: #034638;
+            color: white;
+            border-color: #034638;
+        }
+
+        .format-btn h4 {
+            margin: 0 0 8px 0;
+            font-size: 1.1em;
+        }
+
+        .format-btn p {
+            margin: 0;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .editor-panel {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .editor-panel h3 {
+            color: #034638;
+            margin-top: 0;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+
+        .input-group {
+            margin: 20px 0;
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: 600;
+            color: #034638;
+            margin-bottom: 8px;
+        }
+
+        .input-group input,
+        .input-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            box-sizing: border-box;
+        }
+
+        .input-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .add-example-btn {
+            background: #034638;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+            margin: 10px 0;
+        }
+
+        .add-example-btn:hover {
+            background: #045a49;
+        }
+
+        .output-panel {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85em;
+            line-height: 1.6;
+            max-height: 400px;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .output-panel .key {
+            color: #9cdcfe;
+        }
+
+        .output-panel .string {
+            color: #ce9178;
+        }
+
+        .output-panel .bracket {
+            color: #ffd700;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .copy-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .copy-btn.copied {
+            background: #4caf50;
+            border-color: #4caf50;
+        }
+
+        .example-counter {
+            background: #e8f5e9;
+            border-left: 4px solid #034638;
+            padding: 12px;
+            margin: 15px 0;
+            border-radius: 4px;
+            font-weight: 600;
+            color: #034638;
+        }
+
+        .clear-btn {
+            background: white;
+            color: #d32f2f;
+            border: 2px solid #d32f2f;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-left: 10px;
+        }
+
+        .clear-btn:hover {
+            background: #ffebee;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .info-box h4 {
+            margin-top: 0;
+            color: #1976d2;
+        }
+
+        .info-box ul {
+            margin: 10px 0;
+            padding-left: 25px;
+        }
+
+        .info-box li {
+            margin: 5px 0;
+        }
+
+        .download-btn {
+            background: #582C83;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+            margin-left: 10px;
+        }
+
+        .download-btn:hover {
+            background: #6d3a9e;
+        }
+
+        .message-row {
+            background: #f5f5f5;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 6px;
+            border: 1px solid #e0e0e0;
+            position: relative;
+        }
+
+        .message-row .remove-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #d32f2f;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85em;
+        }
+
+        .role-selector {
+            margin-bottom: 10px;
+        }
+
+        .role-selector select {
+            padding: 8px 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .format-selector {
+                flex-direction: column;
+            }
+
+            .format-btn {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Pop-out button -->
+    <button class="widget-popout-btn" id="popoutBtn" title="Open in full window">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+        </svg>
+        <span>Pop Out</span>
+    </button>
+
+    <div class="dp-wrapper">
+        <h2 class="dp-has-icon">
+            <i class="fas fa-file-code" aria-hidden="true"></i> JSONL Formatter for Fine-tuning
+        </h2>
+
+        <div class="dp-card intro-card">
+            <p style="margin: 0 0 10px 0;">Create properly formatted training data for OpenAI fine-tuning. JSONL (JSON Lines) format is required—each line is a complete JSON object representing one training example.</p>
+            <ul style="margin: 10px 0 0 20px; padding: 0; font-size: 0.9em;">
+                    <li><strong>Task fine-tuning:</strong> Use prompt-completion pairs for simple input-output tasks</li>
+                    <li><strong>Conversational fine-tuning:</strong> Use message arrays (system, user, assistant) for chat-style interactions</li>
+                    <li><strong>Minimum examples:</strong> 10+ for testing, 100+ for production quality</li>
+                </ul>
+            </div>
+
+            <div class="format-selector">
+                <button class="format-btn active" onclick="selectFormat('task')" id="taskBtn">
+                    <h4>📝 Task Fine-tuning</h4>
+                    <p>Simple prompt-completion pairs</p>
+                </button>
+                <button class="format-btn" onclick="selectFormat('conversational')" id="convBtn">
+                    <h4>💬 Conversational Fine-tuning</h4>
+                    <p>Multi-turn dialogue with system, user, assistant</p>
+                </button>
+            </div>
+
+            <!-- Task Format Editor -->
+            <div class="editor-panel" id="taskEditor">
+                <h3>Task Fine-tuning Editor</h3>
+                <div class="input-group">
+                    <label for="taskPrompt">Prompt (Input):</label>
+                    <textarea id="taskPrompt" placeholder="Example: Translate the following English sentence into French: Hello, how are you?"></textarea>
+                </div>
+                <div class="input-group">
+                    <label for="taskCompletion">Completion (Output):</label>
+                    <textarea id="taskCompletion" placeholder="Example: Bonjour, comment allez-vous?"></textarea>
+                </div>
+                <button class="add-example-btn" onclick="addTaskExample()">Add Example</button>
+                <button class="clear-btn" onclick="clearAllExamples()">Clear All</button>
+            </div>
+
+            <!-- Conversational Format Editor -->
+            <div class="editor-panel" id="convEditor" style="display: none;">
+                <h3>Conversational Fine-tuning Editor</h3>
+                <div class="input-group">
+                    <label for="systemMessage">System Message (Optional):</label>
+                    <textarea id="systemMessage" placeholder="Example: Marv is a factual chatbot that is also sarcastic."></textarea>
+                </div>
+                <div id="messageList">
+                    <!-- Dynamic message pairs will be added here -->
+                </div>
+                <button class="add-example-btn" onclick="addMessagePair()">Add User-Assistant Pair</button>
+                <button class="add-example-btn" style="background: #582C83;" onclick="addConvExample()">Save Conversation</button>
+                <button class="clear-btn" onclick="clearAllExamples()">Clear All</button>
+            </div>
+
+            <!-- Output Panel -->
+            <div class="example-counter" id="exampleCounter">
+                0 examples added
+            </div>
+
+            <div style="position: relative;">
+                <div class="output-panel" id="outputPanel">
+                    <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">Copy</button>
+                    <span style="color: #6a9955;">// Your JSONL output will appear here...</span>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin: 20px 0;">
+                <button class="download-btn" onclick="downloadJSONL()" id="downloadBtn" style="display: none;">
+                    Download training_data.jsonl
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Pop-out functionality
+        document.getElementById('popoutBtn').addEventListener('click', function() {
+            const currentUrl = window.location.href;
+            const popoutUrl = currentUrl + (currentUrl.includes('?') ? '&' : '?') + 'standalone=true';
+            const popoutWindow = window.open(popoutUrl, 'WidgetPopout', 'width=1200,height=900,resizable=yes,scrollbars=yes,status=yes');
+            if (popoutWindow) popoutWindow.focus();
+        });
+
+        if (window.location.search.includes('standalone=true')) {
+            document.body.classList.add('standalone-mode');
+        }
+
+        // State
+        let currentFormat = 'task';
+        let examples = [];
+        let messageCounter = 0;
+
+        function selectFormat(format) {
+            currentFormat = format;
+
+            // Update buttons
+            document.getElementById('taskBtn').classList.remove('active');
+            document.getElementById('convBtn').classList.remove('active');
+
+            if (format === 'task') {
+                document.getElementById('taskBtn').classList.add('active');
+                document.getElementById('taskEditor').style.display = 'block';
+                document.getElementById('convEditor').style.display = 'none';
+            } else {
+                document.getElementById('convBtn').classList.add('active');
+                document.getElementById('taskEditor').style.display = 'none';
+                document.getElementById('convEditor').style.display = 'block';
+            }
+
+            // Clear examples when switching formats
+            clearAllExamples();
+        }
+
+        function addTaskExample() {
+            const prompt = document.getElementById('taskPrompt').value.trim();
+            const completion = document.getElementById('taskCompletion').value.trim();
+
+            if (!prompt || !completion) {
+                alert('Please fill in both prompt and completion fields.');
+                return;
+            }
+
+            const example = {
+                prompt: prompt,
+                completion: completion
+            };
+
+            examples.push(example);
+            updateOutput();
+
+            // Clear inputs
+            document.getElementById('taskPrompt').value = '';
+            document.getElementById('taskCompletion').value = '';
+        }
+
+        function addMessagePair() {
+            messageCounter++;
+            const messageList = document.getElementById('messageList');
+
+            const messageRow = document.createElement('div');
+            messageRow.className = 'message-row';
+            messageRow.id = `msg-${messageCounter}`;
+
+            messageRow.innerHTML = `
+                <button class="remove-btn" onclick="removeMessage(${messageCounter})">×</button>
+                <div class="input-group">
+                    <label>User Message:</label>
+                    <textarea class="user-msg" placeholder="What the user asks..."></textarea>
+                </div>
+                <div class="input-group">
+                    <label>Assistant Response:</label>
+                    <textarea class="assistant-msg" placeholder="How the assistant should respond..."></textarea>
+                </div>
+            `;
+
+            messageList.appendChild(messageRow);
+        }
+
+        function removeMessage(id) {
+            const element = document.getElementById(`msg-${id}`);
+            if (element) element.remove();
+        }
+
+        function addConvExample() {
+            const systemMsg = document.getElementById('systemMessage').value.trim();
+            const messageRows = document.querySelectorAll('.message-row');
+
+            if (messageRows.length === 0) {
+                alert('Please add at least one user-assistant pair.');
+                return;
+            }
+
+            const messages = [];
+
+            if (systemMsg) {
+                messages.push({ role: 'system', content: systemMsg });
+            }
+
+            messageRows.forEach(row => {
+                const userMsg = row.querySelector('.user-msg').value.trim();
+                const assistantMsg = row.querySelector('.assistant-msg').value.trim();
+
+                if (userMsg && assistantMsg) {
+                    messages.push({ role: 'user', content: userMsg });
+                    messages.push({ role: 'assistant', content: assistantMsg });
+                }
+            });
+
+            if (messages.length === 0) {
+                alert('Please fill in at least one complete user-assistant pair.');
+                return;
+            }
+
+            const example = { messages: messages };
+            examples.push(example);
+            updateOutput();
+
+            // Clear inputs
+            document.getElementById('systemMessage').value = '';
+            document.getElementById('messageList').innerHTML = '';
+            messageCounter = 0;
+        }
+
+        function updateOutput() {
+            const outputPanel = document.getElementById('outputPanel');
+            const exampleCounter = document.getElementById('exampleCounter');
+            const downloadBtn = document.getElementById('downloadBtn');
+
+            exampleCounter.textContent = `${examples.length} example${examples.length !== 1 ? 's' : ''} added`;
+
+            if (examples.length === 0) {
+                outputPanel.innerHTML = '<button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">Copy</button><span style="color: #6a9955;">// Your JSONL output will appear here...</span>';
+                downloadBtn.style.display = 'none';
+                return;
+            }
+
+            // Generate JSONL output with syntax highlighting
+            const jsonlLines = examples.map(ex => {
+                const json = JSON.stringify(ex);
+                return highlightJSON(json);
+            });
+
+            outputPanel.innerHTML = `
+                <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">Copy</button>
+                ${jsonlLines.join('<br>')}
+            `;
+
+            downloadBtn.style.display = 'inline-block';
+        }
+
+        function highlightJSON(json) {
+            return json
+                .replace(/"([^"]+)":/g, '<span class="key">"$1"</span>:')
+                .replace(/:"([^"]*)"/g, ':<span class="string">"$1"</span>')
+                .replace(/\{/g, '<span class="bracket">{</span>')
+                .replace(/\}/g, '<span class="bracket">}</span>')
+                .replace(/\[/g, '<span class="bracket">[</span>')
+                .replace(/\]/g, '<span class="bracket">]</span>');
+        }
+
+        function copyToClipboard() {
+            const plainText = examples.map(ex => JSON.stringify(ex)).join('\n');
+
+            navigator.clipboard.writeText(plainText).then(() => {
+                const btn = document.getElementById('copyBtn');
+                btn.textContent = 'Copied!';
+                btn.classList.add('copied');
+
+                setTimeout(() => {
+                    btn.textContent = 'Copy';
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+
+        function downloadJSONL() {
+            const jsonlContent = examples.map(ex => JSON.stringify(ex)).join('\n');
+            const blob = new Blob([jsonlContent], { type: 'application/jsonl' });
+            const url = URL.createObjectURL(blob);
+
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'training_data.jsonl';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function clearAllExamples() {
+            examples = [];
+            updateOutput();
+
+            // Clear all inputs
+            document.getElementById('taskPrompt').value = '';
+            document.getElementById('taskCompletion').value = '';
+            document.getElementById('systemMessage').value = '';
+            document.getElementById('messageList').innerHTML = '';
+            messageCounter = 0;
+        }
+
+        // Initialize with one message pair for conversational
+        if (currentFormat === 'conversational') {
+            addMessagePair();
+        }
+    </script>
+</body>
+</html>

@@ -5,87 +5,144 @@
 <div id="dp-wrapper" class="dp-wrapper">
   <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;" aria-hidden="true">Icon Progress Bar (browser only)</div>
 
-  <!-- Week 4 Wrap-Up -->
-  <div class="dp-content-block content-block" data-title="Week 4 — Review & Wrap-Up">
-    <h2 class="dp-has-icon"><i class="dp-icon fas fa-flag-checkered" aria-hidden="true"></i>&nbsp;Week 4 — Review & Wrap-Up</h2>
+  <!-- Week 4 Wrap-up -->
+  <div class="dp-content-block content-block" data-title="Week 4 Wrap-up">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-flag-checkered" aria-hidden="true"></i>&nbsp;Week 4 Wrap-up</h2>
     <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
       <div class="card-body">
-        <h3 class="card-title dp-ignore-theme">Quick Recap</h3>
-        <p>You learned to evaluate models beyond accuracy, align metrics with <strong>business value</strong>, select leak‑safe validation schemes, and tune hyperparameters responsibly.</p>
+        <h3 class="card-title dp-ignore-theme">Congratulations!</h3>
+        <p>You've completed Week 4 and gained comprehensive understanding of <strong>Generative AI</strong> and <strong>Large Language Models</strong>. You now understand how these powerful systems work, how to use them effectively, and how to customize them for your specific needs.</p>
       </div>
     </div>
   </div>
 
-  <!-- Knowledge Check -->
-  <div class="dp-content-block content-block" data-title="Knowledge Check">
-    <h2 class="dp-has-icon"><i class="dp-icon fas fa-clipboard-check" aria-hidden="true"></i>&nbsp;Knowledge Check</h2>
+  <!-- Quick Recap -->
+  <div class="dp-content-block content-block" data-title="Quick Recap">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-redo" aria-hidden="true"></i>&nbsp;Quick Recap</h2>
+    <p>This week you learned:</p>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item"><strong>Generative AI & LLMs:</strong> Foundation models, computational requirements, and how LLMs differ from traditional ML</li>
+      <li class="list-group-item"><strong>Transformer Architecture:</strong> Self-attention, tokenization, embeddings, and inference parameters</li>
+      <li class="list-group-item"><strong>Prompt Engineering:</strong> Zero/one/few-shot learning, prompt patterns, and chain of thought reasoning</li>
+      <li class="list-group-item"><strong>Fine-tuning & RAG:</strong> PEFT, instruction fine-tuning, RLHF, and retrieval augmented generation</li>
+      <li class="list-group-item"><strong>AI Agents:</strong> Autonomous systems that plan, use tools, and accomplish complex goals</li>
+    </ul>
+  </div>
+
+  <!-- Key Takeaways -->
+  <div class="dp-content-block content-block" data-title="Key Takeaways">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-lightbulb" aria-hidden="true"></i>&nbsp;Key Takeaways</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w4-q1" id="w4-q1-heading">1) When should you prefer PR curves over ROC curves?</h3>
-        <div id="w4-q1" class="dp-panel-content" role="region" aria-labelledby="w4-q1-heading" hidden>
-          <p>When the positive class is <strong>rare</strong> and you care about <strong>precision/recall</strong> trade‑offs directly.</p>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w4-stack" id="w4-stack-heading">The Generative AI Stack</h3>
+        <div id="w4-stack" class="dp-panel-content" role="region" aria-labelledby="w4-stack-heading" hidden>
+          <ol class="list-group list-group-flush list-group-numbered">
+            <li class="list-group-item"><strong>Foundation layer:</strong> LLMs (GPT, Claude, Gemini, Llama) provide base capabilities</li>
+            <li class="list-group-item"><strong>Customization layer:</strong> Prompt engineering, RAG, fine-tuning adapt behavior</li>
+            <li class="list-group-item"><strong>Application layer:</strong> AI agents orchestrate complex workflows</li>
+            <li class="list-group-item"><strong>Business layer:</strong> Integrate into products, processes, and services</li>
+          </ol>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w4-q2" id="w4-q2-heading">2) Why keep preprocessing inside the CV pipeline?</h3>
-        <div id="w4-q2" class="dp-panel-content" role="region" aria-labelledby="w4-q2-heading" hidden>
-          <p>To avoid <strong>leakage</strong>: statistics (e.g., scalers) must be learned only on the training fold, then applied to validation.</p>
-        </div>
-      </div>
-      <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w4-q3" id="w4-q3-heading">3) What does early stopping help prevent?</h3>
-        <div id="w4-q3" class="dp-panel-content" role="region" aria-labelledby="w4-q3-heading" hidden>
-          <p><strong>Overfitting</strong> and wasted compute by halting training when validation scores plateau.</p>
-        </div>
-      </div>
-      <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w4-q4" id="w4-q4-heading">4) How do you translate a threshold choice into business terms?</h3>
-        <div id="w4-q4" class="dp-panel-content" role="region" aria-labelledby="w4-q4-heading" hidden>
-          <p>Use a <strong>cost matrix</strong> and expected value calculation to pick the cutoff that maximizes net benefit (and fits operational capacity).</p>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w4-decision" id="w4-decision-heading">Decision Framework</h3>
+        <div id="w4-decision" class="dp-panel-content" role="region" aria-labelledby="w4-decision-heading" hidden>
+          <ol class="list-group list-group-flush list-group-numbered">
+            <li class="list-group-item"><strong>Start with prompt engineering</strong> - Solves 70-80% of use cases</li>
+            <li class="list-group-item"><strong>Add RAG</strong> when you need current/private knowledge</li>
+            <li class="list-group-item"><strong>Consider fine-tuning</strong> for consistent style, format, or specialized behavior</li>
+            <li class="list-group-item"><strong>Build agents</strong> for complex, multi-step autonomous workflows</li>
+            <li class="list-group-item"><strong>Combine approaches</strong> for production systems</li>
+          </ol>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Interactive quiz widget -->
-  <div class="dp-content-block content-block" data-title="Interactive Quiz (Optional)">
-    <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive Quiz (Optional)</h2>
-    <p class="mt-2">Prefer an interactive check? Use the short quiz below.</p>
-    <div class="dp-embed-wrapper">
-      <iframe title="Week 4 Wrap-Up Quiz" role="application" src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/week4/w4-wrap-quiz.html" width="100%" height="900" loading="lazy" allowfullscreen aria-label="Interactive multiple-choice quiz covering Week 4"></iframe>
-    </div>
-  </div>
-
-  <!-- Reflection & Next Steps -->
-  <div class="dp-content-block content-block" data-title="Reflection & Next Steps">
-    <h2 class="dp-has-icon"><i class="dp-icon fas fa-pen" aria-hidden="true"></i>&nbsp;Reflection & Next Steps</h2>
+  <!-- Practical Next Steps -->
+  <div class="dp-content-block content-block" data-title="Practical Next Steps">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-forward" aria-hidden="true"></i>&nbsp;Practical Next Steps</h2>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w4-reflect" id="w4-reflect-heading">Reflection</h3>
-        <div id="w4-reflect" class="dp-panel-content" role="region" aria-labelledby="w4-reflect-heading" hidden>
-          <p>Pick a real decision in your org and specify: the metric that matters, the cost matrix, your initial threshold, and how you would monitor drift.</p>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w4-practice" id="w4-practice-heading">Practice prompt engineering</h3>
+        <div id="w4-practice" class="dp-panel-content" role="region" aria-labelledby="w4-practice-heading" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Build a prompt library for common tasks</li>
+            <li class="list-group-item">Experiment with prompt patterns (persona, audience, structure)</li>
+            <li class="list-group-item">Try zero-shot vs. few-shot approaches</li>
+            <li class="list-group-item">Test inference parameters for different use cases</li>
+          </ul>
         </div>
       </div>
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w4-next" id="w4-next-heading">Next steps</h3>
-        <div id="w4-next" class="dp-panel-content" role="region" aria-labelledby="w4-next-heading" hidden>
-          <p>Plan a <strong>pilot</strong>: define a small population, guardrails, and success criteria. Run for two weeks and compare outcomes vs. baseline.</p>
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w4-explore" id="w4-explore-heading">Explore RAG systems</h3>
+        <div id="w4-explore" class="dp-panel-content" role="region" aria-labelledby="w4-explore-heading" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Identify a knowledge base that could benefit from LLM-powered search</li>
+            <li class="list-group-item">Try a simple RAG system with LangChain or LlamaIndex</li>
+            <li class="list-group-item">Experiment with different embedding models and vector databases</li>
+          </ul>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w4-build" id="w4-build-heading">Build a simple agent</h3>
+        <div id="w4-build" class="dp-panel-content" role="region" aria-labelledby="w4-build-heading" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Start with a single-tool agent (e.g., web search + summarization)</li>
+            <li class="list-group-item">Use OpenAI Assistants API, LangChain, or CrewAI</li>
+            <li class="list-group-item">Add error handling and iteration limits</li>
+            <li class="list-group-item">Test on diverse scenarios to identify failure modes</li>
+          </ul>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Helpful Tip / End-of-session reminder -->
-  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-color-dp-primary dp-callout-type-info" role="note" aria-label="Session completion reminder">
-    <div class="dp-callout-side-emphasis"><i class="dp-icon fas fa-info-circle dp-default-icon" aria-hidden="true"></i></div>
+  <!-- Reflection -->
+  <div class="dp-content-block content-block" data-title="Reflection Questions">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-comments" aria-hidden="true"></i>&nbsp;Reflection Questions</h2>
+    <div class="dp-card card" style="border-left: 4px solid #f97316; padding-left: 15px;">
+      <div class="card-body">
+        <h3 class="card-title dp-ignore-theme">Think About:</h3>
+        <ul class="mb-0">
+          <li>Which Generative AI technique (prompt engineering, RAG, fine-tuning, agents) is most relevant to your current role?</li>
+          <li>What task do you currently do manually that could be automated or augmented with an LLM?</li>
+          <li>What concerns do you have about implementing Generative AI in your organization?</li>
+          <li>How might Generative AI change your industry in the next 2-3 years?</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Looking Ahead -->
+  <div class="dp-content-block content-block" data-title="Looking Ahead: Week 5">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-binoculars" aria-hidden="true"></i>&nbsp;Looking Ahead: Week 5</h2>
+    <p>Next week focuses on <strong>deploying AI systems</strong> and ensuring they operate responsibly:</p>
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+      <div class="card-body">
+        <h3 class="card-title dp-ignore-theme">Week 5 Topics</h3>
+        <ul class="mb-0">
+          <li><strong>Model Deployment:</strong> Taking models from development to production</li>
+          <li><strong>Monitoring & Maintenance:</strong> Tracking performance and detecting drift</li>
+          <li><strong>Evaluation & Metrics:</strong> Measuring LLM quality and business impact</li>
+          <li><strong>AI Governance:</strong> Ethics, bias, fairness, and responsible AI</li>
+          <li><strong>Regulatory Compliance:</strong> Understanding AI regulations</li>
+          <li><strong>Risk Management:</strong> Identifying and mitigating AI-related risks</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Final Message -->
+  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
     <div class="card-body">
-      <h3 class="card-title"><strong>Reminder</strong></h3>
-      <p class="card-text">This is the last page in Week 4. Ensure you’ve completed the quiz and reflection prompts before moving on.</p>
+      <h3 class="card-title">You're Well-Equipped</h3>
+      <p class="card-text">You now have a strong foundation in Generative AI and LLMs. You understand the technology, know how to apply it effectively, and can extend capabilities with RAG, fine-tuning, and agents. Put this knowledge into practice and continue learning as the field evolves.</p>
     </div>
   </div>
 
   <hr aria-hidden="true" />
-  <p>Select <strong>Modules</strong> to return to the course overview, or proceed to the next module.</p>
+  <p><strong>Congratulations on completing Week 4!</strong> When you're ready, proceed to <strong>Week 5: Deployment, Monitoring, and Governance</strong>.</p>
 </div>
 </main>
 

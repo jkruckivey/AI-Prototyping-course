@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Interpreter Workflow Demo</title>
+    <link rel="stylesheet" href="ivey-widget-base.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.plot.ly/plotly-2.28.0.min.js"></script>
+    <style>
+        body {
+            font-family: 'Figtree', system-ui, -apple-system, sans-serif;
+            background: white;
+            color: #2c3e50;
+            line-height: 1.6;
+            padding: 0;
+            margin: 0;
+        }
+
+        .dp-wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #ffffff;
+        }
+
+        .dp-has-icon {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #034638;
+            margin: 0 0 1rem 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .dp-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin: 1rem 0;
+        }
+
+        .dp-card.intro-card {
+            border-left: 4px solid #034638;
+            background: #f8fffe;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: #034638;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0a5c4a;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: #582C83;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #4c1d75;
+            transform: translateY(-1px);
+        }
+
+        .workflow-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .chat-interface {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            height: 600px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, #034638 0%, #045a49 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px 8px 0 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chat-header h3 {
+            margin: 0;
+            font-size: 1.1em;
+        }
+
+        .model-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+
+        .message {
+            margin: 15px 0;
+            display: flex;
+            gap: 12px;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            flex-shrink: 0;
+        }
+
+        .user-avatar {
+            background: #3b82f6;
+        }
+
+        .assistant-avatar {
+            background: #034638;
+        }
+
+        .message-content {
+            flex: 1;
+            background: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .message.user .message-content {
+            background: #e3f2fd;
+        }
+
+        .file-upload-box {
+            background: #f5f5f5;
+            border: 2px dashed #034638;
+            border-radius: 6px;
+            padding: 20px;
+            text-align: center;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .file-upload-box:hover {
+            background: #e8f5e9;
+            border-color: #045a49;
+        }
+
+        .file-upload-box.uploaded {
+            border-style: solid;
+            background: #e8f5e9;
+        }
+
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85em;
+            overflow-x: auto;
+            margin: 10px 0;
+            line-height: 1.5;
+        }
+
+        .code-block .comment {
+            color: #6a9955;
+        }
+
+        .code-block .keyword {
+            color: #569cd6;
+        }
+
+        .code-block .string {
+            color: #ce9178;
+        }
+
+        .code-block .function {
+            color: #dcdcaa;
+        }
+
+        .output-box {
+            background: #f8f9fa;
+            border-left: 4px solid #4caf50;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        .chart-container {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 10px 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .action-btn {
+            background: #034638;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.95em;
+        }
+
+        .action-btn:hover {
+            background: #045a49;
+        }
+
+        .action-btn.secondary {
+            background: white;
+            color: #034638;
+            border: 2px solid #034638;
+        }
+
+        .action-btn.secondary:hover {
+            background: #e8f5e9;
+        }
+
+        .typing-indicator {
+            display: none;
+            align-items: center;
+            gap: 8px;
+            color: #666;
+            font-style: italic;
+            padding: 10px;
+        }
+
+        .typing-indicator.show {
+            display: flex;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .typing-dots span {
+            width: 8px;
+            height: 8px;
+            background: #666;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.6; }
+            30% { transform: translateY(-10px); opacity: 1; }
+        }
+
+        .info-panel {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .info-panel h4 {
+            margin-top: 0;
+            color: #1976d2;
+        }
+
+        @media (max-width: 768px) {
+            .chat-interface {
+                height: 500px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Pop-out button -->
+    <button class="widget-popout-btn" id="popoutBtn" title="Open in full window">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+        </svg>
+        <span>Pop Out</span>
+    </button>
+
+    <div class="dp-wrapper">
+        <h2 class="dp-has-icon">
+            <i class="fas fa-terminal" aria-hidden="true"></i> Code Interpreter Workflow
+        </h2>
+
+        <div class="dp-card intro-card">
+            <p style="margin: 0;">See how LLMs analyze data, generate visualizations, and build ML models. This simulates a real ChatGPT code interpreter session analyzing sales data—watch natural language transform into executable Python code, statistical analysis, and Plotly visualizations.</p>
+        </div>
+
+        <div class="widget-content workflow-container">
+
+            <div class="chat-interface">
+                <div class="chat-header">
+                    <h3>ChatGPT Code Interpreter</h3>
+                    <span class="model-badge">GPT-4 with Code Interpreter</span>
+                </div>
+
+                <div class="chat-messages" id="chatMessages">
+                    <!-- Messages will be added here -->
+                </div>
+
+                <div class="typing-indicator" id="typingIndicator">
+                    <div class="typing-dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <span>ChatGPT is typing...</span>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="action-btn" id="startDemo">Start Demo</button>
+                <button class="action-btn secondary" id="resetDemo" style="display: none;">Reset Demo</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Pop-out functionality
+        document.getElementById('popoutBtn').addEventListener('click', function() {
+            const currentUrl = window.location.href;
+            const popoutUrl = currentUrl + (currentUrl.includes('?') ? '&' : '?') + 'standalone=true';
+            const popoutWindow = window.open(popoutUrl, 'WidgetPopout', 'width=1200,height=900,resizable=yes,scrollbars=yes,status=yes');
+            if (popoutWindow) popoutWindow.focus();
+        });
+
+        if (window.location.search.includes('standalone=true')) {
+            document.body.classList.add('standalone-mode');
+        }
+
+        // Demo workflow
+        const messages = [
+            {
+                role: 'user',
+                content: `<div class="file-upload-box uploaded">
+                    <div style="font-size: 2em; margin-bottom: 10px;">📊</div>
+                    <strong>sales_data.csv</strong> uploaded
+                    <div style="font-size: 0.9em; color: #666; margin-top: 5px;">2.3 MB • 10,000 rows × 8 columns</div>
+                </div>
+                <p>Can you analyze this sales dataset? I'd like to see summary statistics and identify any trends.</p>`
+            },
+            {
+                role: 'assistant',
+                content: `<p>I'll analyze the sales dataset for you. Let me start by loading the data and examining its structure.</p>
+                <div class="code-block"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+<span class="keyword">import</span> numpy <span class="keyword">as</span> np
+<span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt
+
+<span class="comment"># Load the dataset</span>
+df = pd.<span class="function">read_csv</span>(<span class="string">'sales_data.csv'</span>)
+
+<span class="comment"># Display basic info</span>
+<span class="function">print</span>(df.<span class="function">head</span>())
+<span class="function">print</span>(df.<span class="function">info</span>())
+<span class="function">print</span>(df.<span class="function">describe</span>())</div>
+                <div class="output-box">Dataset loaded successfully!
+Columns: Date, Product, Region, Sales_Amount, Units_Sold, Customer_ID, Category, Discount
+10,000 rows × 8 columns</div>`
+            },
+            {
+                role: 'assistant',
+                content: `<p>Here are the summary statistics:</p>
+                <div class="output-box"><strong>Sales Summary:</strong>
+• Total Revenue: $4,523,891
+• Average Sale: $452.39
+• Total Units Sold: 127,543
+• Date Range: Jan 1, 2023 - Dec 31, 2023
+
+<strong>By Category:</strong>
+• Electronics: $1,892,340 (41.8%)
+• Clothing: $1,203,567 (26.6%)
+• Home & Garden: $891,234 (19.7%)
+• Sports: $536,750 (11.9%)
+
+<strong>Top Regions:</strong>
+1. West: $1,345,678 (29.7%)
+2. East: $1,234,567 (27.3%)
+3. South: $1,089,432 (24.1%)
+4. North: $854,214 (18.9%)</div>
+                <p>Let me create a visualization to show monthly sales trends...</p>`
+            },
+            {
+                role: 'assistant',
+                content: `<div class="code-block"><span class="comment"># Convert date and aggregate by month</span>
+df[<span class="string">'Date'</span>] = pd.<span class="function">to_datetime</span>(df[<span class="string">'Date'</span>])
+monthly_sales = df.<span class="function">groupby</span>(df[<span class="string">'Date'</span>].dt.<span class="function">to_period</span>(<span class="string">'M'</span>))[<span class="string">'Sales_Amount'</span>].<span class="function">sum</span>()
+
+<span class="comment"># Create line chart</span>
+plt.<span class="function">figure</span>(figsize=(12, 6))
+monthly_sales.<span class="function">plot</span>(kind=<span class="string">'line'</span>, marker=<span class="string">'o'</span>, color=<span class="string">'#034638'</span>)
+plt.<span class="function">title</span>(<span class="string">'Monthly Sales Trend - 2023'</span>)
+plt.<span class="function">xlabel</span>(<span class="string">'Month'</span>)
+plt.<span class="function">ylabel</span>(<span class="string">'Sales ($)'</span>)
+plt.<span class="function">grid</span>(<span class="keyword">True</span>, alpha=0.3)
+plt.<span class="function">show</span>()</div>
+                <div id="salesChart" class="chart-container"></div>
+                <p><strong>Key Insights:</strong></p>
+                <ul>
+                    <li>📈 <strong>Strong Q4 performance:</strong> Nov-Dec sales 34% higher than Q1-Q3 average</li>
+                    <li>📊 <strong>Seasonal pattern:</strong> Clear peaks in March (spring) and November (holiday)</li>
+                    <li>💡 <strong>Summer dip:</strong> June-August show 15% lower sales - opportunity for targeted campaigns</li>
+                    <li>🎯 <strong>Electronics dominance:</strong> 42% of revenue but concentrated in Q4</li>
+                </ul>`
+            },
+            {
+                role: 'user',
+                content: `<p>Great analysis! Can you build a simple linear regression model to predict future sales based on these trends?</p>`
+            },
+            {
+                role: 'assistant',
+                content: `<p>Absolutely! I'll build a linear regression model using scikit-learn to forecast sales.</p>
+                <div class="code-block"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LinearRegression
+<span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split
+<span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> r2_score, mean_absolute_error
+
+<span class="comment"># Prepare features (month number, category, region)</span>
+df[<span class="string">'Month_Num'</span>] = df[<span class="string">'Date'</span>].dt.month
+df[<span class="string">'Day_of_Year'</span>] = df[<span class="string">'Date'</span>].dt.dayofyear
+
+<span class="comment"># One-hot encode categorical variables</span>
+features = pd.<span class="function">get_dummies</span>(df[[<span class="string">'Month_Num'</span>, <span class="string">'Day_of_Year'</span>, <span class="string">'Category'</span>, <span class="string">'Region'</span>]])
+target = df[<span class="string">'Sales_Amount'</span>]
+
+<span class="comment"># Split data</span>
+X_train, X_test, y_train, y_test = <span class="function">train_test_split</span>(features, target, test_size=0.2, random_state=42)
+
+<span class="comment"># Train model</span>
+model = <span class="function">LinearRegression</span>()
+model.<span class="function">fit</span>(X_train, y_train)
+
+<span class="comment"># Evaluate</span>
+predictions = model.<span class="function">predict</span>(X_test)
+r2 = <span class="function">r2_score</span>(y_test, predictions)
+mae = <span class="function">mean_absolute_error</span>(y_test, predictions)
+
+<span class="function">print</span>(<span class="string">f'Model R² Score: {r2:.3f}'</span>)
+<span class="function">print</span>(<span class="string">f'Mean Absolute Error: ${mae:.2f}'</span>)</div>
+                <div class="output-box"><strong>Model Performance:</strong>
+R² Score: 0.847 (84.7% of variance explained)
+Mean Absolute Error: $47.23
+
+<strong>Model saved as:</strong> sales_predictor.pkl
+
+The model performs well and can predict individual sale amounts within ~$47 on average. The seasonal patterns and regional differences are captured effectively.</div>
+                <p>Would you like me to generate sales forecasts for Q1 2024, or export this model for production use?</p>`
+            }
+        ];
+
+        let currentMessageIndex = 0;
+        const chatMessages = document.getElementById('chatMessages');
+        const typingIndicator = document.getElementById('typingIndicator');
+        const startBtn = document.getElementById('startDemo');
+        const resetBtn = document.getElementById('resetDemo');
+
+        startBtn.addEventListener('click', startDemo);
+        resetBtn.addEventListener('click', resetDemo);
+
+        function startDemo() {
+            startBtn.style.display = 'none';
+            resetBtn.style.display = 'inline-block';
+            currentMessageIndex = 0;
+            chatMessages.innerHTML = '';
+            showNextMessage();
+        }
+
+        function showNextMessage() {
+            if (currentMessageIndex >= messages.length) return;
+
+            // Show typing indicator
+            typingIndicator.classList.add('show');
+
+            // Simulate thinking time
+            setTimeout(() => {
+                typingIndicator.classList.remove('show');
+
+                const message = messages[currentMessageIndex];
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${message.role}`;
+
+                messageDiv.innerHTML = `
+                    <div class="message-avatar ${message.role}-avatar">
+                        ${message.role === 'user' ? '👤' : '🤖'}
+                    </div>
+                    <div class="message-content">
+                        ${message.content}
+                    </div>
+                `;
+
+                chatMessages.appendChild(messageDiv);
+
+                // Create chart if this is the chart message
+                if (currentMessageIndex === 3) {
+                    setTimeout(() => createSalesChart(), 300);
+                }
+
+                // Scroll to bottom
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+
+                currentMessageIndex++;
+
+                // Auto-advance or wait for user
+                if (currentMessageIndex < messages.length) {
+                    setTimeout(showNextMessage, 2000);
+                }
+            }, 1500);
+        }
+
+        function createSalesChart() {
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            const sales = [342000, 356000, 445000, 367000, 389000, 312000, 298000, 305000, 378000, 423000, 534000, 562000];
+
+            const trace = {
+                x: months,
+                y: sales,
+                type: 'scatter',
+                mode: 'lines+markers',
+                marker: {
+                    color: '#034638',
+                    size: 8
+                },
+                line: {
+                    color: '#034638',
+                    width: 3
+                }
+            };
+
+            const layout = {
+                title: 'Monthly Sales Trend - 2023',
+                xaxis: { title: 'Month' },
+                yaxis: { title: 'Sales ($)', tickformat: '$,.0f' },
+                margin: { t: 40, r: 20, b: 40, l: 60 },
+                height: 300,
+                font: { family: 'Arial, sans-serif' }
+            };
+
+            Plotly.newPlot('salesChart', [trace], layout, { responsive: true });
+        }
+
+        function resetDemo() {
+            chatMessages.innerHTML = '';
+            currentMessageIndex = 0;
+            typingIndicator.classList.remove('show');
+            startBtn.style.display = 'inline-block';
+            resetBtn.style.display = 'none';
+        }
+    </script>
+</body>
+</html>

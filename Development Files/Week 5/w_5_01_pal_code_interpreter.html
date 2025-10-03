@@ -1,0 +1,301 @@
+<!-- Skip link for keyboard users -->
+<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<main id="main-content" role="main">
+<div id="dp-wrapper" class="dp-wrapper">
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;" aria-hidden="true">Icon Progress Bar (browser only)</div>
+
+  <!-- PAL & Code Interpreters -->
+  <div class="dp-content-block content-block" data-title="PAL & Code Interpreters">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-code" aria-hidden="true"></i>&nbsp;PAL &amp; Code Interpreters</h2>
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+      <div class="card-body">
+        <h3 class="card-title dp-ignore-theme">What this page covers</h3>
+        <p>How <strong>Program-Aided Language models (PAL)</strong> transformed LLMs from text generators to computational agents. You'll learn how orchestration libraries enable Python code execution, solve complex math problems, and unlock data science capabilities through natural language.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- What is PAL? -->
+  <div class="dp-content-block content-block" data-title="What is PAL?">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-brain" aria-hidden="true"></i>&nbsp;What is PAL (Program-Aided Language)?</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="pal-def" id="pal-def-heading">Definition</h3>
+        <div id="pal-def" class="dp-panel-content" role="region" aria-labelledby="pal-def-heading" hidden>
+          <p><strong>PAL (Program-Aided Language)</strong> is a framework where LLMs can invoke programming languages—particularly Python—to assist with reasoning and computation.</p>
+          <p>Instead of predicting the next token to solve a math problem (which often fails), PAL enables the LLM to:</p>
+          <ol class="list-group list-group-flush list-group-numbered">
+            <li class="list-group-item">Understand the problem in natural language</li>
+            <li class="list-group-item">Generate Python code to solve it</li>
+            <li class="list-group-item">Execute the code via interpreter</li>
+            <li class="list-group-item">Return the result in natural language</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="pal-why" id="pal-why-heading">Why PAL is transformative</h3>
+        <div id="pal-why" class="dp-panel-content" role="region" aria-labelledby="pal-why-heading" hidden>
+          <p>LLMs have a fundamental limitation: <strong>they predict tokens, they don't calculate</strong>. This makes them unreliable for:</p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Mathematics (arithmetic, algebra, calculus)</li>
+            <li class="list-group-item">Data analysis (statistics, aggregations)</li>
+            <li class="list-group-item">Complex logic (permutations, search algorithms)</li>
+          </ul>
+          <p class="mb-0">PAL solves this by delegating computational tasks to actual code execution, combining the LLM's language understanding with programming language precision.</p>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="pal-flow" id="pal-flow-heading">How PAL works: The flow</h3>
+        <div id="pal-flow" class="dp-panel-content" role="region" aria-labelledby="pal-flow-heading" hidden>
+          <div class="table-responsive">
+            <table class="ic-Table ic-Table--hover-row" role="table" aria-label="PAL execution flow">
+              <caption>The PAL Execution Flow</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Step</th>
+                  <th scope="col">Component</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">1</th>
+                  <td>User</td>
+                  <td>Provides natural language prompt</td>
+                </tr>
+                <tr>
+                  <th scope="row">2</th>
+                  <td>LLM</td>
+                  <td>Understands intent, generates Python code</td>
+                </tr>
+                <tr>
+                  <th scope="row">3</th>
+                  <td>Orchestration Library</td>
+                  <td>Routes code to Python interpreter</td>
+                </tr>
+                <tr>
+                  <th scope="row">4</th>
+                  <td>Python Interpreter</td>
+                  <td>Executes code, returns results</td>
+                </tr>
+                <tr>
+                  <th scope="row">5</th>
+                  <td>LLM</td>
+                  <td>Interprets results, formulates response</td>
+                </tr>
+                <tr>
+                  <th scope="row">6</th>
+                  <td>User</td>
+                  <td>Receives natural language answer</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Math Problem Solving with PAL -->
+  <div class="dp-content-block content-block" data-title="Math Problem Solving with PAL">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-calculator" aria-hidden="true"></i>&nbsp;Math Problem Solving with PAL</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="math-fail" id="math-fail-heading">Without PAL: LLMs fail at math</h3>
+        <div id="math-fail" class="dp-panel-content" role="region" aria-labelledby="math-fail-heading" hidden>
+          <p><strong>Example problem:</strong></p>
+          <blockquote class="dp-card card" style="border-left: 4px solid #f97316; padding-left: 15px;">
+            <p>"Roger has 5 tennis balls. He buys 2 more cans of tennis balls. Each can has 3 tennis balls. How many tennis balls does he have now?"</p>
+          </blockquote>
+          <p>When asked directly without PAL guidance, LLMs often get this wrong because they're predicting tokens, not calculating: 5 + (2 × 3) = 11.</p>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="math-oneshot" id="math-oneshot-heading">With PAL: One-shot prompting for success</h3>
+        <div id="math-oneshot" class="dp-panel-content" role="region" aria-labelledby="math-oneshot-heading" hidden>
+          <p>Guide the LLM with a <strong>one-shot example</strong> showing Python-style reasoning:</p>
+          <pre style="background-color: #f5f5f5; padding: 10px; border-radius: 4px; overflow-x: auto;"><code>Q: Roger has 5 tennis balls. He buys 2 cans of tennis balls. Each can has 3 balls. How many does he have now?
+
+A: Roger started with 5 tennis balls
+# tennis_balls = 5
+
+Two cans of tennis balls are bought
+# bought_balls = 2 * 3
+
+The answer is tennis_balls + bought_balls
+# answer = tennis_balls + bought_balls
+# answer = 5 + 6 = 11
+
+Now solve this problem:
+Q: The bakers at Beverly Hills Bakery baked 200 loaves of bread on Monday morning. They sold 93 loaves in the morning and 39 loaves in the afternoon. A grocery store returned 6 unsold loaves. How many loaves did they have left?</code></pre>
+          <p class="mb-0">The LLM now follows the pattern, generating Python-style code with comments and variables, then executes it correctly.</p>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="math-modern" id="math-modern-heading">Modern PAL: No prompt engineering needed</h3>
+        <div id="math-modern" class="dp-panel-content" role="region" aria-labelledby="math-modern-heading" hidden>
+          <p>Today's LLMs (ChatGPT, Claude, Gemini) are <strong>pre-trained to use code interpreters</strong>. You can simply ask the question, and the LLM will:</p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Detect that computation is needed</li>
+            <li class="list-group-item">Automatically generate Python code</li>
+            <li class="list-group-item">Execute it via built-in interpreter</li>
+            <li class="list-group-item">Present the answer in natural language</li>
+          </ul>
+          <p class="mb-0"><em>Pro tip:</em> If the LLM isn't using code when it should, explicitly request it: "Please use Python code interpreter to solve this."</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Code Interpreter Capabilities -->
+  <div class="dp-content-block content-block" data-title="Code Interpreter Capabilities">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-tools" aria-hidden="true"></i>&nbsp;Code Interpreter Capabilities</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="interp-files" id="interp-files-heading">File operations</h3>
+        <div id="interp-files" class="dp-panel-content" role="region" aria-labelledby="interp-files-heading" hidden>
+          <p>Code interpreters can perform operations that pure LLMs cannot:</p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Read files:</strong> Excel, CSV, PDF, JSON, XML</li>
+            <li class="list-group-item"><strong>Create files:</strong> PowerPoint, Excel, images, ZIP archives</li>
+            <li class="list-group-item"><strong>Transform files:</strong> Convert formats, extract data, merge documents</li>
+            <li class="list-group-item"><strong>Process files:</strong> Parse, validate, clean, restructure</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="interp-analysis" id="interp-analysis-heading">Document analysis</h3>
+        <div id="interp-analysis" class="dp-panel-content" role="region" aria-labelledby="interp-analysis-heading" hidden>
+          <p>Combine LLM understanding with code execution:</p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>LLM capabilities:</strong> Analyze, summarize, interpret, extract, search, translate</li>
+            <li class="list-group-item"><strong>Code capabilities:</strong> Calculate, aggregate, filter, transform, visualize</li>
+            <li class="list-group-item"><strong>Together:</strong> Natural language data science workflows</li>
+          </ul>
+          <p class="mb-0"><strong>Example:</strong> "Analyze this sales spreadsheet, identify top 10 products, calculate growth rates, and create a PowerPoint with visualizations."</p>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="interp-complex" id="interp-complex-heading">Complex problem solving</h3>
+        <div id="interp-complex" class="dp-panel-content" role="region" aria-labelledby="interp-complex-heading" hidden>
+          <p><strong>Example: Word puzzle solving</strong></p>
+          <blockquote class="dp-card card" style="border-left: 4px solid #f97316; padding-left: 15px;">
+            <p>"Find a word that fits the pattern: _E_ _ _T. The word cannot include these letters: A, I, O, U, R, S, N, L. Use the attached English dictionary."</p>
+          </blockquote>
+          <p>Without code: LLM fails (just guessing tokens)</p>
+          <p>With code interpreter:</p>
+          <ol class="list-group list-group-flush list-group-numbered">
+            <li class="list-group-item">Reads dictionary file (thousands of words)</li>
+            <li class="list-group-item">Generates Python code to filter by pattern</li>
+            <li class="list-group-item">Excludes forbidden letters programmatically</li>
+            <li class="list-group-item">Returns valid matches</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Practical Tips -->
+  <div class="dp-content-block content-block" data-title="Practical Tips for Using Code Interpreters">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-lightbulb" aria-hidden="true"></i>&nbsp;Practical Tips for Using Code Interpreters</h2>
+    <div class="dp-card card" style="border-left: 4px solid #f97316; padding-left: 15px;">
+      <div class="card-body">
+        <h3 class="card-title dp-ignore-theme">Best Practices</h3>
+        <ol class="list-group list-group-flush list-group-numbered">
+          <li class="list-group-item"><strong>Understand Python basics:</strong> Even if you don't code, knowing variables, loops, and functions helps you guide and validate LLM outputs.</li>
+          <li class="list-group-item"><strong>Request code explicitly:</strong> If the LLM isn't using the interpreter, ask it to: "Please solve this using Python code."</li>
+          <li class="list-group-item"><strong>Review generated code:</strong> Always expand and examine the Python code the LLM generates—check for logic errors.</li>
+          <li class="list-group-item"><strong>Test with known answers:</strong> Validate LLM calculations with problems where you know the correct answer.</li>
+          <li class="list-group-item"><strong>Leverage one-shot prompting:</strong> For complex tasks, provide an example showing the desired code structure.</li>
+          <li class="list-group-item"><strong>Watch for hallucinations:</strong> LLMs can generate plausible-looking but incorrect code. Always verify critical computations.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- When to Use PAL -->
+  <div class="dp-content-block content-block" data-title="When to Use PAL & Code Interpreters">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-question-circle" aria-hidden="true"></i>&nbsp;When to Use PAL &amp; Code Interpreters</h2>
+    <div class="table-responsive">
+      <table class="ic-Table ic-Table--hover-row" role="table" aria-label="When to use code interpreters">
+        <caption>Use Cases for Code Interpreter</caption>
+        <thead>
+          <tr>
+            <th scope="col">Use Code Interpreter For:</th>
+            <th scope="col">Stick with Pure LLM For:</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Mathematical calculations</td>
+            <td>Creative writing and brainstorming</td>
+          </tr>
+          <tr>
+            <td>Statistical analysis and aggregations</td>
+            <td>General conversation and Q&A</td>
+          </tr>
+          <tr>
+            <td>Data file processing (Excel, CSV, PDF)</td>
+            <td>Text summarization and translation</td>
+          </tr>
+          <tr>
+            <td>Chart and visualization generation</td>
+            <td>Sentiment analysis and entity extraction</td>
+          </tr>
+          <tr>
+            <td>File format conversions</td>
+            <td>Simple text generation tasks</td>
+          </tr>
+          <tr>
+            <td>Complex logic and algorithms</td>
+            <td>Conceptual explanations</td>
+          </tr>
+          <tr>
+            <td>Machine learning model training</td>
+            <td>Drafting emails and documents</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Helpful Tip -->
+  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
+    <div class="card-body">
+      <h3 class="card-title">Helpful Tip</h3>
+      <p class="card-text">Think of code interpreters as <strong>calculators for LLMs</strong>. Just as you wouldn't do complex math in your head when a calculator is available, LLMs shouldn't predict numerical answers when they can execute code. Always prefer code execution for computational tasks.</p>
+    </div>
+  </div>
+
+  <hr aria-hidden="true" />
+  <p>Select <strong>Next▸</strong> to continue with <strong>Data Science Workflows with LLMs</strong>.</p>
+</div>
+</main>
+
+<!-- Canvas-safe toggling -->
+<script>
+(function () {
+  function toggleHead(h){
+    const content = document.getElementById(h.getAttribute('aria-controls'));
+    const expanded = h.getAttribute('aria-expanded') === 'true';
+    h.setAttribute('aria-expanded', String(!expanded));
+    if (content) content.hidden = expanded;
+  }
+  document.addEventListener('click', function (e) {
+    const h = e.target.closest('.dp-panel-heading[role="button"]');
+    if (h) toggleHead(h);
+  });
+  document.addEventListener('keydown', function (e) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role="button"]')) {
+      e.preventDefault(); toggleHead(e.target);
+    }
+  });
+})();
+</script>

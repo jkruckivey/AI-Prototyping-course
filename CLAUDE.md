@@ -13,12 +13,17 @@ Canvas LMS course development project converting Subject Matter Expert (SME) mat
 ├── Course Materials/       # Original SME content organized by weeks
 ├── Development Files/      # 5-week structured HTML pages for Canvas LMS
 │   ├── Week 1/            # AI fundamentals and importance
+│   │   └── widgets/       # Week 1 interactive widgets (canonical location)
 │   ├── Week 2/            # Supervised learning algorithms
+│   │   └── widgets/       # Week 2 interactive widgets (canonical location)
 │   ├── Week 3/            # Unsupervised learning and preprocessing
-│   ├── Week 4/            # Model evaluation and business metrics
-│   └── Week 5/            # Deployment and governance
+│   │   └── widgets/       # Week 3 interactive widgets (canonical location)
+│   ├── Week 4/            # GenAI/LLM fundamentals
+│   │   └── widgets/       # Week 4 interactive widgets (canonical location)
+│   └── Week 5/            # Data Science with GenAI
+│       └── widgets/       # Week 5 interactive widgets (canonical location)
 ├── demos/
-│   ├── widgets/           # 60+ interactive Canvas-embeddable widgets
+│   ├── widgets/           # Legacy location - DO NOT USE for new widgets
 │   │   └── ivey-widget-base.css  # Universal widget stylesheet
 │   └── shared-demo.css    # Shared styles for main demos
 ├── archive/               # Legacy Canvas pages and experiments
@@ -27,6 +32,8 @@ Canvas LMS course development project converting Subject Matter Expert (SME) mat
 ├── styles.css            # Course hub styling
 └── Documentation files   # Implementation guides and checklists
 ```
+
+**IMPORTANT**: All widgets belong in `Development Files/Week X/widgets/` folders, NOT in `demos/widgets/`. The Development Files structure is the canonical, authoritative location.
 
 ## Course Components
 
@@ -37,16 +44,15 @@ Canvas LMS course development project converting Subject Matter Expert (SME) mat
 - **Week 4**: Model evaluation, cross-validation, business metrics
 - **Week 5**: Deployment, monitoring, governance
 
-### Interactive Widgets (demos/widgets/)
-- **79 widgets** in flat file structure for easy Canvas embedding
+### Interactive Widgets (Development Files/Week X/widgets/)
+- **Canonical location**: `Development Files/Week X/widgets/` folders
 - **Universal Pop-out Functionality**: All widgets equipped with pop-out buttons for full-window viewing
-- **Canvas-specific widgets** (canvas-*.html) for LMS embedding
-- **AI Evolution Timeline**: Historical AI development exploration
-- **AI Hierarchy Explorer**: Interactive AI → ML → Deep Learning relationships
-- **ROI Calculator**: Business value calculation for AI projects
-- **Algorithm Demonstrations**: Linear regression, logistic regression, K-means clustering
-- **Business Applications**: Customer segmentation, data frameworks, infrastructure strategy
-- **All widgets use**: `ivey-widget-base.css` universal stylesheet
+- **Universal stylesheet**: `ivey-widget-base.css` in each week's widgets folder
+- **Week 1 widgets**: AI Evolution Timeline, AI Hierarchy Explorer, ROI Calculator, Understanding Data Segments
+- **Week 2 widgets**: Supervised learning algorithm demos (linear/logistic regression, KNN, SVM)
+- **Week 3 widgets**: Unsupervised learning demos (K-means, PCA, recommendations)
+- **Week 4 widgets**: GenAI/LLM concepts (inference parameters, prompt patterns, shot learning, fine-tuning vs RAG)
+- **Week 5 widgets**: Data Science with GenAI (PAL, code interpreter, customization decision, JSONL formatter)
 - **Complete Inventory**: See `WIDGET_INVENTORY.md` for comprehensive widget catalog
 
 ## Key Technologies
@@ -445,6 +451,50 @@ if (window.location.search.includes('standalone=true')) {
 - **Canvas Pages**: Fixed broken iframe references and corrected notation
 - **SCORM Packages**: Multiple packages updated for Canvas deployment
 
+## 2025-10-02: Week 4 Complete Rebuild - Generative AI Content
+- **Objective**: Rebuild all Week 4 development files to align with Generative AI/LLM course materials
+- **Status**: ✅ COMPLETED - All 7 Week 4 HTML pages created with GenAI content
+- **Background**: Week 4 development files contained traditional ML evaluation content (metrics, cross-validation, business metrics) while video transcripts covered Generative AI, LLMs, transformers, prompt engineering, fine-tuning, RAG, and AI agents - a complete mismatch
+- **Key Accomplishments**:
+  - **Created w_4_00_intro.html**: Week 4 orientation with learning outcomes, GenAI introduction, NLP tasks, and week roadmap
+  - **Created w_4_01_genai_llms.html**: Comprehensive coverage of Generative AI definition, LLMs vs traditional ML, foundation models (GPT/Claude/Gemini/Llama), capabilities, computational requirements, and access models
+  - **Created w_4_02_transformers.html**: Transformer architecture deep-dive including RNN limitations, self-attention mechanism, multi-head attention, tokenization, embeddings, positional encoding, encoder/decoder patterns, and inference parameters (temperature, top-k, top-p)
+  - **Created w_4_03_prompt_engineering.html**: Prompt engineering fundamentals, zero/one/few-shot learning, proven prompt patterns (persona, audience, structure, cognitive verifier, question refinement), chain of thought, ReAct, and best practices
+  - **Created w_4_04_finetuning_rag.html**: Fine-tuning methods (full fine-tuning, PEFT/LoRA, instruction fine-tuning, RLHF), catastrophic forgetting, RAG architecture and components, fine-tuning vs RAG decision framework
+  - **Created w_4_05_agents.html**: AI agents fundamentals, core capabilities (planning, tool use, memory, reflection), agent architectures (ReAct, plan-and-execute, multi-agent, autonomous), business use cases, frameworks, and challenges
+  - **Created w_4_wrap_up.html**: Week 4 summary with comprehensive recap, key takeaways (GenAI stack, decision framework), practical next steps, reflection questions, and Week 5 preview
+
+### Content Alignment with Video Transcripts
+- **CSV Mapping**: Aligned page structure with detailed video segment suggestions from `week 4 suggestions.csv`
+- **Transcript Coverage**:
+  - Video timestamps 0:00-6:41: GenAI intro, LLMs, foundation models, computational requirements
+  - Video timestamps 6:42-18:29: Transformer architecture, RNN limitations, self-attention, encoder/decoder patterns
+  - Video timestamps 19:25-1:04:53: GenAI stack, lifecycle, prompt engineering patterns and techniques
+  - Video timestamps 1:04:54-1:13:17: Fine-tuning methods, RLHF, RAG, LLM evaluation
+  - Video timestamps 1:16:46-1:22:41: AI agents and agentic AI
+- **Reviewer Feedback Incorporated**: Applied suggestions from CSV including clearer GenAI vs LLM definitions, improved flow between sections, focused visuals
+
+### Technical Features
+- **AMBA Template Compliance**: All pages follow dp-wrapper structure with proper accessibility
+- **Accordion Panels**: Content organized in collapsible sections for Canvas LMS
+- **Comprehensive Tables**: Comparison tables for LLMs vs traditional ML, fine-tuning vs RAG, agent architectures
+- **Business Focus**: Extensive business use cases, decision frameworks, and practical applications throughout
+- **Interactive Widget Placeholders**: Pages reference future widgets for prompt parameter adjustment, RAG visualization, agent reasoning chains
+
+### Files Replaced
+- Old w_4_00_intro.html (evaluation/metrics intro) → New w_4_00_intro.html (GenAI overview)
+- Old w_4_01_metrics_fit.html (bias/variance, MSE/RMSE) → New w_4_01_genai_llms.html (GenAI, LLMs, foundation models)
+- Old w_4_02_cross_validation_training.html (CV patterns, hyperparameter tuning) → New w_4_02_transformers.html (Transformer architecture)
+- Old w_4_03_business_metrics.html (cost matrices, expected value) → New w_4_03_prompt_engineering.html (Prompt patterns, CoT, ReAct)
+- Old w_4_04_mini_case.html (fraud detection case) → New w_4_04_finetuning_rag.html (Fine-tuning, PEFT, RAG)
+- New w_4_05_agents.html (AI agents - no previous equivalent)
+- Old w_4_wrap_up.html (metrics/CV review) → New w_4_wrap_up.html (GenAI week summary)
+
+### Next Steps
+- **Widget Development**: Create interactive widgets for inference parameters, prompt pattern examples, RAG visualization, agent reasoning flows
+- **SCORM Packaging**: Package new Week 4 pages for Canvas LMS deployment
+- **Testing**: Validate all accordion functionality, accessibility compliance, and Canvas embedding
+
 ## Session Continuation Instructions (September 30, 2025)
 
 ### Current State
@@ -496,3 +546,565 @@ git add .
 git commit -m "Your message here"
 git push
 ```
+## 2025-10-01: Week 1 Wrap-Up Video Embed
+- **Objective**: Add 'Completing the Data Science Cycle' video to Week 1 wrap-up page
+- **Changes**: Embedded Panopto video iframe at top of w_1_wrap_up.html before Quick Recap section
+- **Video Content**: Deployment, model selection, training/testing data, evaluation metrics, AI building blocks summary
+
+## 2025-10-02: Week 4 Widget Development, Embedding, and Consistency Updates
+- **Objective**: Create interactive widgets for Week 4 GenAI content, embed them in HTML pages, ensure cross-course consistency, and organize widgets in Development Files structure
+- **Status**: ✅ COMPLETED - 4 widgets created, embedded, and organized; intro page standardized
+- **Widgets Created**:
+  - **w4-inference-params.html** (800px height): Interactive exploration of LLM inference parameters
+    - Temperature slider (0-2) with real-time softmax probability visualization
+    - Top-k slider (1-100) for token selection limiting
+    - Top-p slider (0-1) for nucleus sampling
+    - 5 preset configurations: Factual Q&A, Code Generation, Chatbot, Creative Writing, Brainstorming
+    - Shows next-token prediction with example sentence completion
+    - Embedded in **w_4_02_transformers.html** (inference parameters section)
+
+  - **w4-prompt-patterns.html** (900px height): Showcase of 6 proven prompt engineering patterns
+    - Persona Pattern: Act as specific role/expert
+    - Audience Pattern: Target specific audience level
+    - Structure/Format Pattern: Define output structure
+    - Cognitive Verifier Pattern: Break into sub-questions
+    - Constraint Pattern: Define explicit limitations
+    - Chain of Thought Pattern: Show step-by-step reasoning
+    - Each pattern includes: before/after examples, template, explanation, example response, key insight
+    - Embedded in **w_4_03_prompt_engineering.html** (prompt patterns section)
+
+  - **w4-shot-learning.html** (800px height): Compare zero/one/few-shot learning approaches
+    - 3 task examples: Sentiment Analysis, Entity Extraction, Support Ticket Classification
+    - Interactive task selector with shot count buttons (0, 1, Few)
+    - Shows complete prompt construction for each approach
+    - Expected output examples for each learning type
+    - Comparison cards with pros/cons and best use cases
+    - Embedded in **w_4_03_prompt_engineering.html** (shot learning section)
+
+  - **w4-finetuning-vs-rag.html** (900px height): Interactive decision tool for customization approach
+    - 4-question questionnaire covering: primary goal, update frequency, data type, source citation needs
+    - Scoring system calculates recommendations for fine-tuning, RAG, or combined approach
+    - Personalized recommendation with implementation approach and examples
+    - Cost considerations and trade-offs explained
+    - Comprehensive comparison table included
+    - Embedded in **w_4_04_finetuning_rag.html** (decision framework section)
+
+- **Quiz Widget Removed**: User confirmed w4-wrap-quiz.html not needed (scrapped per request)
+
+### Widget Embedding Locations
+- **w_4_02_transformers.html**: Added inference parameters widget before "Helpful Tip" section
+- **w_4_03_prompt_engineering.html**: Added shot learning widget after shot learning theory section, prompt patterns widget after ReAct section
+- **w_4_04_finetuning_rag.html**: Added fine-tuning vs RAG decision tool before comparison table
+
+### Technical Implementation
+- All widgets use `ivey-widget-base.css` universal stylesheet
+- Pop-out functionality included in all widgets
+- Proper ARIA labels and accessibility compliance
+- Responsive design for Canvas LMS embedding
+- Local relative URLs for iframe sources (`widgets/widget-name.html`)
+
+### Files Modified and Created
+- **Development Files/Week 4/w_4_00_intro.html**: Standardized to match Week 1 format (removed learning outcomes, updated structure)
+- **Development Files/Week 4/w_4_02_transformers.html**: Added 1 widget embed, updated iframe URL to local path
+- **Development Files/Week 4/w_4_03_prompt_engineering.html**: Added 2 widget embeds, updated iframe URLs to local paths
+- **Development Files/Week 4/w_4_04_finetuning_rag.html**: Added 1 widget embed, updated iframe URL to local path
+- **Development Files/Week 4/widgets/** (folder created): Contains 4 new GenAI widgets + legacy widgets from previous evaluation-focused Week 4
+
+### Alignment with Course Content
+- Inference parameters widget directly supports temperature/top-k/top-p learning objectives
+- Shot learning widget provides hands-on comparison of zero/one/few-shot techniques
+- Prompt patterns widget reinforces 6 proven patterns with interactive examples
+- Fine-tuning vs RAG decision tool helps students make informed customization choices
+
+### Course Consistency Updates
+- **Removed Learning Outcomes Section**: Week 4 intro page now matches Week 1-3 format (no standalone learning outcomes)
+- **Updated Intro Structure**: Changed to "What this week is about" format consistent with other weeks
+- **Standardized Heading Hierarchy**: Changed h2/h3 to h3/h4 for readiness checklist sections to match Week 1 pattern
+- **Simplified Warm-up Section**: Moved warm-up to match Week 1-3 placement and structure
+- **Consistent "Heads up" Callouts**: Aligned admin callout language with other weeks
+
+### Widget Organization and File Structure
+- **Created Development Files/Week 4/widgets/ folder**: All Week 4 widgets now stored locally alongside HTML pages
+- **Copied 4 new GenAI widgets** to Development Files/Week 4/widgets/:
+  - w4-inference-params.html
+  - w4-shot-learning.html
+  - w4-prompt-patterns.html
+  - w4-finetuning-vs-rag.html
+- **Updated iframe references**: Changed from GitHub Pages URLs to relative local paths (`widgets/widget-name.html`)
+- **Matches Week 1 structure**: Development Files/Week 1/widgets/ contains 9 widgets; Week 4 now follows same pattern
+- **Note**: demos/widgets/ folder still contains original copies for GitHub Pages deployment; Development Files versions are canonical
+
+### Benefits of Local Widget Storage
+- **Consistency**: Widgets in Development Files are canonical/most up-to-date versions (per user requirement)
+- **Portability**: Week 4 HTML pages can be tested locally without GitHub Pages deployment
+- **Maintainability**: Single source of truth for each week's widgets within that week's folder
+- **Version control**: Week-specific widgets travel with their content pages
+- **Flexibility**: Can update widgets without affecting GitHub Pages deployment until ready
+
+## 2025-10-02: Week 4 Widget Visual Alignment with Course Standards
+- **Objective**: Update Week 4 widgets to match the visual styling and structure of Week 1-3 widgets
+- **Status**: ✅ COMPLETED - All 4 widgets updated with consistent Ivey branding
+- **Changes Made**:
+  - **Added widget headers**: Green gradient backgrounds (#034638 to #045a49) with purple border accent (#582C83)
+  - **Updated container structure**: Changed `widget-container` to `dp-wrapper` to match Week 1 pattern
+  - **Added Georgia serif font**: Widget titles now use Georgia font family for consistency
+  - **Standardized spacing**: 16px padding, 8px border-radius, proper margins (-15px to extend header edge-to-edge)
+  - **Consistent subtitle styling**: 0.9em font size, 95% opacity for all widget subtitles
+  - **Updated all 4 widgets**: w4-inference-params.html, w4-shot-learning.html, w4-prompt-patterns.html, w4-finetuning-vs-rag.html
+
+### Visual Design Elements Added
+- **Header background**: `linear-gradient(135deg, #034638 0%, #045a49 100%)`
+- **Bottom border accent**: 3px solid #582C83 (Ivey purple)
+- **Widget title**: Georgia serif, 1.4em, white text
+- **Widget subtitle**: 0.9em, 95% opacity, white text
+- **Max width**: 800px for optimal readability
+- **Body styling**: Arial sans-serif, white background, #333 text color
+
+### Files Updated
+- Development Files/Week 4/widgets/w4-inference-params.html
+- Development Files/Week 4/widgets/w4-shot-learning.html
+- Development Files/Week 4/widgets/w4-prompt-patterns.html
+- Development Files/Week 4/widgets/w4-finetuning-vs-rag.html
+- demos/widgets/w4-*.html (all 4 copied for GitHub Pages deployment)
+
+### Alignment Achieved
+- **Visual consistency**: Week 4 widgets now match Week 1-3 widget styling
+- **Brand compliance**: Proper Ivey green and purple color scheme throughout
+- **Professional appearance**: Headers with gradient backgrounds and serif titles
+- **User experience**: Consistent widget interface across all weeks of the course
+
+
+## 2025-10-02: Week 4 Widget Visual Refinements
+- **Objective**: Fix color contrast issues and remove unnecessary UI elements
+- **Status**: ✅ COMPLETED - Text visibility and interface cleaned up
+- **Issues Fixed**:
+  - **Table header text**: Changed from green (#034638) to white for visibility on green background
+  - **Active button text**: Changed from green to white on green backgrounds (.shot-btn.active, .pattern-btn.active, .option-btn.selected)
+  - **Progress indicators removed**: Hidden step dots (1, 2, 3, 4) from fine-tuning vs RAG widget - unnecessary clutter
+  - **Completed dot text**: Fixed to white text on green background
+
+### Color Fixes Applied
+- All text on green backgrounds now uses white color for proper contrast
+- Active/selected button states: white text on green background
+- Table headers: white text on green background
+- Removed decorative elements that added visual noise
+
+### Files Updated
+- Development Files/Week 4/widgets/w4-finetuning-vs-rag.html (table headers, progress dots, selected buttons)
+- Development Files/Week 4/widgets/w4-shot-learning.html (active button text)
+- Development Files/Week 4/widgets/w4-prompt-patterns.html (active button text)
+- demos/widgets/w4-*.html (all synced)
+
+### Result
+- ✅ Clean, minimal interface
+- ✅ Proper text contrast on all backgrounds
+- ✅ No unnecessary UI elements
+- ✅ Professional, focused design
+
+## 2025-10-02: Week 5 Complete Rebuild - Data Science with Generative AI
+- **Objective**: Rebuild all Week 5 development files to align with GenAI/Data Science video content
+- **Status**: ✅ COMPLETED - All 6 Week 5 HTML pages created with GenAI data science content
+- **Background**: Week 5 development files contained traditional ML deployment/monitoring/governance content while video transcript covered Data Science with GenAI, PAL, code interpreters, custom GPTs, and fine-tuning - a complete mismatch
+- **Key Accomplishments**:
+  - **Created w_5_00_intro.html**: Week 5 orientation on Data Science with Generative AI, orchestration libraries, why Python, evolution of LLMs to agentic systems
+  - **Created w_5_01_pal_code_interpreter.html**: PAL framework, math problem solving, one-shot prompting, code interpreter capabilities (file operations, document analysis, complex problem solving)
+  - **Created w_5_02_data_science_llms.html**: Complete data science workflows (file analysis, statistical analysis, visualizations, ML model training, PowerPoint/Excel generation, best practices)
+  - **Created w_5_03_custom_gpts.html**: Custom GPT creation (personas, knowledge bases/RAG, capabilities, actions, guardrails, Math TAI teaching assistant example)
+  - **Created w_5_04_openai_platform.html**: OpenAI Playground vs ChatGPT, parameter tuning, Dashboard evaluation, fine-tuning (task vs conversational, JSONL format, Marv sarcastic chatbot example, web scraping)
+  - **Created w_5_wrap_up.html**: Week 5 recap, key takeaways, practical next steps, course conclusion, what's next (apply knowledge, continue learning, join AI community)
+
+### Content Alignment with Video Transcript
+- **Video Coverage Mapped to Pages**:
+  - 0:00-9:00: PAL introduction, orchestration libraries → w_5_01_pal_code_interpreter.html
+  - 9:00-58:00: Code interpreter, data analysis workflows, Excel/PDF processing → w_5_02_data_science_llms.html
+  - 58:00-1:22:45: Statistical analysis, visualizations, ML models, PowerPoint generation → w_5_02_data_science_llms.html
+  - 1:22:45-1:42:00: Custom GPTs, Math TAI teaching assistant, knowledge bases, actions → w_5_03_custom_gpts.html
+  - 1:42:00-1:57:00: OpenAI Playground, Dashboard, parameter tuning → w_5_04_openai_platform.html
+  - 1:57:00-2:09:48: Fine-tuning (task & conversational), JSONL format, Marv example → w_5_04_openai_platform.html
+  - 2:09:48-2:19:00: Web scraping, chunking, vector stores, large documents → w_5_04_openai_platform.html
+
+### Technical Features
+- **AMBA Template Compliance**: All pages follow dp-wrapper structure with proper accessibility
+- **Accordion Panels**: Content organized in collapsible sections for Canvas LMS
+- **Comprehensive Tables**: Comparison tables for ChatGPT vs Playground, file types, custom GPT use cases, fine-tuning types
+- **Code Examples**: JSONL format examples, JSON structure, Python code samples, prompt templates
+- **Practical Guidance**: "AI as intern" metaphor, best practices, guardrails, trust but verify approach
+
+### Pages Replaced
+- Old w_5_00_intro.html (deployment/monitoring intro) → New w_5_00_intro.html (GenAI data science overview)
+- Old w_5_01_deployment.html (deployment patterns, rollout) → New w_5_01_pal_code_interpreter.html (PAL, code interpreters)
+- Old w_5_02_monitoring_drift.html (drift detection, calibration) → New w_5_02_data_science_llms.html (data science workflows)
+- Old w_5_03_governance.html (risk tiers, model cards) → New w_5_03_custom_gpts.html (custom GPT assistants)
+- New w_5_04_openai_platform.html (Playground, fine-tuning - no previous equivalent for this GenAI content)
+- Old w_5_wrap_up.html (deployment recap) → New w_5_wrap_up.html (GenAI data science recap & course conclusion)
+
+### Course Structure Now Complete
+- **Week 1**: AI fundamentals, data understanding, ML models
+- **Week 2**: Supervised learning algorithms
+- **Week 3**: Unsupervised learning, preprocessing
+- **Week 4**: Generative AI, LLMs, transformers, prompt engineering, fine-tuning, RAG, agents
+- **Week 5**: Data science with GenAI, PAL, code interpreters, custom GPTs, OpenAI Platform, fine-tuning
+
+### Result
+- ✅ Complete alignment between Week 5 video transcript and HTML pages
+- ✅ Comprehensive GenAI data science coverage
+- ✅ Practical, hands-on focus with real examples
+- ✅ Course now flows logically from traditional ML (Weeks 1-3) to GenAI (Weeks 4-5)
+- ✅ Students experience complete AI journey: fundamentals → algorithms → GenAI → practical applications
+
+## 2025-10-02: Week 4 GenAI Widget SCORM Packaging
+- **Objective**: Create SCORM 1.2 packages for all 4 Week 4 GenAI widgets for Canvas LMS deployment
+- **Status**: ✅ COMPLETED - All 4 widgets packaged and ready for upload
+
+### SCORM Packages Created
+1. **w4-inference-params-scorm.zip** (9.3K)
+   - Title: "Inference Parameters Explorer"
+   - Interactive exploration of temperature, top-k, and top-p parameters
+   - Files: index.html, scormfunctions.js, ivey-widget-base.css, imsmanifest.xml
+
+2. **w4-shot-learning-scorm.zip** (9.6K)
+   - Title: "Zero/One/Few-Shot Learning"
+   - Comparison of different shot learning approaches with examples
+   - Files: index.html, scormfunctions.js, ivey-widget-base.css, imsmanifest.xml
+
+3. **w4-prompt-patterns-scorm.zip** (11K)
+   - Title: "Prompt Pattern Showcase"
+   - 6 proven prompt engineering patterns with before/after examples
+   - Files: index.html, scormfunctions.js, ivey-widget-base.css, imsmanifest.xml
+
+4. **w4-finetuning-vs-rag-scorm.zip** (11K)
+   - Title: "Fine-tuning vs RAG Decision Tool"
+   - Interactive questionnaire for choosing customization approach
+   - Files: index.html, scormfunctions.js, ivey-widget-base.css, imsmanifest.xml
+
+### SCORM Package Structure
+Each package contains:
+- **index.html**: Widget renamed from original w4-*.html file
+- **scormfunctions.js**: SCORM 1.2 API wrapper for LMS communication
+- **ivey-widget-base.css**: Universal widget stylesheet
+- **imsmanifest.xml**: SCORM manifest with unique identifiers
+
+### Technical Details
+- **SCORM Version**: 1.2 (ADL SCORM)
+- **SCO Type**: webcontent
+- **Completion Tracking**: SCORM API tracks initialization and completion
+- **Unique Identifiers**: Each package has unique manifest identifier (W4_Inference_Params_001, etc.)
+- **Canvas LMS Compatible**: Ready for direct upload to Canvas modules
+
+### Storage Location
+- **Directory**: Development Files/Week 4/SCORM files/
+- **Package Folders**: w4-*-scorm/ (unzipped contents)
+- **ZIP Files**: w4-*-scorm.zip (ready for Canvas upload)
+
+### Next Steps for Canvas Deployment
+1. Upload each ZIP file to Canvas as a SCORM package
+2. Embed SCORM packages in appropriate Week 4 module pages
+3. Test SCORM completion tracking in Canvas LMS
+4. Verify all widgets function correctly within Canvas environment
+
+## 2025-10-02: Week 4 Widget Color Fixes
+- **Objective**: Fix color contrast and hover state issues identified during testing
+- **Status**: ✅ COMPLETED - Purple hover states replaced with light green, parameter values now readable
+
+### Issues Fixed
+1. **Parameter value text**: Changed from dark green (#034638) to white on green background
+   - Temperature, Top-K, Top-P value badges now have white text
+   - Improved readability on green backgrounds
+
+2. **Button hover states**: Changed from purple (#6d3a9e) to light green (#e8f5e9)
+   - Preset buttons (Factual Q&A, Code Generation, etc.) now use light green hover
+   - All interactive buttons across widgets use consistent light green hover
+   - Matches existing Week 4 widget patterns
+
+### Files Updated
+- Development Files/Week 4/widgets/w4-inference-params.html (.param-value color, .preset-btn:hover)
+- Development Files/Week 4/widgets/w4-shot-learning.html (hover states)
+- Development Files/Week 4/widgets/w4-prompt-patterns.html (hover states)
+- Development Files/Week 4/widgets/w4-finetuning-vs-rag.html (hover states)
+- demos/widgets/w4-*.html (all synced)
+- Development Files/Week 4/SCORM files/*/index.html (SCORM packages updated)
+- All SCORM ZIP files recreated with fixes
+
+### Color Scheme Finalized
+- **Active/selected state**: Green background (#034638) with white text
+- **Hover state**: Light green background (#e8f5e9) with dark green text
+- **Parameter badges**: Green background with white text
+- **No purple**: All purple colors removed from button states
+
+## 2025-10-02: Fine-tuning vs RAG Widget Purple Panel Fix
+- **Objective**: Remove purple gradient from recommendation panel
+- **Status**: ✅ COMPLETED - Purple replaced with clean Ivey green
+
+### Issue Fixed
+- **Recommendation panel**: Changed from purple gradient to solid Ivey green (#034638)
+  - Background: Purple gradient → Solid green
+  - Text color: Dark green → White
+  - Shadow: Purple tint → Green tint
+  - Details background: Slightly increased opacity for better contrast
+
+### Files Updated
+- Development Files/Week 4/widgets/w4-finetuning-vs-rag.html
+- demos/widgets/w4-finetuning-vs-rag.html
+- Development Files/Week 4/SCORM files/w4-finetuning-vs-rag-scorm/index.html
+- w4-finetuning-vs-rag-scorm.zip (recreated)
+
+### Result
+- ✅ All purple removed from all Week 4 widgets
+- ✅ Consistent green color scheme throughout
+- ✅ Clean, professional appearance
+
+## 2025-10-02: Week 4 HTML Pages Updated with SCORM Embeds
+- **Objective**: Replace local widget iframe references with Canvas SCORM package embeds
+- **Status**: ✅ COMPLETED - All 4 widgets now embedded via Canvas SCORM packages
+
+### SCORM Embeds Added
+1. **w_4_02_transformers.html** - Inference Parameters Explorer (Package 49415)
+2. **w_4_03_prompt_engineering.html** - Zero/One/Few-Shot Learning (Package 49414)
+3. **w_4_03_prompt_engineering.html** - Prompt Pattern Showcase (Package 49416)
+4. **w_4_04_finetuning_rag.html** - Fine-tuning vs RAG Decision Tool (Package 49417)
+
+### Changes Made
+- Replaced `<div class="dp-embed-wrapper"><iframe src="widgets/...">`
+- With Canvas SCORM embed format: `<p><iframe style="overflow: hidden;" src="https://learn.ivey.ca/courses/6194/external_tools/retrieve?borderless=true&url=https://scone-prod.ca-central-1.inscloudgate.net/packages/[ID]/launch" width="1000" height="1000" loading="lazy"></iframe></p>`
+
+### Files Updated
+- Development Files/Week 4/w_4_02_transformers.html
+- Development Files/Week 4/w_4_03_prompt_engineering.html (2 embeds)
+- Development Files/Week 4/w_4_04_finetuning_rag.html
+
+### Result
+- ✅ All Week 4 widgets now served through Canvas SCORM packages
+- ✅ SCORM tracking enabled for completion and progress
+- ✅ Widgets accessible within Canvas LMS environment
+- ✅ Ready for student use in Week 4 modules
+
+## 2025-10-02: Week 5 Widget Development - Data Science with GenAI
+- **Objective**: Create interactive widgets for Week 5 GenAI content (PAL, code interpreters, customization decision tool, JSONL formatter)
+- **Status**: ✅ COMPLETED - 4 widgets created and deployed
+
+### Widgets Created
+1. **w5-pal-math-solver.html** (900px height): PAL and One-Shot Prompting Demo
+   - Three-tab interface: "The Problem", "One-Shot Solution", "Why It Works"
+   - Compares failed pure LLM approach vs successful PAL with Python execution
+   - Tennis ball problem (5 + 2×3 = 11) and bakery problem (200 - 93 - 39 + 6 = 74)
+   - Syntax-highlighted Python code blocks showing one-shot prompting pattern
+   - Explains LLMs as pattern matchers, not calculators
+   - Note: Modern LLMs (ChatGPT, Claude) have built-in code interpreters
+
+2. **w5-customization-decision.html** (900px height): LLM Customization Decision Tool
+   - Interactive 4-question questionnaire to recommend customization approach
+   - Questions cover: primary goal, update frequency, data volume, technical constraints
+   - Personalized recommendations: Prompt Engineering, RAG, Custom GPT, Fine-tuning, or Combined
+   - Each recommendation includes: implementation steps, examples, pros/cons comparison table
+   - Covers complete customization stack from zero-shot prompting to production fine-tuning + RAG
+
+3. **w5-code-interpreter-demo.html** (900px height): Code Interpreter Workflow Simulation
+   - Simulated ChatGPT code interpreter session analyzing sales data
+   - Chat interface with file upload, statistical analysis, visualization generation, ML model training
+   - Demonstrates complete workflow: CSV upload → summary statistics → Plotly chart → linear regression model
+   - Shows Python code execution with syntax highlighting
+   - Model performance metrics (R² = 0.847, MAE = $47.23)
+   - Automated message progression with typing indicators
+
+4. **w5-jsonl-formatter.html** (900px height): JSONL Training Data Formatter
+   - Interactive tool to create properly formatted fine-tuning data
+   - Two format options: Task fine-tuning (prompt-completion) and Conversational fine-tuning (messages array)
+   - Task editor: Simple prompt-completion pairs for classification, translation, etc.
+   - Conversational editor: System message + user-assistant pairs for chat-style fine-tuning
+   - Real-time JSONL output with syntax highlighting
+   - Copy to clipboard and download training_data.jsonl functionality
+   - Example counter and validation
+
+### Technical Implementation
+- All widgets use `ivey-widget-base.css` universal stylesheet
+- Pop-out functionality included for escaping Canvas iframe constraints
+- Proper ARIA labels and accessibility compliance
+- Responsive design for Canvas LMS embedding
+- Plotly.js v2.28.0 for interactive visualizations (code interpreter demo)
+- Consistent Ivey branding: Green headers (#034638) with purple accent (#582C83)
+
+### Files Created
+- Development Files/Week 5/widgets/w5-pal-math-solver.html (canonical location)
+- Development Files/Week 5/widgets/w5-customization-decision.html (canonical location)
+- Development Files/Week 5/widgets/w5-code-interpreter-demo.html (canonical location)
+- Development Files/Week 5/widgets/w5-jsonl-formatter.html (canonical location)
+
+**Note**: Widgets reside in Development Files structure, NOT in demos/widgets/ folder.
+
+### Content Alignment
+- **w5-pal-math-solver.html** aligns with Week 5 video transcript 0:00-9:00 (PAL introduction)
+- **w5-customization-decision.html** supports w_5_01_pal_code_interpreter.html decision framework
+- **w5-code-interpreter-demo.html** aligns with video 9:00-58:00 (data science workflows)
+- **w5-jsonl-formatter.html** aligns with video 1:57:00-2:09:48 (fine-tuning JSONL format)
+
+### Next Steps
+- ✅ COMPLETED: Embed widgets in Week 5 HTML pages with iframe references
+- ✅ COMPLETED: Create SCORM packages for Canvas LMS deployment
+- Test widget functionality within Canvas environment
+- Update widget inventory documentation
+
+## 2025-10-02: Week 4 & Week 5 Widget Styling Standardization
+- **Objective**: Update all Week 4 and Week 5 widgets to match Week 3 K-means styling
+- **Status**: ✅ COMPLETED - All 8 widgets updated with consistent design system
+- **Reference Widget**: Development Files/Week 3/widgets/w3-02-kmeans-clustering.html
+- **User Request**: "this one is my favourite" - User wanted all Week 4/5 widgets to match this styling
+
+### Week 3 K-means Styling Pattern (Reference Standard)
+**Key Design Elements:**
+- **Font Awesome Icons**: Added `<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">`
+- **Typography**: Changed to 'Figtree', system-ui, -apple-system, sans-serif
+- **dp-has-icon Header**: Icon + title combination with Ivey green color (#034638)
+- **dp-card System**: White cards with subtle shadows (0 2px 8px rgba(0,0,0,0.1))
+- **dp-card.intro-card**: Light teal background (#f8fffe) with 4px solid left border (#034638)
+- **Button Styling**: btn-primary (green #034638) and btn-secondary (purple #582C83)
+- **Hover Effects**: translateY(-1px) lift effect with 0.3s ease transitions
+
+### Widgets Updated (Manual One-by-One Approach)
+
+**Week 4 Widgets (4 total):**
+1. ✅ **w4-inference-params.html** - Added Font Awesome, dp-has-icon with sliders icon, intro card, controls-section styling, button classes
+2. ✅ **w4-shot-learning.html** - Added Font Awesome, dp-has-icon with graduation cap icon, intro card, controls-section with tasks icon, button hover states
+3. ✅ **w4-prompt-patterns.html** - Added Font Awesome, dp-has-icon with magic wand icon, intro card, pattern button styling enhancements
+4. ✅ **w4-finetuning-vs-rag.html** - Added Font Awesome, dp-has-icon with balance scale icon, intro card, btn-primary/btn-secondary classes, hover lift
+
+**Week 5 Widgets (4 total):**
+1. ✅ **w5-pal-math-solver.html** - Added Font Awesome, dp-has-icon with calculator icon, intro card explaining PAL with one-shot prompting
+2. ✅ **w5-customization-decision.html** - Added Font Awesome, dp-has-icon with layer-group icon, intro card for LLM Customization Stack
+3. ✅ **w5-code-interpreter-demo.html** - Added Font Awesome, dp-has-icon with terminal icon, intro card describing simulation workflow
+4. ✅ **w5-jsonl-formatter.html** - Added Font Awesome, dp-has-icon with file-code icon, intro card with JSONL format explanation
+
+### Icon Choices
+- **w4-inference-params**: `fas fa-sliders-h` (sliders icon for parameter controls)
+- **w4-shot-learning**: `fas fa-graduation-cap` (learning icon for shot learning)
+- **w4-prompt-patterns**: `fas fa-magic` (magic wand for pattern showcase)
+- **w4-finetuning-vs-rag**: `fas fa-balance-scale` (balance for decision framework)
+- **w5-pal-math-solver**: `fas fa-calculator` (calculator for math solver)
+- **w5-customization-decision**: `fas fa-layer-group` (layers for customization stack)
+- **w5-code-interpreter-demo**: `fas fa-terminal` (terminal for code execution)
+- **w5-jsonl-formatter**: `fas fa-file-code` (code file for JSONL format)
+
+### CSS Standardization Applied
+All 8 widgets now include:
+```css
+body {
+    font-family: 'Figtree', system-ui, -apple-system, sans-serif;
+    background: white;
+    color: #2c3e50;
+    line-height: 1.6;
+}
+
+.dp-has-icon {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #034638;
+    margin: 0 0 1rem 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.dp-card.intro-card {
+    border-left: 4px solid #034638;
+    background: #f8fffe;
+}
+
+.btn-primary:hover {
+    background: #0a5c4a;
+    transform: translateY(-1px);
+}
+
+.btn-secondary:hover {
+    background: #4c1d75;
+    transform: translateY(-1px);
+}
+```
+
+### Files Updated
+- Development Files/Week 4/widgets/w4-inference-params.html
+- Development Files/Week 4/widgets/w4-shot-learning.html
+- Development Files/Week 4/widgets/w4-prompt-patterns.html
+- Development Files/Week 4/widgets/w4-finetuning-vs-rag.html
+- Development Files/Week 5/widgets/w5-pal-math-solver.html
+- Development Files/Week 5/widgets/w5-customization-decision.html
+- Development Files/Week 5/widgets/w5-code-interpreter-demo.html
+- Development Files/Week 5/widgets/w5-jsonl-formatter.html
+
+### Result
+- ✅ Consistent visual design across all Week 4 and Week 5 widgets
+- ✅ Matches user's favorite Week 3 K-means widget styling
+- ✅ Professional appearance with Font Awesome icons
+- ✅ Improved accessibility with semantic HTML structure
+- ✅ Enhanced user experience with hover lift effects
+- ✅ All widgets maintain Ivey branding standards
+
+## 2025-10-02: Widget Differentiation Strategy - Week 4 vs Week 5 Decision Tools
+- **Objective**: Address duplication between Week 4 and Week 5 customization decision widgets
+- **Status**: ✅ COMPLETED - Week 4 widget enhanced for production/technical focus
+
+### Issue Identified
+- Both Week 4 (w4-finetuning-vs-rag.html) and Week 5 (w5-customization-decision.html) had similar questionnaires
+- Week 4: 4 questions → Fine-tuning vs RAG vs Combined
+- Week 5: 4 questions → Prompt Engineering vs RAG vs Custom GPT vs Fine-tuning vs Combined
+- Significant overlap in question topics (primary goal, update frequency, data type, source citation)
+
+### Differentiation Strategy Implemented
+**Week 4 Widget** - "Fine-tuning vs RAG: Production Decision Framework"
+- **Audience**: Production teams with ML/engineering resources evaluating advanced customization
+- **Focus**: Technical depth, cost analysis, latency requirements, team capabilities
+- **Questions**: 7 questions now (expanded from 4)
+  1. Primary production goal (proprietary knowledge vs specialized behavior)
+  2. **NEW: Latency requirements** (sub-second vs moderate vs flexible)
+  3. Knowledge base dynamism (static vs periodic vs real-time)
+  4. **NEW: Cost sensitivity** (high-volume cost-sensitive vs moderate vs quality-focus)
+  5. Data assets (1000+ examples vs large corpus vs both)
+  6. **NEW: ML engineering capability** (ML team vs software engineers vs limited resources)
+  7. Source attribution importance (compliance critical vs helpful vs not needed)
+
+**Week 5 Widget** - "LLM Customization Decision Tool"
+- **Audience**: Beginners/generalists exploring the full customization stack
+- **Focus**: Accessibility, broad overview, understanding the progression from simple to complex
+- **Questions**: 4 questions (unchanged)
+  1. Primary goal (general tasks, knowledge, behavior, specialized assistant)
+  2. Knowledge update frequency
+  3. Data volume (few examples vs documents vs hundreds vs large dataset)
+  4. Technical constraints (no coding, light coding, full dev team, need citations)
+
+### Week 4 Widget Enhancements
+**Title Changes:**
+- Old: "Fine-tuning vs RAG Decision Tool"
+- New: "Fine-tuning vs RAG: Production Decision Framework"
+- Added subtitle: "Advanced technical decision tool for production AI systems"
+
+**New Technical Questions:**
+- Latency requirements (critical <500ms vs moderate 1-3s vs flexible 3s+)
+- Cost sensitivity (millions of requests/month vs moderate vs quality-focused)
+- ML engineering capability (ML team vs software engineers vs limited resources)
+
+**Production-Focused Recommendations:**
+- **Fine-tuning**: Detailed implementation with PEFT/LoRA, vLLM/TGI deployment, concrete cost estimates ($100-2K training, $0.002-0.02/request)
+- **RAG**: Technical specifics on chunking (500-1000 tokens), embedding models, vector databases (Pinecone/Weaviate/Qdrant), reranking strategies
+- **Combined**: Multi-stage production approach with monitoring requirements, enterprise use cases
+
+**Enhanced Comparison Table:**
+- Added rows: Typical Latency, Cost per Request, Best at Scale, Team Expertise
+- Specific numbers: Fine-tuning 50-500ms vs RAG 500ms-3s
+- Cost breakdown: Fine-tuning $0.002-0.02 vs RAG $0.01-0.10 per request
+
+**Info Box Addition:**
+- Explains this is for production teams evaluating advanced customization
+- Directs beginners to Week 5's "Customization Stack" tool first
+
+### Clear Distinction Achieved
+- **Week 5 = Entry point**: "What are all my options?" (includes prompt engineering, custom GPTs)
+- **Week 4 = Deep dive**: "I need advanced customization - which one?" (production considerations)
+- Natural learning progression: Week 5 teaches breadth, Week 4 teaches technical depth
+- No longer duplicative - complementary tools serving different user needs
+
+### Files Updated
+- Development Files/Week 4/widgets/w4-finetuning-vs-rag.html (now 7 questions, production-focused, canonical location)
+
+### Result
+- ✅ Week 4 widget now targets production teams with technical depth (latency, cost, scale)
+- ✅ Week 5 widget remains beginner-friendly with full customization stack overview
+- ✅ Clear differentiation: Production decision framework (W4) vs Learning tool (W5)
+- ✅ Complementary rather than duplicative

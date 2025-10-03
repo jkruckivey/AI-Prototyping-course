@@ -1,0 +1,373 @@
+<!-- Skip link for keyboard users -->
+<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<main id="main-content" role="main">
+<div id="dp-wrapper" class="dp-wrapper">
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;" aria-hidden="true">Icon Progress Bar (browser only)</div>
+
+  <!-- Data Science Workflows with LLMs -->
+  <div class="dp-content-block content-block" data-title="Data Science Workflows with LLMs">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-chart-bar" aria-hidden="true"></i>&nbsp;Data Science Workflows with LLMs</h2>
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+      <div class="card-body">
+        <h3 class="card-title dp-ignore-theme">What this page covers</h3>
+        <p>How to conduct <strong>complete data science workflows</strong> using ChatGPT's code interpreter—from uploading files and statistical analysis to building machine learning models and creating presentations. You'll learn to treat LLMs as powerful data science assistants that execute your vision in Python.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- File Analysis Workflow -->
+  <div class="dp-content-block content-block" data-title="File Analysis Workflow">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-file-import" aria-hidden="true"></i>&nbsp;File Analysis Workflow</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="file-upload" id="file-upload-heading">Step 1: Upload and summarize</h3>
+        <div id="file-upload" class="dp-panel-content" role="region" aria-labelledby="file-upload-heading" hidden>
+          <p><strong>Always start by asking for a summary:</strong></p>
+          <blockquote class="dp-card card" style="border-left: 4px solid #f97316; padding-left: 15px;">
+            <p>"Please analyze this spreadsheet and summarize all columns."</p>
+          </blockquote>
+          <p><strong>Why this matters:</strong></p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">The LLM executes Python code to read the file</li>
+            <li class="list-group-item">Column information gets loaded into the context window</li>
+            <li class="list-group-item">Subsequent prompts can reference this data</li>
+            <li class="list-group-item">You understand the data structure before analysis</li>
+          </ul>
+          <p class="mb-0"><strong>Pro tip:</strong> Save the column overview to a text file so you can re-upload it if the context window fills up during long conversations.</p>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="file-types" id="file-types-heading">Supported file types</h3>
+        <div id="file-types" class="dp-panel-content" role="region" aria-labelledby="file-types-heading" hidden>
+          <div class="table-responsive">
+            <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Supported file types for LLM analysis">
+              <caption>What files can LLMs analyze?</caption>
+              <thead>
+                <tr>
+                  <th scope="col">File Type</th>
+                  <th scope="col">Capabilities</th>
+                  <th scope="col">Common Use Cases</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Excel (.xlsx, .xls)</th>
+                  <td>Read, analyze, create, modify</td>
+                  <td>Data analysis, statistical summaries, formula generation</td>
+                </tr>
+                <tr>
+                  <th scope="row">CSV (.csv)</th>
+                  <td>Read, process, transform</td>
+                  <td>Large datasets, data cleaning, feature engineering</td>
+                </tr>
+                <tr>
+                  <th scope="row">PDF (.pdf)</th>
+                  <td>Extract text, analyze specific pages</td>
+                  <td>Document analysis, information extraction</td>
+                </tr>
+                <tr>
+                  <th scope="row">JSON (.json)</th>
+                  <td>Parse, validate, restructure</td>
+                  <td>API data, configuration files, structured data</td>
+                </tr>
+                <tr>
+                  <th scope="row">Images (.png, .jpg)</th>
+                  <td>Create, modify, analyze (with vision models)</td>
+                  <td>Visualizations, charts, diagrams</td>
+                </tr>
+                <tr>
+                  <th scope="row">PowerPoint (.pptx)</th>
+                  <td>Create presentations with charts</td>
+                  <td>Reporting, stakeholder communication</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="file-context" id="file-context-heading">Managing context and memory</h3>
+        <div id="file-context" class="dp-panel-content" role="region" aria-labelledby="file-context-heading" hidden>
+          <p><strong>The context window challenge:</strong> LLMs have limited memory. As conversations grow, early information gets "forgotten."</p>
+          <p><strong>Best practices:</strong></p>
+          <ol class="list-group list-group-flush list-group-numbered">
+            <li class="list-group-item"><strong>Save intermediate results:</strong> Ask the LLM to create text files with summaries, column overviews, or analysis results</li>
+            <li class="list-group-item"><strong>Re-upload context:</strong> When switching topics, re-upload summary files to refresh the LLM's memory</li>
+            <li class="list-group-item"><strong>Remind explicitly:</strong> Use prompts like "Let's remember our original data set and goal..."</li>
+            <li class="list-group-item"><strong>Break into sessions:</strong> For complex projects, save models/results and start new chats with those artifacts</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Statistical Analysis -->
+  <div class="dp-content-block content-block" data-title="Statistical Analysis">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-chart-line" aria-hidden="true"></i>&nbsp;Statistical Analysis</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="stats-basic" id="stats-basic-heading">Basic statistics</h3>
+        <div id="stats-basic" class="dp-panel-content" role="region" aria-labelledby="stats-basic-heading" hidden>
+          <p>Request statistical summaries in natural language:</p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">"Calculate the mean of the course average column"</li>
+            <li class="list-group-item">"Show me the standard deviation and range for final exam scores"</li>
+            <li class="list-group-item">"What's the median and mode for this data?"</li>
+            <li class="list-group-item">"Provide quartile information for sales data"</li>
+          </ul>
+          <p class="mb-0">The LLM automatically uses Python (pandas, numpy) to calculate these values accurately.</p>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="stats-missing" id="stats-missing-heading">Handling missing values</h3>
+        <div id="stats-missing" class="dp-panel-content" role="region" aria-labelledby="stats-missing-heading" hidden>
+          <p><strong>Always check how the LLM handles missing data:</strong></p>
+          <pre style="background-color: #f5f5f5; padding: 10px; border-radius: 4px; overflow-x: auto;"><code>User: "Are there any missing values in the course average column?"
+
+LLM: [Runs Python] "Yes, there are 8 missing values."
+
+User: "Display these 8 values with the respective columns so I can assess them."
+
+LLM: [Creates table showing the 8 entries with missing data]
+
+User: "Recalculate the mean without these values."
+
+LLM: [Excludes NaN values and recalculates]</code></pre>
+          <p class="mb-0"><strong>Key lesson:</strong> Explicitly verify the LLM's approach to missing data—it may drop them, impute them, or handle them differently than you expect.</p>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="stats-viz" id="stats-viz-heading">Creating visualizations</h3>
+        <div id="stats-viz" class="dp-panel-content" role="region" aria-labelledby="stats-viz-heading" hidden>
+          <p>Request charts and graphs in natural language:</p>
+          <blockquote class="dp-card card" style="border-left: 4px solid #f97316; padding-left: 15px;">
+            <p>"Can you come up with two different interesting visualizations for me?"</p>
+          </blockquote>
+          <p><strong>The LLM might generate:</strong></p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Histogram:</strong> Distribution of course averages</li>
+            <li class="list-group-item"><strong>Scatter plot:</strong> Final exam score vs. course average (showing correlation)</li>
+            <li class="list-group-item"><strong>Bar charts:</strong> Comparisons across categories</li>
+            <li class="list-group-item"><strong>Line graphs:</strong> Trends over time</li>
+          </ul>
+          <p><strong>Customize visualizations:</strong></p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">"Change the histogram to have only 6 bins"</li>
+            <li class="list-group-item">"Overlay mean and median lines on this plot"</li>
+            <li class="list-group-item">"Add trend lines to the scatter plot"</li>
+            <li class="list-group-item">"Change colors to match our brand palette"</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Machine Learning Models -->
+  <div class="dp-content-block content-block" data-title="Building ML Models">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-robot" aria-hidden="true"></i>&nbsp;Building ML Models with Natural Language</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="ml-linear" id="ml-linear-heading">Linear regression example</h3>
+        <div id="ml-linear" class="dp-panel-content" role="region" aria-labelledby="ml-linear-heading" hidden>
+          <p>Build a prediction model with a simple prompt:</p>
+          <blockquote class="dp-card card" style="border-left: 4px solid #f97316; padding-left: 15px;">
+            <p>"Generate a linear regression model to predict the final course average from the final exam score."</p>
+          </blockquote>
+          <p><strong>What the LLM does:</strong></p>
+          <ol class="list-group list-group-flush list-group-numbered">
+            <li class="list-group-item">Drops rows with missing values (explicitly commented in code)</li>
+            <li class="list-group-item">Fits a linear regression model using scikit-learn</li>
+            <li class="list-group-item">Calculates coefficients (slope, intercept)</li>
+            <li class="list-group-item">Reports R² goodness-of-fit metric</li>
+            <li class="list-group-item">Offers to visualize the regression line</li>
+          </ol>
+          <p class="mb-0"><strong>Example output:</strong> "The linear regression model has an R² of 0.82, slope of 1.36, and intercept of 25.30."</p>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="ml-advanced" id="ml-advanced-heading">Advanced models (MLP, neural networks)</h3>
+        <div id="ml-advanced" class="dp-panel-content" role="region" aria-labelledby="ml-advanced-heading" hidden>
+          <p>Request more complex models:</p>
+          <blockquote class="dp-card card" style="border-left: 4px solid #f97316; padding-left: 15px;">
+            <p>"Train a multi-layer perceptron to predict the student's course average."</p>
+          </blockquote>
+          <p><strong>Guide the model architecture:</strong></p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">"Use 10 and 5 neurons in the respective hidden layers"</li>
+            <li class="list-group-item">"Change the activation function to sigmoid"</li>
+            <li class="list-group-item">"Try fewer neurons to reduce overfitting (4 and 4)"</li>
+            <li class="list-group-item">"Add early stopping to prevent overfitting"</li>
+          </ul>
+          <p class="mb-0"><strong>Important:</strong> You need to understand ML concepts (from Weeks 2-4) to know what to ask for and how to interpret results.</p>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="ml-workflow" id="ml-workflow-heading">Complete ML workflow</h3>
+        <div id="ml-workflow" class="dp-panel-content" role="region" aria-labelledby="ml-workflow-heading" hidden>
+          <p>Execute all the steps you learned in earlier weeks:</p>
+          <ol class="list-group list-group-flush list-group-numbered">
+            <li class="list-group-item"><strong>Data splitting:</strong> "Divide my data into 85% training and 15% testing, eliminating missing values"</li>
+            <li class="list-group-item"><strong>Normalization:</strong> "Should I normalize the numeric columns in this dataset?"</li>
+            <li class="list-group-item"><strong>Model training:</strong> Train linear regression, decision trees, MLP, or other models</li>
+            <li class="list-group-item"><strong>Evaluation:</strong> "Evaluate different models on the test set"</li>
+            <li class="list-group-item"><strong>Cross-validation:</strong> "Apply cross-validation to assess model performance"</li>
+            <li class="list-group-item"><strong>Model saving:</strong> "Save this model as a PKL file so I can use it later"</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Model Deployment and Reuse -->
+  <div class="dp-content-block content-block" data-title="Model Deployment and Reuse">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-download" aria-hidden="true"></i>&nbsp;Saving and Reusing Models</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="save-model" id="save-model-heading">Saving models</h3>
+        <div id="save-model" class="dp-panel-content" role="region" aria-labelledby="save-model-heading" hidden>
+          <p>Save trained models for later use:</p>
+          <blockquote class="dp-card card" style="border-left: 4px solid #f97316; padding-left: 15px;">
+            <p>"Save this linear regression model as a PKL file."</p>
+          </blockquote>
+          <p>The LLM executes Python to serialize (pickle) the model, which you can download and reuse without retraining.</p>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="use-model" id="use-model-heading">Using saved models</h3>
+        <div id="use-model" class="dp-panel-content" role="region" aria-labelledby="use-model-heading" hidden>
+          <p>Start a new chat and make predictions with a saved model:</p>
+          <pre style="background-color: #f5f5f5; padding: 10px; border-radius: 4px; overflow-x: auto;"><code>User: "Here is a machine learning model I created from data. I want to predict the output from new unseen data."
+[Uploads .pkl model file and original data for context]
+
+User: "Student A had a final exam grade of 45 points. What would be the student's predicted course average?"
+
+LLM: [Loads model, makes prediction]
+"Based on the model, a student with a final exam grade of 45 points is predicted to have a course average of approximately 86.43."
+
+User: "Graph the regression line with this exact point (45, 86.43) highlighted."
+
+LLM: [Creates visualization with the prediction point highlighted]</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- File Generation -->
+  <div class="dp-content-block content-block" data-title="Generating Output Files">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-file-export" aria-hidden="true"></i>&nbsp;Generating Output Files</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="gen-ppt" id="gen-ppt-heading">PowerPoint presentations</h3>
+        <div id="gen-ppt" class="dp-panel-content" role="region" aria-labelledby="gen-ppt-heading" hidden>
+          <blockquote class="dp-card card" style="border-left: 4px solid #f97316; padding-left: 15px;">
+            <p>"I have to show these graphs to the academic dean. Can you help me prepare a PowerPoint with all these figures? The images should go one per page, with a caption on the right-hand side with a brief description."</p>
+          </blockquote>
+          <p>The LLM uses Python libraries (python-pptx) to create a PowerPoint file with your visualizations, ready to download and present.</p>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="gen-excel" id="gen-excel-heading">Excel formulas and files</h3>
+        <div id="gen-excel" class="dp-panel-content" role="region" aria-labelledby="gen-excel-heading" hidden>
+          <p>Generate Excel formulas or create new Excel files:</p>
+          <blockquote class="dp-card card" style="border-left: 4px solid #f97316; padding-left: 15px;">
+            <p>"Create another column in my dataset showing the max value of the course average minus the final exam points for every row. Show me the Excel formula step by step."</p>
+          </blockquote>
+          <p>The LLM explains the Excel formula syntax and can create a downloadable Excel file with the formula applied.</p>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="gen-other" id="gen-other-heading">Other file formats</h3>
+        <div id="gen-other" class="dp-panel-content" role="region" aria-labelledby="gen-other-heading" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>CSV files:</strong> Export cleaned or transformed data</li>
+            <li class="list-group-item"><strong>JSON files:</strong> Structured data exports</li>
+            <li class="list-group-item"><strong>Text files:</strong> Summaries, reports, documentation</li>
+            <li class="list-group-item"><strong>Images:</strong> Charts, visualizations (PNG, JPG)</li>
+            <li class="list-group-item"><strong>ZIP archives:</strong> Package multiple files together</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Best Practices -->
+  <div class="dp-content-block content-block" data-title="Best Practices: Your AI Data Science Intern">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-star" aria-hidden="true"></i>&nbsp;Best Practices: Your AI Data Science Intern</h2>
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+      <div class="card-body">
+        <h3 class="card-title dp-ignore-theme">Think of the LLM as an intern who knows Python but needs guidance:</h3>
+        <ol class="list-group list-group-flush list-group-numbered">
+          <li class="list-group-item"><strong>Break tasks into steps:</strong> Don't ask for everything at once. Build complexity gradually.</li>
+          <li class="list-group-item"><strong>Provide context:</strong> Upload data, summaries, previous results. The more information, the better.</li>
+          <li class="list-group-item"><strong>Be specific about goals:</strong> "Predict course average from exam scores with 85% training split and normalization."</li>
+          <li class="list-group-item"><strong>Review Python code:</strong> Always expand and examine the generated code for logic errors.</li>
+          <li class="list-group-item"><strong>Test and validate:</strong> Challenge the LLM with questions that verify its analysis makes sense.</li>
+          <li class="list-group-item"><strong>Don't trust blindly:</strong> LLMs hallucinate and make mistakes. Verify critical computations independently.</li>
+          <li class="list-group-item"><strong>Save intermediate results:</strong> Download summaries, models, and files to avoid losing work when context fills up.</li>
+          <li class="list-group-item"><strong>Know your data science:</strong> Your knowledge from Weeks 1-4 is essential for guiding the LLM correctly.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- Limitations and Warnings -->
+  <div class="dp-content-block content-block" data-title="Limitations and Warnings">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;Limitations and Warnings</h2>
+    <div class="dp-card card" style="border-left: 4px solid #dc2626; padding-left: 15px;">
+      <div class="card-body">
+        <h3 class="card-title dp-ignore-theme">Critical Cautions</h3>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><strong>Hallucinations:</strong> LLMs are designed to please and engage—they may generate plausible but incorrect analyses.</li>
+          <li class="list-group-item"><strong>Memory limits:</strong> Long conversations cause early information to be forgotten. Save and re-upload context as needed.</li>
+          <li class="list-group-item"><strong>Not a replacement for expertise:</strong> You still need to understand data science concepts to guide and validate the LLM.</li>
+          <li class="list-group-item"><strong>Data privacy:</strong> Be cautious uploading sensitive data to cloud-based LLMs. Use anonymized data when possible.</li>
+          <li class="list-group-item"><strong>Code quality:</strong> Generated code may not follow best practices, be optimized, or handle edge cases properly.</li>
+          <li class="list-group-item"><strong>Model robustness:</strong> Models trained via LLM may not be production-ready without additional validation and testing.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Helpful Tip -->
+  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
+    <div class="card-body">
+      <h3 class="card-title">Helpful Tip</h3>
+      <p class="card-text">Use small datasets for learning and testing. LLMs work best with files under 50MB. For larger datasets, preprocess them or use sampling techniques, then apply insights to the full dataset using traditional tools.</p>
+    </div>
+  </div>
+
+  <hr aria-hidden="true" />
+  <p>Select <strong>Next▸</strong> to continue with <strong>Custom GPTs & AI Assistants</strong>.</p>
+</div>
+</main>
+
+<!-- Canvas-safe toggling -->
+<script>
+(function () {
+  function toggleHead(h){
+    const content = document.getElementById(h.getAttribute('aria-controls'));
+    const expanded = h.getAttribute('aria-expanded') === 'true';
+    h.setAttribute('aria-expanded', String(!expanded));
+    if (content) content.hidden = expanded;
+  }
+  document.addEventListener('click', function (e) {
+    const h = e.target.closest('.dp-panel-heading[role="button"]');
+    if (h) toggleHead(h);
+  });
+  document.addEventListener('keydown', function (e) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role="button"]')) {
+      e.preventDefault(); toggleHead(e.target);
+    }
+  });
+})();
+</script>

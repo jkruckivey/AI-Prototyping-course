@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inference Parameters Explorer</title>
+    <link rel="stylesheet" href="ivey-widget-base.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: white;
+            color: #333;
+            line-height: 1.5;
+            padding: 0;
+            margin: 0;
+        }
+
+        .dp-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 15px;
+            background: #ffffff;
+        }
+
+        .widget-header {
+            background: #034638;
+            color: white;
+            padding: 12px 16px;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+            margin: -15px -15px 20px -15px;
+            
+        }
+
+        .widget-title {
+            
+            font-size: 1.2em;
+            font-weight: bold;
+            margin: 0;
+        }
+
+
+        .param-controls {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .param-group {
+            margin-bottom: 20px;
+        }
+
+        .param-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--ivey-green);
+        }
+
+        .param-value {
+            display: inline-block;
+            background: var(--ivey-green);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: #ddd;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--ivey-green);
+            cursor: pointer;
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--ivey-green);
+            cursor: pointer;
+        }
+
+        .description {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .token-display {
+            background: white;
+            border: 2px solid var(--ivey-green);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            min-height: 200px;
+        }
+
+        .token-bar {
+            margin-bottom: 15px;
+        }
+
+        .token-label {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--ivey-green);
+        }
+
+        .probability-bar {
+            height: 30px;
+            background: linear-gradient(90deg, var(--ivey-green) 0%, #e8f5e9 100%);
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .prob-value {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-weight: 600;
+            color: var(--ivey-green);
+        }
+
+        .selected-token {
+            background: #f8f9fa;
+            color: #034638;
+            padding: 8px 16px;
+            border-radius: 6px;
+            display: inline-block;
+            font-weight: 600;
+            margin-top: 15px;
+            font-size: 1.1em;
+        }
+
+        .preset-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .preset-btn {
+            background: #f8f9fa;
+            color: #034638;
+            border: 1px solid #034638;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .preset-btn:hover {
+            background: #e8f5e9;
+            transform: translateY(-2px);
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 4px;
+        }
+
+        .token-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .token-option {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .token-option.selected {
+            border-color: var(--ivey-purple);
+            background: #f3e5f5;
+        }
+
+        .token-word {
+            font-weight: 600;
+            color: var(--ivey-green);
+        }
+
+        .token-prob {
+            font-size: 0.85em;
+            color: #666;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Pop-out button -->
+    <button class="widget-popout-btn" id="popoutBtn" title="Open in full window" aria-label="Open widget in new window">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+        </svg>
+        <span>Pop Out</span>
+    </button>
+
+    <div class="dp-wrapper">
+        <div class="widget-header">
+            <h1 class="widget-title">Inference Parameters Explorer</h1>
+        </div>
+            <!-- Preset buttons -->
+            <div class="preset-buttons">
+                <button class="preset-btn" onclick="setPreset('factual')">Factual Q&A</button>
+                <button class="preset-btn" onclick="setPreset('code')">Code Generation</button>
+                <button class="preset-btn" onclick="setPreset('chat')">Chatbot</button>
+                <button class="preset-btn" onclick="setPreset('creative')">Creative Writing</button>
+                <button class="preset-btn" onclick="setPreset('brainstorm')">Brainstorming</button>
+            </div>
+
+            <!-- Parameter Controls -->
+            <div class="param-controls">
+                <div class="param-group">
+                    <label for="temperature">
+                        Temperature <span class="param-value" id="temp-value">0.7</span>
+                    </label>
+                    <input type="range" id="temperature" min="0" max="2" step="0.1" value="0.7"
+                           oninput="updateParams()" aria-label="Temperature slider">
+                    <div class="description">Controls randomness. Lower = more deterministic, Higher = more creative</div>
+                </div>
+
+                <div class="param-group">
+                    <label for="topK">
+                        Top-K <span class="param-value" id="topk-value">50</span>
+                    </label>
+                    <input type="range" id="topK" min="1" max="100" step="1" value="50"
+                           oninput="updateParams()" aria-label="Top-K slider">
+                    <div class="description">Limits selection to K most likely tokens</div>
+                </div>
+
+                <div class="param-group">
+                    <label for="topP">
+                        Top-P (Nucleus) <span class="param-value" id="topp-value">0.90</span>
+                    </label>
+                    <input type="range" id="topP" min="0" max="1" step="0.05" value="0.90"
+                           oninput="updateParams()" aria-label="Top-P slider">
+                    <div class="description">Selects tokens whose cumulative probability exceeds P</div>
+                </div>
+            </div>
+
+            <!-- Scenario Display -->
+            <div class="token-display">
+                <h3 style="color: var(--ivey-green); margin-top: 0;">Scenario: Completing the sentence</h3>
+                <p style="font-size: 1.1em; margin-bottom: 10px;">
+                    <strong>Input:</strong> "The future of artificial intelligence is"
+                </p>
+
+                <div id="tokenOptions" class="token-grid"></div>
+
+                <div style="margin-top: 20px; padding: 15px; background: #f5f5f5; border-radius: 6px;">
+                    <strong>Selected Token:</strong>
+                    <span class="selected-token" id="selectedToken">bright</span>
+                </div>
+            </div>
+
+            <!-- Info Box -->
+            <div class="info-box">
+                <strong>💡 How it works:</strong>
+                <p style="margin: 10px 0 0 0;">
+                    The LLM calculates probabilities for all possible next tokens. Your parameter settings determine which tokens are available for selection and how they're chosen. Lower temperature makes high-probability tokens even more likely; higher temperature flattens the distribution.
+                </p>
+            </div>
+    </div>
+
+    <script>
+        // Token candidates with base probabilities
+        const tokens = [
+            { word: "bright", baseProb: 0.35 },
+            { word: "uncertain", baseProb: 0.18 },
+            { word: "promising", baseProb: 0.15 },
+            { word: "transformative", baseProb: 0.12 },
+            { word: "exciting", baseProb: 0.08 },
+            { word: "challenging", baseProb: 0.05 },
+            { word: "evolving", baseProb: 0.04 },
+            { word: "revolutionary", baseProb: 0.03 }
+        ];
+
+        function softmax(logits, temperature) {
+            const scaled = logits.map(x => x / temperature);
+            const expScaled = scaled.map(x => Math.exp(x));
+            const sum = expScaled.reduce((a, b) => a + b, 0);
+            return expScaled.map(x => x / sum);
+        }
+
+        function applyTopK(probs, k) {
+            const indexed = probs.map((p, i) => ({ p, i }));
+            indexed.sort((a, b) => b.p - a.p);
+            const topK = indexed.slice(0, k);
+            const result = new Array(probs.length).fill(0);
+            const sum = topK.reduce((acc, item) => acc + item.p, 0);
+            topK.forEach(item => {
+                result[item.i] = item.p / sum;
+            });
+            return result;
+        }
+
+        function applyTopP(probs, p) {
+            const indexed = probs.map((prob, i) => ({ prob, i }));
+            indexed.sort((a, b) => b.prob - a.prob);
+
+            let cumSum = 0;
+            const selected = [];
+            for (let item of indexed) {
+                cumSum += item.prob;
+                selected.push(item);
+                if (cumSum >= p) break;
+            }
+
+            const result = new Array(probs.length).fill(0);
+            const sum = selected.reduce((acc, item) => acc + item.prob, 0);
+            selected.forEach(item => {
+                result[item.i] = item.prob / sum;
+            });
+            return result;
+        }
+
+        function updateParams() {
+            const temp = parseFloat(document.getElementById('temperature').value);
+            const topK = parseInt(document.getElementById('topK').value);
+            const topP = parseFloat(document.getElementById('topP').value);
+
+            document.getElementById('temp-value').textContent = temp.toFixed(1);
+            document.getElementById('topk-value').textContent = topK;
+            document.getElementById('topp-value').textContent = topP.toFixed(2);
+
+            // Calculate probabilities
+            const logits = tokens.map(t => Math.log(t.baseProb));
+            let probs = softmax(logits, temp);
+            probs = applyTopK(probs, topK);
+            probs = applyTopP(probs, topP);
+
+            // Normalize
+            const sum = probs.reduce((a, b) => a + b, 0);
+            if (sum > 0) {
+                probs = probs.map(p => p / sum);
+            }
+
+            // Display tokens
+            displayTokens(probs);
+
+            // Select token based on probabilities
+            selectToken(probs);
+        }
+
+        function displayTokens(probs) {
+            const container = document.getElementById('tokenOptions');
+            container.innerHTML = '';
+
+            tokens.forEach((token, i) => {
+                const prob = probs[i];
+                if (prob > 0.001) {
+                    const div = document.createElement('div');
+                    div.className = 'token-option';
+                    div.innerHTML = `
+                        <div class="token-word">${token.word}</div>
+                        <div class="token-prob">${(prob * 100).toFixed(1)}%</div>
+                    `;
+                    container.appendChild(div);
+                }
+            });
+        }
+
+        function selectToken(probs) {
+            // Weighted random selection
+            const rand = Math.random();
+            let cumSum = 0;
+            let selectedIdx = 0;
+
+            for (let i = 0; i < probs.length; i++) {
+                cumSum += probs[i];
+                if (rand <= cumSum) {
+                    selectedIdx = i;
+                    break;
+                }
+            }
+
+            document.getElementById('selectedToken').textContent = tokens[selectedIdx].word;
+
+            // Highlight selected
+            const options = document.querySelectorAll('.token-option');
+            options.forEach((opt, i) => {
+                if (tokens.findIndex(t => t.word === opt.querySelector('.token-word').textContent) === selectedIdx) {
+                    opt.classList.add('selected');
+                } else {
+                    opt.classList.remove('selected');
+                }
+            });
+        }
+
+        function setPreset(type) {
+            const presets = {
+                factual: { temp: 0.2, topK: 10, topP: 0.90 },
+                code: { temp: 0.3, topK: 20, topP: 0.90 },
+                chat: { temp: 0.7, topK: 50, topP: 0.95 },
+                creative: { temp: 1.0, topK: 75, topP: 0.95 },
+                brainstorm: { temp: 1.5, topK: 100, topP: 0.98 }
+            };
+
+            const preset = presets[type];
+            document.getElementById('temperature').value = preset.temp;
+            document.getElementById('topK').value = preset.topK;
+            document.getElementById('topP').value = preset.topP;
+
+            updateParams();
+        }
+
+        // Pop-out functionality
+        document.getElementById('popoutBtn').addEventListener('click', function() {
+            const currentUrl = window.location.href;
+            const popoutUrl = currentUrl + (currentUrl.includes('?') ? '&' : '?') + 'standalone=true';
+            const popoutWindow = window.open(popoutUrl, 'WidgetPopout',
+                'width=1200,height=900,resizable=yes,scrollbars=yes,status=yes');
+            if (popoutWindow) popoutWindow.focus();
+        });
+
+        // Hide pop-out button if in standalone mode
+        if (window.location.search.includes('standalone=true')) {
+            document.body.classList.add('standalone-mode');
+        }
+
+        // Initialize
+        updateParams();
+    </script>
+</body>
+</html>

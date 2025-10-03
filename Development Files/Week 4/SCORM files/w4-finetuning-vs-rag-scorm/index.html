@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fine-tuning vs RAG Decision Tool</title>
+    <link rel="stylesheet" href="ivey-widget-base.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: white;
+            color: #333;
+            line-height: 1.5;
+            padding: 0;
+            margin: 0;
+        }
+
+        .dp-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 15px;
+            background: #ffffff;
+        }
+
+        .widget-header {
+            background: #034638;
+            color: white;
+            padding: 12px 16px;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+            margin: -15px -15px 20px -15px;
+            
+        }
+
+        .widget-title {
+            
+            font-size: 1.2em;
+            font-weight: bold;
+            margin: 0;
+        }
+
+
+        .decision-flow {
+            margin-bottom: 30px;
+        }
+
+        .question-card {
+            background: white;
+            border: 2px solid var(--ivey-green);
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .question-text {
+            font-size: 1.2em;
+            font-weight: 700;
+            color: var(--ivey-green);
+            margin-bottom: 20px;
+        }
+
+        .option-group {
+            display: grid;
+            gap: 15px;
+        }
+
+        .option-btn {
+            background: #f8f9fa;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .option-btn:hover {
+            border-color: var(--ivey-green);
+            background: #e8f5e9;
+        }
+
+        .option-btn.selected {
+            background: var(--ivey-green);
+            color: white;
+            border-color: var(--ivey-green);
+        }
+
+        .option-title {
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .option-desc {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .recommendation-box {
+            background: var(--ivey-green);
+            color: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-top: 30px;
+            box-shadow: 0 8px 24px rgba(3, 70, 56, 0.3);
+        }
+
+        .recommendation-title {
+            font-size: 1.8em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .recommendation-icon {
+            font-size: 2.5em;
+        }
+
+        .recommendation-subtitle {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+
+        .recommendation-details {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .recommendation-section {
+            margin-bottom: 20px;
+        }
+
+        .recommendation-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .recommendation-section strong {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .recommendation-section ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .comparison-table {
+            margin-top: 30px;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 2px solid var(--ivey-green);
+        }
+
+        .comparison-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .comparison-table th {
+            background: var(--ivey-green);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 700;
+        }
+
+        .comparison-table td {
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .reset-btn {
+            background: #f8f9fa;
+            color: #034638;
+            border: 1px solid #034638;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .reset-btn:hover {
+            background: #e8f5e9;
+            transform: translateY(-2px);
+        }
+
+        .progress-indicator {
+            display: none;
+        }
+
+        .progress-dot {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #666;
+            position: relative;
+        }
+
+        .progress-dot::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 3px;
+            background: #ddd;
+            left: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: -1;
+        }
+
+        .progress-dot:last-child::after {
+            display: none;
+        }
+
+        .progress-dot.completed {
+            background: var(--ivey-green);
+            color: white;
+        }
+
+        .progress-dot.current {
+            background: #f8f9fa;
+            color: #034638;
+            transform: scale(1.2);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .badge-ft {
+            background: #ff9800;
+            color: #034638;
+        }
+
+        .badge-rag {
+            background: #2196f3;
+            color: #034638;
+        }
+
+        .badge-both {
+            background: #f8f9fa;
+            color: #034638;
+        }
+    </style>
+</head>
+<body>
+    <!-- Pop-out button -->
+    <button class="widget-popout-btn" id="popoutBtn" title="Open in full window" aria-label="Open widget in new window">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+        </svg>
+        <span>Pop Out</span>
+    </button>
+
+    <div class="dp-wrapper">
+        <div class="widget-header">
+            <h1 class="widget-title">Fine-tuning vs RAG Decision Tool</h1>
+        </div>
+
+            <!-- Progress Indicator -->
+            <div class="progress-indicator" id="progressIndicator"></div>
+
+            <!-- Decision Flow -->
+            <div class="decision-flow" id="decisionFlow"></div>
+
+            <!-- Recommendation -->
+            <div id="recommendation" style="display: none;"></div>
+
+            <!-- Quick Comparison Table -->
+            <div class="comparison-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Dimension</th>
+                            <th>Fine-tuning</th>
+                            <th>RAG</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Best For</strong></td>
+                            <td>Behavior, style, format, specialized language</td>
+                            <td>Knowledge, facts, current information</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Knowledge Updates</strong></td>
+                            <td>Requires retraining (static)</td>
+                            <td>Update knowledge base anytime (dynamic)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Initial Cost</strong></td>
+                            <td>Moderate to high (training compute)</td>
+                            <td>Low to moderate (indexing, vector DB)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ongoing Cost</strong></td>
+                            <td>Lower (no retrieval step)</td>
+                            <td>Higher (embedding + retrieval + generation)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Latency</strong></td>
+                            <td>Lower (direct generation)</td>
+                            <td>Higher (retrieval adds time)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Explainability</strong></td>
+                            <td>Lower (behavior in weights)</td>
+                            <td>Higher (can show sources)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                id: 'goal',
+                text: "What's your primary goal?",
+                options: [
+                    { id: 'knowledge', title: 'Add new knowledge/facts', desc: 'Model needs to know information beyond its training data', score: { rag: 2 } },
+                    { id: 'behavior', title: 'Change behavior/style', desc: 'Consistent format, tone, or specialized language', score: { ft: 2 } },
+                    { id: 'both', title: 'Both knowledge and behavior', desc: 'Need specialized knowledge AND specific output style', score: { both: 2 } }
+                ]
+            },
+            {
+                id: 'updates',
+                text: "How often does the information change?",
+                options: [
+                    { id: 'static', title: 'Rarely (months/years)', desc: 'Domain knowledge is stable', score: { ft: 1 } },
+                    { id: 'periodic', title: 'Periodically (weeks)', desc: 'Occasional updates needed', score: { ft: 0.5, rag: 0.5 } },
+                    { id: 'frequent', title: 'Frequently (daily)', desc: 'Need current, up-to-date information', score: { rag: 2 } }
+                ]
+            },
+            {
+                id: 'data',
+                text: "What kind of training data do you have?",
+                options: [
+                    { id: 'examples', title: '500+ input-output pairs', desc: 'Well-labeled examples of desired behavior', score: { ft: 1.5 } },
+                    { id: 'documents', title: 'Large document collection', desc: 'Unstructured knowledge base (docs, PDFs, etc.)', score: { rag: 1.5 } },
+                    { id: 'both-data', title: 'Both examples and documents', desc: 'Have training examples AND knowledge base', score: { both: 1.5 } }
+                ]
+            },
+            {
+                id: 'explainability',
+                text: "Do you need to cite sources?",
+                options: [
+                    { id: 'yes-cite', title: 'Yes, must show sources', desc: 'Need to reference specific documents', score: { rag: 1.5 } },
+                    { id: 'no-cite', title: 'No, results only', desc: "Don't need source attribution", score: { ft: 0.5 } }
+                ]
+            }
+        ];
+
+        let currentQuestion = 0;
+        let scores = { ft: 0, rag: 0, both: 0 };
+        let answers = {};
+
+        function renderQuestion() {
+            const question = questions[currentQuestion];
+            const flow = document.getElementById('decisionFlow');
+
+            flow.innerHTML = `
+                <div class="question-card">
+                    <div class="question-text">
+                        Question ${currentQuestion + 1} of ${questions.length}: ${question.text}
+                    </div>
+                    <div class="option-group">
+                        ${question.options.map(opt => `
+                            <div class="option-btn" onclick="selectOption('${question.id}', '${opt.id}', ${JSON.stringify(opt.score).replace(/"/g, '&quot;')})">
+                                <div class="option-title">${opt.title}</div>
+                                <div class="option-desc">${opt.desc}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const indicator = document.getElementById('progressIndicator');
+            indicator.innerHTML = questions.map((_, i) => {
+                let className = 'progress-dot';
+                if (i < currentQuestion) className += ' completed';
+                if (i === currentQuestion) className += ' current';
+                return `<div class="${className}">${i + 1}</div>`;
+            }).join('');
+        }
+
+        function selectOption(questionId, optionId, score) {
+            answers[questionId] = optionId;
+
+            // Add scores
+            for (let key in score) {
+                scores[key] += score[key];
+            }
+
+            currentQuestion++;
+
+            if (currentQuestion < questions.length) {
+                renderQuestion();
+            } else {
+                showRecommendation();
+            }
+        }
+
+        function showRecommendation() {
+            document.getElementById('decisionFlow').style.display = 'none';
+            document.getElementById('progressIndicator').style.display = 'none';
+            const recDiv = document.getElementById('recommendation');
+            recDiv.style.display = 'block';
+
+            // Determine recommendation
+            let recommendation, icon, badge, details;
+
+            if (scores.both > Math.max(scores.ft, scores.rag) || (scores.ft > 3 && scores.rag > 3)) {
+                recommendation = "Fine-tuning + RAG Combined";
+                icon = "🚀";
+                badge = "badge-both";
+                details = {
+                    why: "Your use case benefits from BOTH specialized behavior (fine-tuning) AND dynamic knowledge (RAG).",
+                    approach: [
+                        "Fine-tune a model on your domain/style/format examples",
+                        "Implement RAG for knowledge retrieval from your document base",
+                        "The fine-tuned model will know HOW to use retrieved context effectively",
+                        "Best of both worlds: specialized behavior + current information"
+                    ],
+                    examples: [
+                        "Legal chatbot: Fine-tune for legal language + RAG for case law",
+                        "Technical support: Fine-tune for your product terminology + RAG for documentation",
+                        "Financial analysis: Fine-tune for report format + RAG for current market data"
+                    ],
+                    cost: "Highest initial investment, but most powerful long-term solution"
+                };
+            } else if (scores.ft > scores.rag) {
+                recommendation = "Fine-tuning";
+                icon = "🎯";
+                badge = "badge-ft";
+                details = {
+                    why: "Your use case requires consistent behavior, style, or format that's best learned through fine-tuning.",
+                    approach: [
+                        "Prepare 500-5000 high-quality input-output examples",
+                        "Use PEFT (LoRA) to reduce cost and training time",
+                        "Focus on consistent format, domain language, or specialized tasks",
+                        "Fine-tune a smaller base model for cost efficiency"
+                    ],
+                    examples: [
+                        "Medical report generation (specialized terminology, format)",
+                        "Code generation in your company's style",
+                        "Brand-specific marketing copy with consistent voice"
+                    ],
+                    cost: "Moderate upfront cost, lower ongoing inference costs"
+                };
+            } else {
+                recommendation = "Retrieval Augmented Generation (RAG)";
+                icon = "📚";
+                badge = "badge-rag";
+                details = {
+                    why: "Your use case requires access to current, changing, or proprietary knowledge best served by RAG.",
+                    approach: [
+                        "Index your document collection into a vector database",
+                        "Use semantic search to retrieve relevant chunks",
+                        "Pass retrieved context + query to the LLM",
+                        "Update knowledge base anytime without retraining"
+                    ],
+                    examples: [
+                        "Customer support with product documentation",
+                        "Internal Q&A over company wikis and policies",
+                        "Research assistant querying scientific papers"
+                    ],
+                    cost: "Lower initial cost, ongoing costs for retrieval + generation"
+                };
+            }
+
+            recDiv.innerHTML = `
+                <div class="recommendation-box">
+                    <div class="recommendation-title">
+                        <span class="recommendation-icon">${icon}</span>
+                        <div>
+                            Recommended Approach
+                            <span class="badge ${badge}">${recommendation}</span>
+                        </div>
+                    </div>
+                    <div class="recommendation-subtitle">${details.why}</div>
+
+                    <div class="recommendation-details">
+                        <div class="recommendation-section">
+                            <strong>📋 Implementation Approach:</strong>
+                            <ul>
+                                ${details.approach.map(item => `<li>${item}</li>`).join('')}
+                            </ul>
+                        </div>
+
+                        <div class="recommendation-section">
+                            <strong>💡 Example Use Cases:</strong>
+                            <ul>
+                                ${details.examples.map(item => `<li>${item}</li>`).join('')}
+                            </ul>
+                        </div>
+
+                        <div class="recommendation-section">
+                            <strong>💰 Cost Consideration:</strong> ${details.cost}
+                        </div>
+                    </div>
+
+                    <button class="reset-btn" onclick="reset()">Start Over</button>
+                </div>
+            `;
+        }
+
+        function reset() {
+            currentQuestion = 0;
+            scores = { ft: 0, rag: 0, both: 0 };
+            answers = {};
+            document.getElementById('decisionFlow').style.display = 'block';
+            document.getElementById('progressIndicator').style.display = 'flex';
+            document.getElementById('recommendation').style.display = 'none';
+            renderQuestion();
+        }
+
+        // Pop-out functionality
+        document.getElementById('popoutBtn').addEventListener('click', function() {
+            const currentUrl = window.location.href;
+            const popoutUrl = currentUrl + (currentUrl.includes('?') ? '&' : '?') + 'standalone=true';
+            const popoutWindow = window.open(popoutUrl, 'WidgetPopout',
+                'width=1200,height=900,resizable=yes,scrollbars=yes,status=yes');
+            if (popoutWindow) popoutWindow.focus();
+        });
+
+        // Hide pop-out button if in standalone mode
+        if (window.location.search.includes('standalone=true')) {
+            document.body.classList.add('standalone-mode');
+        }
+
+        // Initialize
+        renderQuestion();
+    </script>
+</body>
+</html>

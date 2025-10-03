@@ -20,7 +20,12 @@
       "Bash(dir \"C:\\Users\\jkruck\\Ivey Business School\\EdTech Lab - Documents\\Github\\AI Prototyping Learn\\Development Files\\Week 1\\SCORM files\")",
       "Bash(findstr:*)",
       "Bash(dir:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Read(//c/Users/jkruck/Downloads/**)",
+      "Bash(python:*)",
+      "Bash(do)",
+      "Bash(done)",
+      "Read(//c/**)"
     ],
     "deny": [],
     "ask": []

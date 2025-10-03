@@ -1,0 +1,513 @@
+<!-- Skip link for keyboard users -->
+<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<main id="main-content" role="main">
+<div id="dp-wrapper" class="dp-wrapper">
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;" aria-hidden="true">Icon Progress Bar (browser only)</div>
+
+  <!-- Transformer Architecture -->
+  <div class="dp-content-block content-block" data-title="Transformer Architecture & How LLMs Work">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-cogs" aria-hidden="true"></i>&nbsp;Transformer Architecture & How LLMs Work</h2>
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+      <div class="card-body">
+        <h3 class="card-title dp-ignore-theme">What this page covers</h3>
+        <p>The technical foundation of LLMs: the <strong>transformer architecture</strong>. You'll learn how transformers overcome the limitations of older models, understand the mechanics of <strong>self-attention</strong>, and explore how LLMs process and generate text through <strong>tokenization</strong>, <strong>embeddings</strong>, and <strong>inference parameters</strong>.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Why Transformers? (RNN Limitations) -->
+  <div class="dp-content-block content-block" data-title="Why Transformers?">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-question-circle" aria-hidden="true"></i>&nbsp;Why Transformers?</h2>
+    <p>Before transformers, <strong>Recurrent Neural Networks (RNNs)</strong> were the dominant architecture for natural language processing. Understanding RNN limitations helps explain why transformers revolutionized the field.</p>
+
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="rnn-how-work" id="rnn-how-work-heading">How RNNs work</h3>
+        <div id="rnn-how-work" class="dp-panel-content" role="region" aria-labelledby="rnn-how-work-heading" hidden>
+          <p>RNNs process sequences <strong>one word at a time</strong>, maintaining a "memory" of previous words in a hidden state. Each word is processed sequentially: word 1 → word 2 → word 3 → etc.</p>
+          <p class="mb-0"><strong>Key characteristics:</strong></p>
+          <ul>
+            <li>Sequential processing (must wait for word N to process word N+1)</li>
+            <li>Hidden state carries information from previous words</li>
+            <li>Good for short sequences and simple dependencies</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="rnn-limitations" id="rnn-limitations-heading">RNN limitations</h3>
+        <div id="rnn-limitations" class="dp-panel-content" role="region" aria-labelledby="rnn-limitations-heading" hidden>
+          <div class="table-responsive">
+            <table class="ic-Table ic-Table--hover-row" role="table" aria-label="RNN limitations and their impacts">
+              <caption>Why RNNs struggled with long documents</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Limitation</th>
+                  <th scope="col">Impact</th>
+                  <th scope="col">Example Problem</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Sequential Processing</th>
+                  <td>Can't parallelize—must process words one by one</td>
+                  <td>Training takes weeks or months, even with powerful hardware</td>
+                </tr>
+                <tr>
+                  <th scope="row">Vanishing Gradients</th>
+                  <td>Long-range dependencies get "forgotten" as sequence grows</td>
+                  <td>Can't connect "bank" in sentence 1 with "deposit" in sentence 50</td>
+                </tr>
+                <tr>
+                  <th scope="row">Fixed Hidden State</th>
+                  <td>Must compress all context into a single vector</td>
+                  <td>Information bottleneck limits what the model can remember</td>
+                </tr>
+                <tr>
+                  <th scope="row">No Direct Long-Range Connections</th>
+                  <td>Information must flow through many intermediate steps</td>
+                  <td>Difficult to capture dependencies across paragraphs or documents</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="transformer-advantage" id="transformer-advantage-heading">Transformer advantage</h3>
+        <div id="transformer-advantage" class="dp-panel-content" role="region" aria-labelledby="transformer-advantage-heading" hidden>
+          <p>Transformers solve RNN limitations through two key innovations:</p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Parallel Processing:</strong> All words processed simultaneously using <em>self-attention</em>, not sequentially</li>
+            <li class="list-group-item"><strong>Direct Connections:</strong> Every word can "attend" to every other word directly, regardless of distance</li>
+          </ul>
+          <p class="mt-2 mb-0">This enables transformers to:</p>
+          <ul>
+            <li>Train much faster on GPUs (parallel computation)</li>
+            <li>Capture long-range dependencies effectively</li>
+            <li>Scale to billions of parameters and massive datasets</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- How LLMs Work: Token Prediction -->
+  <div class="dp-content-block content-block" data-title="How LLMs Work">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-dice" aria-hidden="true"></i>&nbsp;How LLMs Work: Probabilistic Token Prediction</h2>
+    <p>At their core, LLMs generate text by <strong>predicting the next token</strong> based on all previous tokens. This simple mechanism, repeated thousands of times, produces coherent language.</p>
+
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="token-prediction" id="token-prediction-heading">Token prediction process</h3>
+        <div id="token-prediction" class="dp-panel-content" role="region" aria-labelledby="token-prediction-heading" hidden>
+          <ol class="list-group list-group-flush list-group-numbered">
+            <li class="list-group-item"><strong>Tokenization:</strong> Break input text into tokens (words, subwords, or characters)</li>
+            <li class="list-group-item"><strong>Embedding:</strong> Convert each token into a numeric vector (embedding)</li>
+            <li class="list-group-item"><strong>Positional Encoding:</strong> Add position information (which word is 1st, 2nd, 3rd, etc.)</li>
+            <li class="list-group-item"><strong>Self-Attention:</strong> Let each token "look at" all other tokens to understand context</li>
+            <li class="list-group-item"><strong>Prediction:</strong> Output probability distribution over all possible next tokens</li>
+            <li class="list-group-item"><strong>Sampling:</strong> Select next token based on probabilities and inference parameters</li>
+            <li class="list-group-item"><strong>Repeat:</strong> Add the selected token to the sequence and predict again</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="tokenization-detail" id="tokenization-detail-heading">Tokenization explained</h3>
+        <div id="tokenization-detail" class="dp-panel-content" role="region" aria-labelledby="tokenization-detail-heading" hidden>
+          <p><strong>Tokens</strong> are the basic units LLMs work with. They're not always whole words—they can be subwords, common phrases, or individual characters.</p>
+          <p><strong>Example tokenization:</strong></p>
+          <ul>
+            <li>"Hello world" → <code>["Hello", " world"]</code> (2 tokens)</li>
+            <li>"unhappiness" → <code>["un", "happiness"]</code> (2 tokens - common prefix + root word)</li>
+            <li>"GPT-4" → <code>["GPT", "-", "4"]</code> (3 tokens)</li>
+          </ul>
+          <p class="mb-0"><strong>Why subword tokenization?</strong></p>
+          <ul>
+            <li>Handles rare words and misspellings better (break into known pieces)</li>
+            <li>More efficient vocabulary (30k-50k tokens vs. millions of whole words)</li>
+            <li>Works across languages with shared roots</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="embeddings-detail" id="embeddings-detail-heading">Embeddings explained</h3>
+        <div id="embeddings-detail" class="dp-panel-content" role="region" aria-labelledby="embeddings-detail-heading" hidden>
+          <p><strong>Embeddings</strong> convert tokens into high-dimensional vectors (arrays of numbers) that capture semantic meaning. Similar words have similar vectors.</p>
+          <p><strong>Example (simplified to 3 dimensions):</strong></p>
+          <ul>
+            <li>"king" → [0.8, 0.2, 0.9]</li>
+            <li>"queen" → [0.7, 0.3, 0.85]</li>
+            <li>"man" → [0.6, 0.1, 0.5]</li>
+            <li>"woman" → [0.5, 0.2, 0.45]</li>
+          </ul>
+          <p><em>Actual embeddings are 768 to 12,288 dimensions for modern LLMs.</em></p>
+          <p class="mb-0"><strong>Key property:</strong> Mathematical relationships in embedding space reflect semantic relationships. "King" - "Man" + "Woman" ≈ "Queen" in vector space.</p>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="positional-encoding" id="positional-encoding-heading">Positional encoding</h3>
+        <div id="positional-encoding" class="dp-panel-content" role="region" aria-labelledby="positional-encoding-heading" hidden>
+          <p>Since transformers process all tokens in parallel (not sequentially like RNNs), they need a way to know <strong>word order</strong>.</p>
+          <p><strong>Positional encoding</strong> adds position information to embeddings:</p>
+          <ul>
+            <li>Position 0: Add positional vector for first position</li>
+            <li>Position 1: Add positional vector for second position</li>
+            <li>Position 2: Add positional vector for third position, etc.</li>
+          </ul>
+          <p class="mb-0">This allows the model to distinguish "dog bites man" from "man bites dog" even though the same tokens appear in both.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Self-Attention Mechanism -->
+  <div class="dp-content-block content-block" data-title="Self-Attention: The Core Innovation">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-network-wired" aria-hidden="true"></i>&nbsp;Self-Attention: The Core Innovation</h2>
+    <p><strong>Self-attention</strong> is the mechanism that allows each token to "look at" all other tokens and determine which ones are most relevant for understanding context.</p>
+
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="attention-intuition" id="attention-intuition-heading">Intuition: What is attention?</h3>
+        <div id="attention-intuition" class="dp-panel-content" role="region" aria-labelledby="attention-intuition-heading" hidden>
+          <p><strong>Example sentence:</strong> "The animal didn't cross the street because <em>it</em> was too tired."</p>
+          <p>When processing the word "it," the model needs to figure out what "it" refers to. Self-attention allows "it" to:</p>
+          <ul>
+            <li>Look back at all previous words</li>
+            <li>Assign high attention to "animal" (strong semantic relationship)</li>
+            <li>Assign low attention to "street" (less relevant)</li>
+            <li>Use this context to understand "it" = "the animal"</li>
+          </ul>
+          <p class="mb-0"><strong>Key insight:</strong> The model learns <em>what to pay attention to</em> from training data, not from hard-coded rules.</p>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="attention-mechanism" id="attention-mechanism-heading">How attention works (simplified)</h3>
+        <div id="attention-mechanism" class="dp-panel-content" role="region" aria-labelledby="attention-mechanism-heading" hidden>
+          <p>For each token, the model creates three vectors through learned transformations:</p>
+          <ol class="list-group list-group-flush list-group-numbered">
+            <li class="list-group-item"><strong>Query (Q):</strong> "What am I looking for?" - represents what the current token needs</li>
+            <li class="list-group-item"><strong>Key (K):</strong> "What do I contain?" - represents what information each token offers</li>
+            <li class="list-group-item"><strong>Value (V):</strong> "What do I contribute?" - the actual information to pass along</li>
+          </ol>
+          <p class="mt-2"><strong>Attention score calculation:</strong></p>
+          <ol>
+            <li>Compare Query of current token with Keys of all other tokens (dot product)</li>
+            <li>Higher dot product = more relevant (Q and K point in similar directions)</li>
+            <li>Apply softmax to get probabilities (attention weights)</li>
+            <li>Weighted sum of Values based on attention weights = output for this token</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="multi-head-attention" id="multi-head-attention-heading">Multi-head attention</h3>
+        <div id="multi-head-attention" class="dp-panel-content" role="region" aria-labelledby="multi-head-attention-heading" hidden>
+          <p>Instead of one attention mechanism, transformers use <strong>multiple attention "heads"</strong> operating in parallel (typically 12-96 heads).</p>
+          <p><strong>Why multiple heads?</strong></p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Different perspectives:</strong> Each head can learn to attend to different types of relationships</li>
+            <li class="list-group-item"><strong>Example in "The animal didn't cross the street because it was too tired":</strong>
+              <ul class="mt-1">
+                <li>Head 1: Focus on pronoun-noun relationships ("it" → "animal")</li>
+                <li>Head 2: Focus on cause-effect ("because" → causal relationships)</li>
+                <li>Head 3: Focus on subject-verb agreement ("animal" → "didn't")</li>
+              </ul>
+            </li>
+            <li class="list-group-item"><strong>Richer representation:</strong> Combining multiple heads captures complex linguistic patterns</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="attention-visualization" id="attention-visualization-heading">Visualizing attention</h3>
+        <div id="attention-visualization" class="dp-panel-content" role="region" aria-labelledby="attention-visualization-heading" hidden>
+          <p>Attention can be visualized as connections between words, with line thickness representing attention weight.</p>
+          <div class="dp-card card" style="border-left: 4px solid #f97316; padding-left: 15px;">
+            <div class="card-body">
+              <h4 class="card-title dp-ignore-theme">Example Visualization</h4>
+              <p><strong>Sentence:</strong> "The bank can refuse to lend money to customers."</p>
+              <p><strong>When processing "bank":</strong></p>
+              <ul class="mb-0">
+                <li>Strong attention to "lend" and "money" (financial institution meaning)</li>
+                <li>Weak attention to "refuse" (less disambiguating)</li>
+                <li>Result: Model understands "bank" = financial institution, not riverbank</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Encoder-Decoder Architecture -->
+  <div class="dp-content-block content-block" data-title="Transformer Architecture Patterns">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-sitemap" aria-hidden="true"></i>&nbsp;Transformer Architecture Patterns</h2>
+    <p>Transformers come in three main architectural patterns, each optimized for different tasks.</p>
+
+    <div class="table-responsive">
+      <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Transformer architecture patterns comparison">
+        <caption>Encoder-only, Decoder-only, and Encoder-Decoder transformers</caption>
+        <thead>
+          <tr>
+            <th scope="col">Pattern</th>
+            <th scope="col">How It Works</th>
+            <th scope="col">Best For</th>
+            <th scope="col">Examples</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Encoder-Only</th>
+            <td>Processes entire input at once, produces contextualized representations</td>
+            <td>Classification, NER, sentiment analysis</td>
+            <td>BERT, RoBERTa</td>
+          </tr>
+          <tr>
+            <th scope="row">Decoder-Only</th>
+            <td>Generates text autoregressively (one token at a time), left-to-right</td>
+            <td>Text generation, code completion, chatbots</td>
+            <td>GPT-3, GPT-4, Llama, Claude</td>
+          </tr>
+          <tr>
+            <th scope="row">Encoder-Decoder</th>
+            <td>Encoder processes input, decoder generates output based on encoding</td>
+            <td>Translation, summarization, seq-to-seq tasks</td>
+            <td>T5, BART, original Transformer</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="encoder-detail" id="encoder-detail-heading">Encoder-only (BERT-style)</h3>
+        <div id="encoder-detail" class="dp-panel-content" role="region" aria-labelledby="encoder-detail-heading" hidden>
+          <p><strong>Key feature:</strong> Bidirectional attention—each token can attend to tokens both before AND after it.</p>
+          <p><strong>Training objective:</strong> Masked language modeling (predict missing words)</p>
+          <ul>
+            <li>Input: "The [MASK] sat on the mat"</li>
+            <li>Task: Predict "cat" by using context from both sides</li>
+          </ul>
+          <p class="mb-0"><strong>Use cases:</strong> When you need to understand existing text, not generate new text.</p>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="decoder-detail" id="decoder-detail-heading">Decoder-only (GPT-style)</h3>
+        <div id="decoder-detail" class="dp-panel-content" role="region" aria-labelledby="decoder-detail-heading" hidden>
+          <p><strong>Key feature:</strong> Causal (unidirectional) attention—each token can only attend to previous tokens, not future ones.</p>
+          <p><strong>Training objective:</strong> Next token prediction</p>
+          <ul>
+            <li>Input: "The cat sat"</li>
+            <li>Task: Predict "on" by using only left context</li>
+          </ul>
+          <p><strong>Why causal attention?</strong> Prevents "cheating" during generation—the model can't look ahead to future tokens it hasn't generated yet.</p>
+          <p class="mb-0"><strong>Use cases:</strong> Text generation, chatbots, code completion—anything requiring open-ended creation.</p>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="enc-dec-detail" id="enc-dec-detail-heading">Encoder-Decoder (T5-style)</h3>
+        <div id="enc-dec-detail" class="dp-panel-content" role="region" aria-labelledby="enc-dec-detail-heading" hidden>
+          <p><strong>Key feature:</strong> Two-stage processing with cross-attention between encoder and decoder.</p>
+          <p><strong>How it works:</strong></p>
+          <ol>
+            <li><strong>Encoder:</strong> Processes input with bidirectional attention, creates rich representation</li>
+            <li><strong>Decoder:</strong> Generates output with causal attention, also attends to encoder output via cross-attention</li>
+          </ol>
+          <p><strong>Example (translation):</strong></p>
+          <ul>
+            <li>Encoder input: "Hello world" (English)</li>
+            <li>Encoder creates contextual representation of entire English sentence</li>
+            <li>Decoder generates "Bonjour le monde" (French) token by token, attending to encoder representation</li>
+          </ul>
+          <p class="mb-0"><strong>Use cases:</strong> Tasks with distinct input/output (translation, summarization with specific format constraints).</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Inference Parameters -->
+  <div class="dp-content-block content-block" data-title="Controlling Generation: Inference Parameters">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-sliders-h" aria-hidden="true"></i>&nbsp;Controlling Generation: Inference Parameters</h2>
+    <p>When generating text, LLMs don't always pick the highest-probability token. <strong>Inference parameters</strong> control how tokens are selected from the probability distribution, affecting creativity, randomness, and output quality.</p>
+
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="temp-param" id="temp-param-heading">Temperature</h3>
+        <div id="temp-param" class="dp-panel-content" role="region" aria-labelledby="temp-param-heading" hidden>
+          <p><strong>Temperature</strong> controls randomness in token selection. Range: 0.0 to 2.0 (typically 0.0-1.0)</p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Low temperature (0.0-0.3):</strong> Deterministic, focused, predictable
+              <ul class="mt-1">
+                <li>Best for: Factual answers, code generation, structured output</li>
+                <li>Effect: Always or nearly always picks highest-probability token</li>
+              </ul>
+            </li>
+            <li class="list-group-item"><strong>Medium temperature (0.5-0.8):</strong> Balanced creativity and coherence
+              <ul class="mt-1">
+                <li>Best for: Conversational AI, general writing, brainstorming</li>
+                <li>Effect: Moderate randomness, still favors high-probability tokens</li>
+              </ul>
+            </li>
+            <li class="list-group-item"><strong>High temperature (0.9-2.0):</strong> Creative, diverse, potentially chaotic
+              <ul class="mt-1">
+                <li>Best for: Creative writing, idea generation, exploring alternatives</li>
+                <li>Effect: Flattens probability distribution, lower-probability tokens more likely</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="topk-param" id="topk-param-heading">Top-K sampling</h3>
+        <div id="topk-param" class="dp-panel-content" role="region" aria-labelledby="topk-param-heading" hidden>
+          <p><strong>Top-K</strong> limits token selection to the K most likely tokens. Range: 1 to vocab size (typically 10-100)</p>
+          <p><strong>Example with K=5:</strong></p>
+          <ul>
+            <li>Model outputs probabilities for all 50,000 tokens in vocabulary</li>
+            <li>Keep only top 5 highest-probability tokens</li>
+            <li>Renormalize probabilities across these 5 tokens</li>
+            <li>Sample from this restricted set</li>
+          </ul>
+          <p class="mb-0"><strong>Effect:</strong> Prevents selecting very low-probability (potentially nonsensical) tokens while maintaining diversity.</p>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="topp-param" id="topp-param-heading">Top-P (Nucleus) sampling</h3>
+        <div id="topp-param" class="dp-panel-content" role="region" aria-labelledby="topp-param-heading" hidden>
+          <p><strong>Top-P</strong> (nucleus sampling) selects from the smallest set of tokens whose cumulative probability exceeds P. Range: 0.0-1.0 (typically 0.9-0.95)</p>
+          <p><strong>Example with P=0.9:</strong></p>
+          <ul>
+            <li>Sort tokens by probability (highest to lowest)</li>
+            <li>Add tokens until cumulative probability ≥ 0.9</li>
+            <li>Sample only from this "nucleus" of tokens</li>
+          </ul>
+          <p><strong>Advantage over Top-K:</strong> Adapts to probability distribution shape</p>
+          <ul>
+            <li>When model is confident (one token 80% probability): nucleus is small (1-2 tokens)</li>
+            <li>When model is uncertain (probabilities spread out): nucleus is larger (10+ tokens)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="max-tokens" id="max-tokens-heading">Max tokens & stop sequences</h3>
+        <div id="max-tokens" class="dp-panel-content" role="region" aria-labelledby="max-tokens-heading" hidden>
+          <p><strong>Max tokens:</strong> Maximum number of tokens to generate (controls output length)</p>
+          <ul>
+            <li>Important for cost control (API pricing based on tokens)</li>
+            <li>Prevents runaway generation</li>
+            <li>Note: 1 token ≈ 0.75 words on average</li>
+          </ul>
+          <p class="mt-2"><strong>Stop sequences:</strong> Strings that halt generation when encountered</p>
+          <ul>
+            <li>Example: Stop at "\n\n" for single-paragraph responses</li>
+            <li>Example: Stop at "User:" in conversational formats</li>
+            <li>Useful for structured output (JSON, code blocks, etc.)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="param-combos" id="param-combos-heading">Common parameter combinations</h3>
+        <div id="param-combos" class="dp-panel-content" role="region" aria-labelledby="param-combos-heading" hidden>
+          <div class="table-responsive">
+            <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Common inference parameter combinations by use case">
+              <caption>Recommended parameter settings for different use cases</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Use Case</th>
+                  <th scope="col">Temperature</th>
+                  <th scope="col">Top-P</th>
+                  <th scope="col">Reasoning</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Factual Q&A</th>
+                  <td>0.0-0.2</td>
+                  <td>0.9</td>
+                  <td>Deterministic, prioritize accuracy over creativity</td>
+                </tr>
+                <tr>
+                  <th scope="row">Code Generation</th>
+                  <td>0.0-0.3</td>
+                  <td>0.9</td>
+                  <td>Low randomness for syntactically correct code</td>
+                </tr>
+                <tr>
+                  <th scope="row">Chatbot</th>
+                  <td>0.7-0.9</td>
+                  <td>0.95</td>
+                  <td>Balanced for natural conversation</td>
+                </tr>
+                <tr>
+                  <th scope="row">Creative Writing</th>
+                  <td>0.8-1.2</td>
+                  <td>0.95</td>
+                  <td>Higher creativity and diversity</td>
+                </tr>
+                <tr>
+                  <th scope="row">Brainstorming</th>
+                  <td>1.0-1.5</td>
+                  <td>0.98</td>
+                  <td>Maximum diversity for idea generation</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive: Inference Parameters Explorer -->
+  <div class="dp-content-block content-block" data-title="Interactive: Inference Parameters Explorer">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive: Inference Parameters Explorer</h2>
+    <p class="mt-2"><em>Try it:</em> Adjust temperature, top-k, and top-p parameters to see how they affect token selection and generation creativity.</p>
+    <p><iframe style="overflow: hidden;" src="https://learn.ivey.ca/courses/6194/external_tools/retrieve?borderless=true&amp;url=https://scone-prod.ca-central-1.inscloudgate.net/packages/49415/launch" width="1000" height="1000" loading="lazy"></iframe></p>
+  </div>
+
+  <!-- Helpful Tip -->
+  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
+    <div class="card-body">
+      <h3 class="card-title">Helpful Tip</h3>
+      <p class="card-text">You don't need to understand all the math behind transformers to use LLMs effectively. Focus on the <strong>conceptual model</strong>: self-attention lets tokens understand context, and inference parameters let you control creativity. We'll apply these concepts in prompt engineering next.</p>
+    </div>
+  </div>
+
+  <hr aria-hidden="true" />
+  <p>Select <strong>Next▸</strong> to continue with <strong>Prompt Engineering</strong>.</p>
+</div>
+</main>
+
+<!-- Canvas-safe toggling -->
+<script>
+(function () {
+  function toggleHead(h){
+    const content = document.getElementById(h.getAttribute('aria-controls'));
+    const expanded = h.getAttribute('aria-expanded') === 'true';
+    h.setAttribute('aria-expanded', String(!expanded));
+    if (content) content.hidden = expanded;
+  }
+  document.addEventListener('click', function (e) {
+    const h = e.target.closest('.dp-panel-heading[role="button"]');
+    if (h) toggleHead(h);
+  });
+  document.addEventListener('keydown', function (e) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role="button"]')) {
+      e.preventDefault(); toggleHead(e.target);
+    }
+  });
+})();
+</script>

@@ -1,0 +1,21 @@
+# Agent-generated reports (exclude from git)
+*-report.md
+reports/
+
+# Environment files
+.env
+
+# Node modules
+node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temp files
+*.tmp
+*.temp

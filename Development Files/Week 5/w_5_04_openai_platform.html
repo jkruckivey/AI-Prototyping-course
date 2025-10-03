@@ -1,0 +1,410 @@
+<!-- Skip link for keyboard users -->
+<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<main id="main-content" role="main">
+<div id="dp-wrapper" class="dp-wrapper">
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;" aria-hidden="true">Icon Progress Bar (browser only)</div>
+
+  <!-- OpenAI Platform & Fine-tuning -->
+  <div class="dp-content-block content-block" data-title="OpenAI Platform & Fine-tuning">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-server" aria-hidden="true"></i>&nbsp;OpenAI Platform &amp; Fine-tuning</h2>
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+      <div class="card-body">
+        <h3 class="card-title dp-ignore-theme">What this page covers</h3>
+        <p>How to use the <strong>OpenAI Playground</strong> and <strong>Dashboard</strong> for professional AI development. You'll learn about API assistants, parameter tuning, model evaluation, and practical <strong>fine-tuning</strong> with JSONL format—from task fine-tuning to conversational style training.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- OpenAI Playground vs ChatGPT -->
+  <div class="dp-content-block content-block" data-title="OpenAI Playground vs ChatGPT">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-balance-scale" aria-hidden="true"></i>&nbsp;OpenAI Playground vs ChatGPT</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="play-diff" id="play-diff-heading">Key differences</h3>
+        <div id="play-diff" class="dp-panel-content" role="region" aria-labelledby="play-diff-heading" hidden>
+          <div class="table-responsive">
+            <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Comparison of ChatGPT and OpenAI Playground">
+              <caption>ChatGPT vs OpenAI Playground</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Feature</th>
+                  <th scope="col">ChatGPT</th>
+                  <th scope="col">OpenAI Playground</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Audience</th>
+                  <td>General users, consumers</td>
+                  <td>Developers, professionals</td>
+                </tr>
+                <tr>
+                  <th scope="row">Interface</th>
+                  <td>Simple chat interface</td>
+                  <td>Advanced configuration panel</td>
+                </tr>
+                <tr>
+                  <th scope="row">Parameter Control</th>
+                  <td>Limited (model selection only)</td>
+                  <td>Full (temperature, top-p, tokens, etc.)</td>
+                </tr>
+                <tr>
+                  <th scope="row">Model Options</th>
+                  <td>GPT-4, GPT-3.5</td>
+                  <td>All models (GPT-4, mini, legacy models)</td>
+                </tr>
+                <tr>
+                  <th scope="row">Response Format</th>
+                  <td>Natural language only</td>
+                  <td>Plain text or JSON structured output</td>
+                </tr>
+                <tr>
+                  <th scope="row">Pricing</th>
+                  <td>Flat subscription ($20/month)</td>
+                  <td>Pay per token (variable)</td>
+                </tr>
+                <tr>
+                  <th scope="row">API Access</th>
+                  <td>No direct API</td>
+                  <td>Full API integration</td>
+                </tr>
+                <tr>
+                  <th scope="row">Evaluation Tools</th>
+                  <td>None</td>
+                  <td>Built-in task evaluation</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="play-access" id="play-access-heading">Accessing the platform</h3>
+        <div id="play-access" class="dp-panel-content" role="region" aria-labelledby="play-access-heading" hidden>
+          <p><strong>Platform URL:</strong> <code>platform.openai.com</code></p>
+          <p><strong>Two main interfaces:</strong></p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Playground:</strong> Interactive testing and experimentation</li>
+            <li class="list-group-item"><strong>Dashboard:</strong> Model management, evaluation, fine-tuning jobs</li>
+          </ul>
+          <p class="mb-0"><strong>Requirements:</strong> OpenAI account, API credits (pay-as-you-go)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OpenAI Playground Features -->
+  <div class="dp-content-block content-block" data-title="OpenAI Playground Features">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-sliders-h" aria-hidden="true"></i>&nbsp;OpenAI Playground Features</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="play-params" id="play-params-heading">Parameter tuning</h3>
+        <div id="play-params" class="dp-panel-content" role="region" aria-labelledby="play-params-heading" hidden>
+          <p><strong>Key parameters you can adjust (covered in Week 4):</strong></p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Temperature (0-2):</strong> Controls randomness (0 = deterministic, 2 = very creative)</li>
+            <li class="list-group-item"><strong>Top-p (0-1):</strong> Nucleus sampling threshold for token selection</li>
+            <li class="list-group-item"><strong>Top-k:</strong> Limits vocabulary to top k most likely tokens</li>
+            <li class="list-group-item"><strong>Max tokens:</strong> Maximum length of response</li>
+            <li class="list-group-item"><strong>Frequency penalty:</strong> Reduces repetition</li>
+            <li class="list-group-item"><strong>Presence penalty:</strong> Encourages topic diversity</li>
+          </ul>
+          <p class="mb-0"><strong>Pro tip:</strong> Use Playground to find optimal parameters, then apply those settings in your production applications.</p>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="play-format" id="play-format-heading">Response formats</h3>
+        <div id="play-format" class="dp-panel-content" role="region" aria-labelledby="play-format-heading" hidden>
+          <p><strong>Plain text:</strong> Natural language responses (like ChatGPT)</p>
+          <p><strong>JSON object:</strong> Structured data output</p>
+          <blockquote class="dp-card card" style="border-left: 4px solid #f97316; padding-left: 15px;">
+            <p><strong>JSON (JavaScript Object Notation)</strong> is a structured data format using key-value pairs in curly brackets.</p>
+            <pre style="background-color: #f5f5f5; padding: 10px; border-radius: 4px; overflow-x: auto;"><code>{
+  "sentiment": "positive",
+  "confidence": 0.92,
+  "entities": ["Apple", "iPhone"]
+}</code></pre>
+          </blockquote>
+          <p class="mb-0"><strong>Use JSON for:</strong> API integration, data extraction, structured analysis, database insertion</p>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="play-assist" id="play-assist-heading">Creating API assistants</h3>
+        <div id="play-assist" class="dp-panel-content" role="region" aria-labelledby="play-assist-heading" hidden>
+          <p><strong>Similar to custom GPTs, but for API use:</strong></p>
+          <ol class="list-group list-group-flush list-group-numbered">
+            <li class="list-group-item">Select base model (GPT-4, GPT-3.5-turbo, etc.)</li>
+            <li class="list-group-item">Upload knowledge base files</li>
+            <li class="list-group-item">Enable code interpreter</li>
+            <li class="list-group-item">Define functions/actions</li>
+            <li class="list-group-item">Set system instructions</li>
+            <li class="list-group-item">Test in Playground</li>
+            <li class="list-group-item">Deploy via API or share URL</li>
+          </ol>
+          <p class="mb-0"><strong>Difference from custom GPTs:</strong> API assistants are accessed programmatically, not through chat interface.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dashboard & Evaluation -->
+  <div class="dp-content-block content-block" data-title="Dashboard & Model Evaluation">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-chart-pie" aria-hidden="true"></i>&nbsp;Dashboard &amp; Model Evaluation</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="dash-eval" id="dash-eval-heading">Task evaluation</h3>
+        <div id="dash-eval" class="dp-panel-content" role="region" aria-labelledby="dash-eval-heading" hidden>
+          <p><strong>Systematically test your models:</strong></p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Upload test files with expected outputs</li>
+            <li class="list-group-item">Compare model responses to ground truth</li>
+            <li class="list-group-item">Calculate accuracy, precision, recall metrics</li>
+            <li class="list-group-item">Identify failure patterns</li>
+            <li class="list-group-item">Iterate and improve</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="dash-vector" id="dash-vector-heading">Vector stores</h3>
+        <div id="dash-vector" class="dp-panel-content" role="region" aria-labelledby="dash-vector-heading" hidden>
+          <p><strong>Advanced RAG with vector databases:</strong></p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Upload documents to create searchable vector embeddings</li>
+            <li class="list-group-item">Semantic search (finds meaning, not just keywords)</li>
+            <li class="list-group-item">Scales to millions of documents</li>
+            <li class="list-group-item">More efficient than uploading files directly to assistants</li>
+          </ul>
+          <p class="mb-0"><em>Note:</em> This is advanced RAG—OpenAI handles vectorization automatically.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fine-tuning -->
+  <div class="dp-content-block content-block" data-title="Fine-tuning Your Own Models">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-graduation-cap" aria-hidden="true"></i>&nbsp;Fine-tuning Your Own Models</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="ft-what" id="ft-what-heading">What is fine-tuning? (Recap from Week 4)</h3>
+        <div id="ft-what" class="dp-panel-content" role="region" aria-labelledby="ft-what-heading" hidden>
+          <p><strong>Fine-tuning = Retraining a foundation model on your specific examples</strong></p>
+          <p><strong>How it works:</strong></p>
+          <ol class="list-group list-group-flush list-group-numbered">
+            <li class="list-group-item">Start with base model (GPT-4, GPT-3.5-turbo)</li>
+            <li class="list-group-item">Provide training examples (prompt-completion pairs)</li>
+            <li class="list-group-item">Model adjusts weights through supervised learning</li>
+            <li class="list-group-item">Creates a new, customized model</li>
+          </ol>
+          <p><strong>When to use:</strong></p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Enforce specific output format or style</li>
+            <li class="list-group-item">Improve accuracy on specialized tasks</li>
+            <li class="list-group-item">Reduce prompt length (knowledge baked into weights)</li>
+            <li class="list-group-item">Consistent tone or brand voice</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="ft-types" id="ft-types-heading">Task fine-tuning vs conversational fine-tuning</h3>
+        <div id="ft-types" class="dp-panel-content" role="region" aria-labelledby="ft-types-heading" hidden>
+          <div class="table-responsive">
+            <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Types of fine-tuning">
+              <caption>Two Approaches to Fine-tuning</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Type</th>
+                  <th scope="col">Use Case</th>
+                  <th scope="col">Data Format</th>
+                  <th scope="col">Example</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Task Fine-tuning</th>
+                  <td>Specific tasks (translation, summarization, classification)</td>
+                  <td>Prompt → Completion pairs</td>
+                  <td>"Translate: Hello" → "Bonjour"</td>
+                </tr>
+                <tr>
+                  <th scope="row">Conversational Fine-tuning</th>
+                  <td>Chatbot style, persona, multi-turn conversations</td>
+                  <td>System → User → Assistant message chains</td>
+                  <td>Marv sarcastic chatbot example</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="ft-jsonl" id="ft-jsonl-heading">JSONL format for training data</h3>
+        <div id="ft-jsonl" class="dp-panel-content" role="region" aria-labelledby="ft-jsonl-heading" hidden>
+          <p><strong>JSONL = JSON Lines</strong> (each line is a separate JSON object)</p>
+          <p><strong>Task fine-tuning format:</strong></p>
+          <pre style="background-color: #f5f5f5; padding: 10px; border-radius: 4px; overflow-x: auto; font-size: 0.85em;"><code>{"prompt": "Translate the following English sentence into French: Hello, how are you?", "completion": "Bonjour, comment allez-vous?"}
+{"prompt": "Summarize the following text: Artificial intelligence is...", "completion": "AI is a field of computer science focused on creating intelligent machines."}</code></pre>
+          <p><strong>Conversational fine-tuning format:</strong></p>
+          <pre style="background-color: #f5f5f5; padding: 10px; border-radius: 4px; overflow-x: auto; font-size: 0.85em;"><code>{"messages": [{"role": "system", "content": "Marv is a factual chatbot that is also sarcastic."}, {"role": "user", "content": "What's the capital of France?"}, {"role": "assistant", "content": "Paris, as if everyone doesn't know that already."}]}
+{"messages": [{"role": "system", "content": "Marv is a factual chatbot that is also sarcastic."}, {"role": "user", "content": "Who wrote Romeo and Juliet?"}, {"role": "assistant", "content": "William Shakespeare. Shocking, I know."}]}</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Creating a Fine-tuning Job -->
+  <div class="dp-content-block content-block" data-title="Creating a Fine-tuning Job">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-cog" aria-hidden="true"></i>&nbsp;Creating a Fine-tuning Job</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls">Step-by-step process</h3>
+        <div id="ft-steps" class="dp-panel-content" role="region" aria-labelledby="ft-steps-heading" hidden>
+          <ol class="list-group list-group-flush list-group-numbered">
+            <li class="list-group-item"><strong>Select base model:</strong> Choose GPT-3.5-turbo, GPT-4, or GPT-3.5-turbo-mini</li>
+            <li class="list-group-item"><strong>Name your model:</strong> e.g., "gpt-3.5-turbo-finetune-v01"</li>
+            <li class="list-group-item"><strong>Set random seed:</strong> For reproducibility (or leave random)</li>
+            <li class="list-group-item"><strong>Upload training data:</strong> JSONL file with your examples</li>
+            <li class="list-group-item"><strong>Optional validation:</strong> Upload validation JSONL to monitor overfitting</li>
+            <li class="list-group-item"><strong>Set hyperparameters:</strong> Batch size, epochs (or use auto)</li>
+            <li class="list-group-item"><strong>Start job:</strong> Training begins (can take minutes to hours)</li>
+            <li class="list-group-item"><strong>Deploy model:</strong> Use your new fine-tuned model via API or Playground</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="ft-data" id="ft-data-heading">How much data do you need?</h3>
+        <div id="ft-data" class="dp-panel-content" role="region" aria-labelledby="ft-data-heading" hidden>
+          <p><strong>Minimum:</strong> 50-100 examples (for basic fine-tuning)</p>
+          <p><strong>Recommended:</strong> 500-1000+ examples for robust results</p>
+          <p><strong>Quality > Quantity:</strong></p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Diverse examples covering edge cases</li>
+            <li class="list-group-item">Consistent format and style</li>
+            <li class="list-group-item">Accurate completions</li>
+            <li class="list-group-item">Representative of production use</li>
+          </ul>
+          <p class="mb-0"><strong>Remember from Week 4:</strong> More data reduces overfitting and improves generalization.</p>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="ft-example" id="ft-example-heading">Sarcastic chatbot example (Marv)</h3>
+        <div id="ft-example" class="dp-panel-content" role="region" aria-labelledby="ft-example-heading" hidden>
+          <p><strong>Goal:</strong> Create a factual but sarcastic chatbot</p>
+          <p><strong>Challenge:</strong> Simple persona prompting ("be sarcastic") is unpredictable—LLM might be too harsh, inappropriate, or not sarcastic enough.</p>
+          <p><strong>Solution:</strong> Fine-tune with 500+ examples of your specific sarcastic style</p>
+          <pre style="background-color: #f5f5f5; padding: 10px; border-radius: 4px; overflow-x: auto; font-size: 0.85em;"><code>System: "Marv is a factual chatbot that is also sarcastic."
+User: "What's the capital of France?"
+Assistant: "Paris, as if everyone doesn't know that already."
+
+User: "What's 2 + 2?"
+Assistant: "Four. Rocket science, I know."
+
+User: "When was the internet invented?"
+Assistant: "1983, ARPANET became TCP/IP. Groundbreaking stuff for someone living under a rock."</code></pre>
+          <p class="mb-0"><strong>Result:</strong> Consistent, brand-appropriate sarcasm without offensive language—baked into model weights.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Multi-task Fine-tuning -->
+  <div class="dp-content-block content-block" data-title="Multi-task Fine-tuning">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-tasks" aria-hidden="true"></i>&nbsp;Multi-task Fine-tuning</h2>
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+      <div class="card-body">
+        <h3 class="card-title dp-ignore-theme">You can fine-tune for multiple tasks simultaneously</h3>
+        <p><strong>Example JSONL with mixed tasks:</strong></p>
+        <pre style="background-color: #f5f5f5; padding: 10px; border-radius: 4px; overflow-x: auto; font-size: 0.85em;"><code>{"prompt": "Translate to French: Hello", "completion": "Bonjour"}
+{"prompt": "Summarize: AI is a field...", "completion": "AI creates intelligent machines."}
+{"prompt": "Classify sentiment: I love this!", "completion": "Positive"}
+{"prompt": "Extract entities: Apple released iPhone", "completion": "Apple, iPhone"}</code></pre>
+        <p class="mb-0"><strong>The model learns all tasks:</strong> Translation, summarization, classification, entity extraction—all in one fine-tuned model.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Web Scraping & Large Documents -->
+  <div class="dp-content-block content-block" data-title="Advanced: Web Scraping & Large Documents">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-globe" aria-hidden="true"></i>&nbsp;Advanced: Web Scraping &amp; Large Documents</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="scrape-why" id="scrape-why-heading">The large document problem</h3>
+        <div id="scrape-why" class="dp-panel-content" role="region" aria-labelledby="scrape-why-heading" hidden>
+          <p><strong>Challenge:</strong> Context windows have limits (e.g., 128,000 tokens). Large documents (insurance policies, regulations, manuals) exceed this.</p>
+          <p><strong>Naive approach (fails):</strong> Upload entire PDF to knowledge base → AI can't fit it all in context window → misses information</p>
+          <p><strong>Better approach:</strong> Web scraping + chunking + vector stores</p>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="scrape-how" id="scrape-how-heading">Web scraping workflow</h3>
+        <div id="scrape-how" class="dp-panel-content" role="region" aria-labelledby="scrape-how-heading" hidden>
+          <ol class="list-group list-group-flush list-group-numbered">
+            <li class="list-group-item"><strong>Scrape:</strong> Extract text from websites/PDFs automatically (skip manual download)</li>
+            <li class="list-group-item"><strong>Chunk:</strong> Break text into semantic pieces (paragraphs, sections, logical units)</li>
+            <li class="list-group-item"><strong>Vectorize:</strong> Convert chunks to embeddings using LangChain or LlamaIndex</li>
+            <li class="list-group-item"><strong>Store:</strong> Save vectors in database</li>
+            <li class="list-group-item"><strong>Retrieve:</strong> When user asks question, find most similar chunks</li>
+            <li class="list-group-item"><strong>Augment:</strong> Add relevant chunks to prompt (RAG)</li>
+            <li class="list-group-item"><strong>Generate:</strong> LLM responds using retrieved context</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="scrape-map" id="scrape-map-heading">Alternative: Page-by-page mapping</h3>
+        <div id="scrape-map" class="dp-panel-content" role="region" aria-labelledby="scrape-map-heading" hidden>
+          <p><strong>For very large PDFs:</strong></p>
+          <blockquote class="dp-card card" style="border-left: 4px solid #f97316; padding-left: 15px;">
+            <p>"Open page 1 of the policy PDF and summarize what's on it."</p>
+            <p>"Open page 2 and summarize."</p>
+            <p>..."Build an index/map of all pages."</p>
+          </blockquote>
+          <p>The AI only loads one page at a time into context. Summaries stay in memory. When user asks question, AI consults the map to find relevant pages, then retrieves those specific pages.</p>
+          <p class="mb-0"><strong>This is prompt engineering</strong> to bypass context limits—no coding required.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Helpful Tip -->
+  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
+    <div class="card-body">
+      <h3 class="card-title">Helpful Tip</h3>
+      <p class="card-text">Use ChatGPT to help you create fine-tuning data. Give it examples, ask it to generate 100 more in the same format. Review and refine. ChatGPT can even help you write the OpenAPI schema for custom actions.</p>
+    </div>
+  </div>
+
+  <hr aria-hidden="true" />
+  <p>Select <strong>Next▸</strong> to continue with <strong>Week 5 Wrap-Up</strong>.</p>
+</div>
+</main>
+
+<!-- Canvas-safe toggling -->
+<script>
+(function () {
+  function toggleHead(h){
+    const content = document.getElementById(h.getAttribute('aria-controls'));
+    const expanded = h.getAttribute('aria-expanded') === 'true';
+    h.setAttribute('aria-expanded', String(!expanded));
+    if (content) content.hidden = expanded;
+  }
+  document.addEventListener('click', function (e) {
+    const h = e.target.closest('.dp-panel-heading[role="button"]');
+    if (h) toggleHead(h);
+  });
+  document.addEventListener('keydown', function (e) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role="button"]')) {
+      e.preventDefault(); toggleHead(e.target);
+    }
+  });
+})();
+</script>

@@ -11,38 +11,37 @@
     <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
       <div class="card-body">
         <h3 class="card-title dp-ignore-theme">What this week is about</h3>
-        <p>This week moves from <em>modeling</em> to <strong>making models work in the real world</strong>. You’ll connect deployment choices to business workflows, design <strong>monitoring</strong> for model health and fairness, and outline <strong>governance</strong> that keeps systems reliable over time.</p>
+        <p>In this final week, we explore <strong>Data Science with Generative AI</strong>—moving beyond prompts to create powerful data analysis workflows. You'll learn about <strong>PAL (Program-Aided Language models)</strong>, code interpreters, custom GPT assistants, and practical fine-tuning techniques that turn LLMs into sophisticated data science tools.</p>
       </div>
     </div>
   </div>
 
   <!-- Readiness checklist -->
   <div class="dp-content-block content-block" data-title="Before you start (readiness)">
-    <h2 class="dp-has-icon"><i class="dp-icon fas fa-check-circle" aria-hidden="true"></i>&nbsp;Before you start</h2>
+    <h3 class="dp-has-icon"><i class="dp-icon fas fa-check-circle" aria-hidden="true"></i>&nbsp;Before you start</h3>
     <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w5-ready" id="w5-ready-heading">Readiness checklist</h3>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w5-ready" id="w5-ready-heading">Readiness checklist</h4>
         <div id="w5-ready" class="dp-panel-content" role="region" aria-labelledby="w5-ready-heading" hidden>
           <ul class="list-group list-group-flush">
-            <li class="list-group-item">You can map a business problem to a supervised learning task (classification vs regression).</li>
-            <li class="list-group-item">You’ve used the right <strong>metrics</strong> (precision/recall, MAE/RMSE) and understand <strong>thresholds</strong>.</li>
-            <li class="list-group-item">You’re familiar with <strong>cross‑validation</strong>, leak‑safe <strong>pipelines</strong>, and <strong>early stopping</strong>.</li>
+            <li class="list-group-item">You understand how <strong>LLMs</strong> generate text and process prompts (Week 4).</li>
+            <li class="list-group-item">You're familiar with <strong>prompt engineering</strong> patterns like zero-shot, one-shot, and few-shot learning.</li>
+            <li class="list-group-item">You've explored <strong>fine-tuning</strong> and <strong>RAG</strong> customization approaches.</li>
+            <li class="list-group-item">You have basic familiarity with data science concepts (regression, classification, visualization).</li>
           </ul>
-          <p class="mt-2 mb-0"><em>Need a refresher?</em> See: 
-            <a href="../W4-01-metrics-fit.html">Metrics & Model Fit</a> · 
-            <a href="../W4-02-cross-validation-training.html">Cross‑Validation</a> · 
-            <a href="../W4-03-business-metrics.html">Business Lens on Metrics</a>
-          </p>
+          <p class="mt-2 mb-0"><em>Need a refresher?</em> Week 4: <a href="../Week 4/w_4_01_genai_llms.html">GenAI & LLMs</a> · <a href="../Week 4/w_4_03_prompt_engineering.html">Prompt Engineering</a> · <a href="../Week 4/w_4_04_finetuning_rag.html">Fine-tuning & RAG</a></p>
         </div>
       </div>
 
       <div class="dp-panel-group">
-        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w5-map" id="w5-map-heading">What you'll do this week</h3>
-        <div id="w5-map" class="dp-panel-content" role="region" aria-labelledby="w5-map-heading" hidden>
+        <h4 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w5-what" id="w5-what-heading">What you'll do this week</h4>
+        <div id="w5-what" class="dp-panel-content" role="region" aria-labelledby="w5-what-heading" hidden>
           <ul class="list-group list-group-flush">
-            <li class="list-group-item">Sketch deployment options and <strong>last‑mile</strong> integration (APIs, batch jobs, human‑in‑the‑loop).</li>
-            <li class="list-group-item">Design <strong>monitoring</strong>: data & concept drift, calibration, fairness checks, business KPIs.</li>
-            <li class="list-group-item">Outline <strong>governance</strong>: owners, SLAs, change control, incident response, documentation.</li>
+            <li class="list-group-item">Explore <strong>PAL</strong> (Program-Aided Language models) and how LLMs execute code</li>
+            <li class="list-group-item">Use <strong>code interpreters</strong> for data analysis workflows (Excel, PDF, visualizations)</li>
+            <li class="list-group-item">Create <strong>custom GPT assistants</strong> with knowledge bases and specialized actions</li>
+            <li class="list-group-item">Master the <strong>OpenAI Playground</strong> and API for professional AI applications</li>
+            <li class="list-group-item">Apply <strong>fine-tuning</strong> techniques with JSONL data formats</li>
           </ul>
         </div>
       </div>
@@ -50,23 +49,33 @@
   </div>
 
   <!-- Warm-up activity -->
-  <div class="dp-content-block content-block" data-title="Warm‑up: The Last‑Mile Gap">
-    <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Warm‑up: The Last‑Mile Gap</h2>
-    <p class="mt-2">Reflect: <em>What could stop a working model from delivering business value after it leaves the notebook?</em> List technical and organizational blockers.</p>
-    <div class="dp-embed-wrapper">
-      <iframe title="Week 5 Warm‑up: Last‑Mile Gap" role="application" src="https://jkruckivey.github.io/AI-Prototyping-course/demos/widgets/week5/w5-last-mile-warmup.html" width="100%" height="600" loading="lazy" allowfullscreen aria-label="Interactive warm‑up reflection about deployment last‑mile gap"></iframe>
+  <div class="dp-content-block content-block" data-title="Warm‑up: GenAI for Data Science">
+    <h3 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Warm‑up: GenAI for Data Science</h3>
+    <p class="mt-2">Before diving into the technical details, reflect on how LLMs could transform data analysis:</p>
+    <div class="dp-card card" style="border-left: 4px solid #f97316; padding-left: 15px;">
+      <div class="card-body">
+        <h4 class="card-title dp-ignore-theme">Reflection Questions</h4>
+        <ul>
+          <li>What data analysis tasks currently require coding knowledge in your organization?</li>
+          <li>How could natural language interfaces change who can do data science?</li>
+          <li>What concerns do you have about LLMs writing and executing code?</li>
+          <li>What would change if business analysts could build ML models without programming?</li>
+        </ul>
+        <p class="mb-0"><em>Keep these questions in mind as we explore how LLMs are democratizing data science.</em></p>
+      </div>
     </div>
   </div>
 
   <!-- Tips & expectations -->
   <div class="dp-content-block content-block" data-title="How to get the most out of Week 5">
-    <h2 class="dp-has-icon"><i class="dp-icon fas fa-lightbulb" aria-hidden="true"></i>&nbsp;How to get the most out of Week 5</h2>
+    <h3 class="dp-has-icon"><i class="dp-icon fas fa-lightbulb" aria-hidden="true"></i>&nbsp;How to get the most out of Week 5</h3>
     <div class="dp-card card" style="border-left: 4px solid #f97316; padding-left: 15px;">
       <div class="card-body">
         <ul class="list-group list-group-flush">
-          <li class="list-group-item"><strong>Design for decisions:</strong> Start from the action you want (block, flag, route, message) and work backward.</li>
-          <li class="list-group-item"><strong>Instrument everything:</strong> Log inputs, scores, decisions, and outcomes to power monitoring and audits.</li>
-          <li class="list-group-item"><strong>Plan ownership:</strong> Define who responds to drift, outages, and fairness issues—and within what SLA.</li>
+          <li class="list-group-item"><strong>Experiment actively:</strong> Try uploading your own data files to ChatGPT's code interpreter.</li>
+          <li class="list-group-item"><strong>Think workflows:</strong> Focus on end-to-end data science processes, not just isolated techniques.</li>
+          <li class="list-group-item"><strong>Understand limitations:</strong> Know when LLM-generated code needs human review and validation.</li>
+          <li class="list-group-item"><strong>Build practical tools:</strong> Consider creating custom GPTs for real business use cases.</li>
         </ul>
       </div>
     </div>
@@ -75,17 +84,66 @@
   <!-- Callout -->
   <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
     <div class="card-body">
-      <h3 class="card-title">Heads up</h3>
-      <p class="card-text">You’ll see <strong>deployment flow</strong> and <strong>monitoring dashboard</strong> widgets this week. If a widget doesn’t load, refresh or try another tab.</p>
+      <h4 class="card-title">Heads up</h4>
+      <p class="card-text">This week includes demonstrations of ChatGPT's code interpreter, custom GPT creation, and the OpenAI Playground. You'll see real data analysis workflows in action.</p>
     </div>
   </div>
 
   <hr aria-hidden="true" />
-  <p>Select <strong>Next▸</strong> to begin with <strong>Deployment & Last‑Mile Integration</strong>.</p>
+
+  <!-- What is Data Science with GenAI? -->
+  <div class="dp-content-block content-block" data-title="What is Data Science with GenAI?">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-chart-line" aria-hidden="true"></i>&nbsp;What is Data Science with GenAI?</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w5-genai-ds" id="w5-genai-ds-heading">The Evolution</h3>
+        <div id="w5-genai-ds" class="dp-panel-content" role="region" aria-labelledby="w5-genai-ds-heading" hidden>
+          <p>Large Language Models have evolved from simple text generators to <strong>agentic systems</strong> that can:</p>
+          <ul>
+            <li><strong>Execute code</strong>: Run Python, analyze data, create visualizations</li>
+            <li><strong>Access tools</strong>: Read files, query databases, call APIs</li>
+            <li><strong>Chain reasoning</strong>: Break complex problems into steps</li>
+            <li><strong>Self-correct</strong>: Debug errors and iterate on solutions</li>
+          </ul>
+          <p class="mb-0">This transformation—from text prediction to computational agent—fundamentally changes what's possible with natural language interfaces.</p>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w5-orchestration" id="w5-orchestration-heading">Orchestration Libraries</h3>
+        <div id="w5-orchestration" class="dp-panel-content" role="region" aria-labelledby="w5-orchestration-heading" hidden>
+          <p>The magic happens through <strong>orchestration libraries</strong> that coordinate between:</p>
+          <ol class="list-group list-group-flush list-group-numbered">
+            <li class="list-group-item"><strong>Your prompt</strong>: Natural language request</li>
+            <li class="list-group-item"><strong>LLM reasoning</strong>: Model understands intent and generates code</li>
+            <li class="list-group-item"><strong>Python interpreter</strong>: Code executes and returns results</li>
+            <li class="list-group-item"><strong>LLM response</strong>: Model interprets results and responds</li>
+          </ol>
+          <p class="mb-0">This orchestration enables data science workflows in natural language—no coding required from the user.</p>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="w5-why-python" id="w5-why-python-heading">Why Python?</h3>
+        <div id="w5-why-python" class="dp-panel-content" role="region" aria-labelledby="w5-why-python-heading" hidden>
+          <p><strong>Python is the language of data science</strong> because it offers:</p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Rich libraries</strong>: pandas (data manipulation), plotly (visualization), scikit-learn (ML)</li>
+            <li class="list-group-item"><strong>Readable syntax</strong>: Easier for LLMs to generate correct code</li>
+            <li class="list-group-item"><strong>Community support</strong>: Vast training data for LLMs to learn from</li>
+            <li class="list-group-item"><strong>Versatility</strong>: Handles data analysis, ML, visualization, file operations</li>
+          </ul>
+          <p class="mb-0"><em>Note:</em> Understanding basic Python concepts helps you guide LLMs and validate their outputs, even if you don't write code yourself.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p><strong>Ready to begin?</strong> Select <strong>Next▸</strong> to continue with <strong>PAL & Code Interpreters</strong>.</p>
 </div>
 </main>
 
-<!-- Canvas‑safe toggling -->
+<!-- Canvas-safe toggling -->
 <script>
 (function () {
   function toggleHead(h){
@@ -95,11 +153,11 @@
     if (content) content.hidden = expanded;
   }
   document.addEventListener('click', function (e) {
-    const h = e.target.closest('.dp-panel-heading[role=\"button\"]');
+    const h = e.target.closest('.dp-panel-heading[role="button"]');
     if (h) toggleHead(h);
   });
   document.addEventListener('keydown', function (e) {
-    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role=\"button\"]')) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role="button"]')) {
       e.preventDefault(); toggleHead(e.target);
     }
   });

@@ -1,0 +1,572 @@
+<!-- Skip link for keyboard users -->
+<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<main id="main-content" role="main">
+<div id="dp-wrapper" class="dp-wrapper">
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;" aria-hidden="true">Icon Progress Bar (browser only)</div>
+
+  <!-- Prompt Engineering -->
+  <div class="dp-content-block content-block" data-title="Prompt Engineering">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-pencil-alt" aria-hidden="true"></i>&nbsp;Prompt Engineering</h2>
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+      <div class="card-body">
+        <h3 class="card-title dp-ignore-theme">What this page covers</h3>
+        <p><strong>Prompt engineering</strong> is the art and science of crafting effective instructions for LLMs. You'll learn how to get better results through <strong>zero-shot, one-shot, and few-shot learning</strong>, apply proven <strong>prompt patterns</strong>, and use advanced techniques like <strong>chain of thought</strong> reasoning.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- What is Prompt Engineering? -->
+  <div class="dp-content-block content-block" data-title="What is Prompt Engineering?">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-question-circle" aria-hidden="true"></i>&nbsp;What is Prompt Engineering?</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="pe-definition" id="pe-definition-heading">Core definition</h3>
+        <div id="pe-definition" class="dp-panel-content" role="region" aria-labelledby="pe-definition-heading" hidden>
+          <p><strong>Prompt engineering</strong> is the practice of designing inputs (prompts) that guide LLMs to produce desired outputs. It's about communicating your intent clearly and structuring requests to leverage the model's capabilities.</p>
+          <p class="mb-0"><strong>Why it matters:</strong></p>
+          <ul>
+            <li>LLMs are powerful but need clear guidance</li>
+            <li>Small changes in prompts can dramatically affect output quality</li>
+            <li>Good prompting is often cheaper and faster than fine-tuning</li>
+            <li>Prompt engineering is accessible—no ML expertise required</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="pe-components" id="pe-components-heading">Components of a good prompt</h3>
+        <div id="pe-components" class="dp-panel-content" role="region" aria-labelledby="pe-components-heading" hidden>
+          <p>Effective prompts typically include several components:</p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>Role/Persona:</strong> Who should the model act as? (e.g., "You are an expert financial analyst")</li>
+            <li class="list-group-item"><strong>Context:</strong> Background information needed to complete the task</li>
+            <li class="list-group-item"><strong>Task:</strong> Clear description of what you want the model to do</li>
+            <li class="list-group-item"><strong>Format:</strong> How should the output be structured? (bullet points, JSON, table, etc.)</li>
+            <li class="list-group-item"><strong>Examples:</strong> Sample inputs and desired outputs (for few-shot learning)</li>
+            <li class="list-group-item"><strong>Constraints:</strong> Limitations or requirements (length, tone, style)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="pe-before-after" id="pe-before-after-heading">Before & After examples</h3>
+        <div id="pe-before-after" class="dp-panel-content" role="region" aria-labelledby="pe-before-after-heading" hidden>
+          <div class="table-responsive">
+            <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Prompt engineering before and after examples">
+              <caption>How prompt engineering improves results</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Scenario</th>
+                  <th scope="col">Weak Prompt</th>
+                  <th scope="col">Strong Prompt</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Email summarization</th>
+                  <td>"Summarize this email"</td>
+                  <td>"You are an executive assistant. Summarize this email in 3 bullet points focusing on: (1) action items, (2) deadlines, (3) key decisions needed."</td>
+                </tr>
+                <tr>
+                  <th scope="row">Code generation</th>
+                  <td>"Write a function to sort data"</td>
+                  <td>"Write a Python function that sorts a list of dictionaries by the 'date' key in descending order. Include error handling for missing keys and add docstring documentation."</td>
+                </tr>
+                <tr>
+                  <th scope="row">Data analysis</th>
+                  <td>"Analyze this data"</td>
+                  <td>"You are a business analyst. Analyze this sales data and identify: (1) top 3 revenue drivers, (2) concerning trends, (3) actionable recommendations. Format as a structured report."</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Zero-shot, One-shot, Few-shot Learning -->
+  <div class="dp-content-block content-block" data-title="Zero-shot, One-shot, Few-shot Learning">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-graduation-cap" aria-hidden="true"></i>&nbsp;Zero-shot, One-shot, Few-shot Learning</h2>
+    <p>LLMs can learn tasks from examples provided in the prompt itself—no retraining required. The number of examples determines the approach.</p>
+
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="zero-shot" id="zero-shot-heading">Zero-shot learning</h3>
+        <div id="zero-shot" class="dp-panel-content" role="region" aria-labelledby="zero-shot-heading" hidden>
+          <p><strong>Zero-shot:</strong> Give instructions without examples. Rely on the model's pre-trained knowledge.</p>
+          <p><strong>When to use:</strong></p>
+          <ul>
+            <li>Common tasks the model already knows (summarization, translation, Q&A)</li>
+            <li>When you want quick results without crafting examples</li>
+            <li>Tasks with clear, standard definitions</li>
+          </ul>
+          <div class="dp-card card" style="border-left: 4px solid #f97316; padding-left: 15px;">
+            <div class="card-body">
+              <h4 class="card-title dp-ignore-theme">Example: Zero-shot Sentiment Analysis</h4>
+              <p><strong>Prompt:</strong></p>
+              <code style="display: block; white-space: pre-wrap; background: #f5f5f5; padding: 10px; margin: 5px 0;">Classify the sentiment of this customer review as Positive, Negative, or Neutral:
+
+"The product arrived on time but the quality was disappointing."
+
+Sentiment:</code>
+              <p class="mb-0"><strong>Model output:</strong> "Negative"</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="one-shot" id="one-shot-heading">One-shot learning</h3>
+        <div id="one-shot" class="dp-panel-content" role="region" aria-labelledby="one-shot-heading" hidden>
+          <p><strong>One-shot:</strong> Provide one example of the task before the actual input.</p>
+          <p><strong>When to use:</strong></p>
+          <ul>
+            <li>Tasks with specific formatting requirements</li>
+            <li>When zero-shot results are inconsistent</li>
+            <li>To demonstrate tone, style, or structure</li>
+          </ul>
+          <div class="dp-card card" style="border-left: 4px solid #f97316; padding-left: 15px;">
+            <div class="card-body">
+              <h4 class="card-title dp-ignore-theme">Example: One-shot Classification</h4>
+              <p><strong>Prompt:</strong></p>
+              <code style="display: block; white-space: pre-wrap; background: #f5f5f5; padding: 10px; margin: 5px 0;">Classify support tickets by urgency level.
+
+Example:
+Ticket: "System is down, can't process orders"
+Urgency: CRITICAL
+
+Ticket: "How do I reset my password?"
+Urgency:</code>
+              <p class="mb-0"><strong>Model output:</strong> "LOW"</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="few-shot" id="few-shot-heading">Few-shot learning</h3>
+        <div id="few-shot" class="dp-panel-content" role="region" aria-labelledby="few-shot-heading" hidden>
+          <p><strong>Few-shot:</strong> Provide multiple examples (typically 3-10) to establish a clear pattern.</p>
+          <p><strong>When to use:</strong></p>
+          <ul>
+            <li>Complex or specialized tasks</li>
+            <li>When you need consistent, precise outputs</li>
+            <li>Domain-specific tasks the model hasn't seen much of in training</li>
+            <li>Tasks requiring specific formatting or structure</li>
+          </ul>
+          <div class="dp-card card" style="border-left: 4px solid #f97316; padding-left: 15px;">
+            <div class="card-body">
+              <h4 class="card-title dp-ignore-theme">Example: Few-shot Entity Extraction</h4>
+              <p><strong>Prompt:</strong></p>
+              <code style="display: block; white-space: pre-wrap; background: #f5f5f5; padding: 10px; margin: 5px 0;">Extract company name, role, and action from job postings.
+
+Example 1:
+Text: "Microsoft is hiring a Senior Engineer in cloud computing"
+Company: Microsoft | Role: Senior Engineer | Domain: Cloud Computing
+
+Example 2:
+Text: "Amazon seeks Data Scientist for recommendation systems"
+Company: Amazon | Role: Data Scientist | Domain: Recommendation Systems
+
+Example 3:
+Text: "Google looking for ML Researcher in NLP"
+Company: Google | Role: ML Researcher | Domain: NLP
+
+Text: "Meta needs AI Product Manager for generative AI products"
+Company:</code>
+              <p class="mb-0"><strong>Model output:</strong> "Meta | Role: AI Product Manager | Domain: Generative AI"</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="shot-comparison" id="shot-comparison-heading">Choosing the right approach</h3>
+        <div id="shot-comparison" class="dp-panel-content" role="region" aria-labelledby="shot-comparison-heading" hidden>
+          <div class="table-responsive">
+            <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Comparison of zero-shot, one-shot, and few-shot approaches">
+              <caption>When to use each approach</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Approach</th>
+                  <th scope="col">Pros</th>
+                  <th scope="col">Cons</th>
+                  <th scope="col">Best For</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Zero-shot</th>
+                  <td>Fast, simple, no examples needed</td>
+                  <td>Less control, may be inconsistent</td>
+                  <td>Common tasks, exploratory work</td>
+                </tr>
+                <tr>
+                  <th scope="row">One-shot</th>
+                  <td>Quick improvement, minimal context</td>
+                  <td>May not capture full pattern</td>
+                  <td>Format demonstration, tone setting</td>
+                </tr>
+                <tr>
+                  <th scope="row">Few-shot</th>
+                  <td>High accuracy, consistent format</td>
+                  <td>Uses more tokens (costs more), requires good examples</td>
+                  <td>Complex tasks, production systems</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive: Shot Learning Comparison -->
+  <div class="dp-content-block content-block" data-title="Interactive: Shot Learning Comparison">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive: Shot Learning Comparison</h2>
+    <p class="mt-2"><em>Try it:</em> Compare zero-shot, one-shot, and few-shot learning approaches across different tasks to see how examples affect LLM performance.</p>
+    <p><iframe style="overflow: hidden;" src="https://learn.ivey.ca/courses/6194/external_tools/retrieve?borderless=true&amp;url=https://scone-prod.ca-central-1.inscloudgate.net/packages/49414/launch" width="1000" height="1000" loading="lazy"></iframe></p>
+  </div>
+
+  <!-- Prompt Patterns -->
+  <div class="dp-content-block content-block" data-title="Prompt Patterns">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-puzzle-piece" aria-hidden="true"></i>&nbsp;Proven Prompt Patterns</h2>
+    <p>Research and practice have identified effective prompt patterns that consistently improve LLM outputs. These patterns are reusable templates you can adapt to your needs.</p>
+
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="persona-pattern" id="persona-pattern-heading">Persona pattern</h3>
+        <div id="persona-pattern" class="dp-panel-content" role="region" aria-labelledby="persona-pattern-heading" hidden>
+          <p><strong>Pattern:</strong> Tell the model to act as a specific role or expert.</p>
+          <p><strong>Template:</strong> "You are [ROLE]. [Task instructions]"</p>
+          <p><strong>Why it works:</strong> Activates relevant knowledge and appropriate tone/style from training data.</p>
+          <div class="dp-card card" style="border-left: 4px solid #582C83; padding-left: 15px;">
+            <div class="card-body">
+              <h4 class="card-title dp-ignore-theme">Examples</h4>
+              <ul class="mb-0">
+                <li>"You are a senior financial analyst. Review this investment proposal..."</li>
+                <li>"You are a technical writer specializing in API documentation. Write..."</li>
+                <li>"You are a compassionate customer service representative. Respond to..."</li>
+                <li>"You are a Python expert focusing on code optimization. Refactor..."</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="audience-pattern" id="audience-pattern-heading">Audience pattern</h3>
+        <div id="audience-pattern" class="dp-panel-content" role="region" aria-labelledby="audience-pattern-heading" hidden>
+          <p><strong>Pattern:</strong> Specify the intended audience for the output.</p>
+          <p><strong>Template:</strong> "Explain [TOPIC] for [AUDIENCE]"</p>
+          <p><strong>Why it works:</strong> Adjusts complexity, terminology, and examples to audience level.</p>
+          <div class="dp-card card" style="border-left: 4px solid #582C83; padding-left: 15px;">
+            <div class="card-body">
+              <h4 class="card-title dp-ignore-theme">Examples</h4>
+              <ul class="mb-0">
+                <li>"Explain machine learning for a CEO with no technical background"</li>
+                <li>"Describe this API endpoint for junior developers"</li>
+                <li>"Summarize this legal contract for a high school student"</li>
+                <li>"Explain quantum computing for experienced software engineers"</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="structure-pattern" id="structure-pattern-heading">Structure/Format pattern</h3>
+        <div id="structure-pattern" class="dp-panel-content" role="region" aria-labelledby="structure-pattern-heading" hidden>
+          <p><strong>Pattern:</strong> Explicitly define the output structure or format.</p>
+          <p><strong>Template:</strong> "Provide your response in the following format: [STRUCTURE]"</p>
+          <p><strong>Why it works:</strong> Ensures consistent, parseable outputs—critical for production systems.</p>
+          <div class="dp-card card" style="border-left: 4px solid #582C83; padding-left: 15px;">
+            <div class="card-body">
+              <h4 class="card-title dp-ignore-theme">Examples</h4>
+              <ul class="mb-0">
+                <li>"Return results as JSON with keys: name, category, confidence_score"</li>
+                <li>"Structure your analysis with: 1) Executive Summary, 2) Key Findings, 3) Recommendations"</li>
+                <li>"Format as a markdown table with columns: Feature, Pros, Cons, Cost"</li>
+                <li>"Respond in exactly 3 bullet points, each under 20 words"</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="cog-verifier" id="cog-verifier-heading">Cognitive verifier pattern</h3>
+        <div id="cog-verifier" class="dp-panel-content" role="region" aria-labelledby="cog-verifier-heading" hidden>
+          <p><strong>Pattern:</strong> Ask the model to break down complex questions into sub-questions, answer each, then synthesize.</p>
+          <p><strong>Template:</strong> "When answering [QUESTION], generate sub-questions that help answer it. Answer each sub-question. Then provide the final answer."</p>
+          <p><strong>Why it works:</strong> Encourages systematic thinking, reduces errors on complex problems.</p>
+          <div class="dp-card card" style="border-left: 4px solid #582C83; padding-left: 15px;">
+            <div class="card-body">
+              <h4 class="card-title dp-ignore-theme">Example</h4>
+              <p><strong>Prompt:</strong></p>
+              <code style="display: block; white-space: pre-wrap; background: #f5f5f5; padding: 10px; margin: 5px 0;">When answering "Should we launch this product in Q2?", generate 3-5 sub-questions that help answer it. Answer each sub-question. Then provide the final recommendation.
+
+Product: AI-powered scheduling assistant
+Context: [product details, market research]</code>
+              <p><strong>Model output:</strong></p>
+              <code style="display: block; white-space: pre-wrap; background: #f5f5f5; padding: 10px; margin: 5px 0;">Sub-questions:
+1. Is the product ready for market (feature completeness, stability)?
+2. What is the competitive landscape in Q2?
+3. Do we have adequate resources for Q2 launch?
+4. What are the market conditions and timing factors?
+
+[Answers each sub-question...]
+
+Final Recommendation: Yes, launch in Q2 because...</code>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="question-refinement" id="question-refinement-heading">Question refinement pattern</h3>
+        <div id="question-refinement" class="dp-panel-content" role="region" aria-labelledby="question-refinement-heading" hidden>
+          <p><strong>Pattern:</strong> Ask the model to suggest a better version of your question before answering.</p>
+          <p><strong>Template:</strong> "Suggest a better version of this question, then answer both versions."</p>
+          <p><strong>Why it works:</strong> Helps identify ambiguities and ensures you're asking the right question.</p>
+          <div class="dp-card card" style="border-left: 4px solid #582C83; padding-left: 15px;">
+            <div class="card-body">
+              <h4 class="card-title dp-ignore-theme">Example</h4>
+              <p><strong>Your question:</strong> "How do I improve customer retention?"</p>
+              <p><strong>Model's refined version:</strong> "What are the top 3 data-driven strategies to improve B2B SaaS customer retention in the first 90 days, with measurable KPIs?"</p>
+              <p class="mb-0">The refined version is more specific and actionable.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="constraint-pattern" id="constraint-pattern-heading">Constraint pattern</h3>
+        <div id="constraint-pattern" class="dp-panel-content" role="region" aria-labelledby="constraint-pattern-heading" hidden>
+          <p><strong>Pattern:</strong> Define explicit constraints or limitations on the output.</p>
+          <p><strong>Template:</strong> "[Task]. Constraints: [LIST OF CONSTRAINTS]"</p>
+          <p><strong>Why it works:</strong> Prevents unwanted behaviors, enforces requirements.</p>
+          <div class="dp-card card" style="border-left: 4px solid #582C83; padding-left: 15px;">
+            <div class="card-body">
+              <h4 class="card-title dp-ignore-theme">Examples</h4>
+              <ul class="mb-0">
+                <li>"Write a product description. Constraints: Under 100 words, no technical jargon, emphasize benefits not features"</li>
+                <li>"Generate SQL query. Constraints: Use only SELECT statements (no INSERT/UPDATE/DELETE), include comments"</li>
+                <li>"Draft email response. Constraints: Professional tone, acknowledge their concern, offer specific next steps"</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chain of Thought & ReAct -->
+  <div class="dp-content-block content-block" data-title="Advanced Techniques: Chain of Thought & ReAct">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-link" aria-hidden="true"></i>&nbsp;Advanced Techniques: Chain of Thought & ReAct</h2>
+    <p>For complex reasoning tasks, advanced prompting techniques can significantly improve accuracy.</p>
+
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="cot-basic" id="cot-basic-heading">Chain of Thought (CoT) prompting</h3>
+        <div id="cot-basic" class="dp-panel-content" role="region" aria-labelledby="cot-basic-heading" hidden>
+          <p><strong>Chain of Thought:</strong> Encourage the model to show its reasoning steps before giving a final answer.</p>
+          <p><strong>Key phrase:</strong> "Let's think step by step" or "Show your reasoning"</p>
+          <p><strong>Why it works:</strong> Breaking problems into steps reduces errors on multi-step reasoning tasks.</p>
+          <div class="dp-card card" style="border-left: 4px solid #f97316; padding-left: 15px;">
+            <div class="card-body">
+              <h4 class="card-title dp-ignore-theme">Example: Math Problem</h4>
+              <p><strong>Without CoT:</strong></p>
+              <code style="display: block; white-space: pre-wrap; background: #f5f5f5; padding: 10px; margin: 5px 0;">Q: A store has 23 apples. They sell 17 and receive a shipment of 45. How many apples do they have?
+A: 51</code>
+              <p><strong>With CoT:</strong></p>
+              <code style="display: block; white-space: pre-wrap; background: #f5f5f5; padding: 10px; margin: 5px 0;">Q: A store has 23 apples. They sell 17 and receive a shipment of 45. How many apples do they have? Let's think step by step.
+A:
+Step 1: Start with 23 apples
+Step 2: Sell 17 apples: 23 - 17 = 6 apples remaining
+Step 3: Receive shipment of 45: 6 + 45 = 51 apples
+Final answer: 51 apples</code>
+              <p class="mb-0">The explicit reasoning makes the answer verifiable and builds trust.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="cot-zero-shot" id="cot-zero-shot-heading">Zero-shot CoT</h3>
+        <div id="cot-zero-shot" class="dp-panel-content" role="region" aria-labelledby="cot-zero-shot-heading" hidden>
+          <p><strong>Zero-shot CoT:</strong> Simply add "Let's think step by step" to your prompt—no examples needed.</p>
+          <p><strong>Use for:</strong> Quick reasoning improvements without crafting examples.</p>
+          <div class="dp-card card" style="border-left: 4px solid #f97316; padding-left: 15px;">
+            <div class="card-body">
+              <h4 class="card-title dp-ignore-theme">Example: Business Decision</h4>
+              <code style="display: block; white-space: pre-wrap; background: #f5f5f5; padding: 10px; margin: 5px 0;">Should we prioritize feature A (requested by 80% of users) or feature B (requested by 20% of enterprise customers who pay 70% of revenue)? Let's think step by step.</code>
+              <p class="mb-0">The model will break down revenue impact, strategic value, implementation cost, etc.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="cot-few-shot" id="cot-few-shot-heading">Few-shot CoT</h3>
+        <div id="cot-few-shot" class="dp-panel-content" role="region" aria-labelledby="cot-few-shot-heading" hidden>
+          <p><strong>Few-shot CoT:</strong> Provide examples that include reasoning steps.</p>
+          <p><strong>Use for:</strong> Complex domain-specific reasoning where you want to demonstrate the thinking process.</p>
+          <div class="dp-card card" style="border-left: 4px solid #f97316; padding-left: 15px;">
+            <div class="card-body">
+              <h4 class="card-title dp-ignore-theme">Example Template</h4>
+              <code style="display: block; white-space: pre-wrap; background: #f5f5f5; padding: 10px; margin: 5px 0;">Q: [Example question 1]
+A: Let's think step by step.
+[Step 1 reasoning]
+[Step 2 reasoning]
+[Step 3 reasoning]
+Therefore, [answer].
+
+Q: [Example question 2]
+A: Let's think step by step.
+[Steps...]
+Therefore, [answer].
+
+Q: [Your actual question]
+A:</code>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="react-pattern" id="react-pattern-heading">ReAct (Reasoning + Acting)</h3>
+        <div id="react-pattern" class="dp-panel-content" role="region" aria-labelledby="react-pattern-heading" hidden>
+          <p><strong>ReAct:</strong> Combine reasoning with actions. The model alternates between thinking about what to do and taking actions.</p>
+          <p><strong>Pattern:</strong> Thought → Action → Observation → Thought → Action → ...</p>
+          <p><strong>Use for:</strong> Multi-step tasks requiring information gathering or tool use (common in AI agents).</p>
+          <div class="dp-card card" style="border-left: 4px solid #f97316; padding-left: 15px;">
+            <div class="card-body">
+              <h4 class="card-title dp-ignore-theme">Example: Research Task</h4>
+              <code style="display: block; white-space: pre-wrap; background: #f5f5f5; padding: 10px; margin: 5px 0;">Task: Find the current CEO of Microsoft and their previous role.
+
+Thought: I need to search for Microsoft's current CEO.
+Action: Search "Microsoft CEO 2024"
+Observation: Satya Nadella is the CEO of Microsoft.
+
+Thought: Now I need to find Satya Nadella's previous role before becoming CEO.
+Action: Search "Satya Nadella previous role before CEO"
+Observation: Nadella was Executive VP of Microsoft's Cloud and Enterprise group.
+
+Answer: Satya Nadella is the current CEO of Microsoft. His previous role was Executive VP of Cloud and Enterprise.</code>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive: Prompt Patterns Explorer -->
+  <div class="dp-content-block content-block" data-title="Interactive: Prompt Patterns Explorer">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-play-circle" aria-hidden="true"></i>&nbsp;Interactive: Prompt Patterns Explorer</h2>
+    <p class="mt-2"><em>Try it:</em> Explore 6 proven prompt patterns with before/after examples, templates, and real-world applications.</p>
+    <p><iframe style="overflow: hidden;" src="https://learn.ivey.ca/courses/6194/external_tools/retrieve?borderless=true&amp;url=https://scone-prod.ca-central-1.inscloudgate.net/packages/49416/launch" width="1000" height="1000" loading="lazy"></iframe></p>
+  </div>
+
+  <!-- Best Practices -->
+  <div class="dp-content-block content-block" data-title="Prompt Engineering Best Practices">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-check-double" aria-hidden="true"></i>&nbsp;Prompt Engineering Best Practices</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="bp-clarity" id="bp-clarity-heading">Be clear and specific</h3>
+        <div id="bp-clarity" class="dp-panel-content" role="region" aria-labelledby="bp-clarity-heading" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Use precise language—avoid ambiguity</li>
+            <li class="list-group-item">Specify exactly what you want (format, length, tone)</li>
+            <li class="list-group-item">Break complex tasks into smaller sub-tasks</li>
+            <li class="list-group-item">Define technical terms if they have multiple meanings</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="bp-iterate" id="bp-iterate-heading">Iterate and experiment</h3>
+        <div id="bp-iterate" class="dp-panel-content" role="region" aria-labelledby="bp-iterate-heading" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Start simple, add complexity as needed</li>
+            <li class="list-group-item">Test prompts on multiple examples to ensure consistency</li>
+            <li class="list-group-item">Keep a "prompt library" of successful patterns</li>
+            <li class="list-group-item">A/B test different phrasings for critical use cases</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="bp-context" id="bp-context-heading">Provide sufficient context</h3>
+        <div id="bp-context" class="dp-panel-content" role="region" aria-labelledby="bp-context-heading" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Include relevant background information</li>
+            <li class="list-group-item">Don't assume the model knows your specific business context</li>
+            <li class="list-group-item">Be explicit about constraints and requirements</li>
+            <li class="list-group-item">Balance context (too much wastes tokens, too little produces poor results)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="bp-delimiters" id="bp-delimiters-heading">Use delimiters and structure</h3>
+        <div id="bp-delimiters" class="dp-panel-content" role="region" aria-labelledby="bp-delimiters-heading" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Separate instructions from content (use triple quotes, XML tags, etc.)</li>
+            <li class="list-group-item">Use numbered lists for multi-step instructions</li>
+            <li class="list-group-item">Organize complex prompts with headings and sections</li>
+            <li class="list-group-item">Example: <code>Summarize the text delimited by triple quotes: """[TEXT HERE]"""</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="bp-avoid" id="bp-avoid-heading">What to avoid</h3>
+        <div id="bp-avoid" class="dp-panel-content" role="region" aria-labelledby="bp-avoid-heading" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">❌ Vague instructions ("make it better", "analyze this")</li>
+            <li class="list-group-item">❌ Assuming the model has current information (it has a knowledge cutoff)</li>
+            <li class="list-group-item">❌ Asking for opinions on subjective matters as if they're facts</li>
+            <li class="list-group-item">❌ Over-complicating when simple prompts work fine</li>
+            <li class="list-group-item">❌ Not validating outputs for critical use cases</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Helpful Tip -->
+  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
+    <div class="card-body">
+      <h3 class="card-title">Helpful Tip</h3>
+      <p class="card-text">Prompt engineering is an iterative skill. Don't expect perfect results on your first attempt. Build a library of proven prompts for common tasks, and continuously refine based on what works. Many organizations see 10-50% improvement in LLM outputs just by applying structured prompt patterns.</p>
+    </div>
+  </div>
+
+  <hr aria-hidden="true" />
+  <p>Select <strong>Next▸</strong> to continue with <strong>Fine-tuning & RAG</strong>.</p>
+</div>
+</main>
+
+<!-- Canvas-safe toggling -->
+<script>
+(function () {
+  function toggleHead(h){
+    const content = document.getElementById(h.getAttribute('aria-controls'));
+    const expanded = h.getAttribute('aria-expanded') === 'true';
+    h.setAttribute('aria-expanded', String(!expanded));
+    if (content) content.hidden = expanded;
+  }
+  document.addEventListener('click', function (e) {
+    const h = e.target.closest('.dp-panel-heading[role="button"]');
+    if (h) toggleHead(h);
+  });
+  document.addEventListener('keydown', function (e) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role="button"]')) {
+      e.preventDefault(); toggleHead(e.target);
+    }
+  });
+})();
+</script>

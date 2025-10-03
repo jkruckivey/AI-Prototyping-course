@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zero/One/Few-Shot Learning</title>
+    <link rel="stylesheet" href="ivey-widget-base.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: white;
+            color: #333;
+            line-height: 1.5;
+            padding: 0;
+            margin: 0;
+        }
+
+        .dp-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 15px;
+            background: #ffffff;
+        }
+
+        .widget-header {
+            background: #034638;
+            color: white;
+            padding: 12px 16px;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+            margin: -15px -15px 20px -15px;
+            
+        }
+
+        .widget-title {
+            
+            font-size: 1.2em;
+            font-weight: bold;
+            margin: 0;
+        }
+
+
+        .shot-selector {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .shot-btn {
+            flex: 1;
+            min-width: 150px;
+            background: white;
+            border: 3px solid var(--ivey-green);
+            color: var(--ivey-green);
+            padding: 15px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .shot-btn:hover {
+            background: #e8f5e9;
+            transform: translateY(-2px);
+        }
+
+        .shot-btn.active {
+            background: var(--ivey-green);
+            color: white;
+        }
+
+        .shot-count {
+            display: block;
+            font-size: 2em;
+            margin-bottom: 5px;
+        }
+
+        .prompt-display {
+            background: #f5f5f5;
+            border: 2px solid var(--ivey-green);
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 20px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            line-height: 1.6;
+        }
+
+        .section-label {
+            background: #f8f9fa;
+            color: #034638;
+            padding: 5px 15px;
+            border-radius: 4px;
+            display: inline-block;
+            font-weight: 700;
+            margin-bottom: 10px;
+            font-family: 'Figtree', sans-serif;
+        }
+
+        .example-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .result-box {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 8px;
+        }
+
+        .result-label {
+            font-weight: 700;
+            color: #2e7d32;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        @media (max-width: 968px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .comparison-card {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .comparison-card.active {
+            border-color: var(--ivey-green);
+            box-shadow: 0 4px 12px rgba(3, 70, 56, 0.15);
+        }
+
+        .comparison-title {
+            font-weight: 700;
+            color: var(--ivey-green);
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .pro-con-list {
+            margin-top: 10px;
+        }
+
+        .pro-item {
+            color: #2e7d32;
+            margin: 5px 0;
+        }
+
+        .con-item {
+            color: #c62828;
+            margin: 5px 0;
+        }
+
+        .task-selector {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .task-btn {
+            background: #f8f9fa;
+            color: #034638;
+            border: 1px solid #034638;
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .task-btn:hover {
+            background: #e8f5e9;
+        }
+
+        .info-badge {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            color: #856404;
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Pop-out button -->
+    <button class="widget-popout-btn" id="popoutBtn" title="Open in full window" aria-label="Open widget in new window">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+        </svg>
+        <span>Pop Out</span>
+    </button>
+
+    <div class="dp-wrapper">
+        <div class="widget-header">
+            <h1 class="widget-title">Zero/One/Few-Shot Learning</h1>
+        </div>
+
+            <!-- Task Selector -->
+            <div class="task-selector">
+                <strong>Choose a task:</strong><br>
+                <button class="task-btn" onclick="loadTask('sentiment')">Sentiment Analysis</button>
+                <button class="task-btn" onclick="loadTask('extraction')">Entity Extraction</button>
+                <button class="task-btn" onclick="loadTask('classification')">Support Ticket Classification</button>
+            </div>
+
+            <!-- Shot Selector -->
+            <div class="shot-selector">
+                <button class="shot-btn active" onclick="showShot('zero')">
+                    <span class="shot-count">0</span>
+                    Zero-Shot
+                </button>
+                <button class="shot-btn" onclick="showShot('one')">
+                    <span class="shot-count">1</span>
+                    One-Shot
+                </button>
+                <button class="shot-btn" onclick="showShot('few')">
+                    <span class="shot-count">3</span>
+                    Few-Shot
+                </button>
+            </div>
+
+            <!-- Prompt Display -->
+            <div class="prompt-display" id="promptDisplay"></div>
+
+            <!-- Result -->
+            <div class="result-box">
+                <div class="result-label">📤 LLM Response</div>
+                <div id="resultDisplay" style="white-space: pre-wrap;"></div>
+                <div class="info-badge" id="infoBadge"></div>
+            </div>
+
+            <!-- Comparison -->
+            <h3 style="margin-top: 30px; color: var(--ivey-green);">Comparison: When to Use Each Approach</h3>
+            <div class="comparison-grid">
+                <div class="comparison-card" id="zeroCard">
+                    <div class="comparison-title">Zero-Shot</div>
+                    <div class="pro-con-list">
+                        <div class="pro-item">✓ Fast and simple</div>
+                        <div class="pro-item">✓ No examples needed</div>
+                        <div class="pro-item">✓ Good for common tasks</div>
+                        <div class="con-item">✗ Less control</div>
+                        <div class="con-item">✗ May be inconsistent</div>
+                    </div>
+                    <hr>
+                    <strong>Best for:</strong> Common tasks, exploration, quick results
+                </div>
+
+                <div class="comparison-card" id="oneCard">
+                    <div class="comparison-title">One-Shot</div>
+                    <div class="pro-con-list">
+                        <div class="pro-item">✓ Demonstrates format</div>
+                        <div class="pro-item">✓ Sets tone/style</div>
+                        <div class="pro-item">✓ Still efficient</div>
+                        <div class="con-item">✗ Single example may not capture pattern</div>
+                    </div>
+                    <hr>
+                    <strong>Best for:</strong> Format demonstration, specific output style
+                </div>
+
+                <div class="comparison-card" id="fewCard">
+                    <div class="comparison-title">Few-Shot</div>
+                    <div class="pro-con-list">
+                        <div class="pro-item">✓ High accuracy</div>
+                        <div class="pro-item">✓ Consistent format</div>
+                        <div class="pro-item">✓ Captures pattern</div>
+                        <div class="con-item">✗ Uses more tokens (costs more)</div>
+                        <div class="con-item">✗ Requires good examples</div>
+                    </div>
+                    <hr>
+                    <strong>Best for:</strong> Complex tasks, production systems, domain-specific work
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentTask = 'sentiment';
+        let currentShot = 'zero';
+
+        const tasks = {
+            sentiment: {
+                name: "Sentiment Analysis",
+                instruction: "Classify the sentiment of this customer review as Positive, Negative, or Neutral.",
+                examples: [
+                    { input: "The product arrived on time and works perfectly. Very satisfied!", output: "Positive" },
+                    { input: "Terrible quality. Broke after one use. Waste of money.", output: "Negative" },
+                    { input: "It's okay. Does the job but nothing special.", output: "Neutral" }
+                ],
+                testInput: "Great customer service but the product quality could be better.",
+                testOutput: {
+                    zero: "Neutral\n\n(The review contains both positive and negative elements, suggesting a mixed/neutral sentiment)",
+                    one: "Neutral",
+                    few: "Neutral\n\n(Acknowledges both positive aspect - customer service - and negative aspect - product quality, indicating balanced/neutral overall sentiment)"
+                },
+                info: {
+                    zero: "Without examples, the model relies on pre-trained knowledge of sentiment analysis",
+                    one: "One example helps establish the output format (just the label)",
+                    few: "Multiple examples show the model how to handle mixed sentiments consistently"
+                }
+            },
+            extraction: {
+                name: "Entity Extraction",
+                instruction: "Extract company name, role, and domain from job postings.",
+                examples: [
+                    { input: "Microsoft is hiring a Senior Engineer in cloud computing", output: "Company: Microsoft | Role: Senior Engineer | Domain: Cloud Computing" },
+                    { input: "Amazon seeks Data Scientist for recommendation systems", output: "Company: Amazon | Role: Data Scientist | Domain: Recommendation Systems" },
+                    { input: "Google looking for ML Researcher in NLP", output: "Company: Google | Role: ML Researcher | Domain: NLP" }
+                ],
+                testInput: "Meta needs AI Product Manager for generative AI products",
+                testOutput: {
+                    zero: "Company: Meta\nRole: AI Product Manager\nDomain: Generative AI products\n\n(May vary in format)",
+                    one: "Company: Meta | Role: AI Product Manager | Domain: Generative AI products\n\n(Format more consistent with example)",
+                    few: "Company: Meta | Role: AI Product Manager | Domain: Generative AI\n\n(Learned to normalize domain descriptions)"
+                },
+                info: {
+                    zero: "Format may be inconsistent without examples to follow",
+                    one: "One example establishes the pipe-separated format",
+                    few: "Multiple examples teach consistent formatting and domain normalization"
+                }
+            },
+            classification: {
+                name: "Support Ticket Classification",
+                instruction: "Classify support tickets by urgency level: CRITICAL, HIGH, MEDIUM, LOW",
+                examples: [
+                    { input: "System is down, can't process orders", output: "CRITICAL" },
+                    { input: "How do I reset my password?", output: "LOW" },
+                    { input: "Getting error messages when saving files", output: "MEDIUM" }
+                ],
+                testInput: "Payment processing failing for multiple customers",
+                testOutput: {
+                    zero: "HIGH or CRITICAL\n\n(Model may be uncertain about revenue-impacting issues)",
+                    one: "CRITICAL\n\n(Example shows business-critical = CRITICAL)",
+                    few: "CRITICAL\n\n(Pattern: payment/order processing issues = CRITICAL, clearly established)"
+                },
+                info: {
+                    zero: "Model may struggle with edge cases without clear examples",
+                    one: "One CRITICAL example helps, but pattern isn't fully clear",
+                    few: "Multiple examples establish clear criteria for each urgency level"
+                }
+            }
+        };
+
+        function loadTask(taskKey) {
+            currentTask = taskKey;
+            showShot(currentShot);
+        }
+
+        function showShot(shot) {
+            currentShot = shot;
+            const task = tasks[currentTask];
+
+            // Update button states
+            document.querySelectorAll('.shot-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.comparison-card').forEach(card => card.classList.remove('active'));
+
+            event?.target.closest('.shot-btn')?.classList.add('active');
+            document.getElementById(shot + 'Card').classList.add('active');
+
+            // Build prompt
+            let prompt = task.instruction + "\n\n";
+
+            if (shot === 'one') {
+                const ex = task.examples[0];
+                prompt += `Example:\nInput: "${ex.input}"\nOutput: ${ex.output}\n\n`;
+            } else if (shot === 'few') {
+                task.examples.forEach((ex, i) => {
+                    prompt += `Example ${i + 1}:\nInput: "${ex.input}"\nOutput: ${ex.output}\n\n`;
+                });
+            }
+
+            prompt += `Input: "${task.testInput}"\nOutput:`;
+
+            document.getElementById('promptDisplay').innerHTML =
+                `<span class="section-label">Prompt Sent to LLM</span>\n${prompt}`;
+
+            document.getElementById('resultDisplay').textContent = task.testOutput[shot];
+            document.getElementById('infoBadge').textContent = "💡 " + task.info[shot];
+        }
+
+        // Pop-out functionality
+        document.getElementById('popoutBtn').addEventListener('click', function() {
+            const currentUrl = window.location.href;
+            const popoutUrl = currentUrl + (currentUrl.includes('?') ? '&' : '?') + 'standalone=true';
+            const popoutWindow = window.open(popoutUrl, 'WidgetPopout',
+                'width=1200,height=900,resizable=yes,scrollbars=yes,status=yes');
+            if (popoutWindow) popoutWindow.focus();
+        });
+
+        // Hide pop-out button if in standalone mode
+        if (window.location.search.includes('standalone=true')) {
+            document.body.classList.add('standalone-mode');
+        }
+
+        // Initialize
+        showShot('zero');
+    </script>
+</body>
+</html>
