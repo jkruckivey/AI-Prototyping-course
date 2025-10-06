@@ -5,38 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fine-tuning vs RAG Decision Tool</title>
     <link rel="stylesheet" href="ivey-widget-base.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Figtree', system-ui, -apple-system, sans-serif;
             background: white;
-            color: #333;
-            line-height: 1.5;
+            color: #2c3e50;
+            line-height: 1.6;
             padding: 0;
             margin: 0;
         }
 
         .dp-wrapper {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
-            padding: 15px;
-            background: #ffffff;
+            padding: 20px;
+            font-family: 'Figtree', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: #fff;
         }
 
-        .widget-header {
-            background: #034638;
-            color: white;
-            padding: 12px 16px;
-            text-align: center;
-            border-radius: 8px 8px 0 0;
-            margin: -15px -15px 20px -15px;
-            
+        .dp-content-block {
+            margin-bottom: 2rem;
         }
 
-        .widget-title {
-            
-            font-size: 1.2em;
-            font-weight: bold;
-            margin: 0;
+        .dp-has-icon {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #034638;
+            margin: 0 0 1rem 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .dp-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin: 1rem 0;
+        }
+
+        .dp-card.intro-card {
+            border-left: 4px solid #034638;
+            background: #f8fffe;
         }
 
 
@@ -183,6 +197,39 @@
             background: #f8f9fa;
         }
 
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: #034638;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0a5c4a;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: #582C83;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #4c1d75;
+            transform: translateY(-1px);
+        }
+
         .reset-btn {
             background: #f8f9fa;
             color: #034638;
@@ -197,7 +244,7 @@
 
         .reset-btn:hover {
             background: #e8f5e9;
-            transform: translateY(-2px);
+            transform: translateY(-1px);
         }
 
         .progress-indicator {
@@ -279,9 +326,16 @@
     </button>
 
     <div class="dp-wrapper">
-        <div class="widget-header">
-            <h1 class="widget-title">Fine-tuning vs RAG Decision Tool</h1>
-        </div>
+        <div class="dp-content-block">
+            <h2 class="dp-has-icon">
+                <i class="fas fa-balance-scale" aria-hidden="true"></i>
+                Fine-tuning vs RAG: Production Decision Framework
+            </h2>
+
+            <div class="dp-card intro-card">
+                <p style="margin: 0 0 15px 0;">This advanced decision framework helps production teams choose between <strong>fine-tuning</strong> (encoding behavior in weights) and <strong>RAG</strong> (dynamic knowledge retrieval) based on technical requirements: latency, cost, update frequency, and team capabilities.</p>
+                <p style="margin: 0; font-size: 0.9em; opacity: 0.85;"><em>Note: If you're just getting started with LLMs, try Week 5's "Customization Stack" tool first, which includes prompt engineering and custom GPTs.</em></p>
+            </div>
 
             <!-- Progress Indicator -->
             <div class="progress-indicator" id="progressIndicator"></div>
@@ -305,33 +359,43 @@
                     <tbody>
                         <tr>
                             <td><strong>Best For</strong></td>
-                            <td>Behavior, style, format, specialized language</td>
-                            <td>Knowledge, facts, current information</td>
+                            <td>Specialized reasoning, consistent behavior, domain language patterns</td>
+                            <td>Dynamic knowledge, large document corpus, source attribution</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Typical Latency</strong></td>
+                            <td>50-500ms (single model call)</td>
+                            <td>500ms-3s (retrieval + generation)</td>
                         </tr>
                         <tr>
                             <td><strong>Knowledge Updates</strong></td>
-                            <td>Requires retraining (static)</td>
-                            <td>Update knowledge base anytime (dynamic)</td>
+                            <td>Requires retraining ($100-2K, days)</td>
+                            <td>Update vector DB instantly (minutes)</td>
                         </tr>
                         <tr>
-                            <td><strong>Initial Cost</strong></td>
-                            <td>Moderate to high (training compute)</td>
-                            <td>Low to moderate (indexing, vector DB)</td>
+                            <td><strong>Initial Setup Cost</strong></td>
+                            <td>$100-2K training + 1000+ examples</td>
+                            <td>$500-5K (chunking, embedding, indexing)</td>
                         </tr>
                         <tr>
-                            <td><strong>Ongoing Cost</strong></td>
-                            <td>Lower (no retrieval step)</td>
-                            <td>Higher (embedding + retrieval + generation)</td>
+                            <td><strong>Cost per Request</strong></td>
+                            <td>$0.002-0.02 (1 LLM call)</td>
+                            <td>$0.01-0.10 (embedding + retrieval + LLM)</td>
                         </tr>
                         <tr>
-                            <td><strong>Latency</strong></td>
-                            <td>Lower (direct generation)</td>
-                            <td>Higher (retrieval adds time)</td>
+                            <td><strong>Best at Scale</strong></td>
+                            <td>High volume (millions/month) → lower per-request cost</td>
+                            <td>Moderate volume with frequent updates → avoids retraining</td>
                         </tr>
                         <tr>
                             <td><strong>Explainability</strong></td>
-                            <td>Lower (behavior in weights)</td>
-                            <td>Higher (can show sources)</td>
+                            <td>Black box (behavior in weights)</td>
+                            <td>High (citations to source documents)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Team Expertise</strong></td>
+                            <td>ML engineering (training pipelines, evaluation)</td>
+                            <td>Software engineering (APIs, databases)</td>
                         </tr>
                     </tbody>
                 </table>
@@ -343,37 +407,65 @@
         const questions = [
             {
                 id: 'goal',
-                text: "What's your primary goal?",
+                text: "What's your primary production goal?",
                 options: [
-                    { id: 'knowledge', title: 'Add new knowledge/facts', desc: 'Model needs to know information beyond its training data', score: { rag: 2 } },
-                    { id: 'behavior', title: 'Change behavior/style', desc: 'Consistent format, tone, or specialized language', score: { ft: 2 } },
-                    { id: 'both', title: 'Both knowledge and behavior', desc: 'Need specialized knowledge AND specific output style', score: { both: 2 } }
+                    { id: 'knowledge', title: 'Add proprietary/current knowledge', desc: 'Model needs domain-specific or real-time information', score: { rag: 2 } },
+                    { id: 'behavior', title: 'Specialized behavior/reasoning', desc: 'Consistent format, domain language, or task-specific patterns', score: { ft: 2 } },
+                    { id: 'both', title: 'Knowledge + specialized behavior', desc: 'Need both domain knowledge AND consistent output patterns', score: { both: 2 } }
+                ]
+            },
+            {
+                id: 'latency',
+                text: "What are your latency requirements?",
+                options: [
+                    { id: 'critical', title: 'Sub-second response critical', desc: '<500ms response time required', score: { ft: 2 } },
+                    { id: 'moderate', title: 'Moderate latency acceptable', desc: '1-3 seconds acceptable for accuracy', score: { ft: 0.5, rag: 0.5 } },
+                    { id: 'flexible', title: 'Latency flexible', desc: 'Accuracy matters more than speed (3+ seconds OK)', score: { rag: 1 } }
                 ]
             },
             {
                 id: 'updates',
-                text: "How often does the information change?",
+                text: "How dynamic is your knowledge base?",
                 options: [
-                    { id: 'static', title: 'Rarely (months/years)', desc: 'Domain knowledge is stable', score: { ft: 1 } },
-                    { id: 'periodic', title: 'Periodically (weeks)', desc: 'Occasional updates needed', score: { ft: 0.5, rag: 0.5 } },
-                    { id: 'frequent', title: 'Frequently (daily)', desc: 'Need current, up-to-date information', score: { rag: 2 } }
+                    { id: 'static', title: 'Stable (quarterly+ updates)', desc: 'Domain knowledge rarely changes', score: { ft: 2 } },
+                    { id: 'periodic', title: 'Regular updates (weekly/monthly)', desc: 'Need to refresh knowledge periodically', score: { rag: 1 } },
+                    { id: 'realtime', title: 'Real-time/daily updates', desc: 'Knowledge changes constantly (news, prices, inventory)', score: { rag: 2 } }
+                ]
+            },
+            {
+                id: 'budget',
+                text: "What's your cost sensitivity?",
+                options: [
+                    { id: 'high-volume', title: 'High volume, cost-sensitive', desc: 'Millions of requests/month, need lower per-request cost', score: { ft: 1.5 } },
+                    { id: 'moderate', title: 'Moderate volume, balanced', desc: 'Thousands-hundreds of thousands requests/month', score: { ft: 0.5, rag: 0.5 } },
+                    { id: 'low-volume', title: 'Lower volume, quality focus', desc: 'Quality and accuracy more important than cost', score: { rag: 1 } }
                 ]
             },
             {
                 id: 'data',
-                text: "What kind of training data do you have?",
+                text: "What data assets do you have?",
                 options: [
-                    { id: 'examples', title: '500+ input-output pairs', desc: 'Well-labeled examples of desired behavior', score: { ft: 1.5 } },
-                    { id: 'documents', title: 'Large document collection', desc: 'Unstructured knowledge base (docs, PDFs, etc.)', score: { rag: 1.5 } },
-                    { id: 'both-data', title: 'Both examples and documents', desc: 'Have training examples AND knowledge base', score: { both: 1.5 } }
+                    { id: 'examples', title: '1000+ labeled examples', desc: 'High-quality input-output pairs showing desired behavior', score: { ft: 2 } },
+                    { id: 'documents', title: 'Large document corpus', desc: 'Unstructured knowledge base (PDFs, docs, wikis)', score: { rag: 2 } },
+                    { id: 'both-data', title: 'Both examples AND documents', desc: 'Training data + knowledge base available', score: { both: 2 } }
+                ]
+            },
+            {
+                id: 'team',
+                text: "What's your ML engineering capability?",
+                options: [
+                    { id: 'full-team', title: 'ML engineering team', desc: 'Have ML engineers experienced with training pipelines', score: { ft: 1, both: 1 } },
+                    { id: 'dev-team', title: 'Software engineers, learning ML', desc: 'Strong dev team, building ML expertise', score: { rag: 1 } },
+                    { id: 'limited', title: 'Limited ML resources', desc: 'Primarily using APIs and managed services', score: { rag: 1.5 } }
                 ]
             },
             {
                 id: 'explainability',
-                text: "Do you need to cite sources?",
+                text: "How important is source attribution?",
                 options: [
-                    { id: 'yes-cite', title: 'Yes, must show sources', desc: 'Need to reference specific documents', score: { rag: 1.5 } },
-                    { id: 'no-cite', title: 'No, results only', desc: "Don't need source attribution", score: { ft: 0.5 } }
+                    { id: 'critical', title: 'Must cite sources (compliance)', desc: 'Regulatory/legal requirement for source citations', score: { rag: 2 } },
+                    { id: 'preferred', title: 'Helpful for trust/validation', desc: 'Users want to verify information sources', score: { rag: 1 } },
+                    { id: 'not-needed', title: 'Results only', desc: 'Source attribution not important', score: { ft: 0.5 } }
                 ]
             }
         ];
@@ -446,57 +538,58 @@
                 icon = "🚀";
                 badge = "badge-both";
                 details = {
-                    why: "Your use case benefits from BOTH specialized behavior (fine-tuning) AND dynamic knowledge (RAG).",
+                    why: "Your production requirements demand BOTH specialized reasoning patterns (fine-tuning) AND dynamic knowledge access (RAG). This is the enterprise-grade approach.",
                     approach: [
-                        "Fine-tune a model on your domain/style/format examples",
-                        "Implement RAG for knowledge retrieval from your document base",
-                        "The fine-tuned model will know HOW to use retrieved context effectively",
-                        "Best of both worlds: specialized behavior + current information"
+                        "Stage 1: Fine-tune base model (GPT-3.5/4) with PEFT/LoRA on 1000+ domain examples",
+                        "Stage 2: Build RAG pipeline with vector DB (Pinecone/Weaviate) for document retrieval",
+                        "Stage 3: Fine-tuned model processes retrieved context with domain expertise",
+                        "Monitor: Track retrieval precision, generation quality, and end-to-end latency"
                     ],
                     examples: [
-                        "Legal chatbot: Fine-tune for legal language + RAG for case law",
-                        "Technical support: Fine-tune for your product terminology + RAG for documentation",
-                        "Financial analysis: Fine-tune for report format + RAG for current market data"
+                        "Enterprise legal assistant: Fine-tune for firm's legal reasoning + RAG for case law database",
+                        "Healthcare diagnostic support: Fine-tune for clinical reasoning + RAG for latest research",
+                        "Financial analyst copilot: Fine-tune for valuation methodology + RAG for market data"
                     ],
-                    cost: "Highest initial investment, but most powerful long-term solution"
+                    cost: "Initial: $5K-50K setup + training. Ongoing: $0.10-0.50 per request at scale. ROI realized through quality + automation."
                 };
             } else if (scores.ft > scores.rag) {
                 recommendation = "Fine-tuning";
                 icon = "🎯";
                 badge = "badge-ft";
                 details = {
-                    why: "Your use case requires consistent behavior, style, or format that's best learned through fine-tuning.",
+                    why: "Your production system requires consistent, specialized behavior that's best encoded directly into model weights. Fine-tuning optimizes for latency and cost at scale.",
                     approach: [
-                        "Prepare 500-5000 high-quality input-output examples",
-                        "Use PEFT (LoRA) to reduce cost and training time",
-                        "Focus on consistent format, domain language, or specialized tasks",
-                        "Fine-tune a smaller base model for cost efficiency"
+                        "Data prep: Curate 1000-10,000 high-quality examples showing desired behavior patterns",
+                        "Training: Use PEFT (LoRA, QLoRA) on GPT-3.5/Llama for cost efficiency (<$100-500)",
+                        "Validation: Hold out 20% for evaluation, track task-specific metrics (F1, BLEU, etc.)",
+                        "Deployment: Host custom model via OpenAI API or self-host with vLLM/TGI for control"
                     ],
                     examples: [
-                        "Medical report generation (specialized terminology, format)",
-                        "Code generation in your company's style",
-                        "Brand-specific marketing copy with consistent voice"
+                        "Medical coding assistant: ICD-10 code generation with 95%+ accuracy, <200ms latency",
+                        "Code completion: Company-specific patterns, libraries, and style guidelines",
+                        "Contract analysis: Extract clauses, risks, obligations in standardized JSON format"
                     ],
-                    cost: "Moderate upfront cost, lower ongoing inference costs"
+                    cost: "Initial: $100-2K training. Ongoing: $0.002-0.02 per request (10-50x cheaper than retrieval)."
                 };
             } else {
                 recommendation = "Retrieval Augmented Generation (RAG)";
                 icon = "📚";
                 badge = "badge-rag";
                 details = {
-                    why: "Your use case requires access to current, changing, or proprietary knowledge best served by RAG.",
+                    why: "Your production system needs access to dynamic, frequently-updated, or massive knowledge bases. RAG provides flexibility without retraining costs.",
                     approach: [
-                        "Index your document collection into a vector database",
-                        "Use semantic search to retrieve relevant chunks",
-                        "Pass retrieved context + query to the LLM",
-                        "Update knowledge base anytime without retraining"
+                        "Chunking: Split documents into 500-1000 token chunks with 10-20% overlap",
+                        "Embedding: Use text-embedding-ada-002 or open-source alternatives (cost: $0.0001/1K tokens)",
+                        "Indexing: Store in vector DB (Pinecone, Weaviate, Qdrant) with metadata filtering",
+                        "Retrieval: Semantic search + reranking (Cohere, cross-encoders) for top-k relevant chunks",
+                        "Generation: Pass context + query to LLM, implement citation extraction for sources"
                     ],
                     examples: [
-                        "Customer support with product documentation",
-                        "Internal Q&A over company wikis and policies",
-                        "Research assistant querying scientific papers"
+                        "Enterprise support bot: 100K+ pages of documentation, real-time updates, source citations",
+                        "Regulatory compliance assistant: Query evolving regulations, case law, internal policies",
+                        "Research copilot: Search 1M+ scientific papers, financial reports, patents"
                     ],
-                    cost: "Lower initial cost, ongoing costs for retrieval + generation"
+                    cost: "Initial: $500-5K setup. Ongoing: $0.01-0.10 per query (embedding + retrieval + generation). Update knowledge base anytime without retraining."
                 };
             }
 

@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math TAI Custom GPT Simulator</title>
+    <link rel="stylesheet" href="ivey-widget-base.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .dp-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            font-family: 'Figtree', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: #fff;
+        }
+
+        .dp-content-block {
+            margin-bottom: 2rem;
+        }
+
+        .dp-has-icon {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #034638;
+            margin: 0 0 1rem 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .dp-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin: 1rem 0;
+        }
+
+        .dp-card.intro-card {
+            border-left: 4px solid #034638;
+            background: #f8fffe;
+        }
+
+        /* Tab Navigation */
+        .tab-navigation {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .tab-btn {
+            background: white;
+            border: none;
+            border-bottom: 3px solid transparent;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn:hover {
+            color: #034638;
+            background: #f8fffe;
+        }
+
+        .tab-btn.active {
+            color: #034638;
+            border-bottom-color: #034638;
+            background: #f8fffe;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Chat Interface */
+        .chat-container {
+            background: #f8fffe;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border: 2px solid #034638;
+        }
+
+        .chat-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e5e7eb;
+            margin-bottom: 1rem;
+        }
+
+        .chat-avatar {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #034638 0%, #045a49 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .chat-title h3 {
+            margin: 0;
+            color: #034638;
+            font-size: 1.2rem;
+        }
+
+        .chat-title p {
+            margin: 0;
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        .chat-messages {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 1rem;
+        }
+
+        .message {
+            margin-bottom: 1rem;
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 0.9rem;
+        }
+
+        .message.assistant .message-avatar {
+            background: #034638;
+            color: white;
+        }
+
+        .message.user .message-avatar {
+            background: #582C83;
+            color: white;
+        }
+
+        .message-bubble {
+            max-width: 75%;
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .message.assistant .message-bubble {
+            background: white;
+            border: 1px solid #e5e7eb;
+        }
+
+        .message.user .message-bubble {
+            background: #034638;
+            color: white;
+        }
+
+        .message-bubble strong {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #582C83;
+        }
+
+        .message.user .message-bubble strong {
+            color: #e5e7eb;
+        }
+
+        .message-bubble code {
+            background: #f8fffe;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+        }
+
+        .message.user .message-bubble code {
+            background: rgba(255,255,255,0.2);
+            color: white;
+        }
+
+        /* Quick Prompts */
+        .quick-prompts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .quick-prompt-btn {
+            background: white;
+            border: 2px solid #034638;
+            border-radius: 6px;
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            font-size: 0.85rem;
+            color: #2c3e50;
+        }
+
+        .quick-prompt-btn:hover {
+            background: #034638;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .quick-prompt-btn i {
+            margin-right: 0.5rem;
+            color: #582C83;
+        }
+
+        .quick-prompt-btn:hover i {
+            color: white;
+        }
+
+        /* Configuration Display */
+        .config-section {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .config-section h4 {
+            color: #034638;
+            margin: 0 0 1rem 0;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .config-item {
+            background: #f8fffe;
+            border-left: 3px solid #582C83;
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 0.75rem 0;
+        }
+
+        .config-item h5 {
+            margin: 0 0 0.5rem 0;
+            color: #034638;
+            font-size: 0.9rem;
+        }
+
+        .config-item p {
+            margin: 0;
+            color: #2c3e50;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .config-item ul {
+            margin: 0.5rem 0 0 0;
+            padding-left: 1.5rem;
+        }
+
+        .config-item li {
+            margin: 0.25rem 0;
+            color: #2c3e50;
+            font-size: 0.9rem;
+        }
+
+        /* Knowledge Base Display */
+        .knowledge-files {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .file-item {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .file-item:hover {
+            border-color: #034638;
+            background: #f8fffe;
+        }
+
+        .file-item i {
+            font-size: 1.5rem;
+            color: #582C83;
+        }
+
+        .file-info {
+            flex: 1;
+        }
+
+        .file-name {
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 0.85rem;
+        }
+
+        .file-desc {
+            font-size: 0.75rem;
+            color: #666;
+        }
+
+        /* Actions Display */
+        .actions-grid {
+            display: grid;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .action-card {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .action-card:hover {
+            border-color: #034638;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .action-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .action-icon {
+            width: 36px;
+            height: 36px;
+            background: #582C83;
+            color: white;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .action-name {
+            font-weight: 600;
+            color: #034638;
+            font-size: 1rem;
+        }
+
+        .action-description {
+            color: #2c3e50;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        /* Reset Button */
+        .btn-secondary {
+            background: white;
+            color: #034638;
+            border: 2px solid #034638;
+            border-radius: 6px;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-secondary:hover {
+            background: #f8fffe;
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+<body>
+    <div class="dp-wrapper">
+        <!-- Pop-out button -->
+        <button class="widget-popout-btn" id="popoutBtn" title="Open in full window">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+            <span>Pop Out</span>
+        </button>
+
+        <div class="dp-content-block">
+            <h2 class="dp-has-icon">
+                <i class="fas fa-robot"></i>
+                Math TAI Custom GPT Simulator
+            </h2>
+
+            <div class="dp-card intro-card">
+                <p><strong>Math TAI</strong> is a custom GPT teaching assistant configured to help students with finite mathematics concepts. This simulator demonstrates how custom GPTs combine <strong>instructions (persona)</strong>, <strong>knowledge bases (RAG)</strong>, and <strong>actions (tools)</strong> to create specialized AI assistants.</p>
+                <p style="margin-bottom: 0;">Explore the three tabs below to interact with the assistant, see its configuration, and understand how it's built.</p>
+            </div>
+
+            <!-- Tab Navigation -->
+            <div class="tab-navigation">
+                <button class="tab-btn active" data-tab="chat">
+                    <i class="fas fa-comments"></i> Chat Interface
+                </button>
+                <button class="tab-btn" data-tab="config">
+                    <i class="fas fa-cog"></i> Configuration
+                </button>
+                <button class="tab-btn" data-tab="architecture">
+                    <i class="fas fa-sitemap"></i> Architecture
+                </button>
+            </div>
+
+            <!-- Tab 1: Chat Interface -->
+            <div class="tab-content active" id="chat-tab">
+                <div class="chat-container">
+                    <div class="chat-header">
+                        <div class="chat-avatar">
+                            <i class="fas fa-calculator"></i>
+                        </div>
+                        <div class="chat-title">
+                            <h3>Math TAI</h3>
+                            <p>Teaching Assistant with AI • Finite Mathematics</p>
+                        </div>
+                    </div>
+
+                    <div class="quick-prompts">
+                        <button class="quick-prompt-btn" data-query="permutation">
+                            <i class="fas fa-question-circle"></i>
+                            Explain circular permutation
+                        </button>
+                        <button class="quick-prompt-btn" data-query="transcript">
+                            <i class="fas fa-search"></i>
+                            Search lecture transcript
+                        </button>
+                        <button class="quick-prompt-btn" data-query="grade">
+                            <i class="fas fa-chart-bar"></i>
+                            Show grade scheme
+                        </button>
+                    </div>
+
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="message assistant">
+                            <div class="message-avatar"><i class="fas fa-robot"></i></div>
+                            <div class="message-bubble">
+                                Hello! I'm Math TAI, your teaching assistant for Finite Mathematics. I can help you understand concepts, search lecture transcripts, and answer questions about the course. How can I assist you today?
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn-secondary" id="resetChat">
+                        <i class="fas fa-redo"></i> Reset Conversation
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tab 2: Configuration -->
+            <div class="tab-content" id="config-tab">
+                <div class="config-section">
+                    <h4><i class="fas fa-user-tie"></i> Instructions (Persona & Guardrails)</h4>
+                    <div class="config-item">
+                        <h5>System Prompt</h5>
+                        <p>You are Math TAI, a friendly and patient teaching assistant for a Finite Mathematics course. Your role is to:</p>
+                        <ul>
+                            <li>Help students understand mathematical concepts through clear explanations</li>
+                            <li>Guide students to solutions without giving direct answers to homework</li>
+                            <li>Use the Socratic method to encourage critical thinking</li>
+                            <li>Search lecture transcripts when students reference class material</li>
+                            <li>Provide the grade scheme when requested</li>
+                            <li>Be encouraging and supportive, celebrating small wins</li>
+                        </ul>
+                    </div>
+                    <div class="config-item">
+                        <h5>Guardrails</h5>
+                        <ul>
+                            <li>Never solve homework problems completely—guide students instead</li>
+                            <li>Always cite sources when referencing lecture content</li>
+                            <li>Display results in calculator format for numerical answers</li>
+                            <li>End each conversation by asking "Is there anything else I can help with?" and list available commands: search transcript, email help, grade scheme</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="config-section">
+                    <h4><i class="fas fa-book"></i> Knowledge Base (RAG)</h4>
+                    <p style="margin-bottom: 1rem; color: #666; font-size: 0.9rem;">Custom GPTs use uploaded documents to retrieve relevant context for responses. This prevents hallucinations and ensures accurate, course-specific answers.</p>
+                    <div class="knowledge-files">
+                        <div class="file-item">
+                            <i class="fas fa-file-pdf"></i>
+                            <div class="file-info">
+                                <div class="file-name">lecture_transcripts.pdf</div>
+                                <div class="file-desc">All course lectures</div>
+                            </div>
+                        </div>
+                        <div class="file-item">
+                            <i class="fas fa-file-alt"></i>
+                            <div class="file-info">
+                                <div class="file-name">syllabus.pdf</div>
+                                <div class="file-desc">Course outline</div>
+                            </div>
+                        </div>
+                        <div class="file-item">
+                            <i class="fas fa-file-excel"></i>
+                            <div class="file-info">
+                                <div class="file-name">grade_scheme.xlsx</div>
+                                <div class="file-desc">Grading rubric</div>
+                            </div>
+                        </div>
+                        <div class="file-item">
+                            <i class="fas fa-book"></i>
+                            <div class="file-info">
+                                <div class="file-name">textbook_chapter3.pdf</div>
+                                <div class="file-desc">Permutations</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="config-section">
+                    <h4><i class="fas fa-tools"></i> Actions (Capabilities)</h4>
+                    <p style="margin-bottom: 1rem; color: #666; font-size: 0.9rem;">Actions extend GPT capabilities by connecting to external APIs and services. These can search databases, send emails, or integrate with third-party tools.</p>
+                    <div class="actions-grid">
+                        <div class="action-card">
+                            <div class="action-header">
+                                <div class="action-icon"><i class="fas fa-search"></i></div>
+                                <div class="action-name">Search Transcript</div>
+                            </div>
+                            <p class="action-description">Searches lecture transcripts for specific topics or keywords. Returns relevant excerpts with timestamps for student reference.</p>
+                        </div>
+                        <div class="action-card">
+                            <div class="action-header">
+                                <div class="action-icon"><i class="fas fa-envelope"></i></div>
+                                <div class="action-name">Email Help Request</div>
+                            </div>
+                            <p class="action-description">Sends an email to the instructor when student needs additional help. Integrates with Gmail via Zapier automation. (Configured but not yet active)</p>
+                        </div>
+                        <div class="action-card">
+                            <div class="action-header">
+                                <div class="action-icon"><i class="fas fa-chart-bar"></i></div>
+                                <div class="action-name">Grade Scheme</div>
+                            </div>
+                            <p class="action-description">Retrieves and displays the course grading scheme from the uploaded Excel file. Shows assignment weights and calculation method.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 3: Architecture -->
+            <div class="tab-content" id="architecture-tab">
+                <div class="dp-card">
+                    <h3 style="color: #034638; margin-top: 0;"><i class="fas fa-puzzle-piece"></i> Three Components of Custom GPTs</h3>
+
+                    <div class="config-item">
+                        <h5>1. Instructions (Persona & Guardrails)</h5>
+                        <p><strong>Written in natural language</strong> to define the GPT's role, behavior, and constraints. This is like the "system message" that the GPT follows from the start of every conversation.</p>
+                        <p style="margin-top: 0.5rem;"><strong>Example:</strong> "You are Math TAI, a patient teaching assistant who guides students without giving direct answers."</p>
+                    </div>
+
+                    <div class="config-item">
+                        <h5>2. Knowledge Base (RAG Framework)</h5>
+                        <p>Upload documents (PDFs, Excel, text files) that the GPT can search and reference. When a user asks a question, the GPT uses <strong>Retrieval Augmented Generation (RAG)</strong> to find relevant passages and cite them in responses.</p>
+                        <p style="margin-top: 0.5rem;"><strong>Benefits:</strong> Prevents hallucinations, provides accurate course-specific information, enables source attribution.</p>
+                    </div>
+
+                    <div class="config-item">
+                        <h5>3. Actions (External Capabilities)</h5>
+                        <p>Connect to external APIs and services to extend functionality beyond conversation. Actions can search databases, send emails, create calendar events, or integrate with third-party tools like Zapier.</p>
+                        <p style="margin-top: 0.5rem;"><strong>Example:</strong> Math TAI's "Email Help" action connects to Gmail via Zapier to notify the instructor when students need additional support.</p>
+                    </div>
+                </div>
+
+                <div class="dp-card" style="margin-top: 1.5rem;">
+                    <h3 style="color: #034638; margin-top: 0;"><i class="fas fa-lightbulb"></i> Key Insights</h3>
+                    <ul style="line-height: 1.8;">
+                        <li><strong>No coding required:</strong> Custom GPTs are configured entirely in natural language</li>
+                        <li><strong>RAG prevents outdated info:</strong> Knowledge base can be updated without retraining</li>
+                        <li><strong>Actions extend capabilities:</strong> Connect to any API to add specialized functions</li>
+                        <li><strong>Conversation starters guide users:</strong> Suggested prompts help users discover features</li>
+                        <li><strong>Guardrails ensure quality:</strong> Instructions prevent inappropriate or unhelpful responses</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Conversation data
+        const conversations = {
+            permutation: [
+                {
+                    role: 'user',
+                    content: "Hi, I am not getting the concept of circular permutation in my finite mathematics class."
+                },
+                {
+                    role: 'assistant',
+                    content: "Great question! Let me help you understand circular permutations.\n\n**Linear vs. Circular Permutations:**\n\nIn a linear permutation, the order matters from left to right. For example, arranging 4 people in a line: ABC D is different from DABC.\n\nBut in a **circular permutation**, what matters is the relative position to each other, not the absolute position. Imagine seating 4 people around a circular table:\n- ABCD is the same as BCDA (just rotated)\n- ABCD is the same as DABC (rotated again)\n\n**Formula:**\n- Linear: n!\n- Circular: (n-1)!\n\nWhy divide by n? Because there are n rotations that look identical in a circle.\n\n**Example:** Seating 4 people at a round table = (4-1)! = 3! = 6 arrangements.\n\nDoes this make sense? Would you like me to search the lecture transcript where we covered this topic?"
+                },
+                {
+                    role: 'user',
+                    content: "Yes, please search the transcript!"
+                },
+                {
+                    role: 'assistant',
+                    content: "**[Searching lecture_transcripts.pdf...]**\n\nI found the relevant section from **Lecture 8: Permutations and Combinations** (timestamp 23:15):\n\n*\"Circular permutations differ from linear arrangements because rotation doesn't create a new arrangement. When arranging n objects in a circle, we fix one object in place and arrange the remaining (n-1) objects, giving us (n-1)! unique arrangements.\"*\n\nThe lecture also includes the restaurant table example: seating 5 guests = 4! = 24 ways.\n\nIs there anything else I can help with?\n\n**Available commands:** search transcript | email help | grade scheme"
+                }
+            ],
+            transcript: [
+                {
+                    role: 'user',
+                    content: "Can you search the transcript for information about probability distributions?"
+                },
+                {
+                    role: 'assistant',
+                    content: "**[Searching lecture_transcripts.pdf for 'probability distributions'...]**\n\nI found several relevant sections:\n\n**Lecture 5: Probability Basics** (timestamp 18:30):\n*\"A probability distribution assigns probabilities to all possible outcomes. The sum of all probabilities must equal 1.\"*\n\n**Lecture 6: Discrete Distributions** (timestamp 12:45):\n*\"Common discrete distributions include binomial (fixed trials, two outcomes) and Poisson (events over time/space). The binomial formula is P(X=k) = C(n,k) × p^k × (1-p)^(n-k).\"*\n\n**Lecture 7: Expected Value** (timestamp 8:20):\n*\"Expected value is the weighted average: E(X) = Σ x·P(x). It represents the long-run average outcome.\"*\n\nWould you like me to explain any of these concepts in more detail?\n\n**Available commands:** search transcript | email help | grade scheme"
+                }
+            ],
+            grade: [
+                {
+                    role: 'user',
+                    content: "What's the grade scheme for this course?"
+                },
+                {
+                    role: 'assistant',
+                    content: "**[Retrieving grade_scheme.xlsx...]**\n\nHere's the grading breakdown for Finite Mathematics:\n\n```\nAssignment Type          Weight    Details\n─────────────────────────────────────────────\nHomework (10 sets)        20%     Drop lowest 2\nQuizzes (6 total)         15%     Drop lowest 1\nMidterm Exam              25%     Week 8\nFinal Exam                30%     Cumulative\nParticipation             10%     In-class/online\n─────────────────────────────────────────────\nTotal                    100%\n```\n\n**Grading Scale:**\n- A: 90-100% | B: 80-89% | C: 70-79% | D: 60-69% | F: <60%\n\n**Note:** Extra credit opportunities worth up to 3% may be announced during the semester.\n\nIs there anything else I can help with?\n\n**Available commands:** search transcript | email help | grade scheme"
+                }
+            ]
+        };
+
+        // Tab switching
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+                this.classList.add('active');
+                document.getElementById(this.dataset.tab + '-tab').classList.add('active');
+            });
+        });
+
+        // Chat functionality
+        const chatMessages = document.getElementById('chatMessages');
+
+        function addMessage(role, content) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${role}`;
+
+            const avatar = document.createElement('div');
+            avatar.className = 'message-avatar';
+            avatar.innerHTML = role === 'assistant' ? '<i class="fas fa-robot"></i>' : '<i class="fas fa-user"></i>';
+
+            const bubble = document.createElement('div');
+            bubble.className = 'message-bubble';
+            bubble.innerHTML = content.replace(/\n/g, '<br>');
+
+            messageDiv.appendChild(avatar);
+            messageDiv.appendChild(bubble);
+            chatMessages.appendChild(messageDiv);
+
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        document.querySelectorAll('.quick-prompt-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const query = this.dataset.query;
+                const conversation = conversations[query];
+
+                if (conversation) {
+                    // Clear existing messages except first
+                    while (chatMessages.children.length > 1) {
+                        chatMessages.removeChild(chatMessages.lastChild);
+                    }
+
+                    // Add conversation messages with delay
+                    conversation.forEach((msg, index) => {
+                        setTimeout(() => {
+                            addMessage(msg.role, msg.content);
+                        }, index * 1000);
+                    });
+                }
+            });
+        });
+
+        document.getElementById('resetChat').addEventListener('click', function() {
+            while (chatMessages.children.length > 1) {
+                chatMessages.removeChild(chatMessages.lastChild);
+            }
+        });
+
+        // Pop-out functionality
+        document.getElementById('popoutBtn').addEventListener('click', function() {
+            const currentUrl = window.location.href;
+            const popoutUrl = currentUrl + (currentUrl.includes('?') ? '&' : '?') + 'standalone=true';
+            const popoutWindow = window.open(popoutUrl, 'WidgetPopout', 'width=1200,height=900,resizable=yes,scrollbars=yes,status=yes');
+            if (popoutWindow) popoutWindow.focus();
+        });
+
+        // Check if in standalone mode
+        if (window.location.search.includes('standalone=true')) {
+            document.body.classList.add('standalone-mode');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAG Visualization - Retrieval Augmented Generation</title>
+    <link rel="stylesheet" href="ivey-widget-base.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .dp-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            font-family: 'Figtree', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: #fff;
+        }
+
+        .dp-content-block {
+            margin-bottom: 2rem;
+        }
+
+        .dp-has-icon {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #034638;
+            margin: 0 0 1rem 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .dp-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin: 1rem 0;
+        }
+
+        .dp-card.intro-card {
+            border-left: 4px solid #034638;
+            background: #f8fffe;
+        }
+
+        /* Interactive Demo Area */
+        .demo-container {
+            background: #f8fffe;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border: 2px solid #034638;
+        }
+
+        .demo-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .demo-header h3 {
+            color: #034638;
+            margin: 0 0 0.5rem 0;
+            font-weight: 600;
+        }
+
+        .demo-header p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Query Input Section */
+        .query-section {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .query-section h4 {
+            color: #034638;
+            margin: 0 0 1rem 0;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .query-examples {
+            display: grid;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .query-btn {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            font-size: 0.9rem;
+            color: #2c3e50;
+        }
+
+        .query-btn:hover {
+            border-color: #034638;
+            background: #f8fffe;
+            transform: translateY(-1px);
+        }
+
+        .query-btn.active {
+            background: #034638;
+            color: white;
+            border-color: #034638;
+        }
+
+        /* RAG Process Visualization */
+        .rag-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .flow-step {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            position: relative;
+            opacity: 0.4;
+            transition: all 0.5s ease;
+        }
+
+        .flow-step.active {
+            opacity: 1;
+            border-left: 4px solid #034638;
+        }
+
+        .flow-step.completed {
+            opacity: 1;
+            background: #f8fffe;
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .step-number {
+            width: 36px;
+            height: 36px;
+            background: #034638;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .step-title {
+            color: #034638;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        .step-content {
+            margin-left: 52px;
+            color: #2c3e50;
+        }
+
+        .step-details {
+            background: #f8fffe;
+            border-radius: 6px;
+            padding: 1rem;
+            margin-top: 0.75rem;
+            border-left: 3px solid #582C83;
+        }
+
+        .step-details pre {
+            background: #2c3e50;
+            color: #e5e7eb;
+            padding: 0.75rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 0.85rem;
+            margin: 0.5rem 0 0 0;
+        }
+
+        /* Arrow between steps */
+        .flow-arrow {
+            text-align: center;
+            color: #034638;
+            font-size: 1.5rem;
+            margin: -0.5rem 0;
+            opacity: 0.4;
+            transition: opacity 0.5s ease;
+        }
+
+        .flow-arrow.active {
+            opacity: 1;
+        }
+
+        /* Control Buttons */
+        .controls {
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .btn-primary {
+            background: #034638;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 0.75rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 0 0.5rem;
+        }
+
+        .btn-primary:hover {
+            background: #0a5c4a;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #034638;
+            border: 2px solid #034638;
+            border-radius: 6px;
+            padding: 0.75rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 0 0.5rem;
+        }
+
+        .btn-secondary:hover {
+            background: #f8fffe;
+            transform: translateY(-1px);
+        }
+
+        /* Knowledge Sources Display */
+        .knowledge-sources {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .source-item {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 0.75rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .source-item.active {
+            border-color: #034638;
+            background: #f8fffe;
+        }
+
+        .source-item i {
+            font-size: 1.5rem;
+            color: #582C83;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .source-item .source-label {
+            font-size: 0.85rem;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        /* Retrieved Context Display */
+        .context-display {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-top: 1rem;
+        }
+
+        .context-display h5 {
+            color: #856404;
+            margin: 0 0 0.5rem 0;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .context-display .context-text {
+            color: #856404;
+            font-size: 0.9rem;
+            font-style: italic;
+            line-height: 1.5;
+        }
+
+        /* Final Response Display */
+        .response-display {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-top: 1rem;
+        }
+
+        .response-display h5 {
+            color: #155724;
+            margin: 0 0 0.5rem 0;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .response-display .response-text {
+            color: #155724;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="dp-wrapper">
+        <!-- Pop-out button -->
+        <button class="widget-popout-btn" id="popoutBtn" title="Open in full window">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+            <span>Pop Out</span>
+        </button>
+
+        <div class="dp-content-block">
+            <h2 class="dp-has-icon">
+                <i class="fas fa-project-diagram"></i>
+                RAG Visualization
+            </h2>
+
+            <div class="dp-card intro-card">
+                <p><strong>Retrieval Augmented Generation (RAG)</strong> solves the problem of LLM knowledge limitations by retrieving relevant information from external databases before generating responses. This prevents hallucinations and provides up-to-date, domain-specific answers.</p>
+                <p style="margin-bottom: 0;"><strong>How it works:</strong> An orchestration library intercepts your prompt, retrieves relevant context from knowledge sources, augments the prompt with this context, and then sends everything to the LLM for generation.</p>
+            </div>
+
+            <!-- Query Selection -->
+            <div class="query-section">
+                <h4><i class="fas fa-question-circle"></i> Step 1: Choose a Query</h4>
+                <div class="query-examples">
+                    <button class="query-btn" data-query="product-features">
+                        "What are the key features of our new product?"
+                    </button>
+                    <button class="query-btn" data-query="policy">
+                        "What is our company's remote work policy?"
+                    </button>
+                    <button class="query-btn" data-query="technical">
+                        "How do I configure the API authentication?"
+                    </button>
+                </div>
+            </div>
+
+            <!-- Interactive Demo -->
+            <div class="demo-container" id="demoContainer" style="display: none;">
+                <div class="demo-header">
+                    <h3>RAG Process in Action</h3>
+                    <p>Watch how your query flows through the RAG pipeline</p>
+                </div>
+
+                <div class="rag-flow">
+                    <!-- Step 1: User Query -->
+                    <div class="flow-step" id="step1">
+                        <div class="step-header">
+                            <div class="step-number">1</div>
+                            <h3 class="step-title">User Query Received</h3>
+                        </div>
+                        <div class="step-content">
+                            <p>The orchestration library receives your query:</p>
+                            <div class="step-details">
+                                <strong>User Prompt:</strong>
+                                <pre id="userPrompt"></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flow-arrow"><i class="fas fa-arrow-down"></i></div>
+
+                    <!-- Step 2: Knowledge Retrieval -->
+                    <div class="flow-step" id="step2">
+                        <div class="step-header">
+                            <div class="step-number">2</div>
+                            <h3 class="step-title">Knowledge Source Search</h3>
+                        </div>
+                        <div class="step-content">
+                            <p>The orchestration library searches relevant knowledge sources:</p>
+                            <div class="knowledge-sources" id="knowledgeSources">
+                                <div class="source-item">
+                                    <i class="fas fa-file-alt"></i>
+                                    <div class="source-label">Documents</div>
+                                </div>
+                                <div class="source-item">
+                                    <i class="fas fa-database"></i>
+                                    <div class="source-label">Database</div>
+                                </div>
+                                <div class="source-item">
+                                    <i class="fas fa-book"></i>
+                                    <div class="source-label">Manuals</div>
+                                </div>
+                                <div class="source-item">
+                                    <i class="fas fa-globe"></i>
+                                    <div class="source-label">Wiki</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flow-arrow"><i class="fas fa-arrow-down"></i></div>
+
+                    <!-- Step 3: Context Retrieved -->
+                    <div class="flow-step" id="step3">
+                        <div class="step-header">
+                            <div class="step-number">3</div>
+                            <h3 class="step-title">Relevant Context Retrieved</h3>
+                        </div>
+                        <div class="step-content">
+                            <p>The orchestration library extracts relevant information:</p>
+                            <div class="context-display">
+                                <h5><i class="fas fa-quote-left"></i> Retrieved Context</h5>
+                                <div class="context-text" id="retrievedContext"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flow-arrow"><i class="fas fa-arrow-down"></i></div>
+
+                    <!-- Step 4: Augmented Prompt -->
+                    <div class="flow-step" id="step4">
+                        <div class="step-header">
+                            <div class="step-number">4</div>
+                            <h3 class="step-title">Prompt Augmentation</h3>
+                        </div>
+                        <div class="step-content">
+                            <p>The original prompt is augmented with retrieved context:</p>
+                            <div class="step-details">
+                                <strong>Augmented Prompt sent to LLM:</strong>
+                                <pre id="augmentedPrompt"></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flow-arrow"><i class="fas fa-arrow-down"></i></div>
+
+                    <!-- Step 5: LLM Response -->
+                    <div class="flow-step" id="step5">
+                        <div class="step-header">
+                            <div class="step-number">5</div>
+                            <h3 class="step-title">LLM Generates Response</h3>
+                        </div>
+                        <div class="step-content">
+                            <p>The LLM uses the augmented context to generate an accurate response:</p>
+                            <div class="response-display">
+                                <h5><i class="fas fa-check-circle"></i> Final Response</h5>
+                                <div class="response-text" id="finalResponse"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Controls -->
+                <div class="controls">
+                    <button class="btn-secondary" id="resetBtn">
+                        <i class="fas fa-redo"></i> Reset Demo
+                    </button>
+                    <button class="btn-primary" id="runBtn">
+                        <i class="fas fa-play"></i> Run RAG Process
+                    </button>
+                </div>
+            </div>
+
+            <!-- Key Benefits -->
+            <div class="dp-card" style="margin-top: 2rem;">
+                <h3 style="color: #034638; margin-top: 0;"><i class="fas fa-lightbulb"></i> Key Benefits of RAG</h3>
+                <ul style="line-height: 1.8;">
+                    <li><strong>Prevents Hallucinations:</strong> LLM responses grounded in real retrieved data</li>
+                    <li><strong>Up-to-Date Information:</strong> Access current data without retraining the model</li>
+                    <li><strong>Domain Expertise:</strong> Incorporate proprietary documents and knowledge bases</li>
+                    <li><strong>Source Attribution:</strong> Trace responses back to original source documents</li>
+                    <li><strong>Cost-Effective:</strong> No expensive fine-tuning required for knowledge updates</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Example query data
+        const queryData = {
+            'product-features': {
+                query: '"What are the key features of our new product?"',
+                sources: [0, 2], // Documents and Manuals
+                context: 'Product Spec Document (Section 2.3): Our new AI-powered analytics platform features: (1) Real-time data processing with sub-second latency, (2) Natural language query interface powered by GPT-4, (3) Automated anomaly detection using machine learning, (4) Seamless integration with 50+ data sources including Salesforce, HubSpot, and Google Analytics, (5) Customizable dashboards with drag-and-drop widgets.',
+                augmented: 'Context: Product Spec Document (Section 2.3): Our new AI-powered analytics platform features: (1) Real-time data processing with sub-second latency, (2) Natural language query interface powered by GPT-4, (3) Automated anomaly detection using machine learning, (4) Seamless integration with 50+ data sources including Salesforce, HubSpot, and Google Analytics, (5) Customizable dashboards with drag-and-drop widgets.\n\nUser Question: What are the key features of our new product?\n\nInstructions: Using the context provided above, answer the user\'s question accurately and cite the source.',
+                response: 'Based on our Product Spec Document (Section 2.3), our new AI-powered analytics platform has five key features:\n\n1. **Real-time data processing** with sub-second latency for immediate insights\n2. **Natural language query interface** powered by GPT-4, allowing users to ask questions in plain English\n3. **Automated anomaly detection** using machine learning to identify data irregularities\n4. **Seamless integration** with 50+ data sources including major platforms like Salesforce, HubSpot, and Google Analytics\n5. **Customizable dashboards** with drag-and-drop widgets for personalized views\n\nThese features are designed to provide powerful, accessible analytics for teams of all technical levels.'
+            },
+            'policy': {
+                query: '"What is our company\'s remote work policy?"',
+                sources: [1, 3], // Database and Wiki
+                context: 'HR Policy Database (Updated March 2024): Remote Work Policy - Employees may work remotely up to 3 days per week with manager approval. Core in-office days are Tuesday and Thursday for team collaboration. Remote work requires: (1) Stable internet connection (minimum 50 Mbps), (2) Dedicated workspace, (3) Availability during core hours 10am-3pm EST, (4) Attendance at all-hands meetings. Equipment stipend of $500 annually for home office setup.',
+                augmented: 'Context: HR Policy Database (Updated March 2024): Remote Work Policy - Employees may work remotely up to 3 days per week with manager approval. Core in-office days are Tuesday and Thursday for team collaboration. Remote work requires: (1) Stable internet connection (minimum 50 Mbps), (2) Dedicated workspace, (3) Availability during core hours 10am-3pm EST, (4) Attendance at all-hands meetings. Equipment stipend of $500 annually for home office setup.\n\nUser Question: What is our company\'s remote work policy?\n\nInstructions: Using the context provided above, answer the user\'s question accurately and cite the source.',
+                response: 'According to our HR Policy Database (updated March 2024), here\'s our remote work policy:\n\n**Flexibility:** You may work remotely up to 3 days per week with manager approval.\n\n**Required In-Office Days:** Tuesday and Thursday are core in-office days for team collaboration.\n\n**Remote Work Requirements:**\n1. Stable internet connection (minimum 50 Mbps)\n2. Dedicated workspace\n3. Availability during core hours (10am-3pm EST)\n4. Attendance at all-hands meetings\n\n**Support:** The company provides a $500 annual equipment stipend for home office setup.\n\nPlease coordinate with your manager to establish your specific remote work schedule.'
+            },
+            'technical': {
+                query: '"How do I configure the API authentication?"',
+                sources: [0, 2], // Documents and Manuals
+                context: 'API Documentation v3.2 (Authentication Section): Our API uses OAuth 2.0 authentication. Setup steps: (1) Register your application at developers.platform.com to receive client_id and client_secret, (2) Redirect users to /oauth/authorize endpoint with your client_id, (3) Exchange authorization code for access token at /oauth/token endpoint, (4) Include access token in all API requests using Bearer authentication header: "Authorization: Bearer YOUR_ACCESS_TOKEN". Tokens expire after 1 hour; use refresh_token to obtain new access tokens without re-authentication.',
+                augmented: 'Context: API Documentation v3.2 (Authentication Section): Our API uses OAuth 2.0 authentication. Setup steps: (1) Register your application at developers.platform.com to receive client_id and client_secret, (2) Redirect users to /oauth/authorize endpoint with your client_id, (3) Exchange authorization code for access token at /oauth/token endpoint, (4) Include access token in all API requests using Bearer authentication header: "Authorization: Bearer YOUR_ACCESS_TOKEN". Tokens expire after 1 hour; use refresh_token to obtain new access tokens without re-authentication.\n\nUser Question: How do I configure the API authentication?\n\nInstructions: Using the context provided above, answer the user\'s question accurately and cite the source.',
+                response: 'Based on our API Documentation v3.2, here\'s how to configure API authentication using OAuth 2.0:\n\n**Step 1: Register Your Application**\nVisit developers.platform.com to register and receive your client_id and client_secret.\n\n**Step 2: Authorization Flow**\nRedirect users to /oauth/authorize endpoint with your client_id.\n\n**Step 3: Get Access Token**\nExchange the authorization code for an access token at /oauth/token endpoint.\n\n**Step 4: Authenticate Requests**\nInclude the access token in all API requests using the Bearer authentication header:\n```\nAuthorization: Bearer YOUR_ACCESS_TOKEN\n```\n\n**Important:** Access tokens expire after 1 hour. Use the refresh_token to obtain new access tokens without requiring users to re-authenticate.\n\nFor complete code examples, refer to the Authentication Section in our API Documentation v3.2.'
+            }
+        };
+
+        let currentQuery = null;
+        let currentStep = 0;
+
+        // Query button handlers
+        document.querySelectorAll('.query-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.query-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentQuery = this.dataset.query;
+                document.getElementById('demoContainer').style.display = 'block';
+                resetDemo();
+            });
+        });
+
+        // Reset demo
+        function resetDemo() {
+            currentStep = 0;
+            document.querySelectorAll('.flow-step').forEach(step => {
+                step.classList.remove('active', 'completed');
+            });
+            document.querySelectorAll('.flow-arrow').forEach(arrow => {
+                arrow.classList.remove('active');
+            });
+            document.querySelectorAll('.source-item').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            if (currentQuery && queryData[currentQuery]) {
+                const data = queryData[currentQuery];
+                document.getElementById('userPrompt').textContent = data.query;
+                document.getElementById('retrievedContext').textContent = data.context;
+                document.getElementById('augmentedPrompt').textContent = data.augmented;
+                document.getElementById('finalResponse').textContent = data.response;
+            }
+        }
+
+        document.getElementById('resetBtn').addEventListener('click', resetDemo);
+
+        // Run RAG process animation
+        document.getElementById('runBtn').addEventListener('click', function() {
+            if (!currentQuery) return;
+
+            resetDemo();
+
+            const steps = ['step1', 'step2', 'step3', 'step4', 'step5'];
+            const arrows = document.querySelectorAll('.flow-arrow');
+            const data = queryData[currentQuery];
+
+            let stepIndex = 0;
+
+            function activateStep() {
+                if (stepIndex > 0) {
+                    document.getElementById(steps[stepIndex - 1]).classList.remove('active');
+                    document.getElementById(steps[stepIndex - 1]).classList.add('completed');
+                    if (arrows[stepIndex - 1]) arrows[stepIndex - 1].classList.add('active');
+                }
+
+                if (stepIndex < steps.length) {
+                    document.getElementById(steps[stepIndex]).classList.add('active');
+
+                    // Highlight active knowledge sources for step 2
+                    if (stepIndex === 1) {
+                        const sources = document.querySelectorAll('.source-item');
+                        data.sources.forEach(index => {
+                            sources[index].classList.add('active');
+                        });
+                    }
+
+                    stepIndex++;
+                    setTimeout(activateStep, 1500);
+                } else {
+                    document.getElementById(steps[steps.length - 1]).classList.add('completed');
+                }
+            }
+
+            activateStep();
+        });
+
+        // Pop-out functionality
+        document.getElementById('popoutBtn').addEventListener('click', function() {
+            const currentUrl = window.location.href;
+            const popoutUrl = currentUrl + (currentUrl.includes('?') ? '&' : '?') + 'standalone=true';
+            const popoutWindow = window.open(popoutUrl, 'WidgetPopout', 'width=1200,height=900,resizable=yes,scrollbars=yes,status=yes');
+            if (popoutWindow) popoutWindow.focus();
+        });
+
+        // Check if in standalone mode
+        if (window.location.search.includes('standalone=true')) {
+            document.body.classList.add('standalone-mode');
+        }
+    </script>
+</body>
+</html>

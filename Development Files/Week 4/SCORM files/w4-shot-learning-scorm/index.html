@@ -5,40 +5,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zero/One/Few-Shot Learning</title>
     <link rel="stylesheet" href="ivey-widget-base.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Figtree', system-ui, -apple-system, sans-serif;
             background: white;
-            color: #333;
-            line-height: 1.5;
+            color: #2c3e50;
+            line-height: 1.6;
             padding: 0;
             margin: 0;
         }
 
         .dp-wrapper {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
-            padding: 15px;
-            background: #ffffff;
+            padding: 20px;
+            font-family: 'Figtree', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: #fff;
         }
 
-        .widget-header {
-            background: #034638;
-            color: white;
-            padding: 12px 16px;
-            text-align: center;
-            border-radius: 8px 8px 0 0;
-            margin: -15px -15px 20px -15px;
-            
+        .dp-content-block {
+            margin-bottom: 2rem;
         }
 
-        .widget-title {
-            
-            font-size: 1.2em;
-            font-weight: bold;
-            margin: 0;
+        .dp-has-icon {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #034638;
+            margin: 0 0 1rem 0;
+            font-size: 1.5rem;
+            font-weight: 600;
         }
 
+        .dp-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin: 1rem 0;
+        }
+
+        .dp-card.intro-card {
+            border-left: 4px solid #034638;
+            background: #f8fffe;
+        }
+
+        .controls-section {
+            background: #f8fffe;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid #034638;
+        }
+
+        .controls-section h3 {
+            color: #034638;
+            margin: 0 0 1rem 0;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
 
         .shot-selector {
             display: flex;
@@ -51,8 +81,8 @@
             flex: 1;
             min-width: 150px;
             background: white;
-            border: 3px solid var(--ivey-green);
-            color: var(--ivey-green);
+            border: 3px solid #034638;
+            color: #034638;
             padding: 15px 20px;
             border-radius: 8px;
             cursor: pointer;
@@ -64,11 +94,11 @@
 
         .shot-btn:hover {
             background: #e8f5e9;
-            transform: translateY(-2px);
+            transform: translateY(-1px);
         }
 
         .shot-btn.active {
-            background: var(--ivey-green);
+            background: #034638;
             color: white;
         }
 
@@ -80,7 +110,7 @@
 
         .prompt-display {
             background: #f5f5f5;
-            border: 2px solid var(--ivey-green);
+            border: 2px solid #034638;
             border-radius: 8px;
             padding: 25px;
             margin-bottom: 20px;
@@ -90,8 +120,8 @@
         }
 
         .section-label {
-            background: #f8f9fa;
-            color: #034638;
+            background: #034638;
+            color: white;
             padding: 5px 15px;
             border-radius: 4px;
             display: inline-block;
@@ -138,21 +168,25 @@
 
         .comparison-card {
             background: white;
-            border: 2px solid #ddd;
             border-radius: 8px;
-            padding: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border: 2px solid #e5e7eb;
+            transition: all 0.3s ease;
         }
 
         .comparison-card.active {
-            border-color: var(--ivey-green);
-            box-shadow: 0 4px 12px rgba(3, 70, 56, 0.15);
+            border-color: #034638;
+            box-shadow: 0 4px 12px rgba(3, 70, 56, 0.25);
+            transform: scale(1.02);
         }
 
         .comparison-title {
             font-weight: 700;
-            color: var(--ivey-green);
+            color: #034638;
             margin-bottom: 10px;
             text-align: center;
+            font-size: 1.1em;
         }
 
         .pro-con-list {
@@ -169,11 +203,38 @@
             margin: 5px 0;
         }
 
-        .task-selector {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: #034638;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0a5c4a;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: #582C83;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #4c1d75;
+            transform: translateY(-1px);
         }
 
         .task-btn {
@@ -186,10 +247,15 @@
             cursor: pointer;
             font-weight: 600;
             transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .task-btn:hover {
-            background: #e8f5e9;
+            background: #034638;
+            color: white;
+            transform: translateY(-1px);
         }
 
         .info-badge {
@@ -213,85 +279,91 @@
     </button>
 
     <div class="dp-wrapper">
-        <div class="widget-header">
-            <h1 class="widget-title">Zero/One/Few-Shot Learning</h1>
+        <div class="dp-content-block">
+            <h2 class="dp-has-icon">
+                <i class="fas fa-graduation-cap" aria-hidden="true"></i>
+                Zero/One/Few-Shot Learning
+            </h2>
+
+            <div class="dp-card intro-card">
+                <p style="margin: 0;">Compare how providing 0, 1, or multiple examples affects LLM performance. See how few-shot learning teaches the model through pattern demonstration rather than parameter updates.</p>
+            </div>
+
+        <!-- Task Selector -->
+        <div class="controls-section">
+            <h3><i class="fas fa-tasks"></i> Choose a Task</h3>
+            <button class="task-btn" onclick="loadTask('sentiment')"><i class="fas fa-smile"></i> Sentiment Analysis</button>
+            <button class="task-btn" onclick="loadTask('extraction')"><i class="fas fa-highlighter"></i> Entity Extraction</button>
+            <button class="task-btn" onclick="loadTask('classification')"><i class="fas fa-tag"></i> Support Ticket Classification</button>
         </div>
 
-            <!-- Task Selector -->
-            <div class="task-selector">
-                <strong>Choose a task:</strong><br>
-                <button class="task-btn" onclick="loadTask('sentiment')">Sentiment Analysis</button>
-                <button class="task-btn" onclick="loadTask('extraction')">Entity Extraction</button>
-                <button class="task-btn" onclick="loadTask('classification')">Support Ticket Classification</button>
-            </div>
+        <!-- Shot Selector -->
+        <div class="shot-selector">
+            <button class="shot-btn active" onclick="showShot('zero')">
+                <span class="shot-count">0</span>
+                Zero-Shot
+            </button>
+            <button class="shot-btn" onclick="showShot('one')">
+                <span class="shot-count">1</span>
+                One-Shot
+            </button>
+            <button class="shot-btn" onclick="showShot('few')">
+                <span class="shot-count">3</span>
+                Few-Shot
+            </button>
+        </div>
 
-            <!-- Shot Selector -->
-            <div class="shot-selector">
-                <button class="shot-btn active" onclick="showShot('zero')">
-                    <span class="shot-count">0</span>
-                    Zero-Shot
-                </button>
-                <button class="shot-btn" onclick="showShot('one')">
-                    <span class="shot-count">1</span>
-                    One-Shot
-                </button>
-                <button class="shot-btn" onclick="showShot('few')">
-                    <span class="shot-count">3</span>
-                    Few-Shot
-                </button>
-            </div>
+        <!-- Prompt Display -->
+        <div class="prompt-display" id="promptDisplay"></div>
 
-            <!-- Prompt Display -->
-            <div class="prompt-display" id="promptDisplay"></div>
+        <!-- Result -->
+        <div class="result-box">
+            <div class="result-label">📤 LLM Response</div>
+            <div id="resultDisplay" style="white-space: pre-wrap;"></div>
+            <div class="info-badge" id="infoBadge"></div>
+        </div>
 
-            <!-- Result -->
-            <div class="result-box">
-                <div class="result-label">📤 LLM Response</div>
-                <div id="resultDisplay" style="white-space: pre-wrap;"></div>
-                <div class="info-badge" id="infoBadge"></div>
-            </div>
-
-            <!-- Comparison -->
-            <h3 style="margin-top: 30px; color: var(--ivey-green);">Comparison: When to Use Each Approach</h3>
-            <div class="comparison-grid">
-                <div class="comparison-card" id="zeroCard">
-                    <div class="comparison-title">Zero-Shot</div>
-                    <div class="pro-con-list">
-                        <div class="pro-item">✓ Fast and simple</div>
-                        <div class="pro-item">✓ No examples needed</div>
-                        <div class="pro-item">✓ Good for common tasks</div>
-                        <div class="con-item">✗ Less control</div>
-                        <div class="con-item">✗ May be inconsistent</div>
-                    </div>
-                    <hr>
-                    <strong>Best for:</strong> Common tasks, exploration, quick results
+        <!-- Comparison -->
+        <h3 style="margin-top: 30px; color: #034638;"><i class="fas fa-balance-scale"></i> When to Use Each Approach</h3>
+        <div class="comparison-grid">
+            <div class="comparison-card" id="zeroCard">
+                <div class="comparison-title">Zero-Shot</div>
+                <div class="pro-con-list">
+                    <div class="pro-item">✓ Fast and simple</div>
+                    <div class="pro-item">✓ No examples needed</div>
+                    <div class="pro-item">✓ Good for common tasks</div>
+                    <div class="con-item">✗ Less control</div>
+                    <div class="con-item">✗ May be inconsistent</div>
                 </div>
-
-                <div class="comparison-card" id="oneCard">
-                    <div class="comparison-title">One-Shot</div>
-                    <div class="pro-con-list">
-                        <div class="pro-item">✓ Demonstrates format</div>
-                        <div class="pro-item">✓ Sets tone/style</div>
-                        <div class="pro-item">✓ Still efficient</div>
-                        <div class="con-item">✗ Single example may not capture pattern</div>
-                    </div>
-                    <hr>
-                    <strong>Best for:</strong> Format demonstration, specific output style
-                </div>
-
-                <div class="comparison-card" id="fewCard">
-                    <div class="comparison-title">Few-Shot</div>
-                    <div class="pro-con-list">
-                        <div class="pro-item">✓ High accuracy</div>
-                        <div class="pro-item">✓ Consistent format</div>
-                        <div class="pro-item">✓ Captures pattern</div>
-                        <div class="con-item">✗ Uses more tokens (costs more)</div>
-                        <div class="con-item">✗ Requires good examples</div>
-                    </div>
-                    <hr>
-                    <strong>Best for:</strong> Complex tasks, production systems, domain-specific work
-                </div>
+                <hr style="border-color: #e5e7eb; margin: 1rem 0;">
+                <strong>Best for:</strong> Common tasks, exploration, quick results
             </div>
+
+            <div class="comparison-card" id="oneCard">
+                <div class="comparison-title">One-Shot</div>
+                <div class="pro-con-list">
+                    <div class="pro-item">✓ Demonstrates format</div>
+                    <div class="pro-item">✓ Sets tone/style</div>
+                    <div class="pro-item">✓ Still efficient</div>
+                    <div class="con-item">✗ Single example may not capture pattern</div>
+                </div>
+                <hr style="border-color: #e5e7eb; margin: 1rem 0;">
+                <strong>Best for:</strong> Format demonstration, specific output style
+            </div>
+
+            <div class="comparison-card" id="fewCard">
+                <div class="comparison-title">Few-Shot</div>
+                <div class="pro-con-list">
+                    <div class="pro-item">✓ High accuracy</div>
+                    <div class="pro-item">✓ Consistent format</div>
+                    <div class="pro-item">✓ Captures pattern</div>
+                    <div class="con-item">✗ Uses more tokens (costs more)</div>
+                    <div class="con-item">✗ Requires good examples</div>
+                </div>
+                <hr style="border-color: #e5e7eb; margin: 1rem 0;">
+                <strong>Best for:</strong> Complex tasks, production systems, domain-specific work
+            </div>
+        </div>
         </div>
     </div>
 

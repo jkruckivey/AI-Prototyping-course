@@ -17,10 +17,17 @@
         }
 
         .dp-wrapper {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             padding: 20px;
-            background: #ffffff;
+            font-family: 'Figtree', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: #fff;
+        }
+
+        .dp-content-block {
+            margin-bottom: 2rem;
         }
 
         .dp-has-icon {
@@ -193,13 +200,15 @@
     </button>
 
     <div class="dp-wrapper">
-        <h2 class="dp-has-icon">
-            <i class="fas fa-magic" aria-hidden="true"></i> Prompt Pattern Showcase
-        </h2>
+        <div class="dp-content-block">
+            <h2 class="dp-has-icon">
+                <i class="fas fa-magic" aria-hidden="true"></i>
+                Prompt Pattern Showcase
+            </h2>
 
-        <div class="dp-card intro-card">
-            <p style="margin: 0;">Explore 6 proven prompt engineering patterns that dramatically improve LLM outputs. See before/after examples and learn when to apply each pattern for maximum effectiveness.</p>
-        </div>
+            <div class="dp-card intro-card">
+                <p style="margin: 0;">Explore 6 proven prompt engineering patterns that dramatically improve LLM outputs. See before/after examples and learn when to apply each pattern for maximum effectiveness.</p>
+            </div>
 
         <!-- Pattern Selector -->
         <div class="pattern-selector">

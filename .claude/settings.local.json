@@ -25,7 +25,9 @@
       "Bash(python:*)",
       "Bash(do)",
       "Bash(done)",
-      "Read(//c/**)"
+      "Read(//c/**)",
+      "Bash(mkdir:*)",
+      "Bash(mv:*)"
     ],
     "deny": [],
     "ask": []

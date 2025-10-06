@@ -5,38 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prompt Pattern Showcase</title>
     <link rel="stylesheet" href="ivey-widget-base.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Figtree', system-ui, -apple-system, sans-serif;
             background: white;
-            color: #333;
-            line-height: 1.5;
+            color: #2c3e50;
+            line-height: 1.6;
             padding: 0;
             margin: 0;
         }
 
         .dp-wrapper {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
-            padding: 15px;
-            background: #ffffff;
+            padding: 20px;
+            font-family: 'Figtree', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: #fff;
         }
 
-        .widget-header {
-            background: #034638;
-            color: white;
-            padding: 12px 16px;
-            text-align: center;
-            border-radius: 8px 8px 0 0;
-            margin: -15px -15px 20px -15px;
-            
+        .dp-content-block {
+            margin-bottom: 2rem;
         }
 
-        .widget-title {
-            
-            font-size: 1.2em;
-            font-weight: bold;
-            margin: 0;
+        .dp-has-icon {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #034638;
+            margin: 0 0 1rem 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .dp-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin: 1rem 0;
+        }
+
+        .dp-card.intro-card {
+            border-left: 4px solid #034638;
+            background: #f8fffe;
         }
 
 
@@ -49,8 +63,8 @@
 
         .pattern-btn {
             background: white;
-            border: 2px solid var(--ivey-green);
-            color: var(--ivey-green);
+            border: 2px solid #034638;
+            color: #034638;
             padding: 15px 10px;
             border-radius: 8px;
             cursor: pointer;
@@ -60,12 +74,13 @@
         }
 
         .pattern-btn:hover {
-            background: #e8f5e9;
-            transform: translateY(-2px);
+            background: #034638;
+            color: white;
+            transform: translateY(-1px);
         }
 
         .pattern-btn.active {
-            background: var(--ivey-green);
+            background: #034638;
             color: white;
         }
 
@@ -185,12 +200,18 @@
     </button>
 
     <div class="dp-wrapper">
-        <div class="widget-header">
-            <h1 class="widget-title">Prompt Pattern Showcase</h1>
-        </div>
+        <div class="dp-content-block">
+            <h2 class="dp-has-icon">
+                <i class="fas fa-magic" aria-hidden="true"></i>
+                Prompt Pattern Showcase
+            </h2>
 
-            <!-- Pattern Selector -->
-            <div class="pattern-selector">
+            <div class="dp-card intro-card">
+                <p style="margin: 0;">Explore 6 proven prompt engineering patterns that dramatically improve LLM outputs. See before/after examples and learn when to apply each pattern for maximum effectiveness.</p>
+            </div>
+
+        <!-- Pattern Selector -->
+        <div class="pattern-selector">
                 <button class="pattern-btn active" onclick="showPattern('persona')">Persona Pattern</button>
                 <button class="pattern-btn" onclick="showPattern('audience')">Audience Pattern</button>
                 <button class="pattern-btn" onclick="showPattern('structure')">Structure Pattern</button>

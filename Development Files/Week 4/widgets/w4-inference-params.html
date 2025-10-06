@@ -17,10 +17,17 @@
         }
 
         .dp-wrapper {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             padding: 20px;
-            background: #ffffff;
+            font-family: 'Figtree', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: #fff;
+        }
+
+        .dp-content-block {
+            margin-bottom: 2rem;
         }
 
         .dp-has-icon {
@@ -274,13 +281,15 @@
     </button>
 
     <div class="dp-wrapper">
-        <h2 class="dp-has-icon">
-            <i class="fas fa-sliders-h" aria-hidden="true"></i> Inference Parameters Explorer
-        </h2>
+        <div class="dp-content-block">
+            <h2 class="dp-has-icon">
+                <i class="fas fa-sliders-h" aria-hidden="true"></i>
+                Inference Parameters Explorer
+            </h2>
 
-        <div class="dp-card intro-card">
-            <p style="margin: 0;">Explore how temperature, top-k, and top-p parameters control LLM text generation. Adjust the settings to see how they affect next-token prediction probabilities.</p>
-        </div>
+            <div class="dp-card intro-card">
+                <p style="margin: 0;">Explore how temperature, top-k, and top-p parameters control LLM text generation. Adjust the settings to see how they affect next-token prediction probabilities.</p>
+            </div>
 
         <!-- Preset buttons -->
         <div class="preset-buttons">
@@ -344,6 +353,7 @@
                     The LLM calculates probabilities for all possible next tokens. Your parameter settings determine which tokens are available for selection and how they're chosen. Lower temperature makes high-probability tokens even more likely; higher temperature flattens the distribution.
                 </p>
             </div>
+        </div>
     </div>
 
     <script>
