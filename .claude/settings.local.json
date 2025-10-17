@@ -25,7 +25,12 @@
       "Bash(python:*)",
       "Bash(do)",
       "Bash(done)",
-      "Read(//c/**)"
+      "Read(//c/**)",
+      "Bash(mkdir:*)",
+      "Bash(do echo \"=== Week $i ===\")",
+      "Bash(ls:*)",
+      "Bash(do echo \"=== Week $i Widgets ===\")",
+      "Bash(powershell -Command:*)"
     ],
     "deny": [],
     "ask": []

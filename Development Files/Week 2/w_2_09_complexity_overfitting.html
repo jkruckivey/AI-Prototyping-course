@@ -1,0 +1,333 @@
+<!-- Skip link for keyboard users -->
+<a href="#main-content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<main id="main-content" role="main">
+<div id="dp-wrapper" class="dp-wrapper">
+  <div class="dp-progress-placeholder dp-module-progress-icons" style="display: none;" aria-hidden="true">Icon Progress Bar (browser only)</div>
+
+  <div class="dp-content-block content-block" data-title="Model Evaluation & Validation">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-chart-bar" aria-hidden="true"></i>&nbsp;Model Evaluation & Validation</h2>
+    <div class="dp-card card" style="border-left: 4px solid #034638; padding-left: 15px;">
+      <div class="card-body">
+        <h3 class="card-title dp-ignore-theme">What this page covers</h3>
+        <p>How to avoid <strong>overfitting</strong> and <strong>underfitting</strong>, use <strong>validation sets</strong> and <strong>cross-validation</strong> effectively, and choose the right <strong>metrics</strong> (MSE, R², accuracy, precision/recall, ROC/AUC) for your task.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Video 10: Model Complexity -->
+  <div class="dp-content-block content-block" data-title="Video: Model Complexity & Generalization">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-video" aria-hidden="true"></i>&nbsp;Video: Model Complexity & Generalization</h2>
+    <p><iframe class="lti-embed" style="width: 720px; height: 405px;" title="Week 2 Video 10: Model Complexity and Generalization" src="[PANOPTO_LTI_URL_VIDEO_10]" width="720" height="405" loading="lazy" allowfullscreen="allowfullscreen" webkitallowfullscreen="webkitallowfullscreen" mozallowfullscreen="mozallowfullscreen" allow="geolocation *; microphone *; camera *; midi *; encrypted-media *; autoplay *; clipboard-write *; display-capture *"></iframe></p>
+    <p><a id="[FILE_ID_VIDEO_10]" class="instructure_file_link instructure_scribd_file inline_disabled" title="Link" href="[CAPTION_LINK_VIDEO_10]" target="_blank" rel="noopener" data-canvas-previewable="true" data-api-endpoint="[CAPTION_API_VIDEO_10]" data-api-returntype="File">Week 2 Video 10 - Model Complexity - Captions.docx</a></p>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="Model Complexity Trade-offs">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-balance-scale" aria-hidden="true"></i>&nbsp;Model Complexity Trade-offs</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white dp-panel-active-color-dark">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="complex-what" id="complex-what-heading">What is model complexity?</h3>
+        <div id="complex-what" class="dp-panel-content" role="region" aria-labelledby="complex-what-heading" hidden>
+          <p>Model complexity refers to how sophisticated a model is in capturing patterns. <strong>More parameters</strong> (e.g., deep neural networks) can model intricate relationships, while <strong>simpler models</strong> (e.g., linear regression) have fewer parameters and capture only basic trends.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="complex-underfit" id="complex-underfit-heading">Underfitting</h3>
+        <div id="complex-underfit" class="dp-panel-content" role="region" aria-labelledby="complex-underfit-heading" hidden>
+          <p><strong>Too simple:</strong> The model fails to capture the underlying pattern in the data. Example: fitting a straight line to curved data. Results in <strong>high training error</strong> and <strong>high test error</strong>.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="complex-overfit" id="complex-overfit-heading">Overfitting</h3>
+        <div id="complex-overfit" class="dp-panel-content" role="region" aria-labelledby="complex-overfit-heading" hidden>
+          <p><strong>Too complex:</strong> The model fits the training data perfectly, including noise and outliers, but fails to generalize to new data. Example: high-order polynomial tracing every training point. Results in <strong>very low training error</strong> but <strong>high test error</strong>.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="complex-sweet" id="complex-sweet-heading">The "sweet spot"</h3>
+        <div id="complex-sweet" class="dp-panel-content" role="region" aria-labelledby="complex-sweet-heading" hidden>
+          <p>The goal is to find a model that is <strong>complex enough</strong> to capture the true structure of the data but <strong>simple enough</strong> to generalize well to unseen data. Use validation sets to identify this balance.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Video 11: Validation Sets -->
+  <div class="dp-content-block content-block" data-title="Video: Validation Sets & Early Stopping">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-video" aria-hidden="true"></i>&nbsp;Video: Validation Sets & Early Stopping</h2>
+    <p><iframe class="lti-embed" style="width: 720px; height: 405px;" title="Week 2 Video 11: Validation Sets and Early Stopping" src="[PANOPTO_LTI_URL_VIDEO_11]" width="720" height="405" loading="lazy" allowfullscreen="allowfullscreen" webkitallowfullscreen="webkitallowfullscreen" mozallowfullscreen="mozallowfullscreen" allow="geolocation *; microphone *; camera *; midi *; encrypted-media *; autoplay *; clipboard-write *; display-capture *"></iframe></p>
+    <p><a id="[FILE_ID_VIDEO_11]" class="instructure_file_link instructure_scribd_file inline_disabled" title="Link" href="[CAPTION_LINK_VIDEO_11]" target="_blank" rel="noopener" data-canvas-previewable="true" data-api-endpoint="[CAPTION_API_VIDEO_11]" data-api-returntype="File">Week 2 Video 11 - Validation Sets - Captions.docx</a></p>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="Train/Validation/Test Splits">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-layer-group" aria-hidden="true"></i>&nbsp;Train/Validation/Test Splits</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="splits-train" id="splits-train-heading">Training set</h3>
+        <div id="splits-train" class="dp-panel-content" role="region" aria-labelledby="splits-train-heading" hidden>
+          <p>Used to <strong>learn model parameters</strong> (weights, coefficients). The model sees this data during training and adjusts to minimize loss.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="splits-val" id="splits-val-heading">Validation set</h3>
+        <div id="splits-val" class="dp-panel-content" role="region" aria-labelledby="splits-val-heading" hidden>
+          <p>Used to <strong>monitor performance</strong> during training and guide decisions like <strong>early stopping</strong> and <strong>hyperparameter tuning</strong>. Not used for training, but influences when training stops. When validation loss starts increasing while training loss decreases, you've hit overfitting—time to stop.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="splits-test" id="splits-test-heading">Test set</h3>
+        <div id="splits-test" class="dp-panel-content" role="region" aria-labelledby="splits-test-heading" hidden>
+          <p><strong>Completely unseen</strong> data used only for <strong>final evaluation</strong>. Never used during training or validation. Provides an unbiased estimate of how the model will perform in production.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="splits-epochs" id="splits-epochs-heading">Epochs & monitoring</h3>
+        <div id="splits-epochs" class="dp-panel-content" role="region" aria-labelledby="splits-epochs-heading" hidden>
+          <p>An <strong>epoch</strong> is one complete pass through the training data. During training, we run multiple epochs, updating weights each time. By monitoring validation loss after each epoch, we can detect when the model stops improving and implement <strong>early stopping</strong> to prevent overfitting.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Video 12: Cross-Validation -->
+  <div class="dp-content-block content-block" data-title="Video: Cross-Validation">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-video" aria-hidden="true"></i>&nbsp;Video: Cross-Validation</h2>
+    <p><iframe class="lti-embed" style="width: 720px; height: 405px;" title="Week 2 Video 12: Cross-Validation" src="[PANOPTO_LTI_URL_VIDEO_12]" width="720" height="405" loading="lazy" allowfullscreen="allowfullscreen" webkitallowfullscreen="webkitallowfullscreen" mozallowfullscreen="mozallowfullscreen" allow="geolocation *; microphone *; camera *; midi *; encrypted-media *; autoplay *; clipboard-write *; display-capture *"></iframe></p>
+    <p><a id="[FILE_ID_VIDEO_12]" class="instructure_file_link instructure_scribd_file inline_disabled" title="Link" href="[CAPTION_LINK_VIDEO_12]" target="_blank" rel="noopener" data-canvas-previewable="true" data-api-endpoint="[CAPTION_API_VIDEO_12]" data-api-returntype="File">Week 2 Video 12 - Cross-Validation - Captions.docx</a></p>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="Cross-Validation">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-sync-alt" aria-hidden="true"></i>&nbsp;Cross-Validation</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="cv-why" id="cv-why-heading">Why cross-validation?</h3>
+        <div id="cv-why" class="dp-panel-content" role="region" aria-labelledby="cv-why-heading" hidden>
+          <p>A single train/test split can give variable results depending on which samples end up in each set. <strong>Cross-validation</strong> addresses this by systematically rotating which portion of the data is used for testing, providing a more <strong>reliable average performance estimate</strong>.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="cv-kfold" id="cv-kfold-heading">K-fold cross-validation</h3>
+        <div id="cv-kfold" class="dp-panel-content" role="region" aria-labelledby="cv-kfold-heading" hidden>
+          <p><strong>How it works:</strong> Split data into <em>k</em> equal parts (folds). Train <em>k</em> times, each time using <em>k-1</em> folds for training and 1 fold for testing. Rotate so every fold serves as the test set exactly once. Average the <em>k</em> test scores for a robust performance estimate.</p>
+          <p><strong>Example:</strong> 5-fold CV with 200 data points = 5 rounds, each with 160 training samples and 40 test samples. All 200 points are used for both training and testing across the rounds.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="cv-benefits" id="cv-benefits-heading">Benefits</h3>
+        <div id="cv-benefits" class="dp-panel-content" role="region" aria-labelledby="cv-benefits-heading" hidden>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Reduces variance in performance estimates</li>
+            <li class="list-group-item">Makes efficient use of limited data</li>
+            <li class="list-group-item">Helps detect models that are sensitive to particular train/test splits</li>
+            <li class="list-group-item">Can be combined with validation sets for hyperparameter tuning</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Video 13: Evaluation Metrics -->
+  <div class="dp-content-block content-block" data-title="Video: Evaluation Metrics">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-video" aria-hidden="true"></i>&nbsp;Video: Evaluation Metrics</h2>
+    <p><iframe class="lti-embed" style="width: 720px; height: 405px;" title="Week 2 Video 13: Evaluation Metrics" src="[PANOPTO_LTI_URL_VIDEO_13]" width="720" height="405" loading="lazy" allowfullscreen="allowfullscreen" webkitallowfullscreen="webkitallowfullscreen" mozallowfullscreen="mozallowfullscreen" allow="geolocation *; microphone *; camera *; midi *; encrypted-media *; autoplay *; clipboard-write *; display-capture *"></iframe></p>
+    <p><a id="[FILE_ID_VIDEO_13]" class="instructure_file_link instructure_scribd_file inline_disabled" title="Link" href="[CAPTION_LINK_VIDEO_13]" target="_blank" rel="noopener" data-canvas-previewable="true" data-api-endpoint="[CAPTION_API_VIDEO_13]" data-api-returntype="File">Week 2 Video 13 - Evaluation Metrics - Captions.docx</a></p>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="Regression Metrics">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-ruler" aria-hidden="true"></i>&nbsp;Regression Metrics</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="regr-mse" id="regr-mse-heading">Mean Squared Error (MSE)</h3>
+        <div id="regr-mse" class="dp-panel-content" role="region" aria-labelledby="regr-mse-heading" hidden>
+          <p>Average of squared differences between predicted and actual values. Used both as a <strong>loss function during training</strong> and as an <strong>evaluation metric</strong>. Lower is better. Penalizes large errors more heavily than small ones.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="regr-r2" id="regr-r2-heading">R² (R-squared)</h3>
+        <div id="regr-r2" class="dp-panel-content" role="region" aria-labelledby="regr-r2-heading" hidden>
+          <p>Represents the <strong>proportion of variance explained</strong> by the model. Ranges from 0 to 1 (or negative if model is worse than baseline). Example: R² = 0.81 means the model explains 81% of the variation in the target. Higher is better.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="regr-mae" id="regr-mae-heading">Mean Absolute Error (MAE)</h3>
+        <div id="regr-mae" class="dp-panel-content" role="region" aria-labelledby="regr-mae-heading" hidden>
+          <p>Average of absolute differences. More robust to outliers than MSE. Easier to interpret (same units as the target). Lower is better.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="Classification Metrics">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-bullseye" aria-hidden="true"></i>&nbsp;Classification Metrics</h2>
+    <div class="dp-panels-wrapper dp-accordion-default dp-panel-hover-color-dp-white">
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="class-confusion" id="class-confusion-heading">Confusion Matrix</h3>
+        <div id="class-confusion" class="dp-panel-content" role="region" aria-labelledby="class-confusion-heading" hidden>
+          <div class="table-responsive">
+            <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Confusion matrix terminology">
+              <caption>Classification Outcomes</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Term</th>
+                  <th scope="col">Definition</th>
+                  <th scope="col">Example (Disease Detection)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">True Positive (TP)</th>
+                  <td>Correctly predicted positive</td>
+                  <td>Predict sick, patient is sick ✓</td>
+                </tr>
+                <tr>
+                  <th scope="row">False Positive (FP)</th>
+                  <td>Incorrectly predicted positive</td>
+                  <td>Predict sick, patient is healthy ✗</td>
+                </tr>
+                <tr>
+                  <th scope="row">True Negative (TN)</th>
+                  <td>Correctly predicted negative</td>
+                  <td>Predict healthy, patient is healthy ✓</td>
+                </tr>
+                <tr>
+                  <th scope="row">False Negative (FN)</th>
+                  <td>Incorrectly predicted negative</td>
+                  <td>Predict healthy, patient is sick ✗</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="class-acc" id="class-acc-heading">Accuracy</h3>
+        <div id="class-acc" class="dp-panel-content" role="region" aria-labelledby="class-acc-heading" hidden>
+          <p><strong>Formula:</strong> (TP + TN) / Total predictions</p>
+          <p><strong>When to use:</strong> Balanced classes. <strong>Caution:</strong> Misleading with imbalanced data (e.g., 1% disease prevalence—predicting "healthy" for everyone gives 99% accuracy but misses all cases).</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="class-prec" id="class-prec-heading">Precision</h3>
+        <div id="class-prec" class="dp-panel-content" role="region" aria-labelledby="class-prec-heading" hidden>
+          <p><strong>Formula:</strong> TP / (TP + FP)</p>
+          <p><strong>Interpretation:</strong> Of all positive predictions, how many were correct? <strong>Use when:</strong> False positives are costly (e.g., spam filter—don't want legitimate emails marked as spam).</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="class-recall" id="class-recall-heading">Recall (Sensitivity)</h3>
+        <div id="class-recall" class="dp-panel-content" role="region" aria-labelledby="class-recall-heading" hidden>
+          <p><strong>Formula:</strong> TP / (TP + FN)</p>
+          <p><strong>Interpretation:</strong> Of all actual positives, how many did we catch? <strong>Use when:</strong> False negatives are costly (e.g., disease detection—can't miss sick patients).</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="class-f1" id="class-f1-heading">F1 Score</h3>
+        <div id="class-f1" class="dp-panel-content" role="region" aria-labelledby="class-f1-heading" hidden>
+          <p><strong>Formula:</strong> 2 × (Precision × Recall) / (Precision + Recall)</p>
+          <p><strong>Interpretation:</strong> Harmonic mean of precision and recall. Balances both concerns. <strong>Use when:</strong> You need a single metric that accounts for both false positives and false negatives, especially with imbalanced classes.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="class-roc" id="class-roc-heading">ROC Curve & AUC</h3>
+        <div id="class-roc" class="dp-panel-content" role="region" aria-labelledby="class-roc-heading" hidden>
+          <p><strong>ROC Curve:</strong> Plots True Positive Rate (TPR = Recall) vs. False Positive Rate (FPR) at various classification thresholds.</p>
+          <p><strong>AUC (Area Under Curve):</strong> Summarizes ROC into a single number. Perfect classifier = 1.0; random classifier = 0.5. Higher is better. <strong>Use when:</strong> Comparing models independent of threshold choice.</p>
+        </div>
+      </div>
+      <div class="dp-panel-group">
+        <h3 class="dp-panel-heading" role="button" tabindex="0" aria-expanded="false" aria-controls="class-thresh" id="class-thresh-heading">Threshold tuning</h3>
+        <div id="class-thresh" class="dp-panel-content" role="region" aria-labelledby="class-thresh-heading" hidden>
+          <p>Many classifiers output <strong>probabilities</strong> (e.g., logistic regression). By default, threshold = 0.5 (predict positive if p > 0.5). <strong>Lowering threshold:</strong> more positives predicted → higher recall, lower precision. <strong>Raising threshold:</strong> fewer positives predicted → higher precision, lower recall. Align threshold with <strong>business cost</strong> of FP vs. FN.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dp-content-block content-block" data-title="Metric Selection Guide">
+    <h2 class="dp-has-icon"><i class="dp-icon fas fa-map-signs" aria-hidden="true"></i>&nbsp;Metric Selection Guide</h2>
+    <div class="table-responsive">
+      <table class="ic-Table ic-Table--hover-row" role="table" aria-label="Metric selection guide by task type">
+        <caption>Choosing the Right Metric for Your Task</caption>
+        <thead>
+          <tr>
+            <th scope="col">Task Type</th>
+            <th scope="col">Recommended Metrics</th>
+            <th scope="col">When to Use</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Regression</th>
+            <td>MSE, MAE, RMSE, R²</td>
+            <td>Predicting continuous numeric values (price, demand, temperature)</td>
+          </tr>
+          <tr>
+            <th scope="row">Balanced Classification</th>
+            <td>Accuracy, F1 Score</td>
+            <td>Classes are roughly equal in size</td>
+          </tr>
+          <tr>
+            <th scope="row">Imbalanced Classification</th>
+            <td>Precision, Recall, F1, AUC</td>
+            <td>One class is rare (fraud, disease, churn)</td>
+          </tr>
+          <tr>
+            <th scope="row">Rare Event (FN costly)</th>
+            <td>Recall, F1</td>
+            <td>Can't afford to miss positives (disease detection)</td>
+          </tr>
+          <tr>
+            <th scope="row">Rare Event (FP costly)</th>
+            <td>Precision, F1</td>
+            <td>Can't afford false alarms (spam filter)</td>
+          </tr>
+          <tr>
+            <th scope="row">Threshold-Independent</th>
+            <td>AUC-ROC</td>
+            <td>Comparing models across all thresholds</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-default dp-callout-color-dp-primary">
+    <div class="card-body">
+      <h3 class="card-title">Helpful Tip</h3>
+      <p class="card-text">Always tie your metric choice to <strong>business impact</strong>. What's the cost of a false positive vs. false negative? Use that to guide threshold tuning and model selection.</p>
+    </div>
+  </div>
+
+  <div class="dp-callout dp-callout-placeholder card dp-callout-position-default w-100 dp-callout-type-warning dp-callout-color-dp-primary" role="note" aria-label="Common pitfall">
+    <div class="dp-callout-side-emphasis"><i class="dp-icon fas fa-exclamation-triangle dp-default-icon" aria-hidden="true"></i></div>
+    <div class="card-body">
+      <h4 class="card-title">Beware leakage</h4>
+      <p class="card-text">Never use test data during training, validation, or hyperparameter tuning. Test set performance should be reported <strong>only once</strong> at the end to provide an unbiased estimate of production performance.</p>
+    </div>
+  </div>
+
+  <hr aria-hidden="true" />
+  <p>Select <strong>Next▸</strong> to continue to the Week 2 Wrap-Up.</p>
+</div>
+</main>
+
+<!-- Canvas‑safe toggling -->
+<script>
+(function () {
+  function toggleHead(h){
+    const content = document.getElementById(h.getAttribute('aria-controls'));
+    const expanded = h.getAttribute('aria-expanded') === 'true';
+    h.setAttribute('aria-expanded', String(!expanded));
+    if (content) content.hidden = expanded;
+  }
+  document.addEventListener('click', function (e) {
+    const h = e.target.closest('.dp-panel-heading[role="button"]');
+    if (h) toggleHead(h);
+  });
+  document.addEventListener('keydown', function (e) {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.dp-panel-heading[role="button"]')) {
+      e.preventDefault(); toggleHead(e.target);
+    }
+  });
+})();
+</script>
