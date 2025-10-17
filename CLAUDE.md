@@ -1108,3 +1108,208 @@ body {
 - ✅ Week 5 widget remains beginner-friendly with full customization stack overview
 - ✅ Clear differentiation: Production decision framework (W4) vs Learning tool (W5)
 - ✅ Complementary rather than duplicative
+
+## 2025-10-17: Week 1 Uplimit Conversion - Markdown & Widget Rebranding
+- **Objective**: Convert Week 1 Canvas LMS content to Uplimit platform format (markdown storyboards + Uplimit-branded widgets)
+- **Status**: 🔄 IN PROGRESS - Markdown completed (100%), Widget rebranding started (22% - 2/9 widgets)
+- **Background**: Week 1 HTML pages used AMBA template structure with Ivey/Canvas branding. Needed conversion to clean markdown for Uplimit platform and widget rebranding from Ivey colors to Uplimit neutral design system.
+
+### Part 1: Markdown Storyboard Conversion (✅ COMPLETED)
+- **Status**: ✅ 100% Complete - All 10 HTML pages converted to markdown format
+- **Tool Used**: `uplimit-storyboard-builder` agent
+- **Background**: Week 1 HTML pages used AMBA template structure with dp-wrapper framework, accordion panels, and embedded widgets. These needed conversion to clean markdown for Uplimit platform deployment.
+
+### Files Converted
+1. **w_1_00_intro.html** → **01-week-1-intro.md** (Week 1 orientation and overview)
+2. **canvas-01-ai-importance.html** → **02-ai-importance.md** (AI concepts, context, business value)
+3. **canvas-02-understanding-data.html** → **03-understanding-data.md** (Data journey, supermarket case)
+4. **canvas-02a-data-science-framework.html** → **04-data-science-framework.md** (6-phase DS workflow)
+5. **canvas-02b-supermarket-case-study.html** → **05-supermarket-case-study.md** (Applied case prompts)
+6. **canvas-02c-big-data-dimensions.html** → **06-big-data-dimensions.md** (4Vs of big data)
+7. **canvas-03-machine-learning-models.html** → **07-machine-learning-models.md** (ML families, selection guide)
+8. **canvas-04-data-preprocessing.html** → **08-data-preprocessing.md** (Feature engineering, pipelines)
+9. **canvas-05-evaluation-training.html** → **09-evaluation-training.md** (Metrics, experiments, monitoring)
+10. **w_1_wrap_up.html** → **10-week-1-wrap-up.md** (Review, knowledge check, reflection)
+
+### Conversion Approach
+**Content Preservation:**
+- All text content, headings, and learning objectives preserved
+- Tables converted to markdown table format with proper headers
+- Lists (bulleted and numbered) maintained with markdown syntax
+- Accordions converted to heading/subheading structure
+- Callouts preserved as emphasized sections with clear labels
+
+**Uplimit-Specific Formatting:**
+- Clean markdown headers (H1, H2, H3 hierarchy)
+- Horizontal rules (`---`) for section separation
+- Bold/italic emphasis where appropriate
+- Widget embeds documented as structured blocks with:
+  - Widget name/title
+  - Type of interaction
+  - Source reference (SCORM package ID or GitHub Pages URL)
+  - Purpose/learning objectives
+  - Estimated duration
+
+**Widget References Documented:**
+1. **AI Evolution Timeline** (SCORM Package 49225) - Historical AI milestones
+2. **Customer Segmentation Explorer** (SCORM Package 49232) - Interactive flip cards
+3. **Data Science Framework Tool** (SCORM Package 49233) - 6-phase workflow
+4. **AI Hierarchy Explorer** (SCORM Package 49223) - AI→ML→DL relationships
+5. **Data Preprocessing Explorer** (SCORM Package 49218) - Cleaning/feature creation
+6. **Threshold Explorer** (GitHub Pages widget) - Precision/recall trade-offs
+
+### Technical Details
+- **Output location**: `Development Files/Uplimit/Week 1/`
+- **File naming**: Sequential numbered prefix (01-10) for module order
+- **Markdown format**: Standard markdown with GitHub-flavored extensions
+- **Accessibility**: Canvas ARIA labels and skip links documented but not included in markdown
+- **JavaScript**: Accordion functionality removed (replaced with static markdown structure)
+
+### What Was Removed
+- Canvas LMS-specific HTML (`dp-wrapper`, `dp-content-block` classes)
+- AMBA template structure and dp-framework divs
+- JavaScript accordion toggle functionality
+- Canvas-specific iframe embedding patterns
+- ARIA attributes and accessibility markup (documented separately)
+
+### What Needs Follow-Up
+- **Widget URLs**: Update SCORM package references to Uplimit-specific embed codes
+- **Video embeds**: Convert Panopto video references to Uplimit video component format
+- **Interactive elements**: Convert to Uplimit-specific iframe or component syntax
+- **Quizzes**: Convert knowledge check sections to Uplimit quiz components
+- **Reflection prompts**: Convert to Uplimit text response or discussion components
+
+### Documentation Created
+- **README.md**: Comprehensive conversion guide with file structure, widget inventory, follow-up tasks
+- File mapping table showing original HTML to markdown conversions
+- Widget reference documentation with SCORM package IDs
+- Technical notes on conversion approach and limitations
+
+### Benefits of Markdown Format
+- **Platform-agnostic**: Can be used in Uplimit or other markdown-based platforms
+- **Version control friendly**: Easy to track changes in git
+- **Human-readable**: Clear, clean format for content review
+- **Maintainable**: Simple text editing without HTML complexity
+- **Accessible**: Screen readers handle markdown better than complex HTML
+
+### Storage Location
+- **Directory**: `Development Files/Uplimit/Week 1/`
+- **Files**: 10 markdown files + README.md
+- **Total**: 11 files, ~40KB total size
+
+### Next Steps for Uplimit Deployment
+1. Review markdown files for Uplimit platform compatibility
+2. Update widget embed codes with Uplimit-specific syntax
+3. Convert knowledge checks to Uplimit quiz components
+4. Test markdown rendering in Uplimit preview mode
+5. Adjust heading hierarchy or formatting as needed
+6. Create corresponding Uplimit platform elements (text, video, widget, quiz)
+7. Test complete Week 1 module in Uplimit staging environment
+
+### Result
+- ✅ All 10 Week 1 HTML pages converted to clean markdown
+- ✅ Content structure and learning flow preserved
+- ✅ Widget references documented with source information
+- ✅ Comprehensive README created for future reference
+- ✅ Ready for Uplimit platform integration with minor adjustments
+
+### Part 2: Widget Rebranding to Uplimit Design System (🔄 IN PROGRESS - 22% Complete)
+- **Status**: 🔄 2/9 widgets converted, 7 remaining
+- **Tool Used**: `branding-checker` agent for analysis, manual conversion
+- **Background**: Week 1 widgets use Ivey branding (green #034638, purple #582C83) and Canvas LMS classes. Need complete rebrand to Uplimit neutral design system (Geist font, neutral grays, minimal shadows).
+
+#### Uplimit Base CSS Created
+- **File**: `Development Files/Uplimit/Week 1/widgets/uplimit-base.css`
+- **Features**: Complete Uplimit design token system with:
+  - Geist font family with fallbacks
+  - Neutral gray color scale (no brand colors)
+  - Minimal button/card styles
+  - Subtle shadows and 1px borders
+  - Responsive utilities
+
+#### Widgets Converted (2/9)
+1. ✅ **canvas-01-ai-importance-timeline.html** - AI Evolution Timeline
+   - All Ivey colors → Uplimit neutral grays
+   - Geist font applied
+   - Class names updated (dp-wrapper → widget-container)
+   - Borders: 4px colored → 1px neutral
+   - Shadows minimized to Uplimit standards
+
+2. ✅ **canvas-02a-data-framework.html** - Data Science Framework
+   - Color scheme converted to neutral grays
+   - Interactive functionality preserved
+   - Responsive design maintained
+
+#### Widgets Remaining (7/9)
+3. ❌ **canvas-02c-big-data-4vs.html** - Complex colored gradients need replacement
+4. ❌ **canvas-02-understanding-data-segments.html** - Customer segmentation flip cards
+5. ❌ **canvas-03-ml-models-hierarchy.html** - AI hierarchy with colored circles
+6. ❌ **canvas-03-ml-models-matcher.html** - Drag-and-drop task matcher
+7. ❌ **canvas-04-preprocessing-pipeline.html** - Pipeline visualization
+8. ❌ **canvas-05-evaluation-threshold.html** - Plotly chart with custom colors
+9. ❌ **w1-wrap-quiz.html** - Interactive quiz widget
+
+#### Uplimit Branding Standards Applied
+**Color Transformations:**
+- `#034638` (Ivey Green) → `#2d3748` (Uplimit dark gray)
+- `#582C83` (Ivey Purple) → `#2d3748` (Uplimit dark gray)
+- Headings → `#1f2937` (darkest gray)
+- Backgrounds → `#f9fafb` (lightest gray)
+- Borders → `#d1d5db` (standard), `#e2e8f0` (light)
+- Keep only: `#10b981` (success), `#ef4444` (error)
+
+**Typography:**
+- Font: Geist with system fallbacks
+- Weights: 400 (normal), 500 (medium), 600 (semibold)
+- Base size: 14px
+
+**UI Updates:**
+- Borders: 4px/2px solid → 1px solid
+- Gradients: Removed all colored gradients
+- Shadows: Minimal neutral shadows only
+- Class names: dp-* → generic names
+
+#### Documentation Created
+- **CONVERSION_STATUS.md**: Comprehensive status tracking
+  - Widget-by-widget checklist
+  - Conversion time estimates (~50 min per widget)
+  - Priority order recommendations
+  - Uplimit design principles reference
+
+#### Estimated Completion
+- **Remaining Work**: 7 widgets × 50 minutes = ~6.5 hours
+- **Next Priority**: w1-wrap-quiz.html (assessment widget, high visibility)
+
+### Uplimit Folder Structure Created
+```
+Development Files/Uplimit/Week 1/
+├── widgets/
+│   ├── uplimit-base.css                                    ✅
+│   ├── canvas-01-ai-importance-timeline.html              ✅
+│   ├── canvas-02a-data-framework.html                     ✅
+│   ├── canvas-02c-big-data-4vs.html                       ❌
+│   ├── canvas-02-understanding-data-segments.html         ❌
+│   ├── canvas-03-ml-models-hierarchy.html                 ❌
+│   ├── canvas-03-ml-models-matcher.html                   ❌
+│   ├── canvas-04-preprocessing-pipeline.html              ❌
+│   ├── canvas-05-evaluation-threshold.html                ❌
+│   └── w1-wrap-quiz.html                                  ❌
+├── 01-week-1-intro.md                                      ✅
+├── 02-ai-importance.md                                     ✅
+├── 03-understanding-data.md                                ✅
+├── 04-data-science-framework.md                            ✅
+├── 05-supermarket-case-study.md                            ✅
+├── 06-big-data-dimensions.md                               ✅
+├── 07-machine-learning-models.md                           ✅
+├── 08-data-preprocessing.md                                ✅
+├── 09-evaluation-training.md                               ✅
+├── 10-week-1-wrap-up.md                                    ✅
+├── README.md                                               ✅
+└── CONVERSION_STATUS.md                                    ✅
+```
+
+### Next Steps
+1. Complete remaining 7 widget conversions using CONVERSION_STATUS.md checklist
+2. Test all widgets in Uplimit platform
+3. Begin Week 2-5 conversion using established pattern
+4. Consider automated conversion script for efficiency

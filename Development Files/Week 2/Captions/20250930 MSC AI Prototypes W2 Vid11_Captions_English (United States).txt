@@ -1,0 +1,65 @@
+1
+00:00:00,550 --> 00:00:04,750
+[Auto-generated transcript. Edits may have been applied for clarity.]
+The validation set is used to monitor the model's performance during training.
+
+2
+00:00:05,110 --> 00:00:11,740
+As you train, the loss function on the validation set typically drops until it starts to rise again.
+
+3
+00:00:12,250 --> 00:00:17,260
+This increase indicates overfitting, and at that point you halt the training.
+
+4
+00:00:17,650 --> 00:00:25,750
+You stop training when the validation error begins to increase, which helps ensure that the model generalizes well to unseen data.
+
+5
+00:00:26,110 --> 00:00:31,870
+By stopping training at the right moment, you preserve a model that performs well on the test set.
+
+6
+00:00:32,080 --> 00:00:38,320
+A completely unseen data set. Although the validation set isn't used to train the model directly,
+
+7
+00:00:38,680 --> 00:00:44,380
+it plays a critical role in determining when to stop training and finalize the model parameters.
+
+8
+00:00:44,710 --> 00:00:47,770
+Now let's introduce the concept of epochs.
+
+9
+00:00:47,950 --> 00:00:52,900
+While training neural networks, we present the data to the model multiple times.
+
+10
+00:00:53,080 --> 00:00:56,770
+Adjusting the weights via backpropagation after each pass.
+
+11
+00:00:57,520 --> 00:01:02,020
+Each time the full data set is shown to the network and the weights are updated.
+
+12
+00:01:02,140 --> 00:01:10,300
+That cycle is called an epoch. For example, in epoch one, you show the data, compute the loss, and adjust the weights.
+
+13
+00:01:10,810 --> 00:01:15,400
+Then you show the data again. Compute the new loss and adjust the weights again.
+
+14
+00:01:16,060 --> 00:01:21,580
+Each of these four passes through the data set followed by weight updates is one epoch.
+
+15
+00:01:21,910 --> 00:01:26,080
+Every small tweak to the weights during training happens within an epoch,
+
+16
+00:01:26,320 --> 00:01:33,430
+and the model gradually improves as the number of epochs increases until it starts to overfit, which is when you stop.
+

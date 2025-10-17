@@ -1,0 +1,77 @@
+1
+00:00:00,590 --> 00:00:05,150
+[Auto-generated transcript. Edits may have been applied for clarity.]
+Now let's look at another model called Support Vector Machines or SVMs.
+
+2
+00:00:05,660 --> 00:00:12,740
+This is a machine learning algorithm that includes a learning step and was originally designed for classification tasks,
+
+3
+00:00:13,010 --> 00:00:15,050
+but can also be used for regression.
+
+4
+00:00:15,980 --> 00:00:25,130
+The core concept of SDM is to draw a decision boundary between data points in the training set so that when a new unseen data point arrives,
+
+5
+00:00:25,280 --> 00:00:27,110
+it can be classified accurately.
+
+6
+00:00:27,860 --> 00:00:34,910
+For example, if you're trying to classify animals by their weight and nose length to determine whether they're cats or elephants,
+
+7
+00:00:35,120 --> 00:00:43,010
+you have a two dimensional problem. The simplest SVM creates a line to separate cats from elephants during training.
+
+8
+00:00:43,130 --> 00:00:48,410
+SVM maximizes the margin the space between the outermost points of each class.
+
+9
+00:00:48,800 --> 00:00:51,620
+These outermost points are called support vectors.
+
+10
+00:00:51,860 --> 00:00:59,450
+The loss function used during SVM training focuses on maximizing this margin, making it an optimization problem.
+
+11
+00:01:00,260 --> 00:01:05,420
+SVM doesn't only create linear boundaries, it can also create nonlinear boundaries,
+
+12
+00:01:05,570 --> 00:01:10,490
+such as circular ones, to separate classes that can't be divided by a straight line.
+
+13
+00:01:10,940 --> 00:01:16,910
+For example, when separating apples and oranges by weight and color, a line may not work well,
+
+14
+00:01:17,360 --> 00:01:24,350
+but an SVM can create a circular decision boundary to separate them to create these curved boundaries.
+
+15
+00:01:24,500 --> 00:01:33,770
+SVM uses kernel functions. This allows it to handle complex nonlinear decision boundaries and makes it useful for regression tasks as well.
+
+16
+00:01:34,720 --> 00:01:41,230
+In summary, SVM can fit decision boundaries as lines, polynomials, circles, or other functions.
+
+17
+00:01:41,680 --> 00:01:45,190
+It's a simple yet powerful classifier and regression mechanism.
+
+18
+00:01:45,790 --> 00:01:49,870
+Additionally, like linear regression, logistic regression, and kohonen,
+
+19
+00:01:50,170 --> 00:01:58,690
+SVM is computationally efficient and doesn't require extensive resources while still providing strong classification and regression capabilities.
+
