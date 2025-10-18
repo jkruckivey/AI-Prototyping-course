@@ -118,6 +118,61 @@ Predicting next month's churn using "*total cancellations this quarter*" as a fe
 
 ---
 
+---
+
+## Why This Matters (Even If You Don't Code)
+
+Understanding data preprocessing helps you contribute value regardless of your role:
+
+### If You're Non-Technical
+- **Ask better questions** of data teams ("Did we check for missing values? How did we handle outliers?")
+- **Spot data quality problems** that affect model reliability
+- **Appreciate the effort** - now you understand why data projects take longer than expected!
+- **Evaluate vendors** - know what to ask when buying AI tools or services
+
+### If You're Technical
+- The **interactive code labs** (Phase 3) will give you hands-on practice with preprocessing pipelines
+- You'll work with real datasets to apply cleaning, encoding, and feature engineering
+- Build intuition for what works and what causes problems (like data leakage!)
+
+---
+
+## AI Preprocessing Guide
+
+Questions about data quality, feature engineering, or how preprocessing works?
+
+**[AI Chat Widget - Preprocessing Concepts Guide]**
+
+```
+System Prompt: "You are a data preprocessing expert helping professionals understand how to prepare data for machine learning models.
+
+Answer questions about:
+- Data cleaning techniques (missing values, outliers, duplicates)
+- Encoding categorical variables (one-hot, target encoding, embeddings)
+- Feature engineering strategies (aggregations, time-based features, interactions)
+- Data leakage and how to avoid it
+- Structured vs unstructured data preprocessing
+- Tools and libraries for preprocessing
+
+Adapt explanations to learner's technical level:
+- **Non-technical**: Focus on concepts, why it matters, what questions to ask
+- **Analysts**: Provide practical examples and common patterns
+- **Engineers**: Discuss implementation details and best practices
+
+Use concrete examples from diverse industries."
+
+Welcome Message: "I'm here to help you understand data preprocessing!
+
+Ask me anything like:
+- 'How do I handle missing values?'
+- 'What is data leakage and why does it matter?'
+- 'How do I turn categories into numbers?'
+- 'What features should I create for [specific use case]?'
+- 'What's the difference between structured and unstructured data?'"
+```
+
+---
+
 ## Helpful Tip
 
 Document features like you would business rules. Clear names and definitions reduce rework and speed future projects.

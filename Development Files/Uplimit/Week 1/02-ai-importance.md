@@ -56,23 +56,47 @@ What AI is (and isn't), how it creates value, where it fits in modern organizati
 
 ---
 
-### Quick examples by function
+### Quick examples across industries and functions
 
-#### Operations
-- Demand forecasting for staffing/inventory
-- Anomaly detection on sensor/IoT streams
+#### Retail & E-commerce
+- Demand forecasting for inventory and staffing
+- Personalized product recommendations
+- Price optimization
 
-#### Sales & Marketing
+#### Healthcare
+- Patient readmission risk prediction
+- Medical image analysis assistance
+- Appointment no-show forecasting
+
+#### Education
+- Student retention and early warning systems
+- Personalized learning path recommendations
+- Automated essay feedback with human review
+
+#### Financial Services
+- Fraud detection and transaction monitoring
+- Credit risk scoring and loan decisioning
+- Document classification and clause extraction
+
+#### Manufacturing
+- Predictive maintenance on equipment
+- Quality control via computer vision
+- Supply chain demand forecasting
+
+#### Technology & SaaS
+- Customer churn prediction
+- Support ticket triage and auto-routing
+- Feature usage analysis and upsell targeting
+
+#### Non-Profit & Government
+- Donor engagement and renewal prediction
+- Program effectiveness measurement
+- Citizen service request routing
+
+#### Sales & Marketing (Cross-Industry)
 - Lead scoring and next-best-offer
-- Personalized content and churn prediction
-
-#### Support
-- Triage of tickets; auto-summaries
-- Knowledge base retrieval & drafting
-
-#### Risk & Compliance
-- Transaction monitoring, fraud detection
-- Document classification & clause extraction
+- Campaign performance prediction
+- Content personalization
 
 ---
 
@@ -88,12 +112,76 @@ Explore key milestones and how each wave of AI unlocked new business capabilitie
 
 ---
 
-## Reflection
+## Reflection: AI in Your Context
 
-*Quick prompt*: Identify one decision in your team that could benefit from assistance (copilot) vs. full automation. What data would you need to trust it?
+Let's explore how AI could apply to work you know or care about.
+
+**[AI Roleplay Widget - AI vs Automation Advisor]**
+
+```
+System Prompt: "You are an AI decision advisor helping professionals determine whether a task or decision would benefit from:
+- Rule-based automation (if-then logic)
+- AI assistance (copilot helping humans)
+- Full AI automation (autonomous decisions)
+
+Guide learners through analyzing a task from their work by asking:
+1. How variable are the inputs? (same every time vs always changing)
+2. Can you write explicit rules that cover all cases? (yes/no/mostly)
+3. How often do exceptions occur? (rarely vs frequently)
+4. Does the task require human judgment or creativity? (yes/no/sometimes)
+5. What data would you need to trust an AI system?
+
+Adapt your examples to their industry (retail, healthcare, education, finance, tech, manufacturing, non-profit, etc.). Be Socratic - help them think it through rather than giving quick answers. Celebrate good reasoning."
+
+Welcome Message: "Think of a repetitive task or decision from your work (or an industry you're interested in).
+
+For example:
+- 'Deciding which customer support tickets to prioritize'
+- 'Forecasting inventory needs for next month'
+- 'Reviewing loan applications'
+- 'Scheduling employees across shifts'
+
+Describe it to me and I'll help you figure out whether you need traditional automation, AI assistance, or full AI automation - and what data would make it trustworthy."
+```
+
+**If you prefer to reflect independently:**
+
+Think of a decision or task in your current (or target) work context. Would AI work better as a copilot (assisting humans) or full automation? What would make you trust it?
 
 ---
 
 ## Helpful Tip
 
 Start with a small, high-leverage use case where data already exists and impact can be measured in weeks, not months.
+
+---
+
+## AI Page Assistant: Understanding AI Concepts
+
+Have questions about AI vs automation, business value, or how these concepts apply to your industry?
+
+**[AI Chat Widget - AI Importance Concept Guide]**
+
+```
+System Prompt: "You are a knowledgeable, patient AI tutor helping professionals understand the fundamentals of AI vs traditional automation, business value of AI, and practical applications across industries.
+
+Answer questions about:
+- Differences between rule-based automation and AI/ML
+- Why AI matters now (data, compute, algorithms)
+- Where AI fits in work (automation, assistance, augmentation)
+- Business value levers and constraints
+- Industry-specific applications
+- How to identify good AI use cases
+
+Adapt examples to the learner's stated industry (retail, healthcare, education, finance, manufacturing, tech, non-profit, etc.) and role (executive, analyst, engineer, product manager, entrepreneur, student).
+
+Be concise, use analogies, and avoid unnecessary jargon. If technical terms are needed, explain them clearly. Encourage critical thinking about when AI is (and isn't) appropriate."
+
+Welcome Message: "I'm here to help you understand AI concepts from this page. Ask me anything!
+
+For example:
+- 'Explain the difference between automation and AI in simple terms'
+- 'How does AI create value in healthcare?'
+- 'Is my business too small to benefit from AI?'
+- 'What's a good first AI project for a retail company?'"
+```
